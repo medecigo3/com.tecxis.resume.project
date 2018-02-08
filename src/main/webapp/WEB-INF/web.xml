@@ -12,14 +12,18 @@
 		<servlet-name>mvc-dispatcher</servlet-name>  
 		<!-- Default Servlet for handling all requests incl. static resources -->
 		<url-pattern>/</url-pattern>  
-	</servlet-mapping>  
+	</servlet-mapping>
+	
+	<!-- Loads Spring configuration files across multiple files.  -->
+	<listener>  
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+	</listener>	  
+	<!-- Sets ContextLoaderListener Spring config. files -->
 	<context-param>  
 		<param-name>contextConfigLocation</param-name>  
 		<param-value>
            		/WEB-INF/mvc-dispatcher-servlet.xml
 		</param-value>  
 	</context-param>  
-	<listener>  
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
-	</listener>	
+
 </web-app>  
