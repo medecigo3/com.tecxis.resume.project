@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-	
-		@RequestMapping({"/" , "/home"})
+		/**Handles requests whose path is "/", "/home", "/index" */
+		@RequestMapping({"/" , "/home", "/index", })
 		public String showHomaPage(Map <String, Object> model) {
 			model.put("welcomeText", "This is some text");
 			
