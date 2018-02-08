@@ -14,7 +14,7 @@ public class HomeControllerTest {
 		
 		HomeController controller = new HomeController();		
 		Map <String, Object> model = new HashMap<>();	
-		String viewName = controller.showHomaPage(model);
+		String viewName = controller.showHomePage(model);
 		
 		Assert.assertEquals("index", viewName);
 		Assert.assertEquals("This is some text", model.get("welcomeText"));

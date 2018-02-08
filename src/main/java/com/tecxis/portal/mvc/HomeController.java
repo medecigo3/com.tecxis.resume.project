@@ -13,7 +13,7 @@ public class HomeController {
 
 		/**Handles requests whose path is "/", "/home", "/index" */
 		@RequestMapping({"/" , "/home", "/index", })
-		public String showHomaPage(Map <String, Object> model) {
+		public String showHomePage(Map <String, Object> model) {
 			model.put("welcomeText", "This is some text");
 			
 			
