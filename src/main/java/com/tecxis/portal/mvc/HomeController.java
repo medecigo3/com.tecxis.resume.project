@@ -18,6 +18,6 @@ public class HomeController {
 			
 			
 			/**Returns logical name of view*/
-			return "index.html";
+			return "index";
 		}
 }
