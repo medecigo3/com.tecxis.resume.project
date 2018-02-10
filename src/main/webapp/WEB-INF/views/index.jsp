@@ -130,6 +130,7 @@
              <span class="text-primary">August 2016 - Present</span>           	                 
             </div>                       
           </div>
+          
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
@@ -162,11 +163,11 @@
 			  </ul> 
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">June 2016 –  March 2016</span>
+              <span class="text-primary">June 2016 - March 2016</span>
             </div>
           </div>
 
-          <div class="resume-item d-flex flex-column flex-md-row">
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <h3 class="mb-0">Tibco Business Works reference expert in Paris and abroad</h3>
               <div class="subheading mb-3">Societe Generale Investment Banking Paris, France</div>
@@ -183,11 +184,101 @@
               <span class="text-primary">October 2013  - June 2015</span>
             </div>
           </div>     
-
-  
+          
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Tibco BW Consultant</h3>
+              <div class="subheading mb-3">Axeltis (Natixis group) Paris, France</div>
+              <p>Development of an ESB to expose core business services</p>
+				<ul>
+					<li>Coding of Business Works processes to transform and integrate XML investment funds into a corporate database.</li>
+					<li>Setup of TIBCO web services to expose financial business data services.</li>
+					<li>Coding of XSLT style sheets for transformation of XML raw data to canonical data.</li>
+					<li>Coding of Business Works processes to automate the extraction, transformation, and transfer of client data.</li>
+					<li>Running unit tests to validate code against functional specifications.</li>
+					<li>Writing of functional and technical documentation.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">May 2013 - October 2013</span>
+            </div>
+          </div>
+          
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">TIBCO Business Works consultant</h3>
+              <div class="subheading mb-3">Euler Hermes Paris, France</div>
+              <p>Development of an ESB to expose core business services</p>
+              <ul>
+				<li>Setup of TIBCO web service interfaces to integrate an ESB with other business components in a frontend-backend architecture.</li>
+				<li>Analysis and estimation of code change requests through Quality Center</li>
+				<li>Coding of WSDL and XSD schema files.</li>
+				<li>Running unit tests to validate code against functional specifications.</li>
+				<li>Writing of functional and technical documentation.</li>
+			  </ul> 
+            </div>
+            <div class="resume-date text-md-right">
+             <span class="text-primary">July 2012 - March 2013</span>           	                 
+            </div>                       
+          </div>
         
-        </div>       
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Enterprise Architect Integrator</h3>
+              <div class="subheading mb-3">Axeltis (Natixis group) Paris, France</div>
+              <p>Integration of Morningstar's investment funds into a data warehouse to be exploited by a web based middle office system.</p>
+				<ul>
+					<li>Coding Business Works processes to retrieve, transform and integrate XML investment funds into a corporate database.</li>
+					<li>Running unit tests to validate code against functional specifications.</li>
+					<li>Coding of Business Works processes to automate the extraction, transformation, and transfer of client data.</li>
+					<li>Coding Java business components to adapt Business Works code to business needs.</li>
+					<li>Coding of XSLT style sheets for transformation of raw XML data into a canonical format.</li>
+					<li>Setup of TIBCO web services to expose financial business data services.</li>
+					<li>Automation of reporting tasks through the deployment of Business Works processing jobs.</li>
+					<li>Deployment and configuration of Business Works components in production environment.</li>
+					<li>Acting as a conduit between the business and developers.</li>
+					<li>Writing of functional and technical documentation.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">November 2010 - July 2012</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">TIBCO Business Works developper</h3>
+              <div class="subheading mb-3">La Banque Postale  Paris, France</div>
+              <p>Integration of Calypso's asset trading platform with the client's systems.</p>
+				<ul>
+					<li>Coding of a RGVML to RGV data  transformation module to be integrated into a system  based on the Calypso trading platform.</li> 
+					<li>Setup of TIBCO web services to expose data transformation services.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">September - October 2010</span>
+            </div>
+          </div> 
 
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Consultant</h3>
+              <div class="subheading mb-3">Micropole Univers Paris, France</div>
+              <p>Assist the client with code refactoring and migration of ESB flows to a latest release of Mule ESB using enterprise integration best practices. Transfer Knowledge to a small group of developers for code maintenance.</p>
+				<ul>
+					<li>Provide technical expertise and assistance to migrate an older version of the Mule ESB code in production to later version 2.5.</li>
+					<li>Configuration of multiple routes to direct the traffic in the ESB against multiple endpoints.</li>
+					<li>Migration of XSLT style sheets from version 1.0 to 2.0 to comply with the new Saxon 2.0 XSLT processor embedded in the Mule ESB.</li>
+					<li>Coding of XPath expressions to route SOAP traffic across different endpoints.</li>
+					<li>Coding of Java custom components adapted to the client business functional requirements.</li>
+					<li>Involvement in the configuration of web service endpoints to comply with client security policies.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">July - August 2010</span>
+            </div>
+          </div>
 
       </section>
 
