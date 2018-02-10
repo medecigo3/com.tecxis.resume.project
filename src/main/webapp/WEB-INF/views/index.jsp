@@ -31,7 +31,7 @@
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none">Start Bootstrap</span>
         <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="resources/img/profile.jpg" alt="">
         </span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,13 +65,13 @@
 
       <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
         <div class="my-auto">
-          <h1 class="mb-0">Clarence
-            <span class="text-primary">Taylor</span>
+          <h1 class="mb-0">Arturo
+            <span class="text-primary">Medecigo</span>
           </h1>
-          <div class="subheading mb-5">3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
-            <a href="mailto:name@email.com">name@email.com</a>
+          <div class="subheading mb-5">Ixelles, Belgium  
+            <a href="mailto:name@email.com">arturo.medecigo@tecxis.com</a>
           </div>
-          <p class="mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
+          <p class="mb-5">He is a java and TIBCO Business Works consultant with more than 8 years of experience creating solutions and resolving complex client issues who possesses self-discipline and has the ability to work under high pressure. Prefers to work in as part of a team but has the ability to work independently with the minimum of supervision.  He is able to play a key role to successfully deliver solutions upon the highest quality.</p>
           <ul class="list-inline list-social-icons mb-0">
             <li class="list-inline-item">
               <a href="#">
@@ -115,34 +115,46 @@
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">Senior Web Developer</h3>
-              <div class="subheading mb-3">Intelitec Solutions</div>
-              <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
+              <h3 class="mb-0">TIBCO Business Works consultant</h3>
+              <div class="subheading mb-3">Belfius Insurance in Brussels, Belgium</div>
+              <p>Belfius insurance is a top 5 insurance company in Belgium. It provides insurance coverage for particulars and professionals. It works with public, social and corporate sectors.</p>
+              <ul>
+				  <li>Technical designs of flows including architecture diagram, sequence diagram, and container diagram.</li>
+				  <li>Development of flows using a publish event pattern</li>
+				  <li>Development of flows using TIBCO Active Spaces technology to retrieve and store trancso values in the cache.</li>
+				  <li>Development of flows involving, proposal, policies quotes, claims documents.</li>
+				  <li>Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.</li>
+			  </ul> 
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">March 2013 - Present</span>
+             <span class="text-primary">August 2016 - Present</span>           	                 
+            </div>                       
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">TIBCO Business Works consultant</h3>
+              <div class="subheading mb-3">Hermes in Paris, France</div>
+              <p>Hermes is a French goods manufacturer company that specializes in the luxury domain selling and producing clothing, perfumes bags and watches. The aim of this project was to provide expertise in the implementation of new developments to connect it's after sales client service system and the cloud based Microsoft Dynamics ERP system through Tibco Business Works. </p>
+			  <ul>
+				  <li>Development and testing of input and output half flows for the update and handling of product retrieval, supplier receipts and spare parts into MS Dynamics.</li>
+				  <li>Development of flows in batch mode to send new stockroom and facilities data into MS Dynamics.</li>
+				  <li>Deployment of packages in DEV, TST and PRD.</li>
+			  </ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">March 2016  - August 2016</span>
             </div>
           </div>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">Web Developer</h3>
-              <div class="subheading mb-3">Intelitec Solutions</div>
-              <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
+              <h3 class="mb-0">TIBCO Business Works consultant</h3>
+              <div class="subheading mb-3">ARVAL in Paris, France</div>
+              <p>Arval is a car leasing company with agencies in Europe, Asia and Latin America. Tibco is the middleware data exchange platform chosen for data exchange between business backend systems and external partners. The team is in charge of design, development, testing and maintenance of applications running in Tibco Business works platforms. </p>
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">December 2011 - March 2013</span>
-            </div>
-          </div>
-
-          <div class="resume-item d-flex flex-column flex-md-row mb-5">
-            <div class="resume-content mr-auto">
-              <h3 class="mb-0">Junior Web Designer</h3>
-              <div class="subheading mb-3">Shout! Media Productions</div>
-              <p>Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.</p>
-            </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">July 2010 - December 2011</span>
+              <span class="text-primary">June 2016 –  March 2016</span>
             </div>
           </div>
 
