@@ -66,12 +66,12 @@
       <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
         <div class="my-auto">
           <h1 class="mb-0">Arturo
-            <span class="text-primary">Medecigo</span>
+            <span class="text-primary">Medecigo Tress</span>
           </h1>
           <div class="subheading mb-5">Ixelles, Belgium  
             <a href="mailto:name@email.com">arturo.medecigo@tecxis.com</a>
           </div>
-          <p class="mb-5">He is a java and TIBCO Business Works consultant with more than 8 years of experience creating solutions and resolving complex client issues who possesses self-discipline and has the ability to work under high pressure. Prefers to work in as part of a team but has the ability to work independently with the minimum of supervision.  He is able to play a key role to successfully deliver solutions upon the highest quality.</p>
+          <p class="mb-5">I'm a java and TIBCO Business Works consultant with more than 8 years of experience creating solutions and resolving complex client issues who possesses self-discipline and has the ability to work under high pressure. Prefers to work in as part of a team but has the ability to work independently with the minimum of supervision.  He is able to play a key role to successfully deliver solutions upon the highest quality.</p>
           <ul class="list-inline list-social-icons mb-0">
             <li class="list-inline-item">
               <a href="#">
@@ -116,7 +116,7 @@
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <h3 class="mb-0">TIBCO Business Works consultant</h3>
-              <div class="subheading mb-3">Belfius Insurance in Brussels, Belgium</div>
+              <div class="subheading mb-3">Belfius Insurance Brussels, Belgium</div>
               <p>Belfius insurance is a top 5 insurance company in Belgium. It provides insurance coverage for particulars and professionals. It works with public, social and corporate sectors.</p>
               <ul>
 				  <li>Technical designs of flows including architecture diagram, sequence diagram, and container diagram.</li>
@@ -134,7 +134,7 @@
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <h3 class="mb-0">TIBCO Business Works consultant</h3>
-              <div class="subheading mb-3">Hermes in Paris, France</div>
+              <div class="subheading mb-3">Hermes Paris, France</div>
               <p>Hermes is a French goods manufacturer company that specializes in the luxury domain selling and producing clothing, perfumes bags and watches. The aim of this project was to provide expertise in the implementation of new developments to connect it's after sales client service system and the cloud based Microsoft Dynamics ERP system through Tibco Business Works. </p>
 			  <ul>
 				  <li>Development and testing of input and output half flows for the update and handling of product retrieval, supplier receipts and spare parts into MS Dynamics.</li>
@@ -150,8 +150,16 @@
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
               <h3 class="mb-0">TIBCO Business Works consultant</h3>
-              <div class="subheading mb-3">ARVAL in Paris, France</div>
+              <div class="subheading mb-3">ARVAL Paris, France</div>
               <p>Arval is a car leasing company with agencies in Europe, Asia and Latin America. Tibco is the middleware data exchange platform chosen for data exchange between business backend systems and external partners. The team is in charge of design, development, testing and maintenance of applications running in Tibco Business works platforms. </p>
+			  <ul>
+				  <li>Design, development and testing of LO1, 2 and 3 of a rebranded car leasing website lying in architecture with a J2EE system as backend, Tibco as middleware and liferay and AngularJS as the frontend.</li>
+				  <li>Development and testing of LOT1 purchase order to delivery for the UK</li>
+				  <li>Development and testing of LOT2 salary exchange for the UK</li>
+				  <li>Development and testing of LOT3 incident management and booking maintenance service for Italy. </li>
+				  <li>Deployment of packages in DEV/UAT and goLive support assistance. </li>
+				  <li>Workshops at Swindon and Stevenage UK with the business to define Tibco technical specifications for LOT3. </li>
+			  </ul> 
             </div>
             <div class="resume-date text-md-right">
               <span class="text-primary">June 2016 –  March 2016</span>
@@ -160,16 +168,26 @@
 
           <div class="resume-item d-flex flex-column flex-md-row">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">Web Design Intern</h3>
-              <div class="subheading mb-3">Shout! Media Productions</div>
-              <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+              <h3 class="mb-0">Tibco Business Works reference expert in Paris and abroad</h3>
+              <div class="subheading mb-3">Societe Generale Investment Banking Paris, France</div>
+              <p>Tibco Business Works and SOA architect</p>
+				<ul>
+					<li>Advising on TIBCO Business Works coding patterns and best practice support for Paris region and abroad.</li>
+					<li>Coding of a Java API to simplify the CORBA abstraction layer for enterprise client and server applications</li> 
+					<li>Architecting and designing the new CORBA client/server architecture for Paris region and abroad</li>
+					<li>Acting as a conduit between application managers and operations</li>
+					<li>Liaising with software editors (TIBCO and Microfocus) and onshore and offshore development teams</li>
+				</ul>
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">September 2008 - June 2010</span>
+              <span class="text-primary">October 2013  - June 2015</span>
             </div>
-          </div>
+          </div>     
 
-        </div>
+  
+        
+        </div>       
+
 
       </section>
 
