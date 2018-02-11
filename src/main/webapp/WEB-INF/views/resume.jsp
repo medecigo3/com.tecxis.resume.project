@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Resume - Start Bootstrap Theme</title>
+    <title>Resume - Arturo Medecigo Tress</title>
 
     <!-- Bootstrap core CSS -->
     <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -279,7 +279,70 @@
               <span class="text-primary">July - August 2010</span>
             </div>
           </div>
+          
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Consultant/Developer</h3>
+              <div class="subheading mb-3">Sagemcom  Paris, France</div>
+              <p>Under the request of a mayor energy provider in France, develop a home energy consumption monitoring device targeted for home users in France.</p>
+				<ul>
+					<li>Contributing to develop a product for an important company in the French energy sector, to monitor and manage energy consumption for the household market.</li>
+					<li>Coding an authentication security system for the main Java enterprise service.</li>
+					<li>Coding a JMX technology based system to monitor across the main Java enterprise services.</li>
+					<li>Working with UML to code generation tools to conceive and develop a three tier Java architecture  enterprise service.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">October 2008 - July 2010</span>
+            </div>
+          </div>
 
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Developer</h3>
+              <div class="subheading mb-3">Accenture  London, UK</div>
+              <p>Develop a portal to provide access to Accenture client's to its most important asset tools.</p>
+				<ul>
+					<li>Coding and configuring a web based portal based on Liferay technology to make Accenture's software assets available for all collaborators across the UKDC delivery center.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">June - July 2008</span>
+            </div>
+          </div>
+          
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Integration developer</h3>
+              <div class="subheading mb-3">Ageas (formerly Fortis) London, UK</div>
+              <p>As part of Fortis business restructuration plan, assist in the integration of core business services under an already established SOA architecture.</p>
+				<ul>
+					<li>Coding and configuring a web based portal based on Liferay technology to make Accenture's software assets available for all collaborators across the UKDC delivery center.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">March - July 2008</span>
+            </div>
+          </div>
+          
+        <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Associate J2EE developer </h3>
+              <div class="subheading mb-3">Barclays Manchester, UK</div>
+              <p>Join Barclays bank large scale's project assisting senior J2EE developers developing the new client's banking platform based on java Chordiant framework technology to deliver the best customer service possible.</p>
+				<ul>
+					<li>Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java baking system.</li>
+					<li>Working on with Rational multi-site Clear Case tools to control and manage software code evolution.</li>
+					<li>Acting on as a conduit between offshore and onshore development teams.</li>
+					<li>Implementation of a new deployment tool significantly reducing deployment time costs.</li>
+					<li>Mentoring and guiding of two new team joiners.</li>
+				</ul>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">January 2007 - February 2008</span>
+            </div>
+          </div>
+          
       </section>
 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
@@ -288,24 +351,24 @@
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">University of Colorado Boulder</h3>
-              <div class="subheading mb-3">Bachelor of Science</div>
+              <h3 class="mb-0">ITESM (Instituto Tecnologico  de Monterrey campus Mexico City)</h3>
+              <div class="subheading mb-3">Bachelor of Business Information Technology</div>
               <div>Computer Science - Web Development Track</div>
-              <p>GPA: 3.23</p>
+              <!--  <p>GPA: </p> -->
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">August 2006 - May 2010</span>
+              <span class="text-primary">August 2001 - December 2006</span>
             </div>
           </div>
 
           <div class="resume-item d-flex flex-column flex-md-row">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">James Buchanan High School</h3>
-              <div class="subheading mb-3">Technology Magnet Program</div>
-              <p>GPA: 3.56</p>
+              <h3 class="mb-0">Green Hills High School (Mexico City)</h3>
+              <div class="subheading mb-3">Science & Technology  Program</div>
+              <!--  <p>GPA: </p> -->
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">August 2002 - May 2006</span>
+              <span class="text-primary">August 1998 - May 2001</span>
             </div>
           </div>
 
