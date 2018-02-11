@@ -55,7 +55,7 @@
             <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
+            <a class="nav-link js-scroll-trigger" href="#languages">Languages</a>
           </li>
         </ul>
       </div>
@@ -382,6 +382,12 @@
           <div class="subheading mb-3">Programming Languages &amp; Tools</div>
           <ul class="list-inline list-icons">
             <li class="list-inline-item">
+              <i class="devicons devicons-java"></i>
+            </li>
+            <li class="list-inline-item">
+              <i class="devicons devicons-linux"></i>
+            </li>
+            <li class="list-inline-item">
               <i class="devicons devicons-html5"></i>
             </li>
             <li class="list-inline-item">
@@ -420,16 +426,19 @@
           <ul class="fa-ul mb-0">
             <li>
               <i class="fa-li fa fa-check"></i>
-              Mobile-First, Responsive Design</li>
+              Advising on TIBCO Business Works coding patterns and best practice support for Paris region and abroad.</li>                      	
             <li>
               <i class="fa-li fa fa-check"></i>
-              Cross Browser Testing &amp; Debugging</li>
+              Gathering of technical elements for business teams</li>
             <li>
               <i class="fa-li fa fa-check"></i>
-              Cross Functional Teams</li>
+              Cross testing &amp; debugging of flows</li>
             <li>
               <i class="fa-li fa fa-check"></i>
-              Agile Development &amp; Scrum</li>
+              Cross functional between business and technical teams</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Agile development &amp; scrum</li>
           </ul>
         </div>
       </section>
@@ -437,11 +446,30 @@
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
         <div class="my-auto">
           <h2 class="mb-5">Interests</h2>
-          <p>Apart from being a web developer, I enjoy most of my time being outdoors. In the winter, I am an avid skiier and novice ice climber. During the warmer months here in Colorado, I enjoy mountain biking, free climbing, and kayaking.</p>
-          <p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technolgy advancements in the front-end web development world.</p>
+          <p>Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I've found a new passion in road bike riding.</p>          
+        </div>
+        
+      </section>
+      
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="languages">
+        <div class="my-auto">
+          <h2 class="mb-5">Languages</h2>
+
+          <div class="subheading mb-3">Fluent in:</div>
+          <ul class="fa-ul mb-0">
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              English</li>                      	
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              Spanish</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              French</li>            
+          </ul>
         </div>
       </section>
-
+<!-- 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
         <div class="my-auto">
           <h2 class="mb-5">Awards &amp; Certifications</h2>
@@ -475,6 +503,7 @@
               Place - James Buchanan High School - Hackathon 2005</li>
           </ul>
         </div>
+ -->
       </section>
 
     </div>
