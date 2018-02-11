@@ -380,7 +380,11 @@
           <h2 class="mb-5">Skills</h2>
 
           <div class="subheading mb-3">Programming Languages &amp; Tools</div>
+          
           <ul class="list-inline list-icons">
+          	<li class="list-inline-item">
+          		 <i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
+            </li>
             <li class="list-inline-item">
               <i class="devicons devicons-java"></i>
             </li>
