@@ -381,47 +381,29 @@
           <div class="subheading mb-3">Programming Languages &amp; Tools</div>
           
           <ul class="list-inline list-icons">
-          	<li class="list-inline-item">
+          	<li>
           		 <i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-java"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-linux"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-html5"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-css3"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-javascript"></i>
             </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-jquery"></i>
             </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-sass"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-less"></i>
-            </li>
-            <li class="list-inline-item">
+            <li>
               <i class="devicons devicons-bootstrap"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-wordpress"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-grunt"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-gulp"></i>
-            </li>
-            <li class="list-inline-item">
-              <i class="devicons devicons-npm"></i>
             </li>
           </ul>
 
