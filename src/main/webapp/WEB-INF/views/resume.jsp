@@ -5,8 +5,8 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="TIBCO Business Works and Java consultant">
+    <meta name="author" content="Arturo Medecigo Tress">
 
     <title>Resume - Arturo Medecigo Tress</title>
 
@@ -19,6 +19,7 @@
     <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="resources/vendor/devicons/css/devicons.min.css" rel="stylesheet">
     <link href="resources/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <link href="resources/css/progressbar.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="resources/css/resume.min.css" rel="stylesheet">
@@ -29,7 +30,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">Resume</span>
+        <span class="d-block d-lg-none">Resume of Arturo Medecigo Tress</span>
         <span class="d-none d-lg-block">
           <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="resources/img/profile.jpg" alt="">
         </span>
@@ -374,61 +375,129 @@
         </div>
       </section>
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
-        <div class="my-auto">
-          <h2 class="mb-5">Skills</h2>
+		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
+			<div class="my-auto">
+				<h2 class="mb-5">Skills</h2>
 
-          <div class="subheading mb-3">Programming Languages &amp; Tools</div>
-          
-          <ul class="list-inline list-icons">
-          	<li>
-          		 <i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-java"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-linux"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-html5"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-css3"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-javascript"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-jquery"></i>
-            </li>
-            <li>
-              <i class="devicons devicons-bootstrap"></i>
-            </li>
-          </ul>
+				<div class="subheading mb-3">Programming Languages &amp; Tools</div>
+				<!-- 
+				<div class="row">
+					<div class="col-sm-8"><i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i></div>
+					<div class="col-sm-4"><i class="devicons devicons-java"></i></div>
+				</div>
+				-->
+				<ul class="list-inline list-icons">
+					<li>
+						<div class="d-flex">
+							<div class="p-2">
+								<i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-java"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-linux"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-html5"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-css3"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-javascript"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-jquery"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i class="devicons devicons-bootstrap"></i>
+							</div>
+							<div class="w-100 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
 
-          <div class="subheading mb-3">Workflow</div>
-          <ul class="fa-ul mb-0">
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Advising on TIBCO Business Works coding patterns and best practice support for Paris region and abroad.</li>                      	
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Gathering of technical elements for business teams</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Cross testing &amp; debugging of flows</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Cross functional between business and technical teams</li>
-            <li>
-              <i class="fa-li fa fa-check"></i>
-              Agile development &amp; scrum</li>
-          </ul>
-        </div>
-      </section>
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
+				<div class="subheading mb-3">Workflow</div>
+				<ul class="fa-ul mb-0">
+					<li><i class="fa-li fa fa-check"></i> Advising on TIBCO Business Works coding patterns and best practice support for Paris region and abroad.</li>
+					<li><i class="fa-li fa fa-check"></i> Gathering of technical elements for business teams</li>
+					<li><i class="fa-li fa fa-check"></i> Cross testing &amp; debugging of flows</li>
+					<li><i class="fa-li fa fa-check"></i> Cross functional between business and technical teams</li>
+					<li><i class="fa-li fa fa-check"></i> Agile development &amp; scrum</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
         <div class="my-auto">
           <h2 class="mb-5">Interests</h2>
           <p>Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I've found a new passion in road bike riding.</p>          
@@ -503,6 +572,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="resources/js/resume.min.js"></script>
+    <script  src="resources/js/progressbar.js"></script>
 
   </body>
 
