@@ -8,7 +8,7 @@
     <meta name="description" content="TIBCO Business Works and Java consultant">
     <meta name="author" content="Arturo Medecigo Tress">
 
-    <title>Resume - Arturo Medecigo Tress</title>
+    <title>TIBCO B.W. Consultant</title>
 
     <!-- Bootstrap core CSS -->
     <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">Resume of Arturo Medecigo Tress</span>
+        <span class="d-block d-lg-none">TIBCO B.W. consultant</span>
         <span class="d-none d-lg-block">
           <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="resources/img/profile.jpg" alt="">
         </span>
@@ -380,19 +380,13 @@
 				<h2 class="mb-5">Skills</h2>
 
 				<div class="subheading mb-3">Programming Languages &amp; Tools</div>
-				<!-- 
-				<div class="row">
-					<div class="col-sm-8"><i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i></div>
-					<div class="col-sm-4"><i class="devicons devicons-java"></i></div>
-				</div>
-				-->
 				<ul class="list-inline list-icons">
 					<li>
 						<div class="d-flex">
-							<div class="p-2">
+							<div class="d-flex justify-content-center">
 								<i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100">89</div>
 								</div>
@@ -401,10 +395,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-java"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100">32</div>
 								</div>
@@ -413,10 +407,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-linux"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100">74</div>
 								</div>
@@ -425,10 +419,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-html5"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100">48</div>
 								</div>
@@ -437,10 +431,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-css3"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">98</div>
 								</div>
@@ -449,10 +443,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-javascript"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35</div>
 								</div>
@@ -461,10 +455,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-jquery"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100">88</div>
 								</div>
@@ -473,10 +467,10 @@
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="width: 188px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px">
 								<i class="devicons devicons-bootstrap"></i>
 							</div>
-							<div class="w-100 p-3">
+							<div class="w-50 p-3">
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75</div>
 								</div>
