@@ -19,5 +19,15 @@ public class HomeControllerTest {
 		Assert.assertEquals("resume", viewName);
 		Assert.assertEquals("This is some text", model.get("welcomeText"));
 	}
+	
+	public void testShowAngular() {
+		
+		HomeController controller = new HomeController();		
+		Map <String, Object> model = new HashMap<>();	
+		String viewName = controller.showHomePage(model);
+		
+		Assert.assertEquals("angular", viewName);
+		Assert.assertEquals("This is some text", model.get("welcomeText"));
+	}
 
 }
