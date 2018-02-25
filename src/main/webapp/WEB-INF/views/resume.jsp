@@ -407,6 +407,18 @@
 					</li>
 					<li>
 						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i><img src="resources/img/SpringLogo.png" height="48" width="150"></i>
+							</div>
+							<div class="w-50 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100">89</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="d-flex">
 							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
 								<i class="devicons devicons-linux"></i>
 							</div>
