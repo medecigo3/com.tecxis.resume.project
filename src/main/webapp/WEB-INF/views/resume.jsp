@@ -70,10 +70,11 @@
             <span class="text-primary">Medecigo Tress</span>
           </h1>
           <div class="subheading mb-5">Ixelles, Belgium  
-            <a href="mailto:name@email.com">arturo.medecigo@tecxis.com</a>
+            <a href="mailto:tecxis.pro@gmail.com">tecxis.pro@gmail.com</a>
           </div>
           <p class="mb-5">I'm a java and TIBCO Business Works consultant with more than 8 years of experience creating solutions and resolving complex client issues who possesses self-discipline and has the ability to work under high pressure. Prefers to work in as part of a team but has the ability to work independently with the minimum of supervision.  He is able to play a key role to successfully deliver solutions upon the highest quality.</p>
           <ul class="list-inline list-social-icons mb-0">
+<!--           
             <li class="list-inline-item">
               <a href="#">
                 <span class="fa-stack fa-lg">
@@ -90,14 +91,16 @@
                 </span>
               </a>
             </li>
+-->
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://www.linkedin.com/in/arturo-medecigo-tress-317282b7/">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
             </li>
+<!--             
             <li class="list-inline-item">
               <a href="#">
                 <span class="fa-stack fa-lg">
@@ -106,6 +109,7 @@
                 </span>
               </a>
             </li>
+-->
           </ul>
         </div>
       </section>
