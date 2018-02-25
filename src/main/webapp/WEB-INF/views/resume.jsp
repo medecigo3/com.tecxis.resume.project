@@ -441,6 +441,18 @@
 							</div>
 						</div>
 					</li>
+					<li>
+						<div class="d-flex">
+							<div class="d-flex justify-content-center">
+								<i><img src="resources/img/GitHub.png" height="48" width="150" data-toggle="tooltip" title="GitHub"></i>
+							</div>
+							<div class="w-50 p-3">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="99">99</div>
+								</div>
+							</div>
+						</div>
+					</li>
 				</ul>
 
 
