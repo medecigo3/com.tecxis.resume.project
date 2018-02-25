@@ -384,11 +384,11 @@
 					<li>
 						<div class="d-flex">
 							<div class="d-flex justify-content-center">
-								<i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150"></i>
+								<i><img src="resources/img/TIBCO_Software_Inc_Logo.png" height="48" width="150" data-toggle="tooltip" title="TIBCO Business Works 5.x"></i>
 							</div>
 							<div class="w-50 p-3">
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100">89</div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
 								</div>
 							</div>
 						</div>
@@ -396,23 +396,23 @@
 					<li>
 						<div class="d-flex">
 							<div class="d-flex justify-content-center">
-								<i><img src="resources/img/OracleLogo.png" height="48" width="150"></i>
+								<i><img src="resources/img/OracleLogo.png" height="48" width="150" data-toggle="tooltip" title="Oracle"></i>
 							</div>
 							<div class="w-50 p-3">
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100">89</div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95</div>
 								</div>
 							</div>
 						</div>
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" data-toggle="tooltip" title="Java">
 								<i class="devicons devicons-java"></i>
 							</div>
 							<div class="w-50 p-3">
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100">32</div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95</div>
 								</div>
 							</div>
 						</div>
@@ -420,83 +420,23 @@
 					<li>
 						<div class="d-flex">
 							<div class="d-flex justify-content-center">
-								<i><img src="resources/img/SpringLogo.png" height="48" width="150"></i>
+								<i><img src="resources/img/SpringLogo.png" height="48" width="150" data-toggle="tooltip" title="Spring framework"></i>
 							</div>
 							<div class="w-50 p-3">
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100">89</div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50</div>
 								</div>
 							</div>
 						</div>
 					</li>
 					<li>
 						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
+							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" data-toggle="tooltip" title="Unix">
 								<i class="devicons devicons-linux"></i>
 							</div>
 							<div class="w-50 p-3">
 								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100">74</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
-								<i class="devicons devicons-html5"></i>
-							</div>
-							<div class="w-50 p-3">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100">48</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
-								<i class="devicons devicons-css3"></i>
-							</div>
-							<div class="w-50 p-3">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">98</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
-								<i class="devicons devicons-javascript"></i>
-							</div>
-							<div class="w-50 p-3">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px" >
-								<i class="devicons devicons-jquery"></i>
-							</div>
-							<div class="w-50 p-3">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100">88</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="d-flex">
-							<div class="d-flex justify-content-center"  style="height: 48px; width: 150px">
-								<i class="devicons devicons-bootstrap"></i>
-							</div>
-							<div class="w-50 p-3">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75</div>
+									<div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50</div>
 								</div>
 							</div>
 						</div>
@@ -590,7 +530,8 @@
 
     <!-- Custom scripts for this template -->
     <script src="resources/js/resume.min.js"></script>
-    <script  src="resources/js/progressbar.js"></script>
+    <script src="resources/js/progressbar.js"></script>
+    <script type="resources/js/tooltips.js"></script>
 
   </body>
 
