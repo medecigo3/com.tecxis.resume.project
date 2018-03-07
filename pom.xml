@@ -91,6 +91,7 @@
 				<artifactId>jrebel-maven-plugin</artifactId>
 				<version>1.1.7</version>
 				<configuration>
+					<rootRelativePath>.</rootRelativePath>
 					<alwaysGenerate>true</alwaysGenerate>
 					<addResourcesDirToRebelXml>true</addResourcesDirToRebelXml>
 					<showGenerated>true</showGenerated>
