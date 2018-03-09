@@ -7,5 +7,5 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>                
         <property name="context-root" value="portal"/>                
         <property name="java-output-path" value="/com.tecxis.portal/target/classes"/>            
-    </wb-module>    
+    </wb-module>
 </project-modules>

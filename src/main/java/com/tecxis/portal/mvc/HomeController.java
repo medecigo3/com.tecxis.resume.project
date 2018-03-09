@@ -20,4 +20,14 @@ public class HomeController {
 			/**Returns logical name of view*/
 			return "resume";
 		}
+		
+		/**Handles requests whose path is "/hello-angularjs" */
+		@RequestMapping({"/hello-angularjs"})
+		public String showAngular(Map <String, Object> model) {
+			model.put("welcomeText", "This is some text");
+			
+			
+			/**Returns logical name of view*/
+			return "angular";
+		}
 }
