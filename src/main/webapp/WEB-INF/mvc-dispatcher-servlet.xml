@@ -22,7 +22,7 @@
 	<mvc:annotation-driven/>
 	
 	<!-- Scans and registers beans with @Controller annotation in target package --> 	
-	<context:component-scan base-package="com.tecxis.portal.mvc"/>
+	<context:component-scan base-package="com.tecxis.web.mvc"/>
 	
 	
 	 

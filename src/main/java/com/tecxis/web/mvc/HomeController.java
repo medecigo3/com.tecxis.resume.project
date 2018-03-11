@@ -1,4 +1,4 @@
-package com.tecxis.portal.mvc;
+package com.tecxis.web.mvc;
 
 import java.util.Map;
 

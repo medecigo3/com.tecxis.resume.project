@@ -1,9 +1,11 @@
-package com.tecxis.portal.mvc;
+package com.tecxis.web.mvc;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+
+import com.tecxis.web.mvc.HomeController;
 
 import junit.framework.Assert;
 
