@@ -14,10 +14,9 @@
      <jdbc:script location="classpath:data.sql"/>
   </jdbc:embedded-database>
 
-  <!-- <start id="bean.jdbcTemplate" /> -->
+
   <bean id="jdbcTemplate"
-     class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+     class="org.springframework.jdbc.core.JdbcTemplate">
      <constructor-arg ref="dataSource" />
   </bean>
-  <!-- <end id="bean.jdbcTemplate" /> -->
 </beans>
