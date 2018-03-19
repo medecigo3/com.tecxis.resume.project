@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.habuma.spitter.domain.Spitter;
@@ -25,6 +24,7 @@ public class JpaSpitterDao implements SpitterDao {
 
 	public void addSpitter(Spitter spitter) {
 		em.persist(spitter);
+		em.flush();
 	}
 
 	public Spitter getSpitterById(long id) {
@@ -54,11 +54,8 @@ public class JpaSpitterDao implements SpitterDao {
 		return (Spitter) em.createQuery(SPITTER_FOR_USERNAME).setParameter("username", username).getSingleResult();
 	}
 
-	public void deleteSpittle(long id) {
-		try {
-			em.remove(getSpittleById(id));
-		} catch (DataAccessException e) {
-		}
+	public void deleteSpittle(long id) {		
+		em.remove(getSpittleById(id));		
 	}
 
 	public Spittle getSpittleById(long id) {

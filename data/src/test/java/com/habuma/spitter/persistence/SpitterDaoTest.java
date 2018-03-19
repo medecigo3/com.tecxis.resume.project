@@ -22,8 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
-import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.habuma.spitter.domain.Spitter;
@@ -36,7 +36,7 @@ import com.habuma.spitter.domain.Spitter;
 //@Rollback
 @Commit
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class })
-@Transactional(transactionManager = "txMgr", isolation = org.springframework.transaction.annotation.Isolation.READ_COMMITTED)
+@Transactional(transactionManager = "txMgr", isolation = Isolation.READ_UNCOMMITTED)
 public class SpitterDaoTest {
 	
 	@PersistenceContext
@@ -67,13 +67,12 @@ public class SpitterDaoTest {
 	}
 
 	@Test
+	@Commit
 	public void shouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username", "password", "fullname", "email", false);
-		entityManager.flush();
 		assertEquals(1, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username2", "password2", "fullname2", "email2", false);
-		entityManager.flush();
 		assertEquals(2, countRowsInTable(jdbcTemplate, "spitter"));
 	}
 
