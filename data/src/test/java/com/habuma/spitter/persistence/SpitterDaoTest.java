@@ -47,7 +47,7 @@ public class SpitterDaoTest {
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	private SpitterDao dao;
+	private SpitterDao spitterRepo;
 
 	@BeforeTransaction
 	void verifyInitialDatabaseState() {
@@ -71,8 +71,10 @@ public class SpitterDaoTest {
 	public void shouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username", "password", "fullname", "email", false);
+		entityManager.flush();
 		assertEquals(1, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username2", "password2", "fullname2", "email2", false);
+		entityManager.flush();
 		assertEquals(2, countRowsInTable(jdbcTemplate, "spitter"));
 	}
 
@@ -80,7 +82,7 @@ public class SpitterDaoTest {
 	public void shouldBeAbleToFindInsertedSpitter() {
 		Spitter spitterIn = insertASpitter("username", "password", "fullname", "email", false);
 
-		Spitter spitterOut = dao.getSpitterById(spitterIn.getId());
+		Spitter spitterOut = spitterRepo.getSpitterById(spitterIn.getId());
 		
 		assertEquals(spitterIn, spitterOut);
 	}
@@ -94,7 +96,7 @@ public class SpitterDaoTest {
 		spitter.setEmail(email);
 		spitter.setUpdateByEmail(updateByEmail);
 		assertNull(spitter.getId());
-		dao.addSpitter(spitter);
+		spitterRepo.save(spitter);
 		assertNotNull(spitter.getId());
 		return spitter;
 	}

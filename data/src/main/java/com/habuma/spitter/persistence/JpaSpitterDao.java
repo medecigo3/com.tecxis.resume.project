@@ -1,4 +1,4 @@
-package com.habuma.spitter.persistence;
+/*package com.habuma.spitter.persistence;
 
 import java.util.List;
 
@@ -66,4 +66,4 @@ public class JpaSpitterDao implements SpitterDao {
 	public List<Spitter> findAllSpitters() {
 		return em.createQuery(ALL_SPITTERS).getResultList();
 	}
-}
+}*/
