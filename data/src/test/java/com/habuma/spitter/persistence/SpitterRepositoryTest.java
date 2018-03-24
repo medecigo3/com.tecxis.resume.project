@@ -3,8 +3,8 @@ package com.habuma.spitter.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-import static org.springframework.test.jdbc.JdbcTestUtils.deleteFromTables;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,29 +16,26 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.habuma.spitter.domain.Spitter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-// TODO Annotate with @SpringJUnitConfig(TestConfig.class)
-@ContextConfiguration(locations = { 
+@SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
 		"classpath:test-transaction-context.xml" })
 
+
 //@Rollback
 @Commit
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class })
-@Transactional(transactionManager = "txMgr", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class SpitterRepositoryTest {
 	
 	@PersistenceContext
@@ -52,25 +49,32 @@ public class SpitterRepositoryTest {
 	private SpitterRepository spitterRepo;
 
 
+
+
 	@BeforeTransaction
 	void verifyInitialDatabaseState() {
 		// logic to verify the initial state before a transaction is started
+//		assertEquals(2, countRowsInTable(jdbcTemplate, "spitter"));
+//		assertEquals(3, countRowsInTable(jdbcTemplate, "spittle"));
+		 
 	}
 
 	@Before
 	public void setUpTestDataWithinTransaction() {
-		deleteFromTables(jdbcTemplate, "spitter");
+//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spitter");
+//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spittle");
 	}
 
 
 
 	@After
 	public void cleanup() {
-		deleteFromTables(jdbcTemplate, "spitter");
+//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spitter");
+//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spittle");
 	}
 
 	@Test
-	@Commit
+	@Sql("classpath:schema.sql")
 	public void shouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username", "password", "fullname", "email", false);		
@@ -84,6 +88,18 @@ public class SpitterRepositoryTest {
 		Spitter spitterIn = insertASpitter("username", "password", "fullname", "email", false);
 		Spitter spitterOut = spitterRepo.getSpitterById(spitterIn.getId());		
 		assertEquals(spitterIn, spitterOut);
+	}
+	
+	@Test 
+	@Sql("classpath:schema.sql")
+	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
+	public void testGetSpitterByName() {
+		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
+		assertEquals("habuma", habuma.getUsername());
+		assertEquals("password", habuma.getPassword());
+		assertEquals("Craig Walls", habuma.getFullName());
+		assertEquals("craig@habuma.com", habuma.getEmail());
+		
 	}
 
 	private Spitter insertASpitter(String username, String password, String fullname, String email,	boolean updateByEmail) {
@@ -112,7 +128,6 @@ public class SpitterRepositoryTest {
 	
 	
 	@Transactional
-	@Test
 	public void updateWithEntityManagerFlush() {
 		// Manual flush is required to avoid false positive in test
 		entityManager.flush();

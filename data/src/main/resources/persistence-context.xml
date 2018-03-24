@@ -36,6 +36,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<!-- JPA transaction manager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<!-- Component annotation scan -->
