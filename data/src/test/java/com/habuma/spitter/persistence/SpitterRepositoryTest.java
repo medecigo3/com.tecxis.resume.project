@@ -30,7 +30,9 @@ import com.habuma.spitter.domain.Spitter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // TODO Annotate with @SpringJUnitConfig(TestConfig.class)
-@ContextConfiguration(locations = { "classpath:persistence-context.xml", "classpath:test-dataSource-context.xml",
+@ContextConfiguration(locations = { 
+		"classpath:persistence-context.xml", 
+		"classpath:test-dataSource-context.xml",
 		"classpath:test-transaction-context.xml" })
 
 //@Rollback
@@ -48,6 +50,7 @@ public class SpitterRepositoryTest {
 
 	@Autowired
 	private SpitterRepository spitterRepo;
+
 
 	@BeforeTransaction
 	void verifyInitialDatabaseState() {
@@ -70,25 +73,20 @@ public class SpitterRepositoryTest {
 	@Commit
 	public void shouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
-		insertASpitter("username", "password", "fullname", "email", false);
-		entityManager.flush();
+		insertASpitter("username", "password", "fullname", "email", false);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, "spitter"));
 		insertASpitter("username2", "password2", "fullname2", "email2", false);
-		entityManager.flush();
 		assertEquals(2, countRowsInTable(jdbcTemplate, "spitter"));
 	}
 
 	@Test
 	public void shouldBeAbleToFindInsertedSpitter() {
 		Spitter spitterIn = insertASpitter("username", "password", "fullname", "email", false);
-
-		Spitter spitterOut = spitterRepo.getSpitterById(spitterIn.getId());
-		
+		Spitter spitterOut = spitterRepo.getSpitterById(spitterIn.getId());		
 		assertEquals(spitterIn, spitterOut);
 	}
 
-	private Spitter insertASpitter(String username, String password, String fullname, String email,
-			boolean updateByEmail) {
+	private Spitter insertASpitter(String username, String password, String fullname, String email,	boolean updateByEmail) {
 		Spitter spitter = new Spitter();
 		spitter.setUsername(username);
 		spitter.setPassword(password);
@@ -98,6 +96,7 @@ public class SpitterRepositoryTest {
 		assertNull(spitter.getId());
 		spitterRepo.save(spitter);
 		assertNotNull(spitter.getId());
+		updateWithEntityManagerFlush();
 		return spitter;
 	}
 
@@ -110,4 +109,14 @@ public class SpitterRepositoryTest {
 	void verifyFinalDatabaseState() {
 		// logic to verify the final state after transaction has rolled back
 	}
+	
+	
+	@Transactional
+	@Test
+	public void updateWithEntityManagerFlush() {
+		// Manual flush is required to avoid false positive in test
+		entityManager.flush();
+	}
+
+	
 }
