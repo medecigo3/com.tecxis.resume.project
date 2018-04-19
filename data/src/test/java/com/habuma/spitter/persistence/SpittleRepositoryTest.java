@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.habuma.spitter.domain.Spitter;
+import com.habuma.spitter.domain.Spittle;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -36,8 +39,8 @@ import com.habuma.spitter.domain.Spitter;
 //@Rollback
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class SpitterRepositoryTest {
-	
+public class SpittleRepositoryTest {
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -46,11 +49,11 @@ public class SpitterRepositoryTest {
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
+	private SpittleRepository spittleRepo;
+	
+	@Autowired
 	private SpitterRepository spitterRepo;
-
-
-
-
+	
 	@BeforeTransaction
 	void verifyInitialDatabaseState() {
 		// logic to verify the initial state before a transaction is started
@@ -64,78 +67,76 @@ public class SpitterRepositoryTest {
 //		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spitter");
 //		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spittle");
 	}
-
-
-
-	@After
-	public void cleanup() {
-//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spitter");
-//		JdbcTestUtils.deleteFromTables(jdbcTemplate, "spittle");
-	}
-
+	
 	@Test
 	@Sql("classpath:schema.sql")
+	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
 	public void shouldCreateRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
-		insertASpitter("username", "password", "fullname", "email", false);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, "spitter"));
-		insertASpitter("username2", "password2", "fullname2", "email2", false);
 		assertEquals(2, countRowsInTable(jdbcTemplate, "spitter"));
-	}
-
-	@Test
-	public void shouldBeAbleToFindInsertedSpitter() {
-		Spitter spitterIn = insertASpitter("username", "password", "fullname", "email", false);
-		Spitter spitterOut = spitterRepo.getSpitterById(spitterIn.getId());		
-		assertEquals(spitterIn, spitterOut);
+		Spitter artnames = spitterRepo.getSpitterByUsername("artnames");
+		insertASpittle(artnames, "This is a test comment", new Date());		
+		assertEquals(4, countRowsInTable(jdbcTemplate, "spittle"));		
+		insertASpittle(artnames, "This is a new test comment", new Date());
+		assertEquals(5, countRowsInTable(jdbcTemplate, "spittle"));
 	}
 	
+	@Test
+	@Sql("classpath:schema.sql")
+	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
+	public void shouldBeAbleToFindInsertedSpittle() {
+		Spitter artnames = spitterRepo.getSpitterByUsername("artnames");
+		Spittle spittleIn = insertASpittle(artnames, "This is a new test comment", new Date());		
+		Spittle spitterOut = spittleRepo.getSpittleById(spittleIn.getId());		
+		assertEquals(spittleIn, spitterOut);
+	}
+
+
 	@Test 
 	@Sql("classpath:schema.sql")
 	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
-	public void testGetSpitterById() {
-		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
-		assertNotNull(habuma);
-		assertEquals("habuma", habuma.getUsername());
-		assertEquals("password", habuma.getPassword());
-		assertEquals("Craig Walls", habuma.getFullName());
-		assertEquals("craig@habuma.com", habuma.getEmail());
+	public void testGetSpittleById() {	
 		
-		Spitter artnames = spitterRepo.getSpitterById(2);
-		assertNotNull(artnames);
-		assertEquals("artnames", artnames.getUsername());
-		assertEquals("password", artnames.getPassword());
-		assertEquals("Art Names", artnames.getFullName());
-		assertEquals("artnames@habuma.com", artnames.getEmail());
-			
+		Spittle spittle = spittleRepo.getSpittleById(1);
+		assertNotNull(spittle);
+		assertEquals("Have you read Spring in Action 3? I hear it is awesome!" , spittle.getText());
+		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
+		assertEquals(habuma , spittle.getSpitter());
+		
+		Spitter artnames = spitterRepo.getSpitterByUsername("artnames");
+		spittle = spittleRepo.getSpittleById(2);
+		assertEquals(artnames , spittle.getSpitter());
+		
+	
+	}
+		
+	@Test 
+	@Sql("classpath:schema.sql")
+	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
+	public void testDeleteSpittleById() {
+		assertEquals(3, countRowsInTable(jdbcTemplate, "spittle"));
+		Spitter artnames = spitterRepo.getSpitterByUsername("artnames");
+		Long spittleId = insertASpittle(artnames, "This is a test comment", new Date()).getId();
+		assertEquals(4, countRowsInTable(jdbcTemplate, "spittle"));
+		spittleRepo.delete(spittleId);
+		assertNull(spittleRepo.getSpittleById(spittleId));
+		assertEquals(3, countRowsInTable(jdbcTemplate, "spittle"));
+		
 	}
 	
-	@Test
-	@Sql("classpath:schema.sql")
-	public void testDeleteSpitterById() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
-		Spitter tempSpitter = insertASpitter("temp", "password", "fullname", "email", false);
-		assertEquals(1, countRowsInTable(jdbcTemplate, "spitter"));
-		spitterRepo.delete(tempSpitter.getId());
-		assertNull(spitterRepo.getSpitterByUsername("temp"));
-		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
+	private Spittle insertASpittle(Spitter spitter, String text, Date when) {
+		Spittle spittle = new Spittle();		
+		spittle.setText(text);
+		spittle.setWhen(when);
+		spittle.setSpitter(spitter);
+		assertNull(spittle.getId());
+		spittleRepo.save(spittle);
+		assertNotNull(spittle.getId());
+		updateWithEntityManagerFlush();
+		return spittle;
 		
 	}
-
-	private Spitter insertASpitter(String username, String password, String fullname, String email,	boolean updateByEmail) {
-		Spitter spitter = new Spitter();
-		spitter.setUsername(username);
-		spitter.setPassword(password);
-		spitter.setFullName(fullname);
-		spitter.setEmail(email);
-		spitter.setUpdateByEmail(updateByEmail);
-		assertNull(spitter.getId());
-		spitterRepo.save(spitter);
-		assertNotNull(spitter.getId());
-		updateWithEntityManagerFlush();
-		return spitter;
-	}
-
+	
+	
 	@After
 	public void tearDownWithinTransaction() {
 		// execute "tear down" logic within the transaction
@@ -153,5 +154,5 @@ public class SpitterRepositoryTest {
 		entityManager.flush();
 	}
 
-	
+
 }
