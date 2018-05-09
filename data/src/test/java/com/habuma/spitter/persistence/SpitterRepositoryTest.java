@@ -120,15 +120,15 @@ public class SpitterRepositoryTest {
 		spitterRepo.delete(tempSpitter.getId());
 		assertNull(spitterRepo.getSpitterByUsername("temp"));
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
-
+		
+	}
+	
 	public void testGetSpitterByName() {
 		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
 		assertEquals("habuma", habuma.getUsername());
 		assertEquals("password", habuma.getPassword());
 		assertEquals("Craig Walls", habuma.getFullName());
 		assertEquals("craig@habuma.com", habuma.getEmail());
-
-		
 	}
 
 	private Spitter insertASpitter(String username, String password, String fullname, String email,	boolean updateByEmail) {
