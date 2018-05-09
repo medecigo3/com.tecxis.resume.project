@@ -93,6 +93,7 @@ public class SpitterRepositoryTest {
 	@Test 
 	@Sql("classpath:schema.sql")
 	@Sql(scripts="classpath:data.sql" , executionPhase = BEFORE_TEST_METHOD)
+
 	public void testGetSpitterById() {
 		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
 		assertNotNull(habuma);
@@ -119,6 +120,14 @@ public class SpitterRepositoryTest {
 		spitterRepo.delete(tempSpitter.getId());
 		assertNull(spitterRepo.getSpitterByUsername("temp"));
 		assertEquals(0, countRowsInTable(jdbcTemplate, "spitter"));
+
+	public void testGetSpitterByName() {
+		Spitter habuma = spitterRepo.getSpitterByUsername("habuma");
+		assertEquals("habuma", habuma.getUsername());
+		assertEquals("password", habuma.getPassword());
+		assertEquals("Craig Walls", habuma.getFullName());
+		assertEquals("craig@habuma.com", habuma.getEmail());
+
 		
 	}
 
