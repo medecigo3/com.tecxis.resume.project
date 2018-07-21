@@ -2,7 +2,7 @@ package com.tecxis.resume.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tecxis.resume.Client;
+import com.tecxis.resume.ver2.Client;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
