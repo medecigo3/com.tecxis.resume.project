@@ -14,16 +14,20 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
 		<class>com.tecxis.resume.ContractPK</class>
 		<class>com.tecxis.resume.Country</class>
 		<class>com.tecxis.resume.Course</class>
+		<!--  
 		<class>com.tecxis.resume.Enrolment</class>
 		<class>com.tecxis.resume.EnrolmentPK</class>
+		-->
 		<class>com.tecxis.resume.Interest</class>
 		<class>com.tecxis.resume.Project</class>
 		<class>com.tecxis.resume.ProjectPK</class>
 		<class>com.tecxis.resume.Service</class>
 		<class>com.tecxis.resume.Skill</class>
 		<class>com.tecxis.resume.Staff</class>
+		<!--  
 		<class>com.tecxis.resume.StaffSkill</class>
 		<class>com.tecxis.resume.StaffSkillPK</class>
+		-->
 		<class>com.tecxis.resume.Supplier</class>
 		<class>com.tecxis.resume.SupplierPK</class>
       <properties>

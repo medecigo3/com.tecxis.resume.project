@@ -1,8 +1,11 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 
 
 /**
@@ -22,13 +25,14 @@ public class Assignment implements Serializable {
 	private BigDecimal priority;
 
 	//bi-directional many-to-one association to Project
-	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
-		@JoinColumn(name="NAME", referencedColumnName="NAME"),
-		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-		})
-	private Project project;
+//	@ManyToOne
+//	@JoinColumns({
+//		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
+//		@JoinColumn(name="NAME", referencedColumnName="NAME"),
+//		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
+//		@JoinColumn(name="VERSION", referencedColumnName="VERSION")
+//		})
+//	private Project project;
 
 	public Assignment() {
 	}
@@ -57,12 +61,12 @@ public class Assignment implements Serializable {
 		this.priority = priority;
 	}
 
-	public Project getProject() {
-		return this.project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
+//	public Project getProject() {
+//		return this.project;
+//	}
+//
+//	public void setProject(Project project) {
+//		this.project = project;
+//	}
 
 }

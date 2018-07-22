@@ -1,9 +1,17 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -25,10 +33,17 @@ public class Course implements Serializable {
 
 	private String title;
 
-	//bi-directional many-to-one association to Enrolment
-	@OneToMany(mappedBy="course")
-	private List<Enrolment> enrolments;
-
+	//bi-directional many-to-one association to Enrolment --> replaced with many-to-many association to Staff
+//	@OneToMany(mappedBy="course")
+//	private List<Enrolment> enrolments;
+	
+	/**
+	 * bi-directional many-to-many association to Staff 
+	 * Relationship owned by {@code courses} field in {@link} Staff} table.
+	 */
+	@ManyToMany(mappedBy="courses")
+	private  List<Staff> staffs;
+	
 	public Course() {
 	}
 
@@ -56,26 +71,36 @@ public class Course implements Serializable {
 		this.title = title;
 	}
 
-	public List<Enrolment> getEnrolments() {
-		return this.enrolments;
+	public List<Staff> getStaffs() {
+		return staffs;
 	}
 
-	public void setEnrolments(List<Enrolment> enrolments) {
-		this.enrolments = enrolments;
+	public void setStaffs(List<Staff> staffs) {
+		this.staffs = staffs;
 	}
 
-	public Enrolment addEnrolment(Enrolment enrolment) {
-		getEnrolments().add(enrolment);
-		enrolment.setCourse(this);
-
-		return enrolment;
-	}
-
-	public Enrolment removeEnrolment(Enrolment enrolment) {
-		getEnrolments().remove(enrolment);
-		enrolment.setCourse(null);
-
-		return enrolment;
-	}
+//	public List<Enrolment> getEnrolments() {
+//		return this.enrolments;
+//	}
+//
+//	public void setEnrolments(List<Enrolment> enrolments) {
+//		this.enrolments = enrolments;
+//	}
+//
+//	public Enrolment addEnrolment(Enrolment enrolment) {
+//		getEnrolments().add(enrolment);
+//		enrolment.setCourse(this);
+//
+//		return enrolment;
+//	}
+//
+//	public Enrolment removeEnrolment(Enrolment enrolment) {
+//		getEnrolments().remove(enrolment);
+//		enrolment.setCourse(null);
+//
+//		return enrolment;
+//	}
+	
+	
 
 }

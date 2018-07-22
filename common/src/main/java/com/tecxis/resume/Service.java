@@ -25,8 +25,14 @@ public class Service implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Contract
-	@OneToMany(mappedBy="service")
+//	bi-directional many-to-one association to Contract
+//	DB terms: Contract is the owner of the relationship as it contains a foreign key to this Service
+//	@OneToMany(mappedBy="service")
+	/**
+	 * uni-directional one-to-many association to Contract.
+	 * OO terms: this Service "engages" Contracts 
+	 */
+	@OneToMany
 	private List<Contract> contracts;
 
 	public Service() {
@@ -66,14 +72,14 @@ public class Service implements Serializable {
 
 	public Contract addContract(Contract contract) {
 		getContracts().add(contract);
-		contract.setService(this);
+//		contract.setService(this);
 
 		return contract;
 	}
 
 	public Contract removeContract(Contract contract) {
 		getContracts().remove(contract);
-		contract.setService(null);
+//		contract.setService(null);
 
 		return contract;
 	}

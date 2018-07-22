@@ -24,12 +24,24 @@ public class Client implements Serializable {
 
 	private String website;
 
-	//bi-directional many-to-one association to Contract
-	@OneToMany(mappedBy="client")
+//	bi-directional many-to-one association to Contract
+//	DB terms: Contract is the owner of the relationship as it contains a foreign key to this Client 
+//	@OneToMany(mappedBy="client")
+	/**
+	 * uni-directional one-to-many association to Contract
+	 * OO terms: this Client "signs" Contracts
+	 */
+	@OneToMany
 	private List<Contract> contracts;
 
 	//bi-directional many-to-one association to Project
-	@OneToMany(mappedBy="client")
+	//DB terms: Project is the owner of this relationship as it contains a foregin key to this Client
+//	@OneToMany(mappedBy="client")
+	/**
+	 * uni-directional one-to-many association to Client.
+	 * OO terms: this Client "controls" projects
+	 */
+	@OneToMany
 	private List<Project> projects;
 
 	public Client() {
@@ -69,14 +81,14 @@ public class Client implements Serializable {
 
 	public Contract addContract(Contract contract) {
 		getContracts().add(contract);
-		contract.setClient(this);
+//		contract.setClient(this);
 
 		return contract;
 	}
 
 	public Contract removeContract(Contract contract) {
 		getContracts().remove(contract);
-		contract.setClient(null);
+//		contract.setClient(null);
 
 		return contract;
 	}
@@ -91,14 +103,14 @@ public class Client implements Serializable {
 
 	public Project addProject(Project project) {
 		getProjects().add(project);
-		project.setClient(this);
+//		project.setClient(this);
 
 		return project;
 	}
 
 	public Project removeProject(Project project) {
 		getProjects().remove(project);
-		project.setClient(null);
+//		project.setClient(null);
 
 		return project;
 	}

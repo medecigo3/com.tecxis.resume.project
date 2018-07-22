@@ -21,10 +21,10 @@ public class AssignmentPK implements Serializable {
 	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
 
-	@Column(insertable=false, updatable=false)
+	@Column(name="NAME", insertable=false, updatable=false)
 	private String name;
 
-	@Column(name="\"VERSION\"", insertable=false, updatable=false)
+	@Column(name="VERSION", insertable=false, updatable=false)
 	private String version;
 
 	public AssignmentPK() {

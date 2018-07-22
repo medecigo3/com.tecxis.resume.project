@@ -18,14 +18,20 @@ public class Supplier implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Contract
-	@OneToMany(mappedBy="supplier")
+//	bi-directional many-to-one association to Contract. 
+//	DB terms: Contract is the owner of the relationship as it contains a foreign key to this Supplier
+//	@OneToMany(mappedBy="supplier")
+	/**
+	 * uni-directional one-to-many association to Contract. 
+	 * OO terms: this Supplier "holds" Contracts.
+	 */
+	@OneToMany
 	private List<Contract> contracts;
 
 	//bi-directional many-to-one association to Staff
-	@ManyToOne
-	@JoinColumn(name="STAFF_ID")
-	private Staff staff;
+//	@ManyToOne
+//	@JoinColumn(name="STAFF_ID")
+//	private Staff staff;
 
 	public Supplier() {
 	}
@@ -56,24 +62,24 @@ public class Supplier implements Serializable {
 
 	public Contract addContract(Contract contract) {
 		getContracts().add(contract);
-		contract.setSupplier(this);
+//		contract.setSupplier(this);
 
 		return contract;
 	}
 
 	public Contract removeContract(Contract contract) {
 		getContracts().remove(contract);
-		contract.setSupplier(null);
+//		contract.setSupplier(null);
 
 		return contract;
 	}
 
-	public Staff getStaff() {
-		return this.staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
+//	public Staff getStaff() {
+//		return this.staff;
+//	}
+//
+//	public void setStaff(Staff staff) {
+//		this.staff = staff;
+//	}
 
 }

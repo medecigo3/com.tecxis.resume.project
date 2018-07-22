@@ -1,7 +1,6 @@
 package com.tecxis.resume;
 
 import javax.annotation.Generated;
-import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -10,5 +9,5 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Skill_ {
 	public static volatile SingularAttribute<Skill, String> skillId;
 	public static volatile SingularAttribute<Skill, String> name;
-	public static volatile ListAttribute<Skill, StaffSkill> staffSkills;
+//	public static volatile ListAttribute<Skill, StaffSkill> staffSkills;
 }

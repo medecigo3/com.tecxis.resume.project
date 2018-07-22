@@ -25,22 +25,22 @@ public class Contract implements Serializable {
 	private Date startDate;
 
 	//bi-directional many-to-one association to Client
-	@ManyToOne
-	@JoinColumn(name="CLIENT_ID")
-	private Client client;
+//	@ManyToOne
+//	@JoinColumn(name="CLIENT_ID")
+//	private Client client;
 
 	//bi-directional many-to-one association to Service
-	@ManyToOne
-	@JoinColumn(name="SERVICE_ID")
-	private Service service;
+//	@ManyToOne
+//	@JoinColumn(name="SERVICE_ID")
+//	private Service service;
 
 	//bi-directional many-to-one association to Supplier
-	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
-		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
-		})
-	private Supplier supplier;
+//	@ManyToOne
+//	@JoinColumns({
+//		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
+//		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
+//		})
+//	private Supplier supplier;
 
 	public Contract() {
 	}
@@ -68,29 +68,29 @@ public class Contract implements Serializable {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+//
+//	public Client getClient() {
+//		return this.client;
+//	}
+//
+//	public void setClient(Client client) {
+//		this.client = client;
+//	}
 
-	public Client getClient() {
-		return this.client;
-	}
+//	public Service getService() {
+//		return this.service;
+//	}
+//
+//	public void setService(Service service) {
+//		this.service = service;
+//	}
 
-	public void setClient(Client client) {
-		this.client = client;
-	}
-
-	public Service getService() {
-		return this.service;
-	}
-
-	public void setService(Service service) {
-		this.service = service;
-	}
-
-	public Supplier getSupplier() {
-		return this.supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
+//	public Supplier getSupplier() {
+//		return this.supplier;
+//	}
+//
+//	public void setSupplier(Supplier supplier) {
+//		this.supplier = supplier;
+//	}
 
 }

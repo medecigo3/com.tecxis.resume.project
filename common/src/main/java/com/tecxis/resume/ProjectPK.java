@@ -18,9 +18,10 @@ public class ProjectPK implements Serializable {
 	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
 
+	@Column(name="NAME")
 	private String name;
 
-	@Column(name="\"VERSION\"")
+	@Column(name="VERSION")
 	private String version;
 
 	public ProjectPK() {
@@ -59,8 +60,8 @@ public class ProjectPK implements Serializable {
 		}
 		ProjectPK castOther = (ProjectPK)other;
 		return 
-			(this.clientId == castOther.clientId)
-			&& (this.staffId == castOther.staffId)
+			(this.clientId == castOther.clientId) &&
+			 (this.staffId == castOther.staffId)
 			&& this.name.equals(castOther.name)
 			&& this.version.equals(castOther.version);
 	}
