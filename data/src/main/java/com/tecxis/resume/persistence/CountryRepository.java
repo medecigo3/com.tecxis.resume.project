@@ -6,7 +6,7 @@ import com.tecxis.resume.Country;
 
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
-	public Country getCountryByCountryId(long countryId);
+	public Country getCountryById(long id);
 	
 	public Country getCountryByName(String name);
 }

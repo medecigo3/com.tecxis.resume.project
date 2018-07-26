@@ -76,7 +76,7 @@ public class CountryRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedCountry() {
 		Country countryIn = insertACountry("France");
-		Country countryOut = countryRepo.getCountryByCountryId(countryIn.getCountryId());
+		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
 	}
 	
@@ -91,9 +91,9 @@ public class CountryRepositoryTest {
 	private Country insertACountry(String name) {
 		Country country = new Country();
 		country.setName(name);
-		assertEquals(0, country.getCountryId());
+		assertEquals(0, country.getId());
 		countryRepo.save(country);
-		assertNotNull(country.getCountryId());
+		assertNotNull(country.getId());
 		entityManager.flush();
 		return country;
 	}
