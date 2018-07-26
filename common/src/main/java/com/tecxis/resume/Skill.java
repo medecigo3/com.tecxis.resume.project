@@ -15,7 +15,7 @@ public class Skill implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SKILL_SKILLID_GENERATOR" )
+	@SequenceGenerator(name="SKILL_SEQ" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SKILL_SKILLID_GENERATOR")
 	@Column(name="SKILL_ID")
 	private String skillId;

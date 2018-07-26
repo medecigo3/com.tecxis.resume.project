@@ -10,12 +10,11 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Client.findAll", query="SELECT c FROM Client c")
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="CLIENT_CLIENTID_GENERATOR" )
+	@SequenceGenerator(name="CLIENT_SEQ" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_CLIENTID_GENERATOR")
 	@Column(name="CLIENT_ID")
 	private long clientId;

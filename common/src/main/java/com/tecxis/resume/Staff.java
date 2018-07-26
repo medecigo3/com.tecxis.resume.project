@@ -27,7 +27,7 @@ public class Staff implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="STAFF_STAFFID_GENERATOR" )
+	@SequenceGenerator(name="STAFF_SEQ" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="STAFF_STAFFID_GENERATOR")
 	@Column(name="STAFF_ID")
 	private long staffId;
