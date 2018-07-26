@@ -1,6 +1,7 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
@@ -71,6 +73,21 @@ public class CountryRepositoryTest {
 		
 	}
 	
+	@Test
+	public void shouldBeAbleToFindInsertedCountry() {
+		Country countryIn = insertACountry("France");
+		Country countryOut = countryRepo.getCountryByCountryId(countryIn.getCountryId());
+		assertEquals(countryIn, countryOut);
+	}
+	
+	@Test
+	@Sql("classpath:SQL/ResumeSchema.sql")
+	@Sql(scripts="classpath:SQL/ResumeData.sql", executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCountryById() {
+		Country uk = countryRepo.getCountryByName("United Kingdom");
+		assertNotNull(uk);
+	}
+	
 	private Country insertACountry(String name) {
 		Country country = new Country();
 		country.setName(name);
@@ -80,5 +97,6 @@ public class CountryRepositoryTest {
 		entityManager.flush();
 		return country;
 	}
+	
 
 }
