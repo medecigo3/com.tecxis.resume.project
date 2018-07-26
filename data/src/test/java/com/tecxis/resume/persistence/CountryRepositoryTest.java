@@ -83,9 +83,16 @@ public class CountryRepositoryTest {
 	@Test
 	@Sql("classpath:SQL/ResumeSchema.sql")
 	@Sql(scripts="classpath:SQL/ResumeData.sql", executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCountryById() {
+	public void testGetCountryByName() {
 		Country uk = countryRepo.getCountryByName("United Kingdom");
 		assertNotNull(uk);
+		assertEquals("United Kingdom", uk.getName());
+		Country france = countryRepo.getCountryByName("France");
+		assertNotNull(france);
+		assertEquals("France", france.getName());
+		Country belgium = countryRepo.getCountryByName("Belgium");
+		assertNotNull(belgium);
+		assertEquals("Belgium", belgium.getName());
 	}
 	
 	private Country insertACountry(String name) {
