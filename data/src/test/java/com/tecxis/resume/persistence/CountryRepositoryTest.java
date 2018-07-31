@@ -2,6 +2,7 @@ package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -94,6 +95,18 @@ public class CountryRepositoryTest {
 		assertNotNull(belgium);
 		assertEquals("Belgium", belgium.getName());
 	}
+	
+	@Test
+	@Sql("classpath:SQL/ResumeSchema.sql")
+	public void testDeleteCountryById() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));	
+		Country tempCountry = insertACountry("temp");
+		assertEquals(1, countRowsInTable(jdbcTemplate, "Country"));
+		countryRepo.delete(tempCountry);
+		assertNull(countryRepo.getCountryByName("temp"));
+		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
+	}
+	
 	
 	private Country insertACountry(String name) {
 		Country country = new Country();
