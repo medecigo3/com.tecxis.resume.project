@@ -12,6 +12,8 @@ public class CityPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@SequenceGenerator(name="CITY_SEQ" )
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_CITYID_GENERATOR")
 	@Column(name="CITY_ID")
 	private long cityId;
 

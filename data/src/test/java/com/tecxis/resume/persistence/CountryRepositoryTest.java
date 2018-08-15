@@ -19,7 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.BeforeTransaction;
+import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +35,10 @@ import com.tecxis.resume.Country;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CountryRepositoryTest {
 	
+	public static final String BELGIUM = "Belgium";
+	public static final String FRANCE = "France";
+	public static final String UNITED_KINGDOM = "United Kingdom";
+
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -44,63 +48,48 @@ public class CountryRepositoryTest {
 	@Autowired
 	private CountryRepository countryRepo;
 	
-	@BeforeTransaction
-	void verifyInitialDatabaseState() {
-		// logic to verify the initial state before a transaction is started
-
-		 
-	}
-
-	@Before
-	public void setUpTestDataWithinTransaction() {
-	}
-
-
-
-	@After
-	public void cleanup() {
-	}
+	
 
 	@Test
 	@Sql("classpath:SQL/ResumeSchema.sql")
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
-		insertACountry("France");
+		insertACountry(FRANCE, countryRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, "COUNTRY"));
-		insertACountry("United Kingdom");
+		insertACountry(UNITED_KINGDOM, countryRepo, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, "COUNTRY"));
-		insertACountry("Belgium");
+		insertACountry(BELGIUM, countryRepo, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, "COUNTRY"));
 		
 	}
 	
 	@Test
 	public void shouldBeAbleToFindInsertedCountry() {
-		Country countryIn = insertACountry("France");
+		Country countryIn = insertACountry(FRANCE, countryRepo, entityManager);
 		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
 	}
 	
 	@Test
 	@Sql("classpath:SQL/ResumeSchema.sql")
-	@Sql(scripts="classpath:SQL/ResumeData.sql", executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(scripts="classpath:SQL/CreateResumeData.sql", executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCountryByName() {
-		Country uk = countryRepo.getCountryByName("United Kingdom");
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertNotNull(uk);
-		assertEquals("United Kingdom", uk.getName());
-		Country france = countryRepo.getCountryByName("France");
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		Country france = countryRepo.getCountryByName(FRANCE);
 		assertNotNull(france);
-		assertEquals("France", france.getName());
-		Country belgium = countryRepo.getCountryByName("Belgium");
+		assertEquals(FRANCE, france.getName());
+		Country belgium = countryRepo.getCountryByName(BELGIUM);
 		assertNotNull(belgium);
-		assertEquals("Belgium", belgium.getName());
+		assertEquals(BELGIUM, belgium.getName());
 	}
 	
 	@Test
 	@Sql("classpath:SQL/ResumeSchema.sql")
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));	
-		Country tempCountry = insertACountry("temp");
+		Country tempCountry = insertACountry("temp", countryRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, "Country"));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
@@ -108,7 +97,7 @@ public class CountryRepositoryTest {
 	}
 	
 	
-	private Country insertACountry(String name) {
+	public static Country insertACountry(String name, CountryRepository countryRepo, EntityManager entityManager) {
 		Country country = new Country();
 		country.setName(name);
 		assertEquals(0, country.getId());
