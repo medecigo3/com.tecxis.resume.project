@@ -32,6 +32,7 @@ import com.tecxis.resume.Country;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CountryRepositoryTest {
 	
+	public static final String COUNTRY_TABLE = "COUNTRY";
 	public static final String BELGIUM = "Belgium";
 	public static final String FRANCE = "France";
 	public static final String UNITED_KINGDOM = "United Kingdom";
@@ -53,13 +54,13 @@ public class CountryRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testShouldCreateRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		insertACountry(FRANCE, countryRepo, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, "COUNTRY"));
+		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		insertACountry(UNITED_KINGDOM, countryRepo, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, "COUNTRY"));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		insertACountry(BELGIUM, countryRepo, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, "COUNTRY"));
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
 	}
 	
@@ -89,12 +90,12 @@ public class CountryRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
 		Country tempCountry = insertACountry("temp", countryRepo, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, "Country"));
+		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
-		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 	}
 	
 	
