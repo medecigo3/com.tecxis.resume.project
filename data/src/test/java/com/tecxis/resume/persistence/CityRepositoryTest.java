@@ -41,6 +41,9 @@ public class CityRepositoryTest {
 	public static final String BRUSSELS = "Brussels";
 	public static final String PARIS = "Paris";
 	public static final String LONDON = "London";
+	private static long FRANCE_ID;
+	private static long UK_ID;
+	private static long BELGIUM_ID;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -50,12 +53,13 @@ public class CityRepositoryTest {
 	
 	@Autowired
 	private CityRepository cityRepo;
+	
 	@Autowired
 	private CountryRepository countryRepo;
 	
-	
+
 	@Before
-	public void setUpTestDataWithinTransaction() {
+	public void setUpTestData() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
 		insertACountry("France", countryRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, "COUNTRY"));
@@ -63,6 +67,10 @@ public class CityRepositoryTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, "COUNTRY"));
 		insertACountry("Belgium", countryRepo, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, "COUNTRY"));
+		
+		UK_ID = countryRepo.getCountryByName(UNITED_KINGDOM).getId();
+		FRANCE_ID = countryRepo.getCountryByName(FRANCE).getId();
+		BELGIUM_ID = countryRepo.getCountryByName(BELGIUM).getId();
 	}
 
 
@@ -74,19 +82,31 @@ public class CityRepositoryTest {
 	
 	
 	@Sql(
-	    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "City"));
-		insertACity(LONDON, countryRepo.getCountryByName(UNITED_KINGDOM).getId(), cityRepo, entityManager);
+		insertACity(LONDON, UK_ID, cityRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, "City"));
-		insertACity(PARIS, countryRepo.getCountryByName(FRANCE).getId(), cityRepo, entityManager);
+		insertACity(PARIS, FRANCE_ID, cityRepo, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, "City"));
-		insertACity(BRUSSELS, countryRepo.getCountryByName(BELGIUM).getId(), cityRepo, entityManager);
+		insertACity(BRUSSELS, BELGIUM_ID, cityRepo, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, "City"));
 	}
+	
+	@Sql(
+	    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	@Test
+	public void shouldBeAbleToFindInsertedCity() {
+		City cityIn = insertACity(BRUSSELS, BELGIUM_ID, cityRepo, entityManager);
+		City cityOut = cityRepo.getCityByName(BRUSSELS);
+		assertEquals(cityIn, cityOut);
+	}
+	
 	
 	public static City insertACity(String name, long countryId, CityRepository cityRepo, EntityManager entityManager) {
 		CityPK cityPk = new CityPK();

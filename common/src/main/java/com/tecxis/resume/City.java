@@ -1,5 +1,9 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -60,6 +64,21 @@ public class City implements Serializable {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}	
+	
+	@Override
+	public boolean equals(Object obj) {
+		return reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return reflectionToString(this);
 	}
 
 }
