@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.CountryRepositoryTest.*;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
@@ -11,7 +11,6 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.City;
 import com.tecxis.resume.CityPK;
+import com.tecxis.resume.Country;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,6 +38,7 @@ import com.tecxis.resume.CityPK;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityRepositoryTest {
 	
+	
 	public static final String CITY_TABLE = "CITY";
 	public static final String BRUSSELS = "Brussels";
 	public static final String PARIS = "Paris";
@@ -45,7 +46,8 @@ public class CityRepositoryTest {
 	private static long FRANCE_ID;
 	private static long UK_ID;
 	private static long BELGIUM_ID;
-
+	
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -61,24 +63,24 @@ public class CityRepositoryTest {
 
 	@Before
 	public void setUpTestData() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry("France", countryRepo, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry("United Kingdom", countryRepo, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry("Belgium", countryRepo, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		if (uk != null)
+			UK_ID = uk.getId();
+		else
+			UK_ID = insertACountry("United Kingdom", countryRepo, entityManager).getId();
 		
-		UK_ID = countryRepo.getCountryByName(UNITED_KINGDOM).getId();
-		FRANCE_ID = countryRepo.getCountryByName(FRANCE).getId();
-		BELGIUM_ID = countryRepo.getCountryByName(BELGIUM).getId();
-	}
+		Country france = countryRepo.getCountryByName(FRANCE);
+		if (france != null) 
+			FRANCE_ID = france.getId();
+		else
+			FRANCE_ID = insertACountry("France", countryRepo, entityManager).getId();
+		
+		Country belgium = countryRepo.getCountryByName(BELGIUM);
+		if (belgium != null)
+			BELGIUM_ID = belgium.getId();
+		else
+			BELGIUM_ID = insertACountry("Belgium", countryRepo, entityManager).getId();		
 
-
-
-	@After
-	public void cleanup() {
-		cityRepo.deleteAll();
 	}
 	
 	
@@ -104,18 +106,32 @@ public class CityRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedCity() {
 		City cityIn = insertACity(BRUSSELS, BELGIUM_ID, cityRepo, entityManager);
-		City cityOut = cityRepo.getCityByName(BRUSSELS);
+		City cityOut = cityRepo.getCityByName(BRUSSELS);		
 		assertEquals(cityIn, cityOut);
 	}
 	
-	
-//	@Test
-//	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
-//	public void testDeleteCityByName() {
-//		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-//	}
-	
-	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindCityByName() {
+		City london = cityRepo.getCityByName(LONDON);
+		assertNotNull(london);
+		assertEquals(LONDON, london.getName());
+		City paris = cityRepo.getCityByName(PARIS);
+		assertNotNull(paris);
+		assertEquals(PARIS, paris.getName());
+		City brussels = cityRepo.getCityByName(BRUSSELS);
+		assertNotNull(brussels);
+		assertEquals(BRUSSELS, brussels.getName());
+	}
+		
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteCityByName() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+	}
+		
 	public static City insertACity(String name, long countryId, CityRepository cityRepo, EntityManager entityManager) {
 		CityPK cityPk = new CityPK();
 		cityPk.setCountryId(countryId);
