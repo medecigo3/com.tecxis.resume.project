@@ -74,8 +74,8 @@ public class CityRepositoryTest {
 	
 	
 	@Sql(
-		    scripts = "classpath:SQL/ResumeSchema.sql",
-		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+	    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
 	public void testShouldCreateRowsAndSetIds() {

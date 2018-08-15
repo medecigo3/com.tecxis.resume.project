@@ -8,8 +8,6 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +48,10 @@ public class CountryRepositoryTest {
 	
 
 	@Test
-	@Sql("classpath:SQL/ResumeSchema.sql")
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));
 		insertACountry(FRANCE, countryRepo, entityManager);
@@ -71,8 +71,9 @@ public class CountryRepositoryTest {
 	}
 	
 	@Test
-	@Sql("classpath:SQL/ResumeSchema.sql")
-	@Sql(scripts="classpath:SQL/CreateResumeData.sql", executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCountryByName() {
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertNotNull(uk);
@@ -86,7 +87,7 @@ public class CountryRepositoryTest {
 	}
 	
 	@Test
-	@Sql("classpath:SQL/ResumeSchema.sql")
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, "Country"));	
 		Country tempCountry = insertACountry("temp", countryRepo, entityManager);
