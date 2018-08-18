@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -97,6 +97,17 @@ public class ClientRepositoryTest {
 		assertEquals(MICROPOLE, micropole.getName());
 		
 		
+	}
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteClientByName() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		Client tempClient = insertAClient(BARCLAYS, clientRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		clientRepo.delete(tempClient);
+		assertNull(clientRepo.getClientByName(SAGEMCOM));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 	}
 
 	public static Client insertAClient(String name, ClientRepository clientRepo, EntityManager entityManager) {
