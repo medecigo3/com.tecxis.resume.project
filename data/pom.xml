@@ -49,10 +49,6 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -75,6 +71,14 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest-junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 
