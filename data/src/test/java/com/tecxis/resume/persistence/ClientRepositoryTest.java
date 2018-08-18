@@ -53,7 +53,7 @@ public class ClientRepositoryTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
-	public void testInsertAClient() {
+	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		insertAClient(BARCLAYS, clientRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
