@@ -1,7 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.jdbc.JdbcTestUtils.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +32,10 @@ public class ClientRepositoryTest {
 	
 	public static String CLIENT_TABLE =	"Client";
 	public static String BARCLAYS = "Barclays";
+	public static String AGEAS = "Ageas (Formerly Fortis)";
+	public static String ACCENTURE = "Accenture";
+	public static String SAGEMCOM = "Sagemcom";
+	public static String MICROPOLE = "Micropole";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -49,9 +54,27 @@ public class ClientRepositoryTest {
 	public void testInsertAClient() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		insertAClient(BARCLAYS, clientRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		insertAClient(AGEAS, clientRepo, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		insertAClient(ACCENTURE, clientRepo, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		
 	}
 	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	public void findInsertedClient() {
+		Client clientIn = insertAClient(BARCLAYS, clientRepo, entityManager);
+		Client clientOut = clientRepo.getClientByName(clientIn.getName());
+		assertEquals(clientIn, clientOut);
+		
+	}
+	
+
 	public static Client insertAClient(String name, ClientRepository clientRepo, EntityManager entityManager) {
 		Client client = new Client();
 		client.setName(name);
