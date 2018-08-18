@@ -65,6 +65,10 @@ public class CountryRepositoryTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
 	public void shouldBeAbleToFindInsertedCountry() {
 		Country countryIn = insertACountry(FRANCE, countryRepo, entityManager);
 		Country countryOut = countryRepo.getCountryById(countryIn.getId());
