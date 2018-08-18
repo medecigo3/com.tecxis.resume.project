@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import java.util.Date;
@@ -104,6 +104,17 @@ public class StaffRepositoryTest {
 		assertEquals(AMT_LASTNAME , amt.getLastname());
 	}
 	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteStaffById() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, staffRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		staffRepo.delete(tempStaff.getStaffId());
+		assertNull(staffRepo.getStaffByName(AMT_NAME));
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		
+	}
 
 	
 	public static Staff insertAStaff(String firstName, String lastName, StaffRepository staffRepo, EntityManager entityManager) {
