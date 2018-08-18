@@ -92,7 +92,7 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffByLastName() {
+	public void testGetStaffByLastname() {
 		Staff amt = staffRepo.getStaffByLastname(AMT_LASTNAME);
 		assertNotNull(amt);
 		assertEquals(AMT_NAME, amt.getName());
@@ -104,13 +104,7 @@ public class StaffRepositoryTest {
 		assertEquals(AMT_LASTNAME , amt.getLastname());
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffByLastname() {
-		
-	}
+
 	
 	public static Staff insertAStaff(String firstName, String lastName, StaffRepository staffRepo, EntityManager entityManager) {
 		Staff staff = new Staff();
