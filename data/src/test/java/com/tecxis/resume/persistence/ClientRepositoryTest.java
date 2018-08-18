@@ -2,6 +2,7 @@ package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
@@ -33,6 +35,7 @@ public class ClientRepositoryTest {
 	public static String CLIENT_TABLE =	"Client";
 	public static String BARCLAYS = "Barclays";
 	public static String AGEAS = "Ageas (Formerly Fortis)";
+	public static String AGEAS_SHORT = "Ageas%";
 	public static String ACCENTURE = "Accenture";
 	public static String SAGEMCOM = "Sagemcom";
 	public static String MICROPOLE = "Micropole";
@@ -74,6 +77,28 @@ public class ClientRepositoryTest {
 		
 	}
 	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetClientByName() {
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		assertNotNull(barclays);
+		assertEquals(BARCLAYS, barclays.getName());
+		/**Tests query by name with LIKE expression*/
+		Client ageasShort = clientRepo.getClientByName(AGEAS_SHORT);
+		assertNotNull(ageasShort);
+		assertTrue(ageasShort.getName().startsWith("Ageas"));
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		assertNotNull(ageas);
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ageas, ageasShort);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertNotNull(micropole);
+		assertEquals(MICROPOLE, micropole.getName());
+		
+		
+	}
 
 	public static Client insertAClient(String name, ClientRepository clientRepo, EntityManager entityManager) {
 		Client client = new Client();
