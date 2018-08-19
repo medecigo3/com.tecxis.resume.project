@@ -22,9 +22,9 @@ public class Interest implements Serializable {
 	private String desc;
 
 	//bi-directional many-to-one association to Staff
-	@ManyToOne
-	@JoinColumn(name="STAFF_ID")
-	private Staff staff;
+//	@ManyToOne
+//	@JoinColumn(name="STAFF_ID")
+//	private Staff staff;
 
 	public Interest() {
 	}
@@ -45,12 +45,12 @@ public class Interest implements Serializable {
 		this.desc = desc;
 	}
 
-	public Staff getStaff() {
-		return this.staff;
-	}
+//	public Staff getStaff() {
+//		return this.staff;
+//	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
+//	public void setStaff(Staff staff) {
+//		this.staff = staff;
+//	}
 
 }

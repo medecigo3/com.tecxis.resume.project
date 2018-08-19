@@ -62,7 +62,13 @@ public class Staff implements Serializable {
 	private List<Course> courses;
 
 	//bi-directional many-to-one association to Interest
-	@OneToMany(mappedBy="staff")
+//	DB terms: Staff is the owner of the relationship as it could contain a foreign ket to Staff
+//	@OneToMany(mappedBy="staff")
+	/**
+	 * uni-directional association to Staff
+	 * In OO terms: this Staff "has" Interest(s)
+	 */
+	@OneToMany
 	private List<Interest> interests;
 
 	//bi-directional many-to-one association to Project
@@ -179,14 +185,14 @@ public class Staff implements Serializable {
 
 	public Interest addInterest(Interest interest) {
 		getInterests().add(interest);
-		interest.setStaff(this);
+//		interest.setStaff(this);
 
 		return interest;
 	}
 
 	public Interest removeInterest(Interest interest) {
 		getInterests().remove(interest);
-		interest.setStaff(null);
+//		interest.setStaff(null);
 
 		return interest;
 	}
