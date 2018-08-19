@@ -27,11 +27,11 @@ public class Project implements Serializable {
 	private String desc;
 
 //	bi-directional many-to-one association to Assignment 
-//	DB terms: Assignment is the owner of the relationship as it contains a foreign key to this Project
+//	In SQL terms, Assignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="project")
 	/**
 	 * uni-directional one-to-many association to Assignment.
-	 * OO terms: this Project "is composed of" Assignments
+	 * In OO terms, this Project "is composed of" Assignments
 	 * 
 	 */	
 	@OneToMany

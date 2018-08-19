@@ -26,11 +26,11 @@ public class Service implements Serializable {
 	private String name;
 
 //	bi-directional many-to-one association to Contract
-//	DB terms: Contract is the owner of the relationship as it contains a foreign key to this Service
+//	In SQL terms, Contract is the "owner" of this relationship with Service as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="service")
 	/**
 	 * uni-directional one-to-many association to Contract.
-	 * OO terms: this Service "engages" Contracts 
+	 * In OO terms, this Service "engages" Contracts 
 	 */
 	@OneToMany
 	private List<Contract> contracts;

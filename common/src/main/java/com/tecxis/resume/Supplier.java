@@ -19,11 +19,11 @@ public class Supplier implements Serializable {
 	private String name;
 
 //	bi-directional many-to-one association to Contract. 
-//	DB terms: Contract is the owner of the relationship as it contains a foreign key to this Supplier
+//	In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="supplier")
 	/**
 	 * uni-directional one-to-many association to Contract. 
-	 * OO terms: this Supplier "holds" Contracts.
+	 * In OO terms, this Supplier "holds" Contracts.
 	 */
 	@OneToMany
 	private List<Contract> contracts;

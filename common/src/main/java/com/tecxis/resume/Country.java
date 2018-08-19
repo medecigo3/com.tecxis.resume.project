@@ -26,11 +26,11 @@ public class Country implements Serializable {
 	private String name;
 
 //	bi-directional many-to-one association to City
-//	DB terms: City is the owner of the relatoinship as it contains a foreign key to this Country 
+//	In SQL terms, City is the "owner" of this relationship with Country as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="country")
 	/**
 	 * uni-directional association to City
-	 * OO terms: this Country "has a" City
+	 * In OO terms, this Country "has a" City
 	 */
 	@OneToMany
 	private List<City> cities;

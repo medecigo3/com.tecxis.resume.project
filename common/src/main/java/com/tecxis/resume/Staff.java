@@ -41,7 +41,7 @@ public class Staff implements Serializable {
 	private String name;
 
 //	bi-directional many-to-one association to Enrolment -----> replaced by many-to-many association with Course
-//	DB terms: Enrolment is the owner of the relationship as it contains a foreign key to this Staff
+//	In SQL terms, Enrolment is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="staff")
 //	@OneToMany
 //	private List<Enrolment> enrolments;
@@ -62,21 +62,21 @@ public class Staff implements Serializable {
 	private List<Course> courses;
 
 	//bi-directional many-to-one association to Interest
-//	DB terms: Staff is the owner of the relationship as it could contain a foreign ket to Staff
+//	In SQL terms, Staff is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional association to Staff
-	 * In OO terms: this Staff "has" Interest(s)
+	 * In OO terms, this Staff "has" Interest(s)
 	 */
 	@OneToMany
 	private List<Interest> interests;
 
 	//bi-directional many-to-one association to Project
-//	DB terms: Project is the owner of this association as it contains a foreign key to this Staff
+//	In SQL terms, Project is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional one-to-many association to Project
-	 * OO terms: this Staff "works on" Projects
+	 * In OO terms, this Staff "works on" Projects
 	 */
 	@OneToMany
 	private List<Project> projects;
@@ -101,11 +101,11 @@ public class Staff implements Serializable {
 	private List<Skill> skills;
 	
 	//bi-directional many-to-one association to Supplier
-//	DB terms: Supplier is the owner of the relationship as it contains a foreign key to this Staff
+//	In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional one-to-many association to Supplier
-	 * OO terms: this Staff "works for" Suppliers
+	 * In OO terms, this Staff "works for" Suppliers
 	 */
 	@OneToMany
 	private List<Supplier> suppliers;
