@@ -38,6 +38,8 @@ public class ClientRepositoryTest {
 	public static String ACCENTURE = "Accenture";
 	public static String SAGEMCOM = "Sagemcom";
 	public static String MICROPOLE = "Micropole";
+	public static String BELFIUS = "Belfius";
+	public static String AXELTIS = "Axeltis";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
