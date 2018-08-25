@@ -1,7 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -38,8 +39,8 @@ public class ClientRepositoryTest {
 	public static String ACCENTURE = "Accenture";
 	public static String SAGEMCOM = "Sagemcom";
 	public static String MICROPOLE = "Micropole";
-	public static String BELFIUS = "Belfius";
-	public static String AXELTIS = "Axeltis";
+	public static String BELFIUS = "Belfius Insurance";
+	public static String AXELTIS = "Axeltis (Natixis group)";
 	public static String EULER_HERMES = "Euler Hermes";
 	
 	@PersistenceContext
