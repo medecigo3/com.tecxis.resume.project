@@ -6,6 +6,7 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM
 import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -129,6 +130,11 @@ public class CityRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCityByName() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		City tempCity = insertACity(LONDON, UK_ID, cityRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		cityRepo.delete(tempCity);
+		assertNull(cityRepo.getCityByName(LONDON));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 	}
 		
