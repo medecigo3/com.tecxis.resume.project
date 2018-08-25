@@ -4,7 +4,7 @@ package com.tecxis.resume.persistence;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.*;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
@@ -91,6 +91,20 @@ public class ProjectRepositoryTest {
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 	}
 	
+	
+	@Sql(
+		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	@Test
+	public void shouldBeAbleToFindInsertedProject() {
+		Client euler = insertAClient(EULER_HERMES, clientRepo, entityManager);
+		Staff jhon = insertAStaff(JHON_NAME, JHON_LASTNAME, staffRepo, entityManager);
+		Project eolisIn = insertAProject(EOLIS, VERSION_2, euler.getClientId(), jhon.getStaffId(), projectRepo, entityManager);
+		Project eolisOut = projectRepo.findByProjectPk_Name(EOLIS);
+		assertEquals(eolisIn, eolisOut);
+	}
+	
 	public static Project insertAProject(String name, String version, long clientId, long staffId, ProjectRepository projectRepo, EntityManager entityManager) {
 		ProjectPK projectPk = new ProjectPK();
 		projectPk.setName(name);
@@ -98,11 +112,11 @@ public class ProjectRepositoryTest {
 		projectPk.setClientId(clientId);
 		projectPk.setStaffId(staffId);		
 		Project project = new Project();
-		project.setId(projectPk);
+		project.setProjectPk(projectPk);
 		projectRepo.save(project);
 		projectRepo.flush();
 		return project;
 
 	}
-
+	
 }

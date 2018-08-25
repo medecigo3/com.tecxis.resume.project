@@ -6,4 +6,5 @@ import com.tecxis.resume.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+	public Project findByProjectPk_Name(String name);
 }

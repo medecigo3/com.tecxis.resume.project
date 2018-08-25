@@ -40,6 +40,7 @@ public class ClientRepositoryTest {
 	public static String MICROPOLE = "Micropole";
 	public static String BELFIUS = "Belfius";
 	public static String AXELTIS = "Axeltis";
+	public static String EULER_HERMES = "Euler Hermes";
 	
 	@PersistenceContext
 	private EntityManager entityManager;

@@ -1,5 +1,9 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,7 +25,7 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private ProjectPK id;
+	private ProjectPK projectPk;
 
 	@Column(name="\"DESC\"")
 	private String desc;
@@ -69,12 +73,12 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public ProjectPK getId() {
-		return this.id;
+	public ProjectPK getProjectPk() {
+		return this.projectPk;
 	}
 
-	public void setId(ProjectPK id) {
-		this.id = id;
+	public void setProjectPk(ProjectPK projectPk) {
+		this.projectPk = projectPk;
 	}
 
 	public String getDesc() {
@@ -130,5 +134,20 @@ public class Project implements Serializable {
 //	public void setStaff(Staff staff) {
 //		this.staff = staff;
 //	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return reflectionToString(this);
+	}
 
 }
