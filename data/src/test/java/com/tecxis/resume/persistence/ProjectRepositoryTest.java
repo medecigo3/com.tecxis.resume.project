@@ -5,6 +5,7 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
@@ -13,6 +14,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -167,6 +169,20 @@ public class ProjectRepositoryTest {
 		assertEquals(MORNINGSTAR, morningstarv2.getProjectPk().getName());
 		assertEquals(VERSION_2, morningstarv2.getProjectPk().getVersion());
 	}
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteProject() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client barclays = insertAClient(SAGEMCOM, clientRepo, entityManager);
+		Staff amt= insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Project tempProject = insertAProject(TED, VERSION_1, barclays.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		projectRepo.delete(tempProject);
+		assertNull(projectRepo.findByProjectPk_NameAndProjectPk_Version(TED, VERSION_1));
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+	}
+	
 	
 	public static Project insertAProject(String name, String version, long clientId, long staffId, ProjectRepository projectRepo, EntityManager entityManager) {
 		ProjectPK projectPk = new ProjectPK();
