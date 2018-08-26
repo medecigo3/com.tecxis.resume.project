@@ -112,7 +112,7 @@ public class StaffRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, staffRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		staffRepo.delete(tempStaff.getStaffId());
+		staffRepo.delete(tempStaff);
 		assertNull(staffRepo.getStaffByName(AMT_NAME));
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
