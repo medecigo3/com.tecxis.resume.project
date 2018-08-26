@@ -83,7 +83,11 @@ public class InterestRepositoryTest {
 		insertAnInterest(RUNNING, interestRepo, entityManager);		
 		insertAnInterest(SWIMMING, interestRepo, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(RUNNING);
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestByDesc(RUNNING);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
 		assertEquals(RUNNING, hobbyList.get(0).getDesc());
@@ -96,6 +100,18 @@ public class InterestRepositoryTest {
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());
 		
+	}
+	
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteInterest() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		Interest tempInterest = insertAnInterest(HOBBY, interestRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		interestRepo.delete(tempInterest);
+		assertEquals(0, interestRepo.getInterestByDesc(HOBBY).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 	}
 	
 	public static Interest insertAnInterest(String desc, InterestRepository interestRepo, EntityManager entityManager) {
