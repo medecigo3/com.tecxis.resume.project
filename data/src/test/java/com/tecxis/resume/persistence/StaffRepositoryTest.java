@@ -108,7 +108,7 @@ public class StaffRepositoryTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
-	public void testDeleteStaffById() {
+	public void testDeleteStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, staffRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
