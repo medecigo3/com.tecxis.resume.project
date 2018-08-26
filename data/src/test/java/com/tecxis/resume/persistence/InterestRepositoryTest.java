@@ -33,7 +33,9 @@ import com.tecxis.resume.Interest;
 public class InterestRepositoryTest {
 
 	public static final String INTEREST_TABLE = "Interest";
-	public static final String HOBBY = "Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I''ve found a new passion in road bike riding.";
+	public static final String HOBBY = "Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I've found a new passion in road bike riding.";
+	public static final String RUNNING = "Running";
+	public static final String SWIMMING = "Swimming";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -53,6 +55,10 @@ public class InterestRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		insertAnInterest(HOBBY, interestRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		insertAnInterest(RUNNING, interestRepo, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		insertAnInterest(SWIMMING, interestRepo, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		
 	}
 	
@@ -68,7 +74,30 @@ public class InterestRepositoryTest {
 		Interest hobbyOut = hobbyOutList.get(0);
 		assertEquals(hobbyIn, hobbyOut);
 	}
-
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetInterestByDesc() {
+		insertAnInterest(RUNNING, interestRepo, entityManager);		
+		insertAnInterest(SWIMMING, interestRepo, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(RUNNING);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(RUNNING, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestByDesc(SWIMMING);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(SWIMMING, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestByDesc("%bike%");
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());
+		
+	}
+	
 	public static Interest insertAnInterest(String desc, InterestRepository interestRepo, EntityManager entityManager) {
 		Interest interest = new Interest();
 		interest.setDesc(desc);
