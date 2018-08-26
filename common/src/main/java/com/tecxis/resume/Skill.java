@@ -1,5 +1,9 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +22,7 @@ public class Skill implements Serializable {
 	@SequenceGenerator(name="SKILL_SEQ" )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SKILL_SKILLID_GENERATOR")
 	@Column(name="SKILL_ID")
-	private String skillId;
+	private long skillId;
 
 	private String name;
 
@@ -37,11 +41,11 @@ public class Skill implements Serializable {
 	public Skill() {
 	}
 
-	public String getSkillId() {
+	public long getSkillId() {
 		return this.skillId;
 	}
 
-	public void setSkillId(String skillId) {
+	public void setSkillId(long skillId) {
 		this.skillId = skillId;
 	}
 
@@ -83,5 +87,18 @@ public class Skill implements Serializable {
 //		return staffSkill;
 //	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return reflectionEquals(this, obj);
+	}
 
+	@Override
+	public int hashCode() {
+		return reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return reflectionToString(this);
+	}
 }

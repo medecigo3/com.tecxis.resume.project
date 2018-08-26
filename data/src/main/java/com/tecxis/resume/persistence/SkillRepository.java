@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tecxis.resume.Skill;
 
-public interface SkillRespository extends JpaRepository<Skill, Long> {
+public interface SkillRepository extends JpaRepository<Skill, Long> {
+
+	public Skill getSkillByName(String tibco);
 
 }
