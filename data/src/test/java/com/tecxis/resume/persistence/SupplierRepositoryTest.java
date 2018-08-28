@@ -66,6 +66,48 @@ public class SupplierRepositoryTest {
 		
 	}
 	
+	@Sql(
+		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	@Test
+	public void shouldBeAbleToFindInsertedSupplier() {
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Supplier supplierIn = insertASupplier(amt.getStaffId(), ALPHATRESS, supplierRepo, entityManager);
+		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
+		assertEquals(supplierIn, supplierOut);
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindSupplierByName() {
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		assertNotNull(accenture);
+		assertEquals(ACCENTURE, accenture.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertNotNull(fastconnect);
+		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
+		assertNotNull(alterna);
+		assertEquals(ALTERNA, alterna.getName());
+		
+	}
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteSupplier() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Supplier tempSupplier = insertASupplier(amt.getStaffId(), AMESYS, supplierRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		supplierRepo.delete(tempSupplier);
+		assertNull(supplierRepo.getSupplierByName(AMESYS));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+	}
+		
 	public static Supplier insertASupplier(long staffId, String name, SupplierRepository supplierRepo, EntityManager entityManager) {
 		SupplierPK supplierPk = new SupplierPK();
 		supplierPk.setStaffId(staffId);
