@@ -129,7 +129,7 @@ public class CityRepositoryTest {
 		
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
-	public void testDeleteCityByName() {
+	public void testDeleteCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City tempCity = insertACity(LONDON, UK_ID, cityRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
