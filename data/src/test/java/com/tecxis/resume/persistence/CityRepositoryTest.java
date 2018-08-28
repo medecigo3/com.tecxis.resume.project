@@ -146,7 +146,7 @@ public class CityRepositoryTest {
 		city.setName(name);
 		city.setId(cityPk);		
 		cityRepo.save(city);
-		assertNotNull(city.getId());
+		assertNotNull(city.getId().getCityId());
 		entityManager.flush();
 		return city;
 		

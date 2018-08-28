@@ -13,17 +13,17 @@ public class SupplierPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="SUPPLIER_ID")
-	private String supplierId;
+	private long supplierId;
 
 	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
 
 	public SupplierPK() {
 	}
-	public String getSupplierId() {
+	public long getSupplierId() {
 		return this.supplierId;
 	}
-	public void setSupplierId(String supplierId) {
+	public void setSupplierId(long supplierId) {
 		this.supplierId = supplierId;
 	}
 	public long getStaffId() {
@@ -42,14 +42,14 @@ public class SupplierPK implements Serializable {
 		}
 		SupplierPK castOther = (SupplierPK)other;
 		return 
-			this.supplierId.equals(castOther.supplierId)
+			this.supplierId== castOther.supplierId
 			&& (this.staffId == castOther.staffId);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.supplierId.hashCode();
+		hash = hash * prime + + ((int) (this.supplierId ^ (this.supplierId >>> 32)));
 		hash = hash * prime + ((int) (this.staffId ^ (this.staffId >>> 32)));
 		
 		return hash;
