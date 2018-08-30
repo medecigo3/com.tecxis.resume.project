@@ -107,6 +107,16 @@ public class ServiceRepositoryTest {
 		
 	}
 
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteService() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		Service tempService = insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		serviceRepo.delete(tempService);
+		assertEquals(0, serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+	}
 	
 	public static Service insertAService(String name, ServiceRepository serviceRepo, EntityManager entityManager) {
 		Service service = new Service();
