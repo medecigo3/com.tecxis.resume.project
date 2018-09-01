@@ -16,7 +16,7 @@ public class ContractPK implements Serializable {
 	private long clientId;
 
 	@Column(name="SUPPLIER_ID", insertable=false, updatable=false)
-	private String supplierId;
+	private long supplierId;
 
 	@Column(name="SERVICE_ID", insertable=false, updatable=false)
 	private long serviceId;
@@ -35,10 +35,10 @@ public class ContractPK implements Serializable {
 	public void setClientId(long clientId) {
 		this.clientId = clientId;
 	}
-	public String getSupplierId() {
+	public long getSupplierId() {
 		return this.supplierId;
 	}
-	public void setSupplierId(String supplierId) {
+	public void setSupplierId(long supplierId) {
 		this.supplierId = supplierId;
 	}
 	public long getServiceId() {
@@ -70,7 +70,7 @@ public class ContractPK implements Serializable {
 		ContractPK castOther = (ContractPK)other;
 		return 
 			(this.clientId == castOther.clientId)
-			&& this.supplierId.equals(castOther.supplierId)
+			&& this.supplierId == castOther.supplierId
 			&& (this.serviceId == castOther.serviceId)
 			&& (this.contractId == castOther.contractId)
 			&& (this.staffId == castOther.staffId);
@@ -80,7 +80,7 @@ public class ContractPK implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
-		hash = hash * prime + this.supplierId.hashCode();
+		hash = hash * prime + ((int) (this.supplierId ^ (this.supplierId >>> 32)));
 		hash = hash * prime + ((int) (this.serviceId ^ (this.serviceId >>> 32)));
 		hash = hash * prime + ((int) (this.contractId ^ (this.contractId >>> 32)));
 		hash = hash * prime + ((int) (this.staffId ^ (this.staffId >>> 32)));
