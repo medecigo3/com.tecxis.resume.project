@@ -1,11 +1,16 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.insertAService;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.insertASupplier;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -137,11 +142,30 @@ public class ContractRepositoryTest {
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Client accenture = insertAClient(ClientRepositoryTest.ACCENTURE, clientRepo, entityManager);
+		Client accenture = insertAClient(AXELTIS, clientRepo, entityManager);
 		Service dev = insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
-		Supplier alterna = insertASupplier(amt.getStaffId(), SupplierRepositoryTest.ALTERNA, supplierRepo, entityManager);
+		Supplier alterna = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
 		insertAContract(accenture.getClientId(), alterna.getId().getSupplierId(), dev.getServiceId(), amt.getStaffId(), CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, contractRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+	}
+	
+	@Sql(
+		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	public void shouldBeAbleToFindInsertedContract() {
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);
+		Service consultant = insertAService(TIBCO_BW_CONSULTANT, serviceRepo, entityManager);
+		Supplier alphatress = insertASupplier(amt.getStaffId(), ALPHATRESS, supplierRepo, entityManager);
+		Contract contractIn = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, contractRepo, entityManager);
+		Contract contractOut = contractRepo.getContractByStartDate(CONTRACT12_STARTDATE);
+		assertNotNull(contractOut);
+		assertEquals(contractIn, contractOut);
+		
+		contractOut = contractRepo.getContractByEndDate(CONTRACT12_ENDDATE);
+		assertNotNull(contractOut);
+		assertEquals(contractIn, contractOut);
 	}
 
 	public static Contract insertAContract(long clientId, long supplierId, long serviceId, long staffId, Date startDate, Date endDate, ContractRepository contractRepo, EntityManager entityManager) {
