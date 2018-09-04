@@ -1,18 +1,18 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.*;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.insertAService;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.*;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.insertASupplier;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -79,6 +79,7 @@ public class ContractRepositoryTest {
 	public static final Date CONTRACT12_ENDDATE;
 	public static final Date CONTRACT13_STARTDATE;
 	public static final Date CONTRACT13_ENDDATE = null;
+	public static final Date CURRENT_DATE = new Date();
 	
 
 	@PersistenceContext
@@ -170,6 +171,22 @@ public class ContractRepositoryTest {
 		contractOut = contractRepo.getContractByEndDate(CONTRACT12_ENDDATE);
 		assertNotNull(contractOut);
 		assertEquals(contractIn, contractOut);
+	}
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	public void testDeleteContract() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Client barclays = insertAClient(EULER_HERMES, clientRepo, entityManager);
+		Service consultant = insertAService(MULE_ESB_CONSULTANT, serviceRepo, entityManager);
+		Supplier alphatress = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
+		Contract tempContract = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CURRENT_DATE, null, contractRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		contractRepo.delete(tempContract);
+		assertNull(contractRepo.getContractByStartDate(CURRENT_DATE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		
 	}
 
 	public static Contract insertAContract(long clientId, long supplierId, long serviceId, long staffId, Date startDate, Date endDate, ContractRepository contractRepo, EntityManager entityManager) {
