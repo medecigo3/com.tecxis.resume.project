@@ -23,7 +23,6 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,32 +53,32 @@ public class ContractRepositoryTest {
 	
 	private static final String CONTRACT_TABLE = "Contract";
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	public static Date CONTRACT1_STARTDATE;
-	public static Date CONTRACT1_ENDDATE;
-	public static Date CONTRACT2_STARTDATE;
-	public static Date CONTRACT2_ENDDATE;
-	public static Date CONTRACT3_STARTDATE;
-	public static Date CONTRACT3_ENDDATE;
-	public static Date CONTRACT4_STARTDATE;
-	public static Date CONTRACT4_ENDDATE;
-	public static Date CONTRACT5_STARTDATE;
-	public static Date CONTRACT5_ENDDATE;
-	public static Date CONTRACT6_STARTDATE;
-	public static Date CONTRACT6_ENDDATE;
-	public static Date CONTRACT7_STARTDATE;
-	public static Date CONTRACT7_ENDDATE;
-	public static Date CONTRACT8_STARTDATE;
-	public static Date CONTRACT8_ENDDATE;
-	public static Date CONTRACT9_STARTDATE;
-	public static Date CONTRACT9_ENDDATE;
-	public static Date CONTRACT10_STARTDATE;
-	public static Date CONTRACT10_ENDDATE;
-	public static Date CONTRACT11_STARTDATE;
-	public static Date CONTRACT11_ENDDATE;
-	public static Date CONTRACT12_STARTDATE;
-	public static Date CONTRACT12_ENDDATE;
-	public static Date CONTRACT13_STARTDATE;
-	public static Date CONTRACT13_ENDDATE;
+	public static final Date CONTRACT1_STARTDATE;
+	public static final Date CONTRACT1_ENDDATE;
+	public static final Date CONTRACT2_STARTDATE;
+	public static final Date CONTRACT2_ENDDATE;
+	public static final Date CONTRACT3_STARTDATE;
+	public static final Date CONTRACT3_ENDDATE;
+	public static final Date CONTRACT4_STARTDATE;
+	public static final Date CONTRACT4_ENDDATE;
+	public static final Date CONTRACT5_STARTDATE;
+	public static final Date CONTRACT5_ENDDATE;
+	public static final Date CONTRACT6_STARTDATE;
+	public static final Date CONTRACT6_ENDDATE;
+	public static final Date CONTRACT7_STARTDATE;
+	public static final Date CONTRACT7_ENDDATE;
+	public static final Date CONTRACT8_STARTDATE;
+	public static final Date CONTRACT8_ENDDATE;
+	public static final Date CONTRACT9_STARTDATE;
+	public static final Date CONTRACT9_ENDDATE;
+	public static final Date CONTRACT10_STARTDATE;
+	public static final Date CONTRACT10_ENDDATE;
+	public static final Date CONTRACT11_STARTDATE;
+	public static final Date CONTRACT11_ENDDATE;
+	public static final Date CONTRACT12_STARTDATE;
+	public static final Date CONTRACT12_ENDDATE;
+	public static final Date CONTRACT13_STARTDATE;
+	public static final Date CONTRACT13_ENDDATE = null;
 	
 
 	@PersistenceContext
@@ -103,8 +102,9 @@ public class ContractRepositoryTest {
 	@Autowired 
 	private StaffRepository staffRepo;
 	
-	@BeforeClass
-	public static void setup() throws ParseException {
+	
+	static{
+		try {
 		CONTRACT1_STARTDATE = sdf.parse("01/01/2007");
 		CONTRACT1_ENDDATE = sdf.parse("01/02/2008'");
 		CONTRACT2_STARTDATE = sdf.parse("01/03/2008");
@@ -130,6 +130,10 @@ public class ContractRepositoryTest {
 		CONTRACT12_STARTDATE = sdf.parse("01/03/2016");
 		CONTRACT12_ENDDATE = sdf.parse("01/08/2016");
 		CONTRACT13_STARTDATE = sdf.parse("01/08/2016");
+		}
+		catch (ParseException e) {
+			throw new IllegalArgumentException(e);
+		}
 			
 	}
 	
@@ -153,7 +157,7 @@ public class ContractRepositoryTest {
 		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
-	public void shouldBeAbleToFindInsertedContract() {
+	public void testFindInsertedContract() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
 		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);
 		Service consultant = insertAService(TIBCO_BW_CONSULTANT, serviceRepo, entityManager);

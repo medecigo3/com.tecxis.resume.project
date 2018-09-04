@@ -1,14 +1,19 @@
 package com.tecxis.resume.persistence;
 
+
+import static com.tecxis.resume.persistence.ContractRepositoryTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Client;
+import com.tecxis.resume.Contract;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -87,7 +93,7 @@ public class ClientRepositoryTest {
 	public void testGetClientByName() {
 		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		assertNotNull(barclays);
-		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(BARCLAYS, barclays.getName());		
 		/**Tests query by name with LIKE expression*/
 		Client ageasShort = clientRepo.getClientByName(AGEAS_SHORT);
 		assertNotNull(ageasShort);
@@ -99,6 +105,53 @@ public class ClientRepositoryTest {
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertNotNull(micropole);
 		assertEquals(MICROPOLE, micropole.getName());
+			
+	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetClientContracts() {
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		assertNotNull(barclays);
+		assertEquals(BARCLAYS, barclays.getName());
+		List <Contract> barclaysContractList = barclays.getContracts();
+		assertNotNull(barclaysContractList);
+		assertEquals(1, barclaysContractList.size());
+		Contract barclaysContract = barclaysContractList.get(0);
+		assertEquals(CONTRACT1_STARTDATE, barclaysContract.getStartDate());
+		assertEquals(CONTRACT1_ENDDATE, barclaysContract.getEndDate());		
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		assertNotNull(ageas);
+		assertEquals(AGEAS, ageas.getName());
+		assertNotNull(ageas.getContracts());
+		assertEquals(1, ageas.getContracts().size());
+		Contract ageasContract = ageas.getContracts().get(0);
+		assertEquals(CONTRACT2_STARTDATE, ageasContract.getStartDate());
+		assertEquals(CONTRACT2_ENDDATE, ageasContract.getEndDate());
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertNotNull(micropole);
+		assertEquals(MICROPOLE, micropole.getName());
+		assertNotNull(micropole.getContracts());
+		assertEquals(1, micropole.getContracts().size());
+		Contract micropoleContract = micropole.getContracts().get(0);
+		assertEquals(CONTRACT5_STARTDATE, micropoleContract.getStartDate());
+		assertEquals(CONTRACT5_ENDDATE, micropoleContract.getEndDate());
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertNotNull(axeltis.getContracts());
+		List <Contract> axeltisContracts = axeltis.getContracts();
+		assertEquals(2, axeltisContracts.size());
+		Contract axeltisContract1 = axeltisContracts.get(0);
+		assertThat(axeltisContract1.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT7_STARTDATE, CONTRACT9_STARTDATE)));
+		assertThat(axeltisContract1.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT7_ENDDATE, CONTRACT9_ENDDATE)));
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		assertNotNull(belfius.getContracts());
+		List <Contract> belfiusContracts = belfius.getContracts();
+		assertEquals(1, belfiusContracts.size());
+		Contract belfiusContract = belfiusContracts.get(0);
+		assertEquals(belfiusContract.getStartDate(), CONTRACT13_STARTDATE);
+		assertNull(belfiusContract.getEndDate());
 		
 		
 	}

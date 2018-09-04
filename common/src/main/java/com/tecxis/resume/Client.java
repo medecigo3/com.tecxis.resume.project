@@ -35,6 +35,7 @@ public class Client implements Serializable {
 	 * In OO terms, this Client "signs" Contracts
 	 */
 	@OneToMany
+	@JoinColumn(name="CLIENT_ID")
 	private List<Contract> contracts;
 
 	//bi-directional many-to-one association to Project
