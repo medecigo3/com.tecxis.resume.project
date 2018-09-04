@@ -1,19 +1,22 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.*;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.insertAService;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.*;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.insertASupplier;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.text.ParseException;
