@@ -84,7 +84,7 @@ public class ServiceRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindcardInsertedServiceByName() {
+	public void testFindInsertedServiceByName() {
 		List <Service> serviceList = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		assertNotNull(serviceList);
 		assertEquals(1, serviceList.size());
