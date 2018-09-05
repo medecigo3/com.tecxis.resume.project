@@ -18,10 +18,6 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.tecxis.project</groupId>
-			<artifactId>common</artifactId>			
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 		</dependency>
@@ -49,6 +45,16 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 		</dependency>
+		<!-- json tools -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+		</dependency>
+		<!-- Reflection tools lib -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>  
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -66,6 +72,25 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
+		<!-- END hibernate -->
+		<!-- JPA -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>					
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>		
+		</dependency>
+		<!-- END JPA -->
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>

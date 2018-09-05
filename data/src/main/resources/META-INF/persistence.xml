@@ -1,0 +1,38 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+   version="2.1">
+   <persistence-unit name="spitterPU" transaction-type="RESOURCE_LOCAL">
+		<class>com.habuma.spitter.domain.Spitter</class>
+		<class>com.habuma.spitter.domain.Spittle</class>
+  		<class>com.tecxis.resume.Assignment</class>
+		<class>com.tecxis.resume.AssignmentPK</class>
+		<class>com.tecxis.resume.City</class>
+		<class>com.tecxis.resume.CityPK</class>
+		<class>com.tecxis.resume.Client</class>
+		<class>com.tecxis.resume.Contract</class>
+		<class>com.tecxis.resume.ContractPK</class>
+		<class>com.tecxis.resume.Country</class>
+		<class>com.tecxis.resume.Course</class>
+		<!--  
+		<class>com.tecxis.resume.Enrolment</class>
+		<class>com.tecxis.resume.EnrolmentPK</class>
+		-->
+		<class>com.tecxis.resume.Interest</class>
+		<class>com.tecxis.resume.Project</class>
+		<class>com.tecxis.resume.ProjectPK</class>
+		<class>com.tecxis.resume.Service</class>
+		<class>com.tecxis.resume.Skill</class>
+		<class>com.tecxis.resume.Staff</class>
+		<!--  
+		<class>com.tecxis.resume.StaffSkill</class>
+		<class>com.tecxis.resume.StaffSkillPK</class>
+		-->
+		<class>com.tecxis.resume.Supplier</class>
+		<class>com.tecxis.resume.SupplierPK</class>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+		<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+   </persistence-unit>
+</persistence>

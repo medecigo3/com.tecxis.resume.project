@@ -24,7 +24,6 @@
 
 	<modules>
 		<module>data</module>
-		<module>common</module>
 		<!--
 		<module>services</module>
 		-->
