@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.persistence.ContractRepositoryTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -118,8 +119,43 @@ public class ServiceRepositoryTest {
 		assertEquals(1, tibcoBwServices.size());
 		Service tibcoBwService = tibcoBwServices.get(0);
 		assertNotNull(tibcoBwService.getContracts());
-		List <Contract> tibcoBwContracts = tibcoBwService.getContracts();
-		assertEquals(8, tibcoBwContracts.size());
+		List <Contract> tibcoBwServiceContracts = tibcoBwService.getContracts();
+		assertEquals(8, tibcoBwServiceContracts.size());
+		Contract tibcoBwServiceContract1 = tibcoBwServiceContracts.get(0);
+		assertThat(tibcoBwServiceContract1.getStartDate(), Matchers.is(Matchers.oneOf(
+				CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, 
+				CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, 
+				CONTRACT10_STARTDATE, CONTRACT11_STARTDATE, 
+				CONTRACT12_STARTDATE, CONTRACT13_STARTDATE
+				)));
+		assertThat(tibcoBwServiceContract1.getEndDate(), Matchers.is(Matchers.oneOf(
+				CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, 
+				CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, 
+				CONTRACT10_ENDDATE, CONTRACT11_ENDDATE, 
+				CONTRACT12_ENDDATE, CONTRACT13_ENDDATE
+				)));
+		
+		List <Service> muleServices = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		assertNotNull(muleServices);
+		assertEquals(1, muleServices.size());
+		Service muleService = muleServices.get(0);
+		assertNotNull(muleService.getContracts());
+		List <Contract> muleServiceContracts = muleService.getContracts();
+		assertEquals(1, muleServiceContracts.size());
+		Contract muleServiceContract = muleServiceContracts.get(0);
+		assertEquals(CONTRACT5_STARTDATE, muleServiceContract.getStartDate());
+		assertEquals(CONTRACT5_ENDDATE, muleServiceContract.getEndDate());
+		
+		List <Service> scmServices = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);
+		assertNotNull(scmServices);
+		assertEquals(1, scmServices.size());
+		Service scmService = scmServices.get(0);
+		assertNotNull(scmService.getContracts());
+		List <Contract> scmServiceContracts = scmService.getContracts();
+		assertEquals(1, scmServiceContracts.size());
+		Contract scmServiceContract = scmServiceContracts.get(0);
+		assertEquals(CONTRACT1_STARTDATE, scmServiceContract.getStartDate());
+		assertEquals(CONTRACT1_ENDDATE, scmServiceContract.getEndDate());
 	}
 
 	@Test
