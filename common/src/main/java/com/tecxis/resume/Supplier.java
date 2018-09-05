@@ -30,6 +30,10 @@ public class Supplier implements Serializable {
 	 * In OO terms, this Supplier "holds" Contracts.
 	 */
 	@OneToMany
+	@JoinColumns({
+		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID"),
+		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	})	
 	private List<Contract> contracts;
 
 	//bi-directional many-to-one association to Staff
