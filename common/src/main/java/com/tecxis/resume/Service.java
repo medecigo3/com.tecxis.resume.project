@@ -5,8 +5,17 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 /**
@@ -37,6 +46,7 @@ public class Service implements Serializable {
 	 * In OO terms, this Service "engages" Contracts 
 	 */
 	@OneToMany
+	@JoinColumn(name="SERVICE_ID")
 	private List<Contract> contracts;
 
 	public Service() {

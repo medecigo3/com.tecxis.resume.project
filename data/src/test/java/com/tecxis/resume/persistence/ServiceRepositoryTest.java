@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Contract;
 import com.tecxis.resume.Service;
 
 
@@ -105,6 +106,20 @@ public class ServiceRepositoryTest {
 				LIFERAY_DEVELOPPER
 				)));
 		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindServiceContracts() {
+		List <Service> tibcoBwServices = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		assertNotNull(tibcoBwServices);
+		assertEquals(1, tibcoBwServices.size());
+		Service tibcoBwService = tibcoBwServices.get(0);
+		assertNotNull(tibcoBwService.getContracts());
+		List <Contract> tibcoBwContracts = tibcoBwService.getContracts();
+		assertEquals(8, tibcoBwContracts.size());
 	}
 
 	@Test
