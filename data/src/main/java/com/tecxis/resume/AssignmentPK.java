@@ -22,10 +22,10 @@ public class AssignmentPK implements Serializable {
 	private long staffId;
 
 	@Column(name="NAME", insertable=false, updatable=false)
-	private String name;
+	private String projectName;
 
 	@Column(name="VERSION", insertable=false, updatable=false)
-	private String version;
+	private String projectVersion;
 
 	public AssignmentPK() {
 	}
@@ -47,17 +47,17 @@ public class AssignmentPK implements Serializable {
 	public void setStaffId(long staffId) {
 		this.staffId = staffId;
 	}
-	public String getName() {
-		return this.name;
+	public String getProjectName() {
+		return this.projectName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
-	public String getVersion() {
-		return this.version;
+	public String getProjectVersion() {
+		return this.projectVersion;
 	}
-	public void setVersion(String version) {
-		this.version = version;
+	public void setProjectVersion(String projectVersion) {
+		this.projectVersion = projectVersion;
 	}
 
 	public boolean equals(Object other) {
@@ -72,8 +72,8 @@ public class AssignmentPK implements Serializable {
 			(this.assignmentId == castOther.assignmentId)
 			&& (this.clientId == castOther.clientId)
 			&& (this.staffId == castOther.staffId)
-			&& this.name.equals(castOther.name)
-			&& this.version.equals(castOther.version);
+			&& this.projectName.equals(castOther.projectName)
+			&& this.projectVersion.equals(castOther.projectVersion);
 	}
 
 	public int hashCode() {
@@ -82,8 +82,8 @@ public class AssignmentPK implements Serializable {
 		hash = hash * prime + ((int) (this.assignmentId ^ (this.assignmentId >>> 32)));
 		hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
 		hash = hash * prime + ((int) (this.staffId ^ (this.staffId >>> 32)));
-		hash = hash * prime + this.name.hashCode();
-		hash = hash * prime + this.version.hashCode();
+		hash = hash * prime + this.projectName.hashCode();
+		hash = hash * prime + this.projectVersion.hashCode();
 		
 		return hash;
 	}
