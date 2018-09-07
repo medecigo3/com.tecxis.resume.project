@@ -86,7 +86,7 @@ public class ServiceRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindInsertedServiceByName() {
+	public void testFindServiceByName() {
 		List <Service> serviceList = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		assertNotNull(serviceList);
 		assertEquals(1, serviceList.size());
@@ -106,6 +106,12 @@ public class ServiceRepositoryTest {
 				J2EE_DEVELOPPER,
 				LIFERAY_DEVELOPPER
 				)));
+		/** Test query with LIKE expression */
+		List <Service> bwServiceList = serviceRepo.getServiceByName(BUSINESS_WORKS_WILDCARD);
+		assertNotNull(bwServiceList);
+		assertEquals(1, bwServiceList.size());
+		Service tibcoBwConsultantShort = bwServiceList.get(0);
+		assertEquals(TIBCO_BW_CONSULTANT, tibcoBwConsultantShort.getName());
 		
 	}
 	
