@@ -1,11 +1,20 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.*;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.*;
-import static org.junit.Assert.assertEquals;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +44,7 @@ import com.tecxis.resume.Staff;
 		"classpath:test-transaction-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class AssignmentRespositoryTest {
+public class AssignmentRepositoryTest {
 	
 	public static final String ASSIGNMENT_TABLE = "Assignment";
 	public static final String ASSIGNMENT1 = "Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java baking system.";
@@ -95,7 +104,7 @@ public class AssignmentRespositoryTest {
 	public static final String ASSIGNMENT55 = "Development of flows using TIBCO Active Spaces technology to retrieve and store transco values in the cache.";
 	public static final String ASSIGNMENT56 = "Development of flows involving, proposal, policies quotes, claims documents.";
 	public static final String ASSIGNMENT57 = "Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.";
-
+	public static final String DEV_ASSIGNMENT_WILDCARD = "Development%";
 	
 	@Autowired
 	private ClientRepository clientRepo;
@@ -130,6 +139,36 @@ public class AssignmentRespositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	public void testFindInsertedAssingmnet() {
+		Client beflius = insertAClient(BELFIUS, clientRepo, entityManager);		
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);		
+		Project sherpa = insertAProject(SHERPA, VERSION_1, beflius.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		Assignment assignmentIn = insertAssignment(beflius.getClientId(), amt.getStaffId(), sherpa.getProjectPk().getName(), sherpa.getProjectPk().getVersion(), ASSIGNMENT1, assignmentRepo, entityManager);
+		List <Assignment> assignments = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		assertNotNull(assignments);
+		assertEquals(1, assignments.size());
+		Assignment assignmentOut = assignments.get(0);
+		assertEquals(assignmentIn, assignmentOut);
+	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAssignmentByName() {
+		List <Assignment> assignments  = assignmentRepo.getAssignmentByDesc(ASSIGNMENT20);
+		assertNotNull(assignments);
+		assertEquals(1, assignments.size());
+		Assignment assignment = assignments.get(0);
+		assertEquals(ASSIGNMENT20, assignment.getDesc());
+	}
+	
 	
 	public static Assignment insertAssignment(long clientId, long staffId, String projectName, String projectVersion, String desc, AssignmentRepository assignmentRepo, EntityManager entityManager) {
 		AssignmentPK assingmentPk = new AssignmentPK();
