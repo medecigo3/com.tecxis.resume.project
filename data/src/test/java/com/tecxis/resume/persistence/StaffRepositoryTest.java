@@ -1,14 +1,39 @@
 package com.tecxis.resume.persistence;
 
-import static org.junit.Assert.*;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT2;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT3;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT4;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.*;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT57;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.DCSC;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EUROCLEAR_VERS_CALYPSO;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +46,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Assignment;
+import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,7 +76,11 @@ public class StaffRepositoryTest {
 	@Autowired
 	private StaffRepository staffRepo;
 	
-
+	@Autowired
+	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private AssignmentRepository assignmentRepo;
 
 	@Test
 	@Sql(
@@ -104,6 +135,61 @@ public class StaffRepositoryTest {
 		assertNotNull(amt);
 		assertEquals(AMT_NAME, amt.getName());
 		assertEquals(AMT_LASTNAME , amt.getLastname());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testgetStaffAssignments() {
+		Staff amt = staffRepo.getStaffByName(AMT_NAME);
+		assertNotNull(amt);
+		List <Project> amtProjects = amt.getProjects();
+		assertEquals(13, amtProjects.size());
+		Project adir = projectRepo.findByProjectPk_NameAndProjectPk_Version(ADIR, VERSION_1);
+		assertNotNull(adir);
+		Project fortis = projectRepo.findByProjectPk_NameAndProjectPk_Version(FORTIS, VERSION_1);
+		assertNotNull(fortis);
+		Project dcsc = projectRepo.findByProjectPk_NameAndProjectPk_Version(DCSC, VERSION_1);
+		assertNotNull(dcsc);
+		Project ted = projectRepo.findByProjectPk_NameAndProjectPk_Version(TED, VERSION_1);
+		assertNotNull(ted);
+		Project parcours = projectRepo.findByProjectPk_NameAndProjectPk_Version(PARCOURS, VERSION_1);
+		assertNotNull(parcours);
+		Project eolis = projectRepo.findByProjectPk_NameAndProjectPk_Version(EOLIS, VERSION_1);
+		assertNotNull(eolis);
+		Project aos = projectRepo.findByProjectPk_NameAndProjectPk_Version(AOS, VERSION_1);
+		assertNotNull(aos);
+		Project sherpa = projectRepo.findByProjectPk_NameAndProjectPk_Version(SHERPA, VERSION_1);
+		assertNotNull(sherpa);
+		Project selenium = projectRepo.findByProjectPk_NameAndProjectPk_Version(SELENIUM, VERSION_1);
+		assertNotNull(selenium);
+		Project cdc = projectRepo.findByProjectPk_NameAndProjectPk_Version(CENTRE_DES_COMPETENCES, VERSION_1);
+		assertNotNull(cdc);
+		Project euroclear = projectRepo.findByProjectPk_NameAndProjectPk_Version(EUROCLEAR_VERS_CALYPSO, VERSION_1);
+		assertNotNull(euroclear);
+		Project morningstarV1 = projectRepo.findByProjectPk_NameAndProjectPk_Version(MORNINGSTAR, VERSION_1);
+		assertNotNull(morningstarV1);
+		Project morningstarV2 = projectRepo.findByProjectPk_NameAndProjectPk_Version(MORNINGSTAR, VERSION_2);
+		assertNotNull(morningstarV2);
+		assertThat(amt.getProjects(), Matchers.containsInAnyOrder(adir, fortis, dcsc, ted, parcours, eolis, aos, sherpa, selenium, cdc, euroclear, morningstarV1, morningstarV2));
+		List <Assignment> adirAssignments = adir.getAssignments();
+		assertEquals(6, adirAssignments.size());
+		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		assertNotNull(assignment1);
+		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);
+		assertNotNull(assignment2);
+		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
+		assertNotNull(assignment3);
+		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);
+		assertNotNull(assignment4);
+		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);
+		assertNotNull(assignment5);
+		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT6);
+		assertNotNull(assignment6);
+		assertThat(adirAssignments, Matchers.containsInAnyOrder(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6));
+		
+	
 	}
 	
 	@Test

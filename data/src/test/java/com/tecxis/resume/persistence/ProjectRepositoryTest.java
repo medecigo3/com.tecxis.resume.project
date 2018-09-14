@@ -57,7 +57,10 @@ public class ProjectRepositoryTest {
 	public static String EOLIS = "EOLIS";
 	public static String AOS = "AOS";
 	public static String SHERPA = "SHERPA";
-	public static String MORNINGSTAR = "Morningstar";
+	public static String SELENIUM = "SELENIUM";
+	public static String MORNINGSTAR = "MORNINGSTAR";
+	public static String CENTRE_DES_COMPETENCES = "CENTRE_DES_COMPETENCES";
+	public static String EUROCLEAR_VERS_CALYPSO = "EUROCLEAR_VERS_CALYPSO";
 	public static String VERSION_1 = "1.0";
 	public static String VERSION_2 = "2.0";
 	

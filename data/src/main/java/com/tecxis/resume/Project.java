@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -39,6 +40,12 @@ public class Project implements Serializable {
 	 * 
 	 */	
 	@OneToMany
+	@JoinColumns({
+		@JoinColumn(name="NAME", referencedColumnName="NAME"),
+		@JoinColumn(name="VERSION", referencedColumnName="VERSION"),
+		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
+		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	})
 	private List<Assignment> assignments;
 
 	/**

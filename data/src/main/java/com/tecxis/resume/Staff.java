@@ -79,6 +79,7 @@ public class Staff implements Serializable {
 	 * In OO terms, this Staff "works on" Projects
 	 */
 	@OneToMany
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private List<Project> projects;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill

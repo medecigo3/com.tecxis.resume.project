@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
@@ -11,7 +12,6 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -19,6 +19,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ import com.tecxis.resume.Staff;
 public class AssignmentRepositoryTest {
 	
 	public static final String ASSIGNMENT_TABLE = "Assignment";
-	public static final String ASSIGNMENT1 = "Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java baking system.";
+	public static final String ASSIGNMENT1 = "Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java banking system.";
 	public static final String ASSIGNMENT2 = "Working on with Rational multi-site Clear Case tools to control and manage software code evolution.";
 	public static final String ASSIGNMENT3 = "Acting on as a conduit between offshore and onshore development teams.";
 	public static final String ASSIGNMENT4 = "Implementation of a new deployment tool significantly reducing deployment time costs.";
@@ -150,10 +151,7 @@ public class AssignmentRepositoryTest {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);		
 		Project sherpa = insertAProject(SHERPA, VERSION_1, beflius.getClientId(), amt.getStaffId(), projectRepo, entityManager);
 		Assignment assignmentIn = insertAssignment(beflius.getClientId(), amt.getStaffId(), sherpa.getProjectPk().getName(), sherpa.getProjectPk().getVersion(), ASSIGNMENT1, assignmentRepo, entityManager);
-		List <Assignment> assignments = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
-		assertNotNull(assignments);
-		assertEquals(1, assignments.size());
-		Assignment assignmentOut = assignments.get(0);
+		Assignment assignmentOut = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
 		assertEquals(assignmentIn, assignmentOut);
 	}
 	
@@ -161,14 +159,51 @@ public class AssignmentRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAssignmentByName() {
-		List <Assignment> assignments  = assignmentRepo.getAssignmentByDesc(ASSIGNMENT20);
-		assertNotNull(assignments);
-		assertEquals(1, assignments.size());
-		Assignment assignment = assignments.get(0);
-		assertEquals(ASSIGNMENT20, assignment.getDesc());
+	public void testFindAssignmentByLikeDesc() {
+		/**Test query by name with LIKE expression*/
+		List <Assignment> assignments1 = assignmentRepo.getAssignmentByLikeDesc(DEV_ASSIGNMENT_WILDCARD);
+		assertNotNull(assignments1);
+		assertEquals(8, assignments1.size());
+		Assignment assignment1 = assignments1.get(0);		
+		assertThat(assignment1.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment2 = assignments1.get(1);
+		assertThat(assignment2.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment3 = assignments1.get(2);
+		assertThat(assignment3.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment4 = assignments1.get(3);
+		assertThat(assignment4.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment5 = assignments1.get(4);
+		assertThat(assignment5.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment6 = assignments1.get(5);
+		assertThat(assignment6.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment7 = assignments1.get(6);
+		assertThat(assignment7.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
+		Assignment assignment8 = assignments1.get(7);
+		assertThat(assignment8.getDesc(), Matchers.is(Matchers.oneOf(ASSIGNMENT45, ASSIGNMENT46, ASSIGNMENT47, ASSIGNMENT50, ASSIGNMENT51, ASSIGNMENT54, ASSIGNMENT55, ASSIGNMENT56)));
 	}
 	
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetAssignmentByDesc() {
+		List <Assignment> assignments = assignmentRepo.findAll();
+		assertEquals(62, assignments.size());
+		Assignment assignment1 =  assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		assertNotNull(assignment1);	
+		assertEquals(ASSIGNMENT1, assignment1.getDesc());	
+		Assignment assignment2 =  assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);
+		assertNotNull(assignment2);	
+		assertEquals(ASSIGNMENT2, assignment2.getDesc());	
+		Assignment assignment20 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT20);
+		assertNotNull(assignment20);
+		assertEquals(ASSIGNMENT20, assignment20.getDesc());
+	}
+	
+	public void testDelete() {
+		fail("TODO");
+	}
 	
 	public static Assignment insertAssignment(long clientId, long staffId, String projectName, String projectVersion, String desc, AssignmentRepository assignmentRepo, EntityManager entityManager) {
 		AssignmentPK assingmentPk = new AssignmentPK();
