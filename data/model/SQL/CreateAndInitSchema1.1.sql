@@ -47,7 +47,7 @@ ALTER TABLE "CONTRACT" DROP CONSTRAINT "SIGNS"
 
 DROP VIEW "v_Experience"
 /
-DROP VIEW "v_ProjectTaks"
+DROP VIEW "v_ProjectTask"
 /
 
 -- Drop tables section ---------------------------------------------------
@@ -440,7 +440,7 @@ ALTER TABLE "ASSIGNMENT" ADD CONSTRAINT "AK_ASSIGNMENT" UNIQUE ("DESC")
 
 -- Create views section -------------------------------------------------
 
-CREATE VIEW "v_ProjectTaks" AS
+CREATE VIEW "v_ProjectTask" AS
 SELECT "STAFF"."NAME", "LASTNAME", "PROJECT"."NAME" AS "PROJECT", "VERSION" AS "PROJECT_VERSION", "ASSIGNMENT"."DESC" AS "TASK"
 FROM "ASSIGNING", "PROJECT", "STAFF", "ASSIGNMENT"
 WHERE project.project_id = assigning.project_id AND
