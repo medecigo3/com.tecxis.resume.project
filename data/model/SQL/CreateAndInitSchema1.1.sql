@@ -1,6 +1,6 @@
 ﻿/*
 Created: 11/05/2018
-Modified: 17/09/2018
+Modified: 18/09/2018
 Model: Resume
 Database: Oracle 11g Release 2
 */
@@ -47,7 +47,7 @@ ALTER TABLE "CONTRACT" DROP CONSTRAINT "SIGNS"
 
 DROP VIEW "v_Experience"
 /
-DROP VIEW "v_Project"
+DROP VIEW "v_ProjectTaks"
 /
 
 -- Drop tables section ---------------------------------------------------
@@ -440,13 +440,13 @@ ALTER TABLE "ASSIGNMENT" ADD CONSTRAINT "AK_ASSIGNMENT" UNIQUE ("DESC")
 
 -- Create views section -------------------------------------------------
 
-CREATE VIEW "v_Project" AS
-SELECT "STAFF"."NAME", "LASTNAME", "PROJECT"."NAME" AS "PROJECT", "VERSION" AS "PROJECT_VERSION"
-FROM "ASSIGNING", "PROJECT", "STAFF"
-WHERE PROJECT.PROJECT_ID = ASSIGNING.PROJECT_ID AND
-PROJECT.CLIENT_ID = ASSIGNING.CLIENT_ID AND
-ASSIGNING.STAFF_ID = STAFF.STAFF_ID
-GROUP BY  "PROJECT"."NAME", "VERSION",  "STAFF"."NAME", "LASTNAME"
+CREATE VIEW "v_ProjectTaks" AS
+SELECT "STAFF"."NAME", "LASTNAME", "PROJECT"."NAME" AS "PROJECT", "VERSION" AS "PROJECT_VERSION", "ASSIGNMENT"."DESC" AS "TASK"
+FROM "ASSIGNING", "PROJECT", "STAFF", "ASSIGNMENT"
+WHERE project.project_id = assigning.project_id AND
+project.client_id = assigning.client_id AND
+assigning.assignment_id = assignment.assignment_id AND
+staff.staff_id = assigning.staff_id
 ORDER BY PROJECT.NAME
 /
 
