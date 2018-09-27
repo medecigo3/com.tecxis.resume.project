@@ -8,7 +8,11 @@ import com.tecxis.resume.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-	public List<Project> findByProjectPk_Name(String name);
+	//Old
+//	public List<Project> findByProjectPk_Name(String name);	
+	public List<Project> findByName(String name);
 	
-	public Project findByProjectPk_NameAndProjectPk_Version(String name, String version);
+	//Old
+//	public Project findByProjectPk_NameAndProjectPk_Version(String name, String version);		
+	public Project findByNameAndVersion(String name, String version);
 }

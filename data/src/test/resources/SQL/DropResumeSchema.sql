@@ -20,7 +20,7 @@
 -- Drop views section --------------------------------------------------- 
 
 DROP VIEW IF EXISTS "v_Experience";
-DROP VIEW IF EXISTS "v_Assignment";
+DROP VIEW IF EXISTS "v_ProjectTask";
 
 
 -- DROP TABLE IF EXISTSs section ---------------------------------------------------
@@ -36,6 +36,7 @@ DROP TABLE IF EXISTS "INTEREST";
 DROP TABLE IF EXISTS "SERVICE";
 DROP TABLE IF EXISTS "STAFF";
 DROP TABLE IF EXISTS "SKILL";
+DROP TABLE IF EXISTS "ASSIGNING";
 DROP TABLE IF EXISTS "COUNTRY";
 DROP TABLE IF EXISTS "CONTRACT";
 DROP TABLE IF EXISTS "CLIENT";

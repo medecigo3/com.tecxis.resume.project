@@ -8,8 +8,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -20,13 +23,17 @@ import javax.persistence.Entity;
 public class Assignment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private AssignmentPK id;
 
 	@Column(name="\"DESC\"")
 	private String desc;
 
 	private BigDecimal priority;
+
+	@Id
+	@SequenceGenerator(name="ASSIGNMENT_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ASSIGNMENT_ASSIGNMENTID_GENERATOR")
+	@Column(name="ASSIGNMENT_ID")	
+	private long id;
 
 	//bi-directional many-to-one association to Project
 //	@ManyToOne
@@ -39,14 +46,6 @@ public class Assignment implements Serializable {
 //	private Project project;
 
 	public Assignment() {
-	}
-
-	public AssignmentPK getId() {
-		return this.id;
-	}
-
-	public void setId(AssignmentPK id) {
-		this.id = id;
 	}
 
 	public String getDesc() {
@@ -73,6 +72,14 @@ public class Assignment implements Serializable {
 //		this.project = project;
 //	}
 
+	public long getId() {
+		return this.id;
+	}
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		return reflectionEquals(this, obj);

@@ -7,14 +7,10 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -37,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.ProjectPK;
-import com.tecxis.resume.Staff;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -76,10 +71,7 @@ public class ProjectRepositoryTest {
 	
 	@Autowired
 	private ProjectRepository projectRepo;
-	
-	@Autowired
-	private StaffRepository staffRepo;
-	
+		
 
 	@Sql(
 			scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
@@ -88,18 +80,17 @@ public class ProjectRepositoryTest {
 		@Test
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);
-		Staff amt= insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		insertAProject(ADIR, VERSION_1, barclays.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);		
+		insertAProject(ADIR, VERSION_1, barclays.getClientId(), projectRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client belfius = insertAClient(BELFIUS, clientRepo, entityManager);
-		insertAProject(SHERPA, VERSION_1, belfius.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		insertAProject(SHERPA, VERSION_1, belfius.getClientId(), projectRepo, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client axeltis = insertAClient(AXELTIS, clientRepo, entityManager);
-		insertAProject(MORNINGSTAR, VERSION_1, axeltis.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		insertAProject(MORNINGSTAR, VERSION_1, axeltis.getClientId(), projectRepo, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		/**Test insert version 2 of project MORNINGSTAR*/
-		insertAProject(MORNINGSTAR, VERSION_2, axeltis.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		insertAProject(MORNINGSTAR, VERSION_2, axeltis.getClientId(), projectRepo, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 	}
 	
@@ -111,9 +102,8 @@ public class ProjectRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
 		Client euler = insertAClient(EULER_HERMES, clientRepo, entityManager);
-		Staff jhon = insertAStaff(JHON_NAME, JHON_LASTNAME, staffRepo, entityManager);
-		Project eolisIn = insertAProject(EOLIS, VERSION_1, euler.getClientId(), jhon.getStaffId(), projectRepo, entityManager);
-		Project eolisOut = projectRepo.findByProjectPk_NameAndProjectPk_Version(EOLIS, VERSION_1);
+		Project eolisIn = insertAProject(EOLIS, VERSION_1, euler.getClientId(), projectRepo, entityManager);
+		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
 	}
 	
@@ -125,21 +115,18 @@ public class ProjectRepositoryTest {
 		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		assertNotNull(barclays);
 		assertEquals(BARCLAYS, barclays.getName());
-		Staff amt = staffRepo.getStaffByName(AMT_NAME);
-		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		insertAProject(ADIR, VERSION_1, barclays.getClientId(), amt.getStaffId(), projectRepo, entityManager);
-		Project adir = projectRepo.findByProjectPk_NameAndProjectPk_Version(ADIR, VERSION_1);
+		insertAProject(ADIR, VERSION_1, barclays.getClientId(), projectRepo, entityManager);
+		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);
-		assertEquals(ADIR, adir.getProjectPk().getName());
+		assertEquals(ADIR, adir.getName());
 		
 		Client belfius = clientRepo.getClientByName(BELFIUS);
 		assertNotNull(belfius);
 		assertEquals(BELFIUS, belfius.getName());
-		insertAProject(SHERPA, VERSION_1, belfius.getClientId(), amt.getStaffId(), projectRepo, entityManager);
-		Project  sherpa = projectRepo.findByProjectPk_NameAndProjectPk_Version(SHERPA, VERSION_1);
+		insertAProject(SHERPA, VERSION_1, belfius.getClientId(), projectRepo, entityManager);
+		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
 		assertNotNull(sherpa);
-		assertEquals(SHERPA, sherpa.getProjectPk().getName());
+		assertEquals(SHERPA, sherpa.getName());
 		
 	}
 	
@@ -148,29 +135,26 @@ public class ProjectRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByProjectByName() {
-		Staff amt = staffRepo.getStaffByName(AMT_NAME);
-		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertNotNull(axeltis);
 		assertEquals(AXELTIS, axeltis.getName());
-		insertAProject(MORNINGSTAR, VERSION_1, axeltis.getClientId(), amt.getStaffId(), projectRepo, entityManager);
-		insertAProject(MORNINGSTAR, VERSION_2, axeltis.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		insertAProject(MORNINGSTAR, VERSION_1, axeltis.getClientId(), projectRepo, entityManager);
+		insertAProject(MORNINGSTAR, VERSION_2, axeltis.getClientId(), projectRepo, entityManager);
 		
-		List <Project> morningstarList = projectRepo.findByProjectPk_Name(MORNINGSTAR);
+		List <Project> morningstarList = projectRepo.findByName(MORNINGSTAR);
 		assertNotNull(morningstarList);
 		assertEquals(2, morningstarList.size());
-		assertEquals(MORNINGSTAR, morningstarList.get(0).getProjectPk().getName());
-		assertEquals(MORNINGSTAR, morningstarList.get(1).getProjectPk().getName());
+		assertEquals(MORNINGSTAR, morningstarList.get(0).getName());
+		assertEquals(MORNINGSTAR, morningstarList.get(1).getName());
 	
-		Project morningstarv1 = projectRepo.findByProjectPk_NameAndProjectPk_Version(MORNINGSTAR, VERSION_1);
-		Project morningstarv2 = projectRepo.findByProjectPk_NameAndProjectPk_Version(MORNINGSTAR, VERSION_2);
+		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
 		assertNotNull(morningstarv1);
 		assertNotNull(morningstarv2);
-		assertEquals(MORNINGSTAR, morningstarv1.getProjectPk().getName());
-		assertEquals(VERSION_1, morningstarv1.getProjectPk().getVersion());
-		assertEquals(MORNINGSTAR, morningstarv2.getProjectPk().getName());
-		assertEquals(VERSION_2, morningstarv2.getProjectPk().getVersion());
+		assertEquals(MORNINGSTAR, morningstarv1.getName());
+		assertEquals(VERSION_1, morningstarv1.getVersion());
+		assertEquals(MORNINGSTAR, morningstarv2.getName());
+		assertEquals(VERSION_2, morningstarv2.getVersion());
 	}
 	
 	@Test
@@ -178,24 +162,29 @@ public class ProjectRepositoryTest {
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = insertAClient(SAGEMCOM, clientRepo, entityManager);
-		Staff amt= insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Project tempProject = insertAProject(TED, VERSION_1, barclays.getClientId(), amt.getStaffId(), projectRepo, entityManager);
+		Project tempProject = insertAProject(TED, VERSION_1, barclays.getClientId(), projectRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		projectRepo.delete(tempProject);
-		assertNull(projectRepo.findByProjectPk_NameAndProjectPk_Version(TED, VERSION_1));
+		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 	}
 	
+	@Test
+	public void testGetProjectAssignments() {
+		fail("TODO");
+	}
 	
-	public static Project insertAProject(String name, String version, long clientId, long staffId, ProjectRepository projectRepo, EntityManager entityManager) {
+	
+	public static Project insertAProject(String name, String version, long clientId, ProjectRepository projectRepo, EntityManager entityManager) {
 		ProjectPK projectPk = new ProjectPK();
-		projectPk.setName(name);
-		projectPk.setVersion(version);
 		projectPk.setClientId(clientId);
-		projectPk.setStaffId(staffId);		
 		Project project = new Project();
+		project.setName(name);
+		project.setVersion(version);
 		project.setProjectPk(projectPk);
+		assertEquals(0, projectPk.getProjectId());
 		projectRepo.save(project);
+		assertNotNull(projectPk.getProjectId());
 		projectRepo.flush();
 		return project;
 

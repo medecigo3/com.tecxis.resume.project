@@ -11,10 +11,11 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 /**
@@ -22,6 +23,7 @@ import javax.persistence.OneToMany;
  * 
  */
 @Entity
+@Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -40,12 +42,14 @@ public class Project implements Serializable {
 	 * 
 	 */	
 	@OneToMany
-	@JoinColumns({
-		@JoinColumn(name="NAME", referencedColumnName="NAME"),
-		@JoinColumn(name="VERSION", referencedColumnName="VERSION"),
-		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
-		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-	})
+	@JoinTable(
+		name="ASSIGNING", joinColumns= {
+				@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
+				@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+		}, inverseJoinColumns= {
+				@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID"),
+		}
+	)
 	private List<Assignment> assignments;
 
 	/**
@@ -53,12 +57,9 @@ public class Project implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(
-		name="LOCATION"
-		, joinColumns={
-			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
-			@JoinColumn(name="NAME", referencedColumnName="NAME"),
-			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
-			@JoinColumn(name="VERSION", referencedColumnName="VERSION"),
+		name="LOCATION", joinColumns={
+			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
+			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 			}
 		, inverseJoinColumns={
 			@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID"),
@@ -66,6 +67,10 @@ public class Project implements Serializable {
 			}
 		)
 	private List<City> cities;
+
+	private String version;
+
+	private String name;
 
 	//bi-directional many-to-one association to Client
 //	@ManyToOne
@@ -126,6 +131,23 @@ public class Project implements Serializable {
 		this.cities = cities;
 	}
 
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getVersion() {
+		return this.version;
+	}
+	
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
 //	public Client getClient() {
 //		return this.client;
 //	}
