@@ -1,17 +1,9 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -33,10 +25,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Assignment;
-import com.tecxis.resume.AssignmentPK;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.Project;
-import com.tecxis.resume.Staff;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -104,18 +92,10 @@ public class AssignmentRepositoryTest {
 	public static final String ASSIGNMENT56 = "Development of flows involving, proposal, policies quotes, claims documents.";
 	public static final String ASSIGNMENT57 = "Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.";
 	public static final String DEV_ASSIGNMENT_WILDCARD = "Development%";
-	
-	@Autowired
-	private ClientRepository clientRepo;
-	
-	@Autowired
-	private StaffRepository staffRepo;
+		
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
-	
-	@Autowired
-	private ProjectRepository projectRepo;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -130,11 +110,8 @@ public class AssignmentRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);		
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);		
-		Project adir = insertAProject(ADIR, VERSION_1, barclays.getClientId(), amt.getStaffId(), projectRepo, entityManager);
-		insertAssignment(barclays.getClientId(), amt.getStaffId(), adir.getProjectPk().getName(), adir.getProjectPk().getVersion(), ASSIGNMENT1, assignmentRepo, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		insertAssignment(ASSIGNMENT1, assignmentRepo, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 	}
@@ -144,11 +121,8 @@ public class AssignmentRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testFindInsertedAssingmnet() {
-		Client beflius = insertAClient(BELFIUS, clientRepo, entityManager);		
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);		
-		Project sherpa = insertAProject(SHERPA, VERSION_1, beflius.getClientId(), amt.getStaffId(), projectRepo, entityManager);
-		Assignment assignmentIn = insertAssignment(beflius.getClientId(), amt.getStaffId(), sherpa.getProjectPk().getName(), sherpa.getProjectPk().getVersion(), ASSIGNMENT1, assignmentRepo, entityManager);
+	public void testFindInsertedAssingmnet() {		
+		Assignment assignmentIn = insertAssignment(ASSIGNMENT1, assignmentRepo, entityManager);
 		Assignment assignmentOut = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
 		assertEquals(assignmentIn, assignmentOut);
 	}
@@ -187,7 +161,7 @@ public class AssignmentRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetAssignmentByDesc() {
 		List <Assignment> assignments = assignmentRepo.findAll();
-		assertEquals(62, assignments.size());
+		assertEquals(55, assignments.size());
 		Assignment assignment1 =  assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
 		assertNotNull(assignment1);	
 		assertEquals(ASSIGNMENT1, assignment1.getDesc());	
@@ -199,22 +173,23 @@ public class AssignmentRepositoryTest {
 		assertEquals(ASSIGNMENT20, assignment20.getDesc());
 	}
 	
+	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDelete() {
-		fail("TODO");
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		Assignment tempAssignment = insertAssignment(ASSIGNMENT57, assignmentRepo, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assignmentRepo.delete(tempAssignment);
+		assertNull(assignmentRepo.getAssignmentByDesc(ASSIGNMENT57));
+		
 	}
 	
-	public static Assignment insertAssignment(long clientId, long staffId, String projectName, String projectVersion, String desc, AssignmentRepository assignmentRepo, EntityManager entityManager) {
-		AssignmentPK assingmentPk = new AssignmentPK();
-		assingmentPk.setClientId(clientId);
-		assingmentPk.setStaffId(staffId);
-		assingmentPk.setProjectName(projectName);
-		assingmentPk.setProjectVersion(projectVersion);
+	public static Assignment insertAssignment(String desc, AssignmentRepository assignmentRepo, EntityManager entityManager) {
 		Assignment assignment = new Assignment();
-		assignment.setId(assingmentPk);
 		assignment.setDesc(desc);
-		assertEquals(0, assignment.getId().getAssignmentId());
+		assertEquals(0, assignment.getId());
 		assignmentRepo.save(assignment);
-		assertNotNull(assignment.getId().getAssignmentId());
+		assertNotNull(assignment.getId());
 		entityManager.flush();
 		return assignment;
 	}
