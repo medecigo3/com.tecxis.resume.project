@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
@@ -190,6 +191,11 @@ public class StaffRepositoryTest {
 		assertThat(adirAssignments, Matchers.containsInAnyOrder(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6));
 		
 	
+	}
+	
+	@Test
+	public void testGetStaffProjects() {
+		fail("TODO");
 	}
 	
 	@Test
