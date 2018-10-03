@@ -1,26 +1,33 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The primary key class for the PROJECT database table.
  * 
  */
-@Embeddable
 public class ProjectPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="PROJECT_ID")
 	private long projectId;
 	
-	@Column(name="CLIENT_ID", insertable=false, updatable=false)
 	private long clientId;
 
-
-	public ProjectPK() {
+	
+	public ProjectPK(long projectId, long clientId) {
+		this();
+		this.projectId = projectId;
+		this.clientId = clientId;
 	}
+
+	/**Hibernate default constructor*/
+	private ProjectPK() {
+		super();
+	}
+	
 		
 	public long getProjectId() {
 		return projectId;
@@ -34,6 +41,11 @@ public class ProjectPK implements Serializable {
 	}
 	public void setClientId(long clientId) {
 		this.clientId = clientId;
+	}
+	
+	@Override
+	public String toString() {
+		return reflectionToString(this);
 	}
 
 	public boolean equals(Object other) {

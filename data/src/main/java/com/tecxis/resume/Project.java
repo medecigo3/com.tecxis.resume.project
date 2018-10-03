@@ -8,12 +8,16 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,12 +28,20 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
+@IdClass(ProjectPK.class)
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ProjectPK projectPk;
-
+	@Id
+	@Column(name="PROJECT_ID")	
+	@SequenceGenerator(name="PROJECT_PROJECTID_GENERATOR", sequenceName="PROJECT_SEQ", allocationSize=1, initialValue=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_PROJECTID_GENERATOR")
+	private long projectId;
+	
+	@Id
+	@Column(name="CLIENT_ID", insertable=false, updatable=false)
+	private long clientId;
+	
 	@Column(name="\"DESC\"")
 	private String desc;
 
@@ -85,16 +97,24 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public ProjectPK getProjectPk() {
-		return this.projectPk;
-	}
-
-	public void setProjectPk(ProjectPK projectPk) {
-		this.projectPk = projectPk;
-	}
-
 	public String getDesc() {
 		return this.desc;
+	}
+
+	public long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
+	}
+
+	public long getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(long clientId) {
+		this.clientId = clientId;
 	}
 
 	public void setDesc(String desc) {
