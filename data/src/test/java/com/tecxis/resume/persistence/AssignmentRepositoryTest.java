@@ -111,8 +111,13 @@ public class AssignmentRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		insertAssignment(ASSIGNMENT1, assignmentRepo, entityManager);
+		Assignment assignment1 = insertAssignment(ASSIGNMENT1, entityManager);
+		assertEquals(1, assignment1.getAssignmentId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+						
+		Assignment assignment2 = insertAssignment(ASSIGNMENT2, entityManager);
+		assertEquals(2, assignment2.getAssignmentId());
+		assertEquals(2, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 	}
 	
@@ -122,7 +127,7 @@ public class AssignmentRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedAssingmnet() {		
-		Assignment assignmentIn = insertAssignment(ASSIGNMENT1, assignmentRepo, entityManager);
+		Assignment assignmentIn = insertAssignment(ASSIGNMENT1, entityManager);
 		Assignment assignmentOut = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
 		assertEquals(assignmentIn, assignmentOut);
 	}
@@ -177,19 +182,19 @@ public class AssignmentRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		Assignment tempAssignment = insertAssignment(ASSIGNMENT57, assignmentRepo, entityManager);
+		Assignment tempAssignment = insertAssignment(ASSIGNMENT57, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		assignmentRepo.delete(tempAssignment);
 		assertNull(assignmentRepo.getAssignmentByDesc(ASSIGNMENT57));
 		
 	}
 	
-	public static Assignment insertAssignment(String desc, AssignmentRepository assignmentRepo, EntityManager entityManager) {
+	public static Assignment insertAssignment(String desc, EntityManager entityManager) {
 		Assignment assignment = new Assignment();
 		assignment.setDesc(desc);
-		assertEquals(0, assignment.getId());
-		assignmentRepo.save(assignment);
-		assertNotNull(assignment.getId());
+		assertEquals(0, assignment.getAssignmentId());
+		entityManager.persist(assignment);
+		assertNotNull(assignment.getAssignmentId());
 		entityManager.flush();
 		return assignment;
 	}

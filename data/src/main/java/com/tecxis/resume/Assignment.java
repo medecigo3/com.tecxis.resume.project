@@ -33,10 +33,10 @@ public class Assignment implements Serializable {
 	private BigDecimal priority;
 
 	@Id
-	@SequenceGenerator(name="ASSIGNMENT_SEQ")
+	@SequenceGenerator(name="ASSIGNMENT_ASSIGNMENTID_GENERATOR", sequenceName="ASSIGNMENT_SEQ", allocationSize=1,  initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ASSIGNMENT_ASSIGNMENTID_GENERATOR")
 	@Column(name="ASSIGNMENT_ID")	
-	private long id;
+	private long assignmentId;
 
 	//bi-directional many-to-one association to Project
 //	@ManyToOne
@@ -75,12 +75,12 @@ public class Assignment implements Serializable {
 //		this.project = project;
 //	}
 
-	public long getId() {
-		return this.id;
+	public long getAssignmentId() {
+		return this.assignmentId;
 	}
 	
-	public void setId(long id) {
-		this.id = id;
+	public void setAssignmentId(long assignmentId) {
+		this.assignmentId = assignmentId;
 	}
 	
 	@Override
