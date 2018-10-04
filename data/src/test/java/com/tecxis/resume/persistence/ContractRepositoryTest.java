@@ -95,9 +95,6 @@ public class ContractRepositoryTest {
 	private  ContractRepository contractRepo;
 	
 	@Autowired
-	private ClientRepository clientRepo;
-	
-	@Autowired
 	private SupplierRepository supplierRepo;
 	
 	@Autowired 
@@ -150,7 +147,7 @@ public class ContractRepositoryTest {
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Client accenture = insertAClient(AXELTIS, clientRepo, entityManager);
+		Client accenture = insertAClient(AXELTIS, entityManager);
 		Service dev = insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
 		Supplier alterna = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
 		insertAContract(accenture.getClientId(), alterna.getId().getSupplierId(), dev.getServiceId(), amt.getStaffId(), CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, contractRepo, entityManager);
@@ -163,7 +160,7 @@ public class ContractRepositoryTest {
 		)
 	public void testFindInsertedContract() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);
+		Client barclays = insertAClient(BARCLAYS, entityManager);
 		Service consultant = insertAService(TIBCO_BW_CONSULTANT, serviceRepo, entityManager);
 		Supplier alphatress = insertASupplier(amt.getStaffId(), ALPHATRESS, supplierRepo, entityManager);
 		Contract contractIn = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, contractRepo, entityManager);
@@ -181,7 +178,7 @@ public class ContractRepositoryTest {
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Client barclays = insertAClient(EULER_HERMES, clientRepo, entityManager);
+		Client barclays = insertAClient(EULER_HERMES, entityManager);
 		Service consultant = insertAService(MULE_ESB_CONSULTANT, serviceRepo, entityManager);
 		Supplier alphatress = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
 		Contract tempContract = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CURRENT_DATE, null, contractRepo, entityManager);

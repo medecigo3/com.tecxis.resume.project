@@ -1,11 +1,22 @@
 package com.tecxis.resume.persistence;
 
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.*;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT2_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT2_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STARTDATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -65,12 +76,17 @@ public class ClientRepositoryTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		insertAClient(BARCLAYS, clientRepo, entityManager);
+		Client barclays = insertAClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		insertAClient(AGEAS, clientRepo, entityManager);
+		assertEquals(1, barclays.getClientId());
+		
+		Client ageas = insertAClient(AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		insertAClient(ACCENTURE, clientRepo, entityManager);
+		assertEquals(2, ageas.getClientId());
+		
+		Client accenture = insertAClient(ACCENTURE, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, accenture.getClientId());
 		
 	}
 	
@@ -80,7 +96,7 @@ public class ClientRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void findInsertedClient() {
-		Client clientIn = insertAClient(BARCLAYS, clientRepo, entityManager);
+		Client clientIn = insertAClient(BARCLAYS, entityManager);
 		Client clientOut = clientRepo.getClientByName(clientIn.getName());
 		assertEquals(clientIn, clientOut);
 		
@@ -160,20 +176,20 @@ public class ClientRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteClientByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client tempClient = insertAClient(BARCLAYS, clientRepo, entityManager);
+		Client tempClient = insertAClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(SAGEMCOM));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 	}
 
-	public static Client insertAClient(String name, ClientRepository clientRepo, EntityManager entityManager) {
+	public static Client insertAClient(String name, EntityManager entityManager) {
 		Client client = new Client();
 		client.setName(name);
 		assertEquals(0, client.getClientId());
-		clientRepo.save(client);
-		assertNotNull(client.getClientId());
+		entityManager.persist(client);		
 		entityManager.flush();
+		assertThat(client.getClientId(), Matchers.greaterThan((long)0));
 		return client;
 		
 	}

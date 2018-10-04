@@ -80,17 +80,17 @@ public class ProjectRepositoryTest {
 		@Test
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);		
+		Client barclays = insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
-		Client belfius = insertAClient(BELFIUS, clientRepo, entityManager);
+		Client belfius = insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
-		Client axeltis = insertAClient(AXELTIS, clientRepo, entityManager);
+		Client axeltis = insertAClient(AXELTIS, entityManager);
 		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -109,7 +109,7 @@ public class ProjectRepositoryTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
-		Client euler = insertAClient(EULER_HERMES, clientRepo, entityManager);
+		Client euler = insertAClient(EULER_HERMES, entityManager);
 		Project eolisIn = insertAProject(EOLIS, VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
@@ -167,7 +167,7 @@ public class ProjectRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(SAGEMCOM, clientRepo, entityManager);
+		Client barclays = insertAClient(SAGEMCOM, entityManager);
 		Project tempProject = insertAProject(TED, VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		projectRepo.delete(tempProject);
