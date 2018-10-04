@@ -1,7 +1,6 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,12 +23,12 @@ public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="COURSE_SEQ" )
+	@SequenceGenerator(name="COURSE_COURSEID_GENERATOR", sequenceName="COURSE_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_COURSEID_GENERATOR")
 	@Column(name="COURSE_ID")
 	private long courseId;
 
-	private BigDecimal credits;
+	private int credits;
 
 	private String title;
 
@@ -55,11 +54,11 @@ public class Course implements Serializable {
 		this.courseId = courseId;
 	}
 
-	public BigDecimal getCredits() {
+	public int getCredits() {
 		return this.credits;
 	}
 
-	public void setCredits(BigDecimal credits) {
+	public void setCredits(int credits) {
 		this.credits = credits;
 	}
 

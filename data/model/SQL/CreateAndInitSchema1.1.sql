@@ -1,6 +1,6 @@
 ﻿/*
 Created: 11/05/2018
-Modified: 18/09/2018
+Modified: 04/10/2018
 Model: Resume
 Database: Oracle 11g Release 2
 */
@@ -366,7 +366,7 @@ ALTER TABLE "STAFF_SKILL" ADD CONSTRAINT "PK_SKILL_USED" PRIMARY KEY ("STAFF_ID"
 
 CREATE TABLE "COURSE"(
   "COURSE_ID" Integer NOT NULL,
-  "TITLE" Char(20 ),
+  "TITLE" Char(100 ),
   "CREDITS" Integer
 )
 /
