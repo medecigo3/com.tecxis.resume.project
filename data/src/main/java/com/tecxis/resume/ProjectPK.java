@@ -8,7 +8,7 @@ import java.io.Serializable;
  * The primary key class for the PROJECT database table.
  * 
  */
-public class ProjectPK implements Serializable {
+class ProjectPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
