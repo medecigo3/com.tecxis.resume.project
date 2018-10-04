@@ -18,10 +18,10 @@ public class Country implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="COUNTRY_SEQ" )
+	@SequenceGenerator(name="COUNTRY_COUNTRYID_GENERATOR", sequenceName="COUNTRY_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_COUNTRYID_GENERATOR")
 	@Column(name="COUNTRY_ID")
-	private long id;
+	private long countryId;
 
 	private String name;
 
@@ -38,12 +38,12 @@ public class Country implements Serializable {
 	public Country() {
 	}
 
-	public long getId() {
-		return this.id;
+	public long getCountryId() {
+		return this.countryId;
 	}
 
-	public void setiId(long id) {
-		this.id = id;
+	public void setCountryId(long countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getName() {

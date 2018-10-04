@@ -3,11 +3,13 @@ package com.tecxis.resume.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +57,17 @@ public class CountryRepositoryTest {
 	)
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry(FRANCE, countryRepo, entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry(UNITED_KINGDOM, countryRepo, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		insertACountry(BELGIUM, countryRepo, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(new Long(1).longValue(), france.getCountryId());
 		
+		Country uk = insertACountry(UNITED_KINGDOM, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(new Long(2).longValue(), uk.getCountryId());
+		
+		Country belgium = insertACountry(BELGIUM, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(new Long(3).longValue(), belgium.getCountryId());
 	}
 	
 	@Test
@@ -70,8 +76,8 @@ public class CountryRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void shouldBeAbleToFindInsertedCountry() {
-		Country countryIn = insertACountry(FRANCE, countryRepo, entityManager);
-		Country countryOut = countryRepo.getCountryById(countryIn.getId());
+		Country countryIn = insertACountry(FRANCE, entityManager);
+		Country countryOut = countryRepo.getCountryByCountryId(countryIn.getCountryId());
 		assertEquals(countryIn, countryOut);
 	}
 	
@@ -95,7 +101,7 @@ public class CountryRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
-		Country tempCountry = insertACountry("temp", countryRepo, entityManager);
+		Country tempCountry = insertACountry("temp", entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
@@ -103,13 +109,13 @@ public class CountryRepositoryTest {
 	}
 	
 	
-	public static Country insertACountry(String name, CountryRepository countryRepo, EntityManager entityManager) {
+	public static Country insertACountry(String name, EntityManager entityManager) {
 		Country country = new Country();
 		country.setName(name);
-		assertEquals(0, country.getId());
-		countryRepo.save(country);
-		assertNotNull(country.getId());
+		assertEquals(0, country.getCountryId());
+		entityManager.persist(country);		
 		entityManager.flush();
+		assertThat(country.getCountryId(), Matchers.greaterThanOrEqualTo(new Long(0)));
 		return country;
 	}
 	
