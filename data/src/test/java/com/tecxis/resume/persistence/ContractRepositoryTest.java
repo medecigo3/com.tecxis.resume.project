@@ -17,6 +17,7 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.insertASuppli
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.text.ParseException;
@@ -26,6 +27,7 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Client;
 import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractPK;
 import com.tecxis.resume.Service;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
@@ -94,9 +95,6 @@ public class ContractRepositoryTest {
 	@Autowired
 	private  ContractRepository contractRepo;
 	
-	@Autowired
-	private SupplierRepository supplierRepo;
-	
 	@Autowired 
 	private ServiceRepository serviceRepo;
 	
@@ -149,8 +147,8 @@ public class ContractRepositoryTest {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
 		Client accenture = insertAClient(AXELTIS, entityManager);
 		Service dev = insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
-		Supplier alterna = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
-		insertAContract(accenture.getClientId(), alterna.getId().getSupplierId(), dev.getServiceId(), amt.getStaffId(), CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, contractRepo, entityManager);
+		Supplier alterna = insertASupplier(amt, ALTERNA,  entityManager);
+		insertAContract(accenture, alterna, dev, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 	}
 	
@@ -162,8 +160,8 @@ public class ContractRepositoryTest {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
 		Client barclays = insertAClient(BARCLAYS, entityManager);
 		Service consultant = insertAService(TIBCO_BW_CONSULTANT, serviceRepo, entityManager);
-		Supplier alphatress = insertASupplier(amt.getStaffId(), ALPHATRESS, supplierRepo, entityManager);
-		Contract contractIn = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, contractRepo, entityManager);
+		Supplier alphatress = insertASupplier(amt, ALPHATRESS, entityManager);
+		Contract contractIn = insertAContract(barclays, alphatress, consultant, amt, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
 		Contract contractOut = contractRepo.getContractByStartDate(CONTRACT12_STARTDATE);
 		assertNotNull(contractOut);
 		assertEquals(contractIn, contractOut);
@@ -180,8 +178,8 @@ public class ContractRepositoryTest {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
 		Client barclays = insertAClient(EULER_HERMES, entityManager);
 		Service consultant = insertAService(MULE_ESB_CONSULTANT, serviceRepo, entityManager);
-		Supplier alphatress = insertASupplier(amt.getStaffId(), ALTERNA, supplierRepo, entityManager);
-		Contract tempContract = insertAContract(barclays.getClientId(), alphatress.getId().getSupplierId(), consultant.getServiceId(), amt.getStaffId(), CURRENT_DATE, null, contractRepo, entityManager);
+		Supplier alphatress = insertASupplier(amt, ALTERNA, entityManager);
+		Contract tempContract = insertAContract(barclays, alphatress, consultant, amt, CURRENT_DATE, null,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByStartDate(CURRENT_DATE));
@@ -189,20 +187,17 @@ public class ContractRepositoryTest {
 		
 	}
 
-	public static Contract insertAContract(long clientId, long supplierId, long serviceId, long staffId, Date startDate, Date endDate, ContractRepository contractRepo, EntityManager entityManager) {
-		ContractPK contractPk = new ContractPK();
-		contractPk.setClientId(clientId);
-		contractPk.setServiceId(serviceId);
-		contractPk.setStaffId(staffId);
-		contractPk.setSupplierId(supplierId);
-		assertEquals(0, contractPk.getContractId());
+	public static Contract insertAContract(Client client, Supplier supplier, Service service, Staff staff, Date startDate, Date endDate, EntityManager entityManager) {
 		Contract contract  = new Contract();
-		contract.setId(contractPk);
+		contract.setClientId(client.getClientId());
+		contract.setServiceId(service.getServiceId());
+		contract.setStaffId(staff.getStaffId());
+		contract.setSupplierId(supplier.getSupplierId());
 		contract.setStartDate(startDate);
 		contract.setEndDate(endDate);
-		contractRepo.save(contract);
-		assertNotNull(contract.getId().getContractId());
+		entityManager.persist(contract);
 		entityManager.flush();
+		assertThat(contract.getContractId(), Matchers.greaterThan((long)0));
 		return contract;
 		
 	}

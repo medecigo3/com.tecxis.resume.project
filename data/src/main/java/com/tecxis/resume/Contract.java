@@ -9,9 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,12 +25,28 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+@IdClass(ContractPK.class)
 public class Contract implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name="CONTRACT_ID")	
+	@SequenceGenerator(name="CONTRACT_CONTRACTID_GENERATOR", sequenceName="CONTRACT_SEQ", allocationSize=1, initialValue=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
+	private long contractId;
+	
+	@Column(name="CLIENT_ID", insertable=false, updatable=false)
+	private long clientId;
 
-	@EmbeddedId
-	private ContractPK id;
+	@Column(name="SUPPLIER_ID", insertable=false, updatable=false)
+	private long supplierId;
 
+	@Column(name="SERVICE_ID", insertable=false, updatable=false)
+	private long serviceId;
+
+	@Column(name="STAFF_ID", insertable=false, updatable=false)
+	private long staffId;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="END_DATE")
 	private Date endDate;
@@ -63,12 +83,44 @@ public class Contract implements Serializable {
 	public Contract() {
 	}
 
-	public ContractPK getId() {
-		return this.id;
+	public long getClientId() {
+		return this.clientId;
 	}
-
-	public void setId(ContractPK id) {
-		this.id = id;
+	
+	public void setClientId(long clientId) {
+		this.clientId = clientId;
+	}
+	
+	public long getSupplierId() {
+		return this.supplierId;
+	}
+	
+	public void setSupplierId(long supplierId) {
+		this.supplierId = supplierId;
+	}
+	
+	public long getServiceId() {
+		return this.serviceId;
+	}
+	
+	public void setServiceId(long serviceId) {
+		this.serviceId = serviceId;
+	}
+	
+	public long getContractId() {
+		return this.contractId;
+	}
+	
+	public void setContractId(long contractId) {
+		this.contractId = contractId;
+	}
+	
+	public long getStaffId() {
+		return this.staffId;
+	}
+	
+	public void setStaffId(long staffId) {
+		this.staffId = staffId;
 	}
 
 	public Date getEndDate() {

@@ -1,33 +1,36 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The primary key class for the CONTRACT database table.
  * 
  */
-@Embeddable
-public class ContractPK implements Serializable {
+class ContractPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-
-	@Column(name="CLIENT_ID", insertable=false, updatable=false)
+	
 	private long clientId;
 
-	@Column(name="SUPPLIER_ID", insertable=false, updatable=false)
 	private long supplierId;
 
-	@Column(name="SERVICE_ID", insertable=false, updatable=false)
 	private long serviceId;
 
-	@Column(name="CONTRACT_ID")
 	private long contractId;
 
-	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
+	
+	public ContractPK(long clientId, long supplierId, long serviceId, long contractId, long staffId) {
+		this();
+		this.clientId = clientId;
+		this.supplierId = supplierId;
+		this.serviceId = serviceId;
+		this.contractId = contractId;
+		this.staffId = staffId;
+	}
 
-	public ContractPK() {
+	private ContractPK() {
+		super();
 	}
 	public long getClientId() {
 		return this.clientId;
