@@ -181,7 +181,7 @@ public class SupplierRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 	}
 		
-	public static Supplier insertASupplier(com.tecxis.resume.Staff staff, String name, EntityManager entityManager) {
+	public static Supplier insertASupplier(Staff staff, String name, EntityManager entityManager) {
 		Supplier supplier = new Supplier();
 		supplier.setName(name);
 		supplier.setStaffId(staff.getStaffId());
