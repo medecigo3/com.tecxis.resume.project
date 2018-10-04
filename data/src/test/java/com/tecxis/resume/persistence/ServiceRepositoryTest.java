@@ -1,6 +1,25 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.*;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT6_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT6_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT8_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT8_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STARTDATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -64,8 +83,9 @@ public class ServiceRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
+		Service scmAssoc = insertAService(SCM_ASSOCIATE_DEVELOPPER,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, scmAssoc.getServiceId());
 	}
 	
 	@Test
@@ -74,7 +94,7 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {
-		Service serviceIn = insertAService(MULE_ESB_CONSULTANT, serviceRepo, entityManager);
+		Service serviceIn = insertAService(MULE_ESB_CONSULTANT, entityManager);
 		List <Service> serviceList = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		assertEquals(1, serviceList.size());
 		Service serviceOut = serviceList.get(0);		
@@ -168,20 +188,20 @@ public class ServiceRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service tempService = insertAService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo, entityManager);
+		Service tempService = insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER).size());
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 	}
 	
-	public static Service insertAService(String name, ServiceRepository serviceRepo, EntityManager entityManager) {
+	public static Service insertAService(String name, EntityManager entityManager) {
 		Service service = new Service();
 		service.setName(name);
 		assertEquals(0, service.getServiceId());
-		serviceRepo.save(service);
-		assertNotNull(service.getServiceId());
+		entityManager.persist(service);
 		entityManager.flush();
+		assertThat(service.getServiceId(), Matchers.greaterThan((long)0));
 		return service;
 	}
 }
