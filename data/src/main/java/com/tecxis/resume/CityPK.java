@@ -1,26 +1,27 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The primary key class for the CITY database table.
  * 
  */
-@Embeddable
-public class CityPK implements Serializable {
+class CityPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@SequenceGenerator(name="CITY_SEQ" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_CITYID_GENERATOR")
-	@Column(name="CITY_ID")
 	private long cityId;
 
-	@Column(name="COUNTRY_ID", insertable=false, updatable=false)
 	private long countryId;
-
-	public CityPK() {
+		
+	public CityPK(long cityId, long countryId) {
+		this();
+		this.cityId = cityId;
+		this.countryId = countryId;
+	}
+	
+	private CityPK() {
+		super();
 	}
 	public long getCityId() {
 		return this.cityId;

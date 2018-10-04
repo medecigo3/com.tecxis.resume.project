@@ -14,11 +14,19 @@ import java.util.List;
  * 
  */
 @Entity
+@IdClass(CityPK.class)
 public class City implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private CityPK id;
+	@Id
+	@SequenceGenerator(name="CITY_CITYID_GENERATOR", sequenceName="CITY_SEQ", allocationSize=1, initialValue=1 )
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_CITYID_GENERATOR")
+	@Column(name="CITY_ID")
+	private long cityId;
+
+	@Id
+	@Column(name="COUNTRY_ID", insertable=false, updatable=false)
+	private long countryId;
 
 	private String name;
 
@@ -34,12 +42,20 @@ public class City implements Serializable {
 	public City() {
 	}
 
-	public CityPK getId() {
-		return this.id;
+	public long getCityId() {
+		return this.cityId;
 	}
-
-	public void setId(CityPK id) {
-		this.id = id;
+	
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
+	}
+	
+	public long getCountryId() {
+		return this.countryId;
+	}
+	
+	public void setCountryId(long countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getName() {
