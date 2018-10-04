@@ -5,8 +5,18 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -14,11 +24,19 @@ import java.util.List;
  * 
  */
 @Entity
+@IdClass(SupplierPK.class)
 public class Supplier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private SupplierPK id;
+	
+	@Id
+	@Column(name="SUPPLIER_ID")
+	@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SUPPLIERID_GENERATOR")
+	private long supplierId;
+
+	@Column(name="STAFF_ID", insertable=false, updatable=false)
+	private long staffId;
 
 	private String name;
 
@@ -44,12 +62,20 @@ public class Supplier implements Serializable {
 	public Supplier() {
 	}
 
-	public SupplierPK getId() {
-		return this.id;
+	public long getSupplierId() {
+		return this.supplierId;
 	}
-
-	public void setId(SupplierPK id) {
-		this.id = id;
+	
+	public void setSupplierId(long supplierId) {
+		this.supplierId = supplierId;
+	}
+	
+	public long getStaffId() {
+		return this.staffId;
+	}
+	
+	public void setStaffId(long staffId) {
+		this.staffId = staffId;
 	}
 
 	public String getName() {

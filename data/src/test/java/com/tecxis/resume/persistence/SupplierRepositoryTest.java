@@ -49,7 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
-import com.tecxis.resume.SupplierPK;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -88,9 +87,11 @@ public class SupplierRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		insertASupplier(amt.getStaffId(), ACCENTURE, supplierRepo, entityManager);
+		
+		Supplier accenture = insertASupplier(amt, ACCENTURE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, accenture.getSupplierId());
 		
 	}
 	
@@ -101,7 +102,7 @@ public class SupplierRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Supplier supplierIn = insertASupplier(amt.getStaffId(), ALPHATRESS, supplierRepo, entityManager);
+		Supplier supplierIn = insertASupplier(amt, ALPHATRESS, entityManager);
 		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
 		
@@ -173,23 +174,20 @@ public class SupplierRepositoryTest {
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
-		Supplier tempSupplier = insertASupplier(amt.getStaffId(), AMESYS, supplierRepo, entityManager);
+		Supplier tempSupplier = insertASupplier(amt, AMESYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
 		assertNull(supplierRepo.getSupplierByName(AMESYS));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 	}
 		
-	public static Supplier insertASupplier(long staffId, String name, SupplierRepository supplierRepo, EntityManager entityManager) {
-		SupplierPK supplierPk = new SupplierPK();
-		supplierPk.setStaffId(staffId);
-		assertEquals(0, supplierPk.getSupplierId());
+	public static Supplier insertASupplier(com.tecxis.resume.Staff staff, String name, EntityManager entityManager) {
 		Supplier supplier = new Supplier();
 		supplier.setName(name);
-		supplier.setId(supplierPk);
-		supplierRepo.save(supplier);
-		assertNotNull(supplier.getId().getSupplierId());
+		supplier.setStaffId(staff.getStaffId());
+		entityManager.persist(supplier);
 		entityManager.flush();
+		assertThat(supplier.getSupplierId(), Matchers.greaterThan((long)0));
 		return supplier;
 	}
 }

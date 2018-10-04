@@ -1,24 +1,28 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The primary key class for the SUPPLIER database table.
  * 
  */
-@Embeddable
-public class SupplierPK implements Serializable {
+class SupplierPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="SUPPLIER_ID")
+
 	private long supplierId;
 
-	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
 
-	public SupplierPK() {
+	public SupplierPK(long supplierId, long staffId) {
+		this();
+		this.supplierId = supplierId;
+		this.staffId = staffId;
+	}
+	
+	private SupplierPK() {
+		super();
 	}
 	public long getSupplierId() {
 		return this.supplierId;
