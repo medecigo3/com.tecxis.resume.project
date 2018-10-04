@@ -17,7 +17,7 @@ public class Interest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="INTEREST_SEQ" )
+	@SequenceGenerator(name="INTEREST_INTERESTID_GENERATOR", sequenceName="INTEREST_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="INTEREST_INTERESTID_GENERATOR")
 	@Column(name="INTEREST_ID")
 	private long interestId;
