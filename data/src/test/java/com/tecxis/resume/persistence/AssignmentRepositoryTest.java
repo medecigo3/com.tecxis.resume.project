@@ -194,7 +194,7 @@ public class AssignmentRepositoryTest {
 		assignment.setDesc(desc);
 		assertEquals(0, assignment.getAssignmentId());
 		entityManager.persist(assignment);
-		assertNotNull(assignment.getAssignmentId());
+		assertThat(assignment.getAssignmentId(), Matchers.greaterThan((long)0));
 		entityManager.flush();
 		return assignment;
 	}

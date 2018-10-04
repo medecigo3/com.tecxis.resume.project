@@ -82,22 +82,22 @@ public class ProjectRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = insertAClient(BARCLAYS, clientRepo, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(new Long(1), new Long(adirProject.getProjectId()));
+		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
 		Client belfius = insertAClient(BELFIUS, clientRepo, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-		assertEquals(new Long(2), new Long(sherpaProject.getProjectId()));
+		assertEquals(2, sherpaProject.getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
 		Client axeltis = insertAClient(AXELTIS, clientRepo, entityManager);
 		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		assertEquals(new Long(3), new Long(morningStarV1Project.getProjectId()));
+		assertEquals(3, morningStarV1Project.getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		//		
+		
 		/**Test insert version 2 of project MORNINGSTAR*/
 		Project monringstarV2Project = insertAProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
-		assertEquals(new Long(4), new Long(monringstarV2Project.getProjectId()));
+		assertEquals(4, monringstarV2Project.getProjectId());
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
 	}
@@ -189,7 +189,7 @@ public class ProjectRepositoryTest {
 		assertEquals(0, project.getProjectId());
 		entityManager.persist(project);
 		entityManager.flush();
-		assertThat(project.getProjectId(), Matchers.greaterThan(new Long(0)));
+		assertThat(project.getProjectId(), Matchers.greaterThan((long)0));
 		return project;
 
 	}

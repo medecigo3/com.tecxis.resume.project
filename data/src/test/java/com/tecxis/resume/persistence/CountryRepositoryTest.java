@@ -59,15 +59,15 @@ public class CountryRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(new Long(1).longValue(), france.getCountryId());
+		assertEquals(1, france.getCountryId());
 		
 		Country uk = insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(new Long(2).longValue(), uk.getCountryId());
+		assertEquals(2, uk.getCountryId());
 		
 		Country belgium = insertACountry(BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(new Long(3).longValue(), belgium.getCountryId());
+		assertEquals(3, belgium.getCountryId());
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ public class CountryRepositoryTest {
 		assertEquals(0, country.getCountryId());
 		entityManager.persist(country);		
 		entityManager.flush();
-		assertThat(country.getCountryId(), Matchers.greaterThanOrEqualTo(new Long(0)));
+		assertThat(country.getCountryId(), Matchers.greaterThanOrEqualTo((long)0));
 		return country;
 	}
 	
