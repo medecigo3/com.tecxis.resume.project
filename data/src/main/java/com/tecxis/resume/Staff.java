@@ -27,7 +27,7 @@ public class Staff implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="STAFF_SEQ" )
+	@SequenceGenerator(name="STAFF_STAFFID_GENERATOR", sequenceName="STAFF_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="STAFF_STAFFID_GENERATOR")
 	@Column(name="STAFF_ID")
 	private long staffId;
@@ -79,7 +79,15 @@ public class Staff implements Serializable {
 	 * In OO terms, this Staff "works on" Projects
 	 */
 	@OneToMany
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	@JoinTable(
+		name="ASSIGNING", joinColumns= {
+			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
+		}, inverseJoinColumns = {
+			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
+			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+		}
+	)
+	
 	private List<Project> projects;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill

@@ -90,8 +90,9 @@ public class StaffRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, amt.getStaffId());
 	}
 	
 	@Test
@@ -100,7 +101,7 @@ public class StaffRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedStaff() {
-		Staff staffIn = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff staffIn = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		Staff staffOut = staffRepo.getStaffByName(AMT_NAME);
 		assertEquals(staffIn, staffOut);		
 	}
@@ -202,7 +203,7 @@ public class StaffRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		staffRepo.delete(tempStaff);
 		assertNull(staffRepo.getStaffByName(AMT_NAME));
@@ -211,14 +212,14 @@ public class StaffRepositoryTest {
 	}
 
 	
-	public static Staff insertAStaff(String firstName, String lastName, StaffRepository staffRepo, EntityManager entityManager) {
+	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
 		staff.setName(firstName);
 		staff.setLastname(lastName);
 		assertEquals(0, staff.getStaffId());
-		staffRepo.save(staff);
-		assertNotNull(staff.getStaffId());
+		entityManager.persist(staff);
 		entityManager.flush();
+		assertThat(staff.getStaffId(), Matchers.greaterThan((long)0));
 		return staff;
 		
 	}
