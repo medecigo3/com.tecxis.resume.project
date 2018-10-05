@@ -94,10 +94,7 @@ public class ContractRepositoryTest {
 	
 	@Autowired
 	private  ContractRepository contractRepo;
-	
-	@Autowired 
-	private StaffRepository staffRepo;
-	
+
 	
 	static{
 		try {
@@ -141,7 +138,7 @@ public class ContractRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client accenture = insertAClient(AXELTIS, entityManager);
 		Service dev = insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		Supplier alterna = insertASupplier(amt, ALTERNA,  entityManager);
@@ -155,7 +152,7 @@ public class ContractRepositoryTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testFindInsertedContract() {
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = insertAClient(BARCLAYS, entityManager);
 		Service consultant = insertAService(TIBCO_BW_CONSULTANT, entityManager);
 		Supplier alphatress = insertASupplier(amt, ALPHATRESS, entityManager);
@@ -173,7 +170,7 @@ public class ContractRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = insertAClient(EULER_HERMES, entityManager);
 		Service consultant = insertAService(MULE_ESB_CONSULTANT,  entityManager);
 		Supplier alphatress = insertASupplier(amt, ALTERNA, entityManager);

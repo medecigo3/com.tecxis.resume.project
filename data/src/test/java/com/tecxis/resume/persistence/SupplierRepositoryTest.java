@@ -71,9 +71,6 @@ public class SupplierRepositoryTest {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	private StaffRepository staffRepo;
 		
 	@Autowired
 	private SupplierRepository supplierRepo;
@@ -86,7 +83,7 @@ public class SupplierRepositoryTest {
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		
 		Supplier accenture = insertASupplier(amt, ACCENTURE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -101,7 +98,7 @@ public class SupplierRepositoryTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Supplier supplierIn = insertASupplier(amt, ALPHATRESS, entityManager);
 		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
@@ -173,7 +170,7 @@ public class SupplierRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, staffRepo, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Supplier tempSupplier = insertASupplier(amt, AMESYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
