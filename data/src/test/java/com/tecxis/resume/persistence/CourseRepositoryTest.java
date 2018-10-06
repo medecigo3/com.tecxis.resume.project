@@ -2,6 +2,7 @@ package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -100,8 +101,14 @@ public class CourseRepositoryTest {
 	}
 	
 	@Test
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {
-		fail("TODO");
+		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		Course tempCourse = insertACourse(BW_6_COURSE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		courseRepo.delete(tempCourse);
+		assertNull(courseRepo.getCourseByTitle(BW_6_COURSE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 	}
 	
 	private Course insertACourse(String title,  EntityManager entityManager) {
