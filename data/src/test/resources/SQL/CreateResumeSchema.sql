@@ -82,6 +82,12 @@ CREATE SEQUENCE "CONTRACT_SEQ"
  NOMAXVALUE
  NOMINVALUE
  CACHE 20;
+ 
+ 
+ CREATE SEQUENCE "COURSE_SEQ"
+ NOMAXVALUE
+ NOMINVALUE
+ CACHE 20;
 
 -- Create tables section -------------------------------------------------
 

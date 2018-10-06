@@ -1,5 +1,9 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,7 +32,7 @@ public class Course implements Serializable {
 	@Column(name="COURSE_ID")
 	private long courseId;
 
-	private int credits;
+	private Integer credits;
 
 	private String title;
 
@@ -54,11 +58,11 @@ public class Course implements Serializable {
 		this.courseId = courseId;
 	}
 
-	public int getCredits() {
+	public Integer getCredits() {
 		return this.credits;
 	}
 
-	public void setCredits(int credits) {
+	public void setCredits(Integer credits) {
 		this.credits = credits;
 	}
 
@@ -100,6 +104,19 @@ public class Course implements Serializable {
 //		return enrolment;
 //	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		return reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return reflectionToString(this);
+	}
 
 }

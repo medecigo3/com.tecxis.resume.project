@@ -1,9 +1,12 @@
 package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +36,8 @@ import com.tecxis.resume.Course;
 public class CourseRepositoryTest {
 
 	public static String COURSE_TABLE = "COURSE";
-	public static String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks™ 6.x Developer Boot Camp";
+	public static String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
+	public static String SHORT_BW_6_COURSE = "BW618%";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -51,30 +55,43 @@ public class CourseRepositoryTest {
 	@Test
 	public void testCreateAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		Course bw6 = insertACourse(BW_6_COURSE, 1, entityManager);
+		Course bw6 = insertACourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		assertEquals(1, bw6.getCourseId());
 		
 	}
 	
-	private Course insertACourse(String title, int credits, EntityManager entityManager) {
-		Course course = new Course();
-		course.setTitle(title);
-		course.setCredits(credits);
-		entityManager.persist(course);
-		entityManager.flush();
-		assertThat(course.getCourseId(), Matchers.greaterThan((long)0));
-		return course;
-	}
-
+	@Sql(
+		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
 	@Test
 	public void shouldBeAbleToFindInsertedCourse() {
-		fail("TODO");
+		Course courseIn = insertACourse(BW_6_COURSE, entityManager);
+		Course courseOut = courseRepo.getCourseByTitle(BW_6_COURSE);
+		assertEquals(courseIn, courseOut);
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCourseLikeTitle() {
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		assertEquals(1, courses.size());
+		Course bwCourse = courses.get(0);
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		
+	}
+		
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void shouldBeAbleToFindCourseByTitle() {
-		fail("TODO");
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		assertNotNull(bwCourse);
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 	}
 	
 	@Test
@@ -87,5 +104,13 @@ public class CourseRepositoryTest {
 		fail("TODO");
 	}
 	
+	private Course insertACourse(String title,  EntityManager entityManager) {
+		Course course = new Course();
+		course.setTitle(title);
+		entityManager.persist(course);
+		entityManager.flush();
+		assertThat(course.getCourseId(), Matchers.greaterThan((long)0));
+		return course;
+	}
 	
 }
