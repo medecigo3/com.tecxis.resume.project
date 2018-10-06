@@ -10,6 +10,6 @@ import com.tecxis.resume.Interest;
 public interface InterestRepository extends JpaRepository<Interest, Long> {
 	
 	@Query("select i from Interest i where i.desc LIKE %?1")
-	public List<Interest> getInterestByDesc(String desc);
+	public List<Interest> getInterestLikeDesc(String desc);
 
 }

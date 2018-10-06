@@ -138,7 +138,7 @@ public class AssignmentRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAssignmentByLikeDesc() {
 		/**Test query by name with LIKE expression*/
-		List <Assignment> assignments1 = assignmentRepo.getAssignmentByLikeDesc(DEV_ASSIGNMENT_WILDCARD);
+		List <Assignment> assignments1 = assignmentRepo.getAssignmentLikeDesc(DEV_ASSIGNMENT_WILDCARD);
 		assertNotNull(assignments1);
 		assertEquals(8, assignments1.size());
 		Assignment assignment1 = assignments1.get(0);		

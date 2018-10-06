@@ -75,7 +75,7 @@ public class InterestRepositoryTest {
 	)
 	public void testFindInsertedInterest() {
 		Interest hobbyIn = insertAnInterest(HOBBY, entityManager);
-		List<Interest> hobbyOutList = interestRepo.getInterestByDesc("%bike%");
+		List<Interest> hobbyOutList = interestRepo.getInterestLikeDesc("%bike%");
 		assertEquals(1, hobbyOutList.size());
 		Interest hobbyOut = hobbyOutList.get(0);
 		assertEquals(hobbyIn, hobbyOut);
@@ -85,23 +85,23 @@ public class InterestRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetInterestByDesc() {
+	public void testGetInterestLikeDesc() {
 		insertAnInterest(RUNNING, entityManager);		
 		insertAnInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestByDesc(RUNNING);
+		hobbyList = interestRepo.getInterestLikeDesc(RUNNING);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
 		assertEquals(RUNNING, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestByDesc(SWIMMING);
+		hobbyList = interestRepo.getInterestLikeDesc(SWIMMING);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
 		assertEquals(SWIMMING, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestByDesc("%bike%");
+		hobbyList = interestRepo.getInterestLikeDesc("%bike%");
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());
@@ -116,7 +116,7 @@ public class InterestRepositoryTest {
 		Interest tempInterest = insertAnInterest(HOBBY, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		interestRepo.delete(tempInterest);
-		assertEquals(0, interestRepo.getInterestByDesc(HOBBY).size());
+		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 	}
 	
