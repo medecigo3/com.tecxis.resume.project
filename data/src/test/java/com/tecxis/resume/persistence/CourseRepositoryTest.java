@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -95,11 +94,7 @@ public class CourseRepositoryTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 	}
 	
-	@Test
-	public void testGetCourseStaff() {
-		fail("TODO");
-	}
-	
+
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {

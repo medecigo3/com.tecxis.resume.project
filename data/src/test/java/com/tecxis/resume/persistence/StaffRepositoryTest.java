@@ -200,6 +200,11 @@ public class StaffRepositoryTest {
 	}
 	
 	@Test
+	public void testGetStaffCourses() {
+		fail("TODO");
+	}
+	
+	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
