@@ -20,7 +20,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +50,10 @@ import com.tecxis.resume.Project;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ProjectRepositoryTest {
 	
+    /** For Log4j2 dependencies >= 2.10 set this system property to configure ANSI Styling for Windows 
+     * Unix-based operating systems such as Linux and Mac OS X support ANSI color codes by default. 
+     * See https://logging.apache.org/log4j/2.x/manual/layouts.html#enable-jansi*/
+	private static final String LOG4J_SKIP_JANSI = "log4j.skipJansi";
 	public static String PROJECT_TABLE = "Project";
 	public static String ADIR = "ADIR";
 	public static String FORTIS = "FORTIS";
@@ -72,6 +81,28 @@ public class ProjectRepositoryTest {
 	
 	@Autowired
 	private ProjectRepository projectRepo;
+	
+
+    @AfterClass
+    public static void afterClass() {
+        System.clearProperty(LOG4J_SKIP_JANSI);
+    }
+
+    @BeforeClass
+    public static void beforeClass() {
+    	Logger log = LogManager.getLogger();
+		System.clearProperty(LOG4J_SKIP_JANSI);
+		System.setProperty(LOG4J_SKIP_JANSI, "false");
+		log.debug("Starting class unit testing");
+    }
+	
+    @Before
+    public void before() {
+    	System.clearProperty(LOG4J_SKIP_JANSI);
+        System.setProperty(LOG4J_SKIP_JANSI, "false");
+        
+    }
+
 	
 	@Sql(
 			scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
