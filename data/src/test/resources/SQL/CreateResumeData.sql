@@ -80,8 +80,8 @@ INSERT INTO CLIENT (CLIENT_ID, NAME) VALUES(CLIENT_SEQ.NEXTVAL, 'Belfius Insuran
 INSERT INTO COURSE (COURSE_ID, TITLE) VALUES (COURSE_SEQ.NEXTVAL, 'BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp');
 
 INSERT INTO STAFF (STAFF_ID, NAME, LASTNAME, BIRTH_DATE) VALUES(STAFF_SEQ.NEXTVAL, 'Arturo', 'Medecigo Tress', TO_DATE('06/10/1982', 'dd/mm/yyyy'));
---Titi test staff
-INSERT INTO STAFF (STAFF_ID, NAME, LASTNAME, BIRTH_DATE) VALUES(STAFF_SEQ.NEXTVAL, 'Titi', 'Toto', TO_DATE('01/01/1970', 'dd/mm/yyyy'));
+--Insert Jhons Smith test staff
+INSERT INTO STAFF (STAFF_ID, NAME, LASTNAME, BIRTH_DATE) VALUES(STAFF_SEQ.NEXTVAL, 'Jhon', 'Smith', TO_DATE('01/01/1970', 'dd/mm/yyyy'));
 
 INSERT INTO PROJECT (PROJECT_ID, NAME, VERSION, CLIENT_ID, "DESC") VALUES(PROJECT_SEQ.NEXTVAL, 'ADIR', '1.0',(SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Barclays%'), 'Join Barclays bank large scale''s project assisting senior J2EE developers developing the new client''s banking platform based on java Chordiant framework technology to deliver the best customer service possible.');
 INSERT INTO PROJECT (PROJECT_ID, NAME, VERSION, CLIENT_ID, "DESC") VALUES(PROJECT_SEQ.NEXTVAL, 'FORTIS', '1.0', (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Ageas%'), 'As part of Fortis business restructuration plan, assist in the integration of core business services under an already established SOA architecture.');
@@ -225,8 +225,8 @@ INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((S
 INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((SELECT PROJECT_ID FROM PROJECT WHERE NAME='SHERPA' AND VERSION='1.0'), (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Belfius%'), (SELECT STAFF_ID FROM STAFF WHERE NAME = 'Arturo'), (SELECT ASSIGNMENT_ID FROM ASSIGNMENT WHERE "DESC"='Development of flows using TIBCO Active Spaces technology to retrieve and store transco values in the cache.'));
 INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((SELECT PROJECT_ID FROM PROJECT WHERE NAME='SHERPA' AND VERSION='1.0'), (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Belfius%'), (SELECT STAFF_ID FROM STAFF WHERE NAME = 'Arturo'), (SELECT ASSIGNMENT_ID FROM ASSIGNMENT WHERE "DESC"='Development of flows involving, proposal, policies quotes, claims documents.'));
 INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((SELECT PROJECT_ID FROM PROJECT WHERE NAME='SHERPA' AND VERSION='1.0'), (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Belfius%'), (SELECT STAFF_ID FROM STAFF WHERE NAME = 'Arturo'), (SELECT ASSIGNMENT_ID FROM ASSIGNMENT WHERE "DESC"='Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.'));
---Titi test staff
-INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((SELECT PROJECT_ID FROM PROJECT WHERE NAME='SHERPA' AND VERSION='1.0'), (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Belfius%'), (SELECT STAFF_ID FROM STAFF WHERE NAME = 'Titi'), (SELECT ASSIGNMENT_ID FROM ASSIGNMENT WHERE "DESC"='Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.'));
+--Jhon Smith Project - Assignment test data
+INSERT INTO ASSIGNING (PROJECT_ID, CLIENT_ID, STAFF_ID, ASSIGNMENT_ID) VALUES((SELECT PROJECT_ID FROM PROJECT WHERE NAME='SHERPA' AND VERSION='1.0'), (SELECT CLIENT_ID FROM CLIENT WHERE NAME  LIKE 'Belfius%'), (SELECT STAFF_ID FROM STAFF WHERE NAME = 'Jhon'), (SELECT ASSIGNMENT_ID FROM ASSIGNMENT WHERE "DESC"='Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.'));
 
 
 

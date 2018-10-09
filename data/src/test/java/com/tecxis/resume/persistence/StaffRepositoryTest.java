@@ -195,11 +195,23 @@ public class StaffRepositoryTest {
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjects() {
-//		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-//		CriteriaQuery <Staff> query = cb.createQuery(Staff.class);
-//		javax.persistence.criteria.Root <Staff> root = query.from(Assigni.class);
-		fail("TODO");
+		/**Test staff 1*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		assertNotNull(amt);
+		List <Project> amtProjects = staffRepo.getStaffProjects(amt);
+		assertNotNull(amtProjects);
+		assertEquals(13, amtProjects.size());
+		
+		/**Test staff 2*/
+		Staff jhonStaff = staffRepo.getStaffLikeName(JHON_NAME);
+		assertNotNull(jhonStaff);
+		List <Project> jhonProjects = staffRepo.getStaffProjects(jhonStaff);
+		assertNotNull(jhonProjects);
+		assertEquals(1, jhonProjects.size());
 	}
 	
 	@Test
