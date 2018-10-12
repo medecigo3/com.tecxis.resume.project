@@ -6,6 +6,8 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT3
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT4;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT5;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT6;
+import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
+import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -24,15 +26,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -48,6 +52,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Assignment;
+import com.tecxis.resume.Course;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
 
@@ -60,6 +65,7 @@ import com.tecxis.resume.Staff;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffRepositoryTest {
 	
+	public static final String ENROLMENT_TABLE = "ENROLMENT";
 	public static final String STAFF_TABLE = "STAFF";
 	public static final String AMT_NAME = "Arturo";
 	public static final String AMT_LASTNAME = "Medecigo Tress";
@@ -82,7 +88,7 @@ public class StaffRepositoryTest {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
-
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
@@ -215,8 +221,65 @@ public class StaffRepositoryTest {
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffCourses() {
-		fail("TODO");
+		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
+    	
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		assertNotNull(amt);
+		assertEquals(AMT_NAME, amt.getName());
+		
+				
+		/**SQL test*/		
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(
+				"select c.course_id, c.title, c.credits from Staff s "+
+						" JOIN Enrolment e on s.staff_Id = e.staff_Id " +
+						" JOIN Course c on c.course_Id = e.course_Id where s.staff_id = ?", new Object[] { amt.getStaffId() } );
+		
+		assertEquals(1, rows.size());
+		
+		List <Course> courseList = new ArrayList<>();
+		for (Map<String, Object> row : rows) {
+			Course tempCourse = new Course();
+			tempCourse.setCourseId(Long.parseLong(String.valueOf(row.get("COURSE_ID"))));
+			tempCourse.setTitle(row.get("TITLE") != null ?  String.valueOf(row.get("TITLE")) : null );
+			tempCourse.setCredits(row.get("credits") != null ? Integer.parseInt(String.valueOf(row.get("credits"))) : null );            
+			courseList.add(tempCourse);
+		}
+		assertNotNull(courseList.get(0));
+		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+		
+		/**JPQL test*/	
+//		TypedQuery<Staff> staffQuery = entityManager.createQuery("select s from Staff s", Staff.class);
+//		List<Staff> staffs = staffQuery.getResultList();
+//		Iterator <Staff> staffIt = staffs.iterator();
+		TypedQuery<Course> query = entityManager.createQuery
+				("select course from Staff staff  JOIN  staff.courses course where staff = :staff", Course.class);
+		query.setParameter("staff", amt);
+		courseList = query.getResultList();
+		assertEquals(1, courseList.size());	
+		assertNotNull(courseList.get(0));
+		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+	
+		
+		/**Criteria API test*/
+//		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+//		CriteriaQuery<Staff> q = cb.createQuery(Staff.class);
+//		Root<Staff> s = q.from(Staff.class);
+//		
+//		Join <Staff, Course> p = (Join <Staff, Course>)s.fetch(Staff_.courses);
+//				 
+//		q.select(s);
+//	
+//		TypedQuery<Staff> staffQuery = entityManager.createQuery(q);
+//		List<Staff> staffs = staffQuery.getResultList();
+
+
+
 	}
 	
 	@Test

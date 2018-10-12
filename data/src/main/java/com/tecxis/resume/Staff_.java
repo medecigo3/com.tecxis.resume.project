@@ -13,7 +13,7 @@ public class Staff_ {
 	public static volatile SingularAttribute<Staff, Date> birthDate;
 	public static volatile SingularAttribute<Staff, String> lastname;
 	public static volatile SingularAttribute<Staff, String> name;
-//	public static volatile ListAttribute<Staff, Enrolment> enrolments;
+	public static volatile ListAttribute<Staff, Course> courses;
 	public static volatile ListAttribute<Staff, Interest> interests;
 	public static volatile ListAttribute<Staff, Project> projects;
 //	public static volatile ListAttribute<Staff, StaffSkill> staffSkills;

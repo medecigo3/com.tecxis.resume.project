@@ -106,7 +106,7 @@ public class CourseRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 	}
 	
-	private Course insertACourse(String title,  EntityManager entityManager) {
+	public static Course insertACourse(String title,  EntityManager entityManager) {
 		Course course = new Course();
 		course.setTitle(title);
 		entityManager.persist(course);

@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 /**
@@ -22,6 +24,7 @@ import javax.persistence.SequenceGenerator;
  * 
  */
 @Entity
+@Table( uniqueConstraints = @UniqueConstraint( columnNames= {"TITLE"}))
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
 public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
