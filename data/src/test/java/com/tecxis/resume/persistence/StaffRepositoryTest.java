@@ -233,6 +233,11 @@ public class StaffRepositoryTest {
 		assertNotNull(amt);
 		assertEquals(AMT_NAME, amt.getName());
 		
+		List <Course> courseList = amt.getCourses();
+		assertNotNull(courseList);
+		assertEquals(1, courseList.size());
+		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+		
 				
 		/**SQL test*/		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(
@@ -242,7 +247,8 @@ public class StaffRepositoryTest {
 		
 		assertEquals(1, rows.size());
 		
-		List <Course> courseList = new ArrayList<>();
+		courseList = null;
+		courseList = new ArrayList<>();
 		for (Map<String, Object> row : rows) {
 			Course tempCourse = new Course();
 			tempCourse.setCourseId(Long.parseLong(String.valueOf(row.get("COURSE_ID"))));
@@ -260,6 +266,7 @@ public class StaffRepositoryTest {
 		TypedQuery<Course> query = entityManager.createQuery
 				("select course from Staff staff  JOIN  staff.courses course where staff = :staff", Course.class);
 		query.setParameter("staff", amt);
+		courseList = null;
 		courseList = query.getResultList();
 		assertEquals(1, courseList.size());	
 		assertNotNull(courseList.get(0));
@@ -269,12 +276,9 @@ public class StaffRepositoryTest {
 		/**Criteria API test*/
 //		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 //		CriteriaQuery<Staff> q = cb.createQuery(Staff.class);
-//		Root<Staff> s = q.from(Staff.class);
-//		
-//		Join <Staff, Course> p = (Join <Staff, Course>)s.fetch(Staff_.courses);
-//				 
+//		Root<Staff> s = q.from(Staff.class);		
+//		s.fetch(Staff_.courses);				 
 //		q.select(s);
-//	
 //		TypedQuery<Staff> staffQuery = entityManager.createQuery(q);
 //		List<Staff> staffs = staffQuery.getResultList();
 

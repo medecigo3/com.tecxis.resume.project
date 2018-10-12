@@ -51,7 +51,7 @@ public class Staff implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(
-			name="ENROLLMENT",
+			name="ENROLMENT",
 			joinColumns= {
 				@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 			}, 
