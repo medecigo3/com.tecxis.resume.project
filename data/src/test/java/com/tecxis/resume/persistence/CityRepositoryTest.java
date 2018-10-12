@@ -42,6 +42,7 @@ public class CityRepositoryTest {
 	public static final String BRUSSELS = "Brussels";
 	public static final String PARIS = "Paris";
 	public static final String LONDON = "London";
+	public static final String MANCHESTER = "Manchester";
 	private static Country FRANCE;
 	private static Country UK;
 	private static Country BELGIUM;

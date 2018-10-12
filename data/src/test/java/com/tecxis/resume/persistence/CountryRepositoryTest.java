@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
-
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
+import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.City;
 import com.tecxis.resume.Country;
 
 
@@ -117,8 +118,13 @@ public class CountryRepositoryTest {
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertNotNull(uk);
 		assertEquals(UNITED_KINGDOM, uk.getName());
-		assertEquals(1, uk.getCities().size());
-		assertEquals(LONDON, uk.getCities().get(0));
+		assertEquals(2, uk.getCities().size());
+		City city1 = uk.getCities().get(0);
+		assertNotNull(city1);
+		assertThat(city1.getName(), Matchers.oneOf(LONDON, MANCHESTER));
+		City city2 = uk.getCities().get(0);
+		assertThat(city2.getName(), Matchers.oneOf(LONDON, MANCHESTER));
+		
 		
 	}
 	
