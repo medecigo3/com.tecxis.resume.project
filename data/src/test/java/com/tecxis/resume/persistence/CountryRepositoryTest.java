@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -106,6 +107,19 @@ public class CountryRepositoryTest {
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCountyCities() {
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertNotNull(uk);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(1, uk.getCities().size());
+		assertEquals(LONDON, uk.getCities().get(0));
+		
 	}
 	
 	
