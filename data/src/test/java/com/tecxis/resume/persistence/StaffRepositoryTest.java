@@ -149,38 +149,13 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testgetStaffAssignments() {
+	public void testgetStaffProjectAssignments() {
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		assertNotNull(amt);
-		List <Project> amtProjects = amt.getProjects();
-		assertEquals(13, amtProjects.size());
+		List <Project> amtProjects = amt.getProjectAssignments();
+		assertEquals(62, amtProjects.size());
 		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);
-		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
-		assertNotNull(fortis);
-		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
-		assertNotNull(dcsc);
-		Project ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
-		assertNotNull(ted);
-		Project parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
-		assertNotNull(parcours);
-		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
-		assertNotNull(eolis);
-		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
-		assertNotNull(aos);
-		Project sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
-		assertNotNull(sherpa);
-		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
-		assertNotNull(selenium);
-		Project cdc = projectRepo.findByNameAndVersion(CENTRE_DES_COMPETENCES, VERSION_1);
-		assertNotNull(cdc);
-		Project euroclear = projectRepo.findByNameAndVersion(EUROCLEAR_VERS_CALYPSO, VERSION_1);
-		assertNotNull(euroclear);
-		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		assertNotNull(morningstarV1);
-		Project morningstarV2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
-		assertNotNull(morningstarV2);
-		assertThat(amt.getProjects(), Matchers.containsInAnyOrder(adir, fortis, dcsc, ted, parcours, eolis, aos, sherpa, selenium, cdc, euroclear, morningstarV1, morningstarV2));
 		List <Assignment> adirAssignments = adir.getAssignments();
 		assertEquals(6, adirAssignments.size());
 		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
@@ -211,6 +186,34 @@ public class StaffRepositoryTest {
 		List <Project> amtProjects = staffRepo.getStaffProjects(amt);
 		assertNotNull(amtProjects);
 		assertEquals(13, amtProjects.size());
+		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		assertNotNull(adir);
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		assertNotNull(fortis);
+		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
+		assertNotNull(dcsc);
+		Project ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
+		assertNotNull(ted);
+		Project parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		assertNotNull(parcours);
+		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
+		assertNotNull(eolis);
+		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		assertNotNull(aos);
+		Project sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
+		assertNotNull(sherpa);
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		assertNotNull(selenium);
+		Project cdc = projectRepo.findByNameAndVersion(CENTRE_DES_COMPETENCES, VERSION_1);
+		assertNotNull(cdc);
+		Project euroclear = projectRepo.findByNameAndVersion(EUROCLEAR_VERS_CALYPSO, VERSION_1);
+		assertNotNull(euroclear);
+		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertNotNull(morningstarV1);
+		Project morningstarV2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		assertNotNull(morningstarV2);	
+		assertThat(amtProjects, Matchers.containsInAnyOrder(adir, fortis, dcsc, ted, parcours, eolis, aos, sherpa, selenium, cdc, euroclear, morningstarV1, morningstarV2));
+		
 		
 		/**Test staff 2*/
 		Staff jhonStaff = staffRepo.getStaffLikeName(JHON_NAME);
