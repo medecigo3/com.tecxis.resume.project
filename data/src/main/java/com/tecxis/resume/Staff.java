@@ -88,7 +88,7 @@ public class Staff implements Serializable {
 		}
 	)
 	
-	private List<Project> projects;
+	private List<Project> projectAssignments;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill
 //	@OneToMany(mappedBy="staff")
@@ -206,26 +206,26 @@ public class Staff implements Serializable {
 		return interest;
 	}
 
-	public List<Project> getProjects() {
-		return this.projects;
+	public List<Project> getProjectAssignments() {
+		return this.projectAssignments;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
+	public void setProjectAssignments(List<Project> projectAssignments) {
+		this.projectAssignments = projectAssignments;
 	}
 
-	public Project addProject(Project project) {
-		getProjects().add(project);
+	public Project addProject(Project projectAssignment) {
+		getProjectAssignments().add(projectAssignment);
 //		project.setStaff(this);
 
-		return project;
+		return projectAssignment;
 	}
 
-	public Project removeProject(Project project) {
-		getProjects().remove(project);
+	public Project removeProject(Project projectAssignment) {
+		getProjectAssignments().remove(projectAssignment);
 //		project.setStaff(null);
 
-		return project;
+		return projectAssignment;
 	}
 
 //	public List<StaffSkill> getStaffSkills() {
