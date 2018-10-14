@@ -165,7 +165,7 @@ public class AssignmentRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetAssignmentByDesc() {
 		List <Assignment> assignments = assignmentRepo.findAll();
-		assertEquals(55, assignments.size());
+		assertEquals(54, assignments.size());
 		Assignment assignment1 =  assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
 		assertNotNull(assignment1);	
 		assertEquals(ASSIGNMENT1, assignment1.getDesc());	
