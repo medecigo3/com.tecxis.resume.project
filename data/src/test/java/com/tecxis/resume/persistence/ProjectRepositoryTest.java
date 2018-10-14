@@ -1,6 +1,7 @@
 package com.tecxis.resume.persistence;
 
 
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.*;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -38,6 +38,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.Project;
 
@@ -82,6 +83,8 @@ public class ProjectRepositoryTest {
 	@Autowired
 	private ProjectRepository projectRepo;
 	
+	@Autowired
+	private AssignmentRepository assignmentRepo;
 
     @AfterClass
     public static void afterClass() {
@@ -208,7 +211,46 @@ public class ProjectRepositoryTest {
 	
 	@Test
 	public void testGetProjectAssignments() {
-		fail("TODO");
+		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);		
+		assertEquals(MORNINGSTAR, morningstarv1.getName());
+		assertEquals(VERSION_1, morningstarv1.getVersion());
+		List <Assignment> morningstarv1Assignments = morningstarv1.getAssignments();
+		assertNotNull(morningstarv1Assignments);
+		assertEquals(10, morningstarv1Assignments.size());
+		Assignment assignment26 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT26);
+		assertEquals(ASSIGNMENT26, assignment26.getDesc());
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
+		assertEquals(ASSIGNMENT31, assignment31.getDesc());
+		Assignment assignment27 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT27);
+		assertEquals(ASSIGNMENT27, assignment27.getDesc());
+		Assignment assignment28 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT28);
+		assertEquals(ASSIGNMENT28, assignment28.getDesc());
+		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);
+		assertEquals(ASSIGNMENT22, assignment22.getDesc());
+		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT24);
+		assertEquals(ASSIGNMENT24, assignment24.getDesc());
+		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT30);
+		assertEquals(ASSIGNMENT30, assignment30.getDesc());
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
+		assertEquals(ASSIGNMENT23, assignment23.getDesc());
+		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT29);
+		assertEquals(ASSIGNMENT29, assignment29.getDesc());
+		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT25);
+		assertEquals(ASSIGNMENT25, assignment25.getDesc());
+		assertThat(morningstarv1Assignments, Matchers.containsInAnyOrder(assignment26, assignment31, assignment27, assignment28, assignment22, assignment24, assignment30, assignment23, assignment29, assignment25));
+
+		
+		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2); 		
+		assertEquals(MORNINGSTAR, morningstarv2.getName());
+		assertEquals(VERSION_2, morningstarv2.getVersion());
+		List <Assignment> morningstarv2Assignments = morningstarv2.getAssignments();
+		assertNotNull(morningstarv2Assignments);
+		assertEquals(6, morningstarv2Assignments.size());
+		Assignment assignment37 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT37);
+		assertEquals(ASSIGNMENT37, assignment37.getDesc());		
+		assertThat(morningstarv2Assignments, Matchers.containsInAnyOrder(assignment22, assignment31, assignment27, assignment24, assignment37, assignment23 ));
+
+
 	}
 	
 	

@@ -70,7 +70,6 @@ public class AssignmentRepositoryTest {
 	public static final String ASSIGNMENT32 = "Setup of TIBCO web service interfaces to integrate an ESB with other business components in a frontend-backend architecture.";
 	public static final String ASSIGNMENT33 = "Analysis and estimation of code change requests through Quality Center";
 	public static final String ASSIGNMENT34 = "Coding of WSDL and XSD schema files.";
-	public static final String ASSIGNMENT36 = "Coding of Business Works processes to transform and integrate XML investment funds into a corporate database.";
 	public static final String ASSIGNMENT37 = "Coding of XSLT style sheets for transformation of XML raw data to canonical data.";
 	public static final String ASSIGNMENT39 = "Advising on TIBCO Business Works coding patterns and best practice support for Paris region and abroad.";
 	public static final String ASSIGNMENT40 = "Coding of a Java API to simplify the CORBA abstraction layer for enterprise client and server applications.";
