@@ -23,6 +23,7 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STA
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -193,6 +194,14 @@ public class ServiceRepositoryTest {
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		fail("TODO");
 	}
 	
 	public static Service insertAService(String name, EntityManager entityManager) {

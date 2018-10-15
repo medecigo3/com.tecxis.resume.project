@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -108,6 +109,14 @@ public class SkillRepositoryTest {
 		skillRepo.delete(tempSkill);
 		assertNull(skillRepo.getSkillByName(ORACLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		fail("TODO");
 	}
 	
 	public static Skill insertASkill(String name, EntityManager entityManager) {

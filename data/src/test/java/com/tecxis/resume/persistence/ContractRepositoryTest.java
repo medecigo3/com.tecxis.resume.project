@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.text.ParseException;
@@ -182,6 +183,14 @@ public class ContractRepositoryTest {
 		
 	}
 
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		fail("TODO");
+	}
+	
 	public static Contract insertAContract(Client client, Supplier supplier, Service service, Staff staff, Date startDate, Date endDate, EntityManager entityManager) {
 		Contract contract  = new Contract();
 		contract.setClientId(client.getClientId());

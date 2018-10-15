@@ -3,6 +3,7 @@ package com.tecxis.resume.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -118,6 +119,14 @@ public class InterestRepositoryTest {
 		interestRepo.delete(tempInterest);
 		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		fail("TODO");
 	}
 	
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {

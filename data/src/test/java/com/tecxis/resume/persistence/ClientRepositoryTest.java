@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -181,6 +182,14 @@ public class ClientRepositoryTest {
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(SAGEMCOM));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		fail("TODO");
 	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {
