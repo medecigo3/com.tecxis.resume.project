@@ -1,16 +1,17 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.CityTest.insertACity;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -141,16 +142,15 @@ public class CityRepositoryTest {
 		assertNull(cityRepo.getCityByName(LONDON));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 	}
-		
-	public static City insertACity(String name, Country country, EntityManager entityManager) {
-		City city = new City();
-		city.setName(name);				
-		city.setCountryId(country.getCountryId());
-		entityManager.persist(city);
-		entityManager.flush();
-		assertThat(city.getCityId(), Matchers.greaterThan((long)0));		
-		return city;
-		
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		List <City> allCities = cityRepo.findAll();
+		assertNotNull(allCities);
+		assertEquals(4, allCities.size());
 	}
 	
 
