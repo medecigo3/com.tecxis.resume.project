@@ -5,8 +5,10 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,7 +69,7 @@ public class Project implements Serializable {
 	/**
 	 * bi-directional many-to-many association to City
 	 */
-	@ManyToMany
+	@ManyToMany (cascade = CascadeType.ALL)
 	@JoinTable(
 		name="LOCATION", joinColumns={
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
@@ -95,6 +97,7 @@ public class Project implements Serializable {
 //	private Staff staff;
 
 	public Project() {
+		this.cities = new ArrayList <> ();
 	}
 
 	public String getDesc() {
@@ -151,6 +154,13 @@ public class Project implements Serializable {
 		this.cities = cities;
 	}
 
+	public boolean addCity(City city) {
+		return this.cities.add(city);
+	}
+	
+	public boolean removeCity(City city) {
+		return this.cities.remove(city);
+	}
 
 	public String getName() {
 		return this.name;

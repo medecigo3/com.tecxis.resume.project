@@ -1,14 +1,38 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CityRepositoryTest.*;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.*;
+import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
+import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
+import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.DCSC;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EUROCLEAR_VERS_CALYPSO;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -38,6 +62,8 @@ import com.tecxis.resume.persistence.ProjectRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityTest {
+	
+	public static String LOCATION_TABLE = "LOCATION";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -137,10 +163,102 @@ public class CityTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetProjects() {
-		fail("Not yet implemented");
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country UK = insertACountry("United Kingdom", entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client belfius = insertAClient(BELFIUS, entityManager);
+		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
+		Client axeltis = insertAClient(AXELTIS, entityManager);
+		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+				
+						
+		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
+		City london = insertACity(LONDON, UK, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		
+		List <Project> projects = new ArrayList <> ();
+		projects.add(adirProject);
+		projects.add(morningStarV1Project);
+		projects.add(sherpaProject);
+		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		london.setProjects(projects);
+		/**Update the inverse side of the association*/
+		List <City> londonCityList = new ArrayList<> ();
+		londonCityList.add(london);		
+		adirProject.setCities(londonCityList);
+		morningStarV1Project.setCities(londonCityList);
+		sherpaProject.setCities(londonCityList);
+		entityManager.merge(london);	
+		entityManager.flush();
+		
+		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddProject() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country UK = insertACountry("United Kingdom", entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client belfius = insertAClient(BELFIUS, entityManager);
+		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
+		Client axeltis = insertAClient(AXELTIS, entityManager);
+		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+				
+						
+		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
+		City london = insertACity(LONDON, UK, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		
+		
+		
+		london.addProject(adirProject);	
+		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		/**Update the inverse side of the association*/
+		adirProject.addCity(london);		
+		entityManager.merge(london);
+		entityManager.flush();	
+		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Update the inverse side of the association*/
+		morningStarV1Project.addCity(london);
+		entityManager.merge(london);
+		entityManager.flush();	
+		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Update the inverse side of the association*/
+		sherpaProject.addCity(london);
+		entityManager.merge(london);	
+		entityManager.flush();		
+		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		
+	
 	}
 
+	@Test
+	public void testRemoveProject() {
+		fail("Not yet implemented");
+		fail("Test Remove orphan");
+	}
+		
 	public static City insertACity(String name, Country country, EntityManager entityManager) {
 		City city = new City();
 		city.setName(name);				

@@ -5,8 +5,18 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -36,10 +46,11 @@ public class City implements Serializable {
 //	private Country country;
 
 //	bi-directional many-to-many association to Project
-	@ManyToMany(mappedBy="cities")
+	@ManyToMany(mappedBy="cities", cascade = CascadeType.ALL)
 	private List<Project> projects;
 
 	public City() {
+		this.projects = new ArrayList <> ();
 	}
 
 	public long getCityId() {
@@ -81,6 +92,16 @@ public class City implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}	
+	
+	public boolean addProject(Project project){
+		return this.getProjects().add(project);
+		
+	}
+	
+	public boolean removeProject(Project project) {
+		return this.getProjects().remove(project);
+		
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
