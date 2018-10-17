@@ -44,6 +44,7 @@ public class CityRepositoryTest {
 	public static final String PARIS = "Paris";
 	public static final String LONDON = "London";
 	public static final String MANCHESTER = "Manchester";
+	public static final String SWINDON = "Swindon";
 	private static Country FRANCE;
 	private static Country UK;
 	private static Country BELGIUM;
@@ -150,7 +151,7 @@ public class CityRepositoryTest {
 	public void testFindAll(){
 		List <City> allCities = cityRepo.findAll();
 		assertNotNull(allCities);
-		assertEquals(4, allCities.size());
+		assertEquals(5, allCities.size());
 	}
 	
 

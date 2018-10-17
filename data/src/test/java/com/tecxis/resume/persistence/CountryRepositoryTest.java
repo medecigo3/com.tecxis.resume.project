@@ -1,6 +1,7 @@
 package com.tecxis.resume.persistence;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
 import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
+import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -119,12 +120,14 @@ public class CountryRepositoryTest {
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertNotNull(uk);
 		assertEquals(UNITED_KINGDOM, uk.getName());
-		assertEquals(2, uk.getCities().size());
+		assertEquals(3, uk.getCities().size());
 		City city1 = uk.getCities().get(0);
 		assertNotNull(city1);
-		assertThat(city1.getName(), Matchers.oneOf(LONDON, MANCHESTER));
-		City city2 = uk.getCities().get(0);
-		assertThat(city2.getName(), Matchers.oneOf(LONDON, MANCHESTER));
+		assertThat(city1.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
+		City city2 = uk.getCities().get(1);
+		assertThat(city2.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
+		City city3 = uk.getCities().get(2);
+		assertThat(city3.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
 		
 		
 	}
