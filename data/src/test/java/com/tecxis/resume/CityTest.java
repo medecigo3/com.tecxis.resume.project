@@ -187,18 +187,18 @@ public class CityTest {
 		City london = insertACity(LONDON, UK, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		
-		List <Project> projects = new ArrayList <> ();
-		projects.add(adirProject);
-		projects.add(morningStarV1Project);
-		projects.add(sherpaProject);
+		List <Project> londonProjects = new ArrayList <> ();
+		londonProjects.add(adirProject);
+		londonProjects.add(morningStarV1Project);
+		londonProjects.add(sherpaProject);
+		london.setProjects(londonProjects);
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		london.setProjects(projects);
-		/**Update the inverse side of the association*/
-		List <City> londonCityList = new ArrayList<> ();
-		londonCityList.add(london);		
-		adirProject.setCities(londonCityList);
-		morningStarV1Project.setCities(londonCityList);
-		sherpaProject.setCities(londonCityList);
+		/**Update the inverse association*/
+		List <City> londonList = new ArrayList<> ();
+		londonList.add(london);		
+		adirProject.setCities(londonList);
+		morningStarV1Project.setCities(londonList);
+		sherpaProject.setCities(londonList);
 		entityManager.merge(london);	
 		entityManager.flush();
 		
