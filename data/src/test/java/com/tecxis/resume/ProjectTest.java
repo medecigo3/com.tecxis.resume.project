@@ -4,8 +4,10 @@ import static com.tecxis.resume.CityTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
+import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
@@ -13,6 +15,7 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.*;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
@@ -153,8 +156,8 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country belgium = insertACountry(BELGIUM, entityManager);
 		City brussels = insertACity(BRUSSELS, belgium, entityManager);
-		Country france = insertACountry(FRANCE, entityManager);			
-		City paris = insertACity(PARIS, belgium, entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
+		City paris = insertACity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
@@ -177,8 +180,51 @@ public class ProjectTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddCity() {
-		fail("Not yet implemented");
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country uk = insertACountry("United Kingdom", entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
+		City london = insertACity(LONDON, uk, entityManager);
+		City swindon = insertACity(SWINDON, uk, entityManager);
+		City paris = insertACity(PARIS, france, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client ageas = insertAClient(AGEAS, entityManager);		
+		Project fortisProject = insertAProject(FORTIS, VERSION_1, ageas, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		adirProject.addCity(london);
+		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		/**Update the inverse side of the association*/
+		london.addProject(adirProject);
+		entityManager.merge(london);
+		entityManager.flush();
+		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		fortisProject.addCity(swindon);
+		/**Update the inverse side of the association*/
+		swindon.addProject(fortisProject);
+		entityManager.merge(swindon);
+		entityManager.flush();
+		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		adirProject.addCity(paris);
+		/**Update the inverse side of the association*/
+		paris.addProject(adirProject);
+		entityManager.merge(swindon);
+		entityManager.flush();
+		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		
+		
 	}
 
 	@Test
