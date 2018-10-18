@@ -26,6 +26,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -206,25 +207,29 @@ public class ProjectTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		adirProject.addCity(london);
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertTrue(adirProject.addCity(london));		
 		/**Update the inverse side of the association*/
-		london.addProject(adirProject);
+		assertTrue(london.addProject(adirProject));
 		entityManager.merge(london);
 		entityManager.flush();
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		fortisProject.addCity(swindon);
+		
+		assertTrue(adirProject.addCity(paris));
 		/**Update the inverse side of the association*/
-		swindon.addProject(fortisProject);
+		assertTrue(paris.addProject(adirProject));
 		entityManager.merge(swindon);
 		entityManager.flush();
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		adirProject.addCity(paris);
+				
+		assertTrue(fortisProject.addCity(swindon));
 		/**Update the inverse side of the association*/
-		paris.addProject(adirProject);
+		assertTrue(swindon.addProject(fortisProject));
 		entityManager.merge(swindon);
 		entityManager.flush();
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		
+
 		
 		
 	}

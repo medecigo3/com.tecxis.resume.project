@@ -29,6 +29,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -232,20 +233,20 @@ public class CityTest {
 		
 		
 		
-		london.addProject(adirProject);	
+		assertTrue(london.addProject(adirProject));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
 		/**Update the inverse side of the association*/
-		adirProject.addCity(london);		
+		assertTrue(adirProject.addCity(london));		
 		entityManager.merge(london);
 		entityManager.flush();	
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		/**Update the inverse side of the association*/
-		morningStarV1Project.addCity(london);
+		assertTrue(morningStarV1Project.addCity(london));
 		entityManager.merge(london);
 		entityManager.flush();	
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		/**Update the inverse side of the association*/
-		sherpaProject.addCity(london);
+		assertTrue(sherpaProject.addCity(london));
 		entityManager.merge(london);	
 		entityManager.flush();		
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
