@@ -123,7 +123,7 @@ public class ProjectTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
+//	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
@@ -144,7 +144,7 @@ public class ProjectTest {
 		
 	}
 
-	@Test
+//	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -182,7 +182,7 @@ public class ProjectTest {
 		
 	}
 
-	@Test
+//	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -227,16 +227,77 @@ public class ProjectTest {
 		assertTrue(swindon.addProject(fortisProject));
 		entityManager.merge(swindon);
 		entityManager.flush();
-		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		
-
-		
-		
+		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));				
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveCity() {
-		fail("Not yet implemented");
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));		
+		Client belfius = insertAClient(BELFIUS, entityManager);
+		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);			
+		Country belgium = insertACountry(BELGIUM, entityManager);
+		City brussels = insertACity(BRUSSELS, belgium, entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
+		City paris = insertACity(PARIS, france, entityManager);		
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		List <City> sherpaProjectCities = new ArrayList <> ();
+		sherpaProjectCities.add(brussels);
+		sherpaProjectCities.add(paris);
+		sherpaProject.setCities(sherpaProjectCities);			
+		/**Update the inverse association*/
+		List <Project> brusselsSherpaProjectList = new ArrayList <> ();
+		brusselsSherpaProjectList.add(sherpaProject);
+		brussels.setProjects(brusselsSherpaProjectList);
+		List <Project> parisSherpaProjectList = new ArrayList <> ();
+		parisSherpaProjectList.add(sherpaProject);
+		paris.setProjects(parisSherpaProjectList);
+		entityManager.persist(sherpaProject);
+		entityManager.flush();		
+		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		
+		
+
+		assertTrue(sherpaProject.removeCity(brussels));
+		assertTrue(brussels.removeProject(sherpaProject));
+		assertEquals(0, brussels.getProjects().size());
+		assertEquals(1, sherpaProject.getCities().size());
+		entityManager.persist(sherpaProject);	
+//		entityManager.refresh(brussels);							
+		entityManager.flush();
+		
+		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
+		
+
+		assertTrue(sherpaProject.removeCity(paris));
+		assertTrue(paris.removeProject(sherpaProject));
+		assertEquals(0, sherpaProject.getCities().size());
+		assertEquals(0, paris.getProjects().size());
+		entityManager.persist(sherpaProject);
+//		entityManager.refresh(paris);
+		entityManager.flush();
+		
+		
+		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
+
 	}
 
 	@Test
