@@ -90,16 +90,25 @@ public class City implements Serializable {
 	}
 
 	public void setProjects(List<Project> projects) {
+		for (Project proj : projects) {
+			proj.addCity(this);
+		}			
 		this.projects = projects;
 	}	
 	
 	public boolean addProject(Project project){
-		return this.getProjects().add(project);
+		if (project.addCity(this) == true)
+			return this.getProjects().add(project);
+		return false;
+		
 		
 	}
 	
 	public boolean removeProject(Project project) {
-		return this.getProjects().remove(project);
+		if (project.removeCity(this) == true)
+			return this.getProjects().remove(project);
+		else 
+			return false;
 		
 	}
 	
