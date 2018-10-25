@@ -192,12 +192,14 @@ public class CityTest {
 		londonProjects.add(adirProject);
 		londonProjects.add(morningStarV1Project);
 		londonProjects.add(sherpaProject);
-		london.setProjects(londonProjects);		
-		/**Test inverse association was updated*/
-		assertEquals(london, adirProject.getCities().get(0));
-		assertEquals(london, morningStarV1Project.getCities().get(0));
-		assertEquals(london, sherpaProject.getCities().get(0));
+		london.setProjects(londonProjects);
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Update the inverse association*/
+		List <City> londonList = new ArrayList<> ();
+		londonList.add(london);		
+		adirProject.setCities(londonList);
+		morningStarV1Project.setCities(londonList);
+		sherpaProject.setCities(londonList);
 		entityManager.merge(london);	
 		entityManager.flush();
 		
@@ -233,23 +235,18 @@ public class CityTest {
 		
 		assertTrue(london.addProject(adirProject));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
-		/**Test inverse association was updated*/
-		assertEquals(london, adirProject.getCities().get(0));
-
+		/**Update the inverse side of the association*/
+		assertTrue(adirProject.addCity(london));		
 		entityManager.merge(london);
-		entityManager.flush();		
+		entityManager.flush();	
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		
-		london.addProject(morningStarV1Project);
-		/**Test inverse association was updated*/		
-		assertEquals(london, morningStarV1Project.getCities().get(0));		
+		/**Update the inverse side of the association*/
+		assertTrue(morningStarV1Project.addCity(london));
 		entityManager.merge(london);
-		entityManager.flush();		
+		entityManager.flush();	
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		
-		london.addProject(sherpaProject);
-		/**Test inverse association was updated*/		
-		assertEquals(london, sherpaProject.getCities().get(0));
+		/**Update the inverse side of the association*/
+		assertTrue(sherpaProject.addCity(london));
 		entityManager.merge(london);	
 		entityManager.flush();		
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
@@ -283,20 +280,19 @@ public class CityTest {
 		londonProjects.add(morningStarV1Project);
 		londonProjects.add(sherpaProject);
 		london.setProjects(londonProjects);
-		/**Test inverse association was updated*/
-		assertEquals(london, adirProject.getCities().get(0));
-		assertEquals(london, morningStarV1Project.getCities().get(0));
-		assertEquals(london, sherpaProject.getCities().get(0));
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Update the inverse association*/
+		List <City> londonList = new ArrayList<> ();
+		londonList.add(london);		
+		adirProject.setCities(londonList);
+		morningStarV1Project.setCities(londonList);
+		sherpaProject.setCities(londonList);
 		entityManager.merge(london);	
 		entityManager.flush();		
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 				
 		assertTrue(london.removeProject(adirProject));
-		/**Test inverse association was updated*/
-		assertEquals(0, adirProject.getCities().size());
-		assertEquals(london, morningStarV1Project.getCities().get(0));
-		assertEquals(london, sherpaProject.getCities().get(0));
+		assertTrue(adirProject.removeCity(london));
 		entityManager.refresh(london);
 		entityManager.flush();		
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
@@ -305,10 +301,7 @@ public class CityTest {
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));	
 		
 		assertTrue(london.removeProject(morningStarV1Project));
-		/**Test inverse association was updated*/
-		assertEquals(0, adirProject.getCities().size());
-		assertEquals(0, morningStarV1Project.getCities().size());
-		assertEquals(london, sherpaProject.getCities().get(0));
+		assertTrue(morningStarV1Project.removeCity(london));
 		entityManager.refresh(london);
 		entityManager.flush();		
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
@@ -317,10 +310,7 @@ public class CityTest {
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertTrue(london.removeProject(sherpaProject));
-		/**Test inverse association was updated*/
-		assertEquals(0, adirProject.getCities().size());
-		assertEquals(0, morningStarV1Project.getCities().size());
-		assertEquals(0, sherpaProject.getCities().size());
+		assertTrue(sherpaProject.removeCity(london));
 		entityManager.refresh(london);
 		entityManager.flush();	
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
