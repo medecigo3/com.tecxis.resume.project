@@ -123,7 +123,7 @@ public class ProjectTest {
 		fail("Not yet implemented");
 	}
 
-//	@Test
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
@@ -144,7 +144,7 @@ public class ProjectTest {
 		
 	}
 
-//	@Test
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -182,7 +182,7 @@ public class ProjectTest {
 		
 	}
 
-//	@Test
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
