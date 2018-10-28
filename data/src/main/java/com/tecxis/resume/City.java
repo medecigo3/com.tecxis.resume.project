@@ -89,19 +89,6 @@ public class City implements Serializable {
 		return this.projects;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}	
-	
-	public boolean addProject(Project project){
-		return this.getProjects().add(project);
-		
-	}
-	
-	public boolean removeProject(Project project) {
-		return this.getProjects().remove(project);
-		
-	}
 	
 	@Override
 	public boolean equals(Object obj) {

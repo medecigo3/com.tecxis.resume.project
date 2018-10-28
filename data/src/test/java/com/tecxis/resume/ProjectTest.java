@@ -170,11 +170,6 @@ public class ProjectTest {
 		sherpaProjectCities.add(paris);
 		sherpaProject.setCities(sherpaProjectCities);
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
-		/**Update the inverse association*/
-		List <Project> sherpaProjectList = new ArrayList <> ();
-		sherpaProjectList.add(sherpaProject);
-		brussels.setProjects(sherpaProjectList);
-		paris.setProjects(sherpaProjectList);
 		entityManager.merge(sherpaProject);
 		entityManager.flush();
 		
@@ -209,22 +204,16 @@ public class ProjectTest {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
 		assertTrue(adirProject.addCity(london));		
-		/**Update the inverse side of the association*/
-		assertTrue(london.addProject(adirProject));
 		entityManager.merge(london);
 		entityManager.flush();
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		
 		assertTrue(adirProject.addCity(paris));
-		/**Update the inverse side of the association*/
-		assertTrue(paris.addProject(adirProject));
 		entityManager.merge(swindon);
 		entityManager.flush();
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 				
 		assertTrue(fortisProject.addCity(swindon));
-		/**Update the inverse side of the association*/
-		assertTrue(swindon.addProject(fortisProject));
 		entityManager.merge(swindon);
 		entityManager.flush();
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));				
@@ -254,26 +243,17 @@ public class ProjectTest {
 		List <City> sherpaProjectCities = new ArrayList <> ();
 		sherpaProjectCities.add(brussels);
 		sherpaProjectCities.add(paris);
-		sherpaProject.setCities(sherpaProjectCities);			
-		/**Update the inverse association*/
-		List <Project> brusselsSherpaProjectList = new ArrayList <> ();
-		brusselsSherpaProjectList.add(sherpaProject);
-		brussels.setProjects(brusselsSherpaProjectList);
-		List <Project> parisSherpaProjectList = new ArrayList <> ();
-		parisSherpaProjectList.add(sherpaProject);
-		paris.setProjects(parisSherpaProjectList);
-		entityManager.persist(sherpaProject);
+		sherpaProject.setCities(sherpaProjectCities);
+		entityManager.merge(sherpaProject);
 		entityManager.flush();		
 		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
 		
 		
 
 		assertTrue(sherpaProject.removeCity(brussels));
-		assertTrue(brussels.removeProject(sherpaProject));
 		assertEquals(0, brussels.getProjects().size());
 		assertEquals(1, sherpaProject.getCities().size());
-		entityManager.persist(sherpaProject);	
-//		entityManager.refresh(brussels);							
+		entityManager.merge(sherpaProject);							
 		entityManager.flush();
 		
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
@@ -284,11 +264,9 @@ public class ProjectTest {
 		
 
 		assertTrue(sherpaProject.removeCity(paris));
-		assertTrue(paris.removeProject(sherpaProject));
 		assertEquals(0, sherpaProject.getCities().size());
 		assertEquals(0, paris.getProjects().size());
-		entityManager.persist(sherpaProject);
-//		entityManager.refresh(paris);
+		entityManager.merge(sherpaProject);
 		entityManager.flush();
 		
 		
