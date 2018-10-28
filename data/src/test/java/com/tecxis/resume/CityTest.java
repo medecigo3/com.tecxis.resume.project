@@ -9,6 +9,8 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
@@ -162,49 +164,6 @@ public class CityTest {
 		assertThat(parisProjects, Matchers.containsInAnyOrder(ted, parcours, euroclear, morningstarV1, morningstarV2, eolis, cdc, aos, selenium));
 
 	}
-
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql" },
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-//	public void testSetProjects() {
-//		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-//		Country UK = insertACountry("United Kingdom", entityManager);
-//		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-//		
-//		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-//		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-//		Client belfius = insertAClient(BELFIUS, entityManager);
-//		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-//		Client axeltis = insertAClient(AXELTIS, entityManager);
-//		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-//		Client barclays = insertAClient(BARCLAYS, entityManager);		
-//		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
-//		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-//		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-//				
-//						
-//		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
-//		City london = insertACity(LONDON, UK, entityManager);
-//		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-//		
-//		List <Project> londonProjects = new ArrayList <> ();
-//		londonProjects.add(adirProject);
-//		londonProjects.add(morningStarV1Project);
-//		londonProjects.add(sherpaProject);
-//		london.setProjects(londonProjects);
-//		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-//		/**Update the inverse association*/
-//		List <City> londonList = new ArrayList<> ();
-//		londonList.add(london);		
-//		adirProject.setCities(londonList);
-//		morningStarV1Project.setCities(londonList);
-//		sherpaProject.setCities(londonList);
-//		entityManager.merge(london);	
-//		entityManager.flush();
-//		
-//		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-//	}
 	
 	@Test
 	@Sql(
@@ -212,8 +171,9 @@ public class CityTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country UK = insertACountry("United Kingdom", entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country uk = insertACountry(UNITED_KINGDOM, entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -227,8 +187,9 @@ public class CityTest {
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 								
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
-		City london = insertACity(LONDON, UK, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		City london = insertACity(LONDON, uk, entityManager);
+		City paris = insertACity(PARIS, france, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 				
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
 		/**Set London city to Adir project*/
@@ -246,6 +207,16 @@ public class CityTest {
 		entityManager.merge(london);	
 		entityManager.flush();		
 		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Set Paris city to Adir project*/
+		assertTrue(adirProject.addCity(paris));
+		entityManager.merge(paris);
+		entityManager.flush();	
+		assertEquals(4, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		/**Set Paris city to Sherpa project*/
+		assertTrue(sherpaProject.addCity(paris));
+		entityManager.merge(paris);
+		entityManager.flush();	
+		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 			
 	}
 
@@ -258,7 +229,8 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
-		Country UK = insertACountry("United Kingdom", entityManager);
+		Country UK = insertACountry(UNITED_KINGDOM, entityManager);
+		Country france = insertACountry(FRANCE, entityManager);
 		Client belfius = insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		Client axeltis = insertAClient(AXELTIS, entityManager);
@@ -266,8 +238,9 @@ public class CityTest {
 		Client barclays = insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);			
 		City london = insertACity(LONDON, UK, entityManager);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		City paris = insertACity(PARIS, france, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));	
 		
@@ -279,51 +252,75 @@ public class CityTest {
 		List <City> adirCityList = new ArrayList<> ();
 		adirCityList.add(london);		
 		adirProject.setCities(adirCityList);
-		/**Set London city to Morningstar project*/
+		/**Set London & Paris cities to Morningstar project*/
 		List <City> morningStarV1CityList = new ArrayList<> ();
 		morningStarV1CityList.add(london);		
+		morningStarV1CityList.add(paris);
 		morningStarV1Project.setCities(morningStarV1CityList);
-		/**Set London city to Sherpa Project*/
+		/**Set London & Paris cities to Sherpa project*/
 		List <City> sherpaCityList = new ArrayList<> ();
-		sherpaCityList.add(london);			
-		sherpaProject.setCities(sherpaCityList);
+		sherpaCityList.add(london);	
+		sherpaCityList.add(paris);	
+		sherpaProject.setCities(sherpaCityList);		
 		entityManager.merge(adirProject);	
 		entityManager.merge(morningStarV1Project);
 		entityManager.merge(sherpaProject);
 		entityManager.flush();		
-		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 				
 		assertTrue(adirProject.removeCity(london));
 		assertEquals(0, adirProject.getCities().size());
-		assertEquals(1, morningStarV1Project.getCities().size());
-		assertEquals(1, sherpaProject.getCities().size());
+		assertEquals(2, morningStarV1Project.getCities().size());
+		assertEquals(2, sherpaProject.getCities().size());
 		entityManager.merge(adirProject);
 		entityManager.flush();		
-		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));	
 
 
 		assertTrue(morningStarV1Project.removeCity(london));
 		assertEquals(0, adirProject.getCities().size());
+		assertEquals(1, morningStarV1Project.getCities().size());
+		assertEquals(2, sherpaProject.getCities().size());
+		entityManager.merge(morningStarV1Project);
+		entityManager.flush();		
+		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		assertTrue(sherpaProject.removeCity(london));
+		assertEquals(0, adirProject.getCities().size());
+		assertEquals(1, morningStarV1Project.getCities().size());
+		assertEquals(1, sherpaProject.getCities().size());
+		entityManager.merge(sherpaProject);
+		entityManager.flush();	
+		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		
+		assertTrue(morningStarV1Project.removeCity(paris));
+		assertEquals(0, adirProject.getCities().size());
 		assertEquals(0, morningStarV1Project.getCities().size());
 		assertEquals(1, sherpaProject.getCities().size());
 		entityManager.merge(morningStarV1Project);
 		entityManager.flush();		
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		assertTrue(sherpaProject.removeCity(london));
+		assertTrue(sherpaProject.removeCity(paris));
 		assertEquals(0, adirProject.getCities().size());
 		assertEquals(0, morningStarV1Project.getCities().size());
 		assertEquals(0, sherpaProject.getCities().size());
 		entityManager.merge(sherpaProject);
 		entityManager.flush();	
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
