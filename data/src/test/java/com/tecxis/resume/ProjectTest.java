@@ -2,6 +2,16 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.CityTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT22;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT23;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT24;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT25;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT26;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT27;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT28;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT29;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT30;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT31;
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
@@ -19,6 +29,7 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
@@ -49,6 +60,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 
@@ -72,6 +84,9 @@ public class ProjectTest {
 	
 	@Autowired
 	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private AssignmentRepository assignmentRepo;
 
 	@Test
 	public void testGetDesc() {
@@ -104,8 +119,25 @@ public class ProjectTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetAssignments() {
-		fail("Not yet implemented");
+		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		List <Assignment> morningstarV1Assignments = morningstarV1.getAssignments();
+		assertNotNull(morningstarV1Assignments);
+		assertEquals(10, morningstarV1Assignments.size());
+		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);	
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
+		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT24);
+		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT25);
+		Assignment assignment26 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT26);
+		Assignment assignment27 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT27);
+		Assignment assignment28 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT28);
+		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT29);
+		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT30);
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
+		assertThat(morningstarV1Assignments, Matchers.containsInAnyOrder(assignment22, assignment23, assignment24, assignment25, assignment26, assignment27, assignment28, assignment29, assignment30, assignment31));
 	}
 
 	@Test
