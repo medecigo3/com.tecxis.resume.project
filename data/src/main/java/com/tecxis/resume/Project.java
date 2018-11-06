@@ -57,7 +57,7 @@ public class Project implements Serializable {
 	 */	
 	@OneToMany
 	@JoinTable(
-		name="ASSIGNING", joinColumns= {
+		name="STAFF_ASSIGNMENT", joinColumns= {
 				@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
 				@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 		}, inverseJoinColumns= {

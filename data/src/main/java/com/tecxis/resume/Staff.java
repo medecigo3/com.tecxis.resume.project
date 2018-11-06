@@ -80,7 +80,7 @@ public class Staff implements Serializable {
 	 */
 	@OneToMany
 	@JoinTable(
-		name="ASSIGNING", joinColumns= {
+		name="STAFF_ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
 		}, inverseJoinColumns = {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
@@ -88,7 +88,7 @@ public class Staff implements Serializable {
 		}
 	)
 	
-	private List<Project> projectAssignments;
+	private List<Project> projects;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill
 //	@OneToMany(mappedBy="staff")
@@ -206,26 +206,26 @@ public class Staff implements Serializable {
 		return interest;
 	}
 
-	public List<Project> getProjectAssignments() {
-		return this.projectAssignments;
+	public List<Project> getProjects() {
+		return this.projects;
 	}
 
-	public void setProjectAssignments(List<Project> projectAssignments) {
-		this.projectAssignments = projectAssignments;
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
 	}
 
-	public Project addProject(Project projectAssignment) {
-		getProjectAssignments().add(projectAssignment);
+	public Project addProject(Project project) {
+		getProjects().add(project);
 //		project.setStaff(this);
 
-		return projectAssignment;
+		return project;
 	}
 
-	public Project removeProject(Project projectAssignment) {
-		getProjectAssignments().remove(projectAssignment);
+	public Project removeProject(Project project) {
+		getProjects().remove(project);
 //		project.setStaff(null);
 
-		return projectAssignment;
+		return project;
 	}
 
 //	public List<StaffSkill> getStaffSkills() {

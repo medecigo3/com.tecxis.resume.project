@@ -153,7 +153,7 @@ public class StaffRepositoryTest {
 	public void testgetStaffProjectAssignments() {
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		assertNotNull(amt);
-		List <Project> amtProjects = amt.getProjectAssignments();
+		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
 		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);

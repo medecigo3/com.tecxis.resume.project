@@ -37,6 +37,7 @@ import com.tecxis.resume.Assignment;
 public class AssignmentRepositoryTest {
 	
 	public static final String ASSIGNMENT_TABLE = "Assignment";
+	public static final String ASSIGNING_TABLE = "Staff_Assignment";
 	public static final String ASSIGNMENT1 = "Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java banking system.";
 	public static final String ASSIGNMENT2 = "Working on with Rational multi-site Clear Case tools to control and manage software code evolution.";
 	public static final String ASSIGNMENT3 = "Acting on as a conduit between offshore and onshore development teams.";
