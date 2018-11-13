@@ -51,20 +51,14 @@ public class Project implements Serializable {
 //	In SQL terms, Assignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
 //	@OneToMany(mappedBy="project")
 	/**
-	 * uni-directional one-to-many association to Assignment.
-	 * In OO terms, this Project "is composed of" Assignments
+	 * bi-directional one-to-many association to StaffAssignment.
+	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
 	@OneToMany
-	@JoinTable(
-		name="STAFF_ASSIGNMENT", joinColumns= {
-				@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
-				@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
-		}, inverseJoinColumns= {
-				@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID"),
-		}
-	)
-	private List<Assignment> assignments;
+	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
+	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+	private List<StaffAssignment> staffAssignments;
 
 	/**
 	 * bi-directional many-to-many association to City
@@ -124,26 +118,26 @@ public class Project implements Serializable {
 		this.desc = desc;
 	}
 
-	public List<Assignment> getAssignments() {
-		return this.assignments;
+	public List<StaffAssignment> getStaffAssignments() {
+		return this.staffAssignments;
 	}
 
-	public void setAssignments(List<Assignment> assignments) {
-		this.assignments = assignments;
+	public void setStaffAssignment(List<StaffAssignment> staffAssignment) {
+		this.staffAssignments = staffAssignment;
 	}
 
-	public Assignment addAssignment(Assignment assignment) {
-		getAssignments().add(assignment);
+	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().add(staffAssignment);
 //		assignment.setProject(this);
 
-		return assignment;
+		return staffAssignment;
 	}
 
-	public Assignment removeAssignment(Assignment assignment) {
-		getAssignments().remove(assignment);
+	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().remove(staffAssignment);
 //		assignment.setProject(null);
 
-		return assignment;
+		return staffAssignment;
 	}
 
 	public List<City> getCities() {
