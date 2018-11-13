@@ -56,6 +56,8 @@ import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Course;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
+import com.tecxis.resume.StaffAssignment;
+import com.tecxis.resume.StaffAssignmentId;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -89,6 +91,9 @@ public class StaffRepositoryTest {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
+	
+	@Autowired
+	private StaffAssignmentRepository staffAssignmentRepo;
 	
 	@Test
 	@Sql(
@@ -150,28 +155,43 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testgetStaffProjectAssignments() {
+	public void testGetStaffAssignments() {
+		/**Prepare project*/
+		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		assertNotNull(adir);
+		
+		/**Prepare staff*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		assertNotNull(amt);
 		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
-		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
-		assertNotNull(adir);
-		List <Assignment> adirAssignments = adir.getAssignments();
+		
+		/**Prepare assignments*/		
+		List <StaffAssignment> adirAssignments = adir.getStaffAssignments();
 		assertEquals(6, adirAssignments.size());
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
-		assertNotNull(assignment1);
-		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);
-		assertNotNull(assignment2);
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
-		assertNotNull(assignment3);
-		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);
-		assertNotNull(assignment4);
-		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);
-		assertNotNull(assignment5);
+		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);		
+		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);		
+		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);		
+		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);		
+		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);		
 		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT6);
 		assertNotNull(assignment6);
-		assertThat(adirAssignments, Matchers.containsInAnyOrder(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6));
+		assertNotNull(assignment1);
+		assertNotNull(assignment2);
+		assertNotNull(assignment3);
+		assertNotNull(assignment4);
+		assertNotNull(assignment5);
+		
+		/**Prepare staff assignments*/
+		StaffAssignment staffAssignment1 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment1)).get();
+		StaffAssignment staffAssignment2 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment2)).get();
+		StaffAssignment staffAssignment3 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment3)).get();
+		StaffAssignment staffAssignment4 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment4)).get();
+		StaffAssignment staffAssignment5 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment5)).get();
+		StaffAssignment staffAssignment6 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment6)).get();
+		
+		/**Validate project's staff assignments*/
+		assertThat(adirAssignments, Matchers.containsInAnyOrder(staffAssignment1, staffAssignment2, staffAssignment3, staffAssignment4, staffAssignment5, staffAssignment6));
 		
 	
 	}
