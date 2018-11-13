@@ -32,37 +32,7 @@ class ContractPK implements Serializable {
 	private ContractPK() {
 		super();
 	}
-	public long getClientId() {
-		return this.clientId;
-	}
-	public void setClientId(long clientId) {
-		this.clientId = clientId;
-	}
-	public long getSupplierId() {
-		return this.supplierId;
-	}
-	public void setSupplierId(long supplierId) {
-		this.supplierId = supplierId;
-	}
-	public long getServiceId() {
-		return this.serviceId;
-	}
-	public void setServiceId(long serviceId) {
-		this.serviceId = serviceId;
-	}
-	public long getContractId() {
-		return this.contractId;
-	}
-	public void setContractId(long contractId) {
-		this.contractId = contractId;
-	}
-	public long getStaffId() {
-		return this.staffId;
-	}
-	public void setStaffId(long staffId) {
-		this.staffId = staffId;
-	}
-
+	
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
@@ -73,7 +43,7 @@ class ContractPK implements Serializable {
 		ContractPK castOther = (ContractPK)other;
 		return 
 			(this.clientId == castOther.clientId)
-			&& this.supplierId == castOther.supplierId
+			&& (this.supplierId == castOther.supplierId)
 			&& (this.serviceId == castOther.serviceId)
 			&& (this.contractId == castOther.contractId)
 			&& (this.staffId == castOther.staffId);
