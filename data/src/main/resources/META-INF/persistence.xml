@@ -28,6 +28,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
 		-->
 		<class>com.tecxis.resume.Supplier</class>
 		<class>com.tecxis.resume.SupplierPK</class>
+		<class>com.tecxis.resume.StaffAssignment</class>
       <properties>
       </properties>
    </persistence-unit>
