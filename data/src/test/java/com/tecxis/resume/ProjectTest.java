@@ -34,6 +34,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -63,6 +64,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
+import com.tecxis.resume.persistence.StaffAssignmentRepository;
+import com.tecxis.resume.persistence.StaffRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -87,6 +90,12 @@ public class ProjectTest {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
+	
+	@Autowired
+	private StaffAssignmentRepository staffAssignmentRepo;
+	
+	@Autowired
+	private StaffRepository staffRepo;
 
 	@Test
 	public void testGetDesc() {
@@ -122,12 +131,17 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetAssignments() {
+	public void testGetStaffAssignments() {
+		/**Prepare project*/
 		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		List <Assignment> morningstarV1Assignments = morningstarV1.getAssignments();
-		assertNotNull(morningstarV1Assignments);
-		assertEquals(10, morningstarV1Assignments.size());
-		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);	
+		assertNotNull(morningstarV1);
+		
+		/**Prepare staff*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		assertNotNull(amt);
+		
+		/**Prepare assignments*/		
+		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);		
 		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
 		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT24);
 		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT25);
@@ -137,7 +151,34 @@ public class ProjectTest {
 		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT29);
 		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT30);
 		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
-		assertThat(morningstarV1Assignments, Matchers.containsInAnyOrder(assignment22, assignment23, assignment24, assignment25, assignment26, assignment27, assignment28, assignment29, assignment30, assignment31));
+		assertNotNull(assignment22);
+		assertNotNull(assignment23);
+		assertNotNull(assignment24);
+		assertNotNull(assignment25);
+		assertNotNull(assignment26);
+		assertNotNull(assignment27);
+		assertNotNull(assignment28);
+		assertNotNull(assignment29);
+		assertNotNull(assignment30);
+		assertNotNull(assignment31);
+				
+		/**Prepare staff assignments*/
+		StaffAssignment staffAssignment1 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment22)).get();
+		StaffAssignment staffAssignment2 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment23)).get();
+		StaffAssignment staffAssignment3 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment24)).get();
+		StaffAssignment staffAssignment4 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment25)).get();
+		StaffAssignment staffAssignment5 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment26)).get();
+		StaffAssignment staffAssignment6 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment27)).get();
+		StaffAssignment staffAssignment7 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment28)).get();
+		StaffAssignment staffAssignment8 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment29)).get();
+		StaffAssignment staffAssignment9 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment30)).get();
+		StaffAssignment staffAssignment10 = staffAssignmentRepo.findById(new StaffAssignmentId(morningstarV1, amt, assignment31)).get();
+			
+		/**Validate project's staff assignments*/
+		List <StaffAssignment> morningstarV1StaffAssignments = morningstarV1.getStaffAssignments();
+		assertNotNull(morningstarV1StaffAssignments);
+		assertEquals(10, morningstarV1StaffAssignments.size());
+		assertThat(morningstarV1StaffAssignments, Matchers.containsInAnyOrder(staffAssignment1, staffAssignment2, staffAssignment3, staffAssignment4, staffAssignment5, staffAssignment6, staffAssignment7, staffAssignment8, staffAssignment9, staffAssignment10));
 	}
 
 	@Test
