@@ -79,6 +79,11 @@ public class StaffAssignmentId implements Serializable {
 		return hash;
 	}
 
+	@Override
+	public String toString() {
+		return "staffAssignmentId=[projectId=" + this.getProject().getProjectId() + ", staffId="+staff.getStaffId() + ", assignmentId=" + assignment.getAssignmentId() + "]" ; 
+	}
+
 	
 	
 }

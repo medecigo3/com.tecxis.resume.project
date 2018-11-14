@@ -1,5 +1,7 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
@@ -26,5 +28,10 @@ public class StaffAssignment implements Serializable {
 		this.staffAssignmentId = staffAssignmentId;
 	}
 	
+	@Override
+	public String toString() {
+		return reflectionToString(this) + "[" + staffAssignmentId.toString() + "]";
+	}
+
 
 }
