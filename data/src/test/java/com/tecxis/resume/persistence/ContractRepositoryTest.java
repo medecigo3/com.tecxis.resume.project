@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
@@ -10,7 +11,6 @@ import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSU
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.insertAService;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.insertASupplier;

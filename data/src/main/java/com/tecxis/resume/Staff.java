@@ -71,9 +71,6 @@ public class Staff implements Serializable {
 	@OneToMany
 	private List<Interest> interests;
 
-	//bi-directional many-to-one association to Project
-//	In SQL terms, Project is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional one-to-many association to Project
 	 * In OO terms, this Staff "works on" Projects
@@ -89,6 +86,15 @@ public class Staff implements Serializable {
 	)
 	
 	private List<Project> projects;
+		
+	/**
+	 * bi-directional one-to-many association to StaffAssignment
+	 * In SQL terms, StaffAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
+	 * In OO terms, this Staff "works on" staff assignments
+	 */
+	@OneToMany
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
+	private List<StaffAssignment> staffAssignments;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill
 //	@OneToMany(mappedBy="staff")
@@ -109,11 +115,9 @@ public class Staff implements Serializable {
 	)
 	private List<Skill> skills;
 	
-	//bi-directional many-to-one association to Supplier
-//	In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional one-to-many association to Supplier
+	 * In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works for" Suppliers
 	 */
 	@OneToMany
@@ -226,6 +230,24 @@ public class Staff implements Serializable {
 //		project.setStaff(null);
 
 		return project;
+	}
+	
+	public List<StaffAssignment> getStaffAssignments() {
+		return this.staffAssignments;
+	}
+
+	public void setStaffAssignment(List<StaffAssignment> staffAssignment) {
+		this.staffAssignments = staffAssignment;
+	}
+
+	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().add(staffAssignment);
+		return staffAssignment;
+	}
+
+	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().remove(staffAssignment);
+		return staffAssignment;
 	}
 
 //	public List<StaffSkill> getStaffSkills() {

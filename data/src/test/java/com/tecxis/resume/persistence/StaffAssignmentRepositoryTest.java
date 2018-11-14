@@ -1,11 +1,12 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.AssignmentTest.insertAssignment;
 import static com.tecxis.resume.StaffAssignmentTest.STAFFASSIGNMENT_TABLE;
 import static com.tecxis.resume.StaffAssignmentTest.insertAStaffAssignment;
+import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.insertAssignment;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
@@ -16,7 +17,6 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

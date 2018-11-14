@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_ENDDATE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_STARTDATE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_ENDDATE;
@@ -21,7 +22,6 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STA
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

@@ -47,11 +47,10 @@ public class Project implements Serializable {
 	@Column(name="\"DESC\"")
 	private String desc;
 
-//	bi-directional many-to-one association to Assignment 
-//	In SQL terms, Assignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="project")
+
 	/**
 	 * bi-directional one-to-many association to StaffAssignment.
+	 * In SQL terms, StaffAssignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
@@ -128,15 +127,11 @@ public class Project implements Serializable {
 
 	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
 		getStaffAssignments().add(staffAssignment);
-//		assignment.setProject(this);
-
 		return staffAssignment;
 	}
 
 	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
 		getStaffAssignments().remove(staffAssignment);
-//		assignment.setProject(null);
-
 		return staffAssignment;
 	}
 

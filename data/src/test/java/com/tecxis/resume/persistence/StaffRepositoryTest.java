@@ -1,11 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT2;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT3;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT4;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT5;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT6;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
@@ -28,6 +22,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+import static com.tecxis.resume.StaffTest.insertAStaff;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,12 +47,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Course;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
-import com.tecxis.resume.StaffAssignment;
-import com.tecxis.resume.StaffAssignmentId;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -88,12 +81,6 @@ public class StaffRepositoryTest {
 	
 	@Autowired
 	private ProjectRepository projectRepo;
-	
-	@Autowired
-	private AssignmentRepository assignmentRepo;
-	
-	@Autowired
-	private StaffAssignmentRepository staffAssignmentRepo;
 	
 	@Test
 	@Sql(
@@ -151,50 +138,6 @@ public class StaffRepositoryTest {
 		assertEquals(AMT_LASTNAME , amt.getLastname());
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffAssignments() {
-		/**Prepare project*/
-		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
-		assertNotNull(adir);
-		
-		/**Prepare staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
-		assertNotNull(amt);
-		List <Project> amtProjects = amt.getProjects();
-		assertEquals(62, amtProjects.size());
-		
-		/**Prepare assignments*/		
-		List <StaffAssignment> adirAssignments = adir.getStaffAssignments();
-		assertEquals(6, adirAssignments.size());
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);		
-		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);		
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);		
-		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);		
-		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);		
-		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT6);
-		assertNotNull(assignment6);
-		assertNotNull(assignment1);
-		assertNotNull(assignment2);
-		assertNotNull(assignment3);
-		assertNotNull(assignment4);
-		assertNotNull(assignment5);
-		
-		/**Prepare staff assignments*/
-		StaffAssignment staffAssignment1 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment1)).get();
-		StaffAssignment staffAssignment2 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment2)).get();
-		StaffAssignment staffAssignment3 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment3)).get();
-		StaffAssignment staffAssignment4 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment4)).get();
-		StaffAssignment staffAssignment5 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment5)).get();
-		StaffAssignment staffAssignment6 = staffAssignmentRepo.findById(new StaffAssignmentId(adir, amt, assignment6)).get();
-		
-		/**Validate project's staff assignments*/
-		assertThat(adirAssignments, Matchers.containsInAnyOrder(staffAssignment1, staffAssignment2, staffAssignment3, staffAssignment4, staffAssignment5, staffAssignment6));
-		
-	
-	}
 	
 	@Test
 	@Sql(
@@ -328,18 +271,6 @@ public class StaffRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
-		Staff staff = new Staff();
-		staff.setName(firstName);
-		staff.setLastname(lastName);
-		assertEquals(0, staff.getStaffId());
-		entityManager.persist(staff);
-		entityManager.flush();
-		assertThat(staff.getStaffId(), Matchers.greaterThan((long)0));
-		return staff;
-		
 	}
 
 }

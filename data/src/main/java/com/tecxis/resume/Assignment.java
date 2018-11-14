@@ -6,12 +6,15 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -37,7 +40,16 @@ public class Assignment implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ASSIGNMENT_ASSIGNMENTID_GENERATOR")
 	@Column(name="ASSIGNMENT_ID")	
 	private long assignmentId;
-
+	
+	/**
+	 * bi-directional one-to-many association to StaffAssignment
+	 * In SQL terms, AssignmentAssignment is the "owner" of this association with Assignment as it contains the relationship's foreign key
+	 * In OO terms, this Assignment "is assigned" to staff assignments
+	 * */	
+	@OneToMany
+	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
+	private List <StaffAssignment> staffAssignments;
+	
 	//bi-directional many-to-one association to Project
 //	@ManyToOne
 //	@JoinColumns({
@@ -81,6 +93,24 @@ public class Assignment implements Serializable {
 	
 	public void setAssignmentId(long assignmentId) {
 		this.assignmentId = assignmentId;
+	}
+	
+	public List<StaffAssignment> getStaffAssignments() {
+		return this.staffAssignments;
+	}
+
+	public void setStaffAssignment(List<StaffAssignment> staffAssignment) {
+		this.staffAssignments = staffAssignment;
+	}
+
+	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().add(staffAssignment);
+		return staffAssignment;
+	}
+
+	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
+		getStaffAssignments().remove(staffAssignment);
+		return staffAssignment;
 	}
 	
 	@Override

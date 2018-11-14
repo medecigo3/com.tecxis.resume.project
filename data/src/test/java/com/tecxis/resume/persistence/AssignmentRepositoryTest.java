@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.AssignmentTest.insertAssignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -46,7 +47,7 @@ public class AssignmentRepositoryTest {
 	public static final String ASSIGNMENT6 = "Assisting in the integration of enterprise modules by complying with Enterprise Integration standard patterns.";
 	public static final String ASSIGNMENT7 = "Assisting in the configuration of maven pom modules for unit testing and building of releases.";
 	public static final String ASSIGNMENT8 = "Scripting to help in the build and deployment tasks.";
-	public static final String ASSIGNMENT9 = "Coding and configuring a web based portal based on Liferay technology to make Accenture''s software assets available for all collaborators across the UKDC delivery center.";
+	public static final String ASSIGNMENT9 = "Coding and configuring a web based portal based on Liferay technology to make Accenture's software assets available for all collaborators across the UKDC delivery center.";
 	public static final String ASSIGNMENT10 = "Contributing to develop a product for an important company in the French energy sector, to monitor and manage energy consumption for the household market.";
 	public static final String ASSIGNMENT11 = "Coding an authentication security system for the main Java enterprise service.";
 	public static final String ASSIGNMENT12 = "Coding a JMX technology based system to monitor across the main Java enterprise services.";
@@ -196,16 +197,6 @@ public class AssignmentRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Assignment insertAssignment(String desc, EntityManager entityManager) {
-		Assignment assignment = new Assignment();
-		assignment.setDesc(desc);
-		assertEquals(0, assignment.getAssignmentId());
-		entityManager.persist(assignment);
-		assertThat(assignment.getAssignmentId(), Matchers.greaterThan((long)0));
-		entityManager.flush();
-		return assignment;
 	}
 
 }
