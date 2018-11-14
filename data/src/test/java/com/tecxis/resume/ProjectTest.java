@@ -173,11 +173,44 @@ public class ProjectTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddStaffAssignment() {
-		fail("Not yet implemented");
+		/**Prepare project*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(1, adir.getProjectId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		/**Prepare staff*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, amt.getStaffId());
+		
+		/**Prepare assignment*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		Assignment assignment1 = AssignmentTest.insertAssignment(ASSIGNMENT1, entityManager);
+		assertEquals(1, assignment1.getAssignmentId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		
+		/**Prepare staff assignments*/	
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		StaffAssignment amtStaffAssignment = insertAStaffAssignment(adir, amt, assignment1, entityManager);
+		adir.addStaffAssignment(amtStaffAssignment);
+		entityManager.merge(adir);
+		entityManager.flush();
+		
+		/**Validate staff assignments*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffAssignment() {
 		fail("Not yet implemented");
 	}
