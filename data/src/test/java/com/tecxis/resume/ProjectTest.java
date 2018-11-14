@@ -1,6 +1,7 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.CityTest.LOCATION_TABLE;
+import static com.tecxis.resume.StaffAssignmentTest.*;
 import static com.tecxis.resume.CityTest.insertACity;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT22;
@@ -41,6 +42,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
+import static com.tecxis.resume.persistence.StaffAssignmentRepositoryTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -141,8 +143,8 @@ public class ProjectTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getProjectId());
+		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -151,14 +153,23 @@ public class ProjectTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getStaffId());
 		
+		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment1 = AssignmentTest.insertAssignment(ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getAssignmentId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
+		/**Prepare staff assignments*/	
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		StaffAssignment amtStaffAssignment = insertAStaffAssignment(adir, amt, assignment1, entityManager);		
+		List <StaffAssignment> amtStaffAssignments = new ArrayList <> ();		
+		amtStaffAssignments.add(amtStaffAssignment);
+		adir.setStaffAssignment(amtStaffAssignments);		
+		entityManager.merge(adir);
+		entityManager.flush();
 		
-		//TODO continue
-		fail("Not yet implemented");
+		/**Validate staff assignments*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
 	}
 
 	@Test
