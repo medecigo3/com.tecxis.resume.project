@@ -8,7 +8,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 @Generated(value="Dali", date="2018-07-20T21:52:58.803+0200")
 @StaticMetamodel(Project.class)
 public class Project_ {
-	public static volatile SingularAttribute<Project, ProjectPK> id;
+	public static volatile SingularAttribute<Project, ProjectPK> projectId;
+	public static volatile SingularAttribute<Project, ProjectPK> clientId;
 	public static volatile SingularAttribute<Project, String> desc;
 	public static volatile ListAttribute<Project, Assignment> assignments;
 	public static volatile ListAttribute<Project, City> cities;

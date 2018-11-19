@@ -2,8 +2,6 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.CityTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.StaffAssignmentTest.STAFFASSIGNMENT_TABLE;
-import static com.tecxis.resume.StaffAssignmentTest.insertAStaffAssignment;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT22;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT23;
@@ -40,6 +38,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
+import static com.tecxis.resume.StaffAssignmentTest.*;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;

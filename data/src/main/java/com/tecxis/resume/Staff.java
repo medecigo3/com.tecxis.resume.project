@@ -1,6 +1,7 @@
 package com.tecxis.resume;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -124,6 +125,11 @@ public class Staff implements Serializable {
 	private List<Supplier> suppliers;
 
 	public Staff() {
+		this.courses = new ArrayList<>();
+		this.interests = new ArrayList<>();
+		this.projects = new ArrayList<>();
+		this.staffAssignments = new ArrayList<>();
+		this.skills = new ArrayList<>();		
 	}
 
 	public long getStaffId() {
