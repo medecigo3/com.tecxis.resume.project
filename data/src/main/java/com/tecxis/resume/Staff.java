@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -93,7 +94,7 @@ public class Staff implements Serializable {
 	 * In SQL terms, StaffAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works on" staff assignments
 	 */
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
 	private List<StaffAssignment> staffAssignments;
 

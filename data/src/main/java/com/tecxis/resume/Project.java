@@ -54,7 +54,7 @@ public class Project implements Serializable {
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private List<StaffAssignment> staffAssignments;
@@ -91,6 +91,7 @@ public class Project implements Serializable {
 
 	public Project() {
 		this.cities = new ArrayList <> ();
+		this.staffAssignments = new ArrayList<>();
 	}
 
 	public String getDesc() {

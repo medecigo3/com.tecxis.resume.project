@@ -6,8 +6,10 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +48,7 @@ public class Assignment implements Serializable {
 	 * In SQL terms, AssignmentAssignment is the "owner" of this association with Assignment as it contains the relationship's foreign key
 	 * In OO terms, this Assignment "is assigned" to staff assignments
 	 * */	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
 	private List <StaffAssignment> staffAssignments;
 	
@@ -61,6 +63,7 @@ public class Assignment implements Serializable {
 //	private Project project;
 
 	public Assignment() {
+		this.staffAssignments = new ArrayList<>();
 	}
 
 	public String getDesc() {

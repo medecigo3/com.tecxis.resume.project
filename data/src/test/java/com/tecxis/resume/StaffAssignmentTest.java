@@ -3,6 +3,7 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT6;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
@@ -130,11 +131,6 @@ public class StaffAssignmentTest {
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffAssignment.class, id));
 		
-	}
-	
-	@Test
-	public void testOrphanRemoval() {
-		fail("TODO test orpahn removel see https://www.baeldung.com/delete-with-hibernate");
 	}
 	
 	

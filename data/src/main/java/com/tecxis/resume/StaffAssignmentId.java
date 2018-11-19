@@ -2,6 +2,7 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,16 +14,16 @@ import javax.persistence.ManyToOne;
 public class StaffAssignmentId implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private Project project;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
 	private Assignment assignment;
 
@@ -49,6 +50,18 @@ public class StaffAssignmentId implements Serializable {
 
 	public Assignment getAssignment() {
 		return assignment;
+	}
+		
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
 	}
 
 	@Override
@@ -81,7 +94,7 @@ public class StaffAssignmentId implements Serializable {
 
 	@Override
 	public String toString() {
-		return "staffAssignmentId=[projectId=" + this.getProject().getProjectId() + ", staffId="+staff.getStaffId() + ", assignmentId=" + assignment.getAssignmentId() + "]" ; 
+		return "staffAssignmentId=[projectId=" + (this.getProject() != null ? this.getProject().getProjectId() : "null") + ", staffId=" + (this.staff != null ? this.staff.getStaffId() : "null")  + ", assignmentId=" + (this.assignment != null ? this.assignment.getAssignmentId() : "null" )+ "]" ; 
 	}
 
 	
