@@ -3,7 +3,6 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT6;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
@@ -20,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
