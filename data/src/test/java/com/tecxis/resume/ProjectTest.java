@@ -90,9 +90,6 @@ public class ProjectTest {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@PersistenceContext
-	private EntityManager entityManager2;
-	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
