@@ -1,5 +1,7 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.StaffAssignmentTest.STAFFASSIGNMENT_TABLE;
+import static com.tecxis.resume.StaffAssignmentTest.insertAStaffAssignment;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT10;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT11;
@@ -54,11 +56,33 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT6
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT7;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT8;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT9;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.*;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.DCSC;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EUROCLEAR_VERS_CALYPSO;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 
@@ -69,6 +93,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -91,6 +116,9 @@ import com.tecxis.resume.persistence.StaffRepository;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffTest {
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -398,6 +426,75 @@ public class StaffTest {
 		staffAssignment50, staffAssignment51, staffAssignment52, staffAssignment53, staffAssignment54, staffAssignment55, staffAssignment56, staffAssignment57	));
 		
 	
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddStaffAssignment() {
+		/**Prepare project*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client arval = insertAClient(ARVAL, entityManager);		
+		Project aos = insertAProject(AOS, VERSION_1, arval, entityManager);
+		assertEquals(1, aos.getProjectId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		/**Prepare staff*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, amt.getStaffId());
+		
+		/**Prepare assignment*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		Assignment assignment47 = AssignmentTest.insertAssignment(ASSIGNMENT47, entityManager);
+		assertEquals(1, assignment47.getAssignmentId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		
+		/**Prepare staff assignments*/	
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		StaffAssignment amtStaffAssignment = insertAStaffAssignment(aos, amt, assignment47, entityManager);
+		aos.addStaffAssignment(amtStaffAssignment);
+		amt.addStaffAssignment(amtStaffAssignment);
+		assignment47.addStaffAssignment(amtStaffAssignment);
+		entityManager.merge(aos);
+		entityManager.merge(amt);
+		entityManager.merge(assignment47);
+		entityManager.flush();
+		
+		/**Validate staff assignments*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveStaffAssignment() {
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
+		StaffAssignmentId id = new StaffAssignmentId(parcours, amt, assignment14);	
+		assertEquals(62, amt.getStaffAssignments().size());		
+		assertEquals(6, parcours.getStaffAssignments().size());
+		assertEquals(1, assignment14.getStaffAssignments().size());
+		
+		entityManager.clear();
+		StaffAssignment staffAssignment1 = staffAssignmentRepo.findById(id).get();
+		assertNotNull(staffAssignment1);
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));	
+		entityManager.remove(staffAssignment1);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		assertNull(entityManager.find(StaffAssignment.class, id));
+		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		amt = staffRepo.getStaffLikeName(AMT_NAME);
+		assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);	
+		assertEquals(61, amt.getStaffAssignments().size());		
+		assertEquals(5, parcours.getStaffAssignments().size());
+		assertEquals(0, assignment14.getStaffAssignments().size());
 	}
 
 

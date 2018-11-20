@@ -60,6 +60,7 @@ public class ClientRepositoryTest {
 	public static String BELFIUS = "Belfius Insurance";
 	public static String AXELTIS = "Axeltis (Natixis group)";
 	public static String EULER_HERMES = "Euler Hermes";
+	public static String ARVAL = "Arval";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
