@@ -7,7 +7,6 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.insertAService;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
@@ -43,6 +42,7 @@ import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Service;
+import com.tecxis.resume.ServiceTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
 
@@ -140,7 +140,7 @@ public class ContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);
-		Service dev = insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service dev = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		Supplier alterna = insertASupplier(amt, ALTERNA,  entityManager);
 		Contract accentureContract = ContractTest.insertAContract(accenture, alterna, dev, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
@@ -154,7 +154,7 @@ public class ContractRepositoryTest {
 	public void testFindInsertedContract() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);
-		Service consultant = insertAService(TIBCO_BW_CONSULTANT, entityManager);
+		Service consultant = ServiceTest.insertAService(TIBCO_BW_CONSULTANT, entityManager);
 		Supplier alphatress = insertASupplier(amt, ALPHATRESS, entityManager);
 		Contract contractIn = ContractTest.insertAContract(barclays, alphatress, consultant, amt, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
 		Contract contractOut = contractRepo.getContractByStartDate(CONTRACT12_STARTDATE);
@@ -172,7 +172,7 @@ public class ContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
-		Service consultant = insertAService(MULE_ESB_CONSULTANT,  entityManager);
+		Service consultant = ServiceTest.insertAService(MULE_ESB_CONSULTANT,  entityManager);
 		Supplier alphatress = insertASupplier(amt, ALTERNA, entityManager);
 		Contract tempContract = ContractTest.insertAContract(barclays, alphatress, consultant, amt, CURRENT_DATE, null,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));

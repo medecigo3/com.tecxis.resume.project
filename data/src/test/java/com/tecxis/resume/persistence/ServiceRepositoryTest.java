@@ -46,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Service;
+import com.tecxis.resume.ServiceTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -84,7 +85,7 @@ public class ServiceRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service scmAssoc = insertAService(SCM_ASSOCIATE_DEVELOPPER,  entityManager);
+		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getServiceId());
 	}
@@ -95,7 +96,7 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {
-		Service serviceIn = insertAService(MULE_ESB_CONSULTANT, entityManager);
+		Service serviceIn = ServiceTest.insertAService(MULE_ESB_CONSULTANT, entityManager);
 		List <Service> serviceList = serviceRepo.getServiceLikeName(MULE_ESB_CONSULTANT);
 		assertEquals(1, serviceList.size());
 		Service serviceOut = serviceList.get(0);		
@@ -189,7 +190,7 @@ public class ServiceRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service tempService = insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service tempService = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
@@ -202,15 +203,5 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Service insertAService(String name, EntityManager entityManager) {
-		Service service = new Service();
-		service.setName(name);
-		assertEquals(0, service.getServiceId());
-		entityManager.persist(service);
-		entityManager.flush();
-		assertThat(service.getServiceId(), Matchers.greaterThan((long)0));
-		return service;
 	}
 }
