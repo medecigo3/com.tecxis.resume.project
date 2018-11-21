@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -21,7 +20,6 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -40,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Project;
+import com.tecxis.resume.ProjectTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -111,22 +110,22 @@ public class ProjectRepositoryTest {
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
 		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
+		Project sherpaProject = ProjectTest.insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
 		Client axeltis = ClientTest.insertAClient(AXELTIS, entityManager);
-		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Project morningStarV1Project = ProjectTest.insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
-		Project monringstarV2Project = insertAProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
+		Project monringstarV2Project = ProjectTest.insertAProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
 		assertEquals(4, monringstarV2Project.getProjectId());
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
@@ -140,7 +139,7 @@ public class ProjectRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
 		Client euler = ClientTest.insertAClient(EULER_HERMES, entityManager);
-		Project eolisIn = insertAProject(EOLIS, VERSION_1, euler, entityManager);
+		Project eolisIn = ProjectTest.insertAProject(EOLIS, VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
 	}
@@ -198,7 +197,7 @@ public class ProjectRepositoryTest {
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(SAGEMCOM, entityManager);
-		Project tempProject = insertAProject(TED, VERSION_1, barclays, entityManager);
+		Project tempProject = ProjectTest.insertAProject(TED, VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		projectRepo.delete(tempProject);
 		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
@@ -212,19 +211,6 @@ public class ProjectRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
-		Project project = new Project();
-		project.setClientId(client.getClientId());		
-		project.setName(name);
-		project.setVersion(version);
-		assertEquals(0, project.getProjectId());
-		entityManager.persist(project);
-		entityManager.flush();
-		assertThat(project.getProjectId(), Matchers.greaterThan((long)0));
-		return project;
-
 	}
 	
 }

@@ -16,7 +16,6 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -86,7 +85,7 @@ public class AssignmentTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -171,7 +170,7 @@ public class AssignmentTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		

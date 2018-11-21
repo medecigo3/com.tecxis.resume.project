@@ -74,7 +74,6 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -437,7 +436,7 @@ public class StaffTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
-		Project aos = insertAProject(AOS, VERSION_1, arval, entityManager);
+		Project aos = ProjectTest.insertAProject(AOS, VERSION_1, arval, entityManager);
 		assertEquals(1, aos.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -522,7 +521,7 @@ public class StaffTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		

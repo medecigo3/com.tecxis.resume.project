@@ -12,7 +12,6 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -41,6 +40,7 @@ import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Project;
+import com.tecxis.resume.ProjectTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffAssignment;
 import com.tecxis.resume.StaffAssignmentId;
@@ -81,7 +81,7 @@ public class StaffAssignmentRepositoryTest {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -109,7 +109,7 @@ public class StaffAssignmentRepositoryTest {
 	public void testInsertStaffAssignment() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -146,7 +146,7 @@ public class StaffAssignmentRepositoryTest {
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		

@@ -39,7 +39,6 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.insertAProject;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -144,7 +143,7 @@ public class ProjectTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -190,7 +189,7 @@ public class ProjectTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -392,7 +391,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
+		Project sherpaProject = ProjectTest.insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
@@ -436,9 +435,9 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		Client ageas = ClientTest.insertAClient(AGEAS, entityManager);		
-		Project fortisProject = insertAProject(FORTIS, VERSION_1, ageas, entityManager);
+		Project fortisProject = ProjectTest.insertAProject(FORTIS, VERSION_1, ageas, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -469,7 +468,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));		
 		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);			
+		Project sherpaProject = ProjectTest.insertAProject(SHERPA, VERSION_1, belfius, entityManager);			
 		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
 		City brussels = insertACity(BRUSSELS, belgium, entityManager);
 		Country france = CountryTest.insertACountry(FRANCE, entityManager);
@@ -536,6 +535,19 @@ public class ProjectTest {
 	@Test
 	public void testSetVersion() {
 		fail("Not yet implemented");
+	}
+
+	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
+		Project project = new Project();
+		project.setClientId(client.getClientId());		
+		project.setName(name);
+		project.setVersion(version);
+		assertEquals(0, project.getProjectId());
+		entityManager.persist(project);
+		entityManager.flush();
+		assertThat(project.getProjectId(), Matchers.greaterThan((long)0));
+		return project;
+	
 	}
 
 }
