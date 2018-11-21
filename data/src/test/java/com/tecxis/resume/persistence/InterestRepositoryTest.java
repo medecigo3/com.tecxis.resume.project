@@ -2,7 +2,6 @@ package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -11,7 +10,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Interest;
+import com.tecxis.resume.InterestTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -56,15 +55,15 @@ public class InterestRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		Interest hobby = insertAnInterest(HOBBY, entityManager);		
+		Interest hobby = InterestTest.insertAnInterest(HOBBY, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(1, hobby.getInterestId());
 		
-		Interest running = insertAnInterest(RUNNING, entityManager);
+		Interest running = InterestTest.insertAnInterest(RUNNING, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(2, running.getInterestId());
 		
-		Interest swimming = insertAnInterest(SWIMMING, entityManager);
+		Interest swimming = InterestTest.insertAnInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(3, swimming.getInterestId());
 	}
@@ -75,7 +74,7 @@ public class InterestRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedInterest() {
-		Interest hobbyIn = insertAnInterest(HOBBY, entityManager);
+		Interest hobbyIn = InterestTest.insertAnInterest(HOBBY, entityManager);
 		List<Interest> hobbyOutList = interestRepo.getInterestLikeDesc("%bike%");
 		assertEquals(1, hobbyOutList.size());
 		Interest hobbyOut = hobbyOutList.get(0);
@@ -87,8 +86,8 @@ public class InterestRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetInterestLikeDesc() {
-		insertAnInterest(RUNNING, entityManager);		
-		insertAnInterest(SWIMMING, entityManager);
+		InterestTest.insertAnInterest(RUNNING, entityManager);		
+		InterestTest.insertAnInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(HOBBY);
 		assertNotNull(hobbyList);
@@ -114,7 +113,7 @@ public class InterestRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteInterest() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		Interest tempInterest = insertAnInterest(HOBBY, entityManager);
+		Interest tempInterest = InterestTest.insertAnInterest(HOBBY, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		interestRepo.delete(tempInterest);
 		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
@@ -127,15 +126,5 @@ public class InterestRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
-		Interest interest = new Interest();
-		interest.setDesc(desc);
-		assertEquals(0, interest.getInterestId());
-		entityManager.persist(interest);
-		entityManager.flush();
-		assertThat(interest.getInterestId(), Matchers.greaterThan((long)0));
-		return interest;
 	}
 }
