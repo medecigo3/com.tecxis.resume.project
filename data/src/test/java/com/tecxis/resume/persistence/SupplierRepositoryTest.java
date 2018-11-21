@@ -50,6 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
+import com.tecxis.resume.SupplierTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -86,7 +87,7 @@ public class SupplierRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		
-		Supplier accenture = insertASupplier(amt, ACCENTURE,  entityManager);
+		Supplier accenture = SupplierTest.insertASupplier(amt, ACCENTURE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, accenture.getSupplierId());
@@ -100,7 +101,7 @@ public class SupplierRepositoryTest {
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
-		Supplier supplierIn = insertASupplier(amt, ALPHATRESS, entityManager);
+		Supplier supplierIn = SupplierTest.insertASupplier(amt, ALPHATRESS, entityManager);
 		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
 		
@@ -172,7 +173,7 @@ public class SupplierRepositoryTest {
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
-		Supplier tempSupplier = insertASupplier(amt, AMESYS, entityManager);
+		Supplier tempSupplier = SupplierTest.insertASupplier(amt, AMESYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
 		assertNull(supplierRepo.getSupplierByName(AMESYS));
@@ -185,15 +186,5 @@ public class SupplierRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Supplier insertASupplier(Staff staff, String name, EntityManager entityManager) {
-		Supplier supplier = new Supplier();
-		supplier.setName(name);
-		supplier.setStaffId(staff.getStaffId());
-		entityManager.persist(supplier);
-		entityManager.flush();
-		assertThat(supplier.getSupplierId(), Matchers.greaterThan((long)0));
-		return supplier;
 	}
 }
