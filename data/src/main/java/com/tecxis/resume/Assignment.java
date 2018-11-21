@@ -44,13 +44,13 @@ public class Assignment implements Serializable {
 	private long assignmentId;
 	
 	/**
-	 * bi-directional one-to-many association to StaffAssignment
+	 * bi-directional one-to-many association to StaffProjectAssignment
 	 * In SQL terms, AssignmentAssignment is the "owner" of this association with Assignment as it contains the relationship's foreign key
 	 * In OO terms, this Assignment "is assigned" to staff assignments
 	 * */	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
-	private List <StaffAssignment> staffAssignments;
+	private List <StaffProjectAssignment> staffProjectAssignments;
 	
 	//bi-directional many-to-one association to Project
 //	@ManyToOne
@@ -63,7 +63,7 @@ public class Assignment implements Serializable {
 //	private Project project;
 
 	public Assignment() {
-		this.staffAssignments = new ArrayList<>();
+		this.staffProjectAssignments = new ArrayList<>();
 	}
 
 	public String getDesc() {
@@ -98,22 +98,22 @@ public class Assignment implements Serializable {
 		this.assignmentId = assignmentId;
 	}
 	
-	public List<StaffAssignment> getStaffAssignments() {
-		return this.staffAssignments;
+	public List<StaffProjectAssignment> getStaffProjectAssignments() {
+		return this.staffProjectAssignments;
 	}
 
-	public void setStaffAssignment(List<StaffAssignment> staffAssignment) {
-		this.staffAssignments = staffAssignment;
+	public void setStaffProjectAssignment(List<StaffProjectAssignment> staffProjectAssignment) {
+		this.staffProjectAssignments = staffProjectAssignment;
 	}
 
-	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
-		getStaffAssignments().add(staffAssignment);
-		return staffAssignment;
+	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		getStaffProjectAssignments().add(staffProjectAssignment);
+		return staffProjectAssignment;
 	}
 
-	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
-		getStaffAssignments().remove(staffAssignment);
-		return staffAssignment;
+	public StaffProjectAssignment removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		getStaffProjectAssignments().remove(staffProjectAssignment);
+		return staffProjectAssignment;
 	}
 	
 	@Override

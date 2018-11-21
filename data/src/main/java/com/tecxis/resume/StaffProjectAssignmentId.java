@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
  * The primary key class for STAFF_ASSIGNMENT database table
  * */
 @Embeddable
-public class StaffAssignmentId implements Serializable {
+public class StaffProjectAssignmentId implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -29,14 +29,14 @@ public class StaffAssignmentId implements Serializable {
 
 	
 	
-	public StaffAssignmentId(Project project, Staff staff, Assignment assignment) {
+	public StaffProjectAssignmentId(Project project, Staff staff, Assignment assignment) {
 		this();
 		this.project = project;
 		this.staff = staff;
 		this.assignment = assignment;
 	}
 
-	public StaffAssignmentId() {
+	public StaffProjectAssignmentId() {
 		super();
 	}	
 
@@ -69,10 +69,10 @@ public class StaffAssignmentId implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof StaffAssignmentId)) {
+		if (!(other instanceof StaffProjectAssignmentId)) {
 			return false;
 		}
-		StaffAssignmentId castOther = (StaffAssignmentId)other;
+		StaffProjectAssignmentId castOther = (StaffProjectAssignmentId)other;
 		return 
 			(this.project.getClientId() == castOther.getProject().getClientId())
 			&& (this.project.getProjectId() == castOther.getProject().getProjectId())

@@ -79,7 +79,7 @@ public class Staff implements Serializable {
 	 */
 	@OneToMany
 	@JoinTable(
-		name="STAFF_ASSIGNMENT", joinColumns= {
+		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
 		}, inverseJoinColumns = {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
@@ -90,13 +90,13 @@ public class Staff implements Serializable {
 	private List<Project> projects;
 		
 	/**
-	 * bi-directional one-to-many association to StaffAssignment
-	 * In SQL terms, StaffAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
+	 * bi-directional one-to-many association to StaffProjectAssignment
+	 * In SQL terms, StaffProjectAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works on" staff assignments
 	 */
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
-	private List<StaffAssignment> staffAssignments;
+	private List<StaffProjectAssignment> staffProjectAssignments;
 
 //	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill
 //	@OneToMany(mappedBy="staff")
@@ -129,7 +129,7 @@ public class Staff implements Serializable {
 		this.courses = new ArrayList<>();
 		this.interests = new ArrayList<>();
 		this.projects = new ArrayList<>();
-		this.staffAssignments = new ArrayList<>();
+		this.staffProjectAssignments = new ArrayList<>();
 		this.skills = new ArrayList<>();		
 	}
 
@@ -239,22 +239,22 @@ public class Staff implements Serializable {
 		return project;
 	}
 	
-	public List<StaffAssignment> getStaffAssignments() {
-		return this.staffAssignments;
+	public List<StaffProjectAssignment> getStaffProjectAssignments() {
+		return this.staffProjectAssignments;
 	}
 
-	public void setStaffAssignment(List<StaffAssignment> staffAssignment) {
-		this.staffAssignments = staffAssignment;
+	public void setStaffProjectAssignment(List<StaffProjectAssignment> staffProjectAssignments) {
+		this.staffProjectAssignments = staffProjectAssignments;
 	}
 
-	public StaffAssignment addStaffAssignment(StaffAssignment staffAssignment) {
-		getStaffAssignments().add(staffAssignment);
-		return staffAssignment;
+	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		getStaffProjectAssignments().add(staffProjectAssignment);
+		return staffProjectAssignment;
 	}
 
-	public StaffAssignment removeStaffAssignment(StaffAssignment staffAssignment) {
-		getStaffAssignments().remove(staffAssignment);
-		return staffAssignment;
+	public StaffProjectAssignment removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		getStaffProjectAssignments().remove(staffProjectAssignment);
+		return staffProjectAssignment;
 	}
 
 //	public List<StaffSkill> getStaffSkills() {

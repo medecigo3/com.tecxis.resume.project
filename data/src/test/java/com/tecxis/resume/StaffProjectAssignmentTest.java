@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
-import com.tecxis.resume.persistence.StaffAssignmentRepository;
+import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,9 +49,9 @@ import com.tecxis.resume.persistence.StaffRepository;
 		"classpath:test-transaction-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class StaffAssignmentTest {
+public class StaffProjectAssignmentTest {
 
-	public static final String STAFFASSIGNMENT_TABLE = "STAFF_ASSIGNMENT";
+	public static final String STAFFPROJECTASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -63,7 +63,7 @@ public class StaffAssignmentTest {
 	private ProjectRepository projectRepo;
 	
 	@Autowired
-	private StaffAssignmentRepository staffAssignmentRepo;
+	private StaffProjectAssignmentRepository staffProjectAssignmentRepo;
 		
 	@Autowired 
 	private StaffRepository staffRepo;
@@ -76,7 +76,7 @@ public class StaffAssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertStaffAssignment() {
+	public void testInsertStaffProjectAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
@@ -97,35 +97,35 @@ public class StaffAssignmentTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
-		StaffAssignment amtStaffAssignment = insertAStaffAssignment(adir, amt, assignment1, entityManager);		
-		List <StaffAssignment> amtStaffAssignments = new ArrayList <> ();		
-		amtStaffAssignments.add(amtStaffAssignment);				
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		StaffProjectAssignment amtStaffProjectAssignment = insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);		
+		List <StaffProjectAssignment> amtStaffProjectAssignments = new ArrayList <> ();		
+		amtStaffProjectAssignments.add(amtStaffProjectAssignment);				
 		entityManager.merge(adir);
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 	}
 
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveStaffAssignment() {
+	public void testRemoveStaffProjectAssignment() {
 		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);		
-		StaffAssignmentId id = new StaffAssignmentId(sherpa, amt, assignment53);		
-		StaffAssignment staffAssignment1 = staffAssignmentRepo.findById(id).get();
-		assertNotNull(staffAssignment1);
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa, amt, assignment53);		
+		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);
 		
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));		
-		entityManager.remove(staffAssignment1);
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));		
+		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
-		assertNull(entityManager.find(StaffAssignment.class, id));
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
 	}
 	
@@ -148,41 +148,41 @@ public class StaffAssignmentTest {
 		 * When we delete the staff assignment instance referenced by fortis which is also loaded in the persistence context 
 		 * the staff association will not be removed from DB
 		 * Comment out these to lines above to prove otherwise*/		
-		List <StaffAssignment>  fortisStaffAssignments = fortis.getStaffAssignments();
+		List <StaffProjectAssignment>  fortisStaffAssignments = fortis.getStaffProjectAssignments();
 		assertEquals(3, fortisStaffAssignments.size());
 
-		StaffAssignmentId id2 = new StaffAssignmentId(fortis, amt, entityManager.find(Assignment.class, 6L));	
-		StaffAssignment staffAssignment2 =	entityManager.find(StaffAssignment.class, id2);
-		StaffAssignment staffAssignment3 = staffAssignmentRepo.findById(id2).get();
+		StaffProjectAssignmentId id2 = new StaffProjectAssignmentId(fortis, amt, entityManager.find(Assignment.class, 6L));	
+		StaffProjectAssignment staffAssignment2 =	entityManager.find(StaffProjectAssignment.class, id2);
+		StaffProjectAssignment staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
 		assertTrue(staffAssignment2.equals(staffAssignment3));
 		assertNotNull(staffAssignment3);
 			
 		/**The the removed staff assignment is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 		entityManager.remove(staffAssignment2);
 		entityManager.flush();		
 		/**Un-schedule entity deletion*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
-		assertNotNull(entityManager.find(StaffAssignment.class, id2));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertNotNull(entityManager.find(StaffProjectAssignment.class, id2));
 				
 		entityManager.clear();
-		staffAssignment3 = staffAssignmentRepo.findById(id2).get();
+		staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
 		assertNotNull(staffAssignment3);
 		entityManager.remove(staffAssignment3);
 		entityManager.flush();
-		assertNull(entityManager.find(StaffAssignment.class, id2));		
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
+		assertNull(entityManager.find(StaffProjectAssignment.class, id2));		
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 				
 
 	}
 	
-	public static StaffAssignment insertAStaffAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
-		StaffAssignment staffAssignment = new StaffAssignment();
-		StaffAssignmentId id = new StaffAssignmentId(project, staff, assignment);
-		staffAssignment.setStaffAssignmentId(id);
-		entityManager.persist(staffAssignment);
+	public static StaffProjectAssignment insertAStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
+		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, staff, assignment);
+		staffProjectAssignment.setStaffAssignmentId(id);
+		entityManager.persist(staffProjectAssignment);
 		entityManager.flush();
-		return staffAssignment;
+		return staffProjectAssignment;
 		
 	}
 
