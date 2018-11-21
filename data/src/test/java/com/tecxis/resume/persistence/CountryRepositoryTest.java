@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.City;
 import com.tecxis.resume.Country;
+import com.tecxis.resume.CountryTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,15 +62,15 @@ public class CountryRepositoryTest {
 	)
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = insertACountry(FRANCE, entityManager);
+		Country france = CountryTest.insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getCountryId());
 		
-		Country uk = insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(2, uk.getCountryId());
 		
-		Country belgium = insertACountry(BELGIUM, entityManager);
+		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(3, belgium.getCountryId());
 	}
@@ -80,7 +81,7 @@ public class CountryRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void shouldBeAbleToFindInsertedCountry() {
-		Country countryIn = insertACountry(FRANCE, entityManager);
+		Country countryIn = CountryTest.insertACountry(FRANCE, entityManager);
 		Country countryOut = countryRepo.getCountryByCountryId(countryIn.getCountryId());
 		assertEquals(countryIn, countryOut);
 	}
@@ -105,7 +106,7 @@ public class CountryRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
-		Country tempCountry = insertACountry("temp", entityManager);
+		Country tempCountry = CountryTest.insertACountry("temp", entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
@@ -138,16 +139,6 @@ public class CountryRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-	
-	public static Country insertACountry(String name, EntityManager entityManager) {
-		Country country = new Country();
-		country.setName(name);
-		assertEquals(0, country.getCountryId());
-		entityManager.persist(country);		
-		entityManager.flush();
-		assertThat(country.getCountryId(), Matchers.greaterThanOrEqualTo((long)0));
-		return country;
 	}
 	
 

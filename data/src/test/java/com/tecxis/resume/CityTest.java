@@ -10,7 +10,6 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
-import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -170,8 +169,8 @@ public class CityTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = insertACountry(UNITED_KINGDOM, entityManager);
-		Country france = insertACountry(FRANCE, entityManager);
+		Country uk = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
+		Country france = CountryTest.insertACountry(FRANCE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -228,8 +227,8 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
-		Country UK = insertACountry(UNITED_KINGDOM, entityManager);
-		Country france = insertACountry(FRANCE, entityManager);
+		Country UK = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
+		Country france = CountryTest.insertACountry(FRANCE, entityManager);
 		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		Client axeltis = ClientTest.insertAClient(AXELTIS, entityManager);

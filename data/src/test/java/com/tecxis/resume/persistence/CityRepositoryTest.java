@@ -1,7 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.persistence.CountryRepositoryTest.insertACountry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -27,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.City;
 import com.tecxis.resume.Country;
+import com.tecxis.resume.CountryTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -69,19 +69,19 @@ public class CityRepositoryTest {
 		if (uk != null)
 			UK = uk;
 		else
-			UK = insertACountry("United Kingdom", entityManager);
+			UK = CountryTest.insertACountry("United Kingdom", entityManager);
 		
 		Country france = countryRepo.getCountryByName(CountryRepositoryTest.FRANCE);
 		if (france != null) 
 			FRANCE = france;
 		else
-			FRANCE = insertACountry("France", entityManager);
+			FRANCE = CountryTest.insertACountry("France", entityManager);
 		
 		Country belgium = countryRepo.getCountryByName(CountryRepositoryTest.BELGIUM);
 		if (belgium != null)
 			BELGIUM = belgium;
 		else
-			BELGIUM = insertACountry("Belgium", entityManager);		
+			BELGIUM = CountryTest.insertACountry("Belgium", entityManager);		
 
 	}
 	
