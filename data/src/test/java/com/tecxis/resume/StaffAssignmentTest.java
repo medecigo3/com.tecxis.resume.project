@@ -5,7 +5,6 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
@@ -81,7 +80,7 @@ public class StaffAssignmentTest {
 	public void testInsertStaffAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));

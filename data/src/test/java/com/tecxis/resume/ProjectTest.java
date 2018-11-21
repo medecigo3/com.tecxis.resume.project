@@ -27,7 +27,6 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
@@ -145,7 +144,7 @@ public class ProjectTest {
 	public void testSetStaffAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -191,7 +190,7 @@ public class ProjectTest {
 	public void testAddStaffAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -393,7 +392,7 @@ public class ProjectTest {
 	public void testSetCities() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client belfius = insertAClient(BELFIUS, entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -437,9 +436,9 @@ public class ProjectTest {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		Client ageas = insertAClient(AGEAS, entityManager);		
+		Client ageas = ClientTest.insertAClient(AGEAS, entityManager);		
 		Project fortisProject = insertAProject(FORTIS, VERSION_1, ageas, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -470,7 +469,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));		
-		Client belfius = insertAClient(BELFIUS, entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);			
 		Country belgium = insertACountry(BELGIUM, entityManager);
 		City brussels = insertACity(BRUSSELS, belgium, entityManager);

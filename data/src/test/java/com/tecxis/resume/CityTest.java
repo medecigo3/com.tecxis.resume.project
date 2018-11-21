@@ -7,7 +7,6 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
@@ -177,11 +176,11 @@ public class CityTest {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client belfius = insertAClient(BELFIUS, entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-		Client axeltis = insertAClient(AXELTIS, entityManager);
+		Client axeltis = ClientTest.insertAClient(AXELTIS, entityManager);
 		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -231,11 +230,11 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
 		Country UK = insertACountry(UNITED_KINGDOM, entityManager);
 		Country france = insertACountry(FRANCE, entityManager);
-		Client belfius = insertAClient(BELFIUS, entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-		Client axeltis = insertAClient(AXELTIS, entityManager);
+		Client axeltis = ClientTest.insertAClient(AXELTIS, entityManager);
 		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);			
 		City london = insertACity(LONDON, UK, entityManager);		
 		City paris = insertACity(PARIS, france, entityManager);

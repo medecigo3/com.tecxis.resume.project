@@ -8,7 +8,6 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
@@ -40,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Client;
+import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffAssignment;
@@ -80,7 +80,7 @@ public class StaffAssignmentRepositoryTest {
 	public void testShouldCreateRowsAndSetIds() {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -108,7 +108,7 @@ public class StaffAssignmentRepositoryTest {
 	)
 	public void testInsertStaffAssignment() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -145,7 +145,7 @@ public class StaffAssignmentRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFASSIGNMENT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));

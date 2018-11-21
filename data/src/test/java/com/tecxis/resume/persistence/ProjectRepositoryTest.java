@@ -6,7 +6,6 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -39,6 +38,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Client;
+import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Project;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -110,17 +110,17 @@ public class ProjectRepositoryTest {
 		@Test
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
-		Client belfius = insertAClient(BELFIUS, entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);
 		Project sherpaProject = insertAProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
-		Client axeltis = insertAClient(AXELTIS, entityManager);
+		Client axeltis = ClientTest.insertAClient(AXELTIS, entityManager);
 		Project morningStarV1Project = insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -139,7 +139,7 @@ public class ProjectRepositoryTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
-		Client euler = insertAClient(EULER_HERMES, entityManager);
+		Client euler = ClientTest.insertAClient(EULER_HERMES, entityManager);
 		Project eolisIn = insertAProject(EOLIS, VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
@@ -197,7 +197,7 @@ public class ProjectRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(SAGEMCOM, entityManager);
+		Client barclays = ClientTest.insertAClient(SAGEMCOM, entityManager);
 		Project tempProject = insertAProject(TED, VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		projectRepo.delete(tempProject);

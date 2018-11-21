@@ -59,7 +59,6 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT9
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.insertAClient;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -437,7 +436,7 @@ public class StaffTest {
 	public void testAddStaffAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client arval = insertAClient(ARVAL, entityManager);		
+		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
 		Project aos = insertAProject(AOS, VERSION_1, arval, entityManager);
 		assertEquals(1, aos.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -522,7 +521,7 @@ public class StaffTest {
 	public void testSetStaffAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));

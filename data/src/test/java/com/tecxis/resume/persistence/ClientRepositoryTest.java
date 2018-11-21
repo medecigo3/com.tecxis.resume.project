@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Client;
+import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -78,15 +79,15 @@ public class ClientRepositoryTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client barclays = insertAClient(BARCLAYS, entityManager);
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, barclays.getClientId());
 		
-		Client ageas = insertAClient(AGEAS, entityManager);
+		Client ageas = ClientTest.insertAClient(AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, ageas.getClientId());
 		
-		Client accenture = insertAClient(ACCENTURE, entityManager);
+		Client accenture = ClientTest.insertAClient(ACCENTURE, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, accenture.getClientId());
 		
@@ -98,7 +99,7 @@ public class ClientRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void findInsertedClient() {
-		Client clientIn = insertAClient(BARCLAYS, entityManager);
+		Client clientIn = ClientTest.insertAClient(BARCLAYS, entityManager);
 		Client clientOut = clientRepo.getClientByName(clientIn.getName());
 		assertEquals(clientIn, clientOut);
 		
@@ -178,7 +179,7 @@ public class ClientRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteClientByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client tempClient = insertAClient(BARCLAYS, entityManager);
+		Client tempClient = ClientTest.insertAClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(SAGEMCOM));
@@ -191,17 +192,6 @@ public class ClientRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		fail("TODO");
-	}
-
-	public static Client insertAClient(String name, EntityManager entityManager) {
-		Client client = new Client();
-		client.setName(name);
-		assertEquals(0, client.getClientId());
-		entityManager.persist(client);		
-		entityManager.flush();
-		assertThat(client.getClientId(), Matchers.greaterThan((long)0));
-		return client;
-		
 	}
 
 }
