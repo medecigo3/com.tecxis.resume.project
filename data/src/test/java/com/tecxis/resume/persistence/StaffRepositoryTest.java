@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
@@ -20,9 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-import static com.tecxis.resume.StaffTest.insertAStaff;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -270,7 +269,8 @@ public class StaffRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
-		fail("TODO");
+		List <Staff> staffs = staffRepo.findAll();
+		assertEquals(2, staffs.size());
 	}
 
 }
