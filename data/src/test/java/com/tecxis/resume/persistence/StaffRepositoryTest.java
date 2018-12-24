@@ -64,7 +64,7 @@ public class StaffRepositoryTest {
 	public static final String STAFF_TABLE = "STAFF";
 	public static final String AMT_NAME = "Arturo";
 	public static final String AMT_LASTNAME = "Medecigo Tress";
-	public static final String JHON_NAME = "Jhon";
+	public static final String JHON_NAME = "John";
 	public static final String JHON_LASTNAME = "Smith";
 	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
 		

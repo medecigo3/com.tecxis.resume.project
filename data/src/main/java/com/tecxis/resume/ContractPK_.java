@@ -8,8 +8,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(ContractPK.class)
 public class ContractPK_ {
 	public static volatile SingularAttribute<ContractPK, Long> clientId;
-	public static volatile SingularAttribute<ContractPK, String> supplierId;
-	public static volatile SingularAttribute<ContractPK, Long> serviceId;
 	public static volatile SingularAttribute<ContractPK, Long> contractId;
 	public static volatile SingularAttribute<ContractPK, Long> staffId;
+	public static volatile SingularAttribute<ContractPK, Long> supplierId;	
+
 }

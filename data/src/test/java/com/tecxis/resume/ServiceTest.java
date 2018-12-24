@@ -44,9 +44,10 @@ public class ServiceTest {
 		fail("Not yet implemented");
 	}
 
-	public static Service insertAService(String name, EntityManager entityManager) {
+	public static Service insertAService(String name, Contract contract, EntityManager entityManager) {
 		Service service = new Service();
 		service.setName(name);
+		service.setContract(contract);
 		assertEquals(0, service.getServiceId());
 		entityManager.persist(service);
 		entityManager.flush();

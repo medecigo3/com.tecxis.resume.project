@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -167,7 +166,7 @@ public class ClientRepositoryTest {
 		Client belfius = clientRepo.getClientByName(BELFIUS);
 		assertNotNull(belfius.getContracts());
 		List <Contract> belfiusContracts = belfius.getContracts();
-		assertEquals(1, belfiusContracts.size());
+		assertEquals(2, belfiusContracts.size());
 		Contract belfiusContract = belfiusContracts.get(0);
 		assertEquals(belfiusContract.getStartDate(), CONTRACT13_STARTDATE);
 		assertNull(belfiusContract.getEndDate());
@@ -191,7 +190,8 @@ public class ClientRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
-		fail("TODO");
+		List <Client> clients = clientRepo.findAll();
+		assertEquals(12, clients.size());
 	}
 
 }

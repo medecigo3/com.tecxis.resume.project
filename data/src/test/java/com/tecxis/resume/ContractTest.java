@@ -61,10 +61,9 @@ public class ContractTest {
 		fail("Not yet implemented");
 	}
 
-	public static Contract insertAContract(Client client, Supplier supplier, Service service, Staff staff, Date startDate, Date endDate, EntityManager entityManager) {
+	public static Contract insertAContract(Client client, Supplier supplier, Staff staff, Date startDate, Date endDate, EntityManager entityManager) {
 		Contract contract  = new Contract();
 		contract.setClientId(client.getClientId());
-		contract.setServiceId(service.getServiceId());
 		contract.setStaffId(staff.getStaffId());
 		contract.setSupplierId(supplier.getSupplierId());
 		contract.setStartDate(startDate);

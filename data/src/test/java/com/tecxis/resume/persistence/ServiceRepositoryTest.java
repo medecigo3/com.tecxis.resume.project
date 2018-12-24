@@ -1,25 +1,19 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT10_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_STARTDATE;
+import static com.tecxis.resume.StaffTest.insertAStaff;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_ENDDATE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_ENDDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_STARTDATE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_ENDDATE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT6_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT6_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT8_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT8_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CURRENT_DATE;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -43,9 +37,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Client;
+import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
+import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Service;
 import com.tecxis.resume.ServiceTest;
+import com.tecxis.resume.Staff;
+import com.tecxis.resume.Supplier;
+import com.tecxis.resume.SupplierTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,7 +61,7 @@ public class ServiceRepositoryTest {
 	public static String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
 	public static String JAVA_INTEGRATION_DEVELOPPER = "Java Integration Developer";
 	public static String LIFERAY_DEVELOPPER = "Liferay Developer";
-	public static String J2EE_DEVELOPPER = "Java J2EE Developer";
+	public static String J2EE_DEVELOPPER = "J2EE Developer";
 	public static String MULE_ESB_CONSULTANT = "Mule ESB Consultant";
 	public static String TIBCO_BW_CONSULTANT = "TIBCO Business Works Developer";
 	public static String DEVELOPER_WILDCARD = "%Developer";
@@ -75,8 +75,7 @@ public class ServiceRepositoryTest {
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
-	
-	
+		
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
@@ -84,7 +83,11 @@ public class ServiceRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
+		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
+		Supplier alphatress = SupplierTest.insertASupplier(amt, ALTERNA, entityManager);
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(barclays, alphatress,  amt, CURRENT_DATE, null,  entityManager);
+		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, alphatressBarclaysContract, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getServiceId());
 	}
@@ -95,7 +98,11 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {
-		Service serviceIn = ServiceTest.insertAService(MULE_ESB_CONSULTANT, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
+		Supplier alphatress = SupplierTest.insertASupplier(amt, ALPHATRESS, entityManager);
+		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, alphatress, amt, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
+		Service serviceIn = ServiceTest.insertAService(MULE_ESB_CONSULTANT, accentureBarclaysContract, entityManager);
 		List <Service> serviceList = serviceRepo.getServiceLikeName(MULE_ESB_CONSULTANT);
 		assertEquals(1, serviceList.size());
 		Service serviceOut = serviceList.get(0);		
@@ -107,16 +114,16 @@ public class ServiceRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindServiceLikeName() {
+	public void testFindServiceLikeName() {		
 		List <Service> serviceList = serviceRepo.getServiceLikeName(TIBCO_BW_CONSULTANT);
 		assertNotNull(serviceList);
-		assertEquals(1, serviceList.size());
+		assertEquals(9, serviceList.size());
 		Service tibcoBwConsultant = serviceList.get(0);
 		assertEquals(TIBCO_BW_CONSULTANT, tibcoBwConsultant.getName());
 		/**Test query by name with LIKE expression*/
 		List <Service> javaConsultantList  =  serviceRepo.getServiceLikeName(DEVELOPER_WILDCARD);
 		assertNotNull(javaConsultantList);
-		assertEquals(4, javaConsultantList.size());
+		assertEquals(12, javaConsultantList.size());
 		assertThat(javaConsultantList.get(0).getName(), Matchers.is(Matchers.oneOf(JAVA_INTEGRATION_DEVELOPPER, 
 				LIFERAY_DEVELOPPER,
 				J2EE_DEVELOPPER,
@@ -130,7 +137,7 @@ public class ServiceRepositoryTest {
 		/** Test query with LIKE expression */
 		List <Service> bwServiceList = serviceRepo.getServiceLikeName(BUSINESS_WORKS_WILDCARD);
 		assertNotNull(bwServiceList);
-		assertEquals(1, bwServiceList.size());
+		assertEquals(9, bwServiceList.size());
 		Service tibcoBwConsultantShort = bwServiceList.get(0);
 		assertEquals(TIBCO_BW_CONSULTANT, tibcoBwConsultantShort.getName());
 		
@@ -140,56 +147,37 @@ public class ServiceRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindServiceContracts() {
-		List <Service> tibcoBwServices = serviceRepo.getServiceLikeName(TIBCO_BW_CONSULTANT);
-		assertNotNull(tibcoBwServices);
-		assertEquals(1, tibcoBwServices.size());
-		Service tibcoBwService = tibcoBwServices.get(0);
-		assertNotNull(tibcoBwService.getContracts());
-		List <Contract> tibcoBwServiceContracts = tibcoBwService.getContracts();
-		assertEquals(8, tibcoBwServiceContracts.size());
-		Contract tibcoBwServiceContract1 = tibcoBwServiceContracts.get(0);
-		assertThat(tibcoBwServiceContract1.getStartDate(), Matchers.is(Matchers.oneOf(
-				CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, 
-				CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, 
-				CONTRACT10_STARTDATE, CONTRACT11_STARTDATE, 
-				CONTRACT12_STARTDATE, CONTRACT13_STARTDATE
-				)));
-		assertThat(tibcoBwServiceContract1.getEndDate(), Matchers.is(Matchers.oneOf(
-				CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, 
-				CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, 
-				CONTRACT10_ENDDATE, CONTRACT11_ENDDATE, 
-				CONTRACT12_ENDDATE, CONTRACT13_ENDDATE
-				)));
+	public void testFindServiceContract() {
+		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(J2EE_DEVELOPPER);		
+		assertEquals(1, j2eeDevelopperServices.size());
+		Service j2eeDevelopperService = j2eeDevelopperServices.get(0);		
+		Contract j2eeDevelopperContract = j2eeDevelopperService.getContract();
+		assertNotNull(j2eeDevelopperContract);
+		assertEquals(CONTRACT4_STARTDATE, j2eeDevelopperContract.getStartDate());
+		assertEquals(CONTRACT4_ENDDATE, j2eeDevelopperContract.getEndDate());
 		
-		List <Service> muleServices = serviceRepo.getServiceLikeName(MULE_ESB_CONSULTANT);
-		assertNotNull(muleServices);
-		assertEquals(1, muleServices.size());
-		Service muleService = muleServices.get(0);
-		assertNotNull(muleService.getContracts());
-		List <Contract> muleServiceContracts = muleService.getContracts();
-		assertEquals(1, muleServiceContracts.size());
-		Contract muleServiceContract = muleServiceContracts.get(0);
-		assertEquals(CONTRACT5_STARTDATE, muleServiceContract.getStartDate());
-		assertEquals(CONTRACT5_ENDDATE, muleServiceContract.getEndDate());
 		
-		List <Service> scmServices = serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER);
-		assertNotNull(scmServices);
-		assertEquals(1, scmServices.size());
-		Service scmService = scmServices.get(0);
-		assertNotNull(scmService.getContracts());
-		List <Contract> scmServiceContracts = scmService.getContracts();
-		assertEquals(1, scmServiceContracts.size());
-		Contract scmServiceContract = scmServiceContracts.get(0);
-		assertEquals(CONTRACT1_STARTDATE, scmServiceContract.getStartDate());
-		assertEquals(CONTRACT1_ENDDATE, scmServiceContract.getEndDate());
+		List <Service> muleEsbServices = serviceRepo.getServiceLikeName(MULE_ESB_CONSULTANT);
+		assertNotNull(muleEsbServices);
+		assertEquals(1, muleEsbServices.size());
+		Service muleEsbService = muleEsbServices.get(0);		
+		Contract muleEsbServiceContract = muleEsbService.getContract();
+		assertNotNull(muleEsbServiceContract);
+		assertEquals(CONTRACT5_STARTDATE ,muleEsbServiceContract.getStartDate());
+		assertEquals(CONTRACT5_ENDDATE ,muleEsbServiceContract.getEndDate());
+				
 	}
+		
 
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service tempService = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
+		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
+		Supplier alphatress = SupplierTest.insertASupplier(amt, ALTERNA, entityManager);
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(barclays, alphatress,  amt, CURRENT_DATE, null,  entityManager);
+		Service tempService = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, alphatressBarclaysContract, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
@@ -200,8 +188,9 @@ public class ServiceRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){
+	public void testFindAll(){		
+		assertEquals(14, serviceRepo.count());
 		List <Service> services = serviceRepo.findAll();
-		assertEquals(6, services.size());
+		assertEquals(14, services.size());
 	}
 }

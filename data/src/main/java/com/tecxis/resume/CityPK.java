@@ -1,5 +1,7 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 
 /**
@@ -56,5 +58,10 @@ class CityPK implements Serializable {
 		hash = hash * prime + ((int) (this.countryId ^ (this.countryId >>> 32)));
 		
 		return hash;
+	}
+	
+	@Override
+	public String toString() {		
+		return reflectionToString(this);
 	}
 }

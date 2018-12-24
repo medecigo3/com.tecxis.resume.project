@@ -37,16 +37,13 @@ public class Contract implements Serializable {
 	
 	@Column(name="CLIENT_ID", insertable=false, updatable=false)
 	private long clientId;
-
+		
 	@Column(name="SUPPLIER_ID", insertable=false, updatable=false)
 	private long supplierId;
-
-	@Column(name="SERVICE_ID", insertable=false, updatable=false)
-	private long serviceId;
-
+	
 	@Column(name="STAFF_ID", insertable=false, updatable=false)
 	private long staffId;
-	
+			
 	@Temporal(TemporalType.DATE)
 	@Column(name="END_DATE")
 	private Date endDate;
@@ -66,10 +63,10 @@ public class Contract implements Serializable {
 //	@JoinColumn(name="SERVICE_ID")
 //	private Service service;
 	/**
-	 * uni-directional one-to-many association to Service
+	 * bi-directional one-to-many association to Service
 	 * In OO terms, this Contract "engages" Services
 	 */
-	@OneToMany
+	@OneToMany(mappedBy="contract")
 	private List <Service> services;
 
 	//bi-directional many-to-one association to Supplier
@@ -82,13 +79,25 @@ public class Contract implements Serializable {
 
 	public Contract() {
 	}
-
+	
+	public long getContractId() {
+		return this.contractId;
+	}
+	
+	public void setContractId(long contractId) {
+		this.contractId = contractId;
+	}
+	
 	public long getClientId() {
 		return this.clientId;
 	}
 	
 	public void setClientId(long clientId) {
 		this.clientId = clientId;
+	}
+	
+	public long getStaffId() {
+		return this.staffId;
 	}
 	
 	public long getSupplierId() {
@@ -99,25 +108,6 @@ public class Contract implements Serializable {
 		this.supplierId = supplierId;
 	}
 	
-	public long getServiceId() {
-		return this.serviceId;
-	}
-	
-	public void setServiceId(long serviceId) {
-		this.serviceId = serviceId;
-	}
-	
-	public long getContractId() {
-		return this.contractId;
-	}
-	
-	public void setContractId(long contractId) {
-		this.contractId = contractId;
-	}
-	
-	public long getStaffId() {
-		return this.staffId;
-	}
 	
 	public void setStaffId(long staffId) {
 		this.staffId = staffId;
@@ -163,7 +153,6 @@ public class Contract implements Serializable {
 //		this.supplier = supplier;
 //	}
 	
-
 	public List<Service> getServices() {
 		return services;
 	}
@@ -181,7 +170,6 @@ public class Contract implements Serializable {
 	public boolean equals(Object obj) {
 		return reflectionEquals(this, obj);
 	}
-
 
 	@Override
 	public int hashCode() {

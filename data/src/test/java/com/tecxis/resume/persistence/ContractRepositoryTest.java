@@ -4,9 +4,6 @@ import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
@@ -40,8 +37,6 @@ import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractTest;
-import com.tecxis.resume.Service;
-import com.tecxis.resume.ServiceTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
 import com.tecxis.resume.SupplierTest;
@@ -140,9 +135,8 @@ public class ContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);
-		Service dev = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		Supplier alterna = SupplierTest.insertASupplier(amt, ALTERNA,  entityManager);
-		Contract accentureContract = ContractTest.insertAContract(accenture, alterna, dev, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);		
+		Contract accentureContract = ContractTest.insertAContract(accenture, alterna, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(1, accentureContract.getContractId());
 	}
@@ -153,14 +147,12 @@ public class ContractRepositoryTest {
 		)
 	public void testFindInsertedContract() {
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);
-		Service consultant = ServiceTest.insertAService(TIBCO_BW_CONSULTANT, entityManager);
+		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Supplier alphatress = SupplierTest.insertASupplier(amt, ALPHATRESS, entityManager);
-		Contract contractIn = ContractTest.insertAContract(barclays, alphatress, consultant, amt, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
+		Contract contractIn = ContractTest.insertAContract(barclays, alphatress, amt, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
 		Contract contractOut = contractRepo.getContractByStartDate(CONTRACT12_STARTDATE);
 		assertNotNull(contractOut);
-		assertEquals(contractIn, contractOut);
-		
+		assertEquals(contractIn, contractOut);		
 		contractOut = contractRepo.getContractByEndDate(CONTRACT12_ENDDATE);
 		assertNotNull(contractOut);
 		assertEquals(contractIn, contractOut);
@@ -172,9 +164,8 @@ public class ContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
-		Service consultant = ServiceTest.insertAService(MULE_ESB_CONSULTANT,  entityManager);
 		Supplier alphatress = SupplierTest.insertASupplier(amt, ALTERNA, entityManager);
-		Contract tempContract = ContractTest.insertAContract(barclays, alphatress, consultant, amt, CURRENT_DATE, null,  entityManager);
+		Contract tempContract = ContractTest.insertAContract(barclays, alphatress,  amt, CURRENT_DATE, null,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByStartDate(CURRENT_DATE));
@@ -188,6 +179,6 @@ public class ContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Contract> contracts = contractRepo.findAll();
-		assertEquals(13, contracts.size());
+		assertEquals(14, contracts.size());
 	}
 }

@@ -1,5 +1,9 @@
 package com.tecxis.resume;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +75,7 @@ public class Staff implements Serializable {
 	 * In OO terms, this Staff "has" Interest(s)
 	 */
 	@OneToMany
+	@JoinColumn(name="STAFF_ID")
 	private List<Interest> interests;
 
 	/**
@@ -123,6 +128,7 @@ public class Staff implements Serializable {
 	 * In OO terms, this Staff "works for" Suppliers
 	 */
 	@OneToMany
+	@JoinColumn(name="STAFF_ID")
 	private List<Supplier> suppliers;
 
 	public Staff() {
@@ -307,6 +313,21 @@ public class Staff implements Serializable {
 //		supplier.setStaff(null);
 
 		return supplier;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return reflectionToString(this);
 	}
 
 }
