@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
+import com.tecxis.resume.ContractPK;
 import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
@@ -170,6 +171,22 @@ public class ContractRepositoryTest {
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByStartDate(CURRENT_DATE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindById() {
+		
+		ContractPK id = new ContractPK(2, 2, 2, 2);
+		Contract contract = contractRepo.findById(id).get();
+		assertNotNull(contract);
+		assertEquals(2, contract.getClientId());
+		assertEquals(2, contract.getSupplierId());
+		assertEquals(2, contract.getStaffId());
+		assertEquals(2, contract.getContractId());
 		
 	}
 

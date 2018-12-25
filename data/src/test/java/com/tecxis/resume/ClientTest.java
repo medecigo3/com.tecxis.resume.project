@@ -1,7 +1,6 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_STARTDATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -16,7 +15,6 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -39,9 +37,7 @@ public class ClientTest {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+
 	
 	@Autowired
 	private ClientRepository clientRepo;
@@ -75,7 +71,8 @@ public class ClientTest {
 		List<Contract> ageasContracts = ageas.getContracts();
 		assertEquals(1, ageasContracts.size());
 		/**Compare with fetched contract*/
-		Contract ageasContract = contractRepo.getContractByStartDate(CONTRACT12_STARTDATE);
+		ContractPK contractPk = new ContractPK(2, 2, 1, 1);
+		Contract ageasContract = contractRepo.findById(contractPk).get();
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
