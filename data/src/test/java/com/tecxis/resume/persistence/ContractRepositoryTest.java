@@ -180,13 +180,13 @@ public class ContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindById() {
 		
-		ContractPK id = new ContractPK(2, 2, 2, 2);
+		ContractPK id = new ContractPK(1, 1, 1, 1);
 		Contract contract = contractRepo.findById(id).get();
 		assertNotNull(contract);
-		assertEquals(2, contract.getClientId());
-		assertEquals(2, contract.getSupplierId());
-		assertEquals(2, contract.getStaffId());
-		assertEquals(2, contract.getContractId());
+		assertEquals(1, contract.getClientId());
+		assertEquals(1, contract.getSupplierId());
+		assertEquals(1, contract.getStaffId());
+		assertEquals(1, contract.getContractId());
 		
 	}
 
