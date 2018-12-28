@@ -138,6 +138,15 @@ public class CountryRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCountryByCountryId() {
+		Country country = countryRepo.getCountryByCountryId(1L);
+		assertEquals(1L, country.getCountryId());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Country> countries = countryRepo.findAll();
 		assertEquals(3, countries.size());
