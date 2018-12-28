@@ -188,6 +188,25 @@ public class ContractRepositoryTest {
 		assertEquals(1, contract.getContractId());
 		
 	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetContractByStartDate() {
+		Contract contract = contractRepo.getContractByStartDate(CONTRACT1_STARTDATE);
+		assertEquals(CONTRACT1_STARTDATE, contract.getStartDate());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetContractByEndDate() {
+		Contract contract = contractRepo.getContractByEndDate(CONTRACT9_ENDDATE);
+		assertEquals(CONTRACT9_ENDDATE, contract.getEndDate());
+		
+	}
 
 	@Test
 	@Sql(
