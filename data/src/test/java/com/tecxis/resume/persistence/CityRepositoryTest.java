@@ -121,7 +121,7 @@ public class CityRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindCityByName() {
+	public void testGetCityByName() {
 		City london = cityRepo.getCityByName(LONDON);
 		assertNotNull(london);
 		assertEquals(LONDON, london.getName());
