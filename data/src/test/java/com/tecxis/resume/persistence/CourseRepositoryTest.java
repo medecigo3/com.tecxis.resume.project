@@ -87,7 +87,7 @@ public class CourseRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void shouldBeAbleToFindCourseByTitle() {
+	public void testGetCourseByTitle() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		assertNotNull(bwCourse);
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
