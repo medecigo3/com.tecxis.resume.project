@@ -18,6 +18,8 @@ import javax.persistence.IdClass;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.tecxis.resume.City.CityPK;
+
 
 /**
  * The persistent class for the CITY database table.
@@ -27,6 +29,63 @@ import javax.persistence.SequenceGenerator;
 @IdClass(CityPK.class)
 public class City implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static class CityPK implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+		private long cityId;
+
+		private long countryId;
+			
+		public CityPK(long cityId, long countryId) {
+			this();
+			this.cityId = cityId;
+			this.countryId = countryId;
+		}
+		
+		private CityPK() {
+			super();
+		}
+		public long getCityId() {
+			return this.cityId;
+		}
+		public void setCityId(long cityId) {
+			this.cityId = cityId;
+		}
+		public long getCountryId() {
+			return this.countryId;
+		}
+		public void setCountryId(long countryId) {
+			this.countryId = countryId;
+		}
+
+		public boolean equals(Object other) {
+			if (this == other) {
+				return true;
+			}
+			if (!(other instanceof CityPK)) {
+				return false;
+			}
+			CityPK castOther = (CityPK)other;
+			return 
+				(this.cityId == castOther.cityId)
+				&& (this.countryId == castOther.countryId);
+		}
+
+		public int hashCode() {
+			final int prime = 31;
+			int hash = 17;
+			hash = hash * prime + ((int) (this.cityId ^ (this.cityId >>> 32)));
+			hash = hash * prime + ((int) (this.countryId ^ (this.countryId >>> 32)));
+			
+			return hash;
+		}
+		
+		@Override
+		public String toString() {		
+			return reflectionToString(this);
+		}
+	}
 
 	@Id
 	@SequenceGenerator(name="CITY_CITYID_GENERATOR", sequenceName="CITY_SEQ", allocationSize=1, initialValue=1 )

@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractPK;
+import com.tecxis.resume.Contract.ContractPK;
 
 public interface ContractRepository extends JpaRepository<Contract, ContractPK> {
 	

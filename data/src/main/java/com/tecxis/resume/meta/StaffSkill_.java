@@ -1,3 +1,4 @@
+package com.tecxis.resume.meta;
 //package com.tecxis.resume;
 //
 //import java.math.BigDecimal;

@@ -95,7 +95,7 @@ public class Service implements Serializable {
 			if (this == other) {
 				return true;
 			}
-			if (!(other instanceof ContractPK)) {
+			if (!(other instanceof Contract.ContractPK)) {
 				return false;
 			}
 			ServicePK castOther = (ServicePK)other;

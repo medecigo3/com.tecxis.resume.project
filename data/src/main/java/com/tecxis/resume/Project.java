@@ -23,6 +23,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.tecxis.resume.Project.ProjectPK;
+
 
 /**
  * The persistent class for the PROJECT database table.
@@ -34,6 +36,70 @@ import javax.persistence.UniqueConstraint;
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static class ProjectPK implements Serializable {
+		//default serial version id, required for serializable classes.
+		private static final long serialVersionUID = 1L;
+
+		private long projectId;
+		
+		private long clientId;
+
+		
+		public ProjectPK(long projectId, long clientId) {
+			this();
+			this.projectId = projectId;
+			this.clientId = clientId;
+		}
+
+		/**Hibernate default constructor*/
+		private ProjectPK() {
+			super();
+		}
+		
+			
+		public long getProjectId() {
+			return projectId;
+		}
+
+		public void setProjectId(long projectId) {
+			this.projectId = projectId;
+		}
+		public long getClientId() {
+			return this.clientId;
+		}
+		public void setClientId(long clientId) {
+			this.clientId = clientId;
+		}
+		
+		@Override
+		public String toString() {
+			return reflectionToString(this);
+		}
+
+		public boolean equals(Object other) {
+			if (this == other) {
+				return true;
+			}
+			if (!(other instanceof ProjectPK)) {
+				return false;
+			}
+			ProjectPK castOther = (ProjectPK)other;
+			return 
+				(this.clientId == castOther.clientId) &&
+				(this.projectId == castOther.projectId);
+
+		}
+
+		public int hashCode() {
+			final int prime = 31;
+			int hash = 17;
+			hash = hash * prime + ((int) (this.projectId ^ (this.projectId >>> 32)));
+			hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
+			
+			return hash;
+		}
+	}
+	
 	@Id
 	@Column(name="PROJECT_ID")	
 	@SequenceGenerator(name="PROJECT_PROJECTID_GENERATOR", sequenceName="PROJECT_SEQ", allocationSize=1, initialValue=1)

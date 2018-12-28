@@ -1,10 +1,16 @@
-package com.tecxis.resume;
+package com.tecxis.resume.meta;
 
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+
+import com.tecxis.resume.Course;
+import com.tecxis.resume.Interest;
+import com.tecxis.resume.Project;
+import com.tecxis.resume.Staff;
+import com.tecxis.resume.Supplier;
 
 @Generated(value="Dali", date="2018-07-20T21:52:58.812+0200")
 @StaticMetamodel(Staff.class)

@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractPK;
 import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
@@ -180,7 +179,7 @@ public class ContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindById() {
 		
-		ContractPK id = new ContractPK(1, 1, 1, 1);
+		Contract.ContractPK id = new Contract.ContractPK(1, 1, 1, 1);
 		Contract contract = contractRepo.findById(id).get();
 		assertNotNull(contract);
 		assertEquals(1, contract.getClientId());

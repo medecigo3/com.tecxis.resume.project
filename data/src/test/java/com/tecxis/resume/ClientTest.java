@@ -71,7 +71,7 @@ public class ClientTest {
 		List<Contract> ageasContracts = ageas.getContracts();
 		assertEquals(1, ageasContracts.size());
 		/**Compare with fetched contract*/
-		ContractPK contractPk = new ContractPK(2, 2, 1, 1);
+		Contract.ContractPK contractPk = new Contract.ContractPK(2, 2, 1, 1);
 		Contract ageasContract = contractRepo.findById(contractPk).get();
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));

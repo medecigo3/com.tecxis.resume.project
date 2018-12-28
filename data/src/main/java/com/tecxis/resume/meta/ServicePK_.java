@@ -1,7 +1,9 @@
-package com.tecxis.resume;
+package com.tecxis.resume.meta;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+
+import com.tecxis.resume.Service;
 
 @StaticMetamodel(Service.ServicePK.class)
 public class ServicePK_ {
