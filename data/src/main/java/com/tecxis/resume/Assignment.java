@@ -51,16 +51,6 @@ public class Assignment implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
 	private List <StaffProjectAssignment> staffProjectAssignments;
-	
-	//bi-directional many-to-one association to Project
-//	@ManyToOne
-//	@JoinColumns({
-//		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID"),
-//		@JoinColumn(name="NAME", referencedColumnName="NAME"),
-//		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
-//		@JoinColumn(name="VERSION", referencedColumnName="VERSION")
-//		})
-//	private Project project;
 
 	public Assignment() {
 		this.staffProjectAssignments = new ArrayList<>();
@@ -81,14 +71,6 @@ public class Assignment implements Serializable {
 	public void setPriority(BigDecimal priority) {
 		this.priority = priority;
 	}
-
-//	public Project getProject() {
-//		return this.project;
-//	}
-//
-//	public void setProject(Project project) {
-//		this.project = project;
-//	}
 
 	public long getAssignmentId() {
 		return this.assignmentId;
