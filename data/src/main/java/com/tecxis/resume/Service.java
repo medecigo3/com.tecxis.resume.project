@@ -156,7 +156,9 @@ public class Service implements Serializable {
 	 * In OO terms, this Service "engages" Contracts 
 	 */	
 	@ManyToOne(fetch=FetchType.EAGER)
-	/**Hibernate generates columns in alphabetical order, hence order here is column order is important*/
+	/**Hibernate BasicExtractor returns component values in alphabetical order. 
+	 * The ascending column order below allows the AbstractComponentTuplizer properly
+	 * set the component's id property values*/
 	@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
 	@JoinColumn(name="CONTRACT_ID", insertable=false, updatable=false)
 	@JoinColumn(name="STAFF_ID", insertable=false, updatable=false)

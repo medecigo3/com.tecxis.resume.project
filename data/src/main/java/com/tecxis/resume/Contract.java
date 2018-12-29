@@ -143,16 +143,6 @@ public class Contract implements Serializable {
 	@Column(name="START_DATE")
 	private Date startDate;
 
-	//bi-directional many-to-one association to Client
-//	@ManyToOne
-//	@JoinColumn(name="CLIENT_ID")
-//	private Client client;
-
-	//bi-directional many-to-one association to Service
-//	In SQL terms, Service is the "Owner" of this relationship with Contract as it contains the relationship's foreign key
-//	@ManyToOne
-//	@JoinColumn(name="SERVICE_ID")
-//	private Service service;
 	/**
 	 * bi-directional one-to-many association to Service
 	 * In OO terms, this Contract "engages" Services
@@ -160,13 +150,6 @@ public class Contract implements Serializable {
 	@OneToMany(mappedBy="contract")
 	private List <Service> services;
 
-	//bi-directional many-to-one association to Supplier
-//	@ManyToOne
-//	@JoinColumns({
-//		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID"),
-//		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
-//		})
-//	private Supplier supplier;
 
 	public Contract() {
 	}
@@ -219,30 +202,6 @@ public class Contract implements Serializable {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-//
-//	public Client getClient() {
-//		return this.client;
-//	}
-//
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
-
-//	public Service getService() {
-//		return this.service;
-//	}
-//
-//	public void setService(Service service) {
-//		this.service = service;
-//	}
-
-//	public Supplier getSupplier() {
-//		return this.supplier;
-//	}
-//
-//	public void setSupplier(Supplier supplier) {
-//		this.supplier = supplier;
-//	}
 	
 	public List<Service> getServices() {
 		return services;

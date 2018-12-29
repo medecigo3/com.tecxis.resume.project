@@ -25,10 +25,6 @@ public class Skill implements Serializable {
 	private long skillId;
 
 	private String name;
-
-	//bi-directional many-to-one association to StaffSkill --> replaced with many-to-many association to Staff
-//	@OneToMany(mappedBy="skill")
-//	private List<StaffSkill> staffSkills;
 	
 	/**
 	 * bi-directional many-to-many association to Staff
@@ -64,28 +60,6 @@ public class Skill implements Serializable {
 	public void setStaffs(List<Staff> staffs) {
 		this.staffs = staffs;
 	}
-
-//	public List<StaffSkill> getStaffSkills() {
-//		return this.staffSkills;
-//	}
-//
-//	public void setStaffSkills(List<StaffSkill> staffSkills) {
-//		this.staffSkills = staffSkills;
-//	}
-//
-//	public StaffSkill addStaffSkill(StaffSkill staffSkill) {
-//		getStaffSkills().add(staffSkill);
-//		staffSkill.setSkill(this);
-//
-//		return staffSkill;
-//	}
-//
-//	public StaffSkill removeStaffSkill(StaffSkill staffSkill) {
-//		getStaffSkills().remove(staffSkill);
-//		staffSkill.setSkill(null);
-//
-//		return staffSkill;
-//	}
 	
 	@Override
 	public boolean equals(Object obj) {

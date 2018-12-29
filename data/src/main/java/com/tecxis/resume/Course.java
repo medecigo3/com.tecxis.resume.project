@@ -39,10 +39,6 @@ public class Course implements Serializable {
 
 	private String title;
 
-	//bi-directional many-to-one association to Enrolment --> replaced with many-to-many association to Staff
-//	@OneToMany(mappedBy="course")
-//	private List<Enrolment> enrolments;
-	
 	/**
 	 * bi-directional many-to-many association to Staff 
 	 * Relationship owned by {@code courses} field in {@link} Staff} table.
@@ -85,28 +81,6 @@ public class Course implements Serializable {
 		this.staffs = staffs;
 	}
 
-//	public List<Enrolment> getEnrolments() {
-//		return this.enrolments;
-//	}
-//
-//	public void setEnrolments(List<Enrolment> enrolments) {
-//		this.enrolments = enrolments;
-//	}
-//
-//	public Enrolment addEnrolment(Enrolment enrolment) {
-//		getEnrolments().add(enrolment);
-//		enrolment.setCourse(this);
-//
-//		return enrolment;
-//	}
-//
-//	public Enrolment removeEnrolment(Enrolment enrolment) {
-//		getEnrolments().remove(enrolment);
-//		enrolment.setCourse(null);
-//
-//		return enrolment;
-//	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		return reflectionEquals(this, obj);

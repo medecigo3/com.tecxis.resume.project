@@ -27,9 +27,7 @@ public class Client implements Serializable {
 
 	private String website;
 
-//	bi-directional many-to-one association to Contract
-//	In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="client")
+
 	/**
 	 * uni-directional one-to-many association to Contract
 	 * In OO terms, this Client "signs" Contracts
@@ -38,9 +36,7 @@ public class Client implements Serializable {
 	@JoinColumn(name="CLIENT_ID")
 	private List<Contract> contracts;
 
-	//bi-directional many-to-one association to Project
-	//In SQL terms, Project is the "owner" of this relationship with Client as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="client")
+
 	/**
 	 * uni-directional one-to-many association to Client.
 	 * In OO terms, this Client "controls" projects
@@ -85,15 +81,11 @@ public class Client implements Serializable {
 
 	public Contract addContract(Contract contract) {
 		getContracts().add(contract);
-//		contract.setClient(this);
-
 		return contract;
 	}
 
 	public Contract removeContract(Contract contract) {
 		getContracts().remove(contract);
-//		contract.setClient(null);
-
 		return contract;
 	}
 
@@ -107,15 +99,11 @@ public class Client implements Serializable {
 
 	public Project addProject(Project project) {
 		getProjects().add(project);
-//		project.setClient(this);
-
 		return project;
 	}
 
 	public Project removeProject(Project project) {
 		getProjects().remove(project);
-//		project.setClient(null);
-
 		return project;
 	}
 

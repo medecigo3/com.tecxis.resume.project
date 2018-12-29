@@ -99,11 +99,6 @@ public class City implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Country
-//	@ManyToOne
-//	@JoinColumn(name="COUNTRY_ID")
-//	private Country country;
-
 //	bi-directional many-to-many association to Project
 	@ManyToMany(mappedBy="cities", cascade = CascadeType.ALL)
 	private List<Project> projects;
@@ -135,14 +130,6 @@ public class City implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-//	public Country getCountry() {
-//		return this.country;
-//	}
-//
-//	public void setCountry(Country country) {
-//		this.country = country;
-//	}
 
 	public List<Project> getProjects() {
 		return this.projects;

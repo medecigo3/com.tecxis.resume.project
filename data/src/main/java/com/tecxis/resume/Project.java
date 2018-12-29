@@ -37,7 +37,6 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static class ProjectPK implements Serializable {
-		//default serial version id, required for serializable classes.
 		private static final long serialVersionUID = 1L;
 
 		private long projectId;
@@ -145,16 +144,6 @@ public class Project implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Client
-//	@ManyToOne
-//	@JoinColumn(name="CLIENT_ID")
-//	private Client client;
-
-	//bi-directional many-to-one association to Staff
-//	@ManyToOne
-//	@JoinColumn(name="STAFF_ID")
-//	private Staff staff;
-
 	public Project() {
 		this.cities = new ArrayList <> ();
 		this.staffProjectAssignments = new ArrayList<>();
@@ -239,22 +228,6 @@ public class Project implements Serializable {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
-//	public Client getClient() {
-//		return this.client;
-//	}
-//
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
-
-//	public Staff getStaff() {
-//		return this.staff;
-//	}
-//
-//	public void setStaff(Staff staff) {
-//		this.staff = staff;
-//	}
 	
 	@Override
 	public boolean equals(Object obj) {

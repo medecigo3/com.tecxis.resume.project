@@ -46,12 +46,6 @@ public class Staff implements Serializable {
 
 	private String name;
 
-//	bi-directional many-to-one association to Enrolment -----> replaced by many-to-many association with Course
-//	In SQL terms, Enrolment is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="staff")
-//	@OneToMany
-//	private List<Enrolment> enrolments;
-
 	/**
 	 * bi-directional many-to-many association to Course
 	 */
@@ -67,9 +61,6 @@ public class Staff implements Serializable {
 	)
 	private List<Course> courses;
 
-	//bi-directional many-to-one association to Interest
-//	In SQL terms, Staff is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="staff")
 	/**
 	 * uni-directional association to Staff
 	 * In OO terms, this Staff "has" Interest(s)
@@ -102,10 +93,6 @@ public class Staff implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
 	private List<StaffProjectAssignment> staffProjectAssignments;
-
-//	//bi-directional many-to-one association to StaffSkill --> replaced by many-to-many association with Skill
-//	@OneToMany(mappedBy="staff")
-//	private List<StaffSkill> staffSkills;
 
 	/**
 	 *  bi-directional many-to-many association to Skill 
@@ -170,28 +157,6 @@ public class Staff implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-//	public List<Enrolment> getEnrolments() {
-//		return this.enrolments;
-//	}
-//
-//	public void setEnrolments(List<Enrolment> enrolments) {
-//		this.enrolments = enrolments;
-//	}
-
-//	public Enrolment addEnrolment(Enrolment enrolment) {
-//		getEnrolments().add(enrolment);
-//		enrolment.setStaff(this);
-//
-//		return enrolment;
-//	}
-//
-//	public Enrolment removeEnrolment(Enrolment enrolment) {
-//		getEnrolments().remove(enrolment);
-//		enrolment.setStaff(null);
-//
-//		return enrolment;
-//	}
 	
 	public List<Course> getCourses() {
 		return courses;
@@ -211,15 +176,11 @@ public class Staff implements Serializable {
 
 	public Interest addInterest(Interest interest) {
 		getInterests().add(interest);
-//		interest.setStaff(this);
-
 		return interest;
 	}
 
 	public Interest removeInterest(Interest interest) {
 		getInterests().remove(interest);
-//		interest.setStaff(null);
-
 		return interest;
 	}
 
@@ -233,15 +194,11 @@ public class Staff implements Serializable {
 
 	public Project addProject(Project project) {
 		getProjects().add(project);
-//		project.setStaff(this);
-
 		return project;
 	}
 
 	public Project removeProject(Project project) {
 		getProjects().remove(project);
-//		project.setStaff(null);
-
 		return project;
 	}
 	
@@ -263,28 +220,6 @@ public class Staff implements Serializable {
 		return staffProjectAssignment;
 	}
 
-//	public List<StaffSkill> getStaffSkills() {
-//		return this.staffSkills;
-//	}
-//
-//	public void setStaffSkills(List<StaffSkill> staffSkills) {
-//		this.staffSkills = staffSkills;
-//	}
-//
-//	public StaffSkill addStaffSkill(StaffSkill staffSkill) {
-//		getStaffSkills().add(staffSkill);
-//		staffSkill.setStaff(this);
-//
-//		return staffSkill;
-//	}
-//
-//	public StaffSkill removeStaffSkill(StaffSkill staffSkill) {
-//		getStaffSkills().remove(staffSkill);
-//		staffSkill.setStaff(null);
-//
-//		return staffSkill;
-//	}
-
 	public List<Skill> getSkills() {
 		return skills;
 	}
@@ -303,15 +238,11 @@ public class Staff implements Serializable {
 
 	public Supplier addSupplier(Supplier supplier) {
 		getSuppliers().add(supplier);
-//		supplier.setStaff(this);
-
 		return supplier;
 	}
 
 	public Supplier removeSupplier(Supplier supplier) {
 		getSuppliers().remove(supplier);
-//		supplier.setStaff(null);
-
 		return supplier;
 	}
 	

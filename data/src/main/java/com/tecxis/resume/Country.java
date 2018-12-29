@@ -33,9 +33,6 @@ public class Country implements Serializable {
 
 	private String name;
 
-//	bi-directional many-to-one association to City
-//	In SQL terms, City is the "owner" of this relationship with Country as it contains the relationship's foreign key
-//	@OneToMany(mappedBy="country")
 	/**
 	 * uni-directional association to City
 	 * In OO terms, this Country "has a" City
@@ -73,15 +70,11 @@ public class Country implements Serializable {
 
 	public City addCity(City city) {
 		getCities().add(city);
-//		city.setCountry(this);
-
 		return city;
 	}
 
 	public City removeCity(City city) {
 		getCities().remove(city);
-//		city.setCountry(null);
-
 		return city;
 	}
 	

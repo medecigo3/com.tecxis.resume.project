@@ -25,11 +25,6 @@ public class Interest implements Serializable {
 	@Column(name="\"DESC\"")
 	private String desc;
 
-	//bi-directional many-to-one association to Staff
-//	@ManyToOne
-//	@JoinColumn(name="STAFF_ID")
-//	private Staff staff;
-
 	public Interest() {
 	}
 
@@ -48,14 +43,6 @@ public class Interest implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-
-//	public Staff getStaff() {
-//		return this.staff;
-//	}
-
-//	public void setStaff(Staff staff) {
-//		this.staff = staff;
-//	}	@Override
 	
 	public boolean equals(Object obj) {
 		return reflectionEquals(this, obj);
