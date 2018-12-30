@@ -50,7 +50,7 @@ import com.tecxis.resume.SupplierTest;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ContractRepositoryTest {
 	
-	private static final String CONTRACT_TABLE = "Contract";
+	public static final String CONTRACT_TABLE = "Contract";
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	public static final Date CONTRACT1_STARTDATE;
 	public static final Date CONTRACT1_ENDDATE;

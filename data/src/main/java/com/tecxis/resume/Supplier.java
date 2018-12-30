@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -107,6 +108,7 @@ public class Supplier implements Serializable {
 	private List<Contract> contracts;
 
 	public Supplier() {
+		this.contracts = new ArrayList <> ();
 	}
 
 	public long getSupplierId() {

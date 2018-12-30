@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -47,6 +48,7 @@ public class Course implements Serializable {
 	private  List<Staff> staffs;
 	
 	public Course() {
+		this.staffs = new ArrayList <> ();
 	}
 
 	public long getCourseId() {

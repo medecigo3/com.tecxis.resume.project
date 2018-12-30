@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -42,6 +43,7 @@ public class Country implements Serializable {
 	private List<City> cities;
 
 	public Country() {
+		this.cities = new ArrayList <> ();
 	}
 
 	public long getCountryId() {

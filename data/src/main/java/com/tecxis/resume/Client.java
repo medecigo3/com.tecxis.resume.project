@@ -5,8 +5,17 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -45,6 +54,8 @@ public class Client implements Serializable {
 	private List<Project> projects;
 
 	public Client() {
+		this.contracts = new ArrayList<> ();
+		this.projects = new ArrayList<> ();
 	}
 
 	public long getClientId() {

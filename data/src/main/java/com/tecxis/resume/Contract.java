@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -152,6 +153,7 @@ public class Contract implements Serializable {
 
 
 	public Contract() {
+		this.services = new ArrayList <> ();
 	}
 	
 	public long getContractId() {
