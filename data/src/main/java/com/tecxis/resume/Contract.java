@@ -45,11 +45,11 @@ public class Contract implements Serializable {
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
 		private long contractId;
 		
-		@ManyToOne(cascade = CascadeType.ALL)
+		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 		private Client client;		
 
-		@ManyToOne(cascade = CascadeType.ALL)
+		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
 		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")			
 		private Supplier supplier;	
@@ -138,7 +138,7 @@ public class Contract implements Serializable {
 	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
 	 * In OO terms, this Client "signed" this Contract.
 	 */
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private Client client;		
 
@@ -147,7 +147,7 @@ public class Contract implements Serializable {
 	 * In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
 	 * In OO terms, this Supplier "holds" this Contract.
 	 */
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Supplier supplier;	
@@ -161,15 +161,15 @@ public class Contract implements Serializable {
 	private Date startDate;
 
 	/**
-	 * bi-directional one-to-many association to Service
-	 * In OO terms, this Contract "engages" these Services
+	 * bi-directional one-to-many association to ContractServiceAgreement
+	 * In OO terms, this Contract "engages" these ContractServiceAgreements
 	 */
-	@OneToMany(mappedBy="contract")
-	private List <Service> services;
+	@OneToMany(mappedBy="contractServiceAgreementId.contract", cascade = {CascadeType.ALL}, orphanRemoval=true)
+	private List <ContractServiceAgreement> contractServiceAgreements;
 
 
 	public Contract() {
-		this.services = new ArrayList <> ();
+		this.contractServiceAgreements = new ArrayList <> ();
 	}
 	
 	public long getContractId() {
@@ -211,19 +211,15 @@ public class Contract implements Serializable {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	
-	public List<Service> getServices() {
-		return services;
+		
+	public List<ContractServiceAgreement> getContractServiceAgreements() {
+		return contractServiceAgreements;
 	}
 
-	public void setServices(List<Service> services) {
-		this.services = services;
+	public void setContractServiceAgreements(List<ContractServiceAgreement> contractServiceAgreements) {
+		this.contractServiceAgreements = contractServiceAgreements;
 	}
-	
-	public Service addService(Service service) {
-		getServices().add(service);
-		return service;
-	}
+
 	
 	@Override
 	public boolean equals(Object obj) {

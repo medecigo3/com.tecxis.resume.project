@@ -39,11 +39,11 @@ public class Client implements Serializable {
 
 
 	/**
-	 * uni-directional one-to-many association to Contract
-	 * In OO terms, this Client "signs" Contracts
+	 * bi-directional one-to-many association to Contract
+	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
+	 * In OO terms, this Client "signs" these Contracts
 	 */
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="CLIENT_ID")
+	@OneToMany(mappedBy="client", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Contract> contracts;
 
 
