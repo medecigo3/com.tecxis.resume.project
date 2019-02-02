@@ -110,12 +110,11 @@ public class Staff implements Serializable {
 	private List<Skill> skills;
 	
 	/**
-	 * uni-directional one-to-many association to Supplier
+	 * bi-directional one-to-many association to Supplier
 	 * In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-	 * In OO terms, this Staff "works for" Suppliers
+	 * In OO terms, this Staff "works for" these Suppliers
 	 */
-	@OneToMany
-	@JoinColumn(name="STAFF_ID")
+	@OneToMany(mappedBy="staff")
 	private List<Supplier> suppliers;
 
 	public Staff() {

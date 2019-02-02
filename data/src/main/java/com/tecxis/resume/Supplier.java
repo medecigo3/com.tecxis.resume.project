@@ -8,14 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -34,32 +36,42 @@ public class Supplier implements Serializable {
 	public static class SupplierPK implements Serializable {
 
 		private static final long serialVersionUID = 1L;
-
-
+		
+		@Id
+		@Column(name="SUPPLIER_ID")
+		@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SUPPLIERID_GENERATOR")
 		private long supplierId;
 
-		private long staffId;
 
-		public SupplierPK(long supplierId, long staffId) {
+		@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+		private Staff staff;
+		
+		public SupplierPK(Staff staff, long supplierId) {
 			this();
 			this.supplierId = supplierId;
-			this.staffId = staffId;
+			this.staff = staff;
 		}
 		
 		private SupplierPK() {
 			super();
 		}
+		
 		public long getSupplierId() {
 			return this.supplierId;
 		}
+		
 		public void setSupplierId(long supplierId) {
 			this.supplierId = supplierId;
 		}
-		public long getStaffId() {
-			return this.staffId;
+
+		public Staff getStaff() {
+			return staff;
 		}
-		public void setStaffId(long staffId) {
-			this.staffId = staffId;
+
+		public void setStaff(Staff staff) {
+			this.staff = staff;
 		}
 
 		public boolean equals(Object other) {
@@ -72,16 +84,22 @@ public class Supplier implements Serializable {
 			SupplierPK castOther = (SupplierPK)other;
 			return 
 				this.supplierId== castOther.supplierId
-				&& (this.staffId == castOther.staffId);
+				&& (this.staff == castOther.staff);
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + + ((int) (this.supplierId ^ (this.supplierId >>> 32)));
-			hash = hash * prime + ((int) (this.staffId ^ (this.staffId >>> 32)));
+			hash = hash * prime + ((int) (this.staff.getStaffId() ^ (this.staff.getStaffId() >>> 32)));
 			
 			return hash;
+		}
+		
+		@Override
+		public String toString() {
+			return "SupplierPK=[supplierId=" + supplierId + 
+					", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]";
 		}
 	}
 	
@@ -90,22 +108,27 @@ public class Supplier implements Serializable {
 	@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SUPPLIERID_GENERATOR")
 	private long supplierId;
+	
+	/**
+	 * bi-directional many-to-one association to Staff. 
+	 * In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
+	 * In OO terms, this staff "works for" this supplier.
+	 */
+	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	private Staff staff;
+			
 
-	@Column(name="STAFF_ID", insertable=false, updatable=false)
-	private long staffId;
+	/**
+	 * bi-directional one-to-many association to Contract. 
+	 * In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
+	 * In OO terms, this Supplier "holds" these Contracts.
+	 */
+	@OneToMany(mappedBy="supplier", fetch=FetchType.LAZY)
+	private List<Contract> contracts;
 
 	private String name;
 
-	/**
-	 * uni-directional one-to-many association to Contract. 
-	 * In OO terms, this Supplier "holds" Contracts.
-	 */
-	@OneToMany
-	@JoinColumns({
-		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID"),
-		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-	})	
-	private List<Contract> contracts;
 
 	public Supplier() {
 		this.contracts = new ArrayList <> ();
@@ -118,13 +141,13 @@ public class Supplier implements Serializable {
 	public void setSupplierId(long supplierId) {
 		this.supplierId = supplierId;
 	}
-	
-	public long getStaffId() {
-		return this.staffId;
+
+	public Staff getStaff() {
+		return staff;
 	}
-	
-	public void setStaffId(long staffId) {
-		this.staffId = staffId;
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
 	}
 
 	public String getName() {

@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -36,56 +39,55 @@ public class Contract implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 		
-		private long clientId;
-		
+		@Id
+		@Column(name="CONTRACT_ID")	
+		@SequenceGenerator(name="CONTRACT_CONTRACTID_GENERATOR", sequenceName="CONTRACT_SEQ", allocationSize=1, initialValue=1)
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
 		private long contractId;
 		
-		private long staffId;
+		@ManyToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+		private Client client;		
 
-		private long supplierId;	
+		@ManyToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
+		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")			
+		private Supplier supplier;	
 		
-		public ContractPK(long clientId, long contractId, long staffId, long supplierId) {
+		public ContractPK(long contractId, Client client,  Supplier supplier) {
 			this();
 			this.contractId = contractId;
-			this.clientId = clientId;
-			this.supplierId = supplierId;		
-			this.staffId = staffId;
+			this.client = client;
+			this.supplier = supplier;		
+		
 		}
 
 		private ContractPK() {
 			super();
 		}	
-		
-		public long getClientId() {
-			return clientId;
-		}
-
-		public void setClientId(long clientId) {
-			this.clientId = clientId;
-		}
-		
+				
 		public long getContractId() {
 			return contractId;
 		}
 
 		public void setContractId(long contractId) {
 			this.contractId = contractId;
-		}	
-
-		public long getStaffId() {
-			return staffId;
 		}
 
-		public void setStaffId(long staffId) {
-			this.staffId = staffId;
-		}
-		
-		public long getSupplierId() {
-			return supplierId;
+		public Client getClient() {
+			return client;
 		}
 
-		public void setSupplierId(long supplierId) {
-			this.supplierId = supplierId;
+		public void setClient(Client client) {
+			this.client = client;
+		}
+
+		public Supplier getSupplier() {
+			return supplier;
+		}
+
+		public void setSupplier(Supplier supplier) {
+			this.supplier = supplier;
 		}
 
 		public boolean equals(Object other) {
@@ -97,28 +99,32 @@ public class Contract implements Serializable {
 			}
 			ContractPK castOther = (ContractPK)other;
 			return 
-				(this.clientId == castOther.clientId)
-				&& (this.supplierId == castOther.supplierId)
+				(this.client.getClientId() == castOther.getClient().getClientId())
+				&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
 				&& (this.contractId == castOther.contractId)
-				&& (this.staffId == castOther.staffId);
+				&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
-			hash = hash * prime + ((int) (this.supplierId ^ (this.supplierId >>> 32)));
+			hash = hash * prime + ((int) (this.client.getClientId() ^ (this.client.getClientId() >>> 32)));
+			hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
 			hash = hash * prime + ((int) (this.contractId ^ (this.contractId >>> 32)));
-			hash = hash * prime + ((int) (this.staffId ^ (this.staffId >>> 32)));
+			hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
 			
 			return hash;
 		}
 		
 		@Override
-		public String toString() {		
-			return reflectionToString(this);
+		public String toString() {
+			return "ContractPK=[contractId=" + this.getContractId() + 
+					", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
+					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
+					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]";
 		}
+
 	}
 	
 	@Id
@@ -127,14 +133,24 @@ public class Contract implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
 	private long contractId;
 	
-	@Column(name="CLIENT_ID", insertable=false, updatable=false)
-	private long clientId;
-		
-	@Column(name="SUPPLIER_ID", insertable=false, updatable=false)
-	private long supplierId;
-	
-	@Column(name="STAFF_ID", insertable=false, updatable=false)
-	private long staffId;
+	/**
+	 * bi-directional many-to-one association to Client. 
+	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
+	 * In OO terms, this Client "signed" this Contract.
+	 */
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+	private Client client;		
+
+	/**
+	 * bi-directional many-to-one association to Supplier. 
+	 * In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
+	 * In OO terms, this Supplier "holds" this Contract.
+	 */
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	private Supplier supplier;	
 			
 	@Temporal(TemporalType.DATE)
 	@Column(name="END_DATE")
@@ -146,7 +162,7 @@ public class Contract implements Serializable {
 
 	/**
 	 * bi-directional one-to-many association to Service
-	 * In OO terms, this Contract "engages" Services
+	 * In OO terms, this Contract "engages" these Services
 	 */
 	@OneToMany(mappedBy="contract")
 	private List <Service> services;
@@ -163,30 +179,21 @@ public class Contract implements Serializable {
 	public void setContractId(long contractId) {
 		this.contractId = contractId;
 	}
-	
-	public long getClientId() {
-		return this.clientId;
+
+	public Client getClient() {
+		return client;
 	}
-	
-	public void setClientId(long clientId) {
-		this.clientId = clientId;
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
-	
-	public long getStaffId() {
-		return this.staffId;
+
+	public Supplier getSupplier() {
+		return supplier;
 	}
-	
-	public long getSupplierId() {
-		return this.supplierId;
-	}
-	
-	public void setSupplierId(long supplierId) {
-		this.supplierId = supplierId;
-	}
-	
-	
-	public void setStaffId(long staffId) {
-		this.staffId = staffId;
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	public Date getEndDate() {

@@ -120,6 +120,7 @@ public class StaffProjectAssignmentTest {
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
+		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));		
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
@@ -147,7 +148,7 @@ public class StaffProjectAssignmentTest {
 		/**Here persist operation will be cascaded from fortis (parent) to StaffAssignments (child) 
 		 * When we delete the staff assignment instance referenced by fortis which is also loaded in the persistence context 
 		 * the staff association will not be removed from DB
-		 * Comment out these to lines above to prove otherwise*/		
+		 * Comment out these two lines above to prove otherwise*/		
 		List <StaffProjectAssignment>  fortisStaffAssignments = fortis.getStaffProjectAssignments();
 		assertEquals(3, fortisStaffAssignments.size());
 
@@ -160,17 +161,20 @@ public class StaffProjectAssignmentTest {
 		/**The the removed staff assignment is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 		entityManager.remove(staffAssignment2);
+		/**Entity deletion is un-scheduled when entity isn't detached from persistence context*/
 		entityManager.flush();		
-		/**Un-schedule entity deletion*/
+		/**Test entity was not removed*/
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id2));
-				
+		
+		/**Detach entities from persistent context*/
 		entityManager.clear();
 		staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
 		assertNotNull(staffAssignment3);
 		entityManager.remove(staffAssignment3);
 		entityManager.flush();
-		assertNull(entityManager.find(StaffProjectAssignment.class, id2));		
+		assertNull(entityManager.find(StaffProjectAssignment.class, id2));
+		/**Test entity was removed*/
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 				
 

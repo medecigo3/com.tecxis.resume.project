@@ -1,6 +1,7 @@
 package com.tecxis.resume;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Date;
 
@@ -61,11 +62,10 @@ public class ContractTest {
 		fail("Not yet implemented");
 	}
 
-	public static Contract insertAContract(Client client, Supplier supplier, Staff staff, Date startDate, Date endDate, EntityManager entityManager) {
+	public static Contract insertAContract(Client client, Supplier supplier, Date startDate, Date endDate, EntityManager entityManager) {
 		Contract contract  = new Contract();
-		contract.setClientId(client.getClientId());
-		contract.setStaffId(staff.getStaffId());
-		contract.setSupplierId(supplier.getSupplierId());
+		contract.setClient(client);	
+		contract.setSupplier(supplier);
 		contract.setStartDate(startDate);
 		contract.setEndDate(endDate);
 		entityManager.persist(contract);

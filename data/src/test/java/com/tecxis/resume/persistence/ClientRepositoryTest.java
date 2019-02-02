@@ -61,6 +61,8 @@ public class ClientRepositoryTest {
 	public static String AXELTIS = "Axeltis (Natixis group)";
 	public static String EULER_HERMES = "Euler Hermes";
 	public static String ARVAL = "Arval";
+	public static String LA_BANQUE_POSTALE = "La Banque Postale";
+	public static String SG = "Societe Generale Investment Banking";
 	
 	@PersistenceContext
 	private EntityManager entityManager;

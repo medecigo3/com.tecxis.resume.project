@@ -1,6 +1,8 @@
 package com.tecxis.resume;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 
@@ -44,10 +46,9 @@ public class ServiceTest {
 		fail("Not yet implemented");
 	}
 
-	public static Service insertAService(String name, Contract contract, EntityManager entityManager) {
+	public static Service insertAService(String name, EntityManager entityManager) {
 		Service service = new Service();
-		service.setName(name);
-		service.setContract(contract);
+		service.setName(name);		
 		assertEquals(0, service.getServiceId());
 		entityManager.persist(service);
 		entityManager.flush();

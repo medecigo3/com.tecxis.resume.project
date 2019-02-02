@@ -245,12 +245,13 @@ public class ProjectTest {
 		/**Detach entities*/
 		entityManager.clear();
 
-		/**Validate staff assignments*/
+		/**Fetch and validate contract to test*/
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 		StaffProjectAssignment staffAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffAssignment1);
 		
 		/**Remove staff assignment*/
+		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
 		entityManager.remove(staffAssignment1);
 		entityManager.flush();
 		entityManager.clear();

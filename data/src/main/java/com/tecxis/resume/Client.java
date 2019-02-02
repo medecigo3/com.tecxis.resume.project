@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Client implements Serializable {
 	 * uni-directional one-to-many association to Contract
 	 * In OO terms, this Client "signs" Contracts
 	 */
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="CLIENT_ID")
 	private List<Contract> contracts;
 
@@ -51,6 +52,7 @@ public class Client implements Serializable {
 	 * In OO terms, this Client "controls" projects
 	 */
 	@OneToMany
+	@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
 	private List<Project> projects;
 
 	public Client() {
@@ -92,11 +94,6 @@ public class Client implements Serializable {
 
 	public Contract addContract(Contract contract) {
 		getContracts().add(contract);
-		return contract;
-	}
-
-	public Contract removeContract(Contract contract) {
-		getContracts().remove(contract);
 		return contract;
 	}
 

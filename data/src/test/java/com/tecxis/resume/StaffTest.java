@@ -498,6 +498,7 @@ public class StaffTest {
 		assertNotNull(staffProjectAssignment1);
 		
 		/**Remove staff assignment*/
+		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();

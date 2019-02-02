@@ -12,4 +12,6 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
 	@Query("select s from Service s where s.name LIKE %?1")
 	public List <Service> getServiceLikeName(String name);
 	
+	public Service getServiceByName(String name);
+	
 }

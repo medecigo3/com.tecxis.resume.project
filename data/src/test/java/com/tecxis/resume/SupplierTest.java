@@ -47,7 +47,7 @@ public class SupplierTest {
 	public static Supplier insertASupplier(Staff staff, String name, EntityManager entityManager) {
 		Supplier supplier = new Supplier();
 		supplier.setName(name);
-		supplier.setStaffId(staff.getStaffId());
+		supplier.setStaff(staff);
 		entityManager.persist(supplier);
 		entityManager.flush();
 		assertThat(supplier.getSupplierId(), Matchers.greaterThan((long)0));
