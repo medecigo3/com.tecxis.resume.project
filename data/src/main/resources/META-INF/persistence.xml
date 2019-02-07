@@ -30,6 +30,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
 		<class>com.tecxis.resume.SupplierPK</class>
 		<class>com.tecxis.resume.StaffAssignment</class>
       <properties>
+      	<property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
       </properties>
    </persistence-unit>
 </persistence>

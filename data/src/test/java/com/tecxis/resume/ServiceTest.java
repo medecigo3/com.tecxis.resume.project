@@ -1,15 +1,83 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
+import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.List;
+
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
+import com.tecxis.resume.persistence.ClientRepository;
+import com.tecxis.resume.persistence.ContractRepository;
+import com.tecxis.resume.persistence.ContractServiceAgreementRepository;
+import com.tecxis.resume.persistence.ServiceRepository;
+import com.tecxis.resume.persistence.StaffRepository;
+import com.tecxis.resume.persistence.SupplierRepository;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringJUnitConfig (locations = { 
+		"classpath:persistence-context.xml", 
+		"classpath:test-dataSource-context.xml",
+		"classpath:test-transaction-context.xml" })
+@Commit
+@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ServiceTest {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private ServiceRepository serviceRepo;
+
+	@Autowired
+	private ContractServiceAgreementRepository contractServiceAgreementRepo;
+	
+	@Autowired
+	private StaffRepository staffRepo;
+	
+	@Autowired
+	private SupplierRepository supplierRepo;
+	
+	@Autowired
+	private  ContractRepository contractRepo;
+	
+	@Autowired
+	private ClientRepository clientRepo;
 
 	@Test
 	public void testGetServiceId() {
@@ -44,6 +112,97 @@ public class ServiceTest {
 	@Test
 	public void testRemoveContract() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddContractServiceAgreement() throws EntityExistsException {		
+		/**Find a Service*/
+		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
+		
+		/**Validate service to test*/
+		assertNotNull(scmDevService);
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+				
+		/**Get contract to insert*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		List <Contract> fastconnectContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);	
+		assertEquals(1, fastconnectContracts.size());
+		Contract fastconnectContract = fastconnectContracts.get(0);
+		assertNotNull(fastconnectContract);
+		
+		/**Validate ContractServiceAgreement table pre test state*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(fastconnectContract);
+		contractServiceAgreementId.setService(scmDevService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+		
+		/**Validate state of current Service ContractServiceAgreements*/
+		List <ContractServiceAgreement>  scmDevServiceContractServiceAgreements = scmDevService.getContractServiceAgreements();
+		assertEquals(1, scmDevServiceContractServiceAgreements.size());
+		Contract barclaysAccentureContract = scmDevServiceContractServiceAgreements.get(0).getContractServiceAgreementId().getContract();
+		assertEquals(BARCLAYS,barclaysAccentureContract.getClient().getName());
+		assertEquals(ACCENTURE,barclaysAccentureContract.getSupplier().getName());
+		
+		/**Validate contract to insert*/
+		assertEquals(1, fastconnectContract.getContractServiceAgreements().size());		
+		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
+		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
+
+		/**Add new ContractServiceAgreement to contract*/
+		scmDevService.addContractServiceAgreement(fastconnectContract);
+		/**Add new ContractServiceAgrement to the inverse association*/	
+		fastconnectContract.addContractServiceAgreement(scmDevService);	
+		entityManager.merge(scmDevService);	
+		entityManager.merge(fastconnectContract);
+		entityManager.flush();
+	
+		/**Test ContractServiceAgreement table post test state*/
+		assertEquals(15, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		 		
+		assertEquals(2, scmDevService.getContractServiceAgreements().size());
+		assertEquals(2, fastconnectContract.getContractServiceAgreements().size());
+		assertTrue(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test(expected=EntityExistsException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testAddExistingContractServiceAgreementToService() throws EntityExistsException {				
+		/**Find a Service to test*/
+		Service tibcoEsbConsultant = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		
+		/**Validate the service to test*/
+		assertEquals(TIBCO_BW_CONSULTANT, tibcoEsbConsultant.getName());
+		
+		/**Validate contracts of the service to test*/		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		List <ContractServiceAgreement> tibcoEsbContractServiceAgreements = tibcoEsbConsultant.getContractServiceAgreements();
+		assertEquals(9, tibcoEsbContractServiceAgreements.size());		
+		
+		/**Find duplicate Contract to insert*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);		
+		Supplier alterna = supplierRepo.getSupplierByNameAndStaff(ALTERNA, amt);
+		Client arval = clientRepo.getClientByName(ARVAL);		
+		List <Contract> alternaArvalContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(arval, alterna);
+		assertEquals(1, alternaArvalContracts.size());
+		Contract alternaArvalContract = alternaArvalContracts.get(0);
+		assertEquals(ARVAL,  alternaArvalContract.getClient().getName());
+		assertEquals(ALTERNA, alternaArvalContract.getSupplier().getName());
+		
+		/**Test that alternaArvalContract's ContractServiceAgreement exists in the list of Tibco-ESB ContractServiceAgreements*/
+		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());
+		ContractServiceAgreement alternaArvalContractServiceAgreement = alternaArvalContract.getContractServiceAgreements().get(0);
+		org.junit.Assert.assertTrue(tibcoEsbContractServiceAgreements.contains(alternaArvalContractServiceAgreement));
+					
+		/**Add Contract duplicate: expect error*/
+		tibcoEsbConsultant.addContractServiceAgreement(alternaArvalContract);
+				
 	}
 
 	public static Service insertAService(String name, EntityManager entityManager) {

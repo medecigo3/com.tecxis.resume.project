@@ -6,16 +6,22 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityExistsException;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 
 
 /**
@@ -43,7 +49,7 @@ public class Service implements Serializable {
 	* bi-directional one-to-many association to ContractServiceAgreement.
 	* In OO terms, this Service "provides" to this Contract
 	*/	
-	@OneToMany(mappedBy = "contractServiceAgreementId.service")
+	@OneToMany(mappedBy = "contractServiceAgreementId.service", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <ContractServiceAgreement> contractServiceAgreements;
 
 	public Service() {
@@ -72,6 +78,24 @@ public class Service implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void addContractServiceAgreement(Contract contract) throws EntityExistsException {
+		/**Check if 'contract' isn't in this service's ContractServiceAgreements */
+		if ( !Collections.disjoint(this.getContractServiceAgreements(), contract.getContractServiceAgreements()))
+			throw new EntityExistsException("Entity already exists in this ContractServiceAgreement: " + contract.toString());
+				
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(contract);
+		contractServiceAgreementId.setService(this);
+		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement();
+		newContractServiceAgreement.setContractServiceAgreementId(contractServiceAgreementId);
+		this.getContractServiceAgreements().add(newContractServiceAgreement);
+	
+	}
+	
+	public void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
+		this.getContractServiceAgreements().remove(contractServiceAgreement);
 	}
 	
 	public List<ContractServiceAgreement> getContractServiceAgreements() {

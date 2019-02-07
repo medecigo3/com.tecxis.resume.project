@@ -1,7 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -88,8 +86,11 @@ public class ContractServiceAgreement implements Serializable{
 				return false;
 			}
 			ContractServiceAgreementId castOther = (ContractServiceAgreementId)other;
-			return 			
-				(this.contract.getContractId() == castOther.getContract().getContractId())	
+			return
+				(this.contract.getContractId() == castOther.getContract().getContractId())
+				&& (this.contract.getClient().getClientId() == castOther.getContract().getClient().getClientId())				
+				&& (this.contract.getSupplier().getSupplierId() == castOther.getContract().getSupplier().getSupplierId())	
+				&& (this.contract.getSupplier().getStaff().getStaffId() == castOther.getContract().getSupplier().getStaff().getStaffId())
 				&& (this.service.getServiceId() == castOther.getService().getServiceId());
 		}
 
@@ -98,13 +99,19 @@ public class ContractServiceAgreement implements Serializable{
 			final int prime = 31;
 			int hash = 17;		
 			hash = hash * prime + ((int) (this.contract.getContractId() ^ (this.contract.getContractId() >>> 32)));
+			hash = hash * prime + ((int) (this.contract.getClient().getClientId() ^ (this.contract.getClient().getClientId() >>> 32)));
+			hash = hash * prime + ((int) (this.contract.getSupplier().getSupplierId() ^ (contract.getSupplier().getSupplierId() >>> 32)));
+			hash = hash * prime + ((int) (this.contract.getSupplier().getStaff().getStaffId() ^ (this.contract.getSupplier().getStaff().getStaffId() >>> 32)));
 			hash = hash * prime + ((int) (this.service.getServiceId() ^ (this.service.getServiceId() >>> 32)));			
 			return hash;
 		}
 
 		@Override
 		public String toString() {
-			return "ContractServiceAgreementId=[contractId=" + (this.getContract() != null ? this.getContract().getContractId() : "null") + 					
+			return "ContractServiceAgreementId=[contractId=" + (this.getContract() != null ? this.getContract().getContractId() : "null") + 
+					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getClientId() : "null") +
+					", supplierId=" + (this.contract.getSupplier() != null ? this.contract.getSupplier().getSupplierId() : " null" ) + 
+					", staffId=" + (this.contract.getSupplier() != null ? ( this.contract.getSupplier().getStaff() != null ? this.contract.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + 
 					", serviceId= "+ (this.getService() != null ? this.getService().getServiceId() : "null") + "]";		
 		}
 		
@@ -124,7 +131,7 @@ public class ContractServiceAgreement implements Serializable{
 
 	@Override
 	public String toString() {
-		return reflectionToString(this) + "[" + contractServiceAgreementId.toString() + "]";
+		return  "["+this.getClass().getName()+ "@" + this.getContractServiceAgreementId().hashCode() + "[" + contractServiceAgreementId.toString() + "]]";
 	}
 	
 	

@@ -123,6 +123,7 @@ public class ContractServiceAgreementRepositoryTest {
 		contractServiceAgreementId.setService(muleEsbCons);
 		
 		ContractServiceAgreement contractServiceAgreementOut =contractServiceAgreementRepo.findById(contractServiceAgreementId).get();		
+		assertNotNull(contractServiceAgreementOut);
 		assertEquals(contractServiceAgreementIn, contractServiceAgreementOut);		
 		
 	}
@@ -150,9 +151,10 @@ public class ContractServiceAgreementRepositoryTest {
 		contractServiceAgreementId.setContract(j2eeDevelopperContract);
 		contractServiceAgreementId.setService(j2eeDevelopperService);
 		ContractServiceAgreement contractServiceAgreement = contractServiceAgreementRepo.findById(contractServiceAgreementId).get();
+		assertNotNull(contractServiceAgreement);
 		assertEquals(j2eeDevelopperContract, contractServiceAgreement.getContractServiceAgreementId().getContract());
 		assertEquals(j2eeDevelopperService, contractServiceAgreement.getContractServiceAgreementId().getService());
-		assertNotNull(contractServiceAgreement);
+		
 				
 	}
 	

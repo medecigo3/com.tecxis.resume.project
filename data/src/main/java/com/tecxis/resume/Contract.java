@@ -6,12 +6,14 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.tecxis.resume.Contract.ContractPK;
+import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 
 
 /**
@@ -210,6 +213,23 @@ public class Contract implements Serializable {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+	
+	public void addContractServiceAgreement(Service service) throws EntityExistsException {
+		/**check if 'service' isn't in this contract's ContractServiceAgreements*/
+		if ( !Collections.disjoint(this.getContractServiceAgreements(), service.getContractServiceAgreements() ))
+				throw new EntityExistsException("Entity already exists in this ContractServiceAgreement: " + service.toString());
+		
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(this);
+		contractServiceAgreementId.setService(service);
+		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement();
+		newContractServiceAgreement.setContractServiceAgreementId(contractServiceAgreementId);
+		this.getContractServiceAgreements().add(newContractServiceAgreement);		
+	}
+	
+	public void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
+		this.getContractServiceAgreements().remove(contractServiceAgreement);
 	}
 		
 	public List<ContractServiceAgreement> getContractServiceAgreements() {
