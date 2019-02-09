@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -188,7 +187,8 @@ public class Supplier implements Serializable {
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return "[Supplier[SupplierPK=[supplierId=" + supplierId + 
+				", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]";
 	}
 
 }
