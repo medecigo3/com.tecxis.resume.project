@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -79,6 +80,7 @@ public class Service implements Serializable {
 		this.name = name;
 	}
 	
+
 	public void addContractServiceAgreement(Contract contract) throws EntityExistsException {
 		/**Check if 'contract' isn't in this service's ContractServiceAgreements */
 		if ( !Collections.disjoint(this.getContractServiceAgreements(), contract.getContractServiceAgreements()))
@@ -93,10 +95,25 @@ public class Service implements Serializable {
 	
 	}
 	
-	public void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
-		this.getContractServiceAgreements().remove(contractServiceAgreement);
+	public boolean removeContractServiceAgreement(Contract contract) {		
+		Iterator <ContractServiceAgreement> contractServiceAgreementIt =  this.getContractServiceAgreements().iterator();
+		
+		while(contractServiceAgreementIt.hasNext()) {			
+			ContractServiceAgreement tempContractServiceAgreement = contractServiceAgreementIt.next();
+			Contract tempContract = tempContractServiceAgreement.getContractServiceAgreementId().getContract();
+			if (contract.equals(tempContract)) {
+				return this.getContractServiceAgreements().remove(tempContractServiceAgreement);
+				
+			}
+		}
+		return false;
 	}
 	
+	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
+		return this.getContractServiceAgreements().remove(contractServiceAgreement);
+	}
+	
+
 	public List<ContractServiceAgreement> getContractServiceAgreements() {
 		return contractServiceAgreements;
 	}

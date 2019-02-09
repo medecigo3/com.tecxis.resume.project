@@ -2,12 +2,12 @@ package com.tecxis.resume;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -214,7 +214,7 @@ public class Contract implements Serializable {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	
+		
 	public void addContractServiceAgreement(Service service) throws EntityExistsException {
 		/**check if 'service' isn't in this contract's ContractServiceAgreements*/
 		if ( !Collections.disjoint(this.getContractServiceAgreements(), service.getContractServiceAgreements() ))
@@ -228,8 +228,22 @@ public class Contract implements Serializable {
 		this.getContractServiceAgreements().add(newContractServiceAgreement);		
 	}
 	
-	public void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
-		this.getContractServiceAgreements().remove(contractServiceAgreement);
+	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
+		return this.getContractServiceAgreements().remove(contractServiceAgreement);
+	}
+	
+	public boolean removeContractServiceAgreement(Service service) {		
+		Iterator <ContractServiceAgreement> contractServiceAgreementIt =  this.getContractServiceAgreements().iterator();
+	
+		while(contractServiceAgreementIt.hasNext()) {			
+			ContractServiceAgreement tempContractServiceAgreement = contractServiceAgreementIt.next();
+			Service tempService = tempContractServiceAgreement.getContractServiceAgreementId().getService();
+			if (service.equals(tempService)) {
+				return this.getContractServiceAgreements().remove(tempContractServiceAgreement);
+				
+			}
+		}
+		return false;
 	}
 		
 	public List<ContractServiceAgreement> getContractServiceAgreements() {
@@ -253,6 +267,9 @@ public class Contract implements Serializable {
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return "Contract=[contractId=" + this.getContractId() + 
+				", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
+				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
+				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]";
 	}
 }

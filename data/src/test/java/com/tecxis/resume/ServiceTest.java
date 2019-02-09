@@ -2,12 +2,14 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
@@ -108,11 +110,6 @@ public class ServiceTest {
 	public void testAddContract() {
 		fail("Not yet implemented");
 	}
-
-	@Test
-	public void testRemoveContract() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	@Sql(
@@ -203,6 +200,85 @@ public class ServiceTest {
 		/**Add Contract duplicate: expect error*/
 		tibcoEsbConsultant.addContractServiceAgreement(alternaArvalContract);
 				
+	}
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveContractServiceAgreement() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier alphatress = supplierRepo.getSupplierByNameAndStaff(ALPHATRESS, amt);
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		List <Contract> alphatressContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(belfius, alphatress);
+		
+		/**Get & validate contract */
+		assertEquals(1, alphatressContracts.size());
+		Contract alphatressContract = alphatressContracts.get(0);
+		assertEquals(BELFIUS, alphatressContract.getClient().getName());
+		assertEquals(ALPHATRESS, alphatressContract.getSupplier().getName());	
+		
+		/**Get Service & validate */
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		assertNotNull(bwService);
+		assertEquals(TIBCO_BW_CONSULTANT, bwService.getName());
+		assertEquals(9, bwService.getContractServiceAgreements().size());
+	
+		/**Remove ContractServiceAgreement*/
+		ContractServiceAgreement fasctconnectContractServiceAgreement = alphatressContract.getContractServiceAgreements().get(0);
+		assertTrue(alphatressContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+		assertTrue(bwService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+				
+		/**Find ContractServiceAgreement */		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		entityManager.merge(alphatressContract);
+		entityManager.merge(bwService);
+		entityManager.flush();	
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, alphatressContract.getContractServiceAgreements().size());
+		assertEquals(8, bwService.getContractServiceAgreements().size());
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(alphatressContract);
+		contractServiceAgreementId.setService(bwService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveContract() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier alterna = supplierRepo.getSupplierByNameAndStaff(ALTERNA, amt);
+		Client arval = clientRepo.getClientByName(ARVAL);
+		List <Contract> alternaContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(arval, alterna);
+		
+		/**Get & validate contract */
+		assertEquals(1, alternaContracts.size());
+		Contract alternaContract = alternaContracts.get(0);
+		assertEquals(ARVAL, alternaContract.getClient().getName());
+		assertEquals(ALTERNA,alternaContract.getSupplier().getName());	
+		
+		/**Get Service & validate */
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		assertNotNull(bwService);
+		assertEquals(TIBCO_BW_CONSULTANT, bwService.getName());
+		
+		/**Remove ContractServiceAgreement*/
+		assertTrue(alternaContract.removeContractServiceAgreement(bwService));
+		assertTrue(bwService.removeContractServiceAgreement(alternaContract));
+				
+		/**Find ContractServiceAgreement */		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		entityManager.merge(alternaContract);
+		entityManager.merge(bwService);
+		entityManager.flush();	
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(alternaContract);
+		contractServiceAgreementId.setService(bwService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 
 	public static Service insertAService(String name, EntityManager entityManager) {

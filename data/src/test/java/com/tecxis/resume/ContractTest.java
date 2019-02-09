@@ -1,9 +1,11 @@
 package com.tecxis.resume;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -123,7 +125,7 @@ public class ContractTest {
 	public void testAddService() {
 		fail("Not yet implemented");
 	}
-	
+		
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
@@ -224,9 +226,85 @@ public class ContractTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveContractServiceAgreement() {
-		//TODO next- see other examples 
-		fail("Not yet implemented");
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		List <Contract> fastconnectContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
+		
+		/**Get & validate contract */
+		assertEquals(1, fastconnectContracts.size());
+		Contract fastconnectContract = fastconnectContracts.get(0);
+		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
+		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
+		
+		/**Get Service & validate */
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
+		assertNotNull(muleService);
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(1, muleService.getContractServiceAgreements().size());
+		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getSupplier().getName());
+		assertEquals(MICROPOLE, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getClient().getName());
+		
+		/**Remove ContractServiceAgreement*/
+		ContractServiceAgreement fasctconnectContractServiceAgreement = fastconnectContract.getContractServiceAgreements().get(0);
+		assertTrue(fastconnectContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+		assertTrue(muleService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+				
+		/**Find ContractServiceAgreement */		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		entityManager.merge(fastconnectContract);
+		entityManager.merge(muleService);
+		entityManager.flush();	
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, fastconnectContract.getContractServiceAgreements().size());
+		assertEquals(0, muleService.getContractServiceAgreements().size());
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(fastconnectContract);
+		contractServiceAgreementId.setService(muleService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveService() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier accenture = supplierRepo.getSupplierByNameAndStaff(ACCENTURE, amt);
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		List <Contract> accentureContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(barclays, accenture);
+		
+		/**Get & validate contract */
+		assertEquals(1, accentureContracts.size());
+		Contract accentureContract = accentureContracts.get(0);
+		assertEquals(BARCLAYS, accentureContract.getClient().getName());
+		assertEquals(ACCENTURE,accentureContract.getSupplier().getName());	
+		
+		/**Get Service & validate */
+		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
+		assertNotNull(scmDevService);
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+		
+		/**Remove ContractServiceAgreement*/
+		assertTrue(accentureContract.removeContractServiceAgreement(scmDevService));
+		assertTrue(scmDevService.removeContractServiceAgreement(accentureContract));
+				
+		/**Find ContractServiceAgreement */		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		entityManager.merge(accentureContract);
+		entityManager.merge(scmDevService);
+		entityManager.flush();	
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(accentureContract);
+		contractServiceAgreementId.setService(scmDevService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 
 	public static Contract insertAContract(Client client, Supplier supplier, Date startDate, Date endDate, EntityManager entityManager) {
