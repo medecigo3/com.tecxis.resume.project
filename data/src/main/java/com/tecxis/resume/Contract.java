@@ -267,9 +267,9 @@ public class Contract implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Contract=[contractId=" + this.getContractId() + 
+		return "[Contract=[contractId=" + this.getContractId() + 
 				", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
 				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
-				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]";
+				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";
 	}
 }
