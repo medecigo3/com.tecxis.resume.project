@@ -1,11 +1,13 @@
 package com.tecxis.resume;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -42,6 +44,7 @@ import com.tecxis.resume.persistence.ContractServiceAgreementRepository;
 import com.tecxis.resume.persistence.ServiceRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
+import com.tecxis.resume.persistence.SupplierRepositoryTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -82,8 +85,62 @@ public class ContractTest {
 	}
 
 	@Test
-	public void testGetSupplierId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSupplier() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier amesys = supplierRepo.getSupplierByNameAndStaff(AMESYS, amt);
+		Client sagemcom = clientRepo.getClientByName(SAGEMCOM);
+		List <Contract> amesysContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(sagemcom, amesys);
+		
+		/**Validate Contract-> Supplier */
+		assertEquals(1, amesysContracts.size());
+		Contract amesysContract = amesysContracts.get(0);
+		assertEquals(SAGEMCOM, amesysContract.getClient().getName());
+		assertEquals(AMESYS,amesysContract.getSupplier().getName());	
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetSupplier() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier amesys = supplierRepo.getSupplierByNameAndStaff(AMESYS, amt);
+		Client sagemcom = clientRepo.getClientByName(SAGEMCOM);
+		List <Contract> amesysContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(sagemcom, amesys);
+		
+		/**Validate Contract-> Supplier */
+		assertEquals(1, amesysContracts.size());
+		Contract amesysContract = amesysContracts.get(0);
+		assertEquals(SAGEMCOM, amesysContract.getClient().getName());
+		assertEquals(AMESYS,amesysContract.getSupplier().getName());	
+		
+		/**Find Supplier to set*/
+		Supplier alphatress = supplierRepo.getSupplierByNameAndStaff(ALPHATRESS, amt);
+				
+		/**Set new Contract ->Supplier*/	
+		Contract alphatressContract = new Contract();
+		alphatressContract.setContractId(amesysContract.getContractId());
+		alphatressContract.setClient(sagemcom);	
+		alphatressContract.setSupplier(alphatress);
+		alphatressContract.setStartDate(amesysContract.getStartDate());
+		alphatressContract.setEndDate(amesysContract.getEndDate());
+		
+		entityManager.remove(amesysContract);	
+		entityManager.persist(alphatressContract);
+		entityManager.flush();
+		
+		/**Validate Contract-> Supplier*/
+		List <Contract> alphatressContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(sagemcom, alphatress);
+		assertEquals(1, alphatressContracts.size());
+		alphatressContract = alphatressContracts.get(0);
+		assertEquals(SAGEMCOM, alphatressContract.getClient().getName());
+		assertEquals(ALPHATRESS,alphatressContract.getSupplier().getName());	
+		
 	}
 
 	@Test
@@ -276,7 +333,7 @@ public class ContractTest {
 	public void testRemoveService() {
 		/**Find a contract*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
-		Supplier accenture = supplierRepo.getSupplierByNameAndStaff(ACCENTURE, amt);
+		Supplier accenture = supplierRepo.getSupplierByNameAndStaff(SupplierRepositoryTest.ACCENTURE, amt);
 		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		List <Contract> accentureContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(barclays, accenture);
 		
@@ -284,7 +341,7 @@ public class ContractTest {
 		assertEquals(1, accentureContracts.size());
 		Contract accentureContract = accentureContracts.get(0);
 		assertEquals(BARCLAYS, accentureContract.getClient().getName());
-		assertEquals(ACCENTURE,accentureContract.getSupplier().getName());	
+		assertEquals(SupplierRepositoryTest.ACCENTURE,accentureContract.getSupplier().getName());	
 		
 		/**Get Service & validate */
 		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
