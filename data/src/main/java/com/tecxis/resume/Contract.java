@@ -21,9 +21,10 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.tecxis.resume.Contract.ContractPK;
 import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
@@ -35,7 +36,7 @@ import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
  */
 @Entity
 @IdClass(ContractPK.class)
-public class Contract implements Serializable {
+public class Contract implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
 	public static class ContractPK implements Serializable {
@@ -44,9 +45,9 @@ public class Contract implements Serializable {
 		
 		@Id
 		@Column(name="CONTRACT_ID")	
-		@SequenceGenerator(name="CONTRACT_CONTRACTID_GENERATOR", sequenceName="CONTRACT_SEQ", allocationSize=1, initialValue=1)
-		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
-		private long contractId;
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
+		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.SequenceGenerator", name="CONTRACT_SEQ")
+		private long id;
 		
 		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
@@ -57,9 +58,9 @@ public class Contract implements Serializable {
 		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")			
 		private Supplier supplier;	
 		
-		public ContractPK(long contractId, Client client,  Supplier supplier) {
+		public ContractPK(long id, Client client,  Supplier supplier) {
 			this();
-			this.contractId = contractId;
+			this.id = id;
 			this.client = client;
 			this.supplier = supplier;		
 		
@@ -69,12 +70,12 @@ public class Contract implements Serializable {
 			super();
 		}	
 				
-		public long getContractId() {
-			return contractId;
+		public long getId() {
+			return id;
 		}
 
-		public void setContractId(long contractId) {
-			this.contractId = contractId;
+		public void setId(long id) {
+			this.id = id;
 		}
 
 		public Client getClient() {
@@ -104,7 +105,7 @@ public class Contract implements Serializable {
 			return 
 				(this.client.getClientId() == castOther.getClient().getClientId())
 				&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
-				&& (this.contractId == castOther.contractId)
+				&& (this.id == castOther.id)
 				&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
 		}
 
@@ -114,7 +115,7 @@ public class Contract implements Serializable {
 			int hash = 17;
 			hash = hash * prime + ((int) (this.client.getClientId() ^ (this.client.getClientId() >>> 32)));
 			hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
-			hash = hash * prime + ((int) (this.contractId ^ (this.contractId >>> 32)));
+			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 			hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
 			
 			return hash;
@@ -122,7 +123,7 @@ public class Contract implements Serializable {
 		
 		@Override
 		public String toString() {
-			return "ContractPK=[contractId=" + this.getContractId() + 
+			return "ContractPK=[id=" + this.getId() + 
 					", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
 					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
 					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]";
@@ -132,9 +133,9 @@ public class Contract implements Serializable {
 	
 	@Id
 	@Column(name="CONTRACT_ID")	
-	@SequenceGenerator(name="CONTRACT_CONTRACTID_GENERATOR", sequenceName="CONTRACT_SEQ", allocationSize=1, initialValue=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_CONTRACTID_GENERATOR")
-	private long contractId;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.SequenceGenerator", name="CONTRACT_SEQ")
+	private long id;
 	
 	/**
 	 * bi-directional many-to-one association to Client. 
@@ -175,12 +176,14 @@ public class Contract implements Serializable {
 		this.contractServiceAgreements = new ArrayList <> ();
 	}
 	
-	public long getContractId() {
-		return this.contractId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 	
-	public void setContractId(long contractId) {
-		this.contractId = contractId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Client getClient() {
@@ -267,7 +270,7 @@ public class Contract implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[Contract=[contractId=" + this.getContractId() + 
+		return "[Contract=[id=" + this.getId() + 
 				", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
 				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
 				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";

@@ -149,7 +149,7 @@ public class ContractRepositoryTest {
 		Supplier alterna = SupplierTest.insertASupplier(amt, ALTERNA,  entityManager);
 		Contract accentureContract = ContractTest.insertAContract(accenture, alterna, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		assertEquals(1, accentureContract.getContractId());
+		assertEquals(1, accentureContract.getId());
 	}
 	
 	@Sql(
@@ -202,7 +202,7 @@ public class ContractRepositoryTest {
 		assertEquals(1, contract.getClient().getClientId());
 		assertEquals(1, contract.getSupplier().getSupplierId());
 		assertEquals(1, contract.getSupplier().getStaff().getStaffId());
-		assertEquals(1, contract.getContractId());
+		assertEquals(1, contract.getId());
 		
 	}
 	
