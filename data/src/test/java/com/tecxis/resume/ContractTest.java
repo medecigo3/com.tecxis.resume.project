@@ -235,20 +235,6 @@ public class ContractTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testGetServices() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetServices() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAddService() {
-		fail("Not yet implemented");
-	}
 		
 	@Test
 	@Sql(
