@@ -103,11 +103,6 @@ public class Assignment implements Serializable {
 		return staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		getStaffProjectAssignments().remove(staffProjectAssignment);
-		return staffProjectAssignment;
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		return reflectionEquals(this, obj);

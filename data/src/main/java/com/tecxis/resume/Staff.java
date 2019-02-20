@@ -225,11 +225,6 @@ public class Staff implements Serializable {
 		return staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		getStaffProjectAssignments().remove(staffProjectAssignment);
-		return staffProjectAssignment;
-	}
-
 	public List<Skill> getSkills() {
 		return skills;
 	}

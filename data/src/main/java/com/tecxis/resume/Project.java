@@ -197,11 +197,6 @@ public class Project implements Serializable {
 		return staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		getStaffProjectAssignments().remove(staffProjectAssignment);
-		return staffProjectAssignment;
-	}
-
 	public List<City> getCities() {
 		return this.cities;
 	}
