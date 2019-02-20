@@ -7,11 +7,13 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -88,7 +90,15 @@ public class Assignment implements Serializable {
 		this.staffProjectAssignments = staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+	public StaffProjectAssignment addStaffProjectAssignment(Staff staff, Project project) {
+		/**check if 'staff' and 'project' aren't in staffProjectAgreements*/
+		if ( !Collections.disjoint(this.getStaffProjectAssignments(), staff.getStaffProjectAssignments()) )
+			if ( !Collections.disjoint(this.getStaffProjectAssignments(), project.getStaffProjectAssignments()) )
+				throw new EntityExistsException("Entities already exist in 'ASSIGNS' association: [" + staff + ", " + project + "]");
+		
+		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, staff, this);
+		staffProjectAssignment.setStaffAssignmentId(id);
 		getStaffProjectAssignments().add(staffProjectAssignment);
 		return staffProjectAssignment;
 	}

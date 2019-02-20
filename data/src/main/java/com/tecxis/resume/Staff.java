@@ -6,12 +6,14 @@ import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToStrin
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -209,7 +211,16 @@ public class Staff implements Serializable {
 		this.staffProjectAssignments = staffProjectAssignments;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+	public StaffProjectAssignment addStaffProjectAssignment(Project project, Assignment assignment) {
+		/**check if 'project' and 'assignment' aren't in staffProjectAgreements*/
+		if ( !Collections.disjoint(this.getStaffProjectAssignments(), project.getStaffProjectAssignments()) )
+			if ( !Collections.disjoint(this.getStaffProjectAssignments(), assignment.getStaffProjectAssignments()) )
+				throw new EntityExistsException("Entities already exist in 'WORKS ON' association: [" + project + ", " + assignment + "]");
+		
+		
+		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, this, assignment);
+		staffProjectAssignment.setStaffAssignmentId(id);
 		getStaffProjectAssignments().add(staffProjectAssignment);
 		return staffProjectAssignment;
 	}

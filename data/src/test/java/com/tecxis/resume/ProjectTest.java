@@ -16,6 +16,9 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT2
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT29;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT30;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT31;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT32;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT33;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT34;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT37;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
@@ -32,6 +35,7 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
@@ -53,6 +57,7 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -211,11 +216,10 @@ public class ProjectTest {
 		assertEquals(0, assignment1.getStaffProjectAssignments().size());
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
-		StaffProjectAssignment amtStaffProjectAssignment = insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);
-		adir.addStaffProjectAssignment(amtStaffProjectAssignment);
-		amt.addStaffProjectAssignment(amtStaffProjectAssignment);
-		assignment1.addStaffProjectAssignment(amtStaffProjectAssignment);
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));		
+		adir.addStaffProjectAssignment(amt, assignment1);
+		amt.addStaffProjectAssignment(adir, assignment1);
+		assignment1.addStaffProjectAssignment(amt, adir);
 		
 		entityManager.merge(adir);
 		entityManager.merge(amt);
@@ -229,6 +233,56 @@ public class ProjectTest {
 		assertEquals(1, assignment1.getStaffProjectAssignments().size());
 	}
 
+	@Test(expected=EntityExistsException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testAddExistingStaffProjectAssignment() {
+		/**Find projects*/
+		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
+		
+		/**Validate Projects to test*/
+		assertEquals(EOLIS, eolis.getName());
+		assertEquals(VERSION_1, eolis.getVersion());
+		
+		/**Prepare Staff*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		
+		/**Validate Staff to test*/
+		assertEquals(AMT_NAME, amt.getName());
+						
+		/**Find assignments*/		
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);		
+		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
+		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);		
+		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34); 
+		
+		
+		/**Validate Assignments to test**/
+		assertEquals(ASSIGNMENT23, assignment23.getDesc());
+		assertEquals(ASSIGNMENT31, assignment31.getDesc());
+		assertEquals(ASSIGNMENT32, assignment32.getDesc());
+		assertEquals(ASSIGNMENT33, assignment33.getDesc());
+		assertEquals(ASSIGNMENT34, assignment34.getDesc());
+		
+		
+		/**Find StaffProjectAssignments to test*/
+		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment23)).get();
+		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment31)).get();
+		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment32)).get();
+		StaffProjectAssignment staffProjectAssignment4 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment33)).get();
+		StaffProjectAssignment staffProjectAssignment5 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment34)).get();
+	
+		/**Validate StaffProjectAssignments already exist in Project*/
+		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
+		assertEquals(5, eolisStaffProjectAssignments.size());		
+		assertThat(eolisStaffProjectAssignments,  Matchers.containsInAnyOrder(staffProjectAssignment1,  staffProjectAssignment2,  staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5));
+		
+		/**Add a duplicate Staff and Project association**/
+		eolis.addStaffProjectAssignment(amt, assignment34); /***  <==== Throws EntityExistsException */
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
