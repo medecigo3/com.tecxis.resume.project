@@ -20,6 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.Supplier.SupplierPK;
 
 
@@ -38,8 +42,12 @@ public class Supplier implements Serializable {
 		
 		@Id
 		@Column(name="SUPPLIER_ID")
-		@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)
-		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SUPPLIERID_GENERATOR")
+		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="SUPPLIER_SEQ", 
+		 parameters = {
+		            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+		            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+		)
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SEQ")
 		private long supplierId;
 
 

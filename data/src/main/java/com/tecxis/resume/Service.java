@@ -18,9 +18,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 
 
@@ -35,8 +38,12 @@ public class Service implements Serializable {
 	
 
 	@Id
-	@SequenceGenerator(name="SERVICE_SERVICEID_GENERATOR", sequenceName="SERVICE_SEQ", allocationSize=1, initialValue=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_SERVICEID_GENERATOR")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="SERVICE_SEQ", 
+	 parameters = {
+	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_SEQ")
 	@Column(name="SERVICE_ID")
 	private long serviceId;
 

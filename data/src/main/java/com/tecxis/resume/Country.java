@@ -15,7 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 
 
 /**
@@ -27,8 +31,12 @@ public class Country implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="COUNTRY_COUNTRYID_GENERATOR", sequenceName="COUNTRY_SEQ", allocationSize=1, initialValue=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_COUNTRYID_GENERATOR")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="COUNTRY_SEQ", 
+	 parameters = {
+	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_SEQ")
 	@Column(name="COUNTRY_ID")
 	private long countryId;
 

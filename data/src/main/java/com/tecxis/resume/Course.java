@@ -15,9 +15,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 
 
 /**
@@ -31,8 +35,12 @@ public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="COURSE_COURSEID_GENERATOR", sequenceName="COURSE_SEQ", allocationSize=1, initialValue=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_COURSEID_GENERATOR")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="COURSE_SEQ", 
+	 parameters = {
+	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_SEQ")
 	@Column(name="COURSE_ID")
 	private long courseId;
 

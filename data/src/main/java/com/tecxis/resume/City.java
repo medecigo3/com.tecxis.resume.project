@@ -16,8 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.City.CityPK;
 
 
@@ -88,8 +91,12 @@ public class City implements Serializable {
 	}
 
 	@Id
-	@SequenceGenerator(name="CITY_CITYID_GENERATOR", sequenceName="CITY_SEQ", allocationSize=1, initialValue=1 )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_CITYID_GENERATOR")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CITY_SEQ", 
+	 parameters = {
+	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
 	@Column(name="CITY_ID")
 	private long cityId;
 
