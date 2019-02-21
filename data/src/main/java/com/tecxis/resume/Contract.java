@@ -25,7 +25,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.Contract.ContractPK;
 import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 
@@ -46,7 +48,11 @@ public class Contract implements Serializable, StrongEntity {
 		@Id
 		@Column(name="CONTRACT_ID")	
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
-		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.SequenceGenerator", name="CONTRACT_SEQ")
+		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CONTRACT_SEQ", 
+				 parameters = {
+				            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+				            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+		)
 		private long id;
 		
 		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -134,7 +140,7 @@ public class Contract implements Serializable, StrongEntity {
 	@Id
 	@Column(name="CONTRACT_ID")	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.SequenceGenerator", name="CONTRACT_SEQ")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CONTRACT_SEQ")
 	private long id;
 	
 	/**
