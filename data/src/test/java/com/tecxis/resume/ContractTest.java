@@ -94,9 +94,9 @@ public class ContractTest {
 		
 		/**Validate Contract-> Supplier */
 		assertEquals(1, alphatressContracts.size());
-		Contract amesysContract = alphatressContracts.get(0);
-		assertEquals(BELFIUS, amesysContract.getClient().getName());
-		assertEquals(ALPHATRESS,amesysContract.getSupplier().getName());
+		Contract alphatressContract = alphatressContracts.get(0);
+		assertEquals(BELFIUS, alphatressContract.getClient().getName());
+		assertEquals(ALPHATRESS,alphatressContract.getSupplier().getName());
 	}
 	
 	@Test
