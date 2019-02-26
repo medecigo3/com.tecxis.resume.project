@@ -168,20 +168,6 @@ public class Supplier implements Serializable {
 	public List<Contract> getContracts() {
 		return this.contracts;
 	}
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
-	}
-
-	public Contract addContract(Contract contract) {
-		getContracts().add(contract);
-		return contract;
-	}
-
-	public Contract removeContract(Contract contract) {
-		getContracts().remove(contract);
-		return contract;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {

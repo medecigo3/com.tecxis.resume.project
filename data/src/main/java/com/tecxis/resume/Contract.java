@@ -1,8 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -265,13 +262,31 @@ public class Contract implements Serializable, StrongEntity {
 
 	
 	@Override
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Contract)) {
+			return false;
+		}
+		Contract castOther = (Contract)other;
+		return 
+			(this.client.getClientId() == castOther.getClient().getClientId())
+			&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
+			&& (this.id == castOther.getId())
+			&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.client.getClientId() ^ (this.client.getClientId() >>> 32)));
+		hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
+		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
+		hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
+		
+		return hash;
 	}
 
 	@Override

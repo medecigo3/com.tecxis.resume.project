@@ -1,6 +1,7 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.*;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
@@ -10,7 +11,10 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +41,11 @@ import com.tecxis.resume.persistence.SupplierRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class SupplierTest {
+	
+	private static Logger log = LogManager.getLogger();
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	@Autowired
 	private  ContractRepository contractRepo;
@@ -86,8 +95,8 @@ public class SupplierTest {
 		assertEquals(ACCENTURE, accenture.getName());				
 		
 		/**Check Contracts*/
-		List <Contract> amesysContracts = accenture.getContracts();
-		assertEquals(3, amesysContracts.size());		
+		List <Contract> accentureContracts = accenture.getContracts();
+		assertEquals(3, accentureContracts.size());		
 		
 		List <Contract> accentureBarclaysContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(barclays, accenture);
 		List <Contract> accentureAgeasContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(ageas, accenture);
@@ -99,22 +108,26 @@ public class SupplierTest {
 		Contract accentureAgeasContract =   accentureAgeasContracts.get(0);
 		Contract accentureAccentureContract = accentureAccentureContracts.get(0);
 		
-		assertThat(amesysContracts,  Matchers.containsInAnyOrder(accentureBarclaysContract,  accentureAgeasContract,  accentureAccentureContract));
+		assertThat(accentureContracts,  Matchers.containsInAnyOrder(accentureBarclaysContract,  accentureAgeasContract,  accentureAccentureContract));
 	}
 
 	@Test
 	public void testSetContracts() {
-		fail("Not yet implemented");
+		log.info("Contract association is managed through of the relationship owner (Contract).");
+		//To update the Contract's Supplier see ContractTest.testSetSupplier
 	}
 
 	@Test
 	public void testAddContract() {
-		fail("Not yet implemented");
+		log.info("Contract association is managed through of the relationship owner (Contract).");
+		//To update the Contract's Supplier see ContractTest.testSetSupplier
+		
 	}
 
 	@Test
 	public void testRemoveContract() {
-		fail("Not yet implemented");
+		log.info("Contract association is managed through of the relationship owner (Contract).");
+		//To remove the Contract's Supplier see ContractTest.testRemoveContract
 	}
 
 	public static Supplier insertASupplier(Staff staff, String name, EntityManager entityManager) {

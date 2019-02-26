@@ -119,6 +119,7 @@ public class ContractTest {
 		
 		/**Find Client to set*/
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(1, micropole.getContracts().size());
 				
 		/**Set new Contract ->Client*/
 		Contract newContract = new Contract();
@@ -133,18 +134,21 @@ public class ContractTest {
 		entityManager.remove(amesysContract);
 		entityManager.persist(newContract);
 		entityManager.merge(micropole);
-		
-
 		entityManager.flush();
+		entityManager.clear();
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		
-		/**Validate Contract-> Supplier*/
+		/**Validate Contract association with Client*/
 		List <Contract> alphatressNewContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, amesys);
 		assertEquals(1, alphatressNewContracts.size());
 		Contract amesysNewContract = alphatressNewContracts.get(0);
 		assertEquals(MICROPOLE, amesysNewContract.getClient().getName());
 		assertEquals(AMESYS, amesysNewContract.getSupplier().getName());	
 		assertEquals(amesysContractId, amesysNewContract.getId());
+		/**Validate the Client association with Contract*/
+		micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(2, micropole.getContracts().size());
+		assertThat(micropole.getContracts(), Matchers.hasItem(newContract));		
 	}
 
 	@Test
@@ -193,11 +197,14 @@ public class ContractTest {
 		alphatressContract.setSupplier(alphatress);
 		alphatressContract.setStartDate(amesysContract.getStartDate());
 		alphatressContract.setEndDate(amesysContract.getEndDate());
+		sagemcom.addContract(alphatressContract);
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		entityManager.remove(amesysContract);	
 		entityManager.persist(alphatressContract);
+		entityManager.merge(sagemcom);
 		entityManager.flush();
+		entityManager.clear();
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		
 		/**Validate Contract-> Supplier*/
@@ -207,7 +214,10 @@ public class ContractTest {
 		assertEquals(SAGEMCOM, alphatressContract.getClient().getName());
 		assertEquals(ALPHATRESS,alphatressContract.getSupplier().getName());	
 		assertEquals(amesysContractId, alphatressContract.getId());
-		
+		/**Validate the Supplier association*/
+		alphatress = supplierRepo.getSupplierByNameAndStaff(ALPHATRESS, amt);
+		assertEquals(2, alphatress.getContracts().size());
+		assertThat(alphatress.getContracts(), Matchers.hasItem(alphatressContract));
 	}
 
 	@Test
@@ -415,6 +425,42 @@ public class ContractTest {
 		contractServiceAgreementId.setContract(accentureContract);
 		contractServiceAgreementId.setService(scmDevService);
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testRemoveContract() {
+		/**Prepare contract associations*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		
+		/**Validate intital state of  Supplier and Client*/
+		assertEquals(6, fastconnect.getContracts().size());
+		assertEquals(1, micropole.getContracts().size());
+	
+		/**Detach entities*/
+		entityManager.clear();
+		
+		/**Fetch and validate contract to test*/
+		Contract.ContractPK contactPK = new Contract.ContractPK(5, micropole, fastconnect);
+		Contract fastconnectContract = contractRepo.findById(contactPK).get();
+		assertNotNull(fastconnectContract);
+		
+		/**Remove contract*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		entityManager.remove(fastconnectContract);
+		entityManager.flush();
+		entityManager.clear();
+
+		/**Test contract is removed*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(0, micropole.getContracts().size());	
+		fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		assertEquals(5, fastconnect.getContracts().size());		
 	}
 
 	public static Contract insertAContract(Client client, Supplier supplier, Date startDate, Date endDate, EntityManager entityManager) {
