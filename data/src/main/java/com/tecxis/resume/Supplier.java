@@ -1,8 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,16 +94,17 @@ public class Supplier implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + + ((int) (this.supplierId ^ (this.supplierId >>> 32)));
-			hash = hash * prime + ((int) (this.staff.getStaffId() ^ (this.staff.getStaffId() >>> 32)));
+			hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
+			hash = hash * prime + ((int) (this.staff.getStaffId() 	^ (this.staff.getStaffId() >>> 32)));
 			
 			return hash;
 		}
 		
 		@Override
 		public String toString() {
-			return "SupplierPK=[supplierId=" + supplierId + 
-					", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]";
+			return "[" + this.getClass().getName() + 
+					"[supplierId=" + supplierId + 
+					", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]";
 		}
 	}
 	
@@ -170,19 +168,36 @@ public class Supplier implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Supplier)) {
+			return false;
+		}
+		Supplier castOther = (Supplier)other;
+		return 
+			this.supplierId== castOther.supplierId
+			&& (this.staff == castOther.staff);
+	
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
+		hash = hash * prime + ((int) (this.staff.getStaffId() 	^ (this.staff.getStaffId() >>> 32)));
+		
+		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return "[Supplier[SupplierPK=[supplierId=" + supplierId + 
-				", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]";
+		return "[" + this.getClass().getName() + "@" + this.hashCode() +
+				"["+ Supplier.SupplierPK.class.getName()+ 
+				"[supplierId=" + supplierId + 
+				", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]]";
 	}
 
 }

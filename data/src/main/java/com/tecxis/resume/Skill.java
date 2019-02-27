@@ -1,9 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,17 +76,30 @@ public class Skill implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Skill)) {
+			return false;
+		}
+		Skill castOther = (Skill)other;
+		return 
+			(this.getSkillId() == castOther.getSkillId());
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.getSkillId() ^ (this.getSkillId() >>> 32)));	
+		
+		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
+				"[skillId=" + this.getSkillId() + "]]";
 	}
 }

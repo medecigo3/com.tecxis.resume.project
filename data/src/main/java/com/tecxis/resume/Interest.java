@@ -1,9 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -58,18 +54,31 @@ public class Interest implements Serializable {
 		this.desc = desc;
 	}
 	
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Interest)) {
+			return false;
+		}
+		Interest castOther = (Interest)other;
+		return 
+			(this.getInterestId() == castOther.getInterestId());
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.getInterestId() ^ (this.getInterestId() >>> 32)));
+		
+		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
+				"[interestId=" + this.getInterestId() + "]]";
 	}
 	
 }

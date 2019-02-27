@@ -1,9 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,11 +71,6 @@ public class Project implements Serializable {
 			this.clientId = clientId;
 		}
 		
-		@Override
-		public String toString() {
-			return reflectionToString(this);
-		}
-
 		public boolean equals(Object other) {
 			if (this == other) {
 				return true;
@@ -101,6 +92,14 @@ public class Project implements Serializable {
 			hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
 			
 			return hash;
+		}
+		
+		@Override
+		public String toString() {
+			return "["+ this.getClass().getName() +
+					"[projectId=" + this.getProjectId() + 
+					", clientId=" + this.getClientId() + "]]";
+		
 		}
 	}
 	
@@ -243,18 +242,35 @@ public class Project implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Project)) {
+			return false;
+		}
+		Project castOther = (Project)other;
+		return 
+			(this.getProjectId()== castOther.getProjectId())
+			&& (this.getClientId()  == castOther.getClientId());
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.getProjectId() ^ (this.getProjectId() >>> 32)));
+		hash = hash * prime + ((int) (this.getClientId()  ^ (this.getClientId() >>> 32)));
+		
+		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
+				"["+ Project.ProjectPK.class.getName() +
+				"[projectId=" + this.getProjectId() + 
+				", clientId=" + this.getClientId() + "]]";
 	}
 
 }

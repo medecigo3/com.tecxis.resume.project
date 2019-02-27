@@ -108,11 +108,12 @@ public class ContractServiceAgreement implements Serializable{
 
 		@Override
 		public String toString() {
-			return "ContractServiceAgreementId=[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") + 
+			return "[" + this.getClass().getName() + 
+					"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") + 
 					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getClientId() : "null") +
 					", supplierId=" + (this.contract.getSupplier() != null ? this.contract.getSupplier().getSupplierId() : " null" ) + 
 					", staffId=" + (this.contract.getSupplier() != null ? ( this.contract.getSupplier().getStaff() != null ? this.contract.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + 
-					", serviceId= "+ (this.getService() != null ? this.getService().getServiceId() : "null") + "]";		
+					", serviceId= "+ (this.getService() != null ? this.getService().getServiceId() : "null") + "]]";		
 		}
 		
 		
@@ -128,10 +129,47 @@ public class ContractServiceAgreement implements Serializable{
 	public void setContractServiceAgreementId(ContractServiceAgreementId contractServiceAgreementId) {
 		this.contractServiceAgreementId = contractServiceAgreementId;
 	}
+	
+	
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof ContractServiceAgreement)) {
+			return false;
+		}
+		ContractServiceAgreement castOther = (ContractServiceAgreement)other;
+		
+		if (castOther.getContractServiceAgreementId() == null)
+			return false;
+		
+		return 
+			(this.getContractServiceAgreementId().getContract().getId() == castOther.getContractServiceAgreementId().getContract().getId())
+			&& (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId() 			== castOther.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())
+			&& (this.getContractServiceAgreementId().getContract().getClient().getClientId() 				== castOther.getContractServiceAgreementId().getContract().getClient().getClientId())
+			&& (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() 	== castOther.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId())
+			&& (this.getContractServiceAgreementId().getService().getServiceId() == castOther.getContractServiceAgreementId().getService().getServiceId() );
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getId() ^ (this.getContractServiceAgreementId().getContract().getId() )));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId()   ^ (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getClient().getClientId()  ^ (this.getContractServiceAgreementId().getContract().getClient().getClientId()  >>> 32)));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId()  ^ (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() >>> 32)));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getService().getServiceId() ^ (this.getContractServiceAgreementId().getService().getServiceId() >>> 32)));
+		
+		return hash;
+	}
 
 	@Override
 	public String toString() {
-		return  "["+this.getClass().getName()+ "@" + this.getContractServiceAgreementId().hashCode() + "[" + contractServiceAgreementId.toString() + "]]";
+		return  "["+this.getClass().getName()+ "@" 	+ this.getContractServiceAgreementId().hashCode() + 
+				this.getContractServiceAgreementId().toString() + "]";
 	}
 	
 	

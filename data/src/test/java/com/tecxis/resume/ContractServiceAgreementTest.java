@@ -1,4 +1,4 @@
-package com.tecxis.resume.persistence;
+package com.tecxis.resume;
 
 import static org.junit.Assert.*;
 

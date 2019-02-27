@@ -126,10 +126,11 @@ public class Contract implements Serializable, StrongEntity {
 		
 		@Override
 		public String toString() {
-			return "ContractPK=[id=" + this.getId() + 
+			return "["+ this.getClass().getName() +
+					"[id=" + this.getId() + 
 					", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
 					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
-					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]";
+					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";
 		}
 
 	}
@@ -291,9 +292,10 @@ public class Contract implements Serializable, StrongEntity {
 
 	@Override
 	public String toString() {
-		return "[Contract=[id=" + this.getId() + 
+		return "[" +this.getClass().getName()+ "@" + this.hashCode() + "[" + Contract.ContractPK.class.getName() + 
+				"[id=" + this.getId() + 
 				", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
 				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
-				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";
+				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]]";
 	}
 }

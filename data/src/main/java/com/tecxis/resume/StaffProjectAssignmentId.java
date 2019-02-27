@@ -74,27 +74,30 @@ public class StaffProjectAssignmentId implements Serializable {
 		}
 		StaffProjectAssignmentId castOther = (StaffProjectAssignmentId)other;
 		return 
-			(this.project.getClientId() == castOther.getProject().getClientId())
-			&& (this.project.getProjectId() == castOther.getProject().getProjectId())
-			&& (this.assignment.getAssignmentId() == castOther.getAssignment().getAssignmentId())
-			&& (this.staff.getStaffId() == castOther.getStaff().getStaffId());
+			(this.project.getClientId() 			== castOther.getProject().getClientId())
+			&& (this.project.getProjectId() 		== castOther.getProject().getProjectId())
+			&& (this.assignment.getAssignmentId() 	== castOther.getAssignment().getAssignmentId())
+			&& (this.staff.getStaffId() 			== castOther.getStaff().getStaffId());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.project.getClientId() ^ (this.project.getClientId() >>> 32)));
-		hash = hash * prime + ((int) (this.project.getProjectId() ^ (this.project.getProjectId() >>> 32)));
+		hash = hash * prime + ((int) (this.project.getClientId() 		^ (this.project.getClientId() >>> 32)));
+		hash = hash * prime + ((int) (this.project.getProjectId() 		^ (this.project.getProjectId() >>> 32)));
 		hash = hash * prime + ((int) (this.assignment.getAssignmentId() ^ (this.assignment.getAssignmentId() >>> 32)));
-		hash = hash * prime + ((int) (this.staff.getStaffId() ^ (this.staff.getStaffId() >>> 32)));
+		hash = hash * prime + ((int) (this.staff.getStaffId() 			^ (this.staff.getStaffId() >>> 32)));
 		
 		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return "staffAssignmentId=[projectId=" + (this.getProject() != null ? this.getProject().getProjectId() : "null") + ", staffId=" + (this.staff != null ? this.staff.getStaffId() : "null")  + ", assignmentId=" + (this.assignment != null ? this.assignment.getAssignmentId() : "null" )+ "]" ; 
+		return "["+this.getClass().getName()+
+				"[projectId=" + (this.getProject() != null ? this.getProject().getProjectId() : "null") + 
+				", staffId=" + (this.staff != null ? this.staff.getStaffId() : "null")  +
+				", assignmentId=" + (this.assignment != null ? this.assignment.getAssignmentId() : "null" )+ "]]" ; 
 	}
 
 	

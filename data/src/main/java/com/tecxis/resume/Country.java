@@ -1,9 +1,5 @@
 package com.tecxis.resume;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,18 +85,34 @@ public class Country implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		return reflectionEquals(this, obj);
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof Country)) {
+			return false;
+		}
+		Country castOther = (Country)other;
+		return 
+			(this.getCountryId() == castOther.getCountryId());
+		
 	}
 
 	@Override
 	public int hashCode() {
-		return reflectionHashCode(this);
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + ((int) (this.getCountryId() ^ (this.getCountryId() >>> 32)));
+		
+		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return reflectionToString(this);
+		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
+				", name=" +this.getName() + 
+				"[countryId=" + this.getCountryId() +
+				 "]]";
 	}
 
 }
