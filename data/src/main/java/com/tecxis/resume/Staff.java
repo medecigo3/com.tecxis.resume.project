@@ -96,8 +96,7 @@ public class Staff implements Serializable {
 	 * In SQL terms, StaffProjectAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works on" staff assignments
 	 */
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
+	@OneToMany(mappedBy = "staffProjectAssignmentId.staff", cascade = CascadeType.ALL)
 	private List<StaffProjectAssignment> staffProjectAssignments;
 
 	/**

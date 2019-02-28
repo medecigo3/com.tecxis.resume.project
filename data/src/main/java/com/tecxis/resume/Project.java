@@ -127,9 +127,7 @@ public class Project implements Serializable {
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
-	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+	@OneToMany( mappedBy = "staffProjectAssignmentId.project", cascade = CascadeType.ALL)
 	private List<StaffProjectAssignment> staffProjectAssignments;
 
 	/**

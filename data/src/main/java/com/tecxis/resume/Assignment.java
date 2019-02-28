@@ -13,7 +13,6 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -54,8 +53,7 @@ public class Assignment implements Serializable {
 	 * In SQL terms, AssignmentAssignment is the "owner" of this association with Assignment as it contains the relationship's foreign key
 	 * In OO terms, this Assignment "is assigned" to staff assignments
 	 * */	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
+	@OneToMany(mappedBy = "staffProjectAssignmentId.assignment", cascade = CascadeType.ALL)
 	private List <StaffProjectAssignment> staffProjectAssignments;
 
 	public Assignment() {
