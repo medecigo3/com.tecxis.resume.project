@@ -327,7 +327,7 @@ public class CityTest {
 	public static City insertACity(String name, Country country, EntityManager entityManager) {
 		City city = new City();
 		city.setName(name);				
-		city.setCountryId(country.getCountryId());
+		city.setCountry(country);
 		entityManager.persist(city);
 		entityManager.flush();
 		assertThat(city.getCityId(), Matchers.greaterThan((long)0));		

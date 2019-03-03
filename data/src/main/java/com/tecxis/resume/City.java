@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -32,14 +34,25 @@ public class City implements Serializable {
 	public static class CityPK implements Serializable {
 		private static final long serialVersionUID = 1L;
 
+		@Id
+		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CITY_SEQ", 
+		 parameters = {
+		            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+		            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+		)
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
+		@Column(name="CITY_ID")
 		private long cityId;
 
-		private long countryId;
+		@Id
+		@ManyToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
+		private Country country;
 			
-		public CityPK(long cityId, long countryId) {
+		public CityPK(long cityId, Country country) {
 			this();
 			this.cityId = cityId;
-			this.countryId = countryId;
+			this.country = country;
 		}
 		
 		private CityPK() {
@@ -51,11 +64,11 @@ public class City implements Serializable {
 		public void setCityId(long cityId) {
 			this.cityId = cityId;
 		}
-		public long getCountryId() {
-			return this.countryId;
+		public Country getCountry() {
+			return this.country;
 		}
-		public void setCountryId(long countryId) {
-			this.countryId = countryId;
+		public void setCountry(Country country) {
+			this.country = country;
 		}
 
 		public boolean equals(Object other) {
@@ -68,14 +81,14 @@ public class City implements Serializable {
 			CityPK castOther = (CityPK)other;
 			return 
 				(this.cityId == castOther.cityId)
-				&& (this.countryId == castOther.countryId);
+				&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + ((int) (this.cityId ^ (this.cityId >>> 32)));
-			hash = hash * prime + ((int) (this.countryId ^ (this.countryId >>> 32)));
+			hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
 			
 			return hash;
 		}
@@ -84,7 +97,7 @@ public class City implements Serializable {
 		public String toString() {		
 			return 	"["+ City.CityPK.class.getName()+
 					"[cityId=" + this.getCityId() +
-					", countryId=" + this.getCountryId()  + "]]";
+					", countryId=" + this.getCountry().getCountryId()  + "]]";
 					
 		}
 	}
@@ -99,9 +112,15 @@ public class City implements Serializable {
 	@Column(name="CITY_ID")
 	private long cityId;
 
+	/**
+	 * bi-directional association to Country
+	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
+	 * In OO terms, this City "belongs" to a Country
+	 */
 	@Id
-	@Column(name="COUNTRY_ID", insertable=false, updatable=false)
-	private long countryId;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
+	private Country country;
 
 	private String name;
 
@@ -121,12 +140,12 @@ public class City implements Serializable {
 		this.cityId = cityId;
 	}
 	
-	public long getCountryId() {
-		return this.countryId;
+	public Country getCountry() {
+		return this.country;
 	}
 	
-	public void setCountryId(long countryId) {
-		this.countryId = countryId;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	public String getName() {
@@ -153,7 +172,7 @@ public class City implements Serializable {
 		City castOther = (City)other;
 		return 
 			(this.cityId == castOther.cityId)
-			&& (this.countryId == castOther.countryId);
+			&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
 	}
 
 	@Override
@@ -161,7 +180,7 @@ public class City implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.cityId ^ (this.cityId >>> 32)));
-		hash = hash * prime + ((int) (this.countryId ^ (this.countryId >>> 32)));
+		hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
 		
 		return hash;
 	}
@@ -172,7 +191,7 @@ public class City implements Serializable {
 				", name=" +this.getName() +
 				"["+ City.CityPK.class.getName()+
 				"[cityId=" + this.getCityId() +
-				", countryId=" + this.getCountryId()  + "]]]";
+				", countryId=" + this.getCountry().getCountryId() + "]]]";
 	}
 
 }

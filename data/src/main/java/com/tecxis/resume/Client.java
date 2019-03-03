@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -52,11 +51,11 @@ public class Client implements Serializable {
 
 
 	/**
-	 * uni-directional one-to-many association to Client.
+	 * bi-directional one-to-many association to Project.
+	 * In SQL terms, Project is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Client "controls" projects
 	 */
-	@OneToMany
-	@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
+	@OneToMany(mappedBy="client")
 	private List<Project> projects;
 
 	public Client() {

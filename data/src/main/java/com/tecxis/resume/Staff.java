@@ -68,11 +68,11 @@ public class Staff implements Serializable {
 	private List<Course> courses;
 
 	/**
-	 * uni-directional association to Staff
+	 * bi-directional association to Staff
+	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Staff "has" Interest(s)
 	 */
-	@OneToMany
-	@JoinColumn(name="STAFF_ID")
+	@OneToMany(mappedBy="staff")	
 	private List<Interest> interests;
 
 	/**

@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -39,11 +38,11 @@ public class Country implements Serializable {
 	private String name;
 
 	/**
-	 * uni-directional association to City
-	 * In OO terms, this Country "has a" City
+	 * bi-directional association to City
+	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
+	 * In OO terms, this Country "has" Cities
 	 */
-	@OneToMany
-	@JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")	
+	@OneToMany(mappedBy="country")
 	private List<City> cities;
 
 	public Country() {

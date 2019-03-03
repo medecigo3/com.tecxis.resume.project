@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -34,6 +36,15 @@ public class Interest implements Serializable {
 
 	@Column(name="\"DESC\"")
 	private String desc;
+	
+	/**
+	 * bi-directional association to Staff
+	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
+	 * In OO terms, this Interest "is assigned" to a Staff
+	 */
+	@ManyToOne
+	@JoinColumn(name="STAFF_ID")
+	private Staff staff;
 
 	public Interest() {
 	}
@@ -54,6 +65,14 @@ public class Interest implements Serializable {
 		this.desc = desc;
 	}
 	
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;

@@ -16,6 +16,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -40,15 +41,26 @@ public class Project implements Serializable {
 	public static class ProjectPK implements Serializable {
 		private static final long serialVersionUID = 1L;
 
+		@Id
+		@Column(name="PROJECT_ID")	
+		@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
+		 parameters = {
+		            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+		            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+		)
+		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
 		private long projectId;
 		
-		private long clientId;
+		@Id
+		@ManyToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
+		private Client client;
 
 		
-		public ProjectPK(long projectId, long clientId) {
+		public ProjectPK(long projectId, Client client) {
 			this();
 			this.projectId = projectId;
-			this.clientId = clientId;
+			this.client = client;
 		}
 
 		/**Hibernate default constructor*/
@@ -64,11 +76,11 @@ public class Project implements Serializable {
 		public void setProjectId(long projectId) {
 			this.projectId = projectId;
 		}
-		public long getClientId() {
-			return this.clientId;
+		public Client getClient() {
+			return this.client;
 		}
-		public void setClientId(long clientId) {
-			this.clientId = clientId;
+		public void setClientId(Client client) {
+			this.client = client;
 		}
 		
 		public boolean equals(Object other) {
@@ -80,7 +92,7 @@ public class Project implements Serializable {
 			}
 			ProjectPK castOther = (ProjectPK)other;
 			return 
-				(this.clientId == castOther.clientId) &&
+				(this.getClient().getClientId() == castOther.getClient().getClientId()) &&
 				(this.projectId == castOther.projectId);
 
 		}
@@ -89,7 +101,7 @@ public class Project implements Serializable {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + ((int) (this.projectId ^ (this.projectId >>> 32)));
-			hash = hash * prime + ((int) (this.clientId ^ (this.clientId >>> 32)));
+			hash = hash * prime + ((int) (this.getClient().getClientId()  ^ (this.getClient().getClientId()  >>> 32)));
 			
 			return hash;
 		}
@@ -98,7 +110,7 @@ public class Project implements Serializable {
 		public String toString() {
 			return "["+ this.getClass().getName() +
 					"[projectId=" + this.getProjectId() + 
-					", clientId=" + this.getClientId() + "]]";
+					", clientId=" + this.getClient().getClientId() + "]]";
 		
 		}
 	}
@@ -113,9 +125,15 @@ public class Project implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
 	private long projectId;
 	
+	/**
+	 * bi-directional many-to-one association to Client.
+	 * In SQL terms, Project is the "owner" of this relationship as it contains the relationship's foreign key
+	 * In OO terms, this project "is controlled " by a client
+	 */
 	@Id
-	@Column(name="CLIENT_ID", insertable=false, updatable=false)
-	private long clientId;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
+	private Client client;
 	
 	@Column(name="\"DESC\"")
 	private String desc;
@@ -167,12 +185,12 @@ public class Project implements Serializable {
 		this.projectId = projectId;
 	}
 
-	public long getClientId() {
-		return clientId;
+	public Client getClient() {
+		return client;
 	}
 
-	public void setClientId(long clientId) {
-		this.clientId = clientId;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public void setDesc(String desc) {
@@ -250,7 +268,7 @@ public class Project implements Serializable {
 		Project castOther = (Project)other;
 		return 
 			(this.getProjectId()== castOther.getProjectId())
-			&& (this.getClientId()  == castOther.getClientId());
+			&& (this.getClient().getClientId()  == castOther.getClient().getClientId());
 	}
 
 	@Override
@@ -258,7 +276,7 @@ public class Project implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getProjectId() ^ (this.getProjectId() >>> 32)));
-		hash = hash * prime + ((int) (this.getClientId()  ^ (this.getClientId() >>> 32)));
+		hash = hash * prime + ((int) (this.getClient().getClientId()  ^ (this.getClient().getClientId() >>> 32)));
 		
 		return hash;
 	}
@@ -268,7 +286,7 @@ public class Project implements Serializable {
 		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
 				"["+ Project.ProjectPK.class.getName() +
 				"[projectId=" + this.getProjectId() + 
-				", clientId=" + this.getClientId() + "]]";
+				", clientId=" + this.getClient().getClientId() + "]]";
 	}
 
 }

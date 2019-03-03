@@ -594,7 +594,7 @@ public class ProjectTest {
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
 		Project project = new Project();
-		project.setClientId(client.getClientId());		
+		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
 		assertEquals(0, project.getProjectId());
