@@ -126,12 +126,12 @@ public class ProjectTest {
 	}
 
 	@Test
-	public void testGetClientId() {
+	public void testGetClient() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetClientId() {
+	public void testSetClient() {
 		fail("Not yet implemented");
 	}
 
@@ -589,6 +589,11 @@ public class ProjectTest {
 
 	@Test
 	public void testSetVersion() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetStaffs() {
 		fail("Not yet implemented");
 	}
 

@@ -88,12 +88,12 @@ public class CityTest {
 	}
 
 	@Test
-	public void testGetCountryId() {
+	public void testGetCountry() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetCountryId() {
+	public void testSetCountry() {
 		fail("Not yet implemented");
 	}
 

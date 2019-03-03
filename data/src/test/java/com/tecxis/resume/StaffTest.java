@@ -81,6 +81,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -610,7 +611,11 @@ public class StaffTest {
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
 	}
 
-
+	@Test
+	public void testGetProjects() {
+		fail("Not yet implemented");
+	}
+	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
 		staff.setName(firstName);

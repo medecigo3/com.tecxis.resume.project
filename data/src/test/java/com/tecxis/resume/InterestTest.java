@@ -18,6 +18,16 @@ public class InterestTest {
 	public void testGetDesc() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testGetStaff() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testSetStaff() {
+		fail("Not yet implemented");
+	}
 
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
 		Interest interest = new Interest();

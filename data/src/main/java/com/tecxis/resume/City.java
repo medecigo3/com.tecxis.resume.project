@@ -124,7 +124,7 @@ public class City implements Serializable {
 
 	private String name;
 
-//	bi-directional many-to-many association to Project
+	/** bi-directional many-to-many association to Project */
 	@ManyToMany(mappedBy="cities", cascade = CascadeType.ALL)
 	private List<Project> projects;
 

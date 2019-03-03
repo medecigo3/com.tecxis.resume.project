@@ -76,19 +76,9 @@ public class Staff implements Serializable {
 	private List<Interest> interests;
 
 	/**
-	 * uni-directional one-to-many association to Project
-	 * In OO terms, this Staff "works on" Projects
+	 * bi-directional many-to-many association to Project
 	 */
-	@OneToMany
-	@JoinTable(
-		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
-			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")	
-		}, inverseJoinColumns = {
-			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
-			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
-		}
-	)
-	
+	@ManyToMany(mappedBy="staffs", cascade = CascadeType.ALL)
 	private List<Project> projects;
 		
 	/**
@@ -190,20 +180,6 @@ public class Staff implements Serializable {
 
 	public List<Project> getProjects() {
 		return this.projects;
-	}
-
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
-
-	public Project addProject(Project project) {
-		getProjects().add(project);
-		return project;
-	}
-
-	public Project removeProject(Project project) {
-		getProjects().remove(project);
-		return project;
 	}
 	
 	public List<StaffProjectAssignment> getStaffProjectAssignments() {

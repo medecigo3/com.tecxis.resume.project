@@ -167,6 +167,20 @@ public class Project implements Serializable {
 	private String version;
 
 	private String name;
+	
+	/**
+	 * bi-directional one-to-many association to Project
+	 */
+	@ManyToMany (cascade = CascadeType.ALL)
+	@JoinTable(
+		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
+			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
+			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")			
+		}, inverseJoinColumns = {
+			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+		}
+	)
+	private List <Staff> staffs;
 
 	public Project() {
 		this.cities = new ArrayList <> ();
@@ -195,6 +209,10 @@ public class Project implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public List<Staff> getStaffs() {
+		return staffs;
 	}
 
 	public List<StaffProjectAssignment> getStaffProjectAssignments() {
