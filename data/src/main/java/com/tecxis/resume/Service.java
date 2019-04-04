@@ -50,7 +50,7 @@ public class Service implements Serializable {
 	
 	/**
 	* bi-directional one-to-many association to ContractServiceAgreement.
-	* In OO terms, this Service "provides" to this Contract
+	* In OO terms, this Service "is provided" to these ContractServiceAgreements
 	*/	
 	@OneToMany(mappedBy = "contractServiceAgreementId.service", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <ContractServiceAgreement> contractServiceAgreements;
@@ -85,9 +85,9 @@ public class Service implements Serializable {
 	
 
 	public void addContractServiceAgreement(Contract contract) throws EntityExistsException {
-		/**Check if 'contract' isn't in this service's ContractServiceAgreements */
+		/**Check if 'contract' isn't in this service -> contractServiceAgreements */
 		if ( !Collections.disjoint(this.getContractServiceAgreements(), contract.getContractServiceAgreements()))
-			throw new EntityExistsException("Entity already exists in this ContractServiceAgreement: " + contract.toString());
+			throw new EntityExistsException("Contract already exists in this Service -> contractServiceAgreements: " + contract.toString());
 				
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
 		contractServiceAgreementId.setContract(contract);

@@ -267,6 +267,10 @@ public class ContractTest {
 		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
 		assertNotNull(scmDevService);
 		
+		/**Validate service to insert**/
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+		assertEquals(1, scmDevService.getContractServiceAgreements().size());
+		
 		/**Validate ContractServiceAgreement table pre test state*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
@@ -280,10 +284,7 @@ public class ContractTest {
 		Service muleEsbService = fastconnectContractServiceAgreements.get(0).getContractServiceAgreementId().getService();
 		assertEquals(MULE_ESB_CONSULTANT, muleEsbService.getName());
 		
-		/**Validate service to insert**/
-		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
-		assertEquals(1, scmDevService.getContractServiceAgreements().size());
-				
+	
 		/**Add new ContractServiceAgreement to contract*/
 		fastconnectContract.addContractServiceAgreement(scmDevService);
 		/**Add new ContractServiceAgrement to the inverse association*/	

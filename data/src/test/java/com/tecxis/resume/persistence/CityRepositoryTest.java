@@ -95,15 +95,15 @@ public class CityRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City london = insertACity(LONDON, UK, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, london.getCityId());
+		assertEquals(1, london.getId());
 		
 		City paris = insertACity(PARIS, FRANCE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(2, paris.getCityId());
+		assertEquals(2, paris.getId());
 		
 		City brussels = insertACity(BRUSSELS, BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(3, brussels.getCityId());
+		assertEquals(3, brussels.getId());
 	}
 	
 	@Sql(

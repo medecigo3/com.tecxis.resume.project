@@ -223,9 +223,9 @@ public class Contract implements Serializable, StrongEntity {
 	}
 		
 	public void addContractServiceAgreement(Service service) throws EntityExistsException {
-		/**check if 'service' isn't in this contract's ContractServiceAgreements*/
+		/**check if 'service' isn't in this contract -> contractServiceAgreements*/
 		if ( !Collections.disjoint(this.getContractServiceAgreements(), service.getContractServiceAgreements() ))
-				throw new EntityExistsException("Entity already exists in this ContractServiceAgreement: " + service.toString());
+				throw new EntityExistsException("Service already exists in this Contract -> contractServiceAgreements: " + service.toString());
 		
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
 		contractServiceAgreementId.setContract(this);

@@ -132,6 +132,11 @@ public class ServiceTest {
 		Contract fastconnectContract = fastconnectContracts.get(0);
 		assertNotNull(fastconnectContract);
 		
+		/**Validate contract to insert*/
+		assertEquals(1, fastconnectContract.getContractServiceAgreements().size());		
+		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
+		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
+		
 		/**Validate ContractServiceAgreement table pre test state*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
@@ -145,11 +150,6 @@ public class ServiceTest {
 		Contract barclaysAccentureContract = scmDevServiceContractServiceAgreements.get(0).getContractServiceAgreementId().getContract();
 		assertEquals(BARCLAYS,barclaysAccentureContract.getClient().getName());
 		assertEquals(ACCENTURE,barclaysAccentureContract.getSupplier().getName());
-		
-		/**Validate contract to insert*/
-		assertEquals(1, fastconnectContract.getContractServiceAgreements().size());		
-		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
-		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
 
 		/**Add new ContractServiceAgreement to contract*/
 		scmDevService.addContractServiceAgreement(fastconnectContract);

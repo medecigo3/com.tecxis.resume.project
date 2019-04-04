@@ -571,6 +571,21 @@ public class ProjectTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
 
 	}
+	
+	@Test
+	public void testAddLocation() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testAddExistingLocation() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testRemoveLocation() {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testGetName() {
