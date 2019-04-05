@@ -371,12 +371,12 @@ public class ContractTest {
 		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getSupplier().getName());
 		assertEquals(MICROPOLE, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getClient().getName());
 		
-		/**Remove ContractServiceAgreement*/
+		/**Remove the ContractServiceAgreement*/
 		ContractServiceAgreement fasctconnectContractServiceAgreement = fastconnectContract.getContractServiceAgreements().get(0);
 		assertTrue(fastconnectContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
 		assertTrue(muleService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
 				
-		/**Find ContractServiceAgreement */		
+		/**Find the ContractServiceAgreement */		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		entityManager.merge(fastconnectContract);
 		entityManager.merge(muleService);

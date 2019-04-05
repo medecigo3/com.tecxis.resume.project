@@ -224,12 +224,12 @@ public class ServiceTest {
 		assertEquals(TIBCO_BW_CONSULTANT, bwService.getName());
 		assertEquals(9, bwService.getContractServiceAgreements().size());
 	
-		/**Remove ContractServiceAgreement*/
+		/**Remove the ContractServiceAgreement*/
 		ContractServiceAgreement fasctconnectContractServiceAgreement = alphatressContract.getContractServiceAgreements().get(0);
 		assertTrue(alphatressContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
 		assertTrue(bwService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
 				
-		/**Find ContractServiceAgreement */		
+		/**Find the ContractServiceAgreement */		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		entityManager.merge(alphatressContract);
 		entityManager.merge(bwService);
