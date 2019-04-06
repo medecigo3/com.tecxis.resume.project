@@ -1,5 +1,6 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.persistence.CityRepositoryTest.*;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
@@ -7,6 +8,7 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
@@ -27,14 +29,17 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -51,7 +56,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Location.LocationId;
 import com.tecxis.resume.persistence.CityRepository;
+import com.tecxis.resume.persistence.ClientRepository;
+import com.tecxis.resume.persistence.CountryRepository;
+import com.tecxis.resume.persistence.LocationRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,6 +86,15 @@ public class CityTest {
 	@Autowired
 	private ProjectRepository projectRepo;
 	
+	@Autowired
+	private CountryRepository countryRepo;
+	
+	@Autowired
+	private ClientRepository clientRepo;
+	
+	@Autowired
+	private LocationRepository locationRepo;
+	
 	@Test
 	public void testGetCityId() {
 		fail("Not yet implemented");
@@ -88,13 +106,189 @@ public class CityTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCountry() {
-		fail("Not yet implemented");
+		/**Find City*/
+		City london = cityRepo.getCityByName(LONDON);		
+		/**Validate City -> Country*/
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		
+		/**Find City*/
+		City paris = cityRepo.getCityByName(PARIS);		
+		/**Validate City -> Country*/
+		assertEquals(FRANCE, paris.getCountry().getName());
+				
+		/**Find brussels*/
+		City brussels = cityRepo.getCityByName(BRUSSELS);		
+		/**Validate City -> Country*/
+		assertEquals(BELGIUM, brussels.getCountry().getName());
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCountry() {
-		fail("Not yet implemented");
+		/**Find City*/
+		City london = cityRepo.getCityByName(LONDON);		
+		/**Validate City -> Country*/
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+				
+		/**Find country to set*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(FRANCE, france.getName());
+		assertEquals(1, france.getCities().size());
+		
+		/**Set new City -> Country*/
+		City newLondon =  new City();
+		newLondon.setId(london.getId());
+		newLondon.setCountry(france);		
+		newLondon.setName(london.getName());
+		france.addCity(newLondon);
+		
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		entityManager.remove(london);
+		/** INSERT of 'newLondon' runs first. As there is an unique restriction IN CITY.NAME
+		 *  Enforce DELETE 'london' to run in priority*/
+		entityManager.flush();						
+		entityManager.persist(newLondon);	
+		entityManager.merge(france);	
+		entityManager.flush();			
+		entityManager.clear();
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		
+		/**Validate  City association with country*/
+		newLondon = null;
+		newLondon = cityRepo.getCityByName(LONDON);		 
+		assertEquals(FRANCE, newLondon.getCountry().getName());
+		assertEquals(london.getId(), newLondon.getId());
+		/**Validate the Country association with City*/
+		france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(2, france.getCities().size());
+		assertThat(france.getCities(), Matchers.hasItem(newLondon));		
+		
+	}
+
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddLocation() {
+		/**Find & validate city to test*/
+		City london = cityRepo.getCityByName(LONDON);	
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		assertEquals(2, london.getLocations().size());
+				
+		/**Find & validate country to insert*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(FRANCE, france.getName());
+		assertEquals(1, france.getCities().size());
+		
+		/**Find & validate project to insert*/
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		assertNotNull(belfius);
+		assertEquals(BELFIUS, belfius.getName());
+		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);		
+		assertNotNull(sherpa);		
+		assertEquals(SHERPA, sherpa.getName());
+		assertEquals(1, sherpa.getLocations().size());
+				
+		/**Validate pre-test state of Location*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		LocationId locationId = new LocationId(london, sherpa);
+		assertFalse(locationRepo.findById(locationId).isPresent());
+		
+		/**Validate state of current City -> Locations */
+		List <Location> londonLocations = london.getLocations();
+		assertEquals(2, londonLocations.size());		
+		Location fortisLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(FORTIS, VERSION_1))).get();
+		Location dcscLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(DCSC, VERSION_1))).get();
+		assertThat(londonLocations, Matchers.containsInAnyOrder(fortisLocation, dcscLocation)); 
+				
+		/***Add new Location*/
+		london.addLocation(sherpa);
+		/**Add new Location to the inverse association*/
+		sherpa.addLocation(london);
+		entityManager.merge(london);
+		entityManager.merge(sherpa);		
+		entityManager.flush();
+			
+		/**Test Location table post test state*/	
+		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(3, london.getLocations().size());
+		assertEquals(2, sherpa.getLocations().size());
+	}
+	
+	@Test(expected=EntityExistsException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testAddExistingLocation() {
+		/**Find & validate city to test*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);		
+		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
+		List <Location> manchesterLocations = manchester.getLocations();
+		assertEquals(1, manchesterLocations.size());
+		
+		/**Validate projects of the city to test*/		
+		Project currentAdir = manchesterLocations.get(0).getLocationId().getProject();
+		assertNotNull(currentAdir);
+		assertEquals(ADIR, currentAdir.getName());
+		assertEquals(1, currentAdir.getLocations().size());
+		
+		/**Find duplicate Project to insert*/
+		Project duplicateAdir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		assertNotNull(duplicateAdir);
+		assertEquals(ADIR, duplicateAdir.getName());
+		assertEquals(1, duplicateAdir.getLocations().size());
+		
+		/**Test that duplicate project exists in the list of Manchester-ADIR locations*/
+		List <Location> manchesterAdirLocations = manchester.getLocations();
+		Location duplicateAdirLocations =  duplicateAdir.getLocations().get(0);
+		assertTrue(manchesterAdirLocations.contains(duplicateAdirLocations));
+		
+		/**Add Project duplicate to city: expect error*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(duplicateAdir, currentAdir);
+		manchester.addLocation(duplicateAdir);
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveLocation() {
+		/**Find & validate city to test*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
+		List <Location> manchesterLocations = manchester.getLocations();
+		assertEquals(1, manchesterLocations.size());
+		
+		/**Validate projects of the city to test*/
+		assertEquals(1, manchesterLocations.size());
+		Project currentAdir = manchesterLocations.get(0).getLocationId().getProject();
+		assertNotNull(currentAdir);
+		assertEquals(ADIR, currentAdir.getName());
+		assertEquals(1, currentAdir.getLocations().size());
+		
+		/**Remove the Location*/
+		Location manchesterLocation = manchester.getLocations().get(0);
+		assertTrue(manchester.removeLocation(manchesterLocation));
+		assertTrue(currentAdir.removeLocation(manchesterLocation));
+		
+		/**Find the Location*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		entityManager.merge(manchester);
+		entityManager.merge(currentAdir);
+		entityManager.flush();
+		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, manchester.getLocations().size());
+		assertEquals(0, currentAdir.getLocations().size());
+		LocationId locaitonId = new LocationId(manchester, currentAdir);
+		assertFalse(locationRepo.findById(locaitonId).isPresent());
 	}
 
 	@Test
@@ -106,7 +300,45 @@ public class CityTest {
 	public void testSetName() {
 		fail("Not yet implemented");
 	}
-
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testRemoveCity() {
+		/**Find City to remove*/
+		City london = cityRepo.getCityByName(LONDON);		
+		
+		/**Validate association City -> Country */
+		assertEquals(LONDON,  london.getName());
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		
+		 /**Validate association Country -> City*/
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(3, uk.getCities().size());
+		assertThat(uk.getCities(), Matchers.hasItems(london));
+				
+		/**Detach entities*/
+		entityManager.clear();
+		
+		/**Find City to remove*/
+		london = cityRepo.getCityByName(LONDON);		
+		
+		/**Remove city*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		entityManager.remove(london);
+		entityManager.flush();
+		entityManager.clear();
+		
+		/**Test city was removed*/
+		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertNull(cityRepo.getCityByName(LONDON));
+		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(2, uk.getCities().size());
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
@@ -330,7 +562,7 @@ public class CityTest {
 		city.setCountry(country);
 		entityManager.persist(city);
 		entityManager.flush();
-		assertThat(city.getCityId(), Matchers.greaterThan((long)0));		
+		assertThat(city.getId(), Matchers.greaterThan((long)0));		
 		return city;
 		
 	}

@@ -2,11 +2,14 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,12 +17,14 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.City.CityPK;
+import com.tecxis.resume.Location.LocationId;
 
 
 /**
@@ -28,7 +33,7 @@ import com.tecxis.resume.City.CityPK;
  */
 @Entity
 @IdClass(CityPK.class)
-public class City implements Serializable {
+public class City implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
 	public static class CityPK implements Serializable {
@@ -42,27 +47,27 @@ public class City implements Serializable {
 		)
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
 		@Column(name="CITY_ID")
-		private long cityId;
+		private long id;
 
 		@Id
-		@ManyToOne(cascade = CascadeType.ALL)
-		@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
+		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+		@JoinColumn(name="COUNTRY_ID")
 		private Country country;
 			
-		public CityPK(long cityId, Country country) {
+		public CityPK(long id, Country country) {
 			this();
-			this.cityId = cityId;
+			this.id = id;
 			this.country = country;
 		}
 		
 		private CityPK() {
 			super();
 		}
-		public long getCityId() {
-			return this.cityId;
+		public long getId() {
+			return this.id;
 		}
-		public void setCityId(long cityId) {
-			this.cityId = cityId;
+		public void setId(long id) {
+			this.id = id;
 		}
 		public Country getCountry() {
 			return this.country;
@@ -80,14 +85,14 @@ public class City implements Serializable {
 			}
 			CityPK castOther = (CityPK)other;
 			return 
-				(this.cityId == castOther.cityId)
+				(this.id == castOther.id)
 				&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.cityId ^ (this.cityId >>> 32)));
+			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 			hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
 			
 			return hash;
@@ -96,7 +101,7 @@ public class City implements Serializable {
 		@Override
 		public String toString() {		
 			return 	"["+ City.CityPK.class.getName()+
-					"[cityId=" + this.getCityId() +
+					"[id=" + this.getId() +
 					", countryId=" + this.getCountry().getCountryId()  + "]]";
 					
 		}
@@ -110,7 +115,7 @@ public class City implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
 	@Column(name="CITY_ID")
-	private long cityId;
+	private long id;
 
 	/**
 	 * bi-directional association to Country
@@ -118,26 +123,35 @@ public class City implements Serializable {
 	 * In OO terms, this City "belongs" to a Country
 	 */
 	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
 	private Country country;
 
 	private String name;
 
 	/** bi-directional many-to-many association to Project */
-	@ManyToMany(mappedBy="cities", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Project> projects;
-
+	
+	/**
+	 * bi-directional one-to-many association to Location
+	 * In OO terms, this City "establishes a" Location
+	 */
+	@OneToMany(mappedBy="locationId.city", cascade = {CascadeType.ALL}, orphanRemoval=true)
+	private List <Location> locations; 
+	
 	public City() {
 		this.projects = new ArrayList <> ();
 	}
-
-	public long getCityId() {
-		return this.cityId;
+	
+	@Override
+	public long getId() {
+		return this.id;
 	}
 	
-	public void setCityId(long cityId) {
-		this.cityId = cityId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	public Country getCountry() {
@@ -161,6 +175,41 @@ public class City implements Serializable {
 	}
 
 	
+	public void addLocation(Project project) {
+		/**Check if 'location' isn't in this city -> locations*/
+		if ( !Collections.disjoint(this.getLocations(), project.getLocations()))
+			throw new EntityExistsException("Project already exists in this City -> locations: " + project.getProjectId());
+		
+		LocationId locationId = new LocationId(this, project);
+		Location newLocation = new Location(locationId);
+		this.getLocations().add(newLocation);
+	}
+	
+	public boolean removeLocation(Location location) {
+		return this.getLocations().remove(location);
+	}
+	
+	public boolean removeLocation(Project project) {
+		Iterator <Location> locationIt = this.getLocations().iterator();
+		
+		while(locationIt.hasNext()) {
+			Location tempLocation = locationIt.next();
+			Project tempProject = tempLocation.getLocationId().getProject();
+			if (tempProject.equals(project))
+				return this.getLocations().remove(tempLocation);
+		}
+		
+		return false;
+	}
+	
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -171,7 +220,7 @@ public class City implements Serializable {
 		}
 		City castOther = (City)other;
 		return 
-			(this.cityId == castOther.cityId)
+			(this.id == castOther.id)
 			&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
 	}
 
@@ -179,7 +228,7 @@ public class City implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.cityId ^ (this.cityId >>> 32)));
+		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 		hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
 		
 		return hash;
@@ -190,7 +239,7 @@ public class City implements Serializable {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() +   
 				", name=" +this.getName() +
 				"["+ City.CityPK.class.getName()+
-				"[cityId=" + this.getCityId() +
+				"[id=" + this.getId() +
 				", countryId=" + this.getCountry().getCountryId() + "]]]";
 	}
 
