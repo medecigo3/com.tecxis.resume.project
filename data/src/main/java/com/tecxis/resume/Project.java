@@ -3,6 +3,7 @@ package com.tecxis.resume;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
+import com.tecxis.resume.Location.LocationId;
 import com.tecxis.resume.Project.ProjectPK;
 
 
@@ -181,10 +183,18 @@ public class Project implements Serializable {
 		}
 	)
 	private List <Staff> staffs;
+	
+	/**
+	* bi-directional one-to-many association to Location.
+	* In OO terms, this Project "is based" in these Locations
+	*/	
+	@OneToMany(mappedBy = "locationId.project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=false)
+	private List <Location> locations;
 
 	public Project() {
 		this.cities = new ArrayList <> ();
 		this.staffProjectAssignments = new ArrayList<>();
+		this.locations = new ArrayList<>();
 	}
 
 	public String getDesc() {
@@ -273,6 +283,41 @@ public class Project implements Serializable {
 	
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	
+	public void addLocation(City city) {
+		/**Check if 'location' isn't in this project -> locations*/
+		if ( !Collections.disjoint(this.getLocations(), city.getLocations()))
+			throw new EntityExistsException("City already exists in this Project -> locations: " + city.getId());
+		
+		LocationId locationId = new LocationId(city, this);
+		Location newLocation = new Location(locationId);
+		this.getLocations().add(newLocation);
+	}
+	
+	public boolean removeLocation(Location location) {
+		return this.getLocations().remove(location);
+	}
+	
+	public boolean removeLocation(City city) {
+		Iterator <Location> locationIt = this.getLocations().iterator();
+		
+		while(locationIt.hasNext()) {
+			Location tempLocation = locationIt.next();
+			City tempCity = tempLocation.getLocationId().getCity();
+			if (tempCity.equals(city))
+				return this.getLocations().remove(tempLocation);
+		}
+		
+		return false;
+	}
+	
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+	
+	public List<Location> getLocations() {
+		return this.locations;
 	}
 	
 	@Override
