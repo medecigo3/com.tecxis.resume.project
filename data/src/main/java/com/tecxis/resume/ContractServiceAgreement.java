@@ -119,6 +119,15 @@ public class ContractServiceAgreement implements Serializable{
 		
 	}
 	
+	public ContractServiceAgreement() {
+		super();
+	}
+	
+	public ContractServiceAgreement(ContractServiceAgreementId contractServiceAgreementId) {
+		super();
+		this.contractServiceAgreementId = contractServiceAgreementId;
+	}
+	
 	@EmbeddedId
 	private ContractServiceAgreementId contractServiceAgreementId;
 

@@ -258,7 +258,10 @@ public class Contract implements Serializable, StrongEntity {
 	}
 
 	public void setContractServiceAgreements(List<ContractServiceAgreement> contractServiceAgreements) {
-		this.contractServiceAgreements = contractServiceAgreements;
+		this.contractServiceAgreements.clear();
+		for (ContractServiceAgreement contractServiceAgreement : contractServiceAgreements) {
+			this.contractServiceAgreements.add(contractServiceAgreement);
+		}		
 	}
 
 	

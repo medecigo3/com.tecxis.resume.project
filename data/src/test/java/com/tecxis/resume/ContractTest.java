@@ -1,4 +1,5 @@
 package com.tecxis.resume;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
@@ -9,6 +10,7 @@ import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSU
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
@@ -19,6 +21,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -388,6 +394,103 @@ public class ContractTest {
 		contractServiceAgreementId.setContract(fastconnectContract);
 		contractServiceAgreementId.setService(muleService);
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetContractServiceAgreements() {
+		/**Find contracts*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		List <Contract> fastconnectMicropoleContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
+		
+		/**Validate Contract*/
+		assertEquals(1, fastconnectMicropoleContracts.size());
+		
+		/**Validate ContractServiceAgreement*/
+		List <ContractServiceAgreement> fastconnectMicropoleContractServiceAgreements = fastconnectMicropoleContracts.get(0).getContractServiceAgreements();
+		assertEquals(1, fastconnectMicropoleContractServiceAgreements.size());
+		ContractServiceAgreement fastconnectMicropoleContractServiceAgreement = fastconnectMicropoleContractServiceAgreements.get(0);
+		
+		/*** Validate Contract */
+		Contract fastconnectMicropoleContract = fastconnectMicropoleContractServiceAgreement.getContractServiceAgreementId().getContract();
+        LocalDate startDate = LocalDate.of(2010, 7, 1);
+        LocalDate endDate 	= LocalDate.of(2010, 8, 1);
+        LocalDate contractStartDate = Instant.ofEpochMilli(fastconnectMicropoleContract.getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate contractEndDate 	= Instant.ofEpochMilli(fastconnectMicropoleContract.getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        assertTrue(startDate.isEqual(contractStartDate));
+		assertTrue(endDate.isEqual(contractEndDate));
+		/**Validate Client*/
+		assertEquals(MICROPOLE, fastconnectMicropoleContract.getClient().getName());
+		/**Validate Supplier*/
+		assertEquals(FASTCONNECT, fastconnectMicropoleContract.getSupplier().getName());
+		/**Validate Staff*/
+		assertEquals(AMT_NAME, fastconnectMicropoleContract.getSupplier().getStaff().getName());
+		/**Validate Service*/
+		assertEquals(MULE_ESB_CONSULTANT, fastconnectMicropoleContractServiceAgreement.getContractServiceAgreementId().getService().getName());
+			
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetContractServiceAgreements() {
+		/**Find staff*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+
+		/**Find contract to test*/	
+		Supplier alterna = supplierRepo.getSupplierByNameAndStaff(ALTERNA, amt);
+		Client arval= clientRepo.getClientByName(ARVAL);
+		List <Contract> alternaArvalContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(arval, alterna);
+		assertEquals(1, alternaArvalContracts.size());	
+		Contract alternaArvalContract = alternaArvalContracts.get(0);
+		
+		/**Find Services to test */
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
+		
+		/**Prepare ContractServiceAgreements*/		
+		ContractServiceAgreement alternaMuleContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, muleService));
+		ContractServiceAgreement alternaScmContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, scmService));
+		List <ContractServiceAgreement> newContractServiceAgreements = new ArrayList <> ();
+		newContractServiceAgreements.add(alternaMuleContractServiceAgreement);
+		newContractServiceAgreements.add(alternaScmContractServiceAgreement);
+		
+		/**Set ContractServiceAgreements*/	
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());
+		alternaArvalContract.setContractServiceAgreements(newContractServiceAgreements);			
+		assertEquals(2, alternaArvalContract.getContractServiceAgreements().size());
+		entityManager.merge(alternaArvalContract);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(15, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		
+		/**Validate test*/
+		alternaArvalContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(arval, alterna);
+		assertEquals(1, alternaArvalContracts.size());	
+		alternaArvalContract = alternaArvalContracts.get(0);
+		assertEquals(2, alternaArvalContract.getContractServiceAgreements().size());
+		
+		ContractServiceAgreement alternaArvalContractServiceAgreement1 = alternaArvalContract.getContractServiceAgreements().get(0);
+		ContractServiceAgreement alternaArvalContractServiceAgreement2 = alternaArvalContract.getContractServiceAgreements().get(1);
+		/**Prepare & test contract dates*/
+        LocalDate alternaArvalContractStartDate 	= LocalDate.of(2015, 6, 1);
+        LocalDate alternaArvalContractEndDate 		= LocalDate.of(2016, 3, 1);
+        LocalDate contract1StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate contract1EndDate 		= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();   
+        LocalDate contract2StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate contract2EndDate 		= Instant.ofEpochMilli(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getContract().getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();  
+        
+        assertEquals(alternaArvalContractStartDate, contract1StartDate);
+        assertEquals(alternaArvalContractStartDate, contract2StartDate);
+        assertEquals(alternaArvalContractEndDate, contract1EndDate);
+        assertEquals(alternaArvalContractEndDate, contract2EndDate);
+       			
 	}
 	
 	@Test
