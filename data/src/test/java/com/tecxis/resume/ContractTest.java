@@ -442,13 +442,19 @@ public class ContractTest {
 		/**Find staff*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 
-		/**Find contract to test*/	
+		/**Find & validate contract to test*/	
 		Supplier alterna = supplierRepo.getSupplierByNameAndStaff(ALTERNA, amt);
 		Client arval= clientRepo.getClientByName(ARVAL);
 		List <Contract> alternaArvalContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(arval, alterna);
 		assertEquals(1, alternaArvalContracts.size());	
 		Contract alternaArvalContract = alternaArvalContracts.get(0);
-		
+        final LocalDate alternaArvalContractStartDate 	= LocalDate.of(2015, 6, 1);
+        final LocalDate alternaArvalContractEndDate 		= LocalDate.of(2016, 3, 1);
+        LocalDate contractStartDate = Instant.ofEpochMilli(alternaArvalContract.getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate contractEndDate 	 =  Instant.ofEpochMilli(alternaArvalContract.getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        assertEquals(alternaArvalContractStartDate, contractStartDate);
+        assertEquals(alternaArvalContractEndDate, contractEndDate);
+        
 		/**Find Services to test */
 		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
@@ -479,9 +485,8 @@ public class ContractTest {
 		ContractServiceAgreement alternaArvalContractServiceAgreement1 = alternaArvalContract.getContractServiceAgreements().get(0);
 		ContractServiceAgreement alternaArvalContractServiceAgreement2 = alternaArvalContract.getContractServiceAgreements().get(1);
 		/**Prepare & test contract dates*/
-        LocalDate alternaArvalContractStartDate 	= LocalDate.of(2015, 6, 1);
-        LocalDate alternaArvalContractEndDate 		= LocalDate.of(2016, 3, 1);
-        LocalDate contract1StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+		LocalDate contract1StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate contract1EndDate 		= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();   
         LocalDate contract2StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate contract2EndDate 		= Instant.ofEpochMilli(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getContract().getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();  
