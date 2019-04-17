@@ -8,6 +8,7 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABL
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
@@ -454,7 +455,8 @@ public class ContractTest {
         LocalDate contractEndDate 	 =  Instant.ofEpochMilli(alternaArvalContract.getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         assertEquals(alternaArvalContractStartDate, contractStartDate);
         assertEquals(alternaArvalContractEndDate, contractEndDate);
-        
+      
+              
 		/**Find Services to test */
 		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
@@ -466,9 +468,15 @@ public class ContractTest {
 		newContractServiceAgreements.add(alternaMuleContractServiceAgreement);
 		newContractServiceAgreements.add(alternaScmContractServiceAgreement);
 		
-		/**Set ContractServiceAgreements*/	
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/***Validate the state of the current ContractServiceAgreeements*/
 		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());
+		ContractServiceAgreement  alternaArvalContractServiceAgreement = alternaArvalContract.getContractServiceAgreements().get(0);
+		assertEquals(alternaArvalContract, alternaArvalContractServiceAgreement.getContractServiceAgreementId().getContract());
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		assertEquals(bwService, alternaArvalContractServiceAgreement.getContractServiceAgreementId().getService());
+		
+		/**Set ContractServiceAgreements*/	
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		alternaArvalContract.setContractServiceAgreements(newContractServiceAgreements);			
 		assertEquals(2, alternaArvalContract.getContractServiceAgreements().size());
 		entityManager.merge(alternaArvalContract);
@@ -484,8 +492,8 @@ public class ContractTest {
 		
 		ContractServiceAgreement alternaArvalContractServiceAgreement1 = alternaArvalContract.getContractServiceAgreements().get(0);
 		ContractServiceAgreement alternaArvalContractServiceAgreement2 = alternaArvalContract.getContractServiceAgreements().get(1);
+		
 		/**Prepare & test contract dates*/
-
 		LocalDate contract1StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate contract1EndDate 		= Instant.ofEpochMilli(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getContract().getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();   
         LocalDate contract2StartDate 	= Instant.ofEpochMilli(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getContract().getStartDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -495,6 +503,10 @@ public class ContractTest {
         assertEquals(alternaArvalContractStartDate, contract2StartDate);
         assertEquals(alternaArvalContractEndDate, contract1EndDate);
         assertEquals(alternaArvalContractEndDate, contract2EndDate);
+        
+        /**Test Services*/
+        assertThat(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getService(), Matchers.oneOf(muleService, scmService));
+        assertThat(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getService(), Matchers.oneOf(muleService, scmService));
        			
 	}
 	
