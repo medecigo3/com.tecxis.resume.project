@@ -1,8 +1,9 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CityRepositoryTest.*;
+import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
+import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
@@ -28,11 +29,11 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -290,6 +291,94 @@ public class CityTest {
 		LocationId locaitonId = new LocationId(manchester, currentAdir);
 		assertFalse(locationRepo.findById(locaitonId).isPresent());
 	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetLocations() {
+		/**Find & validate city to test*/
+		City london = cityRepo.getCityByName(LONDON);
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		List <Location> londonLocations = london.getLocations();
+		assertEquals(2, londonLocations.size());
+		
+		/**Validate Locations*/		
+		assertEquals(london, londonLocations.get(0).getLocationId().getCity());
+		assertEquals(london, londonLocations.get(1).getLocationId().getCity());		
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
+		assertThat(londonLocations.get(0).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(londonLocations.get(1).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));	
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetLocations() {
+		/**Find & validate City to test*/
+		City london = cityRepo.getCityByName(LONDON);
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		List <Location> londonLocations = london.getLocations();
+		assertEquals(2, londonLocations.size());
+		
+		/**Find & validate Projects to test*/
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());		
+		assertEquals(AOS, aos.getName());
+		assertEquals(VERSION_1, aos.getVersion());		
+		assertEquals(MORNINGSTAR, morningstarv2.getName());
+		assertEquals(VERSION_2, morningstarv2.getVersion());
+		
+		/**Validate current Locations*/		
+		assertEquals(london, londonLocations.get(0).getLocationId().getCity());
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
+		assertThat(londonLocations.get(0).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(londonLocations.get(1).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));	
+		
+		/**Prepare Locations*/
+		Location londonSeleniumLocation =  new Location (new LocationId(london, selenium));
+		Location londonAosLocation = new Location(new LocationId(london, aos));
+		Location londonMorningstarv2Location = new Location(new LocationId(london, morningstarv2));
+		List <Location>  newLocations = new  ArrayList<>();
+		newLocations.add(londonSeleniumLocation);		
+		newLocations.add(londonAosLocation);
+		newLocations.add(londonMorningstarv2Location);
+				
+		/**Set new Locations*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		london.setLocations(newLocations);
+		assertEquals(3, london.getLocations().size());
+		entityManager.merge(london);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		
+		/**Validate test*/
+		london = cityRepo.getCityByName(LONDON);
+		assertEquals(3, london.getLocations().size());
+		Location location1 = london.getLocations().get(0);
+		Location location2 = london.getLocations().get(1);
+		Location location3 = london.getLocations().get(2);
+		assertEquals(london, location1.getLocationId().getCity());
+		assertEquals(london, location2.getLocationId().getCity());
+		assertEquals(london, location3.getLocationId().getCity());
+		
+		assertThat(location1.getLocationId().getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
+		assertThat(location2.getLocationId().getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
+		assertThat(location3.getLocationId().getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
+		
+		assertThat(location1.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		assertThat(location2.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		assertThat(location3.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		
+	}	
 
 	@Test
 	public void testGetName() {
