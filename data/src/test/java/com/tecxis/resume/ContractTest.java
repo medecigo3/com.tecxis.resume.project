@@ -511,13 +511,12 @@ public class ContractTest {
         /**Test the opposite association*/
         muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);
-		/**Test mule Service*/
+		/**Test mule Service has all contracts*/
 		assertEquals(2, muleService.getContractServiceAgreements().size());		
 		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		List <Contract> fastconnectMicropoleContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
-		assertEquals(1, fastconnectMicropoleContracts.size());
-		/**Retrieve 2nd mule Contract & test*/ 
+		assertEquals(1, fastconnectMicropoleContracts.size());		
 		Contract fastconnectMicropoleContract = fastconnectMicropoleContracts.get(0); 
 		assertThat(muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract,  fastconnectMicropoleContract));
 		assertThat(muleService.getContractServiceAgreements().get(1).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract,  fastconnectMicropoleContract));		
