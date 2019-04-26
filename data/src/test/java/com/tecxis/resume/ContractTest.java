@@ -13,7 +13,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -507,7 +507,31 @@ public class ContractTest {
         /**Test Services*/
         assertThat(alternaArvalContractServiceAgreement1.getContractServiceAgreementId().getService(), Matchers.oneOf(muleService, scmService));
         assertThat(alternaArvalContractServiceAgreement2.getContractServiceAgreementId().getService(), Matchers.oneOf(muleService, scmService));
-       			
+        
+        /**Test the opposite association*/
+        muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);
+		/**Test mule Service*/
+		assertEquals(2, muleService.getContractServiceAgreements().size());		
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		List <Contract> fastconnectMicropoleContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
+		assertEquals(1, fastconnectMicropoleContracts.size());
+		/**Retrieve 2nd mule Contract & test*/ 
+		Contract fastconnectMicropoleContract = fastconnectMicropoleContracts.get(0); 
+		assertThat(muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract,  fastconnectMicropoleContract));
+		assertThat(muleService.getContractServiceAgreements().get(1).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract,  fastconnectMicropoleContract));		
+		/**Now test scm Service */
+		assertEquals(2, scmService.getContractServiceAgreements().size());
+		Supplier accenture =  supplierRepo.getSupplierByNameAndStaff(ACCENTURE, amt);
+		Client barclays =  clientRepo.getClientByName(BARCLAYS);
+		List <Contract> accentureBarclaysContracts =  contractRepo.findByClientAndSupplierOrderByStartDateAsc(barclays, accenture);
+		assertEquals(1, accentureBarclaysContracts.size());
+		/**Retreive 2nd scm Contract & test*/
+		Contract accentureBarclaysContract = accentureBarclaysContracts.get(0);
+		assertThat(scmService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract, accentureBarclaysContract ));
+		assertThat(scmService.getContractServiceAgreements().get(1).getContractServiceAgreementId().getContract(), Matchers.oneOf(alternaArvalContract,  accentureBarclaysContract));
+				
 	}
 	
 	@Test

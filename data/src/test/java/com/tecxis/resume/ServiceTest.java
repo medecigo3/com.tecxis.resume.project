@@ -96,20 +96,6 @@ public class ServiceTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testGetContracts() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetContracts() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAddContract() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	@Sql(

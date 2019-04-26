@@ -3,7 +3,7 @@ package com.tecxis.resume;
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
-import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
+import static com.tecxis.resume.persistence.CityRepositoryTest.*;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
@@ -377,6 +377,26 @@ public class CityTest {
 		assertThat(location1.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
 		assertThat(location2.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
 		assertThat(location3.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		
+		/**Test the opposite association*/
+		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		/**Test selenium Project has all Cities*/
+		assertEquals(2, selenium.getLocations().size());
+		City paris = cityRepo.getCityByName(PARIS);
+		assertThat(selenium.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london));
+		assertThat(selenium.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london));
+		/**Test aos Project has all Cities*/
+		assertEquals(3, aos.getLocations().size());
+		City swindon = cityRepo.getCityByName(SWINDON);
+		assertThat(aos.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
+		assertThat(aos.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
+		assertThat(aos.getLocations().get(2).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
+		/**Test morningstar v2 Project has all Cities*/		
+		assertEquals(2, morningstarv2.getLocations().size());
+		assertThat(morningstarv2.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london));
+		assertThat(morningstarv2.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london));
 		
 	}	
 
