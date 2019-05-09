@@ -24,6 +24,7 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
+import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
@@ -40,6 +41,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
@@ -74,8 +76,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Location.LocationId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
+import com.tecxis.resume.persistence.LocationRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;
@@ -109,6 +113,9 @@ public class ProjectTest {
 	
 	@Autowired
 	private StaffRepository staffRepo;
+	
+	@Autowired 
+	private LocationRepository locationRepo;
 
 	@Test
 	public void testGetDesc() {
@@ -584,6 +591,82 @@ public class ProjectTest {
 	
 	@Test
 	public void testRemoveLocation() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetLocations() {
+		
+		/**Find & validate Project to test*/
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		assertEquals(1, selenium.getLocations().size());
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
+		assertEquals(1, selenium.getCities().size());
+		City paris = cityRepo.getCityByName(PARIS);
+		assertEquals(PARIS, paris.getName());
+		assertEquals(paris, selenium.getCities().get(0));
+		List <Location> seleniumLocations  = selenium.getLocations();
+		assertEquals(1, seleniumLocations.size());
+		/**Validate the opposite association*/
+		List <City> seleniumCities =  selenium.getCities();
+		assertEquals(1, seleniumCities.size());
+		assertEquals(seleniumCities.get(0), paris);
+					
+		
+		/**Find & validate city to test*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		assertEquals(MANCHESTER, manchester.getName());
+		List <Location> manchesterLocations = manchester.getLocations();
+		assertEquals(manchester, manchesterLocations.get(0).getLocationId().getCity());
+
+		/***Validate the Project's current Locations*/
+		assertEquals(1, selenium.getLocations().size());		
+		Location seleniumLocation = locationRepo.findById(new LocationId(paris, selenium)).get();		
+		assertEquals(seleniumLocation, selenium.getLocations().get(0));
+				
+		/**Prepare new Locations*/
+		List <Location> newLocations = new ArrayList<>();
+		Location manchesterSeleniumLoc = new Location(new LocationId(manchester, selenium));		
+		newLocations.add(manchesterSeleniumLoc);
+				
+		/**Set new Locations*/
+		selenium.setLocations(newLocations);
+		
+		/**Set new cities*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		selenium.setLocations(newLocations);
+		entityManager.merge(selenium);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		
+		/**Test & validate the new Locations*/
+		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);	
+		assertEquals(2, selenium.getLocations().size());
+		assertThat(selenium.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, manchester));
+		/**Cities are linked through Location table*/
+		assertEquals(2, selenium.getCities().size());
+		assertThat(selenium.getCities().get(0), Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getCities().get(1), Matchers.oneOf(paris, manchester));
+		
+		/**Validate the opposite association*/
+		manchester = cityRepo.getCityByName(MANCHESTER);
+		assertEquals(2, manchester.getProjects().size());
+		//Reopen persistence contest otherwise exception is thrown-> LazyInitializationException : failed to lazily initialize 
+		//a collection of role:, could not initialize proxy - no Session
+		// Read: https://vladmihalcea.com/the-hibernate-enable_lazy_load_no_trans-anti-pattern/
+		Project adir =  projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		assertThat(manchester.getProjects().get(0), Matchers.oneOf(selenium, adir));
+		assertThat(manchester.getProjects().get(1), Matchers.oneOf(selenium, adir));
+	}
+	
+	@Test
+	public void testGetLocations() {
 		fail("Not yet implemented");
 	}
 

@@ -252,10 +252,11 @@ public class Project implements Serializable {
 	}
 
 	public void setCities(List<City> cities) {
+		this.cities.clear();
 		for (City city : cities) {
-			city.getProjects().add(this);
+			this.getCities().add(city);			
 		}
-		this.cities = cities;
+		
 	}
 
 	public boolean addCity(City city) {
