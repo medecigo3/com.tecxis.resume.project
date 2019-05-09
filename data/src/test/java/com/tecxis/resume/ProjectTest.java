@@ -609,6 +609,7 @@ public class ProjectTest {
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());
 		assertEquals(paris, selenium.getCities().get(0));
+		/**Validate Locations*/
 		List <Location> seleniumLocations  = selenium.getLocations();
 		assertEquals(1, seleniumLocations.size());
 		/**Validate the opposite association*/
@@ -666,8 +667,31 @@ public class ProjectTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetLocations() {
-		fail("Not yet implemented");
+		/**Find & validate Project to test*/
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		assertEquals(1, selenium.getLocations().size());
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
+		assertEquals(1, selenium.getCities().size());
+		City paris = cityRepo.getCityByName(PARIS);
+		assertEquals(PARIS, paris.getName());
+		assertEquals(paris, selenium.getCities().get(0));		
+		/**Validate the opposite association*/
+		List <City> seleniumCities =  selenium.getCities();
+		assertEquals(1, seleniumCities.size());
+		assertEquals(seleniumCities.get(0), paris);
+		
+		/**Validate Locations*/
+		List <Location> seleniumLocations  = selenium.getLocations();
+		assertEquals(1, seleniumLocations.size());
+		Location selemiumLocation =  seleniumLocations.get(0);
+		assertEquals(paris, selemiumLocation.getLocationId().getCity());
+		assertEquals(selenium, selemiumLocation.getLocationId().getProject());
+				
 	}
 
 	@Test
