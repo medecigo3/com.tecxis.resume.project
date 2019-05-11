@@ -411,7 +411,7 @@ public class ContractTest {
 		/**Validate Contract*/
 		assertEquals(1, fastconnectMicropoleContracts.size());
 		
-		/**Validate ContractServiceAgreement*/
+		/**Validate ContractServiceAgreements*/
 		List <ContractServiceAgreement> fastconnectMicropoleContractServiceAgreements = fastconnectMicropoleContracts.get(0).getContractServiceAgreements();
 		assertEquals(1, fastconnectMicropoleContractServiceAgreements.size());
 		ContractServiceAgreement fastconnectMicropoleContractServiceAgreement = fastconnectMicropoleContractServiceAgreements.get(0);
@@ -455,26 +455,28 @@ public class ContractTest {
         LocalDate contractEndDate 	 =  Instant.ofEpochMilli(alternaArvalContract.getEndDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         assertEquals(alternaArvalContractStartDate, contractStartDate);
         assertEquals(alternaArvalContractEndDate, contractEndDate);
-      
               
-		/**Find Services to test */
-		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		/**Find & validate Services to test */
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
 		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
-		
-		/**Prepare ContractServiceAgreements*/		
-		ContractServiceAgreement alternaMuleContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, muleService));
-		ContractServiceAgreement alternaScmContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, scmService));
-		List <ContractServiceAgreement> newContractServiceAgreements = new ArrayList <> ();
-		newContractServiceAgreements.add(alternaMuleContractServiceAgreement);
-		newContractServiceAgreements.add(alternaScmContractServiceAgreement);
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmService.getName());
 		
 		/***Validate the state of the current ContractServiceAgreeements*/
 		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());
 		ContractServiceAgreement  alternaArvalContractServiceAgreement = alternaArvalContract.getContractServiceAgreements().get(0);
 		assertEquals(alternaArvalContract, alternaArvalContractServiceAgreement.getContractServiceAgreementId().getContract());
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		/**Validate opposite associations - Arval Contract has BW Service*/
 		assertEquals(bwService, alternaArvalContractServiceAgreement.getContractServiceAgreementId().getService());
-		
+				
+		/**Prepare new ContractServiceAgreements*/		
+		ContractServiceAgreement alternaMuleContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, muleService));
+		ContractServiceAgreement alternaScmContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, scmService));
+		List <ContractServiceAgreement> newContractServiceAgreements = new ArrayList <> ();
+		newContractServiceAgreements.add(alternaMuleContractServiceAgreement);
+		newContractServiceAgreements.add(alternaScmContractServiceAgreement);
+			
 		/**Set ContractServiceAgreements*/	
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		alternaArvalContract.setContractServiceAgreements(newContractServiceAgreements);			
