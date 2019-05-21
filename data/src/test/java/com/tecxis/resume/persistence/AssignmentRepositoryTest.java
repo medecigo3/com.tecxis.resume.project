@@ -113,11 +113,11 @@ public class AssignmentRepositoryTest {
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment1 = insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getAssignmentId());
+		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 						
 		Assignment assignment2 = insertAssignment(ASSIGNMENT2, entityManager);
-		assertEquals(2, assignment2.getAssignmentId());
+		assertEquals(2, assignment2.getId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 	}

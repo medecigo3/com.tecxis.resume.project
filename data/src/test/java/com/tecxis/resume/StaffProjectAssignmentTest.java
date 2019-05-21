@@ -93,7 +93,7 @@ public class StaffProjectAssignmentTest {
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment1 = AssignmentTest.insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getAssignmentId());
+		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Prepare staff assignments*/	

@@ -99,7 +99,7 @@ public class AssignmentTest {
 		/**Prepare assignment*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		Assignment assignment12 = AssignmentTest.insertAssignment(ASSIGNMENT12, entityManager);
-		assertEquals(1, assignment12.getAssignmentId());
+		assertEquals(1, assignment12.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
@@ -236,7 +236,7 @@ public class AssignmentTest {
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment12 = AssignmentTest.insertAssignment(ASSIGNMENT12, entityManager);
-		assertEquals(1, assignment12.getAssignmentId());
+		assertEquals(1, assignment12.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/
@@ -317,9 +317,9 @@ public class AssignmentTest {
 	public static Assignment insertAssignment(String desc, EntityManager entityManager) {
 		Assignment assignment = new Assignment();
 		assignment.setDesc(desc);
-		assertEquals(0, assignment.getAssignmentId());
+		assertEquals(0, assignment.getId());
 		entityManager.persist(assignment);
-		assertThat(assignment.getAssignmentId(), Matchers.greaterThan((long)0));
+		assertThat(assignment.getId(), Matchers.greaterThan((long)0));
 		entityManager.flush();
 		return assignment;
 	}

@@ -42,7 +42,7 @@ public class StaffProjectAssignment implements Serializable {
 		return 
 			(this.getStaffAssignmentId().getProject().getClient().getClientId() 			== castOther.getStaffAssignmentId().getProject().getClient().getClientId())
 			&& (this.getStaffAssignmentId().getProject().getProjectId() 		== castOther.getStaffAssignmentId().getProject().getProjectId())
-			&& (this.getStaffAssignmentId().getAssignment().getAssignmentId()	== castOther.getStaffAssignmentId().getAssignment().getAssignmentId())
+			&& (this.getStaffAssignmentId().getAssignment().getId()	== castOther.getStaffAssignmentId().getAssignment().getId())
 			&& (this.getStaffAssignmentId().getStaff().getStaffId()				== castOther.getStaffAssignmentId().getStaff().getStaffId());
 			
 	}
@@ -53,7 +53,7 @@ public class StaffProjectAssignment implements Serializable {
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getStaffAssignmentId().getProject().getClient().getClientId() 		^ (this.getStaffAssignmentId().getProject().getClient().getClientId() )));
 		hash = hash * prime + ((int) (this.getStaffAssignmentId().getProject().getProjectId()    	^ (this.getStaffAssignmentId().getProject().getProjectId()  )));
-		hash = hash * prime + ((int) (this.getStaffAssignmentId().getAssignment().getAssignmentId() ^ (this.getStaffAssignmentId().getAssignment().getAssignmentId()  >>> 32)));
+		hash = hash * prime + ((int) (this.getStaffAssignmentId().getAssignment().getId() ^ (this.getStaffAssignmentId().getAssignment().getId()  >>> 32)));
 		hash = hash * prime + ((int) (this.getStaffAssignmentId().getStaff().getStaffId()		 	^ (this.getStaffAssignmentId().getStaff().getStaffId()	>>> 32)));
 		
 		return hash;

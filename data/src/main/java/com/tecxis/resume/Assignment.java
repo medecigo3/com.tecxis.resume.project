@@ -29,7 +29,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "\"DESC\"" }))
-public class Assignment implements Serializable {
+public class Assignment implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 
@@ -45,8 +45,8 @@ public class Assignment implements Serializable {
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ASSIGNMENT_SEQ")
-	@Column(name="ASSIGNMENT_ID")	
-	private long assignmentId;
+	@Column(name="ASSIGNMENT_ID")
+	private long id;
 	
 	/**
 	 * bi-directional one-to-many association to StaffProjectAssignment
@@ -76,12 +76,14 @@ public class Assignment implements Serializable {
 		this.priority = priority;
 	}
 
-	public long getAssignmentId() {
-		return this.assignmentId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 	
-	public void setAssignmentId(long assignmentId) {
-		this.assignmentId = assignmentId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	public List<StaffProjectAssignment> getStaffProjectAssignments() {
@@ -115,7 +117,7 @@ public class Assignment implements Serializable {
 		}
 		Assignment castOther = (Assignment)other;
 		return 
-			this.getAssignmentId() == castOther.getAssignmentId();
+			this.getId() == castOther.getId();
 			
 	}
 
@@ -123,7 +125,7 @@ public class Assignment implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getAssignmentId() ^ (this.getAssignmentId() >>> 32)));
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
 				
 		return hash;
 	}
@@ -131,6 +133,6 @@ public class Assignment implements Serializable {
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName() + "@" + this.hashCode() +
-				"[assignmentId=" + this.getAssignmentId() + "]]"; 
+				"[id=" + this.getId() + "]]"; 
 	}
 }
