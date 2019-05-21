@@ -22,7 +22,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Country implements Serializable {
+public class Country implements Serializable, StrongEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,7 +33,7 @@ public class Country implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_SEQ")
 	@Column(name="COUNTRY_ID")
-	private long countryId;
+	private long id;
 
 	private String name;
 
@@ -49,12 +49,14 @@ public class Country implements Serializable {
 		this.cities = new ArrayList <> ();
 	}
 
-	public long getCountryId() {
-		return this.countryId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
-
-	public void setCountryId(long countryId) {
-		this.countryId = countryId;
+	
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -93,7 +95,7 @@ public class Country implements Serializable {
 		}
 		Country castOther = (Country)other;
 		return 
-			(this.getCountryId() == castOther.getCountryId());
+			(this.getId() == castOther.getId());
 		
 	}
 
@@ -101,7 +103,7 @@ public class Country implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getCountryId() ^ (this.getCountryId() >>> 32)));
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
 		
 		return hash;
 	}
@@ -110,7 +112,7 @@ public class Country implements Serializable {
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
 				", name=" +this.getName() + 
-				"[countryId=" + this.getCountryId() +
+				"[id=" + this.getId() +
 				 "]]";
 	}
 

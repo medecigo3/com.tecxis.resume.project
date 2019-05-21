@@ -74,7 +74,7 @@ public class Location implements Serializable {
 			LocationId castOther = (LocationId)other;
 			return
 				(this.city.getId() == castOther.getCity().getId())
-				&& (this.city.getCountry().getCountryId() == castOther.getCity().getCountry().getCountryId())				
+				&& (this.city.getCountry().getId() == castOther.getCity().getCountry().getId())				
 				&& (this.project.getProjectId()  == castOther.getProject().getProjectId())	
 				&& (this.project.getClient().getClientId() == castOther.getProject().getClient().getClientId());
 				
@@ -85,7 +85,7 @@ public class Location implements Serializable {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + ((int) (this.city.getId() ^ (this.city.getId() >>> 32)));
-			hash = hash * prime + ((int) (this.city.getCountry().getCountryId()  ^ (this.city.getCountry().getCountryId() >>> 32)));
+			hash = hash * prime + ((int) (this.city.getCountry().getId()  ^ (this.city.getCountry().getId() >>> 32)));
 			hash = hash * prime + ((int) (this.project.getProjectId()   ^ (this.project.getProjectId()  >>> 32)));
 			hash = hash * prime + ((int) (this.project.getClient().getClientId()   ^ (this.project.getClient().getClientId()  >>> 32)));
 			
@@ -96,7 +96,7 @@ public class Location implements Serializable {
 		public String toString() {
 			return "["+ this.getClass().getName() +
 					"[cityId=" + this.city.getId() + 
-					", countryId=" + this.city.getCountry().getCountryId()  +
+					", countryId=" + this.city.getCountry().getId()  +
 					", projectId=" + this.project.getProjectId()   +
 					", clientId=" + this.project.getClient().getClientId()  +
 					"]]";
@@ -135,7 +135,7 @@ public class Location implements Serializable {
 		Location castOther = (Location)other;
 		return
 			(this.getLocationId().getCity().getId() == castOther.getLocationId().getCity().getId())
-			&& (this.getLocationId().getCity().getCountry().getCountryId() == castOther.getLocationId().getCity().getCountry().getCountryId())				
+			&& (this.getLocationId().getCity().getCountry().getId() == castOther.getLocationId().getCity().getCountry().getId())				
 			&& (this.getLocationId().getProject().getProjectId()  == castOther.getLocationId().getProject().getProjectId())	
 			&& (this.getLocationId().getProject().getClient().getClientId() == castOther.getLocationId().getProject().getClient().getClientId());
 			
@@ -146,7 +146,7 @@ public class Location implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getLocationId().getCity().getId() ^ (this.getLocationId().getCity().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getLocationId().getCity().getCountry().getCountryId()  ^ (this.getLocationId().getCity().getCountry().getCountryId() >>> 32)));
+		hash = hash * prime + ((int) (this.getLocationId().getCity().getCountry().getId()  ^ (this.getLocationId().getCity().getCountry().getId() >>> 32)));
 		hash = hash * prime + ((int) (this.getLocationId().getProject().getProjectId()   ^ (this.getLocationId().getProject().getProjectId()  >>> 32)));
 		hash = hash * prime + ((int) (this.getLocationId().getProject().getClient().getClientId()   ^ (this.getLocationId().getProject().getClient().getClientId()  >>> 32)));
 		
@@ -157,7 +157,7 @@ public class Location implements Serializable {
 	public String toString() {
 		return "["+ this.getClass().getName() +
 				"[cityId=" + this.getLocationId().getCity().getId() + 
-				", countryId=" + this.getLocationId().getCity().getCountry().getCountryId()  +
+				", countryId=" + this.getLocationId().getCity().getCountry().getId()  +
 				", projectId=" + this.getLocationId().getProject().getProjectId()   +
 				", clientId=" + this.getLocationId().getProject().getClient().getClientId()  +
 				"]]";

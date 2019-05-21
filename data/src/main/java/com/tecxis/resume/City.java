@@ -86,14 +86,14 @@ public class City implements Serializable, StrongEntity {
 			CityPK castOther = (CityPK)other;
 			return 
 				(this.id == castOther.id)
-				&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
+				&& (this.getCountry().getId() == castOther.getCountry().getId());
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-			hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
+			hash = hash * prime + ((int) (this.getCountry().getId() ^ (this.getCountry().getId() >>> 32)));
 			
 			return hash;
 		}
@@ -102,7 +102,7 @@ public class City implements Serializable, StrongEntity {
 		public String toString() {		
 			return 	"["+ City.CityPK.class.getName()+
 					"[id=" + this.getId() +
-					", countryId=" + this.getCountry().getCountryId()  + "]]";
+					", countryId=" + this.getCountry().getId()  + "]]";
 					
 		}
 	}
@@ -224,7 +224,7 @@ public class City implements Serializable, StrongEntity {
 		City castOther = (City)other;
 		return 
 			(this.id == castOther.id)
-			&& (this.getCountry().getCountryId() == castOther.getCountry().getCountryId());
+			&& (this.getCountry().getId() == castOther.getCountry().getId());
 	}
 
 	@Override
@@ -232,7 +232,7 @@ public class City implements Serializable, StrongEntity {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-		hash = hash * prime + ((int) (this.getCountry().getCountryId() ^ (this.getCountry().getCountryId() >>> 32)));
+		hash = hash * prime + ((int) (this.getCountry().getId() ^ (this.getCountry().getId() >>> 32)));
 		
 		return hash;
 	}
@@ -243,7 +243,7 @@ public class City implements Serializable, StrongEntity {
 				", name=" +this.getName() +
 				"["+ City.CityPK.class.getName()+
 				"[id=" + this.getId() +
-				", countryId=" + this.getCountry().getCountryId() + "]]]";
+				", countryId=" + this.getCountry().getId() + "]]]";
 	}
 
 }

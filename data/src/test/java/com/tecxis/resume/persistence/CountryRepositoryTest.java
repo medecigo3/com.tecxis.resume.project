@@ -65,15 +65,15 @@ public class CountryRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = CountryTest.insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getCountryId());
+		assertEquals(1, france.getId());
 		
 		Country uk = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(2, uk.getCountryId());
+		assertEquals(2, uk.getId());
 		
 		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(3, belgium.getCountryId());
+		assertEquals(3, belgium.getId());
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ public class CountryRepositoryTest {
 	)
 	public void shouldBeAbleToFindInsertedCountry() {
 		Country countryIn = CountryTest.insertACountry(FRANCE, entityManager);
-		Country countryOut = countryRepo.getCountryByCountryId(countryIn.getCountryId());
+		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
 	}
 	
@@ -139,8 +139,8 @@ public class CountryRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCountryByCountryId() {
-		Country country = countryRepo.getCountryByCountryId(1L);
-		assertEquals(1L, country.getCountryId());
+		Country country = countryRepo.getCountryById(1L);
+		assertEquals(1L, country.getId());
 	}
 	
 	@Test
