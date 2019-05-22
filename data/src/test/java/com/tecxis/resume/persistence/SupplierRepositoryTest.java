@@ -210,7 +210,7 @@ public class SupplierRepositoryTest {
 		Contract alphatressJohnContract = alphatressJohn.getContracts().get(0);
 		assertEquals(CONTRACT13_STARTDATE, alphatressJohnContract.getStartDate());
 		assertEquals(CONTRACT13_ENDDATE, alphatressJohnContract.getEndDate());
-		assertEquals(john.getStaffId(), alphatressJohnContract.getSupplier().getStaff().getStaffId());
+		assertEquals(john.getId(), alphatressJohnContract.getSupplier().getStaff().getId());
 		
 		
 		Supplier alterna = supplierRepo.getSupplierByNameAndStaff(ALTERNA, amt);

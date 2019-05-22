@@ -95,7 +95,7 @@ public class Supplier implements Serializable {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
-			hash = hash * prime + ((int) (this.staff.getStaffId() 	^ (this.staff.getStaffId() >>> 32)));
+			hash = hash * prime + ((int) (this.staff.getId() 	^ (this.staff.getId() >>> 32)));
 			
 			return hash;
 		}
@@ -104,7 +104,7 @@ public class Supplier implements Serializable {
 		public String toString() {
 			return "[" + this.getClass().getName() + 
 					"[supplierId=" + supplierId + 
-					", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]";
+					", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : " null") + "]]";
 		}
 	}
 	
@@ -187,7 +187,7 @@ public class Supplier implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
-		hash = hash * prime + ((int) (this.staff.getStaffId() 	^ (this.staff.getStaffId() >>> 32)));
+		hash = hash * prime + ((int) (this.staff.getId() 	^ (this.staff.getId() >>> 32)));
 		
 		return hash;
 	}
@@ -197,7 +197,7 @@ public class Supplier implements Serializable {
 		return "[" + this.getClass().getName() + "@" + this.hashCode() +
 				"["+ Supplier.SupplierPK.class.getName()+ 
 				"[supplierId=" + supplierId + 
-				", staffId=" + (this.getStaff() != null ? this.getStaff().getStaffId() : " null") + "]]]";
+				", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : " null") + "]]]";
 	}
 
 }

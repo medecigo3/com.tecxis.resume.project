@@ -90,7 +90,7 @@ public class StaffRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getStaffId());
+		assertEquals(1, amt.getId());
 	}
 	
 	@Test
@@ -209,7 +209,7 @@ public class StaffRepositoryTest {
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(
 				"select c.course_id, c.title, c.credits from Staff s "+
 						" JOIN Enrolment e on s.staff_Id = e.staff_Id " +
-						" JOIN Course c on c.course_Id = e.course_Id where s.staff_id = ?", new Object[] { amt.getStaffId() } );
+						" JOIN Course c on c.course_Id = e.course_Id where s.staff_id = ?", new Object[] { amt.getId() } );
 		
 		assertEquals(1, rows.size());
 		

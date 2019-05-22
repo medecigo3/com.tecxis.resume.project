@@ -446,7 +446,7 @@ public class StaffTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getStaffId());
+		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -581,7 +581,7 @@ public class StaffTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getStaffId());
+		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -620,10 +620,10 @@ public class StaffTest {
 		Staff staff = new Staff();
 		staff.setName(firstName);
 		staff.setLastname(lastName);
-		assertEquals(0, staff.getStaffId());
+		assertEquals(0, staff.getId());
 		entityManager.persist(staff);
 		entityManager.flush();
-		assertThat(staff.getStaffId(), Matchers.greaterThan((long)0));
+		assertThat(staff.getId(), Matchers.greaterThan((long)0));
 		return staff;
 		
 	}

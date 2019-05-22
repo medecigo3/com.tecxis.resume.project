@@ -109,7 +109,7 @@ public class Contract implements Serializable, StrongEntity {
 				(this.client.getId() == castOther.getClient().getId())
 				&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
 				&& (this.id == castOther.id)
-				&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
+				&& (this.supplier.getStaff().getId() == castOther.getSupplier().getStaff().getId());
 		}
 
 		@Override
@@ -119,7 +119,7 @@ public class Contract implements Serializable, StrongEntity {
 			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
 			hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
 			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-			hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
+			hash = hash * prime + ((int) (this.supplier.getStaff().getId() ^ (this.supplier.getStaff().getId() >>> 32)));
 			
 			return hash;
 		}
@@ -130,7 +130,7 @@ public class Contract implements Serializable, StrongEntity {
 					"[id=" + this.getId() + 
 					", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
 					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
-					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";
+					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getId() : "null"  ) : " null" ) + "]]";
 		}
 
 	}
@@ -278,7 +278,7 @@ public class Contract implements Serializable, StrongEntity {
 			(this.client.getId() == castOther.getClient().getId())
 			&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
 			&& (this.id == castOther.getId())
-			&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
+			&& (this.supplier.getStaff().getId() == castOther.getSupplier().getStaff().getId());
 	}
 
 	@Override
@@ -288,7 +288,7 @@ public class Contract implements Serializable, StrongEntity {
 		hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
 		hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
 		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-		hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
+		hash = hash * prime + ((int) (this.supplier.getStaff().getId() ^ (this.supplier.getStaff().getId() >>> 32)));
 		
 		return hash;
 	}
@@ -299,6 +299,6 @@ public class Contract implements Serializable, StrongEntity {
 				"[id=" + this.getId() + 
 				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
 				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
-				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]]";
+				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getId() : "null"  ) : " null" ) + "]]]";
 	}
 }

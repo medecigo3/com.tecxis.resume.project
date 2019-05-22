@@ -163,7 +163,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getStaffId());
+		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
@@ -209,7 +209,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getStaffId());
+		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));

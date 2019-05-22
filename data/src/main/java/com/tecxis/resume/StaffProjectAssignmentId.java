@@ -77,7 +77,7 @@ public class StaffProjectAssignmentId implements Serializable {
 			(this.project.getClient().getId() 			== castOther.getProject().getClient().getId())
 			&& (this.project.getId() 		== castOther.getProject().getId())
 			&& (this.assignment.getId() 	== castOther.getAssignment().getId())
-			&& (this.staff.getStaffId() 			== castOther.getStaff().getStaffId());
+			&& (this.staff.getId() 			== castOther.getStaff().getId());
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class StaffProjectAssignmentId implements Serializable {
 		hash = hash * prime + ((int) (this.project.getClient().getId() 		^ (this.project.getClient().getId() >>> 32)));
 		hash = hash * prime + ((int) (this.project.getId() 		^ (this.project.getId() >>> 32)));
 		hash = hash * prime + ((int) (this.assignment.getId() ^ (this.assignment.getId() >>> 32)));
-		hash = hash * prime + ((int) (this.staff.getStaffId() 			^ (this.staff.getStaffId() >>> 32)));
+		hash = hash * prime + ((int) (this.staff.getId() 			^ (this.staff.getId() >>> 32)));
 		
 		return hash;
 	}
@@ -96,7 +96,7 @@ public class StaffProjectAssignmentId implements Serializable {
 	public String toString() {
 		return "["+this.getClass().getName()+
 				"[projectId=" + (this.getProject() != null ? this.getProject().getId() : "null") + 
-				", staffId=" + (this.staff != null ? this.staff.getStaffId() : "null")  +
+				", staffId=" + (this.staff != null ? this.staff.getId() : "null")  +
 				", assignmentId=" + (this.assignment != null ? this.assignment.getId() : "null" )+ "]]" ; 
 	}
 

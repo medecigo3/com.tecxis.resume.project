@@ -201,7 +201,7 @@ public class ContractRepositoryTest {
 		assertNotNull(contract);
 		assertEquals(1, contract.getClient().getId());
 		assertEquals(1, contract.getSupplier().getSupplierId());
-		assertEquals(1, contract.getSupplier().getStaff().getStaffId());
+		assertEquals(1, contract.getSupplier().getStaff().getId());
 		assertEquals(1, contract.getId());
 		
 	}
