@@ -39,7 +39,7 @@ public class CourseTest {
 		course.setTitle(title);
 		entityManager.persist(course);
 		entityManager.flush();
-		assertThat(course.getCourseId(), Matchers.greaterThan((long)0));
+		assertThat(course.getId(), Matchers.greaterThan((long)0));
 		return course;
 	}
 

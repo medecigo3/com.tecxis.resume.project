@@ -27,7 +27,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {"TITLE"}))
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
-public class Course implements Serializable {
+public class Course implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,7 +38,7 @@ public class Course implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_SEQ")
 	@Column(name="COURSE_ID")
-	private long courseId;
+	private long id;
 
 	private Integer credits;
 
@@ -55,12 +55,14 @@ public class Course implements Serializable {
 		this.staffs = new ArrayList <> ();
 	}
 
-	public long getCourseId() {
-		return this.courseId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 
-	public void setCourseId(long courseId) {
-		this.courseId = courseId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Integer getCredits() {
@@ -97,14 +99,14 @@ public class Course implements Serializable {
 		}
 		Course castOther = (Course)other;
 		return 
-			(this.getCourseId() == castOther.getCourseId());
+			(this.getId() == castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getCourseId() ^ (this.getCourseId() >>> 32)));
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
 		
 		return hash;
 	}
@@ -112,7 +114,7 @@ public class Course implements Serializable {
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
-				"[courseId=" + this.getCourseId() + "]]";
+				"[id=" + this.getId() + "]]";
 	}
 
 }

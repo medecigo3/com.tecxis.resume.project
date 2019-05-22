@@ -217,7 +217,7 @@ public class StaffRepositoryTest {
 		courseList = new ArrayList<>();
 		for (Map<String, Object> row : rows) {
 			Course tempCourse = new Course();
-			tempCourse.setCourseId(Long.parseLong(String.valueOf(row.get("COURSE_ID"))));
+			tempCourse.setId(Long.parseLong(String.valueOf(row.get("COURSE_ID"))));
 			tempCourse.setTitle(row.get("TITLE") != null ?  String.valueOf(row.get("TITLE")) : null );
 			tempCourse.setCredits(row.get("credits") != null ? Integer.parseInt(String.valueOf(row.get("credits"))) : null );            
 			courseList.add(tempCourse);

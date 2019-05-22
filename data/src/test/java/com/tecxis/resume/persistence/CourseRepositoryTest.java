@@ -56,7 +56,7 @@ public class CourseRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Course bw6 = CourseTest.insertACourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, bw6.getCourseId());
+		assertEquals(1, bw6.getId());
 		
 	}
 	
