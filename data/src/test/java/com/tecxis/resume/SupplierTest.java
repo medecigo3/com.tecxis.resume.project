@@ -136,7 +136,7 @@ public class SupplierTest {
 		supplier.setStaff(staff);
 		entityManager.persist(supplier);
 		entityManager.flush();
-		assertThat(supplier.getSupplierId(), Matchers.greaterThan((long)0));
+		assertThat(supplier.getId(), Matchers.greaterThan((long)0));
 		return supplier;
 	}
 

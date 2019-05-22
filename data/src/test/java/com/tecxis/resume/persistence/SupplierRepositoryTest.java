@@ -93,7 +93,7 @@ public class SupplierRepositoryTest {
 		Supplier accenture = SupplierTest.insertASupplier(amt, ACCENTURE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, accenture.getSupplierId());
+		assertEquals(1, accenture.getId());
 		
 	}
 	

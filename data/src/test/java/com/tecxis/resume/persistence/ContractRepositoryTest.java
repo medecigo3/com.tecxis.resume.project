@@ -200,7 +200,7 @@ public class ContractRepositoryTest {
 		Contract contract = contractRepo.findById(id).get();
 		assertNotNull(contract);
 		assertEquals(1, contract.getClient().getId());
-		assertEquals(1, contract.getSupplier().getSupplierId());
+		assertEquals(1, contract.getSupplier().getId());
 		assertEquals(1, contract.getSupplier().getStaff().getId());
 		assertEquals(1, contract.getId());
 		

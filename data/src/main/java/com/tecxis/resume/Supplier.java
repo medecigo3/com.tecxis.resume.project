@@ -30,7 +30,7 @@ import com.tecxis.resume.Supplier.SupplierPK;
  */
 @Entity
 @IdClass(SupplierPK.class)
-public class Supplier implements Serializable {
+public class Supplier implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	public static class SupplierPK implements Serializable {
@@ -45,7 +45,7 @@ public class Supplier implements Serializable {
 		            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 		)
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SEQ")
-		private long supplierId;
+		private long id;
 
 
 		@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
@@ -54,7 +54,7 @@ public class Supplier implements Serializable {
 		
 		public SupplierPK(Staff staff, long supplierId) {
 			this();
-			this.supplierId = supplierId;
+			this.id = supplierId;
 			this.staff = staff;
 		}
 		
@@ -62,12 +62,12 @@ public class Supplier implements Serializable {
 			super();
 		}
 		
-		public long getSupplierId() {
-			return this.supplierId;
+		public long getId() {
+			return this.id;
 		}
 		
-		public void setSupplierId(long supplierId) {
-			this.supplierId = supplierId;
+		public void setId(long id) {
+			this.id = id;
 		}
 
 		public Staff getStaff() {
@@ -87,14 +87,14 @@ public class Supplier implements Serializable {
 			}
 			SupplierPK castOther = (SupplierPK)other;
 			return 
-				this.supplierId== castOther.supplierId
+				this.id== castOther.id
 				&& (this.staff == castOther.staff);
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
+			hash = hash * prime + + ((int) (this.id 		^ (this.id >>> 32)));
 			hash = hash * prime + ((int) (this.staff.getId() 	^ (this.staff.getId() >>> 32)));
 			
 			return hash;
@@ -103,7 +103,7 @@ public class Supplier implements Serializable {
 		@Override
 		public String toString() {
 			return "[" + this.getClass().getName() + 
-					"[supplierId=" + supplierId + 
+					"[id=" + id + 
 					", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : " null") + "]]";
 		}
 	}
@@ -112,7 +112,7 @@ public class Supplier implements Serializable {
 	@Column(name="SUPPLIER_ID")
 	@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUPPLIER_SUPPLIERID_GENERATOR")
-	private long supplierId;
+	private long id;
 	
 	/**
 	 * bi-directional many-to-one association to Staff. 
@@ -139,12 +139,14 @@ public class Supplier implements Serializable {
 		this.contracts = new ArrayList <> ();
 	}
 
-	public long getSupplierId() {
-		return this.supplierId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 	
-	public void setSupplierId(long supplierId) {
-		this.supplierId = supplierId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Staff getStaff() {
@@ -177,7 +179,7 @@ public class Supplier implements Serializable {
 		}
 		Supplier castOther = (Supplier)other;
 		return 
-			this.supplierId== castOther.supplierId
+			this.id== castOther.id
 			&& (this.staff == castOther.staff);
 	
 	}
@@ -186,7 +188,7 @@ public class Supplier implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + + ((int) (this.supplierId 		^ (this.supplierId >>> 32)));
+		hash = hash * prime + + ((int) (this.id 		^ (this.id >>> 32)));
 		hash = hash * prime + ((int) (this.staff.getId() 	^ (this.staff.getId() >>> 32)));
 		
 		return hash;
@@ -196,7 +198,7 @@ public class Supplier implements Serializable {
 	public String toString() {
 		return "[" + this.getClass().getName() + "@" + this.hashCode() +
 				"["+ Supplier.SupplierPK.class.getName()+ 
-				"[supplierId=" + supplierId + 
+				"[id=" + id + 
 				", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : " null") + "]]]";
 	}
 
