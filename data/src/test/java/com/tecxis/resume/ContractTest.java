@@ -470,7 +470,7 @@ public class ContractTest {
 		/**Validate opposite associations - Arval Contract has BW Service*/
 		assertEquals(bwService, alternaArvalContractServiceAgreement.getContractServiceAgreementId().getService());
 				
-		/**Prepare new ContractServiceAgreements*/		
+		/**Build new ContractServiceAgreements*/		
 		ContractServiceAgreement alternaMuleContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, muleService));
 		ContractServiceAgreement alternaScmContractServiceAgreement = new ContractServiceAgreement(new ContractServiceAgreementId(alternaArvalContract, scmService));
 		List <ContractServiceAgreement> newContractServiceAgreements = new ArrayList <> ();
