@@ -51,7 +51,7 @@ public class Project implements Serializable, StrongEntity {
 		            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 		)
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
-		private long projectId;
+		private long id;
 		
 		@Id
 		@ManyToOne(cascade = CascadeType.ALL)
@@ -61,7 +61,7 @@ public class Project implements Serializable, StrongEntity {
 		
 		public ProjectPK(long projectId, Client client) {
 			this();
-			this.projectId = projectId;
+			this.id = projectId;
 			this.client = client;
 		}
 
@@ -71,12 +71,12 @@ public class Project implements Serializable, StrongEntity {
 		}
 		
 			
-		public long getProjectId() {
-			return projectId;
+		public long getId() {
+			return id;
 		}
 
-		public void setProjectId(long projectId) {
-			this.projectId = projectId;
+		public void setId(long id) {
+			this.id = id;
 		}
 		public Client getClient() {
 			return this.client;
@@ -95,14 +95,14 @@ public class Project implements Serializable, StrongEntity {
 			ProjectPK castOther = (ProjectPK)other;
 			return 
 				(this.getClient().getId() == castOther.getClient().getId()) &&
-				(this.projectId == castOther.projectId);
+				(this.id == castOther.id);
 
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.projectId ^ (this.projectId >>> 32)));
+			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 			hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId()  >>> 32)));
 			
 			return hash;
@@ -111,7 +111,7 @@ public class Project implements Serializable, StrongEntity {
 		@Override
 		public String toString() {
 			return "["+ this.getClass().getName() +
-					"[id=" + this.getProjectId() + 
+					"[id=" + this.getId() + 
 					", clientId=" + this.getClient().getId() + "]]";
 		
 		}
