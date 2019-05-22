@@ -199,7 +199,7 @@ public class ContractRepositoryTest {
 		Contract.ContractPK id = new Contract.ContractPK(1, barclays, accenture);		
 		Contract contract = contractRepo.findById(id).get();
 		assertNotNull(contract);
-		assertEquals(1, contract.getClient().getClientId());
+		assertEquals(1, contract.getClient().getId());
 		assertEquals(1, contract.getSupplier().getSupplierId());
 		assertEquals(1, contract.getSupplier().getStaff().getStaffId());
 		assertEquals(1, contract.getId());

@@ -23,7 +23,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Client implements Serializable {
+public class Client implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,7 +34,7 @@ public class Client implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_SEQ")
 	@Column(name="CLIENT_ID")
-	private long clientId;
+	private long id;
 
 	private String name;
 
@@ -62,13 +62,15 @@ public class Client implements Serializable {
 		this.contracts = new ArrayList<> ();
 		this.projects = new ArrayList<> ();
 	}
-
-	public long getClientId() {
-		return this.clientId;
+	
+	@Override
+	public long getId() {
+		return this.id;
 	}
-
-	public void setClientId(long clientId) {
-		this.clientId = clientId;
+	
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -124,7 +126,7 @@ public class Client implements Serializable {
 		}
 		Client castOther = (Client)other;
 		return 
-			(this.getClientId() == castOther.getClientId());
+			(this.getId() == castOther.getId());
 		
 	}
 
@@ -132,7 +134,7 @@ public class Client implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getClientId() ^ (this.getClientId() >>> 32)));	
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));	
 		
 		return hash;
 	}
@@ -141,7 +143,7 @@ public class Client implements Serializable {
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
 				", name=" + this.getName()+ 
-				"[clientId=" + this.getClientId() +
+				"[id=" + this.getId() +
 				 "]]";
 				
 	}

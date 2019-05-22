@@ -141,10 +141,10 @@ public class ClientTest {
 	public static Client insertAClient(String name, EntityManager entityManager) {
 		Client client = new Client();
 		client.setName(name);
-		assertEquals(0, client.getClientId());
+		assertEquals(0, client.getId());
 		entityManager.persist(client);		
 		entityManager.flush();
-		assertThat(client.getClientId(), Matchers.greaterThan((long)0));
+		assertThat(client.getId(), Matchers.greaterThan((long)0));
 		return client;
 		
 	}

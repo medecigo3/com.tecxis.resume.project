@@ -106,7 +106,7 @@ public class Contract implements Serializable, StrongEntity {
 			}
 			ContractPK castOther = (ContractPK)other;
 			return 
-				(this.client.getClientId() == castOther.getClient().getClientId())
+				(this.client.getId() == castOther.getClient().getId())
 				&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
 				&& (this.id == castOther.id)
 				&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
@@ -116,7 +116,7 @@ public class Contract implements Serializable, StrongEntity {
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.client.getClientId() ^ (this.client.getClientId() >>> 32)));
+			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
 			hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
 			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 			hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
@@ -128,7 +128,7 @@ public class Contract implements Serializable, StrongEntity {
 		public String toString() {
 			return "["+ this.getClass().getName() +
 					"[id=" + this.getId() + 
-					", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
+					", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
 					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
 					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]";
 		}
@@ -275,7 +275,7 @@ public class Contract implements Serializable, StrongEntity {
 		}
 		Contract castOther = (Contract)other;
 		return 
-			(this.client.getClientId() == castOther.getClient().getClientId())
+			(this.client.getId() == castOther.getClient().getId())
 			&& (this.supplier.getSupplierId() == castOther.getSupplier().getSupplierId())
 			&& (this.id == castOther.getId())
 			&& (this.supplier.getStaff().getStaffId() == castOther.getSupplier().getStaff().getStaffId());
@@ -285,7 +285,7 @@ public class Contract implements Serializable, StrongEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.client.getClientId() ^ (this.client.getClientId() >>> 32)));
+		hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
 		hash = hash * prime + ((int) (this.supplier.getSupplierId()  ^ (this.supplier.getSupplierId()  >>> 32)));
 		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
 		hash = hash * prime + ((int) (this.supplier.getStaff().getStaffId() ^ (this.supplier.getStaff().getStaffId() >>> 32)));
@@ -297,7 +297,7 @@ public class Contract implements Serializable, StrongEntity {
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + "[" + Contract.ContractPK.class.getName() + 
 				"[id=" + this.getId() + 
-				", clientId=" + (this.getClient() != null ? this.getClient().getClientId() : "null") + 
+				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
 				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getSupplierId() : " null" ) + 
 				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + "]]]";
 	}

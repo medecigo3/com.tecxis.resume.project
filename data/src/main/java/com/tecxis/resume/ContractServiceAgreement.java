@@ -88,7 +88,7 @@ public class ContractServiceAgreement implements Serializable{
 			ContractServiceAgreementId castOther = (ContractServiceAgreementId)other;
 			return
 				(this.contract.getId() == castOther.getContract().getId())
-				&& (this.contract.getClient().getClientId() == castOther.getContract().getClient().getClientId())				
+				&& (this.contract.getClient().getId() == castOther.getContract().getClient().getId())				
 				&& (this.contract.getSupplier().getSupplierId() == castOther.getContract().getSupplier().getSupplierId())	
 				&& (this.contract.getSupplier().getStaff().getStaffId() == castOther.getContract().getSupplier().getStaff().getStaffId())
 				&& (this.service.getServiceId() == castOther.getService().getServiceId());
@@ -99,7 +99,7 @@ public class ContractServiceAgreement implements Serializable{
 			final int prime = 31;
 			int hash = 17;		
 			hash = hash * prime + ((int) (this.contract.getId() ^ (this.contract.getId() >>> 32)));
-			hash = hash * prime + ((int) (this.contract.getClient().getClientId() ^ (this.contract.getClient().getClientId() >>> 32)));
+			hash = hash * prime + ((int) (this.contract.getClient().getId() ^ (this.contract.getClient().getId() >>> 32)));
 			hash = hash * prime + ((int) (this.contract.getSupplier().getSupplierId() ^ (contract.getSupplier().getSupplierId() >>> 32)));
 			hash = hash * prime + ((int) (this.contract.getSupplier().getStaff().getStaffId() ^ (this.contract.getSupplier().getStaff().getStaffId() >>> 32)));
 			hash = hash * prime + ((int) (this.service.getServiceId() ^ (this.service.getServiceId() >>> 32)));			
@@ -110,7 +110,7 @@ public class ContractServiceAgreement implements Serializable{
 		public String toString() {
 			return "[" + this.getClass().getName() + 
 					"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") + 
-					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getClientId() : "null") +
+					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getId() : "null") +
 					", supplierId=" + (this.contract.getSupplier() != null ? this.contract.getSupplier().getSupplierId() : " null" ) + 
 					", staffId=" + (this.contract.getSupplier() != null ? ( this.contract.getSupplier().getStaff() != null ? this.contract.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + 
 					", serviceId= "+ (this.getService() != null ? this.getService().getServiceId() : "null") + "]]";		
@@ -157,7 +157,7 @@ public class ContractServiceAgreement implements Serializable{
 		return 
 			(this.getContractServiceAgreementId().getContract().getId() == castOther.getContractServiceAgreementId().getContract().getId())
 			&& (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId() 			== castOther.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())
-			&& (this.getContractServiceAgreementId().getContract().getClient().getClientId() 				== castOther.getContractServiceAgreementId().getContract().getClient().getClientId())
+			&& (this.getContractServiceAgreementId().getContract().getClient().getId() 				== castOther.getContractServiceAgreementId().getContract().getClient().getId())
 			&& (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() 	== castOther.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId())
 			&& (this.getContractServiceAgreementId().getService().getServiceId() == castOther.getContractServiceAgreementId().getService().getServiceId() );
 	}
@@ -168,7 +168,7 @@ public class ContractServiceAgreement implements Serializable{
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getId() ^ (this.getContractServiceAgreementId().getContract().getId() )));
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId()   ^ (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())));
-		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getClient().getClientId()  ^ (this.getContractServiceAgreementId().getContract().getClient().getClientId()  >>> 32)));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getClient().getId()  ^ (this.getContractServiceAgreementId().getContract().getClient().getId()  >>> 32)));
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId()  ^ (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() >>> 32)));
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getService().getServiceId() ^ (this.getContractServiceAgreementId().getService().getServiceId() >>> 32)));
 		

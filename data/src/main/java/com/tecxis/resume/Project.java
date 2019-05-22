@@ -94,7 +94,7 @@ public class Project implements Serializable {
 			}
 			ProjectPK castOther = (ProjectPK)other;
 			return 
-				(this.getClient().getClientId() == castOther.getClient().getClientId()) &&
+				(this.getClient().getId() == castOther.getClient().getId()) &&
 				(this.projectId == castOther.projectId);
 
 		}
@@ -103,7 +103,7 @@ public class Project implements Serializable {
 			final int prime = 31;
 			int hash = 17;
 			hash = hash * prime + ((int) (this.projectId ^ (this.projectId >>> 32)));
-			hash = hash * prime + ((int) (this.getClient().getClientId()  ^ (this.getClient().getClientId()  >>> 32)));
+			hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId()  >>> 32)));
 			
 			return hash;
 		}
@@ -112,7 +112,7 @@ public class Project implements Serializable {
 		public String toString() {
 			return "["+ this.getClass().getName() +
 					"[projectId=" + this.getProjectId() + 
-					", clientId=" + this.getClient().getClientId() + "]]";
+					", clientId=" + this.getClient().getId() + "]]";
 		
 		}
 	}
@@ -332,7 +332,7 @@ public class Project implements Serializable {
 		Project castOther = (Project)other;
 		return 
 			(this.getProjectId()== castOther.getProjectId())
-			&& (this.getClient().getClientId()  == castOther.getClient().getClientId());
+			&& (this.getClient().getId()  == castOther.getClient().getId());
 	}
 
 	@Override
@@ -340,7 +340,7 @@ public class Project implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getProjectId() ^ (this.getProjectId() >>> 32)));
-		hash = hash * prime + ((int) (this.getClient().getClientId()  ^ (this.getClient().getClientId() >>> 32)));
+		hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId() >>> 32)));
 		
 		return hash;
 	}
@@ -350,7 +350,7 @@ public class Project implements Serializable {
 		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
 				"["+ Project.ProjectPK.class.getName() +
 				"[projectId=" + this.getProjectId() + 
-				", clientId=" + this.getClient().getClientId() + "]]";
+				", clientId=" + this.getClient().getId() + "]]";
 	}
 
 }

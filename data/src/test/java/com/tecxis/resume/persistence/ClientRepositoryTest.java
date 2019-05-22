@@ -82,15 +82,15 @@ public class ClientRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, barclays.getClientId());
+		assertEquals(1, barclays.getId());
 		
 		Client ageas = ClientTest.insertAClient(AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(2, ageas.getClientId());
+		assertEquals(2, ageas.getId());
 		
 		Client accenture = ClientTest.insertAClient(ACCENTURE, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(3, accenture.getClientId());
+		assertEquals(3, accenture.getId());
 		
 	}
 	
