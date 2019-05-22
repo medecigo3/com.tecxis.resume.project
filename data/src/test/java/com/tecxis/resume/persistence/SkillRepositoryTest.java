@@ -60,19 +60,19 @@ public class SkillRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = SkillTest.insertASkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(1, tibco.getSkillId());
+		assertEquals(1, tibco.getId());
 		
 		Skill oracle = SkillTest.insertASkill(ORACLE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(2, oracle.getSkillId());
+		assertEquals(2, oracle.getId());
 		
 		Skill java = SkillTest.insertASkill(JAVA, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(3, java.getSkillId());
+		assertEquals(3, java.getId());
 		
 		Skill spring = SkillTest.insertASkill(SPRING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(4, spring.getSkillId());
+		assertEquals(4, spring.getId());
 	
 	}
 	

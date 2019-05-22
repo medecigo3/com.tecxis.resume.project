@@ -32,10 +32,10 @@ public class SkillTest {
 	public static Skill insertASkill(String name, EntityManager entityManager) {
 		Skill skill = new Skill();
 		skill.setName(name);
-		assertEquals(0, skill.getSkillId());
+		assertEquals(0, skill.getId());
 		entityManager.persist(skill);		
 		entityManager.flush();
-		assertThat(skill.getSkillId(), Matchers.greaterThan((long)0));
+		assertThat(skill.getId(), Matchers.greaterThan((long)0));
 		return skill;
 	}
 

@@ -24,7 +24,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  */
 @Entity
 @NamedQuery(name="Skill.findAll", query="SELECT s FROM Skill s")
-public class Skill implements Serializable {
+public class Skill implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -35,7 +35,7 @@ public class Skill implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SKILL_SEQ")
 	@Column(name="SKILL_ID")
-	private long skillId;
+	private long id;
 
 	private String name;
 	
@@ -51,12 +51,14 @@ public class Skill implements Serializable {
 		this.staffs = new ArrayList <> ();
 	}
 
-	public long getSkillId() {
-		return this.skillId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 
-	public void setSkillId(long skillId) {
-		this.skillId = skillId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -85,14 +87,14 @@ public class Skill implements Serializable {
 		}
 		Skill castOther = (Skill)other;
 		return 
-			(this.getSkillId() == castOther.getSkillId());
+			(this.getId() == castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getSkillId() ^ (this.getSkillId() >>> 32)));	
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));	
 		
 		return hash;
 	}
@@ -100,6 +102,6 @@ public class Skill implements Serializable {
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
-				"[skillId=" + this.getSkillId() + "]]";
+				"[id=" + this.getId() + "]]";
 	}
 }
