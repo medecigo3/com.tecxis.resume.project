@@ -83,7 +83,7 @@ public class ContractServiceAgreementRepositoryTest {
 		/**Insert service*/
 		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getServiceId());
+		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
@@ -166,7 +166,7 @@ public class ContractServiceAgreementRepositoryTest {
 		/**Insert service*/
 		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getServiceId());
+		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
 		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);

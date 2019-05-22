@@ -29,7 +29,7 @@ import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
  */
 @Entity
 @Table(name="\"SERVICE\"")
-public class Service implements Serializable {
+public class Service implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
 
@@ -41,7 +41,7 @@ public class Service implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_SEQ")
 	@Column(name="SERVICE_ID")
-	private long serviceId;
+	private long id;
 
 	@Column(name="\"DESC\"")
 	private String desc;
@@ -59,12 +59,14 @@ public class Service implements Serializable {
 		this.contractServiceAgreements = new ArrayList<> ();
 	}
 
-	public long getServiceId() {
-		return this.serviceId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 
-	public void setServiceId(long serviceId) {
-		this.serviceId = serviceId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getDesc() {
@@ -135,14 +137,14 @@ public class Service implements Serializable {
 		}
 		Service castOther = (Service)other;
 		return 
-			(this.getServiceId() == castOther.getServiceId());
+			(this.getId() == castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getServiceId() ^ (this.getServiceId() >>> 32)));	
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));	
 		
 		return hash;
 	}
@@ -150,7 +152,7 @@ public class Service implements Serializable {
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
-				"[serviceId=" + this.getServiceId() + "]]";
+				"[id=" + this.getId() + "]]";
 	}
 
 }

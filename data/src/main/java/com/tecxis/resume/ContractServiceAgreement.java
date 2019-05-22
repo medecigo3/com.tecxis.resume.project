@@ -91,7 +91,7 @@ public class ContractServiceAgreement implements Serializable{
 				&& (this.contract.getClient().getId() == castOther.getContract().getClient().getId())				
 				&& (this.contract.getSupplier().getSupplierId() == castOther.getContract().getSupplier().getSupplierId())	
 				&& (this.contract.getSupplier().getStaff().getStaffId() == castOther.getContract().getSupplier().getStaff().getStaffId())
-				&& (this.service.getServiceId() == castOther.getService().getServiceId());
+				&& (this.service.getId() == castOther.getService().getId());
 		}
 
 		@Override
@@ -102,7 +102,7 @@ public class ContractServiceAgreement implements Serializable{
 			hash = hash * prime + ((int) (this.contract.getClient().getId() ^ (this.contract.getClient().getId() >>> 32)));
 			hash = hash * prime + ((int) (this.contract.getSupplier().getSupplierId() ^ (contract.getSupplier().getSupplierId() >>> 32)));
 			hash = hash * prime + ((int) (this.contract.getSupplier().getStaff().getStaffId() ^ (this.contract.getSupplier().getStaff().getStaffId() >>> 32)));
-			hash = hash * prime + ((int) (this.service.getServiceId() ^ (this.service.getServiceId() >>> 32)));			
+			hash = hash * prime + ((int) (this.service.getId() ^ (this.service.getId() >>> 32)));			
 			return hash;
 		}
 
@@ -113,7 +113,7 @@ public class ContractServiceAgreement implements Serializable{
 					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getId() : "null") +
 					", supplierId=" + (this.contract.getSupplier() != null ? this.contract.getSupplier().getSupplierId() : " null" ) + 
 					", staffId=" + (this.contract.getSupplier() != null ? ( this.contract.getSupplier().getStaff() != null ? this.contract.getSupplier().getStaff().getStaffId() : "null"  ) : " null" ) + 
-					", serviceId= "+ (this.getService() != null ? this.getService().getServiceId() : "null") + "]]";		
+					", serviceId= "+ (this.getService() != null ? this.getService().getId() : "null") + "]]";		
 		}
 		
 		
@@ -159,7 +159,7 @@ public class ContractServiceAgreement implements Serializable{
 			&& (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId() 			== castOther.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())
 			&& (this.getContractServiceAgreementId().getContract().getClient().getId() 				== castOther.getContractServiceAgreementId().getContract().getClient().getId())
 			&& (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() 	== castOther.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId())
-			&& (this.getContractServiceAgreementId().getService().getServiceId() == castOther.getContractServiceAgreementId().getService().getServiceId() );
+			&& (this.getContractServiceAgreementId().getService().getId() == castOther.getContractServiceAgreementId().getService().getId() );
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public class ContractServiceAgreement implements Serializable{
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId()   ^ (this.getContractServiceAgreementId().getContract().getSupplier().getSupplierId())));
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getClient().getId()  ^ (this.getContractServiceAgreementId().getContract().getClient().getId()  >>> 32)));
 		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId()  ^ (this.getContractServiceAgreementId().getContract().getSupplier().getStaff().getStaffId() >>> 32)));
-		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getService().getServiceId() ^ (this.getContractServiceAgreementId().getService().getServiceId() >>> 32)));
+		hash = hash * prime + ((int) (this.getContractServiceAgreementId().getService().getId() ^ (this.getContractServiceAgreementId().getService().getId() >>> 32)));
 		
 		return hash;
 	}

@@ -64,7 +64,7 @@ public class ServiceRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getServiceId());		
+		assertEquals(1, scmAssoc.getId());		
 	}
 
 	

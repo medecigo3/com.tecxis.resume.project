@@ -270,10 +270,10 @@ public class ServiceTest {
 	public static Service insertAService(String name, EntityManager entityManager) {
 		Service service = new Service();
 		service.setName(name);		
-		assertEquals(0, service.getServiceId());
+		assertEquals(0, service.getId());
 		entityManager.persist(service);
 		entityManager.flush();
-		assertThat(service.getServiceId(), Matchers.greaterThan((long)0));
+		assertThat(service.getId(), Matchers.greaterThan((long)0));
 		return service;
 	}
 
