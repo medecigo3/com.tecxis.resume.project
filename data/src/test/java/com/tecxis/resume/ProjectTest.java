@@ -156,7 +156,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getProjectId());
+		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -202,7 +202,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getProjectId());
+		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -724,10 +724,10 @@ public class ProjectTest {
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
-		assertEquals(0, project.getProjectId());
+		assertEquals(0, project.getId());
 		entityManager.persist(project);
 		entityManager.flush();
-		assertThat(project.getProjectId(), Matchers.greaterThan((long)0));
+		assertThat(project.getId(), Matchers.greaterThan((long)0));
 		return project;
 	
 	}

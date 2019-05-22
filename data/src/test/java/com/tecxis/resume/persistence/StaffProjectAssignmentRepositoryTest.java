@@ -83,7 +83,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getProjectId());
+		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -111,7 +111,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getProjectId());
+		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -148,7 +148,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getProjectId());
+		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));

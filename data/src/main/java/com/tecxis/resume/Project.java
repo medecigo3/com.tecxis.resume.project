@@ -37,7 +37,7 @@ import com.tecxis.resume.Project.ProjectPK;
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
 @IdClass(ProjectPK.class)
-public class Project implements Serializable {
+public class Project implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	public static class ProjectPK implements Serializable {
@@ -111,7 +111,7 @@ public class Project implements Serializable {
 		@Override
 		public String toString() {
 			return "["+ this.getClass().getName() +
-					"[projectId=" + this.getProjectId() + 
+					"[id=" + this.getProjectId() + 
 					", clientId=" + this.getClient().getId() + "]]";
 		
 		}
@@ -125,7 +125,7 @@ public class Project implements Serializable {
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
-	private long projectId;
+	private long id;
 	
 	/**
 	 * bi-directional many-to-one association to Client.
@@ -200,13 +200,15 @@ public class Project implements Serializable {
 	public String getDesc() {
 		return this.desc;
 	}
-
-	public long getProjectId() {
-		return projectId;
+	
+	@Override
+	public long getId() {
+		return id;
 	}
 
-	public void setProjectId(long projectId) {
-		this.projectId = projectId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Client getClient() {
@@ -331,7 +333,7 @@ public class Project implements Serializable {
 		}
 		Project castOther = (Project)other;
 		return 
-			(this.getProjectId()== castOther.getProjectId())
+			(this.getId()== castOther.getId())
 			&& (this.getClient().getId()  == castOther.getClient().getId());
 	}
 
@@ -339,7 +341,7 @@ public class Project implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getProjectId() ^ (this.getProjectId() >>> 32)));
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
 		hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId() >>> 32)));
 		
 		return hash;
@@ -349,7 +351,7 @@ public class Project implements Serializable {
 	public String toString() {
 		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
 				"["+ Project.ProjectPK.class.getName() +
-				"[projectId=" + this.getProjectId() + 
+				"[id=" + this.getId() + 
 				", clientId=" + this.getClient().getId() + "]]";
 	}
 

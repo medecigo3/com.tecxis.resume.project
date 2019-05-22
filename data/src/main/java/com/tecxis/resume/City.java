@@ -178,7 +178,7 @@ public class City implements Serializable, StrongEntity {
 	public void addLocation(Project project) {
 		/**Check if 'location' isn't in this city -> locations*/
 		if ( !Collections.disjoint(this.getLocations(), project.getLocations()))
-			throw new EntityExistsException("Project already exists in this City -> locations: " + project.getProjectId());
+			throw new EntityExistsException("Project already exists in this City -> locations: " + project.getId());
 		
 		LocationId locationId = new LocationId(this, project);
 		Location newLocation = new Location(locationId);

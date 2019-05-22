@@ -87,7 +87,7 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
 		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
-		assertEquals(1, ted.getProjectId());
+		assertEquals(1, ted.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -224,7 +224,7 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
 		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
-		assertEquals(1, ted.getProjectId());
+		assertEquals(1, ted.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/

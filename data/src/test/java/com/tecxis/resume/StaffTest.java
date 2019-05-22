@@ -439,7 +439,7 @@ public class StaffTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
 		Project aos = ProjectTest.insertAProject(AOS, VERSION_1, arval, entityManager);
-		assertEquals(1, aos.getProjectId());
+		assertEquals(1, aos.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -574,7 +574,7 @@ public class StaffTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
 		Project adir = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getProjectId());
+		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
