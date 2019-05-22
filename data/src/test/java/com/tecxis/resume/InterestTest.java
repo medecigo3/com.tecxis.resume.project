@@ -32,10 +32,10 @@ public class InterestTest {
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
 		Interest interest = new Interest();
 		interest.setDesc(desc);
-		assertEquals(0, interest.getInterestId());
+		assertEquals(0, interest.getId());
 		entityManager.persist(interest);
 		entityManager.flush();
-		assertThat(interest.getInterestId(), Matchers.greaterThan((long)0));
+		assertThat(interest.getId(), Matchers.greaterThan((long)0));
 		return interest;
 	}
 

@@ -56,15 +56,15 @@ public class InterestRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		Interest hobby = InterestTest.insertAnInterest(HOBBY, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(1, hobby.getInterestId());
+		assertEquals(1, hobby.getId());
 		
 		Interest running = InterestTest.insertAnInterest(RUNNING, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, running.getInterestId());
+		assertEquals(2, running.getId());
 		
 		Interest swimming = InterestTest.insertAnInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(3, swimming.getInterestId());
+		assertEquals(3, swimming.getId());
 	}
 	
 	@Test

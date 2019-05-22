@@ -21,7 +21,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Interest implements Serializable {
+public class Interest implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,7 +32,7 @@ public class Interest implements Serializable {
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="INTEREST_SEQ")
 	@Column(name="INTEREST_ID")
-	private long interestId;
+	private long id;
 
 	@Column(name="\"DESC\"")
 	private String desc;
@@ -49,12 +49,14 @@ public class Interest implements Serializable {
 	public Interest() {
 	}
 
-	public long getInterestId() {
-		return this.interestId;
+	@Override
+	public long getId() {
+		return this.id;
 	}
 
-	public void setInterestId(long interestId) {
-		this.interestId = interestId;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getDesc() {
@@ -82,14 +84,14 @@ public class Interest implements Serializable {
 		}
 		Interest castOther = (Interest)other;
 		return 
-			(this.getInterestId() == castOther.getInterestId());
+			(this.getId() == castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getInterestId() ^ (this.getInterestId() >>> 32)));
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
 		
 		return hash;
 	}
@@ -97,7 +99,7 @@ public class Interest implements Serializable {
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
-				"[interestId=" + this.getInterestId() + "]]";
+				"[id=" + this.getId() + "]]";
 	}
 	
 }
