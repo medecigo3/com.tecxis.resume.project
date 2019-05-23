@@ -113,21 +113,24 @@ public class SupplierTest {
 
 	@Test
 	public void testSetContracts() {
-		log.info("Contract association is managed through of the relationship owner (Contract).");
+		log.info("Supplier -> Contract association is managed through of the relationship owner Contract.");
 		//To update the Contract's Supplier see ContractTest.testSetSupplier
 	}
 
 	@Test
 	public void testAddContract() {
-		log.info("Contract association is managed through of the relationship owner (Contract).");
+		log.info("Supplier -> Contract association is managed through of the relationship owner Contract.");
 		//To update the Contract's Supplier see ContractTest.testSetSupplier
 		
 	}
 
 	@Test
 	public void testRemoveContract() {
-		log.info("Contract association is managed through of the relationship owner (Contract).");
+		log.info("Supplier -> Contract association is managed through of the relationship owner Contract.");
 		//To remove the Contract's Supplier see ContractTest.testRemoveContract
+		//The mappedBy is set in the inverse side of the association (non-owing). Removing the Supplier (non-owing) works when setting the cascading strategy is set to to ALL (in the Supplier) 
+		// Delete operation cascades to the owing association, in this case Contract. 
+		//Whilst cascading strategy is not set to ALL, delete of a Supplier will throw a ConstraintViolationException: could not execute statement
 	}
 
 	public static Supplier insertASupplier(Staff staff, String name, EntityManager entityManager) {
