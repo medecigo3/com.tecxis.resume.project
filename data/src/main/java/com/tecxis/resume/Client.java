@@ -93,11 +93,6 @@ public class Client implements Serializable, StrongEntity {
 		return this.contracts;
 	}
 
-	public Contract addContract(Contract contract) {
-		getContracts().add(contract);
-		return contract;
-	}
-
 	public List<Project> getProjects() {
 		return this.projects;
 	}

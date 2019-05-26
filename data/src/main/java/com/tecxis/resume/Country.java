@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class Country implements Serializable, StrongEntity  {
 	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Country "has" Cities
 	 */
-	@OneToMany(mappedBy="country")
+	@OneToMany(mappedBy="country", fetch=FetchType.LAZY)
 	private List<City> cities;
 
 	public Country() {
@@ -71,17 +72,8 @@ public class Country implements Serializable, StrongEntity  {
 		return this.cities;
 	}
 
-	public void setCities(List<City> cities) {
-		this.cities = cities;
-	}
-
 	public City addCity(City city) {
 		getCities().add(city);
-		return city;
-	}
-
-	public City removeCity(City city) {
-		getCities().remove(city);
 		return city;
 	}
 	

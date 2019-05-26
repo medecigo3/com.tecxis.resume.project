@@ -100,22 +100,20 @@ public class ClientTest {
 	
 	@Test
 	public void testSetContracts() {		
-		log.info("Contract association is managed through of the relationship owner (Contract).");
-		//To update a Contract's Client see ContractTest.testSetClient
+		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");
+		//To update a Contract's Client see ContractTest.testSetClient()
 	}
 	
 	@Test
 	public void testAddContract() {
-		log.info("Contract association is managed through of the relationship owner (Contract).");	
-		//To update a Contract's Client see ContractTest.testSetClient
-		
+		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");	
+		//To update a Contract's Client see ContractTest.testSetClient()
 	}
 
 	@Test
 	public void testRemoveContract() {
-		log.info("Contract association is managed through of the relationship owner (Contract).");	
-		//To remove a Contract's Client see ContractTest.testRemoveClient
-		
+		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");	
+		//To remove a Contract's Client see ContractTest.testSetClient()		
 	}
 
 	@Test

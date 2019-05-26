@@ -135,27 +135,35 @@ public class ContractTest {
 		newContract.setSupplier(amesysContract.getSupplier());
 		newContract.setStartDate(amesysContract.getStartDate());
 		newContract.setEndDate(amesysContract.getEndDate());
-		micropole.addContract(newContract);
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		entityManager.remove(amesysContract);
 		entityManager.persist(newContract);
-		entityManager.merge(micropole);
 		entityManager.flush();
 		entityManager.clear();
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		
-		/**Validate Contract association with Client*/
+		/**Validate Contract*/
 		List <Contract> alphatressNewContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, amesys);
 		assertEquals(1, alphatressNewContracts.size());
-		Contract amesysNewContract = alphatressNewContracts.get(0);
-		assertEquals(MICROPOLE, amesysNewContract.getClient().getName());
-		assertEquals(AMESYS, amesysNewContract.getSupplier().getName());	
+		Contract amesysNewContract = alphatressNewContracts.get(0);		
 		assertEquals(amesysContractId, amesysNewContract.getId());
-		/**Validate the Client association with Contract*/
+		/**Validate Contract ->  Client*/
+		sagemcom = clientRepo.getClientByName(SAGEMCOM);
+		assertEquals(micropole, amesysNewContract.getClient());		
+		/**Validate the Client -> Contract*/
 		micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(2, micropole.getContracts().size());
-		assertThat(micropole.getContracts(), Matchers.hasItem(newContract));		
+		assertThat(micropole.getContracts(), Matchers.hasItem(newContract));
+		/**Validate Contract ->  Supplier*/		
+		amesys = supplierRepo.getSupplierByNameAndStaff(AMESYS, amt);		
+		assertEquals(amesys, amesysNewContract.getSupplier());
+		/**Validate Supplier -> Contract*/
+		amesysContracts = amesys.getContracts();
+		assertEquals(1, amesysContracts.size());
+		assertThat(amesysContracts, Matchers.hasItem(newContract));
+				
+		
 	}
 
 	@Test
@@ -204,27 +212,32 @@ public class ContractTest {
 		alphatressContract.setSupplier(alphatress);
 		alphatressContract.setStartDate(amesysContract.getStartDate());
 		alphatressContract.setEndDate(amesysContract.getEndDate());
-		sagemcom.addContract(alphatressContract);
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		entityManager.remove(amesysContract);	
 		entityManager.persist(alphatressContract);
-		entityManager.merge(sagemcom);
 		entityManager.flush();
 		entityManager.clear();
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		
-		/**Validate Contract-> Supplier*/
+		/**Validate Contract*/
 		List <Contract> alphatressContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(sagemcom, alphatress);
 		assertEquals(1, alphatressContracts.size());
 		alphatressContract = alphatressContracts.get(0);
-		assertEquals(SAGEMCOM, alphatressContract.getClient().getName());
-		assertEquals(ALPHATRESS,alphatressContract.getSupplier().getName());	
 		assertEquals(amesysContractId, alphatressContract.getId());
-		/**Validate the Supplier association*/
+		/**Validate Contract-> Supplier*/
 		alphatress = supplierRepo.getSupplierByNameAndStaff(ALPHATRESS, amt);
+		assertEquals(alphatress, alphatressContract.getSupplier());
+		/**Validate Supplier -> Contract*/		
 		assertEquals(2, alphatress.getContracts().size());
 		assertThat(alphatress.getContracts(), Matchers.hasItem(alphatressContract));
+		/**Validate the Contract -> Client*/
+		assertEquals(sagemcom, alphatressContract.getClient());
+		/**Validate the Client -> Contract*/
+		sagemcom = clientRepo.getClientByName(SAGEMCOM);
+		List <Contract> sagemcomcontracts = sagemcom.getContracts();
+		assertEquals(1, sagemcomcontracts.size());
+		assertEquals(alphatressContract, sagemcomcontracts.get(0));
 	}
 
 	@Test
