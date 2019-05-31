@@ -1,6 +1,7 @@
 package com.tecxis.resume;
-
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR; 
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.ContractRepository;
+import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
 
@@ -54,6 +56,9 @@ public class ClientTest {
 
 	@Autowired
 	private SupplierRepository supplierRepo;
+	
+	@Autowired 
+	private ProjectRepository projectRepo;
 	
 	@Autowired
 	private StaffRepository staffRepo;
@@ -117,23 +122,41 @@ public class ClientTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetProjects() {
-		fail("Not yet implemented");
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+				
+		List <Project> axeltisProjects = axeltis.getProjects();
+		assertEquals(2, axeltisProjects.size());
+		
+		/**Retrieve projects to test axeltis projects*/
+		List <Project> morningstartProjects = projectRepo.findByName(MORNINGSTAR);
+		assertEquals(2, morningstartProjects.size());
+		assertThat(axeltisProjects.get(0), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
+		assertThat(axeltisProjects.get(1), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
+		
 	}
 
 	@Test
 	public void testSetProjects() {
-		fail("Not yet implemented");
+		log.info("Client -> Project association is managed through of the relationship owner (Project).");	
+		//To set a Client's Project see ProjectTest.testSetClient()		
+			
 	}
 
 	@Test
 	public void testAddProject() {
-		fail("Not yet implemented");
+		log.info("Client -> Project association is managed through of the relationship owner (Project).");
+		//To add a Client's Project see ProjectTest.testSetClient()		
 	}
 
 	@Test
 	public void testRemoveProject() {
-		fail("Not yet implemented");
+		log.info("Client -> Project association is managed through of the relationship owner (Project).");	
+		//To remove a Client's Project see ProjectTest.testSetClient()		
 	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {

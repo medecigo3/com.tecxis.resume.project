@@ -97,20 +97,6 @@ public class Client implements Serializable, StrongEntity {
 		return this.projects;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
-
-	public Project addProject(Project project) {
-		getProjects().add(project);
-		return project;
-	}
-
-	public Project removeProject(Project project) {
-		getProjects().remove(project);
-		return project;
-	}
-
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
