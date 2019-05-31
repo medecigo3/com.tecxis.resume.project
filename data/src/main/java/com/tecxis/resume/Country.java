@@ -39,7 +39,7 @@ public class Country implements Serializable, StrongEntity  {
 	private String name;
 
 	/**
-	 * bi-directional association to City
+	 * bi-directional one-to-many association to City
 	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Country "has" Cities
 	 */

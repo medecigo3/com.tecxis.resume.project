@@ -118,7 +118,7 @@ public class City implements Serializable, StrongEntity {
 	private long id;
 
 	/**
-	 * bi-directional association to Country
+	 * bi-directional many-to-one association to Country
 	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this City "belongs" to a Country
 	 */
