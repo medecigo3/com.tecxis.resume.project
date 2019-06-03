@@ -366,49 +366,7 @@ public class ContractTest {
 				
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveContractServiceAgreement() {
-		/**Find a contract*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
-		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
-		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		List <Contract> fastconnectContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
-		
-		/**Get & validate contract */
-		assertEquals(1, fastconnectContracts.size());
-		Contract fastconnectContract = fastconnectContracts.get(0);
-		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
-		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
-		
-		/**Get Service & validate */
-		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
-		assertNotNull(muleService);
-		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
-		assertEquals(1, muleService.getContractServiceAgreements().size());
-		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getSupplier().getName());
-		assertEquals(MICROPOLE, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getClient().getName());
-		
-		/**Remove the ContractServiceAgreement*/
-		ContractServiceAgreement fasctconnectContractServiceAgreement = fastconnectContract.getContractServiceAgreements().get(0);
-		assertTrue(fastconnectContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
-		assertTrue(muleService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
-				
-		/**Find the ContractServiceAgreement */		
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
-		entityManager.merge(fastconnectContract);
-		entityManager.merge(muleService);
-		entityManager.flush();	
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
-		assertEquals(0, fastconnectContract.getContractServiceAgreements().size());
-		assertEquals(0, muleService.getContractServiceAgreements().size());
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(fastconnectContract);
-		contractServiceAgreementId.setService(muleService);
-		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
-	}
+
 	
 	@Test
 	@Sql(
@@ -552,7 +510,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveService() {
+	public void testRemoveContractServiceAgreement2() {
 		/**Find a contract*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		Supplier accenture = supplierRepo.getSupplierByNameAndStaff(SupplierRepositoryTest.ACCENTURE, amt);
@@ -583,6 +541,50 @@ public class ContractTest {
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
 		contractServiceAgreementId.setContract(accentureContract);
 		contractServiceAgreementId.setService(scmDevService);
+		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveContractServiceAgreement1() {
+		/**Find a contract*/
+		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Supplier fastconnect = supplierRepo.getSupplierByNameAndStaff(FASTCONNECT, amt);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		List <Contract> fastconnectContracts = contractRepo.findByClientAndSupplierOrderByStartDateAsc(micropole, fastconnect);
+		
+		/**Get & validate contract */
+		assertEquals(1, fastconnectContracts.size());
+		Contract fastconnectContract = fastconnectContracts.get(0);
+		assertEquals(MICROPOLE, fastconnectContract.getClient().getName());
+		assertEquals(FASTCONNECT,fastconnectContract.getSupplier().getName());	
+		
+		/**Get Service & validate */
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
+		assertNotNull(muleService);
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(1, muleService.getContractServiceAgreements().size());
+		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getSupplier().getName());
+		assertEquals(MICROPOLE, muleService.getContractServiceAgreements().get(0).getContractServiceAgreementId().getContract().getClient().getName());
+		
+		/**Remove the ContractServiceAgreement*/
+		ContractServiceAgreement fasctconnectContractServiceAgreement = fastconnectContract.getContractServiceAgreements().get(0);
+		assertTrue(fastconnectContract.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+		assertTrue(muleService.removeContractServiceAgreement(fasctconnectContractServiceAgreement));
+				
+		/**Find the ContractServiceAgreement */		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		entityManager.merge(fastconnectContract);
+		entityManager.merge(muleService);
+		entityManager.flush();	
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, fastconnectContract.getContractServiceAgreements().size());
+		assertEquals(0, muleService.getContractServiceAgreements().size());
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.setContract(fastconnectContract);
+		contractServiceAgreementId.setService(muleService);
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 	
