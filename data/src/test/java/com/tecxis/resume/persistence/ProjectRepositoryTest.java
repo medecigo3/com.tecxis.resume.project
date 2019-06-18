@@ -67,6 +67,7 @@ public class ProjectRepositoryTest {
 	public static String EUROCLEAR_VERS_CALYPSO = "EUROCLEAR_VERS_CALYPSO";
 	public static String VERSION_1 = "1.0";
 	public static String VERSION_2 = "2.0";
+	public static String VERSION_3 = "3.0";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
