@@ -12,6 +12,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -80,6 +81,12 @@ public class LocationTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		LocationTest.insertLocation(paris, adirProject, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+	}
+	
+	
+	@Test
+	public void testRemoveLocation() {
+		fail("Not yet implemented");
 	}
 	
 	
