@@ -14,7 +14,7 @@ import com.tecxis.resume.Service;
 public class ContractServiceAgreementTest {
 
 	@Test
-	public void test() {
+	public void testRemoveContractServiceAgreementTest() {
 		fail("Not yet implemented");
 	}
 
