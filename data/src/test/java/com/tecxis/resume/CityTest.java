@@ -134,15 +134,16 @@ public class CityTest {
 	public void testSetCountry() {
 		/**Find City*/
 		City london = cityRepo.getCityByName(LONDON);		
+		
 		/**Validate City -> Country*/
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
 				
-		/**Find country to set*/
+		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(FRANCE, france.getName());
 		assertEquals(1, france.getCities().size());
 		
-		/**Set new City -> Country*/
+		/**Build new City -> Country*/
 		City newLondon =  new City();
 		newLondon.setId(london.getId());
 		newLondon.setCountry(france);		
