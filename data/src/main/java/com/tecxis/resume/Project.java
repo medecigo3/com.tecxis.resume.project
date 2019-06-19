@@ -195,6 +195,7 @@ public class Project implements Serializable, StrongEntity {
 		this.cities = new ArrayList <> ();
 		this.staffProjectAssignments = new ArrayList<>();
 		this.locations = new ArrayList<>();
+		this.staffs = new ArrayList<>();
 	}
 
 	public String getDesc() {
