@@ -146,8 +146,58 @@ public class ProjectTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetClient() {
-		fail("Not yet implemented");
+		/**Find project to test*/
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		long morningstartV1ProjectId = morningstartV1Project.getId();
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
+		
+		/**Test Project -> Client association*/		
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+		assertEquals(axeltis, morningstartV1Project.getClient());
+		
+		/**Test Project -> City association*/
+		City paris = cityRepo.getCityByName(PARIS);
+		assertThat(morningstartV1Project.getCities(), Matchers.hasItem(paris));
+		
+		/**Find new Client to set*/
+		Client eh = clientRepo.getClientByName(EULER_HERMES);
+		assertEquals(EULER_HERMES, eh.getName());
+				
+		/**Build new Project -> Client association*/
+		Project newAxeltisProject = new Project();
+		newAxeltisProject.setId(morningstartV1Project.getId());		
+		newAxeltisProject.setName(MORNINGSTAR);
+		newAxeltisProject.setVersion(VERSION_3);
+		newAxeltisProject.setClient(eh);
+		newAxeltisProject.setCities(morningstartV1Project.getCities());
+		
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		entityManager.remove(morningstartV1Project);
+		entityManager.persist(newAxeltisProject);
+		entityManager.merge(eh);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		/**Validate project was updated */
+		Project morningstartV3Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_3);
+		/**Test id is same as old*/
+		assertEquals(morningstartV1ProjectId, morningstartV3Project.getId());
+		/**Test new client*/
+		assertEquals(eh, morningstartV3Project.getClient());
+		/**Test new version*/
+		assertEquals(VERSION_3, morningstartV3Project.getVersion());
+		/**Test an old referenced city*/
+		assertThat(morningstartV3Project.getCities(), Matchers.hasItem(paris));
+		
+		
+		
 	}
 
 	@Test
