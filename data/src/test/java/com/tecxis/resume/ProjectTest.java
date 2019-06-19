@@ -28,9 +28,11 @@ import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
@@ -45,6 +47,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_3;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -58,6 +61,7 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -79,6 +83,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.Location.LocationId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
+import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.LocationRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
@@ -116,6 +121,9 @@ public class ProjectTest {
 	
 	@Autowired 
 	private LocationRepository locationRepo;
+	
+	@Autowired 
+	private ClientRepository clientRepo;
 
 	@Test
 	public void testGetDesc() {
@@ -717,6 +725,64 @@ public class ProjectTest {
 	@Test
 	public void testGetStaffs() {
 		fail("Not yet implemented");
+	}
+	
+	@Test(expected=NoSuchElementException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testRemoveProject() {
+		/**Find a Project to remove*/
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
+		
+		/**Test Project -> Client association*/		
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+		assertEquals(axeltis.getId(), morningstartV1Project.getClient().getId());
+		
+		/**Test Client -> Project association*/
+		List <Project> axeltisProjects = axeltis.getProjects();
+		assertEquals(2, axeltisProjects.size());
+		assertThat(axeltisProjects, Matchers.hasItem(morningstartV1Project));
+		
+		/**Test Project -> Location association*/
+		List <Location> axeltisV1ProjectLocations = morningstartV1Project.getLocations();
+		assertEquals(1, axeltisV1ProjectLocations.size());
+		City paris = cityRepo.getCityByName(PARIS); 
+		assertEquals(PARIS, paris.getName());
+		assertEquals(paris, axeltisV1ProjectLocations.get(0).getLocationId().getCity());
+		
+		/**Test Location -> Project association*/
+		Location axeltisMorningstarv1ProjectLocation =  locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+		assertEquals(paris, axeltisMorningstarv1ProjectLocation.getLocationId().getCity());
+		assertEquals(morningstartV1Project, axeltisMorningstarv1ProjectLocation.getLocationId().getProject());
+		
+		/**Test Project -> StaffProjectAssignment association*/
+		List <StaffProjectAssignment> morningstartV1StaffProjectAssignments  = morningstartV1Project.getStaffProjectAssignments();
+		assertEquals(10, morningstartV1StaffProjectAssignments.size());
+					
+		/**Detach entities*/		
+		entityManager.clear();
+		
+		/**Find Project to remove again*/
+		morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());
+		
+		/**Remove Project*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		//TODO Dissociate Project from STAFF
+		entityManager.remove(morningstartV1Project);
+		entityManager.flush();
+		entityManager.clear();
+		
+		/**Test Project was removed*/
+		assertEquals(12, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertNull(projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1));		
+		assertNull(locationRepo.findById(new LocationId(paris, morningstartV1Project)).get());
+
 	}
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {

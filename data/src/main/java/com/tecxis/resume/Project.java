@@ -54,8 +54,8 @@ public class Project implements Serializable, StrongEntity {
 		private long id;
 		
 		@Id
-		@ManyToOne(cascade = CascadeType.ALL)
-		@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
+		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+		@JoinColumn(name="CLIENT_ID")
 		private Client client;
 
 		
@@ -133,8 +133,8 @@ public class Project implements Serializable, StrongEntity {
 	 * In OO terms, this project "is controlled " by a client
 	 */
 	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="CLIENT_ID", insertable=false, updatable=false)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name="CLIENT_ID")
 	private Client client;
 	
 	@Column(name="\"DESC\"")
@@ -147,13 +147,13 @@ public class Project implements Serializable, StrongEntity {
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
-	@OneToMany( mappedBy = "staffProjectAssignmentId.project", cascade = CascadeType.ALL)
+	@OneToMany( mappedBy = "staffProjectAssignmentId.project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<StaffProjectAssignment> staffProjectAssignments;
 
 	/**
 	 * bi-directional many-to-many association to City
 	 */
-	@ManyToMany (cascade = CascadeType.ALL)
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="LOCATION", joinColumns={
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
@@ -173,7 +173,7 @@ public class Project implements Serializable, StrongEntity {
 	/**
 	 * bi-directional one-to-many association to Project
 	 */
-	@ManyToMany (cascade = CascadeType.ALL)
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
