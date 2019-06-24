@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.CityTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.StaffProjectAssignmentTest.STAFFPROJECTASSIGNMENT_TABLE;
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT14;
@@ -48,6 +47,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_3;
+import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -230,7 +230,7 @@ public class ProjectTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adir, amt, assignment1);		
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
@@ -247,7 +247,7 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
 	}
 
@@ -281,7 +281,7 @@ public class ProjectTest {
 		assertEquals(0, assignment1.getStaffProjectAssignments().size());
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		adir.addStaffProjectAssignment(amt, assignment1);
 		amt.addStaffProjectAssignment(adir, assignment1);
 		assignment1.addStaffProjectAssignment(amt, adir);
@@ -292,7 +292,7 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getStaffProjectAssignments().size());		
 		assertEquals(1, adir.getStaffProjectAssignments().size());
 		assertEquals(1, assignment1.getStaffProjectAssignments().size());
@@ -365,7 +365,7 @@ public class ProjectTest {
 		entityManager.clear();
 
 		/**Fetch and validate contract to test*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
@@ -376,7 +376,7 @@ public class ProjectTest {
 		entityManager.clear();
 		
 		/**Validate staff assignments*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		amt = staffRepo.getStaffLikeName(AMT_NAME);

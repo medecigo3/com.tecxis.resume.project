@@ -1,6 +1,5 @@
 package com.tecxis.resume;
 import static com.tecxis.resume.LocationRepositoryTest.LOCATION_TABLE;
-import static com.tecxis.resume.StaffProjectAssignmentTest.STAFFPROJECTASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
@@ -8,6 +7,7 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABL
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
+import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
@@ -188,7 +188,7 @@ public class ClientTest {
 		assertEquals(2, axeltis.getContracts().size());
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -206,7 +206,7 @@ public class ClientTest {
 		assertNull(clientRepo.getClientByName(AXELTIS));
 
 		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(47, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(47, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
