@@ -1,12 +1,12 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;

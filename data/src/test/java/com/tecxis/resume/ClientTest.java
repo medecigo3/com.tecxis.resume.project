@@ -1,10 +1,10 @@
 package com.tecxis.resume;
-import static com.tecxis.resume.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
