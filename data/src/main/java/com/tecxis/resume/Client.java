@@ -46,7 +46,7 @@ public class Client implements Serializable, StrongEntity {
 	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
 	 * In OO terms, this Client "signs" these Contracts
 	 */
-	@OneToMany(mappedBy="client", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToMany(mappedBy="client", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=true)
 	private List<Contract> contracts;
 
 
@@ -55,7 +55,7 @@ public class Client implements Serializable, StrongEntity {
 	 * In SQL terms, Project is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Client "controls" projects
 	 */
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy="client", orphanRemoval=true)
 	private List<Project> projects;
 
 	public Client() {

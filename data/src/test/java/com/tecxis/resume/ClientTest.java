@@ -1,13 +1,21 @@
 package com.tecxis.resume;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR; 
+import static com.tecxis.resume.LocationRepositoryTest.LOCATION_TABLE;
+import static com.tecxis.resume.StaffProjectAssignmentTest.STAFFPROJECTASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
+import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 
@@ -20,6 +28,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -47,6 +56,9 @@ public class ClientTest {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private ClientRepository clientRepo;
@@ -157,6 +169,49 @@ public class ClientTest {
 	public void testRemoveProject() {
 		log.info("Client -> Project association is managed through of the relationship owner (Project).");	
 		//To remove a Client's Project see ProjectTest.testSetClient()		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testRemoveClient() {
+	
+		/**Find a Client to remove*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+		
+		/**Test Client -> Project*/
+		assertEquals(2, axeltis.getProjects().size());
+		
+		/**Test Client -> Contract*/
+		assertEquals(2, axeltis.getContracts().size());
+		
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		
+		/**Remove client*/
+		entityManager.remove(axeltis);
+		/**Will remove the Client's orphans -> Project, Contract, etc*/
+		entityManager.flush();
+			
+		/**Detach entities*/		
+		entityManager.clear();
+		
+		/**Validate client doesn't exist*/
+		assertNull(clientRepo.getClientByName(AXELTIS));
+
+		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(47, countRowsInTable(jdbcTemplate, STAFFPROJECTASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		
 	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {
