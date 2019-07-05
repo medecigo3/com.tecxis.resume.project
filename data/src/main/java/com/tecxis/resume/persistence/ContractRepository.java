@@ -21,5 +21,7 @@ public interface ContractRepository extends JpaRepository<Contract, ContractPK> 
 	public List <Contract> findBySupplierOrderByStartDateAsc(Supplier contract);
 	
 	public List <Contract> findByClientAndSupplierOrderByStartDateAsc(Client client, Supplier supplier);
+	
+	public List <Contract> findByClientAndSupplierAndStartDateAndEndDateOrderByStartDateAsc(Client client, Supplier supplier, Date startDate, Date endDate);
 
 }

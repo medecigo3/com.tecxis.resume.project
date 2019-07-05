@@ -15,6 +15,8 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 
 	@Query("select s from Staff s where s.lastname LIKE %?1")
 	public Staff getStaffLikeLastname(String lastname);
+	
+	public Staff getStaffByNameAndLastname(String name, String lastName);
 
 	@Query("select p from Staff s JOIN s.projects p WHERE s = ?1  GROUP BY p.name, p.id ORDER BY p.name")
 	public List<Project> getStaffProjects(Staff staff);
