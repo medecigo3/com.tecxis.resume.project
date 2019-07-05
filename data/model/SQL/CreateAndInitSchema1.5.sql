@@ -1,6 +1,6 @@
 ﻿/*
 Created: 11/05/2018
-Modified: 10/01/2019
+Modified: 01/02/2019
 Model: Resume
 Database: Oracle 11g Release 2
 */
@@ -326,7 +326,7 @@ ALTER TABLE "STAFF" ADD CONSTRAINT "PK_STAFF_ID" PRIMARY KEY ("STAFF_ID")
 
 CREATE TABLE "SERVICE"(
   "SERVICE_ID" Integer NOT NULL,
-  "NAME" Varchar2(50 ),
+  "NAME" Varchar2(50 ) NOT NULL,
   "DESC" Varchar2(400 )
 )
 /
@@ -334,6 +334,9 @@ CREATE TABLE "SERVICE"(
 -- Add keys for table SERVICE
 
 ALTER TABLE "SERVICE" ADD CONSTRAINT "PK_SERVICE_ID" PRIMARY KEY ("SERVICE_ID")
+/
+
+ALTER TABLE "SERVICE" ADD CONSTRAINT "AK_NAME" UNIQUE ("NAME")
 /
 
 -- Table INTEREST
