@@ -58,6 +58,9 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT9
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
+import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -76,7 +79,11 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
+import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -614,6 +621,52 @@ public class StaffTest {
 	@Test
 	public void testGetProjects() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveStaff() {
+		/**Find Staff to test*/
+		Staff jhon = staffRepo.getStaffByNameAndLastname(JHON_NAME, JHON_LASTNAME);		
+		assertEquals(1, jhon.getSuppliers().size());
+		
+		/**Get Staff's Supplier**/
+		Supplier johnSupplier = jhon.getSuppliers().get(0);
+		
+		/**Get Staff's Contracts*/
+		List <Contract> jhonContracts =  johnSupplier.getContracts();
+		assertEquals(1, jhonContracts.size());
+			
+		/**Detach entities*/		
+		entityManager.clear();		
+		
+		/**Find detached Staff entity*/
+		jhon = staffRepo.getStaffByNameAndLastname(JHON_NAME, JHON_LASTNAME);		
+		
+		/***Remove Staff*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		/**Test orphans are removed*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		  
+		entityManager.remove(jhon);
+		entityManager.flush();
+		entityManager.clear();
+		
+		/**Test Staff is removed**/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		/**Test orphans are removed*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));  
 	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {

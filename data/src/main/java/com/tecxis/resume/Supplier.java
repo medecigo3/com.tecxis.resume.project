@@ -129,7 +129,7 @@ public class Supplier implements Serializable, StrongEntity {
 	 * In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
 	 * In OO terms, this Supplier "holds" these Contracts.
 	 */
-	@OneToMany(mappedBy="supplier", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="supplier", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Contract> contracts;
 
 	private String name;

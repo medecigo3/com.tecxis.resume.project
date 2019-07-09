@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,7 +49,7 @@ public class Course implements Serializable, StrongEntity {
 	 * bi-directional many-to-many association to Staff 
 	 * Relationship owned by {@code courses} field in {@link} Staff} table.
 	 */
-	@ManyToMany(mappedBy="courses")
+	@ManyToMany(mappedBy="courses", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private  List<Staff> staffs;
 	
 	public Course() {

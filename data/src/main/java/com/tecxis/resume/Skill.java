@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class Skill implements Serializable, StrongEntity {
 	 * bi-directional many-to-many association to Staff
 	 * Relationship owned by {@code skills} field in {@link Staff} table
 	 */
-	@ManyToMany(mappedBy="skills")
+	@ManyToMany(mappedBy="skills", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Staff> staffs;
 	
 

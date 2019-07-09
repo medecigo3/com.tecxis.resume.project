@@ -55,7 +55,7 @@ public class Staff implements Serializable, StrongEntity {
 	/**
 	 * bi-directional many-to-many association to Course
 	 */
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 			name="ENROLMENT",
 			joinColumns= {
@@ -78,7 +78,7 @@ public class Staff implements Serializable, StrongEntity {
 	/**
 	 * bi-directional many-to-many association to Project
 	 */
-	@ManyToMany(mappedBy="staffs", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="staffs", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Project> projects;
 		
 	/**
@@ -92,7 +92,7 @@ public class Staff implements Serializable, StrongEntity {
 	/**
 	 *  bi-directional many-to-many association to Skill 
 	 */
-	@ManyToMany
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 			name="STAFF_SKILL",
 			joinColumns= {
@@ -109,7 +109,7 @@ public class Staff implements Serializable, StrongEntity {
 	 * In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works for" these Suppliers
 	 */
-	@OneToMany(mappedBy="staff")
+	@OneToMany(mappedBy="staff", cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Supplier> suppliers;
 
 	public Staff() {
