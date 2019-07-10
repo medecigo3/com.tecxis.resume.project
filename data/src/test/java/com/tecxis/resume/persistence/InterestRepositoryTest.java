@@ -37,6 +37,7 @@ public class InterestRepositoryTest {
 	public static final String HOBBY = "Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I've found a new passion in road bike riding.";
 	public static final String RUNNING = "Running";
 	public static final String SWIMMING = "Swimming";
+	public static final String JOHN_INTEREST = "Football soccer and running";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -87,7 +88,7 @@ public class InterestRepositoryTest {
 	public void testGetInterestLikeDesc() {
 		InterestTest.insertAnInterest(RUNNING, entityManager);		
 		InterestTest.insertAnInterest(SWIMMING, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
@@ -125,6 +126,6 @@ public class InterestRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Interest> interests = interestRepo.findAll();
-		assertEquals(1, interests.size());
+		assertEquals(2, interests.size());
 	}
 }

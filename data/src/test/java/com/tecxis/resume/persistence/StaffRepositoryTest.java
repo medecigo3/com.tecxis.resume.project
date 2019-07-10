@@ -64,8 +64,8 @@ public class StaffRepositoryTest {
 	public static final String STAFF_TABLE = "STAFF";
 	public static final String AMT_NAME = "Arturo";
 	public static final String AMT_LASTNAME = "Medecigo Tress";
-	public static final String JHON_NAME = "John";
-	public static final String JHON_LASTNAME = "Smith";
+	public static final String JOHN_NAME = "John";
+	public static final String JOHN_LASTNAME = "Smith";
 	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
 		
 			
@@ -179,7 +179,7 @@ public class StaffRepositoryTest {
 		
 		
 		/**Test staff 2*/
-		Staff jhonStaff = staffRepo.getStaffLikeName(JHON_NAME);
+		Staff jhonStaff = staffRepo.getStaffLikeName(JOHN_NAME);
 		assertNotNull(jhonStaff);
 		List <Project> jhonProjects = staffRepo.getStaffProjects(jhonStaff);
 		assertNotNull(jhonProjects);

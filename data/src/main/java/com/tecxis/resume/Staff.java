@@ -72,7 +72,7 @@ public class Staff implements Serializable, StrongEntity {
 	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Staff "has" Interest(s)
 	 */
-	@OneToMany(mappedBy="staff")	
+	@OneToMany(mappedBy="staff",  cascade = CascadeType.ALL)	
 	private List<Interest> interests;
 
 	/**

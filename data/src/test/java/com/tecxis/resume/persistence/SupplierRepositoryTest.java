@@ -21,7 +21,7 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_END
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_STARTDATE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -202,7 +202,7 @@ public class SupplierRepositoryTest {
 		assertEquals(amt, alphatressAmtContract.getSupplier().getStaff());		
 		
 		/**Validate contract for supplier alphatress-john*/
-		Staff john = staffRepo.getStaffLikeName(JHON_NAME);		
+		Staff john = staffRepo.getStaffLikeName(JOHN_NAME);		
 		assertNotNull(john);
 		Supplier alphatressJohn = supplierRepo.getSupplierByNameAndStaff(ALPHATRESS, john);
 		assertNotNull(alphatressJohn);

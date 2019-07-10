@@ -61,6 +61,7 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
+import static com.tecxis.resume.persistence.InterestRepositoryTest.JOHN_INTEREST;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -79,8 +80,8 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JHON_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -112,6 +113,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.persistence.AssignmentRepository;
+import com.tecxis.resume.persistence.InterestRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;
@@ -142,6 +144,9 @@ public class StaffTest {
 	
 	@Autowired
 	private StaffProjectAssignmentRepository staffProjectAssignmentRepo;
+	
+	@Autowired
+	private InterestRepository interestRepo;
 	
 	
 	@Test
@@ -629,21 +634,27 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaff() {
 		/**Find Staff to test*/
-		Staff jhon = staffRepo.getStaffByNameAndLastname(JHON_NAME, JHON_LASTNAME);		
-		assertEquals(1, jhon.getSuppliers().size());
+		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		assertEquals(1, john.getSuppliers().size());
 		
 		/**Get Staff's Supplier**/
-		Supplier johnSupplier = jhon.getSuppliers().get(0);
+		Supplier johnSupplier = john.getSuppliers().get(0);
 		
 		/**Get Staff's Contracts*/
 		List <Contract> jhonContracts =  johnSupplier.getContracts();
 		assertEquals(1, jhonContracts.size());
+		
+		/**Test Interest -> Staff*/
+		List <Interest> johnInterests = interestRepo.getInterestByDesc(JOHN_INTEREST);
+		assertEquals(1, johnInterests.size());
+		Interest johnInterest = johnInterests.get(0);
+		assertEquals(john, johnInterest.getStaff());
 			
 		/**Detach entities*/		
 		entityManager.clear();		
 		
 		/**Find detached Staff entity*/
-		jhon = staffRepo.getStaffByNameAndLastname(JHON_NAME, JHON_LASTNAME);		
+		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
 		
 		/***Remove Staff*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -654,7 +665,10 @@ public class StaffTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		  
-		entityManager.remove(jhon);
+		/**Detach interest from Staff and remove staff*/
+		johnInterest.setStaff(null);		
+		entityManager.remove(john);
+		entityManager.merge(johnInterest);
 		entityManager.flush();
 		entityManager.clear();
 		
@@ -667,6 +681,13 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));  
+		
+		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
+		johnInterests = interestRepo.getInterestByDesc(JOHN_INTEREST);
+		assertEquals(1, johnInterests.size());
+		johnInterest = johnInterests.get(0);
+		assertNull(johnInterest.getStaff());
+		
 	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
