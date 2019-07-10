@@ -823,16 +823,20 @@ public class ProjectTest {
 		
 		/**Remove Project*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		//TODO Dissociate Project from STAFF
+		/**Test orphans initial state*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		entityManager.remove(morningstartV1Project);
 		entityManager.flush();
 		entityManager.clear();
 		
 		/**Test Project was removed*/
 		assertEquals(12, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		/**Test orphans */
+		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(53, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1));		
 		assertNull(locationRepo.findById(new LocationId(paris, morningstartV1Project)).get());
-
 	}
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
