@@ -650,7 +650,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		/**Test orphans are removed*/
+		/**Test orphans initial state*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		  
