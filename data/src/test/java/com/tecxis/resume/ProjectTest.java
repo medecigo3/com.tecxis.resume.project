@@ -1,6 +1,6 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.CityTest.LOCATION_TABLE;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;

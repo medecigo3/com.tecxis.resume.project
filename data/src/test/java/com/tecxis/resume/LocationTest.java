@@ -8,11 +8,11 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -32,6 +32,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.Location.LocationId;
+import com.tecxis.resume.persistence.CityRepository;
+import com.tecxis.resume.persistence.LocationRepository;
+import com.tecxis.resume.persistence.ProjectRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -49,6 +52,15 @@ public class LocationTest {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private CityRepository cityRepo;
+	
+	@Autowired
+	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private LocationRepository locationRepo;
 	
 	@Sql(
 			scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
@@ -85,8 +97,47 @@ public class LocationTest {
 	
 	
 	@Test
-	public void testRemoveLocation() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testRemoveLocation() {		
+		/**Find Project */
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
+		
+		/**Find a City*/		
+		City paris = cityRepo.getCityByName(PARIS);
+		
+		/**Find a Location*/
+		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+	
+		/**Test Location*/
+		assertEquals(paris, morningstartV1ProjectLocation.getLocationId().getCity());
+		assertEquals(morningstartV1Project, morningstartV1ProjectLocation.getLocationId().getProject());
+		
+		/**Detach entities*/		
+		entityManager.clear();
+		
+		/**Find Location to remove again*/
+		morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		paris = cityRepo.getCityByName(PARIS);
+		morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+		
+		
+		/**Remove location*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		entityManager.remove(morningstartV1ProjectLocation);
+		entityManager.flush();
+		entityManager.clear();
+		
+		/**Test */		
+		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
 	}
 	
 	

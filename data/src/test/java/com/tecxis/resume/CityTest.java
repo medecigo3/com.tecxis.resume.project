@@ -9,6 +9,7 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
@@ -72,8 +73,7 @@ import com.tecxis.resume.persistence.ProjectRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityTest {
-	
-	public static String LOCATION_TABLE = "LOCATION";
+
 	
 	@PersistenceContext
 	private EntityManager entityManager;
