@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
@@ -44,7 +46,17 @@ public class Skill implements Serializable, StrongEntity {
 	 * bi-directional many-to-many association to Staff
 	 * Relationship owned by {@code skills} field in {@link Staff} table
 	 */
-	@ManyToMany(mappedBy="skills", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+			name="STAFF_SKILL",
+			joinColumns= {
+					@JoinColumn(name="SKILL_ID", referencedColumnName="SKILL_ID")
+					},
+			inverseJoinColumns={
+					@JoinColumn(name = "STAFF_ID", referencedColumnName="STAFF_ID")				
+					
+			}
+	)
 	private List<Staff> staffs;
 	
 

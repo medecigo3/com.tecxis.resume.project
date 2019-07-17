@@ -77,6 +77,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
+import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
@@ -660,6 +661,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test orphans initial state*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -676,6 +678,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test orphans are removed*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
