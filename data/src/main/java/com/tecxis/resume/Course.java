@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -49,7 +51,19 @@ public class Course implements Serializable, StrongEntity {
 	 * bi-directional many-to-many association to Staff 
 	 * Relationship owned by {@code courses} field in {@link} Staff} table.
 	 */
-	@ManyToMany(mappedBy="courses", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	//Cannot use mappedBy when cascading operations to Enrolment entity 
+//	@ManyToMany(mappedBy="courses", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(
+			name="ENROLMENT",
+			joinColumns= {
+				@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID")
+			}, 
+			inverseJoinColumns= {
+				@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+				
+			}
+	)
 	private  List<Staff> staffs;
 	
 	public Course() {
