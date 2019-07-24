@@ -72,11 +72,11 @@ public class SkillTest {
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(tibco.getName(), TIBCO);
 		
-		/**Test Skill init state*/
+		/**Test Skill initial state*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		/***Test orphans*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
-		/**Test Staff inital stsate*/
+		/**Test Staff initial state*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove Skill*/
