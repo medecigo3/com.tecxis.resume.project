@@ -1,5 +1,7 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.persistence.CountryRepositoryTest.*;
+import static com.tecxis.resume.persistence.CityRepositoryTest.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -12,11 +14,17 @@ import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.tecxis.resume.persistence.CityRepository;
+import com.tecxis.resume.persistence.CountryRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -32,7 +40,12 @@ public class CountryTest {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	@Autowired
+	private CountryRepository countryRepo;
 
+	@Autowired
+	private CityRepository cityRepo;
+	
 	@Test
 	public void testGetCountryId() {
 		fail("Not yet implemented");
@@ -44,8 +57,30 @@ public class CountryTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetCities() {
-		fail("Not yet implemented");
+		/**Find Cities to test*/		
+		City london = cityRepo.getCityByName(LONDON);
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		City swindon = cityRepo.getCityByName(SWINDON);
+		City paris = cityRepo.getCityByName(PARIS);		
+		
+		/**Find a Country to test*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(FRANCE, france.getName());
+		assertEquals(1, france.getCities().size());
+		assertEquals(paris, france.getCities().get(0));		
+		
+		/**Find another Country to test*/
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(3, uk.getCities().size());
+		assertThat(uk.getCities().get(0), Matchers.oneOf(london, manchester, swindon));
+		assertThat(uk.getCities().get(1), Matchers.oneOf(london, manchester, swindon));
+		assertThat(uk.getCities().get(2), Matchers.oneOf(london, manchester, swindon));
+		
 	}
 
 	@Test
