@@ -141,8 +141,23 @@ public class ProjectTest {
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetClient() {
-		fail("Not yet implemented");
+		/**Find project to test*/
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
+		
+		/**Retrieve the Client target*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+		assertEquals(axeltis, morningstartV1Project.getClient());
+		
+		/**Test Project's Client*/
+		assertEquals(axeltis, morningstartV1Project.getClient());
+		
 	}
 
 	@Test
