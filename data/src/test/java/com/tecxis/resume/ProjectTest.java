@@ -694,9 +694,6 @@ public class ProjectTest {
 		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 						
-		/**Detach entities*/
-		entityManager.clear();
-		
 		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);		
 		assertEquals(SELENIUM, selenium.getName());
 		assertEquals(VERSION_1, selenium.getVersion());
@@ -721,8 +718,6 @@ public class ProjectTest {
 		assertEquals(1, selenium.getLocations().size());		
 		assertEquals(paris,  selenium.getLocations().get(0).getLocationId().getCity());	
 		
-		
-		
 		/**Test initial state*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
@@ -737,8 +732,47 @@ public class ProjectTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveLocation() {
-		fail("Not yet implemented");
+		/**Find City location*/
+		City paris = cityRepo.getCityByName(PARIS);
+		assertEquals(PARIS, paris.getName());		
+		
+		/**Find Project location*/		
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);		
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
+		assertEquals(1, selenium.getLocations().size());		
+		
+		/**Detach entities*/
+		entityManager.clear();
+		
+		/**Validate initial state*/		
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		/**Remove location*/
+		/**Location has to be removed as it is the relation owner between Project <-> Location*/
+		Location seleniumLocation = locationRepo.findById(new LocationId(paris, selenium)).get();
+		entityManager.remove(seleniumLocation);
+		entityManager.flush();
+		
+		/**Validate Location was removed*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);	
+		assertEquals(0, selenium.getLocations().size());		
 	}
 	
 	
