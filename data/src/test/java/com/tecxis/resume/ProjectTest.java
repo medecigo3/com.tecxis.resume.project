@@ -653,8 +653,56 @@ public class ProjectTest {
 	}
 	
 	@Test
-	public void testAddLocation() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddLocation() {		
+		/**Find City*/
+		City paris = cityRepo.getCityByName(PARIS);
+		assertEquals(PARIS, paris.getName());
+		
+		/**Find Project & validate to test*/		
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);		
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
+		assertEquals(1, selenium.getLocations().size());		
+		assertEquals(paris,  selenium.getLocations().get(0).getLocationId().getCity());	
+		
+		/**Find City to add*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		
+		/**Test initial state*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		
+		/**Add Location to Project*/
+		selenium.addLocation(manchester);
+		manchester.addLocation(selenium);
+		
+		entityManager.merge(selenium);
+		entityManager.merge(manchester);
+		entityManager.flush();
+		
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
+		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+						
+		/**Detach entities*/
+		entityManager.clear();
+		
+		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);		
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
+		assertEquals(2, selenium.getLocations().size());		
+		assertThat(selenium.getLocations().get(0).getLocationId().getCity(),  Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getLocations().get(1).getLocationId().getCity(),  Matchers.oneOf(paris, manchester));			
 	}
 	
 	@Test
@@ -666,6 +714,7 @@ public class ProjectTest {
 	public void testRemoveLocation() {
 		fail("Not yet implemented");
 	}
+	
 	
 	@Test
 	@Sql(
