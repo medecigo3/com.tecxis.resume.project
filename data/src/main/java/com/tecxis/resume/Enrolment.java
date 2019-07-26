@@ -86,8 +86,8 @@ public class Enrolment implements Serializable{
 		@Override
 		public String toString() {
 			return "["+ this.getClass().getName() +
-					"[skillId=" + this.getStaff().getId() + 
-					", staffId=" + this.getCourse().getId()  +
+					"[staffId=" + this.getStaff().getId() + 
+					", courseId=" + this.getCourse().getId()  +
 					"]]";
 		
 		}
@@ -143,8 +143,8 @@ public class Enrolment implements Serializable{
 	@Override
 	public String toString() {
 		return "["+ this.getClass().getName() +
-				"[skillId=" + this.getEnrolmentId().getStaff().getId() + 
-				", staffId=" + this.getEnrolmentId().getCourse().getId()  +
+				"[staffId=" + this.getEnrolmentId().getStaff().getId() + 
+				", courseId=" + this.getEnrolmentId().getCourse().getId()  +
 				"]]";
 	
 	}
