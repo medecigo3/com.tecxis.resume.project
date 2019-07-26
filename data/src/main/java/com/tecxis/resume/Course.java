@@ -48,8 +48,7 @@ public class Course implements Serializable, StrongEntity {
 	private String title;
 
 	/**
-	 * bi-directional many-to-many association to Staff 
-	 * Relationship owned by {@code courses} field in {@link} Staff} table.
+	 * bi-directional many-to-many association to Staff
 	 */
 	//Cannot use mappedBy when cascading operations to Enrolment entity 
 //	@ManyToMany(mappedBy="courses", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
