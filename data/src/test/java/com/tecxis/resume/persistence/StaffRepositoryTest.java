@@ -191,7 +191,7 @@ public class StaffRepositoryTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffCourses() {
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
     	

@@ -37,6 +37,7 @@ public class CourseRepositoryTest {
 	public static String COURSE_TABLE = "COURSE";
 	public static String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
 	public static String SHORT_BW_6_COURSE = "BW618%";
+	public static String JAVA_WS = "Java Web Services";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -111,7 +112,7 @@ public class CourseRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Course> courses = courseRepo.findAll();
-		assertEquals(1, courses.size());
+		assertEquals(2, courses.size());
 	}
 	
 }

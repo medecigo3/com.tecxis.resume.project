@@ -100,6 +100,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -127,6 +129,8 @@ import com.tecxis.resume.persistence.StaffRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffTest {
+	
+	private static Logger log = LogManager.getLogger();
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -692,6 +696,26 @@ public class StaffTest {
 		assertNull(johnInterest.getStaff());
 		
 	}
+	
+	@Test
+	public void testSetCourses() {
+		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
+		//To set Courses to a Staff see EnrolmentTest.testSetStaff()
+	}
+	
+	@Test
+	public void testAddCourse() {
+		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
+		//To add a Course to a Staff see EnrolmentTest.testSetStaff()
+	}
+	
+	@Test
+	public void testRemoveCourse() {
+		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
+		//To remove a Course to a Staff see EnrolmentTest.testSetStaff()
+	}
+	
+	
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
