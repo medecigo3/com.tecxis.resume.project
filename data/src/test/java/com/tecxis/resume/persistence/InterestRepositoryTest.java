@@ -108,6 +108,29 @@ public class InterestRepositoryTest {
 		
 	}
 	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetInterestByDesc() {
+		InterestTest.insertAnInterest(RUNNING, entityManager);		
+		InterestTest.insertAnInterest(SWIMMING, entityManager);
+		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestByDesc(RUNNING);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(RUNNING, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestByDesc(SWIMMING);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(SWIMMING, hobbyList.get(0).getDesc());
+		
+	}
+	
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
