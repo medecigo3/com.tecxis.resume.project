@@ -61,7 +61,7 @@ public class EnrolmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetStaffs() {		
+	public void testSetStaff() {		
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getName());
@@ -112,7 +112,7 @@ public class EnrolmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetCourses() {		
+	public void testSetCourse() {		
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getName());
