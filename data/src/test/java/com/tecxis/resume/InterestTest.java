@@ -11,7 +11,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -100,12 +100,13 @@ public class InterestTest {
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
 		Interest hobby = hobbyList.get(0);
-		hobby.getStaff();
 		
-		/**Validate Interest -> Staff*/
+		/**Find Staff*/
 		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getName());
 		assertEquals(AMT_LASTNAME, amt.getLastname());
+		
+		/**Validate Interest -> Staff*/
 		assertEquals(amt, hobby.getStaff());
 		
 		/**Find new Staff to set*/
@@ -145,6 +146,53 @@ public class InterestTest {
 		/** Validate Staff -> Interest */
 		assertEquals(2, john.getInterests().size());
 		assertThat(john.getInterests(), Matchers.hasItem(hobby));		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveStaff() {
+		/**Find Interest to test*/
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		Interest hobby = hobbyList.get(0);
+		
+		
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_LASTNAME, amt.getLastname());
+		
+		/**Validate Staff-> Interest*/
+		assertEquals(1, amt.getInterests().size());
+		
+		/**Validate Interest -> Staff*/
+		assertEquals(amt, hobby.getStaff());
+		
+		/**Remove Staff*/
+		hobby.setStaff(null);
+		entityManager.merge(hobby);
+ 		entityManager.flush();
+ 		entityManager.clear();
+ 		
+ 		
+ 		/**Validate Interest -> Staff*/
+ 		hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		assertNotNull(hobbyList);
+		assertEquals(1, hobbyList.size());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		hobby = hobbyList.get(0);
+		assertNull(hobby.getStaff());
+		
+ 		/**Validate Staff -> Interest*/
+		amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_LASTNAME, amt.getLastname());
+		assertEquals(0, amt.getInterests().size());
+		
 	}
 	
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
