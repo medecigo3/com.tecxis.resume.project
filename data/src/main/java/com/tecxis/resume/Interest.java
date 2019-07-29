@@ -38,7 +38,7 @@ public class Interest implements Serializable, StrongEntity {
 	private String desc;
 	
 	/**
-	 * bi-directional association to Staff
+	 * Owner of bi-directional association to Staff
 	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Interest "is assigned" to a Staff
 	 */
