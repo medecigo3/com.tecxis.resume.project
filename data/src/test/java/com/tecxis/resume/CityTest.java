@@ -151,6 +151,7 @@ public class CityTest {
 		france.addCity(newLondon);
 		
 		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		entityManager.remove(london);
 		/** INSERT of 'newLondon' runs first. As there is an unique restriction IN CITY.NAME
 		 *  Enforce DELETE 'london' to run in priority*/
@@ -160,6 +161,7 @@ public class CityTest {
 		entityManager.flush();			
 		entityManager.clear();
 		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
 		/**Validate  City association with country*/
 		newLondon = null;
