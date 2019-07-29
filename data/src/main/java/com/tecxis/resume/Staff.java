@@ -166,20 +166,6 @@ public class Staff implements Serializable, StrongEntity {
 		return this.interests;
 	}
 
-	public void setInterests(List<Interest> interests) {
-		this.interests = interests;
-	}
-
-	public Interest addInterest(Interest interest) {
-		getInterests().add(interest);
-		return interest;
-	}
-
-	public Interest removeInterest(Interest interest) {
-		getInterests().remove(interest);
-		return interest;
-	}
-
 	public List<Project> getProjects() {
 		return this.projects;
 	}
