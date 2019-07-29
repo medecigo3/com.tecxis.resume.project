@@ -255,6 +255,8 @@ public class StaffTest {
 		/**Prepare staff*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		assertNotNull(amt);
+		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_LASTNAME, amt.getLastname());
 		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
 		List <StaffProjectAssignment> amtProjectAssignments = amt.getStaffProjectAssignments();
@@ -713,6 +715,26 @@ public class StaffTest {
 	public void testRemoveCourse() {
 		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
 		//To remove a Course to a Staff see EnrolmentTest.testSetStaff()
+	}
+
+	@Test
+	public void testGetSuppliers() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetSuppliers() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void  testAddSupplier() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void  testRemoveSupplier() {
+		fail("Not yet implemented");
 	}
 	
 	
