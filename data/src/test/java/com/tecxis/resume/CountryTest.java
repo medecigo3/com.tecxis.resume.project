@@ -100,7 +100,7 @@ public class CountryTest {
 		log.info("Country -> City association is managed through of the relationship owner (City).");
 		//To remove or update a City in a Country see CityTest.testSetCountry()
 		//The mappedBy is set in the inverse side of the association (non-owing). Removing the Country (non-owing) works when cascading strategy is set to ALL (in the Country). 
-		// Delete operation cascades to the owing association, in case is City. 
+		// Delete operation cascades to the owing association, in this case is City. 
 		// Whilst cascading strategy is not set to ALL an attempt, delete of a Country will throw a ConstraintViolationException
 	}
 
