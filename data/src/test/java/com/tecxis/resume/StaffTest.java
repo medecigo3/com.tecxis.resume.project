@@ -372,7 +372,7 @@ public class StaffTest {
 		assertEquals(1, assignment56.getStaffProjectAssignments().size());
 		assertEquals(2, assignment57.getStaffProjectAssignments().size());
 		
-		/**Prepare staff assignments*/
+		/**Prepare staff -> assignments*/
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
 		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment2)).get();
 		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment3)).get();
@@ -437,7 +437,7 @@ public class StaffTest {
 		StaffProjectAssignment staffProjectAssignment57 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(sherpa, amt, assignment57)).get();
 		
 		
-		/**Validate staff's staff assignments*/
+		/**Validate staff's -> staff assignments*/
 		assertThat(amtProjectAssignments, 
 		Matchers.containsInAnyOrder(
 		staffProjectAssignment1, staffProjectAssignment2, staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5, staffProjectAssignment6a, staffProjectAssignment6b, staffProjectAssignment7,  staffProjectAssignment8, staffProjectAssignment9, 
@@ -473,12 +473,12 @@ public class StaffTest {
 		assertEquals(1, assignment47.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
-		/**Validate staff assignments*/		
+		/**Validate staff -> assignments*/		
 		assertEquals(0, amt.getStaffProjectAssignments().size());		
 		assertEquals(0, aos.getStaffProjectAssignments().size());
 		assertEquals(0, assignment47.getStaffProjectAssignments().size());
 		
-		/**Prepare staff assignments*/
+		/**Prepare staff -> assignments*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		aos.addStaffProjectAssignment(amt, assignment47);
 		amt.addStaffProjectAssignment(aos, assignment47);
@@ -489,7 +489,7 @@ public class StaffTest {
 		entityManager.merge(assignment47);
 		entityManager.flush();
 		
-		/**Validate staff assignments*/
+		/**Validate staff -> assignments*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getStaffProjectAssignments().size());		
 		assertEquals(1, aos.getStaffProjectAssignments().size());
@@ -504,14 +504,14 @@ public class StaffTest {
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
-		/**Validate Projects to test*/
+		/**Validate Projects -> test*/
 		assertEquals(EOLIS, eolis.getName());
 		assertEquals(VERSION_1, eolis.getVersion());
 		
 		/**Prepare Staff*/
 		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
 		
-		/**Validate Staff to test*/
+		/**Validate Staff -> test*/
 		assertEquals(AMT_NAME, amt.getName());
 						
 		/**Find assignments*/		
@@ -562,18 +562,18 @@ public class StaffTest {
 		/**Detach entities*/
 		entityManager.clear();
 
-		/**Validate staff assignments*/
+		/**Validate staff -> assignments*/
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
-		/**Remove staff assignment*/
+		/**Remove staff -> assignment*/
 		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();
 		
-		/**Validate staff assignments*/
+		/**Validate staff -> assignments*/
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
@@ -608,12 +608,12 @@ public class StaffTest {
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
-		/**Validate staff assignments*/
+		/**Validate staff -> assignments*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adir, amt, assignment1);
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
-		/**Prepare staff assignments*/		
+		/**Prepare staff -> assignments*/		
 		StaffProjectAssignment amtStaffProjectAssignment = insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);		
 		List <StaffProjectAssignment> amtStaffProjectAssignments = new ArrayList <> ();		
 		amtStaffProjectAssignments.add(amtStaffProjectAssignment);
@@ -625,7 +625,7 @@ public class StaffTest {
 		entityManager.merge(assignment1);
 		entityManager.flush();
 		
-		/**Validate staff assignments*/
+		/**Validate staff -> assignments*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
 	}
@@ -646,10 +646,10 @@ public class StaffTest {
 		assertEquals(JOHN_LASTNAME, john.getName());
 		assertEquals(1, john.getSuppliers().size());
 		
-		/**Get Staff's Supplier**/
+		/**Get Staff -> Supplier**/
 		Supplier johnSupplier = john.getSuppliers().get(0);
 		
-		/**Get Staff's Contracts*/
+		/**Get Staff -> Contracts*/
 		List <Contract> jhonContracts =  johnSupplier.getContracts();
 		assertEquals(1, jhonContracts.size());
 		
@@ -749,7 +749,7 @@ public class StaffTest {
 		assertEquals(JOHN_NAME, john.getName());
 		assertEquals(JOHN_LASTNAME, john.getLastname());
 				
-		/**Test Staff's Interests*/
+		/**Test Staff -> Interests*/
 		assertEquals(1, john.getInterests().size());
 		assertEquals(JOHN_INTEREST, john.getInterests().get(0).getDesc());
 		
