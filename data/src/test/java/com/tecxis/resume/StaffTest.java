@@ -641,7 +641,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaff() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(JOHN_NAME, john.getName());
+		assertEquals(JOHN_LASTNAME, john.getName());
 		assertEquals(1, john.getSuppliers().size());
 		
 		/**Get Staff's Supplier**/
@@ -737,7 +739,39 @@ public class StaffTest {
 		fail("Not yet implemented");
 	}
 	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void getInterests() {
+		/**Find Staff to test*/
+		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		assertEquals(JOHN_NAME, john.getName());
+		assertEquals(JOHN_LASTNAME, john.getLastname());
+				
+		/**Test Staff's Interests*/
+		assertEquals(1, john.getInterests().size());
+		assertEquals(JOHN_INTEREST, john.getInterests().get(0).getDesc());
+		
+	}
 	
+	@Test
+	public void  setInterests() {
+		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
+		//To set Interest to a Staff see InterestTest.testSetStaff()
+	}
+	
+	@Test
+	public void addInterest() {
+		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
+		//To add Interest into a Staff see InterestTest.testSetStaff()
+	}
+	
+	@Test
+	public void removeInterest() {
+		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
+		//To remove an Interest from a Staff see InterestTest.testRemoveStaff()
+	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
