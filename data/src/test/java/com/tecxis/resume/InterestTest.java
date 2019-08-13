@@ -100,6 +100,7 @@ public class InterestTest {
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
 		Interest hobby = hobbyList.get(0);
+		long hobbyId = hobby.getId();
 		
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
@@ -121,8 +122,7 @@ public class InterestTest {
 		/** Set new Staff*/		
 		hobby.setStaff(john);
 		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		/**SQL result in */		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
 		entityManager.merge(hobby);
 		entityManager.merge(john);
 		entityManager.flush();		
@@ -137,6 +137,7 @@ public class InterestTest {
 		assertEquals(1, hobbyList.size());
 		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
 		hobby = hobbyList.get(0);
+		assertEquals(hobbyId, hobby.getId());
 		/**Find Staff*/		
 		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(JOHN_NAME, john.getName());
