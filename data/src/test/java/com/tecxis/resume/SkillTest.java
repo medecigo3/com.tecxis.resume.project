@@ -74,7 +74,7 @@ public class SkillTest {
 		
 		/**Test Skill initial state*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/***Test orphans*/
+		/***Test Skill many-to-many cascadings*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff initial state*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -83,9 +83,9 @@ public class SkillTest {
 		entityManager.remove(tibco);
 		entityManager.flush();
 		
-		/**Test skill was removed*/
+		/**Test Skill was removed*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/***Test orphans*/
+		/***Test Skill many-to-many cascadings*/
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
