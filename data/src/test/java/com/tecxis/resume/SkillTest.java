@@ -84,11 +84,11 @@ public class SkillTest {
 		entityManager.flush();
 		
 		/**Test skill was removed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		/***Test orphans*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/**Test Staff hasn't changed*/
+		/***Test orphans*/
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**Test Staff hasn't changed*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 	}
 
 	public static Skill insertASkill(String name, EntityManager entityManager) {
