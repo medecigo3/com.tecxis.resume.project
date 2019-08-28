@@ -85,7 +85,7 @@ public class SkillTest {
 		
 		/**Test Skill was removed*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/***Test Skill many-to-many cascadings*/
+		/***Test Skill DELETE many-to-many cascadings*/
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
