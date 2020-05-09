@@ -133,6 +133,7 @@ public class StaffSkillRepositoryTest {
 		entityManager.flush();
 		/**Verify*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 	}
 	
 	@Test

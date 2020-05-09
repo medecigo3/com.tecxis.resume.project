@@ -24,6 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
+import com.tecxis.resume.SupplyContract.SupplyContractId;
 
 
 /**
@@ -72,7 +73,7 @@ public class Staff implements Serializable, StrongEntity {
 	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Staff "has" Interest(s)
 	 */
-	@OneToMany(mappedBy="staff",  cascade = CascadeType.ALL)	
+	@OneToMany(mappedBy="staff",  cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})	
 	private List<Interest> interests;
 
 	/**
@@ -105,12 +106,21 @@ public class Staff implements Serializable, StrongEntity {
 	private List<Skill> skills;
 	
 	/**
-	 * bi-directional one-to-many association to Supplier
-	 * In SQL terms, Supplier is the "owner" of this relationship with Staff as it contains the relationship's foreign key
-	 * In OO terms, this Staff "works for" these Suppliers
+	 * bi-directional one-to-many association to EmploymentContract. 
+	 * In SQL terms, EmploymentContract is the "owner" of this relationship with Staff as it contains the relationship's foreign key
+	 * In OO terms, this Staff  "IS EMPLOYED" through EmploymentContracts. 
 	 */
-	@OneToMany(mappedBy="staff", cascade=CascadeType.ALL, orphanRemoval=true)
-	private List<Supplier> suppliers;
+	@OneToMany(mappedBy = "employmentContractId.staff", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<EmploymentContract> employmentContracts;
+	
+	
+	/**
+	 * bi-directional one-to-many association to SupplyContract. 
+	 * In SQL terms, ContractSupply is the "owner" of this relationship with Staff as it contains the relationship's foreign key
+	 * In OO terms, this Staff "WORKS IN" these SupplyContracts. 
+	 */
+	@OneToMany(mappedBy = "supplyContractId.staff", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List <SupplyContract> supplyContracts;
 
 	public Staff() {
 		this.courses = new ArrayList<>();
@@ -118,6 +128,8 @@ public class Staff implements Serializable, StrongEntity {
 		this.projects = new ArrayList<>();
 		this.staffProjectAssignments = new ArrayList<>();
 		this.skills = new ArrayList<>();		
+		this.supplyContracts = new ArrayList<>();
+		this.employmentContracts = new ArrayList<>();
 	}
 
 	@Override
@@ -165,6 +177,12 @@ public class Staff implements Serializable, StrongEntity {
 	public List<Interest> getInterests() {
 		return this.interests;
 	}
+	
+	public boolean removeInterest(Interest interest) {
+		boolean ret = this.getInterests().remove(interest);
+		interest.setStaff(null);
+		return ret;
+	}
 
 	public List<Project> getProjects() {
 		return this.projects;
@@ -200,24 +218,58 @@ public class Staff implements Serializable, StrongEntity {
 		this.skills = skills;
 	}
 
-	public List<Supplier> getSuppliers() {
-		return this.suppliers;
-	}
-
-	public void setSuppliers(List<Supplier> suppliers) {
-		this.suppliers = suppliers;
-	}
-
-	public Supplier addSupplier(Supplier supplier) {
-		getSuppliers().add(supplier);
-		return supplier;
-	}
-
-	public Supplier removeSupplier(Supplier supplier) {
-		getSuppliers().remove(supplier);
-		return supplier;
+	public List<EmploymentContract> getEmploymentContracts() {
+		return employmentContracts;
 	}
 	
+	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {
+		if (employmentContracts != null) {
+			this.getEmploymentContracts().clear();
+			for (EmploymentContract employmentContract : employmentContracts){
+				this.getEmploymentContracts().add(employmentContract);
+			}
+		} else {
+			this.employmentContracts.clear();
+		}
+	}
+
+	public void addEmploymentContract(EmploymentContract employmentContract) {
+		getEmploymentContracts().add(employmentContract);
+	
+	}
+
+	public void removeEmploymentContract(EmploymentContract employmentContract) {
+		this.employmentContracts.remove(employmentContract);
+		employmentContract.getEmploymentContractId().setStaff(null);
+	
+	}
+		
+	public List<SupplyContract> getSupplyContracts() {
+		return supplyContracts;
+	}
+
+	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
+		this.supplyContracts = supplyContracts;
+	}
+	
+	public SupplyContract addSupplyContract(Supplier supplier, Contract contract) {
+		/**check if 'supplyContract' isn't in supplyContracts*/
+		if ( !Collections.disjoint(this.getSupplyContracts(), supplier.getSupplyContracts()) )
+			if ( !Collections.disjoint(this.getSupplyContracts(), contract.getSupplyContracts()) )
+				throw new EntityExistsException("Entities already exist in 'WORKS FOR' association: [" + supplier + ", " + contract + "]");
+				
+		SupplyContract supplyContract = new SupplyContract();
+		SupplyContractId supplyContractId = new SupplyContractId(supplier, contract, this);
+		supplyContract.setSupplyContractId(supplyContractId);
+		getSupplyContracts().add(supplyContract);		
+		return supplyContract;
+	
+	}
+	
+	public void removeSupplyContract(SupplyContract supplyContract) {
+		this.getSupplyContracts().remove(supplyContract);
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {

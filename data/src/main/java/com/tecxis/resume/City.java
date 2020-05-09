@@ -203,10 +203,14 @@ public class City implements Serializable, StrongEntity {
 	}
 	
 	public void setLocations(List<Location> locations) {
-		this.locations.clear();
-		for(Location location : locations) {
-			this.locations.add(location);
-		}		
+		if (locations != null) {
+			this.locations.clear();
+			for(Location location : locations) {
+				this.locations.add(location);
+			}		
+		} else {
+			this.locations.clear();
+		}
 	}
 
 	public List<Location> getLocations() {

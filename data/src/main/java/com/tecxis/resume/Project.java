@@ -255,11 +255,14 @@ public class Project implements Serializable, StrongEntity {
 	}
 
 	public void setCities(List<City> cities) {
-		this.cities.clear();
-		for (City city : cities) {
-			this.getCities().add(city);			
-		}
-		
+		if (cities != null) {
+			this.cities.clear();
+			for (City city : cities) {
+				this.getCities().add(city);			
+			}
+		} else {
+			this.cities.clear();
+		}		
 	}
 
 	public boolean addCity(City city) {

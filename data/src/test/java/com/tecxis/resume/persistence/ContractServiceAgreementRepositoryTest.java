@@ -1,23 +1,17 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.StaffTest.insertAStaff;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_STARTDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CURRENT_DATE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_NAME;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_NAME;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.J2EE_DEVELOPPER;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SERVICE_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -41,14 +35,11 @@ import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractServiceAgreement;
-import com.tecxis.resume.ContractServiceAgreementTest;
 import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
+import com.tecxis.resume.ContractServiceAgreementTest;
 import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Service;
 import com.tecxis.resume.ServiceTest;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.Supplier;
-import com.tecxis.resume.SupplierTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -85,10 +76,8 @@ public class ContractServiceAgreementRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
-		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
-		Supplier alphatress = SupplierTest.insertASupplier(amt, ALTERNA, entityManager);
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(barclays, alphatress, CURRENT_DATE, null,  entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
@@ -108,10 +97,8 @@ public class ContractServiceAgreementRepositoryTest {
 		
 		
 		/**Insert Contract*/
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
 		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Supplier alphatress = SupplierTest.insertASupplier(amt, ALPHATRESS, entityManager);
-		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, alphatress, CONTRACT12_STARTDATE, CONTRACT12_ENDDATE, entityManager);
+		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, CONTRACT1_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreementIn = ContractServiceAgreementTest.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
@@ -144,8 +131,8 @@ public class ContractServiceAgreementRepositoryTest {
 		assertNotNull(j2eeDevelopperContractServiceAgreements);
 		assertEquals(1, j2eeDevelopperContractServiceAgreements.size());
 		Contract j2eeDevelopperContract = j2eeDevelopperContractServiceAgreements.get(0).getContractServiceAgreementId().getContract();
-		assertEquals(CONTRACT4_STARTDATE, j2eeDevelopperContract.getStartDate());
-		assertEquals(CONTRACT4_ENDDATE, j2eeDevelopperContract.getEndDate());
+		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
+		
 		
 		/**Find ContractServiceAgreement*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
@@ -160,6 +147,11 @@ public class ContractServiceAgreementRepositoryTest {
 	}
 	
 	@Test
+	public void testFindByContractServiceAgreementId_contractAndContractServiceAgreementId_Service() {
+		fail("TODO");
+	}
+	
+	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteServiceContractAgreement() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
@@ -168,10 +160,8 @@ public class ContractServiceAgreementRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, entityManager);
-		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);
-		Supplier alphatress = SupplierTest.insertASupplier(amt, ALTERNA, entityManager);
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(barclays, alphatress, CURRENT_DATE, null,  entityManager);
+		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement tempContractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
@@ -190,9 +180,9 @@ public class ContractServiceAgreementRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){		
-		assertEquals(14, contractServiceAgreementRepo.count());
+		assertEquals(13, contractServiceAgreementRepo.count());
 		List <ContractServiceAgreement> contractServiceAgreements = contractServiceAgreementRepo.findAll();
-		assertEquals(14, contractServiceAgreements.size());
+		assertEquals(13, contractServiceAgreements.size());
 	}
 
 }

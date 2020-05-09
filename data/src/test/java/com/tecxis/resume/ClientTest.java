@@ -2,13 +2,13 @@ package com.tecxis.resume;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AGEAS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT2_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -40,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.ContractRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
-import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -72,9 +71,6 @@ public class ClientTest {
 	@Autowired 
 	private ProjectRepository projectRepo;
 	
-	@Autowired
-	private StaffRepository staffRepo;
-	
 	@Test
 	public void testGetClientId() {
 		fail("Not yet implemented");
@@ -103,14 +99,10 @@ public class ClientTest {
 		List<Contract> ageasContracts = ageas.getContracts();
 		assertEquals(1, ageasContracts.size());
 		/**Compare with fetched contract*/
-		/**Get Staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
-		assertEquals(AMT_NAME, amt.getName());
 		/**Get Supplier*/
-		Supplier accenture = supplierRepo.getSupplierByNameAndStaff(ACCENTURE, amt);
-		assertEquals(ACCENTURE, accenture.getName());
-		Contract.ContractPK contractPk = new Contract.ContractPK(2, ageas, accenture);
-		Contract ageasContract = contractRepo.findById(contractPk).get();
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		assertEquals(ACCENTURE, accenture.getName());		
+		Contract ageasContract = contractRepo.getContractByName(CONTRACT2_NAME);
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
@@ -189,8 +181,8 @@ public class ClientTest {
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		
@@ -207,8 +199,8 @@ public class ClientTest {
 
 		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(47, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		

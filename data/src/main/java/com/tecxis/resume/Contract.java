@@ -3,7 +3,6 @@ package com.tecxis.resume;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityExistsException;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +18,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -34,6 +35,7 @@ import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
  * 
  */
 @Entity
+@Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
 @IdClass(ContractPK.class)
 public class Contract implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
@@ -56,17 +58,12 @@ public class Contract implements Serializable, StrongEntity {
 		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 		private Client client;		
 
-		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-		@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
-		@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")			
-		private Supplier supplier;	
-		
-		public ContractPK(long id, Client client,  Supplier supplier) {
+				
+		public ContractPK(long id, Client client) {
 			this();
 			this.id = id;
 			this.client = client;
-			this.supplier = supplier;		
-		
+			
 		}
 
 		private ContractPK() {
@@ -88,14 +85,7 @@ public class Contract implements Serializable, StrongEntity {
 		public void setClient(Client client) {
 			this.client = client;
 		}
-
-		public Supplier getSupplier() {
-			return supplier;
-		}
-
-		public void setSupplier(Supplier supplier) {
-			this.supplier = supplier;
-		}
+		
 
 		public boolean equals(Object other) {
 			if (this == other) {
@@ -106,21 +96,17 @@ public class Contract implements Serializable, StrongEntity {
 			}
 			ContractPK castOther = (ContractPK)other;
 			return 
-				(this.client.getId() == castOther.getClient().getId())
-				&& (this.supplier.getId() == castOther.getSupplier().getId())
-				&& (this.id == castOther.id)
-				&& (this.supplier.getStaff().getId() == castOther.getSupplier().getStaff().getId());
+				(this.client.getId() == castOther.getClient().getId())				
+				&& (this.id == castOther.id);
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
-			hash = hash * prime + ((int) (this.supplier.getId()  ^ (this.supplier.getId()  >>> 32)));
+			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));			
 			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-			hash = hash * prime + ((int) (this.supplier.getStaff().getId() ^ (this.supplier.getStaff().getId() >>> 32)));
-			
+						
 			return hash;
 		}
 		
@@ -129,8 +115,7 @@ public class Contract implements Serializable, StrongEntity {
 			return "["+ this.getClass().getName() +
 					"[id=" + this.getId() + 
 					", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
-					", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getId() : " null" ) + 
-					", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getId() : "null"  ) : " null" ) + "]]";
+					"]]";
 		}
 
 	}
@@ -151,22 +136,13 @@ public class Contract implements Serializable, StrongEntity {
 	private Client client;		
 
 	/**
-	 * bi-directional many-to-one association to Supplier. 
-	 * In SQL terms, Contract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
-	 * In OO terms, this Supplier "holds" this Contract.
+	 * bi-directional one-to-many association to SupplyContract. 
+	 * In SQL terms, SupplyContract is the "owner" of this relationship with Contract as it contains the relationship's foreign keys
+	 * In OO terms, this Contract "COMMITS TO" to these SupplyContracts.
 	 */
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-	private Supplier supplier;	
+	@OneToMany(mappedBy="supplyContractId.contract", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	private List <SupplyContract> supplyContracts;
 			
-	@Temporal(TemporalType.DATE)
-	@Column(name="END_DATE")
-	private Date endDate;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="START_DATE")
-	private Date startDate;
 
 	/**
 	 * bi-directional one-to-many association to ContractServiceAgreement
@@ -174,10 +150,14 @@ public class Contract implements Serializable, StrongEntity {
 	 */
 	@OneToMany(mappedBy="contractServiceAgreementId.contract", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <ContractServiceAgreement> contractServiceAgreements;
+	
+	@NotEmpty
+	private String name;
 
 
 	public Contract() {
 		this.contractServiceAgreements = new ArrayList <> ();
+		this.supplyContracts = new ArrayList<> ();
 	}
 	
 	@Override
@@ -197,31 +177,15 @@ public class Contract implements Serializable, StrongEntity {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-
-	public Supplier getSupplier() {
-		return supplier;
+	
+	public String getName() {
+		return name;
 	}
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Date getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-		
 	public void addContractServiceAgreement(Service service) throws EntityExistsException {
 		/**check if 'service' isn't in this contract -> contractServiceAgreements*/
 		if ( !Collections.disjoint(this.getContractServiceAgreements(), service.getContractServiceAgreements() ))
@@ -235,8 +199,11 @@ public class Contract implements Serializable, StrongEntity {
 		this.getContractServiceAgreements().add(newContractServiceAgreement);		
 	}
 	
-	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {
-		return this.getContractServiceAgreements().remove(contractServiceAgreement);
+	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
+		boolean ret = this.getContractServiceAgreements().remove(contractServiceAgreement);
+		contractServiceAgreement.getContractServiceAgreementId().setContract(null);
+		return ret;
+	
 	}
 	
 	public boolean removeContractServiceAgreement(Service service) {		
@@ -258,12 +225,32 @@ public class Contract implements Serializable, StrongEntity {
 	}
 
 	public void setContractServiceAgreements(List<ContractServiceAgreement> contractServiceAgreements) {
-		this.contractServiceAgreements.clear();
-		for (ContractServiceAgreement contractServiceAgreement : contractServiceAgreements) {
-			this.contractServiceAgreements.add(contractServiceAgreement);
-		}		
+		if (contractServiceAgreements != null) {
+			this.contractServiceAgreements.clear();
+			for (ContractServiceAgreement contractServiceAgreement : contractServiceAgreements) {
+				this.contractServiceAgreements.add(contractServiceAgreement);
+			}
+		} else {
+			this.contractServiceAgreements = null;
+		}
+		
 	}
 
+	public List<SupplyContract> getSupplyContracts() {
+		return this.supplyContracts;
+	}
+	
+	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
+		if (supplyContracts != null ) {
+			this.supplyContracts.clear();
+			for(SupplyContract supplyContract : supplyContracts) {
+				this.supplyContracts.add(supplyContract);
+			}			
+		} else {
+			this.supplyContracts.clear();
+		}		
+
+	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -274,31 +261,24 @@ public class Contract implements Serializable, StrongEntity {
 			return false;
 		}
 		Contract castOther = (Contract)other;
-		return 
-			(this.client.getId() == castOther.getClient().getId())
-			&& (this.supplier.getId() == castOther.getSupplier().getId())
-			&& (this.id == castOther.getId())
-			&& (this.supplier.getStaff().getId() == castOther.getSupplier().getStaff().getId());
+		return					
+			this.id == castOther.getId();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));
-		hash = hash * prime + ((int) (this.supplier.getId()  ^ (this.supplier.getId()  >>> 32)));
+		int hash = 17;		
 		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-		hash = hash * prime + ((int) (this.supplier.getStaff().getId() ^ (this.supplier.getStaff().getId() >>> 32)));
 		
 		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() + "[" + Contract.ContractPK.class.getName() + 
-				"[id=" + this.getId() + 
+		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
+				"id=" + this.getId() + 
 				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
-				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getId() : " null" ) + 
-				", staffId=" + (this.getSupplier() != null ? ( this.getSupplier().getStaff() != null ? this.getSupplier().getStaff().getId() : "null"  ) : " null" ) + "]]]";
+				"]";
 	}
 }

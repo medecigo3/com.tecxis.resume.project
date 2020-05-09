@@ -1,16 +1,13 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_ENDDATE;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_NAME;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -76,37 +73,37 @@ public class ContractServiceAgreementTest {
 		assertEquals(AXELTIS, axeltis.getName());
 		
 		/**Find supplier*/
-		Supplier fastconnect = supplierRepo.getSuppliersByName(FASTCONNECT).get(0);
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		assertEquals(FASTCONNECT, fastconnect.getName());
 				
 		/**Find Contract*/
-		List <Contract> axeltisFastConnectcontracts = contractRepo.findByClientAndSupplierAndStartDateAndEndDateOrderByStartDateAsc(axeltis, fastconnect, CONTRACT7_STARTDATE, CONTRACT7_ENDDATE);
-		assertEquals(1, axeltisFastConnectcontracts .size());
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		
 		
 		/**Find Service*/
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
-		ContractServiceAgreement axeltisFastConnectContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontracts.get(0), tibcoCons)).get();
+		ContractServiceAgreement axeltisFastConnectContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).get();
 				
 		/**Do not detach and remove entity directly*/		
 				
 		/**Remove ContractServiceAgreement*/
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		entityManager.remove(axeltisFastConnectContractServiceAgreement);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		/**Test ContractServiceAgreement was removed */
 		/**Find Client*/
 		axeltis = clientRepo.getClientByName(AXELTIS);
-		fastconnect = supplierRepo.getSuppliersByName(FASTCONNECT).get(0);		
-		axeltisFastConnectcontracts = contractRepo.findByClientAndSupplierAndStartDateAndEndDateOrderByStartDateAsc(axeltis, fastconnect, CONTRACT7_STARTDATE, CONTRACT7_ENDDATE);
+		fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);		
+		axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
-		assertFalse(contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontracts.get(0), tibcoCons)).isPresent());
+		assertFalse(contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).isPresent());
 			
 		
 	}

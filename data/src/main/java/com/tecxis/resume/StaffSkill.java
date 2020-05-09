@@ -116,9 +116,10 @@ public class StaffSkill implements Serializable{
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof StaffSkillId)) {
+		if (!(other instanceof StaffSkill)) {
 			return false;
 		}
+		
 		StaffSkill castOther = (StaffSkill)other;
 		return
 			(this.getStaffSkillId().getSkill().getId() == castOther.getStaffSkillId().getSkill().getId())

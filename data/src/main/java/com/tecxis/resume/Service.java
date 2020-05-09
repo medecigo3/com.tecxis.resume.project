@@ -115,7 +115,9 @@ public class Service implements Serializable, StrongEntity {
 	}
 	
 	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
-		return this.getContractServiceAgreements().remove(contractServiceAgreement);
+		 boolean ret = this.getContractServiceAgreements().remove(contractServiceAgreement);
+		 contractServiceAgreement.getContractServiceAgreementId().setService(null);
+		 return ret;
 	}
 	
 
