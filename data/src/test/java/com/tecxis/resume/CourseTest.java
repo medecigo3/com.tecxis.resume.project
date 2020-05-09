@@ -84,8 +84,8 @@ public class CourseTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find staff in the course*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
-		assertEquals(AMT_NAME, amt.getName()); 
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		assertEquals(AMT_NAME, amt.getFirstName()); 
 		
 		List <Staff> bwCourseStaff =  bwCourse.getStaffs();
 		assertEquals(1, bwCourseStaff.size());

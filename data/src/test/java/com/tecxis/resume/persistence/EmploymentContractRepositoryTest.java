@@ -148,11 +148,11 @@ public class EmploymentContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetEmploymentContractByStaff() {		
 		/**Test 1*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		List <EmploymentContract> johnEmploymentContracts = employmentContractRepo.findByEmploymentContractId_Staff(john);
 		assertEquals(1, johnEmploymentContracts.size());
 		/**Test 2*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		List <EmploymentContract> amtEmploymentContracts = employmentContractRepo.findByEmploymentContractId_Staff(amt);
 		assertEquals(5, amtEmploymentContracts.size());
 	}
@@ -170,7 +170,7 @@ public class EmploymentContractRepositoryTest {
 	
 	@Test
 	public void testGetEmploymentContractByStaffAndSupplier() {
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, alphatress);
 		

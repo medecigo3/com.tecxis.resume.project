@@ -260,10 +260,10 @@ public class StaffTest {
 		assertEquals(4, tedStaffProjectAssignments.size());
 				
 		/**Prepare staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME, amt.getLastname());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
 		List <StaffProjectAssignment> amtProjectAssignments = amt.getStaffProjectAssignments();
@@ -516,10 +516,10 @@ public class StaffTest {
 		assertEquals(VERSION_1, eolis.getVersion());
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
 		/**Validate Staff -> test*/
-		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_NAME, amt.getFirstName());
 						
 		/**Find assignments*/		
 		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
@@ -559,7 +559,7 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours, amt, assignment14);	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
@@ -584,7 +584,7 @@ public class StaffTest {
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
-		amt = staffRepo.getStaffLikeName(AMT_NAME);
+		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);	
 		assertEquals(61, amt.getStaffProjectAssignments().size());		
 		assertEquals(5, parcours.getStaffProjectAssignments().size());
@@ -648,9 +648,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDetachInterestAndDbRemoveStaffWithCascadings() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);	
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME, john.getLastname());	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());	
 		
 		/**Get Staff -> SupplyContracts**/
 		assertEquals(1, john.getSupplyContracts().size());
@@ -674,7 +674,7 @@ public class StaffTest {
 		entityManager.clear();		
 		
 		/**Find detached Staff entity*/
-		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		
 		/***Remove Staff*/
 		/**Tests initial state parent table*/
@@ -729,9 +729,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveInterest() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);	
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME, john.getLastname());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 	
 		
 		/**Get Staff -> SupplyContracts**/
@@ -757,7 +757,7 @@ public class StaffTest {
 		entityManager.clear();		
 		
 		/**Find detached Staff entity*/
-		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		
 		/***Remove Staff*/
 		/**Tests initial state parent table*/
@@ -849,9 +849,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getInterests() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME, john.getLastname());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 				
 		/**Test Staff -> Interests*/
 		assertEquals(1, john.getInterests().size());
@@ -921,8 +921,8 @@ public class StaffTest {
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
-		staff.setName(firstName);
-		staff.setLastname(lastName);
+		staff.setFirstName(firstName);
+		staff.setLastName(lastName);
 		assertEquals(0, staff.getId());
 		entityManager.persist(staff);
 		entityManager.flush();

@@ -100,7 +100,7 @@ public class StaffRepositoryTest {
 	)
 	public void testFindInsertedStaff() {
 		Staff staffIn = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
-		Staff staffOut = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff staffOut = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertEquals(staffIn, staffOut);		
 	}
 	
@@ -110,15 +110,15 @@ public class StaffRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffLikeName() {
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		/**Test query LiKE expression*/
-		amt = staffRepo.getStaffLikeName("Art%");
+		amt = staffRepo.getStaffLikeFirstName("Art%");
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 	}
 	
 	@Test
@@ -126,15 +126,15 @@ public class StaffRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffLikeLastname() {
-		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		/**Test query LiKE expression*/
-		amt = staffRepo.getStaffLikeLastname("Medecigo%");
+		amt = staffRepo.getStaffLikeLastName("Medecigo%");
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 	}
 	
 	
@@ -144,7 +144,7 @@ public class StaffRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjects() {
 		/**Test staff 1*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
 		List <Project> amtProjects = staffRepo.getStaffProjects(amt);
 		assertNotNull(amtProjects);
@@ -179,7 +179,7 @@ public class StaffRepositoryTest {
 		
 		
 		/**Test staff 2*/
-		Staff jhonStaff = staffRepo.getStaffLikeName(JOHN_NAME);
+		Staff jhonStaff = staffRepo.getStaffLikeFirstName(JOHN_NAME);
 		assertNotNull(jhonStaff);
 		List <Project> jhonProjects = staffRepo.getStaffProjects(jhonStaff);
 		assertNotNull(jhonProjects);
@@ -195,9 +195,9 @@ public class StaffRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
     	
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_NAME, amt.getFirstName());
 		
 		List <Course> courseList = amt.getCourses();
 		assertNotNull(courseList);
@@ -259,7 +259,7 @@ public class StaffRepositoryTest {
 		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		staffRepo.delete(tempStaff);
-		assertNull(staffRepo.getStaffLikeName(AMT_NAME));
+		assertNull(staffRepo.getStaffLikeFirstName(AMT_NAME));
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 	}

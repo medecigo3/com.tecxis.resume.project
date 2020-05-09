@@ -113,7 +113,7 @@ public class StaffProjectAssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
 		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa, amt, assignment53);		
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
@@ -136,7 +136,7 @@ public class StaffProjectAssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testCascadedDeletion() {
 		/**Retrieve staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
 		/**Retrieve from project*/
 		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);

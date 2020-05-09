@@ -142,7 +142,7 @@ public class ContractTest {
 		assertEquals(SAGEMCOM, sagem.getName());				
 		
 		/**Validate Contract -> SupplyContract*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertNotNull(amt);		
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 		assertEquals(1, currentSagemContract.getSupplyContracts().size());
@@ -257,11 +257,11 @@ public class ContractTest {
 		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 		assertEquals(amesys, amesysSagemSupplyContract.getSupplyContractId().getSupplier());
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, amesysSagemSupplyContract.getSupplyContractId().getStaff());
 		
 		/**Create the new SupplyContract for the current Client -> Contract different Staff*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		SupplyContract newAmesysSagemSupplyContract = new SupplyContract(new SupplyContractId(amesys, currentAmesysSagemContract, john));
 		/**Set the new dates of the SuppyContract*/
 		newAmesysSagemSupplyContract.setStartDate(startDate);
@@ -485,7 +485,7 @@ public class ContractTest {
 		/**Validate SupplyContract-> Supplier*/
 		assertEquals(FASTCONNECT, micropoleFastconnectSupplyContract.getSupplyContractId().getSupplier().getName());
 		/**Validate SupplyContract-> Staff*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, micropoleFastconnectSupplyContract.getSupplyContractId().getStaff());		
 		/**Validate ContractServiceAgreement -> Service*/
 		assertEquals(MULE_ESB_CONSULTANT, micropolefastconnectContractServiceAgreement.getContractServiceAgreementId().getService().getName());
@@ -513,7 +513,7 @@ public class ContractTest {
 		assertEquals(CONTRACT11_ENDDATE, alternaArvalSupplyContract.getEndDate());
 		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
 		assertEquals(alterna, alternaArvalSupplyContract.getSupplyContractId().getSupplier());
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, alternaArvalSupplyContract.getSupplyContractId().getStaff());
 		
 		

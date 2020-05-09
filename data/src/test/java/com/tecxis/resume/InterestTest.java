@@ -80,9 +80,9 @@ public class InterestTest {
 		hobby.getStaff();
 		
 		/**Find Staff target*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME, amt.getLastname());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		
 		/**Test Interest*/
 		assertEquals(amt, hobby.getStaff());
@@ -103,17 +103,17 @@ public class InterestTest {
 		long hobbyId = hobby.getId();
 		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME, amt.getLastname());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		
 		/**Validate Interest -> Staff*/
 		assertEquals(amt, hobby.getStaff());
 		
 		/**Find new Staff to set*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME, john.getLastname());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 		
 		/**Validate Staff -> Interest*/
 		assertEquals(1, john.getInterests().size());
@@ -139,9 +139,9 @@ public class InterestTest {
 		hobby = hobbyList.get(0);
 		assertEquals(hobbyId, hobby.getId());
 		/**Find Staff*/		
-		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME, john.getLastname());
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 		/**Validate Interest -> Staff*/
 		assertEquals(john, hobby.getStaff());
 		/** Validate Staff -> Interest */
@@ -163,9 +163,9 @@ public class InterestTest {
 		
 		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME, amt.getLastname());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		
 		/**Validate Staff-> Interest*/
 		assertEquals(1, amt.getInterests().size());
@@ -189,9 +189,9 @@ public class InterestTest {
 		assertNull(hobby.getStaff());
 		
  		/**Validate Staff -> Interest*/
-		amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME, amt.getLastname());
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		assertEquals(0, amt.getInterests().size());
 		
 	}

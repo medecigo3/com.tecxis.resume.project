@@ -49,9 +49,9 @@ public class Staff implements Serializable, StrongEntity {
 	@Column(name="BIRTH_DATE")
 	private Date birthDate;
 
-	private String lastname;
+	private String lastName;
 
-	private String name;
+	private String firstName;
 
 	/**
 	 * bi-directional many-to-many association to Course
@@ -150,20 +150,20 @@ public class Staff implements Serializable, StrongEntity {
 		this.birthDate = birthDate;
 	}
 
-	public String getLastname() {
-		return this.lastname;
+	public String getLastName() {
+		return this.lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getFirstName() {
+		return this.firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	public List<Course> getCourses() {

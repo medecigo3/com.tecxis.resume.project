@@ -136,7 +136,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjectAssignmentById() {
 		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa, amt, assignment53);		
 		StaffProjectAssignment staffProjectAssignment = staffProjectAssignmentRepo.findById(id).get();

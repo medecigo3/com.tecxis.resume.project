@@ -139,10 +139,10 @@ public class AssignmentTest {
 		assertEquals(VERSION_1, eolis.getVersion());
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
 		/**Validate Staff to test*/
-		assertEquals(AMT_NAME, amt.getName());
+		assertEquals(AMT_NAME, amt.getFirstName());
 						
 		/**Find assignments*/		
 		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
@@ -183,7 +183,7 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
 		Project  ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted, amt, assignment12);	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
@@ -208,7 +208,7 @@ public class AssignmentTest {
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
-		amt = staffRepo.getStaffLikeName(AMT_NAME);
+		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);	
 		assertEquals(61, amt.getStaffProjectAssignments().size());		
 		assertEquals(3, ted.getStaffProjectAssignments().size());
@@ -283,7 +283,7 @@ public class AssignmentTest {
 		
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
 		List <StaffProjectAssignment> amtStaffProjectAssignments = amt.getStaffProjectAssignments();
 		assertEquals(62, amt.getProjects().size());

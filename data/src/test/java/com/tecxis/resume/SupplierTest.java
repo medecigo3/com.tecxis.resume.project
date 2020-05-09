@@ -153,7 +153,7 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());	
 		
 		/**Create the new SupplyContract*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertNotNull(belfiusContract);
 		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
@@ -327,7 +327,7 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());
 		
 		/**Create the new SupplyContract to set to parent Supplier*/		
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
 		List <SupplyContract> newSupplyContracts = new ArrayList<>();
@@ -390,7 +390,7 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());	
 		
 		/**Create the new EmploymentContract*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(new EmploymentContractId(john, accenture));
 	
 		/**Tests initial state of Suppliers table (the parent)*/
@@ -562,7 +562,7 @@ public class SupplierTest {
 		assertEquals(1, accentureEmploymentContracts.size());	
 				
 		/**Create the new EmploymentContract to set to parent Supplier*/
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		EmploymentContract newEmploymentContract = new EmploymentContract(new EmploymentContractId(john, accenture));
 		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();
 		newEmploymentContracts.add(newEmploymentContract);
@@ -591,7 +591,7 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate parent Supplier has new EmploymentContract(s)*/
-		john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		newEmploymentContract = employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, accenture);
 		assertNotNull(newEmploymentContract);
@@ -677,9 +677,9 @@ public class SupplierTest {
 		/**Can't really search anything here as all EmploymentContacts with target Supplier were cleared*/
 		
 		/**Test  Staff parents aren't cascaded*/
-		Staff amt = staffRepo.getStaffByNameAndLastname(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertNotNull(amt);		
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertNotNull(john);
 		
 		/**Test SupplyContract children were cleared*/		

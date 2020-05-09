@@ -60,9 +60,9 @@ public class StaffSkillTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveStaffSkill() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(tibco.getName(), TIBCO);

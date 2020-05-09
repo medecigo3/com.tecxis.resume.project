@@ -63,9 +63,9 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaff() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
@@ -79,10 +79,10 @@ public class EnrolmentTest {
 		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
 				
 		/**Find Staff to set in the Course*/		
-		Staff john = staffRepo.getStaffByNameAndLastname(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertNotNull(john);
-		assertEquals(JOHN_NAME, john.getName());
-		assertEquals(JOHN_LASTNAME , john.getLastname());
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME , john.getLastName());
 				
 		/**Create new Enrolment*/		
 		Enrolment newEnrolment = new Enrolment(new EnrolmentId(john, bwCourse));
@@ -114,9 +114,9 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCourse() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
@@ -165,9 +165,9 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEnrolment() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastname(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getName());
-		assertEquals(AMT_LASTNAME , amt.getLastname());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
