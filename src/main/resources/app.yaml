@@ -1,6 +1,0 @@
-runtime: java
-env: flex
-#See automatic scaling parameters here: https://cloud.google.com/appengine/docs/flexible/java/reference/app-yaml#automatic_scaling
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 1
