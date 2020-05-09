@@ -95,7 +95,7 @@ public class SupplierTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplyContracts() {
 		/**Find a Supplier*/		
@@ -130,7 +130,7 @@ public class SupplierTest {
 	}
 		
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddSupplyContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -192,7 +192,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSupplyContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -247,7 +247,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetSupplyContractsNullWithOrmOrphanRemove() {					
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -304,7 +304,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetSupplyContractsWithOrmOrphanRemove() {	
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -366,7 +366,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddEmploymentContract() {
 		/**Find and verify the Supplier*/		
@@ -427,7 +427,7 @@ public class SupplierTest {
 	 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql" },
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEmploymentContract() {
 		/**Find and verify the Supplier*/		
@@ -483,7 +483,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testEmploymentContractsNullWithOrmOrphanRemove() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -539,7 +539,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetEmploymentContractsWithOrmOrphanRemove() {		
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
@@ -601,7 +601,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/CreateResumeData.sql"},
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDbRemoveSupplierWithCascadings() {
 		/**Find and verify the Supplier*/		
