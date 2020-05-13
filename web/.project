@@ -56,4 +56,11 @@
 		<nature>org.zeroturnaround.eclipse.jrebelNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/resources/rebel.xml</name>
+			<type>1</type>
+			<location>C:/Users/medec/AppData/Local/Temp/rebelxml-com_2Etecxis_2Eweb8772508120620514886/rebel.xml</location>
+		</link>
+	</linkedResources>
 </projectDescription>
