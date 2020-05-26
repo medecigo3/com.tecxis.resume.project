@@ -79,7 +79,7 @@ public class Staff implements Serializable, StrongEntity {
 	/**
 	 * bi-directional many-to-many association to Project
 	 */
-	@ManyToMany(mappedBy="staffs", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(mappedBy="staff", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Project> projects;
 		
 	/**

@@ -182,7 +182,7 @@ public class Project implements Serializable, StrongEntity {
 			@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 		}
 	)
-	private List <Staff> staffs;
+	private List <Staff> staff;
 	
 	/**
 	* bi-directional one-to-many association to Location.
@@ -195,7 +195,7 @@ public class Project implements Serializable, StrongEntity {
 		this.cities = new ArrayList <> ();
 		this.staffProjectAssignments = new ArrayList<>();
 		this.locations = new ArrayList<>();
-		this.staffs = new ArrayList<>();
+		this.staff = new ArrayList<>();
 	}
 
 	public String getDesc() {
@@ -224,8 +224,8 @@ public class Project implements Serializable, StrongEntity {
 		this.desc = desc;
 	}
 
-	public List<Staff> getStaffs() {
-		return staffs;
+	public List<Staff> getStaff() {
+		return staff;
 	}
 
 	public List<StaffProjectAssignment> getStaffProjectAssignments() {
