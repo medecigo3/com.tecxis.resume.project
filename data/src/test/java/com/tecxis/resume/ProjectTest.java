@@ -897,8 +897,32 @@ public class ProjectTest {
 	}
 	
 	@Test
-	public void testGetStaffs() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetStaff() {		
+		/**Find & validate Project to test*/
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		List <Staff> seleniumStaff = selenium.getStaff();
+		//TODO this assert should be tested to 1. Create a query in ProjectRepo that joins the three tables using a distinct. For instance:
+//		select distinct  Staff.firstName,  Staff.lastName 
+//		from
+//		    PROJECT
+//		inner join 
+//			STAFF_PROJECT_ASSIGNMENT 
+//		        on PROJECT.PROJECT_ID = STAFF_PROJECT_ASSIGNMENT.PROJECT_ID AND PROJECT.CLIENT_ID = STAFF_PROJECT_ASSIGNMENT.CLIENT_ID
+//		inner join
+//			Staff  
+//				on STAFF_PROJECT_ASSIGNMENT.STAFF_ID=Staff.STAFF_ID 
+//		where
+//			STAFF_PROJECT_ASSIGNMENT.PROJECT_ID=13 
+//			and STAFF_PROJECT_ASSIGNMENT.CLIENT_ID=12		
+		assertEquals(3, seleniumStaff.size());		 
+		
+		/**Find target Staff*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertThat(seleniumStaff, Matchers.hasItem(amt));
+		 
 	}
 	
 	@Test(expected=NoSuchElementException.class)
