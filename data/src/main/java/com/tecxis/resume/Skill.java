@@ -57,11 +57,11 @@ public class Skill implements Serializable, StrongEntity {
 					
 			}
 	)
-	private List<Staff> staffs;
+	private List<Staff> staff;
 	
 
 	public Skill() {
-		this.staffs = new ArrayList <> ();
+		this.staff = new ArrayList <> ();
 	}
 
 	@Override
@@ -82,12 +82,12 @@ public class Skill implements Serializable, StrongEntity {
 		this.name = name;
 	}
 
-	public List<Staff> getStaffs() {
-		return staffs;
+	public List<Staff> getStaff() {
+		return staff;
 	}
 
-	public void setStaffs(List<Staff> staffs) {
-		this.staffs = staffs;
+	public void setStaff(List<Staff> staff) {
+		this.staff = staff;
 	}
 	
 	@Override
