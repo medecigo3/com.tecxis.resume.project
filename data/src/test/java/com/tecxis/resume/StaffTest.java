@@ -639,7 +639,10 @@ public class StaffTest {
 
 	@Test
 	public void testGetProjects() {
-		fail("Not yet implemented");
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		List <Project> amtProject = amt.getProjects();
+		assertEquals(62, amtProject.size());
+		
 	}
 	
 	@Test
