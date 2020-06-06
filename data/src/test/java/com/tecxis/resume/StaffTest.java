@@ -828,22 +828,26 @@ public class StaffTest {
 
 	@Test
 	public void testGetSuppliers() {
-		fail("Not yet implemented");
+		log.info("Staff ->  Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
+		//To get Suppliers to a Staff see StaffTest.testGetEmploymentContracts()
 	}
 
 	@Test
 	public void testSetSuppliers() {
-		fail("Not yet implemented");
+		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
+		//To set Suppliers to a Staff see EmploymentContract.testSetSupplier()
 	}
 
 	@Test
 	public void  testAddSupplier() {
-		fail("Not yet implemented");
+		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
+		//To add Suppliers to a Staff see EmploymentContract.testSetSupplier()
 	}
 
 	@Test
 	public void  testRemoveSupplier() {
-		fail("Not yet implemented");
+		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
+		//To remove Suppliers to a Staff see EmploymentContract.testSetSupplier()
 	}
 	
 	@Test
