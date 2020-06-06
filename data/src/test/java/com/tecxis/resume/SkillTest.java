@@ -1,10 +1,15 @@
 package com.tecxis.resume;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.*;
+import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
+import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -53,13 +58,16 @@ public class SkillTest {
 	}
 
 	@Test
-	public void testGetStaffs() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetStaffs() {
-		fail("Not yet implemented");
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	public void testGetStaff() {
+		Skill tibcoSkill = skillRepo.getSkillByName(TIBCO);
+		List<Staff> tibcoStaff = tibcoSkill.getStaff();
+		
+		assertEquals(1, tibcoStaff.size());
+		
 	}
 	
 	@Test
