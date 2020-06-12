@@ -638,6 +638,9 @@ public class StaffTest {
 	}
 
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetProjects() {
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		List <Project> amtProject = amt.getProjects();
