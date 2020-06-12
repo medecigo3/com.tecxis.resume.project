@@ -885,17 +885,27 @@ public class StaffTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplyContracts() {
-		fail("TODO");
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(1, john.getSupplyContracts().size());
+		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(13, amt.getSupplyContracts().size());
+		
 	}
 
 	@Test
 	public void testSetSupplyContracts() {
+		//TODO continue here
 		fail("TODO");
 	}
 	
 	@Test
 	public void testAddSupplyContract() {
+		//TODO continue here 
 		fail("TODO");
 	
 	}
