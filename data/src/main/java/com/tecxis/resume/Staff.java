@@ -266,6 +266,7 @@ public class Staff implements Serializable, StrongEntity {
 	
 	public void removeSupplyContract(SupplyContract supplyContract) {
 		this.getSupplyContracts().remove(supplyContract);
+		supplyContract.getSupplyContractId().setStaff(null);
 	}
 
 	@Override
