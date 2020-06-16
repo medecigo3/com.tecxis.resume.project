@@ -24,7 +24,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.resume.SupplyContract.SupplyContractId;
 
 
 /**
@@ -259,17 +258,9 @@ public class Staff implements Serializable, StrongEntity {
 		}		
 	}
 	
-	public SupplyContract addSupplyContract(Supplier supplier, Contract contract) {
-		/**check if 'supplyContract' isn't in supplyContracts*/
-		if ( !Collections.disjoint(this.getSupplyContracts(), supplier.getSupplyContracts()) )
-			if ( !Collections.disjoint(this.getSupplyContracts(), contract.getSupplyContracts()) )
-				throw new EntityExistsException("Entities already exist in 'WORKS FOR' association: [" + supplier + ", " + contract + "]");
-				
-		SupplyContract supplyContract = new SupplyContract();
-		SupplyContractId supplyContractId = new SupplyContractId(supplier, contract, this);
-		supplyContract.setSupplyContractId(supplyContractId);
-		getSupplyContracts().add(supplyContract);		
-		return supplyContract;
+	public void addSupplyContract(SupplyContract supplyContract) {		
+	    this.supplyContracts.add(supplyContract);
+	    supplyContract.getSupplyContractId().setStaff(this);
 	
 	}
 	

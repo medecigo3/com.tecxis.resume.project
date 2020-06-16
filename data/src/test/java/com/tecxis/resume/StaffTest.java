@@ -131,6 +131,7 @@ import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
+import com.tecxis.resume.persistence.SupplyContractRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -169,6 +170,9 @@ public class StaffTest {
 	
 	@Autowired
 	private SupplierRepository supplierRepo;
+	
+	@Autowired
+	private SupplyContractRepository supplyContractRepo;
 	
 	@Test
 	@Sql(
@@ -993,10 +997,85 @@ public class StaffTest {
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddSupplyContract() {
-		//TODO continue here 
-		fail("TODO");
-	
+		/**Find target Staff*/		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
+		assertEquals(5, amt.getSkills().size());
+		
+		/**Verify parent Staff -> Course is a many-to-many with no REMOVE cascadings*/
+		assertEquals(1, amt.getCourses().size());
+		
+		/**Verify parent Staff -> EmploymentContract with REMOVE cascadings*/
+		assertEquals(5, amt.getEmploymentContracts().size());
+		
+		/**Verify parent Staff -> SupplyContract with REMOVE cascadings <- impacted relationship*/
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Create new SupplyContract to set to parent Staff*/
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		final String newContractName = "AccentureBelfiusContract";	
+		/**New Contract*/
+		Contract newContract = new Contract();
+		newContract.setName(newContractName);
+		newContract.setClient(belfius);		
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		/**New SupplyContract*/
+		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		
+		/**Test initial state of Staff table (the parent)*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**USES*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**ENROLS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/**Amend the new SupplyContract*/		
+		amt.addSupplyContract(newSupplyContract);
+		entityManager.persist(newContract);
+		entityManager.merge(amt);
+		entityManager.flush();
+		entityManager.clear();	
+		
+		/**Test post update state of Staff table*/
+
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(15, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 new child created.	
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created.
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		
+		/**Validate parent Staff has new SupplyContract*/		
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		List <SupplyContract> amtSupplyContracts = amt.getSupplyContracts();		
+		assertEquals(14, amtSupplyContracts.size());		
+		assertThat(amtSupplyContracts, Matchers.hasItem(newSupplyContract));
+		
+		/**Validate inverse assoc. SupplyContract -> Staff*/
+		assertNotNull(supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(newContract, accenture, amt));
+				
 	}
 	
 	@Test
