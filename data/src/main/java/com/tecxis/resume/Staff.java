@@ -249,7 +249,14 @@ public class Staff implements Serializable, StrongEntity {
 	}
 
 	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
-		this.supplyContracts = supplyContracts;
+		if(supplyContracts != null) {
+			this.getSupplyContracts().clear();
+			for (SupplyContract supplyContract: supplyContracts) {
+				this.getSupplyContracts().add(supplyContract);
+			}
+		} else {
+			this.supplyContracts.clear();
+		}		
 	}
 	
 	public SupplyContract addSupplyContract(Supplier supplier, Contract contract) {

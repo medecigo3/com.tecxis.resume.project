@@ -61,6 +61,8 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
+import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
 import static com.tecxis.resume.persistence.EmploymentContractRepositoryTest.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
 import static com.tecxis.resume.persistence.InterestRepositoryTest.INTEREST_TABLE;
@@ -88,6 +90,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -119,12 +122,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.SupplyContract.SupplyContractId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.InterestRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;
+import com.tecxis.resume.persistence.SupplierRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -160,6 +165,9 @@ public class StaffTest {
 	
 	@Autowired
 	private ClientRepository clientRepo;	
+	
+	@Autowired
+	private SupplierRepository supplierRepo;
 	
 	@Test
 	@Sql(
@@ -901,9 +909,86 @@ public class StaffTest {
 	}
 
 	@Test
-	public void testSetSupplyContracts() {
-		//TODO continue here
-		fail("TODO");
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetSupplyContractsWithOrmOrphanRemove() {	
+		/**Find target Staff*/		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
+		assertEquals(5, amt.getSkills().size());
+		
+		/**Verify parent Staff -> Course is a many-to-many with no REMOVE cascadings*/
+		assertEquals(1, amt.getCourses().size());
+		
+		/**Verify parent Staff -> EmploymentContract with REMOVE cascadings*/
+		assertEquals(5, amt.getEmploymentContracts().size());
+		
+		/**Verify parent Staff -> SupplyContract with REMOVE cascadings <- impacted relationship*/
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Create new SupplyContract to set to parent Staff*/
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		final String newContractName = "AccentureBelfiusContract";	
+		/**New Contract*/
+		Contract newContract = new Contract();
+		newContract.setName(newContractName);
+		newContract.setClient(belfius);		
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		/**New SupplyContract*/
+		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		List <SupplyContract> newSupplyContracts = new ArrayList <>();
+		newSupplyContracts.add(newSupplyContract);		
+				
+		/**Test initial state of Staff table (the parent)*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**USES*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**ENROLS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	// Target orphans in  SUPPLY_CONTRACT table	
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		/**This sets new AMT's SupplyContracts and leaves orphans*/
+		amt.setSupplyContracts(newSupplyContracts);
+		entityManager.persist(newContract);
+		entityManager.merge(amt);
+		entityManager.flush();
+		entityManager.clear();	
+		
+		/**Test post update state of Staff table*/
+
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//13 orphans removed and 1 new child created in SUPPLY_CONTRACT table. 	
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created in CONTRACT table. 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		
+		/**Validate parent Staff has new SupplyContract*/		
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		List <SupplyContract> amtSupplyContracts = amt.getSupplyContracts();		
+		assertEquals(1, amtSupplyContracts.size());
+		SupplyContract amtSupplyContract = amtSupplyContracts.get(0);
+		assertEquals(newContract, amtSupplyContract.getSupplyContractId().getContract());
+		assertEquals(accenture, amtSupplyContract.getSupplyContractId().getSupplier());
+		
 	}
 	
 	@Test
@@ -924,8 +1009,8 @@ public class StaffTest {
 	}
 	
 	@Test
-	public void testSetEmploymentContracts() {
-		fail("TODO");
+	public void testSetEmploymentContractsWithOrmOrphanRemove() {
+		fail("TODO see ex. SupplyTest.testSetEmploymentContractsWithOrmOrphanRemove");
 	}
 
 	@Test
@@ -938,6 +1023,22 @@ public class StaffTest {
 	public void testRemoveEmploymentContract() {
 		fail("TODO");
 	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSkills() {
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(5, amt.getSkills().size());
+
+	}
+	
+	@Test
+	public void testSetSkills() {
+		fail("TODO");
+	}
+	
 	
 	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
 		Staff staff = new Staff();
