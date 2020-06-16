@@ -161,7 +161,7 @@ public class SupplierTest {
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	// Target orphan in SUPPLY_CONTRACT table
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
