@@ -122,6 +122,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.EmploymentContract.EmploymentContractId;
 import com.tecxis.resume.SupplyContract.SupplyContractId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ClientRepository;
@@ -1009,8 +1010,78 @@ public class StaffTest {
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetEmploymentContractsWithOrmOrphanRemove() {
-		fail("TODO see ex. SupplyTest.testSetEmploymentContractsWithOrmOrphanRemove");
+		/**Find target Staff*/		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		assertEquals(1, john.getSupplyContracts().size());
+		
+		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
+		assertEquals(0, john.getSkills().size());
+		
+		/**Verify parent Staff -> Course is a many-to-many with no REMOVE cascadings*/
+		assertEquals(0, john.getCourses().size());
+		
+		/**Verify parent Staff -> EmploymentContract with REMOVE cascadings*/
+		assertEquals(1, john.getEmploymentContracts().size());
+		
+		/**Verify parent Staff -> SupplyContract with REMOVE cascadings <- impacted relationship*/
+		assertEquals(1, john.getSupplyContracts().size());
+		
+		/**Create new EmploymentContract to set to parent Staff*/		
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		/**New SupplyContract*/
+		EmploymentContract newEmploymentContract = new EmploymentContract (new EmploymentContractId (john, accenture));
+		List <EmploymentContract> newEmploymentContracts = new ArrayList <>();
+		newEmploymentContracts.add(newEmploymentContract);		
+				
+		/**Test initial state of Staff table (the parent)*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**USES*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**ENROLS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		// Target orphans in  EMPLOYMENT_CONTRACT table		
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		/**This sets new AMT's SupplyContracts and leaves orphans*/
+		john.setEmploymentContracts(newEmploymentContracts);		
+		entityManager.merge(john);
+		entityManager.flush();
+		entityManager.clear();	
+		
+		/**Test post update state of Staff table*/
+
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		//1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. 
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		
+		/**Validate parent Staff has new EmploymentContract*/		
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		newEmploymentContracts = john.getEmploymentContracts();
+		assertEquals(1, newEmploymentContracts.size());
+		newEmploymentContract = newEmploymentContracts.get(0);
+		assertEquals(accenture, newEmploymentContract.getEmploymentContractId().getSupplier());
+		
 	}
 
 	@Test
