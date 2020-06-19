@@ -1141,6 +1141,12 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 child removed.	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		
+		/**Validate stale SupplyContract doesn't exist*/
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		List <SupplyContract> supplyContracts = amt.getSupplyContracts();
+		assertThat(supplyContracts, Matchers.not(Matchers.hasItem(staleSupplyContract)));
+		
 	}
 	
 	@Test
@@ -1177,7 +1183,7 @@ public class StaffTest {
 		newEmploymentContracts.add(newEmploymentContract);		
 				
 		/**Test initial state of Staff table (the parent)*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='2'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -1250,9 +1256,110 @@ public class StaffTest {
 	}
 	
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDbRemoveStaffWithCascadings() {
-		//TODO continue here
-		fail("TODO");
+		/**Find target Staff*/		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
+		assertEquals(5, amt.getSkills().size());
+		
+		/**Verify parent Staff -> Course is a many-to-many with no REMOVE cascadings*/
+		assertEquals(1, amt.getCourses().size());
+		
+		/**Verify parent Staff -> EmploymentContract with REMOVE cascadings*/
+		assertEquals(5, amt.getEmploymentContracts().size());
+		
+		/**Verify parent Staff -> SupplyContract with REMOVE cascadings <- impacted relationship*/
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Detach entities*/
+		entityManager.clear();
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		
+		/**Test initial state of Staff table (the parent)*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**HAS*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		/**USES*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**ENROLS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		/**WORKS ON*/
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
+		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/**Remove the Staff*/		
+		entityManager.remove(amt);
+		entityManager.flush();
+		entityManager.clear();
+		
+		/**See SQL cascadings applied to one-to-many relations*/
+		/**STAFF 	-> 	ENROLMENT_CONTRACT 			CascadeType.ALL*/
+		/**STAFF 	-> 	SUPPLY_CONTRACT 			CascadeType.ALL*/
+		/**STAFF 	->	INTEREST (Non-Identifying)  CascadeType.ALL*/
+		
+		/**See SQL cascadings applied to many-to-many relations*/
+		/**STAFF 	-> ENROLEMENT 	-> COURSE*/
+		/**STAFF	-> STAFF_SKILL	-> SKILL */
+		
+		/**Cascadings in this sequence*/
+		/**STAFF (P)  ------>  INTEREST (c)
+		 *    ¦
+		 *    --------------> STAFF_SKILL (c)
+		 *    ¦
+		 *    --------------> ENROLMENT (c)
+		 *    ¦
+		 *    --------------> EMPLOYMENT_CONTRACT (c) 
+		 *    ¦
+		 *    --------------> SUPPLY_CONTRACT (c)
+		 *    ¦
+		 *    --------------> STAFF_PROJECT_ASSIGNMENT (c)
+		 *    
+		 */
+		
+		/**HAS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); // 1 child with STAFF_ID=1 removed from INTEREST table.
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**USES*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));	
+		/**ENROLS*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE)); // 5 children with STAFF_ID=1 removed from EMPLOYMENT_CONTRACT table.  
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
+		/**WORKS ON*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
+		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));  
+		/**Finally the state of Staff table (the parent)*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //1 Parent removed
+		
 	
 	}
 	
