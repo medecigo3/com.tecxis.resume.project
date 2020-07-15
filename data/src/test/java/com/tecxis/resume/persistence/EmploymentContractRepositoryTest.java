@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.EmploymentContract;
-import com.tecxis.resume.EmploymentContract.EmploymentContractId;
+import com.tecxis.resume.EmploymentContract.EmploymentContractPK;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffTest;
 import com.tecxis.resume.Supplier;
@@ -81,8 +81,8 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
 		
 		/**Verify the EmploymentContract*/
-		assertEquals(amt.getId(), alternaAmtEmploymentContract.getEmploymentContractId().getStaff().getId());	
-		assertEquals(alterna.getId(), alternaAmtEmploymentContract.getEmploymentContractId().getSupplier().getId());
+		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	
+		assertEquals(alterna.getId(), alternaAmtEmploymentContract.getSupplier().getId());
 		
 	}
 	
@@ -102,11 +102,11 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		
-		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractId(amt, alterna)).get();
+		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractPK((long)1, amt, alterna)).get();
 		
 		/**Verify the EmploymentContract*/
-		assertEquals(amt.getId(), alternaAmtEmploymentContract.getEmploymentContractId().getStaff().getId());	
-		assertEquals(alterna.getId(), alternaAmtEmploymentContract.getEmploymentContractId().getSupplier().getId());
+		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	
+		assertEquals(alterna.getId(), alternaAmtEmploymentContract.getSupplier().getId());
 	}
 	
 	@Test
@@ -146,14 +146,14 @@ public class EmploymentContractRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetEmploymentContractByStaff() {		
+	public void testFindByStaff() {		
 		/**Test 1*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		List <EmploymentContract> johnEmploymentContracts = employmentContractRepo.findByEmploymentContractId_Staff(john);
+		List <EmploymentContract> johnEmploymentContracts = employmentContractRepo.findByStaff(john);
 		assertEquals(1, johnEmploymentContracts.size());
 		/**Test 2*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		List <EmploymentContract> amtEmploymentContracts = employmentContractRepo.findByEmploymentContractId_Staff(amt);
+		List <EmploymentContract> amtEmploymentContracts = employmentContractRepo.findByStaff(amt);
 		assertEquals(5, amtEmploymentContracts.size());
 	}
 	
@@ -161,22 +161,41 @@ public class EmploymentContractRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetEmploymentContractBySupplier() {
+	public void testFindBySupplier() {
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
-		List <EmploymentContract> alphatressEmploymentcontracts = employmentContractRepo.findByEmploymentContractId_Supplier(alphatress);
+		List <EmploymentContract> alphatressEmploymentcontracts = employmentContractRepo.findBySupplier(alphatress);
 		assertEquals(2, alphatressEmploymentcontracts.size());
 		
 	}
 	
 	@Test
-	public void testGetEmploymentContractByStaffAndSupplier() {
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByStaffAndSupplier() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
-		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, alphatress);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0); 
 		
 		/**Verify the EmploymentContract*/
-		assertEquals(john.getId(), johnAlhpatressEmploymentContract.getEmploymentContractId().getStaff().getId());	
-		assertEquals(alphatress.getId(), johnAlhpatressEmploymentContract.getEmploymentContractId().getSupplier().getId());
+		assertEquals(john.getId(), johnAlhpatressEmploymentContract.getStaff().getId());	
+		assertEquals(alphatress.getId(), johnAlhpatressEmploymentContract.getSupplier().getId());	
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByIdAndStaffAndSupplier() {
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByIdAndStaffAndSupplier((long)6, john, alphatress);
+		
+		/**Verify the EmploymentContract*/
+		assertEquals(john.getId(), johnAlhpatressEmploymentContract.getStaff().getId());	
+		assertEquals(alphatress.getId(), johnAlhpatressEmploymentContract.getSupplier().getId());
 	
 	}
 	

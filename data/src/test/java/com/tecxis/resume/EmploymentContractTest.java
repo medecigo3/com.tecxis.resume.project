@@ -11,13 +11,18 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABL
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +35,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.EmploymentContract.EmploymentContractId;
 import com.tecxis.resume.persistence.EmploymentContractRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
@@ -63,16 +67,38 @@ public class EmploymentContractTest {
 	private SupplierRepository supplierRepo;
 	
 	@Test
+	public void testGetStartDate(){
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testSetStartDate(){
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetEndDate(){
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testSetEndDate(){
+		fail("Not yet implemented");
+	}
+	
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaff() {		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
-		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, alphatress);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
 		
 		/**Test Supplier's Staff*/
-		assertEquals(john, johnAlhpatressEmploymentContract.getEmploymentContractId().getStaff());		
+		assertEquals(john, johnAlhpatressEmploymentContract.getStaff());		
 	}
 	
 	@Test
@@ -82,10 +108,12 @@ public class EmploymentContractTest {
 	public void testGetSupplier() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
-		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, alphatress);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
 		
 		/**Test EmploymentContract's Supplier*/
-		assertEquals(alphatress, johnAlhpatressEmploymentContract.getEmploymentContractId().getSupplier());
+		assertEquals(alphatress, johnAlhpatressEmploymentContract.getSupplier());
 	}
 	
 	@Test
@@ -105,7 +133,9 @@ public class EmploymentContractTest {
 	public void testDbRemoveEmploymentContract() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
-		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, alphatress);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
 		
 		/**Verify target EmploymentContract*/
 		assertNotNull(johnAlhpatressEmploymentContract);
@@ -128,9 +158,10 @@ public class EmploymentContractTest {
 	}
 		
 	public static EmploymentContract insertEmploymentContract(Supplier supplier, Staff staff, EntityManager entityManager){
-		EmploymentContract employmentContract = new EmploymentContract( new EmploymentContractId(staff, supplier));
+		EmploymentContract employmentContract = new EmploymentContract(staff, supplier);
 		entityManager.persist(employmentContract);
 		entityManager.flush();
+		assertThat(employmentContract.getId(), Matchers.greaterThan((long)0));
 		return employmentContract;
 		
 	}

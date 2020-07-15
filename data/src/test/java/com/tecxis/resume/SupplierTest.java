@@ -40,7 +40,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.EmploymentContract.EmploymentContractId;
 import com.tecxis.resume.SupplyContract.SupplyContractId;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.ClientRepositoryTest;
@@ -391,13 +390,13 @@ public class SupplierTest {
 		
 		/**Create the new EmploymentContract*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
-		EmploymentContract newEmploymentContract = new EmploymentContract(new EmploymentContractId(john, accenture));
+		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 	
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	// Target orphan in EMPLOYMENT_CONTRACT table
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -420,9 +419,12 @@ public class SupplierTest {
 		accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		assertEquals(2, accenture.getEmploymentContracts().size());		
 		/**Validate the opposite association EmploymentContract -> Supplier*/
-		EmploymentContract johnAccentureEmploymentContract = employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, accenture);
-		assertNotNull(johnAccentureEmploymentContract);
-		assertEquals(newEmploymentContract, johnAccentureEmploymentContract);
+		List <EmploymentContract> johnAccentureEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(john, accenture);
+		assertEquals(1, johnAccentureEmploymentContracts.size());
+		EmploymentContract johnAccentureEmploymentContract = johnAccentureEmploymentContracts.get(0);
+		assertEquals(john, johnAccentureEmploymentContract.getStaff());
+		assertEquals(accenture, johnAccentureEmploymentContract.getSupplier());
+		assertThat(johnAccentureEmploymentContract.getId(), Matchers.greaterThan((long)0));
 	}
 	 
 	@Test
@@ -563,7 +565,7 @@ public class SupplierTest {
 				
 		/**Create the new EmploymentContract to set to parent Supplier*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		EmploymentContract newEmploymentContract = new EmploymentContract(new EmploymentContractId(john, accenture));
+		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();
 		newEmploymentContracts.add(newEmploymentContract);
 		
@@ -593,10 +595,11 @@ public class SupplierTest {
 		/**Validate parent Supplier has new EmploymentContract(s)*/
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		accenture = supplierRepo.getSupplierByName(ACCENTURE);
-		newEmploymentContract = employmentContractRepo.findByEmploymentContractId_StaffAndEmploymentContractId_Supplier(john, accenture);
-		assertNotNull(newEmploymentContract);
-		assertEquals(1, accenture.getEmploymentContracts().size());
-		assertEquals(newEmploymentContract, accenture.getEmploymentContracts().get(0));
+		newEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(john, accenture);
+		assertEquals(1, newEmploymentContracts.size());
+		newEmploymentContract = newEmploymentContracts.get(0);
+		assertEquals(newEmploymentContract, accenture.getEmploymentContracts().get(0));		
+		assertEquals(1, accenture.getEmploymentContracts().size());		
 	}
 	
 	@Test

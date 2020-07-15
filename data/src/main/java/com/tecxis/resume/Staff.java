@@ -109,7 +109,7 @@ public class Staff implements Serializable, StrongEntity {
 	 * In SQL terms, EmploymentContract is the "owner" of this relationship with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff  "IS EMPLOYED" through EmploymentContracts. 
 	 */
-	@OneToMany(mappedBy = "employmentContractId.staff", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<EmploymentContract> employmentContracts;
 	
 	
@@ -234,12 +234,13 @@ public class Staff implements Serializable, StrongEntity {
 
 	public void addEmploymentContract(EmploymentContract employmentContract) {
 		getEmploymentContracts().add(employmentContract);
+		employmentContract.setStaff(this);
 	
 	}
 
 	public void removeEmploymentContract(EmploymentContract employmentContract) {
 		this.employmentContracts.remove(employmentContract);
-		employmentContract.getEmploymentContractId().setStaff(null);
+		employmentContract.setStaff(null);
 	
 	}
 		

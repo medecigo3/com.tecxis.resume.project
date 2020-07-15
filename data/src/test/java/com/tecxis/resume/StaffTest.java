@@ -91,6 +91,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -122,10 +123,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.EmploymentContract.EmploymentContractId;
 import com.tecxis.resume.SupplyContract.SupplyContractId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ClientRepository;
+import com.tecxis.resume.persistence.EmploymentContractRepository;
 import com.tecxis.resume.persistence.InterestRepository;
 import com.tecxis.resume.persistence.ProjectRepository;
 import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
@@ -173,6 +174,9 @@ public class StaffTest {
 	
 	@Autowired
 	private SupplyContractRepository supplyContractRepo;
+	
+	@Autowired
+	private EmploymentContractRepository employmentContractRepo;
 	
 	@Test
 	@Sql(
@@ -1178,12 +1182,12 @@ public class StaffTest {
 		/**Create new EmploymentContract to set to parent Staff*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
-		EmploymentContract newEmploymentContract = new EmploymentContract (new EmploymentContractId (john, accenture));
+		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
 		List <EmploymentContract> newEmploymentContracts = new ArrayList <>();
 		newEmploymentContracts.add(newEmploymentContract);		
 				
 		/**Test initial state of Staff table (the parent)*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='2'
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -1192,7 +1196,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		/**IS EMPLOYED*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		// Target orphans in  EMPLOYMENT_CONTRACT table		
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
@@ -1225,14 +1229,88 @@ public class StaffTest {
 		newEmploymentContracts = john.getEmploymentContracts();
 		assertEquals(1, newEmploymentContracts.size());
 		newEmploymentContract = newEmploymentContracts.get(0);
-		assertEquals(accenture, newEmploymentContract.getEmploymentContractId().getSupplier());
+		assertEquals(accenture, newEmploymentContract.getSupplier());
 		
 	}
 
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddEmploymentContract() {
-		fail("TODO");
 	
+		/**Find target Staff*/		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Verify parent Staff -> Skills*/
+		assertEquals(5, amt.getSkills().size());
+		
+		/**Verify parent Staff -> Course/
+		assertEquals(1, amt.getCourses().size());
+		
+		/**Verify parent Staff -> EmploymentContract*/
+		assertEquals(5, amt.getEmploymentContracts().size());		
+		
+		/**Verify parent Staff -> SupplyContract*/
+		assertEquals(13, amt.getSupplyContracts().size());
+		
+		/**Create the new EmploymentContract*/			
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
+		EmploymentContract newEmploymentContract = new EmploymentContract(amt, amesys);
+		/**Test the existing state for 'amt' and 'amesys' EmploymentContract */
+		List <EmploymentContract> amtAmesysEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(amt, amesys);
+		assertEquals(1, amtAmesysEmploymentContracts.size());
+		
+		/**Test initial state of Staff table (the parent)*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**Tests the initial state of the children table(s) from the Parent table*/
+		/**USES*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		/**ENROLS*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		/**IS EMPLOYED*/
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		/**WORKS IN*/
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
+		/**Tests the initial state of the children table(s) from the Parent table*/		
+		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		/**Amend the new EmploymentContract*/
+		amt.addEmploymentContract(newEmploymentContract);
+		entityManager.merge(amt);
+		entityManager.flush();
+		entityManager.clear();	
+		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		//1 child created.
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		
+		amtAmesysEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(amt, amesys);
+		assertEquals(2, amtAmesysEmploymentContracts.size());
+		
+		/**Validate that both EmploymentContracts have same Staff and Supplier*/		
+		EmploymentContract amtAmesysEmploymentContract1 =  amtAmesysEmploymentContracts.get(0);
+		EmploymentContract amtAmesysEmploymentContract2 =  amtAmesysEmploymentContracts.get(1);
+		assertEquals(amt, amtAmesysEmploymentContract1.getStaff());		
+		assertEquals(amt, amtAmesysEmploymentContract2.getStaff());
+		assertEquals(amesys, amtAmesysEmploymentContract2.getSupplier());
+		assertEquals(amesys, amtAmesysEmploymentContract1.getSupplier());
+		
+		/**However both EmploymentContracts have different id*/
+		assertThat(amtAmesysEmploymentContract1.getId(), Matchers.not(amtAmesysEmploymentContract2.getId()));	
 	}
 	
 	@Test
