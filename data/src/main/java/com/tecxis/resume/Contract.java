@@ -95,18 +95,17 @@ public class Contract implements Serializable, StrongEntity {
 				return false;
 			}
 			ContractPK castOther = (ContractPK)other;
-			return 
-				(this.client.getId() == castOther.getClient().getId())				
-				&& (this.id == castOther.id);
+			return
+				(this.id == castOther.id) &&
+				(this.client.getId() == castOther.getClient().getId());
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));			
 			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-						
+			hash = hash * prime + ((int) (this.client.getId() ^ (this.client.getId() >>> 32)));							
 			return hash;
 		}
 		
@@ -262,7 +261,8 @@ public class Contract implements Serializable, StrongEntity {
 		}
 		Contract castOther = (Contract)other;
 		return					
-			this.id == castOther.getId();
+			(this.id == castOther.getId()) &&
+			(this.getClient().getId() == castOther.getClient().getId());
 	}
 
 	@Override
@@ -270,6 +270,7 @@ public class Contract implements Serializable, StrongEntity {
 		final int prime = 31;
 		int hash = 17;		
 		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
+		hash = hash * prime + ((int) (this.getClient().getId() ^ (this.getClient().getId() >>> 32)));
 		
 		return hash;
 	}
