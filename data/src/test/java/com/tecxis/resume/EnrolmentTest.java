@@ -78,7 +78,7 @@ public class EnrolmentTest {
 		assertEquals(amt, bwEnrolment.getEnrolmentId().getStaff());
 		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
 				
-		/**Find Staff to set in the Course*/		
+		/**Find Staff to set in the new Enrolment*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertNotNull(john);
 		assertEquals(JOHN_NAME, john.getFirstName());
@@ -92,7 +92,7 @@ public class EnrolmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
-		/**Set new Staff*/		
+		/**Remove old and create Enrolment with new Staff*/		
 		entityManager.remove(bwEnrolment);
 		entityManager.persist(newEnrolment);		
 		entityManager.flush();
@@ -143,7 +143,7 @@ public class EnrolmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
-		/**Set new Staff*/
+		/**Remove old and create Enrolment with new Course*/
 		entityManager.remove(bwEnrolment);
 		entityManager.persist(newEnrolment);		
 		entityManager.flush();
