@@ -1,5 +1,6 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.EmploymentContractTest.CANNOT_UPDATE_PK_MSG;
 import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
@@ -12,6 +13,8 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,8 @@ import com.tecxis.resume.persistence.StaffSkillRepository;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffSkillTest {
 	
+	private final static Logger LOG = LogManager.getLogger();
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -52,7 +57,50 @@ public class StaffSkillTest {
 	
 	@Autowired
 	private StaffSkillRepository staffSkillRepo;
+	
+	@Test
+	public void testSetStaff() {
+		/**Find Staff*/
 		
+		/**Find Skill*/
+		
+		/**Find StaffSkill to update*/
+		
+		/**Find Staff to set in the new StaffSkill*/
+		
+		/**Create new StaffKill*/
+		
+		/**Verify initial state*/
+		
+		/**Remove old and create StaffSkill with new Staff*/
+		
+		/**Find old StaffSkill*/
+		
+		/**Find new StaffSkill*/
+		
+		LOG.info(CANNOT_UPDATE_PK_MSG);
+	}
+	
+	@Test
+	public void testSetSkill() {
+		/**Find Staff*/
+		/**Find Skill*/
+		/**Find StaffSkill to update*/
+		
+		/**Find Staff to set in the new StaffSkill*/
+		
+		/**Create new StaffKill*/
+		
+		/**Verify initial state*/
+		
+		/**Remove old and create StaffSkill wiht new Skill*/
+		
+		/**Find old StaffSkill*/
+		
+		/**Find new StaffSkill*/
+		
+		LOG.info(CANNOT_UPDATE_PK_MSG);
+	}
 
 	@Test
 	@Sql(

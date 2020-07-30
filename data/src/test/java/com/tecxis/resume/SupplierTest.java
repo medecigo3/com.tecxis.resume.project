@@ -247,7 +247,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetSupplyContractsNullWithOrmOrphanRemove() {					
+	public void testRemoveSupplyContractsWithNullSet() {					
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		assertEquals(ACCENTURE, accenture.getName());	
@@ -486,7 +486,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testEmploymentContractsNullWithOrmOrphanRemove() {
+	public void testRemoveEmploymentContractsWithNullSet() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		assertEquals(ACCENTURE, accenture.getName());	
