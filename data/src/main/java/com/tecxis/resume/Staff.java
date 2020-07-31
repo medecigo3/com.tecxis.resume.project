@@ -32,6 +32,12 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  */
 @Entity
 public class Staff implements Serializable, StrongEntity {
+	private static final String UNSUPPORTED_STAFF_INTEREST_OPERATION = "Staff -> Interest association managed by association owner Interest.";
+
+	private static final String UNSUPPORTED_STAFF_SKILLS_OPERATION = "Staff -> Skills association managed by association owner StaffSkill.";
+
+	private static final String UNSUPPORTED_STAFF_COURSE_OPERATION = "Staff -> Course association managed by association owner Enrolment.";
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -170,11 +176,27 @@ public class Staff implements Serializable, StrongEntity {
 	}
 
 	public void setCourses(List<Course> courses) {
-		this.courses = courses;
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_COURSE_OPERATION);
+	}
+	
+	public void addCourse(Course course) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_COURSE_OPERATION);
+	}
+	
+	public void removeCourse(Course course) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_COURSE_OPERATION);
 	}
 
 	public List<Interest> getInterests() {
 		return this.interests;
+	}
+	
+	public void setInterests(List <Interest> interests) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_INTEREST_OPERATION);
+	}
+	
+	public void addInterest(Interest interest) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_INTEREST_OPERATION);
 	}
 	
 	public boolean removeInterest(Interest interest) {
@@ -214,7 +236,11 @@ public class Staff implements Serializable, StrongEntity {
 	}
 
 	public void setSkills(List<Skill> skills) {
-		this.skills = skills;
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILLS_OPERATION);
+	}
+	
+	public void setStaffSkills(List <StaffSkill> staffSkills) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILLS_OPERATION);
 	}
 
 	public List<EmploymentContract> getEmploymentContracts() {

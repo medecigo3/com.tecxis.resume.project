@@ -108,8 +108,6 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -142,8 +140,6 @@ import com.tecxis.resume.persistence.SupplyContractRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffTest {
-	
-	private static Logger log = LogManager.getLogger();
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -832,46 +828,34 @@ public class StaffTest {
 		
 	}
 	
-	@Test
-	public void testSetCourses() {
-		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
-		//To set Courses to a Staff see EnrolmentTest.testSetStaff()
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetCourses() {				
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.setCourses(new ArrayList <Course> ());
+		//To set Courses to a Staff see EnrolmentTest.testSetStaff()		
 	}
 	
-	@Test
-	public void testAddCourse() {
-		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddCourse() {			
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.addCourse(new Course());
 		//To add a Course to a Staff see EnrolmentTest.testSetStaff()
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveCourse() {
-		log.info("Staff -> Course association is managed through of the relationship owner (Enrolment).");
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.removeCourse(new Course());
 		//To remove a Course to a Staff see EnrolmentTest.testSetStaff()
-	}
-
-	@Test
-	public void testGetSuppliers() {
-		log.info("Staff ->  Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
-		//To get Suppliers to a Staff see StaffTest.testGetEmploymentContracts()
-	}
-
-	@Test
-	public void testSetSuppliers() {
-		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
-		//To set Suppliers to a Staff see EmploymentContract.testSetSupplier()
-	}
-
-	@Test
-	public void  testAddSupplier() {
-		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
-		//To add Suppliers to a Staff see EmploymentContract.testSetSupplier()
-	}
-
-	@Test
-	public void  testRemoveSupplier() {
-		log.info("Staff -> Supplier association is managed through of the relationship owner (EMPLOYMENT_CONTRACT).");
-		//To remove Suppliers to a Staff see EmploymentContract.testSetSupplier()
 	}
 	
 	@Test
@@ -890,22 +874,24 @@ public class StaffTest {
 		
 	}
 	
-	@Test
-	public void  setInterests() {
-		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void  testSetInterests() {				
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.setInterests(new ArrayList <Interest> ());			
 		//To set Interest to a Staff see InterestTest.testSetStaff()
 	}
 	
-	@Test
-	public void addInterest() {
-		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddInterest() {
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.addInterest(new Interest ());					
 		//To add Interest into a Staff see InterestTest.testSetStaff()
-	}
-	
-	@Test
-	public void removeInterest() {
-		log.info("Staff -> Interest association is managed through of the relationship owner (Interest).");
-		//To remove an Interest from a Staff see InterestTest.testRemoveStaff()
 	}
 	
 	@Test
@@ -1233,6 +1219,11 @@ public class StaffTest {
 	}
 	
 	@Test
+	public void testRemoveEmploymentContract() {
+		fail("TODO");
+	}
+	
+	@Test
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -1397,17 +1388,25 @@ public class StaffTest {
 
 	}
 	
-	@Test
-	public void testSetStaffSkills() {
-		log.info("Staff -> StaffSkill association is managed through of the relationship owner (StaffSkill).");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetStaffSkills() {				
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.setStaffSkills(new ArrayList <StaffSkill> ());
 		//To set StaffSkills to a Staff see StaffSkillTest.testSetStaff()
 	}
 	
 	
-	@Test
-	public void testSetSkills() {
-		log.info("Staff -> Skills association is managed through of the relationship owner (StaffSkill).");
-		//To set Skills to a Staff see StaffSkillTest.testSetSkill()
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetSkills() {		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		john.setSkills(new ArrayList <Skill> ());
+		//To set Skills to a Staff see StaffSkillTest.testSetSkill()		
 	}
 	
 	@Test
