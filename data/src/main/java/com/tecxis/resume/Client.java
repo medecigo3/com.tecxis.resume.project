@@ -24,6 +24,10 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  */
 @Entity
 public class Client implements Serializable, StrongEntity {
+	private static final String UNSUPPORTED_CLIENT_CONTRACT_OPERATION = "Client -> Contract association managed by association owner Contract.";
+	
+	private static final String UNSUPPORTED_CLIENT_PROJECT_OPERATION = "Client -> Project association managed through by association owner Project.";
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -92,11 +96,35 @@ public class Client implements Serializable, StrongEntity {
 	public List<Contract> getContracts() {
 		return this.contracts;
 	}
+	
+	public void setContracts(List <Contract> contracts) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_CONTRACT_OPERATION);
+	}
+	
+	public void addContract(Contract contract) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_CONTRACT_OPERATION);
+	}
 
+	public void removeContract(Contract contract) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_CONTRACT_OPERATION);
+	}
+	
 	public List<Project> getProjects() {
 		return this.projects;
 	}
+	
+	public void setProjects(List <Project> projects) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_PROJECT_OPERATION);
+	}
+	
+	public void addProject(Project project) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_PROJECT_OPERATION);
+	}
 
+	public void removeProject(Project project) {
+		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_PROJECT_OPERATION);
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {

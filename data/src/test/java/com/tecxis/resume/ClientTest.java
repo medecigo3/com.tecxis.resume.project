@@ -17,13 +17,12 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,8 +49,6 @@ import com.tecxis.resume.persistence.SupplierRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ClientTest {
-	
-	private static Logger log = LogManager.getLogger();
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -107,21 +104,33 @@ public class ClientTest {
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetContracts() {		
-		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.setContracts(new ArrayList<Contract> ());
 		//To update a Contract's Client see ContractTest.testSetClient()
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddContract() {
-		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");	
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.addContract(new Contract());	
 		//To update a Contract's Client see ContractTest.testSetClient()
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveContract() {
-		log.info("Client -> Contract association is managed through of the relationship owner (Contract).");	
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.removeContract(new Contract());		
 		//To remove a Contract's Client see ContractTest.testSetClient()		
 	}
 
@@ -144,22 +153,34 @@ public class ClientTest {
 		
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetProjects() {
-		log.info("Client -> Project association is managed through of the relationship owner (Project).");	
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.setProjects(new ArrayList<Project> ());
 		//To set a Client's Project see ProjectTest.testSetClient()		
 			
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
-		log.info("Client -> Project association is managed through of the relationship owner (Project).");
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.addProject(new Project());
 		//To add a Client's Project see ProjectTest.testSetClient()		
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveProject() {
-		log.info("Client -> Project association is managed through of the relationship owner (Project).");	
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		ageas.removeProject(new Project());
 		//To remove a Client's Project see ProjectTest.testSetClient()		
 	}
 	
