@@ -31,6 +31,8 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {"TITLE"}))
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
 public class Course implements Serializable, StrongEntity {
+	private static final String UNSUPPORTED_COURSE_STAFF_OPERATION = "Course -> Staff association is managed by association owner Enrolment";
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -100,7 +102,15 @@ public class Course implements Serializable, StrongEntity {
 	}
 
 	public void setStaffs(List<Staff> staffs) {
-		this.staffs = staffs;
+		throw new UnsupportedOperationException(UNSUPPORTED_COURSE_STAFF_OPERATION);
+	}
+	
+	public void addStaff(Staff staff) {
+		throw new UnsupportedOperationException(UNSUPPORTED_COURSE_STAFF_OPERATION);
+	}
+	
+	public void removeStaff(Staff staff) {
+		throw new UnsupportedOperationException(UNSUPPORTED_COURSE_STAFF_OPERATION);
 	}
 
 	@Override

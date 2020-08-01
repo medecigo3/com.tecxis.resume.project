@@ -11,13 +11,12 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +41,6 @@ import com.tecxis.resume.persistence.StaffRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CourseTest {
-	
-	private static Logger log = LogManager.getLogger();
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -93,21 +90,33 @@ public class CourseTest {
 				
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetStaffs() {
-		log.info("Course -> Staff association is managed through of the relationship owner (Enrolment).");
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		bwCourse.setStaffs(new ArrayList<Staff>());
 		//To update a Staff in a Course see EnrolmentTest.testSetStaff()
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testAddStaff() {
-		log.info("Course -> Stafff association is managed through of the relationship owner (Enrolment).");	
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		bwCourse.addStaff(new Staff());
 		//To add a staff in a Course see EnrolmentTest.testSetStaff()
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveStaff() {
-		log.info("Course -> Stafff association is managed through of the relationship owner (Enrolment).");
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		bwCourse.removeStaff(new Staff());
 		//To remove a staff from a Course see EnrolmentTest.testSetStaff()
 	}
 
