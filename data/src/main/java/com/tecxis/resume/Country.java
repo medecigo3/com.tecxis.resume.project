@@ -24,6 +24,8 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
  */
 @Entity
 public class Country implements Serializable, StrongEntity  {
+	private static final String UNSUPPORTED_COUNTRY_CITY_OPERATION = "Country -> City association managed by association owner City.";
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -71,10 +73,17 @@ public class Country implements Serializable, StrongEntity  {
 	public List<City> getCities() {
 		return this.cities;
 	}
+	
+	public void setCities(List <City> cities) {
+		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
+	}
 
-	public City addCity(City city) {
-		getCities().add(city);
-		return city;
+	public void addCity(City city) {
+		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
+	}
+	
+	public void removeCity(City city) {
+		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
 	}
 	
 	@Override

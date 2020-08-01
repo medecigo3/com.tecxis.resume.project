@@ -1,16 +1,20 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CountryRepositoryTest.*;
-import static com.tecxis.resume.persistence.CityRepositoryTest.*;
+import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
+import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
+import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
+import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
+import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +38,6 @@ import com.tecxis.resume.persistence.CountryRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CountryTest {
-	
-	private static Logger log = LogManager.getLogger();
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -83,21 +85,33 @@ public class CountryTest {
 		
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetCities() {
-		log.info("Country -> City association is managed through of the relationship owner (City).");
+		Country france = countryRepo.getCountryByName(FRANCE);
+		france.setCities(new ArrayList<City> ());		
 		//To update the Cities in a Country see CityTest.testSetCountry()			
 	}
 
-	@Test
-	public void testAddCity() {
-		log.info("Country -> City association is managed through of the relationship owner (City).");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testAddCity() {		
+		Country france = countryRepo.getCountryByName(FRANCE);
+		france.addCity(new City());	
 		//To update a City in a Country see CityTest.testSetCountry()
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveCity() {
-		log.info("Country -> City association is managed through of the relationship owner (City).");
+		Country france = countryRepo.getCountryByName(FRANCE);
+		france.removeCity(new City());	
 		//To remove or update a City in a Country see CityTest.testSetCountry()
 		//The mappedBy is set in the inverse side of the association (non-owing). To remove the non-owing (Country), the parent (Country) has to have the cascading strategy set to REMOVE.
 		//The remove SQL operation cascades to the owing association, in this case the City. 
