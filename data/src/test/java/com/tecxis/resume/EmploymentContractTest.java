@@ -49,7 +49,7 @@ import com.tecxis.resume.persistence.SupplierRepository;
 public class EmploymentContractTest {
 
 	private final static Logger LOG = LogManager.getLogger();
-	public final static String CANNOT_UPDATE_PK_MSG = "Cannot update the inverse side (the owning) in a PK. Remove then create a new instance. See EnrolmentTest.testSetStaff, EnrolmentTest.testSetCourse, StaffSkillTest.testSetStaff, StaffSkillTest.testSetSkill";
+	public final static String PK_UPDATE_WARN = "Cannot update the inverse side (the owning) in a PK. Remove then create a new instance. See EnrolmentTest.testSetStaff, EnrolmentTest.testSetCourse, StaffSkillTest.testSetStaff, StaffSkillTest.testSetSkill";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -118,12 +118,12 @@ public class EmploymentContractTest {
 	
 	@Test
 	public void testSetStaff() {	
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
 	public void testSetSupplier() {
-		LOG.info(CANNOT_UPDATE_PK_MSG);		
+		LOG.info(PK_UPDATE_WARN);		
 	}
 	
 	@Test

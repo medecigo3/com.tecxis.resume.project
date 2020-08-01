@@ -1,6 +1,6 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.EmploymentContractTest.CANNOT_UPDATE_PK_MSG;
+import static com.tecxis.resume.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
@@ -96,19 +96,13 @@ public class SupplyContractTest {
 	}
 
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetStaff() {
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetSupplier() {
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
@@ -138,11 +132,8 @@ public class SupplyContractTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetContract() {
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test

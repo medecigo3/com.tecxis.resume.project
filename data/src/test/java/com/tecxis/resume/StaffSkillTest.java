@@ -1,6 +1,6 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.EmploymentContractTest.CANNOT_UPDATE_PK_MSG;
+import static com.tecxis.resume.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
@@ -78,7 +78,7 @@ public class StaffSkillTest {
 		
 		/**Find new StaffSkill*/
 		
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class StaffSkillTest {
 		
 		/**Find new StaffSkill*/
 		
-		LOG.info(CANNOT_UPDATE_PK_MSG);
+		LOG.info(PK_UPDATE_WARN);
 	}
 
 	@Test
