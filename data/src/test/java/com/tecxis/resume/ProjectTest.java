@@ -840,8 +840,8 @@ public class ProjectTest {
 		/**Validate the opposite association*/
 		manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(2, manchester.getProjects().size());
-		//Reopen persistence contest otherwise exception is thrown-> LazyInitializationException : failed to lazily initialize 
-		//a collection of role:, could not initialize proxy - no Session
+		//Reopen persistence context otherwise exception is thrown-> LazyInitializationException : failed to lazily initialize 
+		//a collection of role:, could not initialise proxy - no Session
 		// Read: https://vladmihalcea.com/the-hibernate-enable_lazy_load_no_trans-anti-pattern/
 		Project adir =  projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertThat(manchester.getProjects().get(0), Matchers.oneOf(selenium, adir));
