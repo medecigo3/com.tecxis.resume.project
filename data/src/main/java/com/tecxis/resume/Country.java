@@ -78,8 +78,9 @@ public class Country implements Serializable, StrongEntity  {
 		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
 	}
 
-	public void addCity(City city) {
-		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
+	public City addCity(City city) {
+		getCities().add(city);
+		return city;
 	}
 	
 	public void removeCity(City city) {
