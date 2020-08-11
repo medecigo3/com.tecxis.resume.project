@@ -37,6 +37,8 @@ public class Staff implements Serializable, StrongEntity {
 	private static final String UNSUPPORTED_STAFF_SKILLS_OPERATION = "Staff -> Skills association managed by association owner StaffSkill.";
 
 	private static final String UNSUPPORTED_STAFF_COURSE_OPERATION = "Staff -> Course association managed by association owner Enrolment.";
+	
+	private static final String UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION = "Staff -> StaffProjectAssignment association managed by association owner StaffProjectAssignment.";
 
 	private static final long serialVersionUID = 1L;
 
@@ -218,13 +220,11 @@ public class Staff implements Serializable, StrongEntity {
 	}
 	
 	public void addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		this.staffProjectAssignments.add(staffProjectAssignment);
-		staffProjectAssignment.setStaffAssignmentId(staffProjectAssignmentId); //TODO
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION);
 	}
 	
-	public void removeStaffPRojectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		this.staffProjectAssignments.remove(staffProjectAssignment);
-		staffProjectAssignment.setStaffAssignmentId(staffProjectAssignmentId); //TODO
+	public void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION); 
 	}
 
 	public StaffProjectAssignment addStaffProjectAssignment(Project project, Assignment assignment) {

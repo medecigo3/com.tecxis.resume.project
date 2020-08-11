@@ -468,9 +468,26 @@ public class StaffTest {
 	
 	}
 	
-	@Test
-	public void testAddStaffProjectAssignment() {
-		fail("TODO moved logic to AssignmentTest.testAddStaffProjectAssignment2");
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddStaffProjectAssignment() {		
+		/**Fetch Project*/
+		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
+		
+		/**Fetch Assignment*/			
+		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		
+		/**Fetch Staff*/		
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);		
+		
+		/**Test add StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
+		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		john.addStaffProjectAssignment(newStaffProjectAssignment);	 
+		//TO add StaffPRojectAssignment see AssignmentTest.testAddStaffProjectAssignment1, AssignmentTest.testAddStaffProjectAssignment2");
 	}
 	
 	@Test(expected=EntityExistsException.class)
@@ -523,9 +540,27 @@ public class StaffTest {
 		amt.addStaffProjectAssignment(eolis, assignment23); /***  <==== Throws EntityExistsException */
 	}
 	
-	@Test	
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
-		fail("TODO move logic to StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
+		/**Fetch Project*/
+		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
+		
+		/**Fetch Assignment*/			
+		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		
+		/**Fetch Staff*/		
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);		
+		
+		/**Test add StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
+		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		john.removeStaffProjectAssignment(newStaffProjectAssignment);		
+		//TODO continue here
+		//TODO To remove StaffPRojectAssignment see logic in StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
 	}
 	
 	@Test
