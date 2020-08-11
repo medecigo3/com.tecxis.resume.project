@@ -216,6 +216,16 @@ public class Staff implements Serializable, StrongEntity {
 	public void setStaffProjectAssignment(List<StaffProjectAssignment> staffProjectAssignments) {
 		this.staffProjectAssignments = staffProjectAssignments;
 	}
+	
+	public void addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		this.staffProjectAssignments.add(staffProjectAssignment);
+		staffProjectAssignment.setStaffAssignmentId(staffProjectAssignmentId); //TODO
+	}
+	
+	public void removeStaffPRojectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		this.staffProjectAssignments.remove(staffProjectAssignment);
+		staffProjectAssignment.setStaffAssignmentId(staffProjectAssignmentId); //TODO
+	}
 
 	public StaffProjectAssignment addStaffProjectAssignment(Project project, Assignment assignment) {
 		/**check if 'project' and 'assignment' aren't in staffProjectAgreements*/

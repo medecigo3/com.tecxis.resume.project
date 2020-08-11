@@ -2,18 +2,26 @@ package com.tecxis.resume;
 
 
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT53;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT14;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
+import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
+import static com.tecxis.resume.persistence.EmploymentContractRepositoryTest.EMPLOYMENT_CONTRACT_TABLE;
+import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
+import static com.tecxis.resume.persistence.InterestRepositoryTest.INTEREST_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
+import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
+import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
+import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -112,20 +120,64 @@ public class StaffProjectAssignmentTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
-		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);		
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa, amt, assignment53);		
+		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours, amt, assignment14);	
+		assertEquals(62, amt.getStaffProjectAssignments().size());		
+		assertEquals(6, parcours.getStaffProjectAssignments().size());
+		assertEquals(1, assignment14.getStaffProjectAssignments().size());
+		
+		/**Detach entities*/
+		entityManager.clear();
+
+		/**Validate staff -> assignments*/
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
-		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
+		/**Remove staff -> assignment*/
+		/**Tests initial state parent table*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		/**Tests initial state children tables*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		/**Test other parents for control*/ 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 	
+	
+		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */		
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		
+		/**Tests post state parent table*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		/**Tests initial state children tables*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		/**Test other parents for control*/ 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		
+		/**Validate staff -> assignments*/		
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
+		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);	
+		assertEquals(61, amt.getStaffProjectAssignments().size());		
+		assertEquals(5, parcours.getStaffProjectAssignments().size());
+		assertEquals(0, assignment14.getStaffProjectAssignments().size());
 		
 	}
 	

@@ -56,7 +56,6 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT7
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT8;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT9;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
@@ -470,50 +469,8 @@ public class StaffTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddStaffProjectAssignment() {
-		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
-		Project aos = ProjectTest.insertAProject(AOS, VERSION_1, arval, entityManager);
-		assertEquals(1, aos.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		
-		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
-		
-		/**Prepare assignment*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment47 = AssignmentTest.insertAssignment(ASSIGNMENT47, entityManager);
-		assertEquals(1, assignment47.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		
-		/**Validate staff -> assignments*/		
-		assertEquals(0, amt.getStaffProjectAssignments().size());		
-		assertEquals(0, aos.getStaffProjectAssignments().size());
-		assertEquals(0, assignment47.getStaffProjectAssignments().size());
-		
-		/**Prepare staff -> assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		aos.addStaffProjectAssignment(amt, assignment47);
-		amt.addStaffProjectAssignment(aos, assignment47);
-		assignment47.addStaffProjectAssignment(amt, aos);
-				
-		entityManager.merge(aos);
-		entityManager.merge(amt);
-		entityManager.merge(assignment47);
-		entityManager.flush();
-		
-		/**Validate staff -> assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(1, amt.getStaffProjectAssignments().size());		
-		assertEquals(1, aos.getStaffProjectAssignments().size());
-		assertEquals(1, assignment47.getStaffProjectAssignments().size());
+		fail("TODO moved logic to AssignmentTest.testAddStaffProjectAssignment2");
 	}
 	
 	@Test(expected=EntityExistsException.class)
@@ -566,46 +523,9 @@ public class StaffTest {
 		amt.addStaffProjectAssignment(eolis, assignment23); /***  <==== Throws EntityExistsException */
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test	
 	public void testRemoveStaffProjectAssignment() {
-		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours, amt, assignment14);	
-		assertEquals(62, amt.getStaffProjectAssignments().size());		
-		assertEquals(6, parcours.getStaffProjectAssignments().size());
-		assertEquals(1, assignment14.getStaffProjectAssignments().size());
-		
-		/**Detach entities*/
-		entityManager.clear();
-
-		/**Validate staff -> assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
-		assertNotNull(staffProjectAssignment1);
-		
-		//TODO Add initial state table validation here
-		
-		/**Remove staff -> assignment*/
-		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */
-		entityManager.remove(staffProjectAssignment1);
-		entityManager.flush();
-		entityManager.clear();
-		
-		//TODO add post state table validation here
-		
-		/**Validate staff -> assignments*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertNull(entityManager.find(StaffProjectAssignment.class, id));
-		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
-		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);	
-		assertEquals(61, amt.getStaffProjectAssignments().size());		
-		assertEquals(5, parcours.getStaffProjectAssignments().size());
-		assertEquals(0, assignment14.getStaffProjectAssignments().size());
+		fail("TODO move logic to StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
 	}
 	
 	@Test

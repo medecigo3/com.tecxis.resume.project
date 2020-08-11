@@ -7,8 +7,11 @@ import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT3
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT32;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT33;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT34;
+import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT47;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
+import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
+import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
@@ -82,7 +85,7 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddStaffProjectAssignment() {
+	public void testAddStaffProjectAssignment1() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
@@ -123,6 +126,53 @@ public class AssignmentTest {
 		assertEquals(1, amt.getStaffProjectAssignments().size());		
 		assertEquals(1, ted.getStaffProjectAssignments().size());
 		assertEquals(1, assignment12.getStaffProjectAssignments().size());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddStaffProjectAssignment2() {
+		/**Prepare project*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
+		Project aos = ProjectTest.insertAProject(AOS, VERSION_1, arval, entityManager);
+		assertEquals(1, aos.getId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		
+		/**Prepare staff*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, amt.getId());
+		
+		/**Prepare assignment*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		Assignment assignment47 = AssignmentTest.insertAssignment(ASSIGNMENT47, entityManager);
+		assertEquals(1, assignment47.getId());
+		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		
+		/**Validate staff -> assignments*/		
+		assertEquals(0, amt.getStaffProjectAssignments().size());		
+		assertEquals(0, aos.getStaffProjectAssignments().size());
+		assertEquals(0, assignment47.getStaffProjectAssignments().size());
+		
+		/**Prepare staff -> assignments*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		aos.addStaffProjectAssignment(amt, assignment47);
+		amt.addStaffProjectAssignment(aos, assignment47);
+		assignment47.addStaffProjectAssignment(amt, aos);
+				
+		entityManager.merge(aos);
+		entityManager.merge(amt);
+		entityManager.merge(assignment47);
+		entityManager.flush();
+		
+		/**Validate staff -> assignments*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(1, amt.getStaffProjectAssignments().size());		
+		assertEquals(1, aos.getStaffProjectAssignments().size());
+		assertEquals(1, assignment47.getStaffProjectAssignments().size());
 	}
 	
 	@Test(expected=EntityExistsException.class)
