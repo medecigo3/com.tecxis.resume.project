@@ -9,9 +9,9 @@ import static com.tecxis.resume.persistence.ServiceRepositoryTest.J2EE_DEVELOPPE
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.persistence.ServiceRepositoryTest.SERVICE_TABLE;
+import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -63,6 +63,9 @@ public class ContractServiceAgreementRepositoryTest {
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
+	
+	@Autowired
+	private  ContractRepository contractRepo;
 	
 	@Test
 	@Sql(
@@ -147,9 +150,23 @@ public class ContractServiceAgreementRepositoryTest {
 	}
 	
 	@Test
-	public void testFindByContractServiceAgreementId_contractAndContractServiceAgreementId_Service() {
-		//TODO continue here
-		fail("TODO");
+	public void testFindByContractServiceAgreementId_contractAndContractServiceAgreementId_Service() {		
+		/**Fetch  Contract*/
+		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(alphatressBelfiusContract); 
+		
+		/**Fetch Service*/
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		assertNotNull(bwService);
+		
+		/**Fetch the ConstractServiceAgreement*/
+		ContractServiceAgreement alphatressBelfiusBwService = contractServiceAgreementRepo.findByContractServiceAgreementId_contractAndContractServiceAgreementId_Service(alphatressBelfiusContract, bwService);
+		/**Validate the ConstractServiceAgreement*/
+		assertNotNull(alphatressBelfiusBwService);
+		/**Validate Contract  association*/
+		assertEquals(alphatressBelfiusBwService.getContractServiceAgreementId().getContract(), alphatressBelfiusContract);
+		/**Validate the Service association*/
+		assertEquals(alphatressBelfiusBwService.getContractServiceAgreementId().getService(), bwService);
 	}
 	
 	@Test
