@@ -558,9 +558,8 @@ public class StaffTest {
 		StaffProjectAssignment newStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
 		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		john.removeStaffProjectAssignment(newStaffProjectAssignment);		
-		//TODO continue here
-		//TODO To remove StaffPRojectAssignment see logic in StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
+		john.removeStaffProjectAssignment(newStaffProjectAssignment);	
+		//To remove StaffPRojectAssignment see logic in StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
 	}
 	
 	@Test
