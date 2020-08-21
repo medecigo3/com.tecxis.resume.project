@@ -145,6 +145,9 @@ public class SupplyContractRepositoryTest {
 	@Autowired
 	private ContractRepository contractRepo;
 	
+	@Autowired
+	private StaffRepository staffRepo;
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
@@ -248,8 +251,9 @@ public class SupplyContractRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByContractAndSupplierAndStaffOrderByStartDateAsc() {
+	public void testFindByContractAndSupplierAndStaff() {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		assertNotNull(accenture);
 		
 		/**Find test SupplyContract(s)*/
 		List <SupplyContract> accentureSupplyContracts = supplyContractRepo.findBySupplyContractId_SupplierOrderByStartDateAsc(accenture);
@@ -265,16 +269,30 @@ public class SupplyContractRepositoryTest {
 		assertNotNull(ageasContract);
 		assertNotNull(accentureContract);
 		/**Find Staff(s)*/
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);	 
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertNotNull(amt);
 		/**Find target SupplyContract(s)*/
 		SupplyContract accentureBarlcaysSupplyContract =  supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(barlcaysContract, accenture, amt);
 		SupplyContract accentureAgeasSupplyContract  =  supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(ageasContract, accenture, amt);
 		SupplyContract accentureAccentureSupplyContract  =  supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(accentureContract, accenture, amt);
-		//TODO continue here
+		
 		assertNotNull(accentureBarlcaysSupplyContract);
 		assertNotNull(accentureAgeasSupplyContract);
 		assertNotNull(accentureAccentureSupplyContract);
+		
+		
+		assertEquals(barlcaysContract, accentureBarlcaysSupplyContract.getSupplyContractId().getContract());
+		assertEquals(amt, accentureBarlcaysSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(accenture, accentureBarlcaysSupplyContract.getSupplyContractId().getSupplier());
+
+
+		assertEquals(ageasContract, accentureAgeasSupplyContract.getSupplyContractId().getContract());
+		assertEquals(amt, accentureAgeasSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(accenture, accentureAgeasSupplyContract.getSupplyContractId().getSupplier());
+
+		assertEquals(accentureContract, accentureAccentureSupplyContract.getSupplyContractId().getContract());
+		assertEquals(amt, accentureAccentureSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(accenture, accentureAccentureSupplyContract.getSupplyContractId().getSupplier());
 		 
 		/**Validate*/
 		assertThat(accentureSupplyContracts, Matchers.containsInRelativeOrder(accentureBarlcaysSupplyContract, accentureAgeasSupplyContract, accentureAccentureSupplyContract));
