@@ -1,0 +1,7 @@
+    select
+        supplier0_.SUPPLIER_ID as SUPPLIER1_17_,
+        supplier0_.name as name2_17_ 
+    from
+        Supplier supplier0_ 
+    where
+        supplier0_.name=?
