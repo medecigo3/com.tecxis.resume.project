@@ -195,8 +195,8 @@ public class ContractTest {
 		assertEquals(micropole, newMicropoleContract.getClient());	
 		
 		/**Validate the Client -> Contract*/
-		micropole = clientRepo.getClientByName(MICROPOLE);
 		Contract fcMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
+		assertEquals(micropole, fcMicropoleContract.getClient());
 		
 		/**Now Client -> Contracts has 2 */
 		assertEquals(2, micropole.getContracts().size());
