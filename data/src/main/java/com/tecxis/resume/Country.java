@@ -79,8 +79,7 @@ public class Country implements Serializable, StrongEntity  {
 	}
 
 	public City addCity(City city) {
-		getCities().add(city);
-		return city;
+		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
 	}
 	
 	public void removeCity(City city) {

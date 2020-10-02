@@ -128,6 +128,7 @@ public class ContractTest {
 		
 	}
 	
+	/**See equivalent unit test in CityTest.testSetCountryWithOrmOrhpanRemoval*/
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
@@ -194,7 +195,7 @@ public class ContractTest {
 		micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(micropole, newMicropoleContract.getClient());	
 		
-		/**Validate the Client -> Contract*/
+		/**Validate old Contract -> Client*/
 		Contract fcMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(micropole, fcMicropoleContract.getClient());
 		

@@ -127,49 +127,55 @@ public class CityTest {
 		assertEquals(BELGIUM, brussels.getCountry().getName());
 	}
 
+	/**See equivalent unit test in ContractTest.testSetClientWithOrmOrhpanRemoval */
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetCountry() {
+	public void testSetCountryWithOrmOrhpanRemoval() {
 		/**Find City*/
-		City london = cityRepo.getCityByName(LONDON);		
+		City currentLondon = cityRepo.getCityByName(LONDON);		
 		
 		/**Validate City -> Country*/
-		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		assertEquals(UNITED_KINGDOM, currentLondon.getCountry().getName());
 				
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(FRANCE, france.getName());
 		assertEquals(1, france.getCities().size());
 		
-		/**Build new City -> Country*/
+		/**Create new City with new Country*/
 		City newLondon =  new City();
-		newLondon.setId(london.getId());
+		newLondon.setId(currentLondon.getId());
 		newLondon.setCountry(france);		
-		newLondon.setName(london.getName());
-		france.addCity(newLondon);
-		
+		newLondon.setName(currentLondon.getName());
+				
 		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		entityManager.remove(london);
-		/** INSERT of 'newLondon' runs first. As there is an unique restriction IN CITY.NAME
-		 *  Enforce DELETE 'london' to run in priority*/
-		entityManager.flush();						
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		entityManager.remove(currentLondon);
+		entityManager.flush();		
+		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //2 orphans removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));					
 		entityManager.persist(newLondon);	
-		entityManager.merge(france);	
 		entityManager.flush();			
 		entityManager.clear();
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE)); // 1 new child inserted
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		/**Validate  City association with country*/
+		/**Validate the new City*/		
 		newLondon = null;
-		newLondon = cityRepo.getCityByName(LONDON);		 
-		assertEquals(FRANCE, newLondon.getCountry().getName());
-		assertEquals(london.getId(), newLondon.getId());
-		/**Validate the Country association with City*/
+		newLondon = cityRepo.getCityByName(LONDON);		
+		assertEquals(currentLondon.getId(), newLondon.getId());
 		france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(france, newLondon.getCountry());
+		
+		/**Validate the new Country -> City*/		
 		assertEquals(2, france.getCities().size());
 		assertThat(france.getCities(), Matchers.hasItem(newLondon));		
 		
