@@ -268,33 +268,24 @@ public class ContractTest {
 		newAmesysSagemSupplyContract.setStartDate(startDate);
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
-			
-		/**Create new Contract*/	
-		Contract newAmesysSagemContract = new Contract();
-		newAmesysSagemContract.setId(amesysContractId);	
-		newAmesysSagemContract.setName(CONTRACT4_NAME);
-		/**Set Contract <-> Client*/ 
-		newAmesysSagemContract.setClient(sagemcom);
-		//TODO For this to work impl. Client.addContract() & Client.removeContract()	
-		
-		/**Set Contract -> new SupplyContract*/		    
-		List <SupplyContract> newAmesysSagemSupplyContracts = new ArrayList <>();
-		newAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
-
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
-		entityManager.remove(currentAmesysSagemContract);	
-		entityManager.persist(newAmesysSagemContract);
+		
+		/**Set Contract -> new SupplyContract*/
+		List <SupplyContract> newAmesysSagemSupplyContracts = new ArrayList <>();
+		newAmesysSagemSupplyContracts.add(newAmesysSagemSupplyContract);
+		currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
+		entityManager.merge(currentAmesysSagemContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		//1 orphan removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));				//1 orphan removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 						//1 Contract removed, 1 Contract created
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));				//1 orphan removed and 1 new child created in SUPPLY_CONTRACT table. Other tables remain unchanged.
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 						
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -310,7 +301,7 @@ public class ContractTest {
 		/**Validate the Client -> Contract*/		
 		List <Contract> sagemcomcontracts = sagemcom.getContracts();
 		assertEquals(1, sagemcomcontracts.size());
-		assertEquals(newAmesysSagemContract, sagemcomcontracts.get(0));
+		assertEquals(currentAmesysSagemContract, sagemcomcontracts.get(0));
 
 		/**Validate Contract -> SupplyContract*/		
 		List <SupplyContract>  amesysSagemSupplyContracts =  currentAmesysSagemContract.getSupplyContracts();
