@@ -171,14 +171,17 @@ public class ContractTest {
 		amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
 		newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
 
+		/**These steps will update the Parent (non-owner of this relation)*/ 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
+		/**Firstly remove the Child (Owner)*/
 		entityManager.remove(currentSagemContract);
 		entityManager.flush();
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));//1 orphan removed
 		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); //1 orphan removed
+		/**Finally insert Child with new Parent (non-owner)*/
 		entityManager.persist(newMicropoleContract);
 		entityManager.flush();
 		entityManager.clear();
