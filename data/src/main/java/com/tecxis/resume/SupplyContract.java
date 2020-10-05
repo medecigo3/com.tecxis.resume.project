@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  * The persistent class for SUPPLY_CONTRACT database table.
@@ -146,6 +147,7 @@ public class SupplyContract implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="START_DATE")
+	@NotNull	
 	private Date startDate;
 
 	
