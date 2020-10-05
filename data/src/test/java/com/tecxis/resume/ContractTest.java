@@ -167,6 +167,7 @@ public class ContractTest {
 		newMicropoleContract.setName(CONTRACT4_NAME);
 		/**Set the new Contract with the SupplyContract (with new Client)*/	
 		SupplyContract amesysMicropoleSupplyContract = new SupplyContract(new SupplyContractId(amesys, newMicropoleContract, amt));
+		amesysMicropoleSupplyContract.setStartDate(new Date());
 		List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
 		amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
 		newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);

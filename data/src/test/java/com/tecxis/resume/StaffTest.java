@@ -101,6 +101,7 @@ import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -892,6 +893,7 @@ public class StaffTest {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList <>();
 		newSupplyContracts.add(newSupplyContract);		
 				
@@ -975,6 +977,7 @@ public class StaffTest {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		newSupplyContract.setStartDate(new Date());
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
@@ -1202,6 +1205,7 @@ public class StaffTest {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
 		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
+		newEmploymentContract.setStartDate(new Date());
 		List <EmploymentContract> newEmploymentContracts = new ArrayList <>();
 		newEmploymentContracts.add(newEmploymentContract);		
 				
@@ -1277,6 +1281,7 @@ public class StaffTest {
 		/**Create the new EmploymentContract*/			
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(amt, amesys);
+		newEmploymentContract.setStartDate(new Date());
 		/**Test the existing state for 'amt' and 'amesys' EmploymentContract */
 		List <EmploymentContract> amtAmesysEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(amt, amesys);
 		assertEquals(1, amtAmesysEmploymentContracts.size());

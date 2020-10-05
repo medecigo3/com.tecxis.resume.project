@@ -15,6 +15,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -159,6 +160,7 @@ public class EmploymentContractTest {
 		
 	public static EmploymentContract insertEmploymentContract(Supplier supplier, Staff staff, EntityManager entityManager){
 		EmploymentContract employmentContract = new EmploymentContract(staff, supplier);
+		employmentContract.setStartDate(new Date());
 		entityManager.persist(employmentContract);
 		entityManager.flush();
 		assertThat(employmentContract.getId(), Matchers.greaterThan((long)0));

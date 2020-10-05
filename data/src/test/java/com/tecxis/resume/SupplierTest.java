@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -156,6 +157,7 @@ public class SupplierTest {
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertNotNull(belfiusContract);
 		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
+		newSupplyContract.setStartDate(new Date());
 	
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -329,6 +331,7 @@ public class SupplierTest {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
+		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList<>();
 		newSupplyContracts.add(newSupplyContract);
 					
@@ -391,6 +394,7 @@ public class SupplierTest {
 		/**Create the new EmploymentContract*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
+		newEmploymentContract.setStartDate(new Date());
 	
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -566,6 +570,7 @@ public class SupplierTest {
 		/**Create the new EmploymentContract to set to parent Supplier*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
+		newEmploymentContract.setStartDate(new Date());
 		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();
 		newEmploymentContracts.add(newEmploymentContract);
 		
