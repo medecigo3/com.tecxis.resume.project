@@ -9,11 +9,15 @@ import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -34,7 +38,8 @@ import com.tecxis.resume.persistence.CountryRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CountryTest {
@@ -47,6 +52,9 @@ public class CountryTest {
 
 	@Autowired
 	private CityRepository cityRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetCountryId() {
@@ -116,6 +124,14 @@ public class CountryTest {
 		//The mappedBy is set in the inverse side of the association (non-owing). To remove the non-owing (Country), the parent (Country) has to have the cascading strategy set to REMOVE.
 		//The remove SQL operation cascades to the owing association, in this case the City. 
 		//Whilst cascading strategy is not set to REMOVE an attempt, delete of a Country will throw a ConstraintViolationException
+		
+	}
+	
+	@Test
+	public void testNameIsNull() {
+		Country country = new Country();
+		Set<ConstraintViolation<Country>> violations = validator.validate(country);
+        assertFalse(violations.isEmpty());
 		
 	}
 

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -38,6 +39,7 @@ public class Country implements Serializable, StrongEntity  {
 	@Column(name="COUNTRY_ID")
 	private long id;
 
+	@NotNull
 	private String name;
 
 	/**
