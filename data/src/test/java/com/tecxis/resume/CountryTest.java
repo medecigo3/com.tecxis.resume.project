@@ -128,7 +128,7 @@ public class CountryTest {
 	}
 	
 	@Test
-	public void testNameIsNull() {
+	public void testNameIsNotNull() {
 		Country country = new Country();
 		Set<ConstraintViolation<Country>> violations = validator.validate(country);
         assertFalse(violations.isEmpty());
