@@ -13,6 +13,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -88,7 +89,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -116,7 +117,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -153,7 +154,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		

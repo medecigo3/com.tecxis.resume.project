@@ -66,9 +66,14 @@ public class StaffSkill implements Serializable{
 				return false;
 			}
 			StaffSkillId castOther = (StaffSkillId)other;
-			return
-				(this.getSkill().getId() == castOther.getSkill().getId())
-				&& (this.getStaff().getId() == castOther.getStaff().getId());
+			
+			if (this.getSkill() != null && castOther.getSkill() != null) {
+				if (this.getStaff() != null && castOther.getStaff() != null) {
+					
+					return 	this.getSkill().equals(castOther.getSkill()) &&
+							this.getStaff().equals(castOther.getStaff());
+				} else return false;
+			} else return false;
 				
 		}
 		
@@ -76,8 +81,12 @@ public class StaffSkill implements Serializable{
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.getSkill().getId() ^ (this.getSkill().getId() >>> 32)));
-			hash = hash * prime + ((int) (this.getStaff().getId()  ^ (this.getStaff().getId() >>> 32)));
+			if (this.getSkill() != null)
+				hash = hash * prime + this.getSkill().hashCode();
+			
+			if (this.getStaff() != null)
+				hash = hash * prime + this.getStaff().hashCode();
+			
 			return hash;
 		}
 		
@@ -121,9 +130,14 @@ public class StaffSkill implements Serializable{
 		}
 		
 		StaffSkill castOther = (StaffSkill)other;
-		return
-			(this.getStaffSkillId().getSkill().getId() == castOther.getStaffSkillId().getSkill().getId())
-			&& (this.getStaffSkillId().getStaff().getId() == castOther.getStaffSkillId().getStaff().getId());
+		
+		if (this.getStaffSkillId().getSkill() != null && castOther.getStaffSkillId().getSkill() != null) {
+			if (this.getStaffSkillId().getStaff() != null && castOther.getStaffSkillId().getStaff() != null) {
+				
+				return 	this.getStaffSkillId().getSkill().equals(castOther.getStaffSkillId().getSkill()) &&
+						this.getStaffSkillId().getStaff().equals(castOther.getStaffSkillId().getStaff());
+			} else return false;
+		} else return false;
 			
 	}
 	
@@ -131,8 +145,15 @@ public class StaffSkill implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getStaffSkillId().getSkill().getId() ^ (this.getStaffSkillId().getSkill().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getStaffSkillId().getStaff().getId()  ^ (this.getStaffSkillId().getStaff().getId() >>> 32)));
+		
+		StaffSkillId staffSkillId = this.getStaffSkillId();
+		if (staffSkillId != null) {
+			if (staffSkillId.getSkill() != null)
+				hash = hash * prime + this.getStaffSkillId().getSkill().hashCode();
+			
+			if (staffSkillId.getStaff() != null)
+				hash = hash * prime + this.getStaffSkillId().getStaff().hashCode();
+		}
 		return hash;
 	}
 	

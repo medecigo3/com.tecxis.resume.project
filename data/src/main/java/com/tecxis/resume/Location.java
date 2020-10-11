@@ -72,11 +72,15 @@ public class Location implements Serializable {
 				return false;
 			}
 			LocationId castOther = (LocationId)other;
-			return
-				(this.city.getId() == castOther.getCity().getId())
-				&& (this.city.getCountry().getId() == castOther.getCity().getCountry().getId())				
-				&& (this.project.getId()  == castOther.getProject().getId())	
-				&& (this.project.getClient().getId() == castOther.getProject().getClient().getId());
+			
+			if(this.getCity() != null && castOther.getCity() != null) {
+				if (this.getProject() != null && castOther.getProject() != null) {
+					
+					 return 	this.getCity().equals(castOther.getCity()) &&
+							 	this.getProject().equals(castOther.getProject());
+					 
+				} else return false;
+			} else return false;
 				
 		}
 		
@@ -84,10 +88,14 @@ public class Location implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.city.getId() ^ (this.city.getId() >>> 32)));
-			hash = hash * prime + ((int) (this.city.getCountry().getId()  ^ (this.city.getCountry().getId() >>> 32)));
-			hash = hash * prime + ((int) (this.project.getId()   ^ (this.project.getId()  >>> 32)));
-			hash = hash * prime + ((int) (this.project.getClient().getId()   ^ (this.project.getClient().getId()  >>> 32)));
+			
+			if (this.getCity() != null) {
+				hash = hash * prime + this.getCity().hashCode();
+			}
+			
+			if (this.getProject() != null) {
+				hash = hash * prime +  this.getProject().hashCode();
+			}
 			
 			return hash;
 		}
@@ -133,11 +141,15 @@ public class Location implements Serializable {
 			return false;
 		}
 		Location castOther = (Location)other;
-		return
-			(this.getLocationId().getCity().getId() == castOther.getLocationId().getCity().getId())
-			&& (this.getLocationId().getCity().getCountry().getId() == castOther.getLocationId().getCity().getCountry().getId())				
-			&& (this.getLocationId().getProject().getId()  == castOther.getLocationId().getProject().getId())	
-			&& (this.getLocationId().getProject().getClient().getId() == castOther.getLocationId().getProject().getClient().getId());
+		
+		if(this.getLocationId().getCity() != null && castOther.getLocationId().getCity() != null) {
+			if (this.getLocationId().getProject() != null && castOther.getLocationId().getProject() != null) {
+				
+				 return 	this.getLocationId().getCity().equals(castOther.getLocationId().getCity()) &&
+						 	this.getLocationId().getProject().equals(castOther.getLocationId().getProject());
+				 
+			} else return false;
+		} else return false;
 			
 	}
 	
@@ -145,11 +157,14 @@ public class Location implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getLocationId().getCity().getId() ^ (this.getLocationId().getCity().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getLocationId().getCity().getCountry().getId()  ^ (this.getLocationId().getCity().getCountry().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getLocationId().getProject().getId()   ^ (this.getLocationId().getProject().getId()  >>> 32)));
-		hash = hash * prime + ((int) (this.getLocationId().getProject().getClient().getId()   ^ (this.getLocationId().getProject().getClient().getId()  >>> 32)));
 		
+		if (this.getLocationId().getCity() != null) {
+			hash = hash * prime + this.getLocationId().getCity().hashCode();
+		}
+		
+		if (this.getLocationId().getProject() != null) {
+			hash = hash * prime + this.getLocationId().getProject().hashCode();
+		}		
 		return hash;
 	}
 	

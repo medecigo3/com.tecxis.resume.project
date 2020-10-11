@@ -50,8 +50,10 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_3;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -62,10 +64,13 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -93,7 +98,8 @@ import com.tecxis.resume.persistence.StaffRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ProjectTest {
@@ -124,6 +130,9 @@ public class ProjectTest {
 	
 	@Autowired 
 	private ClientRepository clientRepo;
+	
+	@Autowired
+	private Validator validator;
 
 	@Test
 	public void testGetDesc() {
@@ -234,7 +243,7 @@ public class ProjectTest {
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
@@ -280,7 +289,7 @@ public class ProjectTest {
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
@@ -985,6 +994,13 @@ public class ProjectTest {
 		assertEquals(53, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1));		
 		assertNull(locationRepo.findById(new LocationId(paris, morningstartV1Project)).get());
+	}
+	
+	@Test
+	public void testNameAndVersionAreNotNull() {
+		Project project = new Project();
+		Set<ConstraintViolation<Project>> violations = validator.validate(project);
+        assertFalse(violations.isEmpty());
 	}
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {

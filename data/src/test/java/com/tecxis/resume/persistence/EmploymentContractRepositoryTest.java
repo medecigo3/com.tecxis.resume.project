@@ -6,6 +6,7 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -74,7 +75,7 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -96,7 +97,7 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -116,7 +117,7 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));

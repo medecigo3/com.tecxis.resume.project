@@ -98,10 +98,17 @@ public class EmploymentContract implements Serializable  {
 				return false;
 			}
 			EmploymentContractPK castOther = (EmploymentContractPK)other;
-			return
-				(this.getId() == castOther.getId()) &&
-				(this.supplier.getId() == castOther.getSupplier().getId()) &&				
-				(this.getStaff().getId() == castOther.getStaff().getId());	
+			if (this.getSupplier() != null && castOther.getSupplier() != null) {
+				if (this.getStaff() != null && castOther.getStaff() != null) {		
+					
+					return 	this.getSupplier().equals(castOther.getSupplier()) && 
+							this.getStaff().equals(castOther.getStaff());
+					
+				} else return false;
+			} else return false;
+
+				
+			
 		}
 
 		@Override
@@ -109,8 +116,13 @@ public class EmploymentContract implements Serializable  {
 			final int prime = 31;
 			int hash = 17;		
 			hash = hash * prime + ((int) (this.getId()  ^ (this.getId()  >>> 32)));
-			hash = hash * prime + ((int) (this.supplier.getId()  ^ (this.supplier.getId()  >>> 32)));
-			hash = hash * prime + ((int) (this.getStaff().getId() ^ (this.getStaff().getId() >>> 32)));
+			
+			if (this.getSupplier() != null)
+				hash = hash * prime + this.getSupplier().hashCode();
+			
+			if (this.getStaff() != null)
+				hash = hash * prime + this.getStaff().hashCode();
+			
 			return hash;
 		}
 
@@ -212,10 +224,15 @@ public class EmploymentContract implements Serializable  {
 			return false;
 		}
 		EmploymentContract castOther = (EmploymentContract)other;
-		return				
-			(this.getId() == castOther.getId()) &&
-			(this.supplier.getId() == castOther.getSupplier().getId()) &&				
-			(this.getStaff().getId() == castOther.getStaff().getId());	
+		
+		if (this.getSupplier() != null && castOther.getSupplier() != null) {
+			if (this.getStaff() != null && castOther.getStaff() != null) {		
+				
+				return 	this.getSupplier().equals(castOther.getSupplier()) && 
+						this.getStaff().equals(castOther.getStaff());
+				
+			} else return false;
+		} else return false;
 	}
 
 	@Override
@@ -223,8 +240,13 @@ public class EmploymentContract implements Serializable  {
 		final int prime = 31;
 		int hash = 17;			
 		hash = hash * prime + ((int) (this.getId()  ^ (this.getId()  >>> 32)));
-		hash = hash * prime + ((int) (this.supplier.getId()  ^ (this.supplier.getId()  >>> 32)));
-		hash = hash * prime + ((int) (this.getStaff().getId() ^ (this.getStaff().getId() >>> 32)));
+		
+		if (this.getSupplier() != null)
+			hash = hash * prime + this.getSupplier().hashCode();
+		
+		if (this.getStaff() != null)
+			hash = hash * prime + this.getStaff().hashCode();
+		
 		return hash;
 	}
 

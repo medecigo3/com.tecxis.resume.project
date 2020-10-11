@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -40,6 +41,7 @@ public class Skill implements Serializable, StrongEntity {
 	@Column(name="SKILL_ID")
 	private long id;
 
+	@NotNull
 	private String name;
 	
 	/**

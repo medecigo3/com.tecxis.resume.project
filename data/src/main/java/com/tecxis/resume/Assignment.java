@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -32,7 +33,7 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 public class Assignment implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
-
+	@NotNull
 	@Column(name="\"DESC\"")
 	private String desc;
 

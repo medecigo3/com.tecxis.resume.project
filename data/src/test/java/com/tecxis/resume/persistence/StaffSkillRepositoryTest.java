@@ -6,6 +6,7 @@ import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -62,7 +63,7 @@ public class StaffSkillRepositoryTest {
 	public void testInsertStaffSkillRowsAndSetIds() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
@@ -87,7 +88,7 @@ public class StaffSkillRepositoryTest {
 	public void findInsertedStaffSkill() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
@@ -113,7 +114,7 @@ public class StaffSkillRepositoryTest {
 	public void testDeleteStaffSkill() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		

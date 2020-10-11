@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 
 
@@ -50,6 +51,7 @@ public class Supplier implements Serializable, StrongEntity {
 	@OneToMany(mappedBy="supplyContractId.supplier", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<SupplyContract> supplyContracts;
 
+	@NotNull
 	private String name;
 
 
@@ -137,7 +139,7 @@ public class Supplier implements Serializable, StrongEntity {
 		}
 		Supplier castOther = (Supplier)other;
 		return 
-			this.id== castOther.id;		
+			this.getId()== castOther.getId();		
 	
 	}
 
@@ -145,7 +147,7 @@ public class Supplier implements Serializable, StrongEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + + ((int) (this.id ^ (this.id >>> 32)));		
+		hash = hash * prime + + ((int) (this.getId() ^ (this.getId() >>> 32)));		
 		
 		return hash;
 	}

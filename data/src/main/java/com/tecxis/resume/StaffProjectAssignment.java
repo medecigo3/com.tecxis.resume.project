@@ -18,7 +18,7 @@ public class StaffProjectAssignment implements Serializable {
 	@EmbeddedId
 	private StaffProjectAssignmentId staffProjectAssignmentId;
 
-	public StaffProjectAssignmentId getStaffAssignmentId() {
+	public StaffProjectAssignmentId getStaffProjectAssignmentId() {
 		return staffProjectAssignmentId;
 	}
 
@@ -36,33 +36,42 @@ public class StaffProjectAssignment implements Serializable {
 		}
 		StaffProjectAssignment castOther = (StaffProjectAssignment)other;
 		
-		if (castOther.getStaffAssignmentId() == null)
-			return false;
-		
-		return 
-			(this.getStaffAssignmentId().getProject().getClient().getId() 			== castOther.getStaffAssignmentId().getProject().getClient().getId())
-			&& (this.getStaffAssignmentId().getProject().getId() 		== castOther.getStaffAssignmentId().getProject().getId())
-			&& (this.getStaffAssignmentId().getAssignment().getId()	== castOther.getStaffAssignmentId().getAssignment().getId())
-			&& (this.getStaffAssignmentId().getStaff().getId()				== castOther.getStaffAssignmentId().getStaff().getId());
-			
+		if(this.getStaffProjectAssignmentId().getAssignment() != null && castOther.getStaffProjectAssignmentId().getAssignment() != null) {
+			if (this.getStaffProjectAssignmentId().getProject() != null && castOther.getStaffProjectAssignmentId().getProject() != null) {
+				if (this.getStaffProjectAssignmentId().getStaff() != null && castOther.getStaffProjectAssignmentId().getStaff() != null) {
+					
+					return 	this.getStaffProjectAssignmentId().getAssignment().equals(castOther.getStaffProjectAssignmentId().getAssignment()) &&
+							this.getStaffProjectAssignmentId().getProject().equals(castOther.getStaffProjectAssignmentId().getProject()) && 
+							this.getStaffProjectAssignmentId().getStaff().equals(castOther.getStaffProjectAssignmentId().getStaff());
+				} else return false;
+			} else return false;				
+		} else return false;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.getStaffAssignmentId().getProject().getClient().getId() 		^ (this.getStaffAssignmentId().getProject().getClient().getId() )));
-		hash = hash * prime + ((int) (this.getStaffAssignmentId().getProject().getId()    	^ (this.getStaffAssignmentId().getProject().getId()  )));
-		hash = hash * prime + ((int) (this.getStaffAssignmentId().getAssignment().getId() ^ (this.getStaffAssignmentId().getAssignment().getId()  >>> 32)));
-		hash = hash * prime + ((int) (this.getStaffAssignmentId().getStaff().getId()		 	^ (this.getStaffAssignmentId().getStaff().getId()	>>> 32)));
 		
+		StaffProjectAssignmentId staffProjectAssignmentId = this.getStaffProjectAssignmentId();
+		if (staffProjectAssignmentId != null) {
+			if (staffProjectAssignmentId.getProject() != null)
+				hash = hash * prime + staffProjectAssignmentId.getProject().hashCode();
+			
+			if (staffProjectAssignmentId.getAssignment() != null)
+				hash = hash * prime + staffProjectAssignmentId.getAssignment().hashCode();
+			
+			if (staffProjectAssignmentId.getStaff() != null)
+				hash = hash * prime + staffProjectAssignmentId.getStaff().hashCode();
+		}
+
 		return hash;
 	}
 	
 	@Override
 	public String toString() {
-		return  "["+this.getClass().getName()+ "@" + this.getStaffAssignmentId().hashCode()
-				+  this.getStaffAssignmentId().toString() + "]";
+		return  "["+this.getClass().getName()+ "@" + this.getStaffProjectAssignmentId().hashCode()
+				+  this.getStaffProjectAssignmentId().toString() + "]";
 	}
 
 

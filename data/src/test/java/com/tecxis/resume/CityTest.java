@@ -40,10 +40,13 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -69,7 +72,8 @@ import com.tecxis.resume.persistence.ProjectRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityTest {
@@ -95,6 +99,9 @@ public class CityTest {
 	
 	@Autowired
 	private LocationRepository locationRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetCityId() {
@@ -692,6 +699,14 @@ public class CityTest {
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
+		
+	}
+	
+	@Test
+	public void testNameIsNotNull() {
+		City city = new City();
+		Set<ConstraintViolation<City>> violations = validator.validate(city);
+        assertFalse(violations.isEmpty());
 		
 	}
 		

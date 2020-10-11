@@ -11,6 +11,7 @@ import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -19,9 +20,12 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -45,7 +49,8 @@ import com.tecxis.resume.persistence.SupplierRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"} )
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ClientTest {
@@ -67,6 +72,9 @@ public class ClientTest {
 	
 	@Autowired 
 	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetClientId() {
@@ -224,6 +232,14 @@ public class ClientTest {
 		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		
+	}
+	
+	@Test
+	public void testNameIsNotNull() {
+		Client client = new Client();
+		Set<ConstraintViolation<Client>> violations = validator.validate(client);
+        assertFalse(violations.isEmpty());
 		
 	}
 

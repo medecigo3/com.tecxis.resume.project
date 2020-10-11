@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -47,6 +48,7 @@ public class Course implements Serializable, StrongEntity {
 
 	private Integer credits;
 
+	@NotNull
 	private String title;
 
 	/**

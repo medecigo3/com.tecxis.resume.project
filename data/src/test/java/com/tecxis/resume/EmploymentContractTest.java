@@ -10,6 +10,7 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -17,9 +18,12 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +48,8 @@ import com.tecxis.resume.persistence.SupplierRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class EmploymentContractTest {
@@ -66,6 +71,9 @@ public class EmploymentContractTest {
 	
 	@Autowired
 	private SupplierRepository supplierRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetStartDate(){
@@ -156,6 +164,14 @@ public class EmploymentContractTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+	}
+	
+	@Test
+	public void testNameIsNotNull() {
+		EmploymentContract employmentContract = new EmploymentContract();
+		Set<ConstraintViolation<EmploymentContract>> violations = validator.validate(employmentContract);
+        assertFalse(violations.isEmpty());
+		
 	}
 		
 	public static EmploymentContract insertEmploymentContract(Supplier supplier, Staff staff, EntityManager entityManager){

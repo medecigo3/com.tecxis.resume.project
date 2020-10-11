@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -93,17 +94,21 @@ public class Project implements Serializable, StrongEntity {
 				return false;
 			}
 			ProjectPK castOther = (ProjectPK)other;
-			return 
-				(this.getClient().getId() == castOther.getClient().getId()) &&
-				(this.id == castOther.id);
-
+			
+			if (this.getClient() != null && castOther.getClient() != null)	
+				return 	this.getId() == castOther.getId() && 
+						this.getClient().equals(castOther.getClient());
+			else
+				return this.getId() == castOther.getId();
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-			hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId()  >>> 32)));
+			hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
+			
+			if (this.getClient() != null)
+				hash = hash * prime + this.getClient().hashCode();
 			
 			return hash;
 		}
@@ -112,7 +117,7 @@ public class Project implements Serializable, StrongEntity {
 		public String toString() {
 			return "["+ this.getClass().getName() +
 					"[id=" + this.getId() + 
-					", clientId=" + this.getClient().getId() + "]]";
+					", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + "]]";
 		
 		}
 	}
@@ -166,8 +171,10 @@ public class Project implements Serializable, StrongEntity {
 		)
 	private List<City> cities;
 
+	@NotNull
 	private String version;
 
+	@NotNull
 	private String name;
 	
 	/**
@@ -336,9 +343,12 @@ public class Project implements Serializable, StrongEntity {
 			return false;
 		}
 		Project castOther = (Project)other;
-		return 
-			(this.getId()== castOther.getId())
-			&& (this.getClient().getId()  == castOther.getClient().getId());
+		
+		if (this.getClient() != null && castOther.getClient() != null)			
+			return 	this.getId() == castOther.getId() && 
+					this.getClient().equals(castOther.getClient());
+		else
+			return this.getId() == castOther.getId();
 	}
 
 	@Override
@@ -346,7 +356,9 @@ public class Project implements Serializable, StrongEntity {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getClient().getId()  ^ (this.getClient().getId() >>> 32)));
+		
+		if (this.getClient() != null)
+			hash = hash * prime + this.getClient().hashCode();
 		
 		return hash;
 	}
@@ -356,7 +368,7 @@ public class Project implements Serializable, StrongEntity {
 		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
 				"["+ Project.ProjectPK.class.getName() +
 				"[id=" + this.getId() + 
-				", clientId=" + this.getClient().getId() + "]]";
+				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + "]]";
 	}
 
 }

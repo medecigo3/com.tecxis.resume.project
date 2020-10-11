@@ -140,6 +140,13 @@ public class LocationTest {
 		
 	}
 	
+	@Test
+	public void testToString() {
+		//TODO DEBUG toString for this Location and all classes
+		Location location = new Location();
+		location.toString();
+	}
+	
 	
 	public static Location insertLocation(City city, Project project, EntityManager entityManager) {
 		LocationId locationId = new LocationId(city, project);

@@ -73,22 +73,32 @@ public class StaffProjectAssignmentId implements Serializable {
 			return false;
 		}
 		StaffProjectAssignmentId castOther = (StaffProjectAssignmentId)other;
-		return 
-			(this.project.getClient().getId() 			== castOther.getProject().getClient().getId())
-			&& (this.project.getId() 		== castOther.getProject().getId())
-			&& (this.assignment.getId() 	== castOther.getAssignment().getId())
-			&& (this.staff.getId() 			== castOther.getStaff().getId());
+		
+		if(this.getAssignment() != null && castOther.getAssignment() != null) {
+			if (this.getProject() != null && castOther.getProject() != null) {
+				if (this.getStaff() != null && castOther.getStaff() != null) {
+					
+					return 	this.getAssignment().equals(castOther.getAssignment()) &&
+							this.getProject().equals(castOther.getProject()) && 
+							this.getStaff().equals(castOther.getStaff());
+				} else return false;
+			} else return false;				
+		} else return false;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.project.getClient().getId() 		^ (this.project.getClient().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.project.getId() 		^ (this.project.getId() >>> 32)));
-		hash = hash * prime + ((int) (this.assignment.getId() ^ (this.assignment.getId() >>> 32)));
-		hash = hash * prime + ((int) (this.staff.getId() 			^ (this.staff.getId() >>> 32)));
+		if (this.getAssignment() != null) 
+			hash = hash * prime + this.getAssignment().hashCode();
 		
+		if (this.getProject() != null)
+			hash = hash * prime + this.getProject().hashCode();
+		
+		if (this.getStaff() != null)
+			hash = hash * prime + this.getStaff().hashCode();
+				
 		return hash;
 	}
 

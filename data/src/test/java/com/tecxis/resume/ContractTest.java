@@ -44,10 +44,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -76,7 +79,8 @@ import com.tecxis.resume.persistence.SupplyContractRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ContractTest {
@@ -107,6 +111,9 @@ public class ContractTest {
 
 	@Autowired
 	private SupplyContractRepository supplyContractRepo;
+	
+	@Autowired
+	private Validator validator;
 
 	@Test
 	@Sql(
@@ -762,6 +769,13 @@ public class ContractTest {
 		
 	}
 	
+	@Test
+	public void testNameIsNotNull() {
+		Contract contract = new Contract();
+		Set<ConstraintViolation<Contract>> violations = validator.validate(contract);
+        assertFalse(violations.isEmpty());
+		
+	}
 
 	public static Contract insertAContract(Client client, String name, EntityManager entityManager) {
 		Contract contract  = new Contract();

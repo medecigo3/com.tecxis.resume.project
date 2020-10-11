@@ -85,6 +85,7 @@ import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
@@ -94,6 +95,7 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -103,10 +105,13 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -136,7 +141,8 @@ import com.tecxis.resume.persistence.SupplyContractRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",		
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffTest {
@@ -173,6 +179,9 @@ public class StaffTest {
 	
 	@Autowired
 	private EmploymentContractRepository employmentContractRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	@Sql(
@@ -577,7 +586,7 @@ public class StaffTest {
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
@@ -1476,10 +1485,46 @@ public class StaffTest {
 	
 	}
 	
-	public static Staff insertAStaff(String firstName, String lastName, EntityManager entityManager) {
+	@Test
+	public void testBirthDateIsNotNull() {
+		Staff staff = createValidStaff();
+		staff.setBirthDate(null);
+		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size());
+	}
+	
+	@Test
+	public void testFirstNameIsNotNull() {
+		Staff staff = createValidStaff();
+		staff.setFirstName(null);		
+		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size());
+	}
+	
+	@Test
+	public void testLastNameDateIsNotNull() {
+		Staff staff = createValidStaff();
+		staff.setLastName(null);
+		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size());
+	}
+	
+	public static Staff createValidStaff(){
+		Staff staff = new Staff();
+		staff.setFirstName(AMT_NAME);
+		staff.setLastName(AMT_LASTNAME);
+		staff.setBirthDate(new Date());
+		return staff;
+	}
+	
+	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
 		Staff staff = new Staff();
 		staff.setFirstName(firstName);
 		staff.setLastName(lastName);
+		staff.setBirthDate(birthDate);
 		assertEquals(0, staff.getId());
 		entityManager.persist(staff);
 		entityManager.flush();

@@ -27,10 +27,13 @@ import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -55,7 +58,8 @@ import com.tecxis.resume.persistence.ServiceRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ServiceTest {
@@ -74,6 +78,9 @@ public class ServiceTest {
 	
 	@Autowired
 	private  ContractRepository contractRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetServiceId() {
@@ -285,6 +292,14 @@ public class ServiceTest {
 		contractServiceAgreementId.setContract(alternaArvalContract);
 		contractServiceAgreementId.setService(bwService);
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
+	}
+	
+	@Test
+	public void testNameIsNotNull() {
+		Service service = new Service();
+		Set<ConstraintViolation<Service>> violations = validator.validate(service);
+        assertFalse(violations.isEmpty());
+		
 	}
 
 	public static Service insertAService(String name, EntityManager entityManager) {

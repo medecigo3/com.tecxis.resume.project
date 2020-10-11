@@ -10,6 +10,7 @@ import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT9_NAM
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -162,7 +163,7 @@ public class SupplyContractRepositoryTest {
 		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, CONTRACT1_NAME, entityManager);
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);	
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -191,7 +192,7 @@ public class SupplyContractRepositoryTest {
 		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, CONTRACT1_NAME, entityManager);
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);		
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);	
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -219,7 +220,7 @@ public class SupplyContractRepositoryTest {
 		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, CONTRACT9_NAME, entityManager);
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME,  entityManager);	
+		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));

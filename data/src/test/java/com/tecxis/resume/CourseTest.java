@@ -7,15 +7,19 @@ import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TA
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -37,7 +41,8 @@ import com.tecxis.resume.persistence.StaffRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"} )
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CourseTest {
@@ -53,6 +58,9 @@ public class CourseTest {
 	
 	@Autowired
 	private StaffRepository staffRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	public void testGetCourseId() {
@@ -148,6 +156,15 @@ public class CourseTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 	}
+	
+	@Test
+	public void testTitleIsNotNull() {
+		Course course = new Course();
+		Set<ConstraintViolation<Course>> violations = validator.validate(course);
+        assertFalse(violations.isEmpty());
+	}
+	
+	
 	public static Course insertACourse(String title,  EntityManager entityManager) {
 		Course course = new Course();
 		course.setTitle(title);

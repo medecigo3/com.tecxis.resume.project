@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -84,16 +85,22 @@ public class City implements Serializable, StrongEntity {
 				return false;
 			}
 			CityPK castOther = (CityPK)other;
-			return 
-				(this.id == castOther.id)
-				&& (this.getCountry().getId() == castOther.getCountry().getId());
+			
+			if (this.getCountry() != null && castOther.getCountry() != null)
+				return 	this.getId() == castOther.getId()  && 
+						this.getCountry().equals(castOther.getCountry());
+			else
+				return 	this.getId() == castOther.getId();
 		}
 
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;
-			hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-			hash = hash * prime + ((int) (this.getCountry().getId() ^ (this.getCountry().getId() >>> 32)));
+			
+			hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
+			
+			if (this.getCountry() != null)
+				hash = hash * prime + this.getCountry().hashCode();
 			
 			return hash;
 		}
@@ -102,7 +109,7 @@ public class City implements Serializable, StrongEntity {
 		public String toString() {		
 			return 	"["+ City.CityPK.class.getName()+
 					"[id=" + this.getId() +
-					", countryId=" + this.getCountry().getId()  + "]]";
+					", countryId=" + (this.getCountry() != null ? this.getCountry().getId() : "null" )  + "]]";
 					
 		}
 	}
@@ -127,6 +134,7 @@ public class City implements Serializable, StrongEntity {
 	@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
 	private Country country;
 
+	@NotNull
 	private String name;
 
 	/** bi-directional many-to-many association to Project */
@@ -226,17 +234,23 @@ public class City implements Serializable, StrongEntity {
 			return false;
 		}
 		City castOther = (City)other;
-		return 
-			(this.id == castOther.id)
-			&& (this.getCountry().getId() == castOther.getCountry().getId());
+		
+		if (this.getCountry() != null && castOther.getCountry()!= null)
+			return 	this.getId() == castOther.getId()  && 
+					this.getCountry().equals(castOther.getCountry());
+		else
+			return 	this.getId() == castOther.getId();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-		hash = hash * prime + ((int) (this.getCountry().getId() ^ (this.getCountry().getId() >>> 32)));
+		
+		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
+		
+		if (this.getCountry() != null)
+			hash = hash * prime + this.getCountry().hashCode();
 		
 		return hash;
 	}
@@ -247,7 +261,7 @@ public class City implements Serializable, StrongEntity {
 				", name=" +this.getName() +
 				"["+ City.CityPK.class.getName()+
 				"[id=" + this.getId() +
-				", countryId=" + this.getCountry().getId() + "]]]";
+				", countryId=" + (this.getCountry() != null ? this.getCountry().getId() : "null") + "]]]";
 	}
 
 }

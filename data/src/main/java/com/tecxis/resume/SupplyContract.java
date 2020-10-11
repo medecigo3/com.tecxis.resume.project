@@ -104,22 +104,38 @@ public class SupplyContract implements Serializable {
 			if (!(other instanceof SupplyContractId)) {
 				return false;
 			}
+		
+			
 			SupplyContractId castOther = (SupplyContractId)other;
-			return
-				(this.supplier.getId() == castOther.getSupplier().getId()) &&
-				(this.contract.getId() == castOther.getContract().getId()) &&
-				(this.contract.getClient().getId() == castOther.getContract().getClient().getId()) &&
-				(this.getStaff().getId() == castOther.getStaff().getId());				
+			
+			if	(this.getSupplier() != null && castOther.getSupplier() != null) {
+				if (this.getContract() != null && castOther.getContract() != null) {
+					if (this.getStaff()    != null && castOther.getStaff()    != null) {				
+				
+						return 	this.getSupplier().equals(castOther.getSupplier()) && 
+								this.getContract().equals(castOther.getContract()) && 
+								this.getStaff().equals(castOther.getStaff());
+					} else return false;
+				} else return false;			
+			}else return false;
 		}
+						
+		
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int hash = 17;			
-			hash = hash * prime + ((int) (this.supplier.getId()  ^ (this.supplier.getId()  >>> 32)));
-			hash = hash * prime + ((int) (this.contract.getId() ^ (this.contract.getId() >>> 32)));
-			hash = hash * prime + ((int) (this.contract.getClient().getId() ^ (this.contract.getClient().getId() >>> 32)));
-			hash = hash * prime + ((int) (this.getStaff().getId() ^ (this.getStaff().getId() >>> 32)));
+			if (this.getSupplier() != null)
+				hash = hash * prime + this.getSupplier().hashCode();
+			
+			if (this.getContract() != null) {
+				hash = hash * prime + this.getContract().hashCode();
+			}
+			
+			if  (this.getStaff() != null)
+				hash = hash * prime + this.getStaff().hashCode();
+			
 			return hash;
 		}
 		
@@ -139,6 +155,7 @@ public class SupplyContract implements Serializable {
 
 	
 	@EmbeddedId
+	@NotNull
 	private SupplyContractId supplyContractId;
 	
 	@Temporal(TemporalType.DATE)
@@ -192,21 +209,36 @@ public class SupplyContract implements Serializable {
 			return false;
 		}
 		SupplyContract castOther = (SupplyContract)other;
-		return
-			(this.getSupplyContractId().getSupplier().getId() == castOther.getSupplyContractId().getSupplier().getId()) &&
-			(this.getSupplyContractId().getContract().getId() == castOther.getSupplyContractId().getContract().getId()) &&
-			(this.getSupplyContractId().getContract().getClient().getId() == castOther.getSupplyContractId().getContract().getClient().getId()) && 
-			(this.getSupplyContractId().getStaff().getId() == castOther.getSupplyContractId().getStaff().getId());			
-	}
+		
+		if	(this.getSupplyContractId().getSupplier() != null && castOther.getSupplyContractId().getSupplier() != null) {
+			if (this.getSupplyContractId().getContract() != null && castOther.getSupplyContractId().getContract() != null) {
+				if (this.getSupplyContractId().getStaff()    != null && castOther.getSupplyContractId().getStaff()    != null) {				
+			
+					return 	this.getSupplyContractId().getSupplier().equals(castOther.getSupplyContractId().getSupplier()) && 
+							this.getSupplyContractId().getContract().equals(castOther.getSupplyContractId().getContract()) && 
+							this.getSupplyContractId().getStaff().equals(castOther.getSupplyContractId().getStaff());
+				} else return false;
+			} else return false;			
+		}else return false;
+	}	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;			
-		hash = hash * prime + ((int) (this.getSupplyContractId().getSupplier().getId()  ^ (this.getSupplyContractId().getSupplier().getId()  >>> 32)));
-		hash = hash * prime + ((int) (this.getSupplyContractId().getContract().getId() ^ (this.getSupplyContractId().getContract().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getSupplyContractId().getContract().getClient().getId() ^ (this.getSupplyContractId().getContract().getClient().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getSupplyContractId().getStaff().getId() ^ (this.getSupplyContractId().getStaff().getId() >>> 32)));
+		int hash = 17;		
+		
+		SupplyContractId supplyContractId = this.getSupplyContractId();
+		if (supplyContractId != null) {
+			if (supplyContractId.getSupplier() != null)
+				hash = hash * prime + supplyContractId.hashCode();
+			
+			if (this.getSupplyContractId().getContract() != null) 
+				hash = hash * prime + supplyContractId.hashCode();			
+			
+			if  (this.getSupplyContractId().getStaff() != null)
+				hash = hash * prime + supplyContractId.hashCode();
+		}
+		
 		return hash;
 	}
 	

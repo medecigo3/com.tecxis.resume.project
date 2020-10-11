@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -52,12 +53,15 @@ public class Staff implements Serializable, StrongEntity {
 	@Column(name="STAFF_ID")
 	private long id;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name="BIRTH_DATE")
 	private Date birthDate;
 
+	@NotNull
 	private String lastName;
 
+	@NotNull
 	private String firstName;
 
 	/**

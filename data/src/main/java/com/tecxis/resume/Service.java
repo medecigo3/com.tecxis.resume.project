@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -46,6 +47,7 @@ public class Service implements Serializable, StrongEntity {
 	@Column(name="\"DESC\"")
 	private String desc;
 
+	@NotNull
 	private String name;
 	
 	/**

@@ -15,6 +15,7 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -24,9 +25,12 @@ import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -54,7 +58,8 @@ import com.tecxis.resume.persistence.SupplyContractRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"} )
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class SupplierTest {
@@ -82,6 +87,9 @@ public class SupplierTest {
 	
 	@Autowired
 	private ContractRepository contractRepo;
+	
+	@Autowired
+	private Validator validator;
 
 	@Test
 	public void testGetSupplierId() {
@@ -698,6 +706,14 @@ public class SupplierTest {
 		
 		/**Test Contract_Service_Agreement children were cleared*/		
 		/**Can't really search anything else here as all ContactServiceAgreements with target Supplier were cleared*/
+		
+	}
+	
+	@Test
+	public void testNameIsNotNull() {
+		Supplier supplier = new Supplier();
+		Set<ConstraintViolation<Supplier>> violations = validator.validate(supplier);
+        assertFalse(violations.isEmpty());
 		
 	}
 

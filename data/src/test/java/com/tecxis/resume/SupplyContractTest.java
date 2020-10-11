@@ -12,13 +12,17 @@ import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +48,8 @@ import com.tecxis.resume.persistence.SupplyContractRepository;
 @SpringJUnitConfig (locations = { 
 		"classpath:persistence-context.xml", 
 		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml" })
+		"classpath:test-transaction-context.xml",
+		"classpath:validation-api-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class SupplyContractTest {
@@ -67,6 +72,9 @@ public class SupplyContractTest {
 	
 	@Autowired
 	private StaffRepository staffRepo;
+	
+	@Autowired
+	private Validator validator;
 	
 	@Test
 	@Sql(
@@ -208,6 +216,13 @@ public class SupplyContractTest {
 
 	}
 	
+	@Test
+	public void testNameIsNotNull() {
+		SupplyContract supplyContract = new SupplyContract();
+		Set<ConstraintViolation<SupplyContract>> violations = validator.validate(supplyContract);
+        assertFalse(violations.isEmpty());
+		
+	}	
 	
 	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
 		SupplyContract supplyContract = new SupplyContract( new SupplyContractId(supplier, contract, staff));

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -40,6 +41,7 @@ public class Client implements Serializable, StrongEntity {
 	@Column(name="CLIENT_ID")
 	private long id;
 
+	@NotNull
 	private String name;
 
 	private String website;
