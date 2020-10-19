@@ -173,6 +173,12 @@ public class EmploymentContractTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		EmploymentContract employmentContract = new EmploymentContract();
+		employmentContract.toString();
+	}
 		
 	public static EmploymentContract insertEmploymentContract(Supplier supplier, Staff staff, EntityManager entityManager){
 		EmploymentContract employmentContract = new EmploymentContract(staff, supplier);

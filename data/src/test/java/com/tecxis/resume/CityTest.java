@@ -709,6 +709,11 @@ public class CityTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 		
 	public static City insertACity(String name, Country country, EntityManager entityManager) {
 		City city = new City();

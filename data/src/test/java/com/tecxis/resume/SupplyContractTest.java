@@ -14,6 +14,7 @@ import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
@@ -223,6 +224,11 @@ public class SupplyContractTest {
         assertFalse(violations.isEmpty());
 		
 	}	
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 	
 	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
 		SupplyContract supplyContract = new SupplyContract( new SupplyContractId(supplier, contract, staff));

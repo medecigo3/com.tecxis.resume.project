@@ -108,6 +108,18 @@ public class ContractServiceAgreementTest {
 		
 	}
 	
+	@Test
+	public void testToStringContractServiceAgreementId() {
+		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
+		contractServiceAgreementId.toString();
+	}
+	
+	@Test
+	public void testToString() {
+		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement();
+		contractServiceAgreement.toString();
+	}
+	
 
 	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();

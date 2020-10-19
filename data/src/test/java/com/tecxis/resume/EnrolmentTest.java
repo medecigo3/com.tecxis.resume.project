@@ -198,5 +198,19 @@ public class EnrolmentTest {
 		
 		
 	}
+	
+	@Test
+	public void testToStringEnrolmentId() {
+		EnrolmentId newEnrolmentId = new EnrolmentId();
+		newEnrolmentId.toString();
+	}
+	
+	@Test
+	public void testToString() {
+		Enrolment newEnrolment = new Enrolment();
+		newEnrolment.toString();
+		
+	}
+	
 
 }

@@ -1487,6 +1487,7 @@ public class StaffTest {
 	
 	@Test
 	public void testBirthDateIsNotNull() {
+		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
 		Staff staff = createValidStaff();
 		staff.setBirthDate(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
@@ -1496,6 +1497,7 @@ public class StaffTest {
 	
 	@Test
 	public void testFirstNameIsNotNull() {
+		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
 		Staff staff = createValidStaff();
 		staff.setFirstName(null);		
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
@@ -1505,6 +1507,7 @@ public class StaffTest {
 	
 	@Test
 	public void testLastNameDateIsNotNull() {
+		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
 		Staff staff = createValidStaff();
 		staff.setLastName(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
@@ -1518,6 +1521,11 @@ public class StaffTest {
 		staff.setLastName(AMT_LASTNAME);
 		staff.setBirthDate(new Date());
 		return staff;
+	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
 	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {

@@ -1002,6 +1002,11 @@ public class ProjectTest {
 		Set<ConstraintViolation<Project>> violations = validator.validate(project);
         assertFalse(violations.isEmpty());
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
 		Project project = new Project();

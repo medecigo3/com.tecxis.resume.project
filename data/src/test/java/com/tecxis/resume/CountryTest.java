@@ -134,6 +134,11 @@ public class CountryTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 
 	public static Country insertACountry(String name, EntityManager entityManager) {
 		Country country = new Country();

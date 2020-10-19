@@ -137,6 +137,18 @@ public class StaffSkillTest {
 		
 	}
 	
+	@Test
+	public void testToStringStaffSkillId() {
+		StaffSkillId staffSkillId = new StaffSkillId();
+		staffSkillId.toString();
+	}
+	
+	@Test
+	public void testToString() {
+		StaffSkill staffSkill = new StaffSkill();
+		staffSkill.toString();
+	}
+	
 	public static StaffSkill insertAStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {
 		StaffSkill staffSkill = new StaffSkill(new StaffSkillId(staff, skill));
 		entityManager.persist(staffSkill);

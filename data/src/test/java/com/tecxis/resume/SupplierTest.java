@@ -716,6 +716,11 @@ public class SupplierTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 
 	public static Supplier insertASupplier(String name, EntityManager entityManager) {
 		Supplier supplier = new Supplier();

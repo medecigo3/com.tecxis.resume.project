@@ -114,6 +114,12 @@ public class SkillTest {
 		Set<ConstraintViolation<Skill>> violations = validator.validate(skill);
         assertFalse(violations.isEmpty());
 	}
+	
+	@Test
+	public void testToString() {
+		Skill skill = new Skill();
+		skill.toString();
+	}
 
 	public static Skill insertASkill(String name, EntityManager entityManager) {
 		Skill skill = new Skill();

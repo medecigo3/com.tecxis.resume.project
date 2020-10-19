@@ -164,6 +164,12 @@ public class CourseTest {
         assertFalse(violations.isEmpty());
 	}
 	
+	@Test
+	public void testToString() {
+		Course course = new Course();
+		course.toString();
+	}
+	
 	
 	public static Course insertACourse(String title,  EntityManager entityManager) {
 		Course course = new Course();

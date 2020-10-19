@@ -776,6 +776,12 @@ public class ContractTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		Contract contract = new Contract();
+		contract.toString();
+	}
 
 	public static Contract insertAContract(Client client, String name, EntityManager entityManager) {
 		Contract contract  = new Contract();

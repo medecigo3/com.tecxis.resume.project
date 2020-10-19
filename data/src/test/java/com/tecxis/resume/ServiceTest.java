@@ -301,6 +301,11 @@ public class ServiceTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 
 	public static Service insertAService(String name, EntityManager entityManager) {
 		Service service = new Service();

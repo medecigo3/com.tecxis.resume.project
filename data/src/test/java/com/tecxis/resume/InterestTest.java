@@ -8,9 +8,6 @@ import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -194,6 +191,12 @@ public class InterestTest {
 		assertEquals(AMT_LASTNAME, amt.getLastName());
 		assertEquals(0, amt.getInterests().size());
 		
+	}
+	
+	@Test
+	public void testToString() {
+		Interest interest = new Interest();
+		interest.toString();
 	}
 	
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {

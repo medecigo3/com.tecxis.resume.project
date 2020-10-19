@@ -380,6 +380,12 @@ public class AssignmentTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		Assignment assignment = new Assignment();
+		assignment.toString();
+	}
 
 	public static Assignment insertAssignment(String desc, EntityManager entityManager) {
 		Assignment assignment = new Assignment();

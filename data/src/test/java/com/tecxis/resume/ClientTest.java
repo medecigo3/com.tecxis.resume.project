@@ -242,6 +242,11 @@ public class ClientTest {
         assertFalse(violations.isEmpty());
 		
 	}
+	
+	@Test
+	public void testToString() {
+		fail("TODO");
+	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {
 		Client client = new Client();
