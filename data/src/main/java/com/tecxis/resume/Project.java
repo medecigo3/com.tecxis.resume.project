@@ -67,7 +67,7 @@ public class Project implements Serializable, StrongEntity {
 		}
 
 		/**Hibernate default constructor*/
-		private ProjectPK() {
+		public ProjectPK() {
 			super();
 		}
 		

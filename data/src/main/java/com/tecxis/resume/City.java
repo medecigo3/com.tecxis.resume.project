@@ -61,7 +61,7 @@ public class City implements Serializable, StrongEntity {
 			this.country = country;
 		}
 		
-		private CityPK() {
+		public CityPK() {
 			super();
 		}
 		public long getId() {

@@ -66,7 +66,7 @@ public class Contract implements Serializable, StrongEntity {
 			
 		}
 
-		private ContractPK() {
+		public ContractPK() {
 			super();
 		}	
 				
