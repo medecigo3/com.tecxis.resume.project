@@ -1,0 +1,28 @@
+Type
+
+1)
+Error: @IdClass(ContractPK.class) The attribute matching the ID class attribute client is not mapped as a primary key
+Error: @IdClass(EmploymentContractPK.class) The attribute matching the ID class attribute supplier is not mapped as a primary key
+Rule: Attribute matching ID class attribute is not mapped as a primary key: ->Ignored 
+
+
+2)
+Error: The attribute matching the ID class attribute country does not have the correct type com.tecxis.resume.Country
+Error: The attribute matching the ID class attribute client does not have the correct type com.tecxis.resume.Client
+Attribute matching ID class attribute does not have the correct type -> Ignored
+
+
+
+
+Attribute
+1)  
+Error: Embedded ID class should not contain relationship mappings
+Rule: Embedded ID classes should not contain relationship mappings -> Ignore
+
+2)
+Error: In attribute 'staffProjectAssignments', the "mapped by" value 'staffProjectAssignmentId.assignment' cannot be resolved to an attribute on the target entity.
+Rule: Cannot Resolve attribute name -> ignored
+
+3)
+Error: com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId is not mapped as an embeddable
+Rule: Target type of an embedded mapping is not an embeddable -> Ignored 

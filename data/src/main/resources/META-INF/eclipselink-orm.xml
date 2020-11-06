@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.5" xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eclipse.org/eclipselink/xsds/persistence/orm http://www.eclipse.org/eclipselink/xsds/eclipselink_orm_2_5.xsd">
+	<access>FIELD</access>
+	<sequence-generator name="ASSIGNMENT_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="CITY_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="CLIENT_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="CONTRACT_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="COUNTRY_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="COURSE_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="EMPLOYMENT_CONTRACT_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="INTEREST_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="PROJECT_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="SERVICE_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="SKILL_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+	<sequence-generator name="STAFF_SEQ" allocation-size="1" initial-value="1">
+	</sequence-generator>
+</entity-mappings>
