@@ -227,7 +227,8 @@ public class SupplyContractTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		SupplyContract supplyContract = new SupplyContract();
+		supplyContract.toString();
 	}
 	
 	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){

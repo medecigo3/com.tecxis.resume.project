@@ -138,12 +138,6 @@ public class StaffSkillTest {
 	}
 	
 	@Test
-	public void testToStringStaffSkillId() {
-		StaffSkillId staffSkillId = new StaffSkillId();
-		staffSkillId.toString();
-	}
-	
-	@Test
 	public void testToString() {
 		StaffSkill staffSkill = new StaffSkill();
 		staffSkill.toString();

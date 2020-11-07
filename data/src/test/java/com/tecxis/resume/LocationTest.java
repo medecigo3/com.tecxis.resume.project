@@ -144,14 +144,7 @@ public class LocationTest {
 	public void testToString() {
 		Location location = new Location();
 		location.toString();
-	}
-	
-	@Test
-	public void testLocationIdToString() {
-		LocationId locationId = new LocationId();
-		locationId.toString();
-	}
-	
+	}	
 	
 	public static Location insertLocation(City city, Project project, EntityManager entityManager) {
 		LocationId locationId = new LocationId(city, project);
