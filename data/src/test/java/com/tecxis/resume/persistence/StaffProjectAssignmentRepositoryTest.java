@@ -37,6 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 import com.tecxis.resume.Assignment;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
@@ -44,7 +45,6 @@ import com.tecxis.resume.Project;
 import com.tecxis.resume.ProjectTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffProjectAssignment;
-import com.tecxis.resume.StaffProjectAssignmentId;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

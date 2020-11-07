@@ -86,6 +86,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.LocationId;
+import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ClientRepository;

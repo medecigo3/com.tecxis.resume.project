@@ -6,6 +6,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
+
 /**
  * The persistent class for the STAFF_ASSIGNMENT database table.
  * 

@@ -1,4 +1,4 @@
-package com.tecxis.resume;
+package com.tecxis.commons.persistence.id;
 
 import java.io.Serializable;
 
@@ -6,6 +6,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.tecxis.resume.Assignment;
+import com.tecxis.resume.Project;
+import com.tecxis.resume.Staff;
 
 /**
  * The primary key class for STAFF_ASSIGNMENT database table

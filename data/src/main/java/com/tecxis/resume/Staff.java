@@ -25,6 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
+import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 
 
 /**
