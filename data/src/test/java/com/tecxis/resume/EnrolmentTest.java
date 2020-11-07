@@ -1,13 +1,19 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CourseRepositoryTest.*;
+import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
+import static com.tecxis.resume.persistence.CourseRepositoryTest.JAVA_WS;
 import static com.tecxis.resume.persistence.CourseRepositoryTest.SHORT_BW_6_COURSE;
 import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.*;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
+import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
 import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -27,7 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Enrolment.EnrolmentId;
+import com.tecxis.commons.persistence.id.EnrolmentId;
 import com.tecxis.resume.persistence.CourseRepository;
 import com.tecxis.resume.persistence.EnrolmentRepository;
 import com.tecxis.resume.persistence.StaffRepository;

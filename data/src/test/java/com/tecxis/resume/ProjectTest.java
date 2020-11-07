@@ -1,6 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.CityTest.insertACity;
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT1;
@@ -35,6 +34,7 @@ import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
@@ -85,7 +85,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Location.LocationId;
+import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ClientRepository;

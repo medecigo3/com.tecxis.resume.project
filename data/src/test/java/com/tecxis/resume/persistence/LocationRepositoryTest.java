@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.City;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
@@ -38,8 +39,6 @@ import com.tecxis.resume.Location;
 import com.tecxis.resume.LocationTest;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.ProjectTest;
-import com.tecxis.resume.Location.LocationId;
-import com.tecxis.resume.persistence.LocationRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

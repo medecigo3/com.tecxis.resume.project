@@ -41,6 +41,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
@@ -50,7 +51,6 @@ import com.tecxis.resume.StaffTest;
 import com.tecxis.resume.Supplier;
 import com.tecxis.resume.SupplierTest;
 import com.tecxis.resume.SupplyContract;
-import com.tecxis.resume.SupplyContract.SupplyContractId;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

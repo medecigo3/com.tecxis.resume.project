@@ -31,11 +31,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractServiceAgreement;
-import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 import com.tecxis.resume.ContractServiceAgreementTest;
 import com.tecxis.resume.ContractTest;
 import com.tecxis.resume.Service;

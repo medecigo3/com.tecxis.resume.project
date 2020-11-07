@@ -126,7 +126,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.SupplyContract.SupplyContractId;
+import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.EmploymentContractRepository;

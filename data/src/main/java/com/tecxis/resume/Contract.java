@@ -25,9 +25,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.Contract.ContractPK;
-import com.tecxis.resume.ContractServiceAgreement.ContractServiceAgreementId;
 
 
 /**

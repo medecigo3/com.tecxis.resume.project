@@ -29,11 +29,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.StaffSkillId;
 import com.tecxis.resume.Skill;
 import com.tecxis.resume.SkillTest;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffSkill;
-import com.tecxis.resume.StaffSkill.StaffSkillId;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

@@ -27,7 +27,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.resume.Location.LocationId;
+import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.Project.ProjectPK;
 
 
