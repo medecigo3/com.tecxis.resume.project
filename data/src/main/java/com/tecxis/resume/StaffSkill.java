@@ -93,8 +93,8 @@ public class StaffSkill implements Serializable{
 		@Override
 		public String toString() {
 			return "["+ this.getClass().getName() +
-					"[skillId=" + this.getSkill().getId() + 
-					", staffId=" + this.getStaff().getId()  +
+					"[skillId=" + (this.getSkill() != null ? this.getSkill().getId() : "null") + 
+					", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : "null")  +
 					"]]";
 		
 		}
@@ -159,10 +159,26 @@ public class StaffSkill implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
-				"[skillId=" + this.getStaffSkillId().getSkill().getId() + 
-				", staffId=" + this.getStaffSkillId().getStaff().getId()  +
-				"]]";
+		StaffSkillId staffSkillId = this.getStaffSkillId();
+		Skill skill = null;
+		Staff staff = null;
+		
+		if (staffSkillId != null) {
+			
+			skill = staffSkillId.getSkill();
+			staff = staffSkillId.getStaff();
+		
+			return "["+ this.getClass().getName() +
+					"[skillId=" + (skill != null ?  skill.getId() : "null") + 
+					", staffId=" + (staff != null ? staff.getId() : "null") +
+					"]]";
+		}
+		else {
+			return "["+ this.getClass().getName() +
+					"[skillId= null" + 
+					", staffId= null"  +
+					"]]";
+		}
 	
 	}
 	

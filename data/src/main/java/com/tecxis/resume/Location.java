@@ -102,11 +102,25 @@ public class Location implements Serializable {
 		
 		@Override
 		public String toString() {
+			City city = null;			
+			Country country = null;
+			Project project = null;
+			Client client = null;
+						
+			city = this.getCity();
+			if (city != null)
+				country = this.getCity().getCountry();
+			
+			project = this.getProject();
+			if (project != null)
+				client = project.getClient();
+			
+			
 			return "["+ this.getClass().getName() +
-					"[cityId=" + this.city.getId() + 
-					", countryId=" + this.city.getCountry().getId()  +
-					", projectId=" + this.project.getId()   +
-					", clientId=" + this.project.getClient().getId()  +
+					"[cityId=" + (city != null ? this.city.getId() : "null" )  + 
+					", countryId= " + (country != null ? country.getId() : "null")  +
+					", projectId=" + (project != null ? project.getId() : "null" )   +
+					", clientId=" + (client != null ?  client.getId() : "null")  +
 					"]]";
 		
 		}
@@ -170,12 +184,39 @@ public class Location implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
-				"[cityId=" + this.getLocationId().getCity().getId() + 
-				", countryId=" + this.getLocationId().getCity().getCountry().getId()  +
-				", projectId=" + this.getLocationId().getProject().getId()   +
-				", clientId=" + this.getLocationId().getProject().getClient().getId()  +
-				"]]";
+		LocationId locationId = this.getLocationId();
+		City city = null;
+		Country country = null;
+		Project project = null;
+		Client client = null;
+		
+		if (locationId != null) {
+			city = this.getLocationId().getCity();
+			
+			if (city != null)
+				country = this.getLocationId().getCity().getCountry();
+			
+			project = this.getLocationId().getProject();
+			
+			if (project != null)
+				client = this.getLocationId().getProject().getClient();
+			
+			return "["+ this.getClass().getName() +
+					"[cityId=" + (city != null ? city.getId() : "null") + 
+					", countryId=" + (country != null ? country.getId() : "null")   +
+					", projectId=" + (project != null ? project.getId() : "null")   +
+					", clientId=" + (client != null ? client.getId() : "null")  +
+					"]]";
+			
+		} else {
+			return "["+ this.getClass().getName() +
+					"[cityId= null" + 
+					", countryId= null"  +
+					", projectId= null"   +
+					", clientId= null"  +
+					"]]";
+		}
+
 	
 	}
 	

@@ -3,17 +3,18 @@ package com.tecxis.resume;
 import static com.tecxis.resume.persistence.CityRepositoryTest.BRUSSELS;
 import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
 import static com.tecxis.resume.persistence.CityRepositoryTest.LONDON;
-import static com.tecxis.resume.persistence.CityRepositoryTest.*;
+import static com.tecxis.resume.persistence.CityRepositoryTest.MANCHESTER;
 import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
+import static com.tecxis.resume.persistence.CityRepositoryTest.SWINDON;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ClientRepositoryTest.CLIENT_TABLE;
-import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.BELGIUM;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
 import static com.tecxis.resume.persistence.CountryRepositoryTest.UNITED_KINGDOM;
+import static com.tecxis.resume.persistence.LocationRepositoryTest.LOCATION_TABLE;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
 import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
@@ -61,6 +62,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.City.CityPK;
 import com.tecxis.resume.Location.LocationId;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ClientRepository;
@@ -711,8 +713,15 @@ public class CityTest {
 	}
 	
 	@Test
+	public void testToStringCityPK() {
+		CityPK cityPk = new CityPK();
+		cityPk.toString();
+	}
+	
+	@Test
 	public void testToString() {
-		fail("TODO");
+		City city = new City();
+		city.toString();
 	}
 		
 	public static City insertACity(String name, Country country, EntityManager entityManager) {

@@ -142,9 +142,14 @@ public class LocationTest {
 	
 	@Test
 	public void testToString() {
-		//TODO DEBUG toString for this Location and all classes
 		Location location = new Location();
 		location.toString();
+	}
+	
+	@Test
+	public void testLocationIdToString() {
+		LocationId locationId = new LocationId();
+		locationId.toString();
 	}
 	
 	

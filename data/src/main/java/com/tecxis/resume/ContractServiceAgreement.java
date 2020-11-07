@@ -112,7 +112,7 @@ public class ContractServiceAgreement implements Serializable{
 		public String toString() {
 			return "[" + this.getClass().getName() + 
 					"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") + 
-					", clientId="+ (this.contract.getClient() != null ? this.contract.getClient().getId() : "null") +					
+					", clientId="+   (this.getContract() != null ?  (this.getContract().getClient() != null ? this.getContract().getClient().getId() : "null") : "null") +					
 					", serviceId= "+ (this.getService() != null ? this.getService().getId() : "null") + "]]";		
 		}
 		
@@ -178,8 +178,10 @@ public class ContractServiceAgreement implements Serializable{
 
 	@Override
 	public String toString() {
-		return  "["+this.getClass().getName()+ "@" 	+ this.getContractServiceAgreementId().hashCode() + 
-				this.getContractServiceAgreementId().toString() + "]";
+		return  "["+this.getClass().getName() + 
+				"[contractId=" + (this.getContractServiceAgreementId() != null ? this.getContractServiceAgreementId().getContract().getId() : "null") +
+				", serviceId= " + (this.getContractServiceAgreementId() != null ? this.getContractServiceAgreementId().getService().getId() : "null") + 
+				"]]";
 	}
 	
 	
