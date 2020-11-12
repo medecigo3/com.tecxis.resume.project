@@ -28,10 +28,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.ContractId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
 import com.tecxis.resume.Contract;
-import com.tecxis.resume.Contract.ContractPK;
 import com.tecxis.resume.ContractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -121,7 +121,7 @@ public class ContractRepositoryTest {
 	public void testFindById() {		
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(MICROPOLE, micropole.getName());					
-		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractPK(5L, micropole)).get();
+		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractId(5L, micropole)).get();
 		assertNotNull(fastconnectMicropoleContract);
 		assertEquals(micropole, fastconnectMicropoleContract.getClient());		
 		assertEquals(5L, fastconnectMicropoleContract.getId());

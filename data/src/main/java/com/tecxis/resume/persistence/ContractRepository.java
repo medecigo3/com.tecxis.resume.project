@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.tecxis.commons.persistence.id.ContractId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.Contract;
-import com.tecxis.resume.Contract.ContractPK;
 
 
-public interface ContractRepository extends JpaRepository<Contract, ContractPK> {
+public interface ContractRepository extends JpaRepository<Contract, ContractId> {
 			
 	public List <Contract> findByClientOrderByIdAsc(Client client);
 	
