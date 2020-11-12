@@ -14,7 +14,6 @@ import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
