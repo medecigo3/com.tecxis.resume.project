@@ -194,11 +194,15 @@ public class CityTest {
 		Location fortisLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1))).get();
 		Location dcscLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1))).get();
 		assertThat(londonLocations, Matchers.containsInAnyOrder(fortisLocation, dcscLocation)); 
-				
-		/***Add new Location*/
-		london.addLocation(sherpa);
+		
+		/**Create new Location*/
+		Location newLocation = new Location (london, sherpa);
+		
+		/***Add new Location*/		
+		london.addLocation(newLocation);
 		/**Add new Location to the inverse association*/
-		sherpa.addLocation(london);
+		sherpa.addLocation(newLocation);
+		entityManager.persist(newLocation);
 		entityManager.merge(london);
 		entityManager.merge(sherpa);		
 		entityManager.flush();
@@ -221,7 +225,7 @@ public class CityTest {
 		assertEquals(1, manchesterLocations.size());
 		
 		/**Validate projects of the city to test*/		
-		Project currentAdir = manchesterLocations.get(0).getLocationId().getProject();
+		Project currentAdir = manchesterLocations.get(0).getProject();
 		assertNotNull(currentAdir);
 		assertEquals(Constants.ADIR, currentAdir.getName());
 		assertEquals(1, currentAdir.getLocations().size());
@@ -240,7 +244,12 @@ public class CityTest {
 		/**Add Project duplicate to city: expect error*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		assertEquals(duplicateAdir, currentAdir);
-		manchester.addLocation(duplicateAdir);
+		
+		/**Create duplicate location*/
+		Location newLocation = new Location (manchester, duplicateAdir);
+		
+		/**Add duplicate Location*/
+		manchester.addLocation(newLocation);
 		
 	}
 	
@@ -257,7 +266,7 @@ public class CityTest {
 		
 		/**Validate projects of the city to test*/
 		assertEquals(1, manchesterLocations.size());
-		Project currentAdir = manchesterLocations.get(0).getLocationId().getProject();
+		Project currentAdir = manchesterLocations.get(0).getProject();
 		assertNotNull(currentAdir);
 		assertEquals(Constants.ADIR, currentAdir.getName());
 		assertEquals(1, currentAdir.getLocations().size());
@@ -291,12 +300,12 @@ public class CityTest {
 		assertEquals(2, londonLocations.size());
 		
 		/**Validate Locations*/		
-		assertEquals(london, londonLocations.get(0).getLocationId().getCity());
-		assertEquals(london, londonLocations.get(1).getLocationId().getCity());		
+		assertEquals(london, londonLocations.get(0).getCity());
+		assertEquals(london, londonLocations.get(1).getCity());		
 		Project fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
 		Project dcsc = projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1);
-		assertThat(londonLocations.get(0).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));
-		assertThat(londonLocations.get(1).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));	
+		assertThat(londonLocations.get(0).getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(londonLocations.get(1).getProject(), Matchers.oneOf(fortis, dcsc));	
 		
 	}
 	
@@ -313,12 +322,12 @@ public class CityTest {
 		/**Validate opposite associations*/
 		Location location1 = london.getLocations().get(0);
 		Location location2 = london.getLocations().get(1);		
-		assertEquals(london, location1.getLocationId().getCity());
-		assertEquals(london, location2.getLocationId().getCity());		
+		assertEquals(london, location1.getCity());
+		assertEquals(london, location2.getCity());		
 		Project fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
 		Project dcsc = projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1);		
-		assertThat(location1.getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));
-		assertThat(location2.getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));		
+		assertThat(location1.getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(location2.getProject(), Matchers.oneOf(fortis, dcsc));		
 		
 	
 		/**Find & validate Projects to test*/
@@ -339,21 +348,21 @@ public class CityTest {
 		assertEquals(1, seleniumLocations.size());
 		assertEquals(2, aosLocations.size());
 		Location seleniumLocation = seleniumLocations.get(0);
-		assertEquals(paris, seleniumLocation.getLocationId().getCity());
-		assertThat(aosLocations.get(0).getLocationId().getCity(), Matchers.oneOf(paris, swindon));
-		assertThat(aosLocations.get(1).getLocationId().getCity(), Matchers.oneOf(paris, swindon));
+		assertEquals(paris, seleniumLocation.getCity());
+		assertThat(aosLocations.get(0).getCity(), Matchers.oneOf(paris, swindon));
+		assertThat(aosLocations.get(1).getCity(), Matchers.oneOf(paris, swindon));
 				
 		/**Validate current Locations*/		
-		assertEquals(london, londonLocations.get(0).getLocationId().getCity());
+		assertEquals(london, londonLocations.get(0).getCity());
 		fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
 		dcsc = projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1);
-		assertThat(londonLocations.get(0).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));
-		assertThat(londonLocations.get(1).getLocationId().getProject(), Matchers.oneOf(fortis, dcsc));	
+		assertThat(londonLocations.get(0).getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(londonLocations.get(1).getProject(), Matchers.oneOf(fortis, dcsc));	
 		
 		/**Prepare new Locations*/
-		Location londonSeleniumLocation =  new Location (new LocationId(london, selenium));
-		Location londonAosLocation = new Location(new LocationId(london, aos));
-		Location londonMorningstarv2Location = new Location(new LocationId(london, morningstarv2));
+		Location londonSeleniumLocation =  new Location (london, selenium);
+		Location londonAosLocation = new Location(london, aos);
+		Location londonMorningstarv2Location = new Location(london, morningstarv2);
 		List <Location>  newLocations = new  ArrayList<>();
 		newLocations.add(londonSeleniumLocation);		
 		newLocations.add(londonAosLocation);
@@ -374,17 +383,17 @@ public class CityTest {
 		location1 = london.getLocations().get(0);
 		location2 = london.getLocations().get(1);
 		Location location3 = london.getLocations().get(2);
-		assertEquals(london, location1.getLocationId().getCity());
-		assertEquals(london, location2.getLocationId().getCity());
-		assertEquals(london, location3.getLocationId().getCity());
+		assertEquals(london, location1.getCity());
+		assertEquals(london, location2.getCity());
+		assertEquals(london, location3.getCity());
 		
-		assertThat(location1.getLocationId().getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
-		assertThat(location2.getLocationId().getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
-		assertThat(location3.getLocationId().getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
+		assertThat(location1.getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
+		assertThat(location2.getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
+		assertThat(location3.getProject().getName(), Matchers.oneOf(Constants.SELENIUM, Constants.AOS, Constants.MORNINGSTAR));
 		
-		assertThat(location1.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
-		assertThat(location2.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
-		assertThat(location3.getLocationId().getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		assertThat(location1.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		assertThat(location2.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		assertThat(location3.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
 		
 		/**Test the opposite association*/
 		selenium = projectRepo.findByNameAndVersion(Constants.SELENIUM, Constants.VERSION_1);
@@ -393,18 +402,18 @@ public class CityTest {
 		/**Test selenium Project has all Cities*/
 		assertEquals(2, selenium.getLocations().size());
 		paris = cityRepo.getCityByName(Constants.PARIS);
-		assertThat(selenium.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london));
-		assertThat(selenium.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london));
+		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, london));
+		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, london));
 		/**Test aos Project has all Cities*/
 		assertEquals(3, aos.getLocations().size());
 		swindon = cityRepo.getCityByName(Constants.SWINDON);
-		assertThat(aos.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
-		assertThat(aos.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
-		assertThat(aos.getLocations().get(2).getLocationId().getCity(), Matchers.oneOf(paris, london, swindon));
+		assertThat(aos.getLocations().get(0).getCity(), Matchers.oneOf(paris, london, swindon));
+		assertThat(aos.getLocations().get(1).getCity(), Matchers.oneOf(paris, london, swindon));
+		assertThat(aos.getLocations().get(2).getCity(), Matchers.oneOf(paris, london, swindon));
 		/**Test morningstar v2 Project has all Cities*/		
 		assertEquals(2, morningstarv2.getLocations().size());
-		assertThat(morningstarv2.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, london));
-		assertThat(morningstarv2.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, london));
+		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, london));
+		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, london));
 		
 	}	
 

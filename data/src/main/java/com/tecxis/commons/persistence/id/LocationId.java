@@ -3,7 +3,6 @@ package com.tecxis.commons.persistence.id;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,19 +12,18 @@ import com.tecxis.resume.Client;
 import com.tecxis.resume.Country;
 import com.tecxis.resume.Project;
 
-@Embeddable
 public class LocationId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	/**Bi-direccional many-to-one association to City*/
-	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID")
 	@JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")		
 	private City city;
 	
 	/**Bi-direccional many-to-one association to Project*/
-	@ManyToOne(cascade = CascadeType.ALL)		
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})		
 	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
 	private Project project;

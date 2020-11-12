@@ -27,7 +27,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.commons.persistence.id.ProjectId;
 import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 
@@ -115,7 +114,7 @@ public class Project implements Serializable, StrongEntity {
 	* bi-directional one-to-many association to Location.
 	* In OO terms, this Project "is based" in these Locations
 	*/	
-	@OneToMany(mappedBy = "locationId.project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=false)
+	@OneToMany(mappedBy = "project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=false)
 	private List <Location> locations;
 
 	public Project() {
@@ -219,14 +218,12 @@ public class Project implements Serializable, StrongEntity {
 		this.version = version;
 	}
 	
-	public void addLocation(City city) {
+	public void addLocation(Location location) {
 		/**Check if 'location' isn't in this project -> locations*/
-		if ( !Collections.disjoint(this.getLocations(), city.getLocations()))
-			throw new EntityExistsException("City already exists in this Project -> locations: " + city.getId());
-		
-		LocationId locationId = new LocationId(city, this);
-		Location newLocation = new Location(locationId);
-		this.getLocations().add(newLocation);
+		if ( this.getLocations().contains(location))
+			throw new EntityExistsException("City already exists in this Project -> locations: " + location.toString());
+	
+		this.getLocations().add(location);
 	}
 	
 	public boolean removeLocation(Location location) {
@@ -238,7 +235,7 @@ public class Project implements Serializable, StrongEntity {
 		
 		while(locationIt.hasNext()) {
 			Location tempLocation = locationIt.next();
-			City tempCity = tempLocation.getLocationId().getCity();
+			City tempCity = tempLocation.getCity();
 			if (tempCity.equals(city))
 				return this.getLocations().remove(tempLocation);
 		}

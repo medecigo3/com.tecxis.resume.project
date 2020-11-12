@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CityId;
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.LocationId;
 
 
 /**
@@ -68,7 +66,7 @@ public class City implements Serializable, StrongEntity {
 	 * bi-directional one-to-many association to Location
 	 * In OO terms, this City "establishes a" Location
 	 */
-	@OneToMany(mappedBy="locationId.city", cascade = {CascadeType.ALL}, orphanRemoval=true)
+	@OneToMany(mappedBy="city", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <Location> locations; 
 	
 	public City() {
@@ -106,14 +104,12 @@ public class City implements Serializable, StrongEntity {
 	}
 
 	
-	public void addLocation(Project project) {
+	public void addLocation(Location location) {
 		/**Check if 'location' isn't in this city -> locations*/
-		if ( !Collections.disjoint(this.getLocations(), project.getLocations()))
-			throw new EntityExistsException("Project already exists in this City -> locations: " + project.getId());
+		if ( this.getLocations().contains(location))
+			throw new EntityExistsException("Project already exists in this City -> locations: " + location.toString());
 		
-		LocationId locationId = new LocationId(this, project);
-		Location newLocation = new Location(locationId);
-		this.getLocations().add(newLocation);
+		this.getLocations().add(location);
 	}
 	
 	public boolean removeLocation(Location location) {
@@ -125,7 +121,7 @@ public class City implements Serializable, StrongEntity {
 		
 		while(locationIt.hasNext()) {
 			Location tempLocation = locationIt.next();
-			Project tempProject = tempLocation.getLocationId().getProject();
+			Project tempProject = tempLocation.getProject();
 			if (tempProject.equals(project))
 				return this.getLocations().remove(tempLocation);
 		}

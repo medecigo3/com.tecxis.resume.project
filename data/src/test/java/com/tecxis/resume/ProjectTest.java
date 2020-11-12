@@ -627,7 +627,7 @@ public class ProjectTest {
 		assertEquals(Constants.SELENIUM, selenium.getName());
 		assertEquals(Constants.VERSION_1, selenium.getVersion());
 		assertEquals(1, selenium.getLocations().size());		
-		assertEquals(paris,  selenium.getLocations().get(0).getLocationId().getCity());	
+		assertEquals(paris,  selenium.getLocations().get(0).getCity());	
 		
 		/**Find City to add*/
 		City manchester = cityRepo.getCityByName(Constants.MANCHESTER);
@@ -640,10 +640,13 @@ public class ProjectTest {
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));				
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		
-		/**Add Location to Project*/
-		selenium.addLocation(manchester);
-		manchester.addLocation(selenium);
+		/**Create new Locations*/
+		Location newLocation = new Location(manchester, selenium);
 		
+		/**Add Location to Project*/
+		selenium.addLocation(newLocation);
+		manchester.addLocation(newLocation);
+		entityManager.persist(newLocation);
 		entityManager.merge(selenium);
 		entityManager.merge(manchester);
 		entityManager.flush();
@@ -659,8 +662,8 @@ public class ProjectTest {
 		assertEquals(Constants.SELENIUM, selenium.getName());
 		assertEquals(Constants.VERSION_1, selenium.getVersion());
 		assertEquals(2, selenium.getLocations().size());		
-		assertThat(selenium.getLocations().get(0).getLocationId().getCity(),  Matchers.oneOf(paris, manchester));
-		assertThat(selenium.getLocations().get(1).getLocationId().getCity(),  Matchers.oneOf(paris, manchester));			
+		assertThat(selenium.getLocations().get(0).getCity(),  Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getLocations().get(1).getCity(),  Matchers.oneOf(paris, manchester));			
 	}
 	
 	@Test(expected=EntityExistsException.class)
@@ -677,7 +680,7 @@ public class ProjectTest {
 		assertEquals(Constants.SELENIUM, selenium.getName());
 		assertEquals(Constants.VERSION_1, selenium.getVersion());
 		assertEquals(1, selenium.getLocations().size());		
-		assertEquals(paris,  selenium.getLocations().get(0).getLocationId().getCity());	
+		assertEquals(paris,  selenium.getLocations().get(0).getCity());	
 		
 		/**Test initial state*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));	
@@ -687,8 +690,11 @@ public class ProjectTest {
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));				
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		
-		/**Add existing Location to Project*/ /***  <==== Throws EntityExistsException */
-		selenium.addLocation(paris);
+		/**Create new Location*/
+		Location newLocation = new Location (paris, selenium);
+		
+		/**Add existing Location to Project*/ /***  <==== Throws EntityExistsException */		
+		selenium.addLocation(newLocation);
 		
 	}
 	
@@ -765,7 +771,7 @@ public class ProjectTest {
 		City manchester = cityRepo.getCityByName(Constants.MANCHESTER);
 		assertEquals(Constants.MANCHESTER, manchester.getName());
 		List <Location> manchesterLocations = manchester.getLocations();
-		assertEquals(manchester, manchesterLocations.get(0).getLocationId().getCity());
+		assertEquals(manchester, manchesterLocations.get(0).getCity());
 
 		/***Validate the Project's current Locations*/
 		assertEquals(1, selenium.getLocations().size());		
@@ -774,7 +780,7 @@ public class ProjectTest {
 				
 		/**Prepare new Locations*/
 		List <Location> newLocations = new ArrayList<>();
-		Location manchesterSeleniumLoc = new Location(new LocationId(manchester, selenium));		
+		Location manchesterSeleniumLoc = new Location(manchester, selenium);		
 		newLocations.add(manchesterSeleniumLoc);
 				
 		/**Set new Locations*/
@@ -791,8 +797,8 @@ public class ProjectTest {
 		/**Test & validate the new Locations*/
 		selenium = projectRepo.findByNameAndVersion(Constants.SELENIUM, Constants.VERSION_1);	
 		assertEquals(2, selenium.getLocations().size());
-		assertThat(selenium.getLocations().get(0).getLocationId().getCity(), Matchers.oneOf(paris, manchester));
-		assertThat(selenium.getLocations().get(1).getLocationId().getCity(), Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, manchester));
+		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, manchester));
 		/**Cities are linked through Location table*/
 		assertEquals(2, selenium.getCities().size());
 		assertThat(selenium.getCities().get(0), Matchers.oneOf(paris, manchester));
@@ -832,8 +838,8 @@ public class ProjectTest {
 		List <Location> seleniumLocations  = selenium.getLocations();
 		assertEquals(1, seleniumLocations.size());
 		Location selemiumLocation =  seleniumLocations.get(0);
-		assertEquals(paris, selemiumLocation.getLocationId().getCity());
-		assertEquals(selenium, selemiumLocation.getLocationId().getProject());
+		assertEquals(paris, selemiumLocation.getCity());
+		assertEquals(selenium, selemiumLocation.getProject());
 				
 	}
 
@@ -911,12 +917,12 @@ public class ProjectTest {
 		assertEquals(1, axeltisV1ProjectLocations.size());
 		City paris = cityRepo.getCityByName(Constants.PARIS); 
 		assertEquals(Constants.PARIS, paris.getName());
-		assertEquals(paris, axeltisV1ProjectLocations.get(0).getLocationId().getCity());
+		assertEquals(paris, axeltisV1ProjectLocations.get(0).getCity());
 		
 		/**Test Location -> Project association*/
 		Location axeltisMorningstarv1ProjectLocation =  locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
-		assertEquals(paris, axeltisMorningstarv1ProjectLocation.getLocationId().getCity());
-		assertEquals(morningstartV1Project, axeltisMorningstarv1ProjectLocation.getLocationId().getProject());
+		assertEquals(paris, axeltisMorningstarv1ProjectLocation.getCity());
+		assertEquals(morningstartV1Project, axeltisMorningstarv1ProjectLocation.getProject());
 		
 		/**Test Project -> StaffProjectAssignment association*/
 		List <StaffProjectAssignment> morningstartV1StaffProjectAssignments  = morningstartV1Project.getStaffProjectAssignments();

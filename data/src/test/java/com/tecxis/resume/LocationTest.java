@@ -103,8 +103,8 @@ public class LocationTest {
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
 	
 		/**Test Location*/
-		assertEquals(paris, morningstartV1ProjectLocation.getLocationId().getCity());
-		assertEquals(morningstartV1Project, morningstartV1ProjectLocation.getLocationId().getProject());
+		assertEquals(paris, morningstartV1ProjectLocation.getCity());
+		assertEquals(morningstartV1Project, morningstartV1ProjectLocation.getProject());
 		
 		/**Detach entities*/		
 		entityManager.clear();
@@ -136,13 +136,12 @@ public class LocationTest {
 		location.toString();
 	}	
 	
-	public static Location insertLocation(City city, Project project, EntityManager entityManager) {
-		LocationId locationId = new LocationId(city, project);
-		Location location = new Location(locationId);
+	public static Location insertLocation(City city, Project project, EntityManager entityManager) {		
+		Location location = new Location(city, project);
 		entityManager.persist(location);
 		entityManager.flush();
-		assertThat(location.getLocationId().getCity().getId(), Matchers.greaterThan((long)0));
-		assertThat(location.getLocationId().getProject().getId(), Matchers.greaterThan((long)0));
+		assertThat(location.getCity().getId(), Matchers.greaterThan((long)0));
+		assertThat(location.getProject().getId(), Matchers.greaterThan((long)0));
 		return location;
 				
 	}
