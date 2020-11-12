@@ -53,6 +53,7 @@ public class Contract implements Serializable, StrongEntity {
 	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
 	 * In OO terms, this Client "signed" this Contract.
 	 */
+	@Id
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private Client client;		
