@@ -112,12 +112,26 @@ public class SupplyContract implements Serializable {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString() {		
+		Supplier supplier = null;
+		Contract contract = null;
+		Client client = null;
+		Staff staff = null;
+		
+		if (this.getSupplyContractId() != null) {
+			supplier = this.getSupplyContractId().getSupplier();
+			contract = this.getSupplyContractId().getContract();
+			client = null;
+			if (contract != null)
+				client = contract.getClient();
+			staff = this.getSupplyContractId().getStaff();
+		}
+		
 		return "["+ this.getClass().getName() +
-				"[supplierId=" + (this.getSupplyContractId().getSupplier() != null ? this.getSupplyContractId().getSupplier().getId() : " null" ) +
-				", contractId=" + (this.getSupplyContractId().getContract() != null ? this.getSupplyContractId().getContract().getId() : "null") +
-				", clientId=" + (this.getSupplyContractId().getContract().getClient() != null ? this.getSupplyContractId().getContract().getClient().getId() : "null") +
-				", staffId=" + (this.getSupplyContractId().getStaff() != null ? this.getSupplyContractId().getStaff().getId() : "null") + 
+				"[supplierId=" + (supplier != null ? supplier.getId() : " null" ) +
+				", contractId=" + (contract != null ? contract.getId() : "null") +
+				", clientId=" + (client != null ? client.getId() : "null") +
+				", staffId=" + (staff != null ? staff.getId() : "null") + 
 				"]]";
 	}
 }

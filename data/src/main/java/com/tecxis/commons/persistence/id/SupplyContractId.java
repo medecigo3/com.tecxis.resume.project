@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.tecxis.resume.Client;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
@@ -128,11 +129,19 @@ public class SupplyContractId implements Serializable {
 	
 	@Override
 	public String toString() {
+		
+		Supplier supplier = this.getSupplier();
+		Contract contract = this.getContract();
+		Client client = null;
+		if (contract != null)
+			client = contract.getClient();
+		Staff staff = this.getStaff();
+		
 		return "["+ this.getClass().getName() +
-				"[supplierId=" + (this.getSupplier() != null ? this.getSupplier().getId() : " null" ) +
-				", contractId=" + (this.contract != null ? this.contract.getId() : "null") +
-				", clientId=" + (this.contract.getClient() != null ? this.contract.getClient().getId() : "null") +
-				", staffId=" + (this.staff != null ? this.staff.getId() : "null") + 
+				"[supplierId=" + (supplier != null ? supplier.getId() : " null" ) +
+				", contractId=" + (contract != null ? contract.getId() : "null") +
+				", clientId=" + (client != null ? client.getId() : "null") +
+				", staffId=" + (staff != null ? staff.getId() : "null") + 
 				"]]";
 	}
 }
