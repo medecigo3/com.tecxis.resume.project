@@ -1,22 +1,7 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.Constants.ENROLMENT_TABLE;
 import static com.tecxis.resume.StaffTest.insertAStaff;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.CENTRE_DES_COMPETENCES;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.DCSC;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.EUROCLEAR_VERS_CALYPSO;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.FORTIS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.PARCOURS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.SELENIUM;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.SHERPA;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -24,8 +9,6 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Course;
 import com.tecxis.resume.Project;
 import com.tecxis.resume.Staff;
@@ -60,15 +44,7 @@ import com.tecxis.resume.Staff;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffRepositoryTest {
 	
-	public static final String ENROLMENT_TABLE = "ENROLMENT";
-	public static final String STAFF_TABLE = "STAFF";
-	public static final String AMT_NAME = "Arturo";
-	public static final String AMT_LASTNAME = "Medecigo Tress";
-	public static final String JOHN_NAME = "John";
-	public static final String JOHN_LASTNAME = "Smith";
-	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
-		
-			
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -87,9 +63,9 @@ public class StaffRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 	}
 	
@@ -99,8 +75,8 @@ public class StaffRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedStaff() {
-		Staff staffIn = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		Staff staffOut = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff staffIn = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff staffOut = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertEquals(staffIn, staffOut);		
 	}
 	
@@ -110,15 +86,15 @@ public class StaffRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffLikeName() {
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		/**Test query LiKE expression*/
 		amt = staffRepo.getStaffLikeFirstName("Art%");
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 	}
 	
 	@Test
@@ -126,15 +102,15 @@ public class StaffRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffLikeLastname() {
-		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		/**Test query LiKE expression*/
 		amt = staffRepo.getStaffLikeLastName("Medecigo%");
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 	}
 	
 	
@@ -144,42 +120,42 @@ public class StaffRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjects() {
 		/**Test staff 1*/
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertNotNull(amt);
 		List <Project> amtProjects = staffRepo.getStaffProjects(amt);
 		assertNotNull(amtProjects);
 		assertEquals(13, amtProjects.size());
-		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		Project adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);
 		assertNotNull(adir);
-		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		Project fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
 		assertNotNull(fortis);
-		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
+		Project dcsc = projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1);
 		assertNotNull(dcsc);
-		Project ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
+		Project ted = projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1);
 		assertNotNull(ted);
-		Project parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		Project parcours = projectRepo.findByNameAndVersion(Constants.PARCOURS, Constants.VERSION_1);
 		assertNotNull(parcours);
-		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
+		Project eolis = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);
 		assertNotNull(eolis);
-		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		Project aos = projectRepo.findByNameAndVersion(Constants.AOS, Constants.VERSION_1);
 		assertNotNull(aos);
-		Project sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
+		Project sherpa = projectRepo.findByNameAndVersion(Constants.SHERPA, Constants.VERSION_1);
 		assertNotNull(sherpa);
-		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		Project selenium = projectRepo.findByNameAndVersion(Constants.SELENIUM, Constants.VERSION_1);
 		assertNotNull(selenium);
-		Project cdc = projectRepo.findByNameAndVersion(CENTRE_DES_COMPETENCES, VERSION_1);
+		Project cdc = projectRepo.findByNameAndVersion(Constants.CENTRE_DES_COMPETENCES, Constants.VERSION_1);
 		assertNotNull(cdc);
-		Project euroclear = projectRepo.findByNameAndVersion(EUROCLEAR_VERS_CALYPSO, VERSION_1);
+		Project euroclear = projectRepo.findByNameAndVersion(Constants.EUROCLEAR_VERS_CALYPSO, Constants.VERSION_1);
 		assertNotNull(euroclear);
-		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		Project morningstarV1 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_1);
 		assertNotNull(morningstarV1);
-		Project morningstarV2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		Project morningstarV2 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_2);
 		assertNotNull(morningstarV2);	
 		assertThat(amtProjects, Matchers.containsInAnyOrder(adir, fortis, dcsc, ted, parcours, eolis, aos, sherpa, selenium, cdc, euroclear, morningstarV1, morningstarV2));
 		
 		
 		/**Test staff 2*/
-		Staff jhonStaff = staffRepo.getStaffLikeFirstName(JOHN_NAME);
+		Staff jhonStaff = staffRepo.getStaffLikeFirstName(Constants.JOHN_NAME);
 		assertNotNull(jhonStaff);
 		List <Project> jhonProjects = staffRepo.getStaffProjects(jhonStaff);
 		assertNotNull(jhonProjects);
@@ -191,18 +167,18 @@ public class StaffRepositoryTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffCourses() {
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));		
     	
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
 		
 		List <Course> courseList = amt.getCourses();
 		assertNotNull(courseList);
 		assertEquals(1, courseList.size());
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+		assertEquals(Constants.BW_6_COURSE, courseList.get(0).getTitle());
 		
 				
 		/**SQL test*/		
@@ -223,7 +199,7 @@ public class StaffRepositoryTest {
 			courseList.add(tempCourse);
 		}
 		assertNotNull(courseList.get(0));
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+		assertEquals(Constants.BW_6_COURSE, courseList.get(0).getTitle());
 		
 		/**JPQL test*/	
 //		TypedQuery<Staff> staffQuery = entityManager.createQuery("select s from Staff s", Staff.class);
@@ -236,7 +212,7 @@ public class StaffRepositoryTest {
 		courseList = query.getResultList();
 		assertEquals(1, courseList.size());	
 		assertNotNull(courseList.get(0));
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
+		assertEquals(Constants.BW_6_COURSE, courseList.get(0).getTitle());
 	
 		
 		/**Criteria API test*/
@@ -255,12 +231,12 @@ public class StaffRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteStaff() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff tempStaff = insertAStaff(AMT_LASTNAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff tempStaff = insertAStaff(Constants.AMT_LASTNAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		staffRepo.delete(tempStaff);
-		assertNull(staffRepo.getStaffLikeFirstName(AMT_NAME));
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertNull(staffRepo.getStaffLikeFirstName(Constants.AMT_NAME));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 	}
 

@@ -1,8 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -71,7 +68,7 @@ public class SkillTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testGetStaff() {
-		Skill tibcoSkill = skillRepo.getSkillByName(TIBCO);
+		Skill tibcoSkill = skillRepo.getSkillByName(Constants.TIBCO);
 		List<Staff> tibcoStaff = tibcoSkill.getStaff();
 		
 		assertEquals(1, tibcoStaff.size());
@@ -83,28 +80,28 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/**Find Skill*/
-		Skill tibco = skillRepo.getSkillByName(TIBCO);
-		assertEquals(tibco.getName(), TIBCO);
+		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
+		assertEquals(tibco.getName(), Constants.TIBCO);
 		
 		/**Test Skill initial state*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill many-to-many cascadings*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
 		entityManager.flush();
 		
 		/**Test Skill was removed*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill DELETE many-to-many cascadings*/
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 	}
 	
 	

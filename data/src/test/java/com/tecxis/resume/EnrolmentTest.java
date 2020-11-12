@@ -1,15 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.JAVA_WS;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.SHORT_BW_6_COURSE;
-import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -69,15 +59,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaff() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
@@ -85,18 +75,18 @@ public class EnrolmentTest {
 		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
 				
 		/**Find Staff to set in the new Enrolment*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		assertNotNull(john);
-		assertEquals(JOHN_NAME, john.getFirstName());
-		assertEquals(JOHN_LASTNAME , john.getLastName());
+		assertEquals(Constants.JOHN_NAME, john.getFirstName());
+		assertEquals(Constants.JOHN_LASTNAME , john.getLastName());
 				
 		/**Create new Enrolment*/		
 		Enrolment newEnrolment = new Enrolment(new EnrolmentId(john, bwCourse));
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Staff*/		
 		entityManager.remove(bwEnrolment);
@@ -104,9 +94,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
@@ -120,15 +110,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCourse() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
@@ -136,18 +126,18 @@ public class EnrolmentTest {
 		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
 		
 		/**Find Course to set in Enrolment*/
-		List <Course> javaWsCourses = courseRepo.getCourseLikeTitle(JAVA_WS);
+		List <Course> javaWsCourses = courseRepo.getCourseLikeTitle(Constants.JAVA_WS);
 		assertEquals(1, javaWsCourses.size());
 		Course javaWsCourse = javaWsCourses.get(0);
-		assertEquals(JAVA_WS, javaWsCourse.getTitle());
+		assertEquals(Constants.JAVA_WS, javaWsCourse.getTitle());
 		
 		/**Create new Enrolment*/		
 		Enrolment newEnrolment = new Enrolment(new EnrolmentId(amt, javaWsCourse));
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Course*/
 		entityManager.remove(bwEnrolment);
@@ -155,9 +145,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
@@ -171,15 +161,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEnrolment() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
@@ -188,19 +178,19 @@ public class EnrolmentTest {
 		
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Remove enrolment*/
 		entityManager.remove(bwEnrolment);
 		entityManager.flush();
 		
 		/**Verify initial state*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		/**Verify cascading*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		
 	}

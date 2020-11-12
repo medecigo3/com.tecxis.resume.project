@@ -1,9 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.EULER_HERMES;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -31,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.commons.persistence.id.ContractId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractTest;
 
@@ -82,7 +79,7 @@ public class ContractRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Client accenture = ClientTest.insertAClient(AXELTIS, entityManager);		
+		Client accenture = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, CONTRACT1_NAME, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(1, accentureContract.getId());
@@ -93,7 +90,7 @@ public class ContractRepositoryTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testFindInsertedContract() {
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);			
+		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);			
 		Contract contractIn = ContractTest.insertAContract(barclays, CONTRACT1_NAME, entityManager);
 		Contract contractOut = contractRepo.getContractByName(CONTRACT1_NAME);
 		assertNotNull(contractOut);
@@ -105,7 +102,7 @@ public class ContractRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Client barclays = ClientTest.insertAClient(EULER_HERMES, entityManager);	
+		Client barclays = ClientTest.insertAClient(Constants.EULER_HERMES, entityManager);	
 		Contract tempContract = ContractTest.insertAContract(barclays, CONTRACT1_NAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
@@ -119,8 +116,8 @@ public class ContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindById() {		
-		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(MICROPOLE, micropole.getName());					
+		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		assertEquals(Constants.MICROPOLE, micropole.getName());					
 		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractId(5L, micropole)).get();
 		assertNotNull(fastconnectMicropoleContract);
 		assertEquals(micropole, fastconnectMicropoleContract.getClient());		
@@ -145,7 +142,7 @@ public class ContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void findByClientOrderByIdAsc() {						
 		/**Find contracts*/
-		Client axeltis = clientRepo.getClientByName(AXELTIS);	
+		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);	
 		List <Contract> axeltisContracts = contractRepo.findByClientOrderByIdAsc(axeltis);
 		
 		/**Validate contracts*/

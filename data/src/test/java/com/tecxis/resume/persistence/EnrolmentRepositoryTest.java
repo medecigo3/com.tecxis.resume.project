@@ -29,9 +29,6 @@ import com.tecxis.resume.Enrolment;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class EnrolmentRepositoryTest {
 	
-	final public static String ENROLMENT_TABLE = "ENROLMENT";
-	
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 	

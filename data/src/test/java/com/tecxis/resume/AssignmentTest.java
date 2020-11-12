@@ -1,28 +1,7 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT12;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT23;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT31;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT32;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT33;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT34;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT47;
-import static com.tecxis.resume.persistence.AssignmentRepositoryTest.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.SAGEMCOM;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.AOS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.EOLIS;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.MORNINGSTAR;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.TED;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_2;
 import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -97,23 +76,23 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddStaffProjectAssignment1() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client sagemcom = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);		
+		Project ted = ProjectTest.insertAProject(Constants.TED, Constants.VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		Assignment assignment12 = AssignmentTest.insertAssignment(ASSIGNMENT12, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
+		Assignment assignment12 = AssignmentTest.insertAssignment(Constants.ASSIGNMENT12, entityManager);
 		assertEquals(1, assignment12.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
 		assertEquals(0, amt.getStaffProjectAssignments().size());		
@@ -144,23 +123,23 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddStaffProjectAssignment2() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client arval = ClientTest.insertAClient(ARVAL, entityManager);		
-		Project aos = ProjectTest.insertAProject(AOS, VERSION_1, arval, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client arval = ClientTest.insertAClient(Constants.ARVAL, entityManager);		
+		Project aos = ProjectTest.insertAProject(Constants.AOS, Constants.VERSION_1, arval, entityManager);
 		assertEquals(1, aos.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment47 = AssignmentTest.insertAssignment(ASSIGNMENT47, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		Assignment assignment47 = AssignmentTest.insertAssignment(Constants.ASSIGNMENT47, entityManager);
 		assertEquals(1, assignment47.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Validate staff -> assignments*/		
 		assertEquals(0, amt.getStaffProjectAssignments().size());		
@@ -192,32 +171,32 @@ public class AssignmentTest {
 	public void testAddExistingStaffProjectAssignment() {
 		
 		/**Find projects*/
-		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
+		Project eolis = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);	
 		
 		/**Validate Projects to test*/
-		assertEquals(EOLIS, eolis.getName());
-		assertEquals(VERSION_1, eolis.getVersion());
+		assertEquals(Constants.EOLIS, eolis.getName());
+		assertEquals(Constants.VERSION_1, eolis.getVersion());
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		
 		/**Validate Staff to test*/
-		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
 						
 		/**Find assignments*/		
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);		
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);		
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34); 
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT23);
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT31);		
+		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT32);
+		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT33);		
+		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT34); 
 		
 		
 		/**Validate Assignments to test**/
-		assertEquals(ASSIGNMENT23, assignment23.getDesc());
-		assertEquals(ASSIGNMENT31, assignment31.getDesc());
-		assertEquals(ASSIGNMENT32, assignment32.getDesc());
-		assertEquals(ASSIGNMENT33, assignment33.getDesc());
-		assertEquals(ASSIGNMENT34, assignment34.getDesc());
+		assertEquals(Constants.ASSIGNMENT23, assignment23.getDesc());
+		assertEquals(Constants.ASSIGNMENT31, assignment31.getDesc());
+		assertEquals(Constants.ASSIGNMENT32, assignment32.getDesc());
+		assertEquals(Constants.ASSIGNMENT33, assignment33.getDesc());
+		assertEquals(Constants.ASSIGNMENT34, assignment34.getDesc());
 		
 		
 		/**Find StaffProjectAssignments to test*/
@@ -242,9 +221,9 @@ public class AssignmentTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
-		Project  ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);		
+		Project  ted = projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT12);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted, amt, assignment12);	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
 		assertEquals(4, ted.getStaffProjectAssignments().size());
@@ -267,9 +246,9 @@ public class AssignmentTest {
 		/**Validate staff assignments*/
 		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
-		ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
-		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);	
+		ted = projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1);
+		amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		assignment12 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT12);	
 		assertEquals(61, amt.getStaffProjectAssignments().size());		
 		assertEquals(3, ted.getStaffProjectAssignments().size());
 		assertEquals(0, assignment12.getStaffProjectAssignments().size());
@@ -281,23 +260,23 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaffProjectAssignments() {		
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client sagemcom = ClientTest.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = ProjectTest.insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client sagemcom = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);		
+		Project ted = ProjectTest.insertAProject(Constants.TED, Constants.VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment12 = AssignmentTest.insertAssignment(ASSIGNMENT12, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		Assignment assignment12 = AssignmentTest.insertAssignment(Constants.ASSIGNMENT12, entityManager);
 		assertEquals(1, assignment12.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
@@ -328,33 +307,33 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjectAssignments() {
 		/**Prepare projects*/
-		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
-		assertEquals(EOLIS, eolis.getName());
-		assertEquals(VERSION_1, eolis.getVersion());
+		Project eolis = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);
+		assertEquals(Constants.EOLIS, eolis.getName());
+		assertEquals(Constants.VERSION_1, eolis.getVersion());
 		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
 		assertEquals(5, eolisStaffProjectAssignments.size());
 		
-		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		assertEquals(MORNINGSTAR, morningstarv1.getName());
-		assertEquals(VERSION_1, morningstarv1.getVersion());
-		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
-		assertEquals(MORNINGSTAR, morningstarv2.getName());
-		assertEquals(VERSION_2, morningstarv2.getVersion());
+		Project morningstarv1 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_1);
+		assertEquals(Constants.MORNINGSTAR, morningstarv1.getName());
+		assertEquals(Constants.VERSION_1, morningstarv1.getVersion());
+		Project morningstarv2 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_2);
+		assertEquals(Constants.MORNINGSTAR, morningstarv2.getName());
+		assertEquals(Constants.VERSION_2, morningstarv2.getVersion());
 		
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertNotNull(amt);
 		List <StaffProjectAssignment> amtStaffProjectAssignments = amt.getStaffProjectAssignments();
 		assertEquals(62, amt.getProjects().size());
 		assertEquals(62, amtStaffProjectAssignments.size());
 		
 		/**Prepare assignments*/		
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);		
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34);		
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT23);		
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT31);
+		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT32);
+		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT33);
+		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT34);		
 		List <StaffProjectAssignment> assignment23StaffProjectAssignments = assignment23.getStaffProjectAssignments();
 		assertEquals(3, assignment23StaffProjectAssignments.size());		
 		assertEquals(3, assignment31.getStaffProjectAssignments().size());

@@ -1,11 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.CourseRepositoryTest.BW_6_COURSE;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.COURSE_TABLE;
-import static com.tecxis.resume.persistence.CourseRepositoryTest.SHORT_BW_6_COURSE;
-import static com.tecxis.resume.persistence.EnrolmentRepositoryTest.ENROLMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -83,14 +77,14 @@ public class CourseTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffs() {
 		/**Find Course */
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find staff in the course*/
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		assertEquals(AMT_NAME, amt.getFirstName()); 
+		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName()); 
 		
 		List <Staff> bwCourseStaff =  bwCourse.getStaffs();
 		assertEquals(1, bwCourseStaff.size());
@@ -103,7 +97,7 @@ public class CourseTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetStaffs() {
-		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		Course bwCourse = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
 		bwCourse.setStaffs(new ArrayList<Staff>());
 		//To update a Staff in a Course see EnrolmentTest.testSetStaff()
 	}
@@ -113,7 +107,7 @@ public class CourseTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testAddStaff() {
-		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		Course bwCourse = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
 		bwCourse.addStaff(new Staff());
 		//To add a staff in a Course see EnrolmentTest.testSetStaff()
 	}
@@ -123,7 +117,7 @@ public class CourseTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveStaff() {
-		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		Course bwCourse = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
 		bwCourse.removeStaff(new Staff());
 		//To remove a staff from a Course see EnrolmentTest.testSetStaff()
 	}
@@ -135,25 +129,25 @@ public class CourseTest {
 	public void testRemoveCourse() {
 		
 		/**Find course to remove*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**Test cascadings*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 	}
 	

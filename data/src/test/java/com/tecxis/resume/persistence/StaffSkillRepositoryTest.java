@@ -2,12 +2,6 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.StaffSkillTest.insertAStaffSkill;
 import static com.tecxis.resume.StaffTest.insertAStaff;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -30,6 +24,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.StaffSkillId;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Skill;
 import com.tecxis.resume.SkillTest;
 import com.tecxis.resume.Staff;
@@ -62,15 +57,15 @@ public class StaffSkillRepositoryTest {
 	)
 	public void testInsertStaffSkillRowsAndSetIds() {
 		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = SkillTest.insertASkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		Skill tibco = SkillTest.insertASkill(Constants.TIBCO, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
@@ -87,15 +82,15 @@ public class StaffSkillRepositoryTest {
 	)
 	public void findInsertedStaffSkill() {
 		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = SkillTest.insertASkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		Skill tibco = SkillTest.insertASkill(Constants.TIBCO, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
@@ -113,15 +108,15 @@ public class StaffSkillRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteStaffSkill() {
 		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = SkillTest.insertASkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		Skill tibco = SkillTest.insertASkill(Constants.TIBCO, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
@@ -134,7 +129,7 @@ public class StaffSkillRepositoryTest {
 		entityManager.flush();
 		/**Verify*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 	}
 	
 	@Test

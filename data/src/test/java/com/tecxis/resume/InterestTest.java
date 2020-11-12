@@ -1,14 +1,10 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.InterestRepositoryTest.HOBBY;
-import static com.tecxis.resume.persistence.InterestRepositoryTest.INTEREST_TABLE;
-import static com.tecxis.resume.persistence.InterestRepositoryTest.JOHN_INTEREST;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -69,17 +65,17 @@ public class InterestTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaff() {
 		/**Find Interest to test*/
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());		
 		Interest hobby = hobbyList.get(0);
 		hobby.getStaff();
 		
 		/**Find Staff target*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME, amt.getLastName());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());
 		
 		/**Test Interest*/
 		assertEquals(amt, hobby.getStaff());
@@ -92,53 +88,53 @@ public class InterestTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaff() {		
 		/**Find Interest to test*/
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());		
 		Interest hobby = hobbyList.get(0);
 		long hobbyId = hobby.getId();
 		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME, amt.getLastName());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());
 		
 		/**Validate Interest -> Staff*/
 		assertEquals(amt, hobby.getStaff());
 		
 		/**Find new Staff to set*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(JOHN_NAME, john.getFirstName());
-		assertEquals(JOHN_LASTNAME, john.getLastName());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		assertEquals(Constants.JOHN_NAME, john.getFirstName());
+		assertEquals(Constants.JOHN_LASTNAME, john.getLastName());
 		
 		/**Validate Staff -> Interest*/
 		assertEquals(1, john.getInterests().size());
-		assertEquals(JOHN_INTEREST, john.getInterests().get(0).getDesc());
+		assertEquals(Constants.JOHN_INTEREST, john.getInterests().get(0).getDesc());
 		
 		/** Set new Staff*/		
 		hobby.setStaff(john);
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));		
 		entityManager.merge(hobby);
 		entityManager.merge(john);
 		entityManager.flush();		
 		entityManager.clear();
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		/**Validate Interest -> Staff association*/
 		/**Find Interest*/
-		hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());		
 		hobby = hobbyList.get(0);
 		assertEquals(hobbyId, hobby.getId());
 		/**Find Staff*/		
-		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(JOHN_NAME, john.getFirstName());
-		assertEquals(JOHN_LASTNAME, john.getLastName());
+		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		assertEquals(Constants.JOHN_NAME, john.getFirstName());
+		assertEquals(Constants.JOHN_LASTNAME, john.getLastName());
 		/**Validate Interest -> Staff*/
 		assertEquals(john, hobby.getStaff());
 		/** Validate Staff -> Interest */
@@ -152,17 +148,17 @@ public class InterestTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaff() {
 		/**Find Interest to test*/
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(HOBBY);
+		List <Interest> hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());		
 		Interest hobby = hobbyList.get(0);
 		
 		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME, amt.getLastName());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());
 		
 		/**Validate Staff-> Interest*/
 		assertEquals(1, amt.getInterests().size());
@@ -178,17 +174,17 @@ public class InterestTest {
  		
  		
  		/**Validate Interest -> Staff*/
- 		hobbyList = interestRepo.getInterestByDesc(HOBBY);
+ 		hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(HOBBY, hobbyList.get(0).getDesc());		
+		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());		
 		hobby = hobbyList.get(0);
 		assertNull(hobby.getStaff());
 		
  		/**Validate Staff -> Interest*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME, amt.getLastName());
+		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());
 		assertEquals(0, amt.getInterests().size());
 		
 	}

@@ -1,15 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BELFIUS;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_NAME;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.J2EE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.MULE_ESB_CONSULTANT;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.SERVICE_TABLE;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -34,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.ContractServiceAgreement;
 import com.tecxis.resume.ContractServiceAgreementTest;
@@ -75,11 +69,11 @@ public class ContractServiceAgreementRepositoryTest {
 	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);			
+		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
@@ -96,11 +90,11 @@ public class ContractServiceAgreementRepositoryTest {
 	)
 	public void findInsertedContractServiceAgreement() {
 		/**Insert service*/
-		Service muleEsbCons = ServiceTest.insertAService(MULE_ESB_CONSULTANT, entityManager);
+		Service muleEsbCons = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
 		
 		
 		/**Insert Contract*/
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
+		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
 		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, CONTRACT1_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
@@ -125,7 +119,7 @@ public class ContractServiceAgreementRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindContractServiceAgreement() {
 		/**Get Service*/
-		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(J2EE_DEVELOPPER);		
+		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(Constants.J2EE_DEVELOPPER);		
 		assertEquals(1, j2eeDevelopperServices.size());
 		Service j2eeDevelopperService = j2eeDevelopperServices.get(0);	
 		
@@ -156,7 +150,7 @@ public class ContractServiceAgreementRepositoryTest {
 		assertNotNull(alphatressBelfiusContract); 
 		
 		/**Fetch Service*/
-		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		Service bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		assertNotNull(bwService);
 		
 		/**Fetch the ConstractServiceAgreement*/
@@ -174,11 +168,11 @@ public class ContractServiceAgreementRepositoryTest {
 	public void testDeleteServiceContractAgreement() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = ClientTest.insertAClient(BELFIUS, entityManager);			
+		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+import static com.tecxis.resume.Constants.*;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.City;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Country;
 import com.tecxis.resume.CountryTest;
 
@@ -38,17 +40,9 @@ import com.tecxis.resume.CountryTest;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityRepositoryTest {
 	
-	
-	public static final String CITY_TABLE = "CITY";
-	public static final String BRUSSELS = "Brussels";
-	public static final String PARIS = "Paris";
-	public static final String LONDON = "London";
-	public static final String MANCHESTER = "Manchester";
-	public static final String SWINDON = "Swindon";
 	private static Country FRANCE;
 	private static Country UK;
 	private static Country BELGIUM;
-	
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -65,23 +59,23 @@ public class CityRepositoryTest {
 
 	@Before
 	public void setUpTestData() {
-		Country uk = countryRepo.getCountryByName(CountryRepositoryTest.UNITED_KINGDOM);
+		Country uk = countryRepo.getCountryByName(Constants.UNITED_KINGDOM);
 		if (uk != null)
 			UK = uk;
 		else
 			UK = CountryTest.insertACountry("United Kingdom", entityManager);
 		
-		Country france = countryRepo.getCountryByName(CountryRepositoryTest.FRANCE);
+		Country france = countryRepo.getCountryByName(Constants.FRANCE);
 		if (france != null) 
 			FRANCE = france;
 		else
 			FRANCE = CountryTest.insertACountry("France", entityManager);
 		
-		Country belgium = countryRepo.getCountryByName(CountryRepositoryTest.BELGIUM);
+		Country belgium = countryRepo.getCountryByName(Constants.BELGIUM);
 		if (belgium != null)
 			BELGIUM = belgium;
 		else
-			BELGIUM = CountryTest.insertACountry("Belgium", entityManager);		
+			BELGIUM = CountryTest.insertACountry("Belgium", entityManager);			
 
 	}
 	

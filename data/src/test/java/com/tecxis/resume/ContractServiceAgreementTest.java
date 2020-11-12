@@ -1,9 +1,7 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.AXELTIS;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_NAME;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -69,8 +67,8 @@ public class ContractServiceAgreementTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveContractServiceAgreement() {
 		/**Find Client*/
-		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		assertEquals(AXELTIS, axeltis.getName());
+		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);
+		assertEquals(Constants.AXELTIS, axeltis.getName());
 		
 		/**Find supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
@@ -81,7 +79,7 @@ public class ContractServiceAgreementTest {
 		
 		
 		/**Find Service*/
-		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		Service tibcoCons = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
 		ContractServiceAgreement axeltisFastConnectContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).get();
@@ -97,10 +95,10 @@ public class ContractServiceAgreementTest {
 		
 		/**Test ContractServiceAgreement was removed */
 		/**Find Client*/
-		axeltis = clientRepo.getClientByName(AXELTIS);
+		axeltis = clientRepo.getClientByName(Constants.AXELTIS);
 		fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);		
 		axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
-		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		tibcoCons = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
 		assertFalse(contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).isPresent());

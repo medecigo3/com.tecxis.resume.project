@@ -1,12 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.EmploymentContractTest.insertEmploymentContract;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.BIRTHDATE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -31,6 +25,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.EmploymentContractId;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.EmploymentContract;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffTest;
@@ -46,8 +41,6 @@ import com.tecxis.resume.SupplierTest;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class EmploymentContractRepositoryTest {
-	
-	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT"; 
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -72,14 +65,14 @@ public class EmploymentContractRepositoryTest {
 	public void testCreateRowsAndSetIds() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		
 		/**Verify the EmploymentContract*/
 		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	
@@ -94,14 +87,14 @@ public class EmploymentContractRepositoryTest {
 	)
 	public void findInsertedEmploymentContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	
 		
 		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractId((long)1, amt, alterna)).get();
 		
@@ -114,14 +107,14 @@ public class EmploymentContractRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteSupplyContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		
 		/***Delete SupplyContract */
 		entityManager.remove(alternaAmtEmploymentContract);
@@ -129,8 +122,8 @@ public class EmploymentContractRepositoryTest {
 		
 		/**Verify*/		
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -138,7 +131,7 @@ public class EmploymentContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll() {
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		List <EmploymentContract> employmentContracts = employmentContractRepo.findAll();
 		assertEquals(6, employmentContracts.size());	
 	}
@@ -149,11 +142,11 @@ public class EmploymentContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByStaff() {		
 		/**Test 1*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		List <EmploymentContract> johnEmploymentContracts = employmentContractRepo.findByStaff(john);
 		assertEquals(1, johnEmploymentContracts.size());
 		/**Test 2*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
 		List <EmploymentContract> amtEmploymentContracts = employmentContractRepo.findByStaff(amt);
 		assertEquals(5, amtEmploymentContracts.size());
 	}
@@ -174,7 +167,7 @@ public class EmploymentContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByStaffAndSupplier() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
@@ -190,7 +183,7 @@ public class EmploymentContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByIdAndStaffAndSupplier() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByIdAndStaffAndSupplier((long)6, john, alphatress);
 		

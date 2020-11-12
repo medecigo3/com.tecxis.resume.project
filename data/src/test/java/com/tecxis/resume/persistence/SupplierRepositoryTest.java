@@ -3,30 +3,6 @@ package com.tecxis.resume.persistence;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.JOHN_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT10_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT10_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT11_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT11_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT12_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT12_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT13_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT14_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT14_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT5_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT5_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT6_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT6_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT7_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT7_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT8_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT8_STARTDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT9_ENDDATE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.CONTRACT9_STARTDATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -52,6 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
@@ -98,12 +75,12 @@ public class SupplierRepositoryTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testCreateRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		
 		Supplier accenture = SupplierTest.insertASupplier(ACCENTURE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, accenture.getId());
 		
 	}
@@ -167,23 +144,23 @@ public class SupplierRepositoryTest {
 		assertEquals(6, fastconnect.getSupplyContracts().size());
 		List <SupplyContract> fastconnectSupplyContracts = fastconnect.getSupplyContracts();
 		SupplyContract fastconnectContract1 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract1.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract1.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract1.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract1.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 		SupplyContract fastconnectContract2 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract2.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract2.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract2.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract2.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 		SupplyContract fastconnectContract3 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract3.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract3.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract3.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract3.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 		SupplyContract fastconnectContract4 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract4.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract4.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract4.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract4.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 		SupplyContract fastconnectContract5 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract5.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract5.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract5.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract5.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 		SupplyContract fastconnectContract6 = fastconnectSupplyContracts.get(0);		
-		assertThat(fastconnectContract6.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT5_STARTDATE, CONTRACT6_STARTDATE, CONTRACT7_STARTDATE, CONTRACT8_STARTDATE, CONTRACT9_STARTDATE, CONTRACT10_STARTDATE)));
-		assertThat(fastconnectContract6.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT5_ENDDATE, CONTRACT6_ENDDATE, CONTRACT7_ENDDATE, CONTRACT8_ENDDATE, CONTRACT9_ENDDATE, CONTRACT10_ENDDATE)));
+		assertThat(fastconnectContract6.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_STARTDATE, Constants.CONTRACT6_STARTDATE, Constants.CONTRACT7_STARTDATE, Constants.CONTRACT8_STARTDATE, Constants.CONTRACT9_STARTDATE, Constants.CONTRACT10_STARTDATE)));
+		assertThat(fastconnectContract6.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT5_ENDDATE, Constants.CONTRACT6_ENDDATE, Constants.CONTRACT7_ENDDATE, Constants.CONTRACT8_ENDDATE, Constants.CONTRACT9_ENDDATE, Constants.CONTRACT10_ENDDATE)));
 
 		
 		/**Validate SupplyContract(s) for Supplier ALPHATRESS */
@@ -191,15 +168,15 @@ public class SupplierRepositoryTest {
 		assertEquals(2, alphatress.getSupplyContracts().size());				
 		/**Validate SupplyContract for Supplier ALPHATRESS-AMT */		
 		Contract belfiusAlphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
 		SupplyContract amtBelfiusAlphatressSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(belfiusAlphatressContract, alphatress, amt);
-		assertEquals(CONTRACT13_STARTDATE, amtBelfiusAlphatressSupplyContract.getStartDate());
+		assertEquals(Constants.CONTRACT13_STARTDATE, amtBelfiusAlphatressSupplyContract.getStartDate());
 		assertNull(amtBelfiusAlphatressSupplyContract.getEndDate());		
 		/**Validate SuppluContract ALPHATRESS-JOHN*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		SupplyContract johnBelfiusAlphatressSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(belfiusAlphatressContract, alphatress, john);
-		assertEquals(CONTRACT14_STARTDATE, johnBelfiusAlphatressSupplyContract.getStartDate());
-		assertEquals(CONTRACT14_ENDDATE, johnBelfiusAlphatressSupplyContract.getEndDate());
+		assertEquals(Constants.CONTRACT14_STARTDATE, johnBelfiusAlphatressSupplyContract.getStartDate());
+		assertEquals(Constants.CONTRACT14_ENDDATE, johnBelfiusAlphatressSupplyContract.getEndDate());
 		/**Validate Contracts for Supplier ALHAPRES **/
 		assertEquals(CONTRACT13_NAME, amtBelfiusAlphatressSupplyContract.getSupplyContractId().getContract().getName());		
 		assertEquals(CONTRACT13_NAME, johnBelfiusAlphatressSupplyContract.getSupplyContractId().getContract().getName());
@@ -212,13 +189,13 @@ public class SupplierRepositoryTest {
 		/**Validate SupplyContract ALTERNA-ARVAL*/
 		Contract arvalAlternaContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		SupplyContract arvalAlternaSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(arvalAlternaContract, alterna, amt);
-		assertEquals(CONTRACT11_STARTDATE,arvalAlternaSupplyContract.getStartDate());
-		assertEquals(CONTRACT11_ENDDATE,arvalAlternaSupplyContract.getEndDate());
+		assertEquals(Constants.CONTRACT11_STARTDATE,arvalAlternaSupplyContract.getStartDate());
+		assertEquals(Constants.CONTRACT11_ENDDATE,arvalAlternaSupplyContract.getEndDate());
 		/**Validate SupplyContract ALTERNA-HERMES*/
 		Contract hermesAlternaContract = contractRepo.getContractByName(CONTRACT12_NAME);
 		SupplyContract hermesAlternaSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(hermesAlternaContract, alterna, amt);
-		assertEquals(CONTRACT12_STARTDATE,hermesAlternaSupplyContract.getStartDate());
-		assertEquals(CONTRACT12_ENDDATE,hermesAlternaSupplyContract.getEndDate());
+		assertEquals(Constants.CONTRACT12_STARTDATE,hermesAlternaSupplyContract.getStartDate());
+		assertEquals(Constants.CONTRACT12_ENDDATE,hermesAlternaSupplyContract.getEndDate());
 		/**Validate ALTERNA-ARVAL &  ALTERNA-HERMES don't have the same contract*/
 		assertNotEquals(arvalAlternaSupplyContract, hermesAlternaSupplyContract);
 		

@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Service;
 import com.tecxis.resume.ServiceTest;
 
@@ -36,16 +37,6 @@ import com.tecxis.resume.ServiceTest;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ServiceRepositoryTest {
 
-	public static String SERVICE_TABLE = "Service";
-	public static String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
-	public static String JAVA_INTEGRATION_DEVELOPPER = "Java Integration Developer";
-	public static String LIFERAY_DEVELOPPER = "Liferay Developer";
-	public static String J2EE_DEVELOPPER = "J2EE Developer";
-	public static String MULE_ESB_CONSULTANT = "Mule ESB Consultant";
-	public static String TIBCO_BW_CONSULTANT = "TIBCO Business Works Developer";
-	public static String DEVELOPER_WILDCARD = "%Developer";
-	public static String BUSINESS_WORKS_WILDCARD = "%Business Works%";
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -61,9 +52,9 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertServiceRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		Service scmAssoc = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
+		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());		
 	}
 
@@ -74,8 +65,8 @@ public class ServiceRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {	
-		Service serviceIn = ServiceTest.insertAService(MULE_ESB_CONSULTANT, entityManager);
-		Service serviceOut= serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
+		Service serviceIn = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
+		Service serviceOut= serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);		
 		assertEquals(serviceIn, serviceOut);		
 		
 	}
@@ -85,8 +76,8 @@ public class ServiceRepositoryTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindServiceByName() {		
-		Service serviceOut= serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
-		assertEquals(TIBCO_BW_CONSULTANT, serviceOut.getName());		
+		Service serviceOut= serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, serviceOut.getName());		
 		
 	}
 	
@@ -96,31 +87,31 @@ public class ServiceRepositoryTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindServiceLikeName() {		
-		List <Service> serviceList = serviceRepo.getServiceLikeName(TIBCO_BW_CONSULTANT);
+		List <Service> serviceList = serviceRepo.getServiceLikeName(Constants.TIBCO_BW_CONSULTANT);
 		assertNotNull(serviceList);
 		assertEquals(1, serviceList.size());
 		Service tibcoBwConsultant = serviceList.get(0);
-		assertEquals(TIBCO_BW_CONSULTANT, tibcoBwConsultant.getName());
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, tibcoBwConsultant.getName());
 		/**Test query by name with LIKE expression*/
-		List <Service> javaConsultantList  =  serviceRepo.getServiceLikeName(DEVELOPER_WILDCARD);
+		List <Service> javaConsultantList  =  serviceRepo.getServiceLikeName(Constants.DEVELOPER_WILDCARD);
 		assertNotNull(javaConsultantList);
 		assertEquals(4, javaConsultantList.size());
-		assertThat(javaConsultantList.get(0).getName(), Matchers.is(Matchers.oneOf(JAVA_INTEGRATION_DEVELOPPER, 
-				LIFERAY_DEVELOPPER,
-				J2EE_DEVELOPPER,
-				TIBCO_BW_CONSULTANT
+		assertThat(javaConsultantList.get(0).getName(), Matchers.is(Matchers.oneOf(Constants.JAVA_INTEGRATION_DEVELOPPER, 
+				Constants.LIFERAY_DEVELOPPER,
+				Constants.J2EE_DEVELOPPER,
+				Constants.TIBCO_BW_CONSULTANT
 				)));
-		assertThat(javaConsultantList.get(1).getName(), Matchers.is(Matchers.oneOf(JAVA_INTEGRATION_DEVELOPPER,
-				LIFERAY_DEVELOPPER,
-				J2EE_DEVELOPPER,
-				LIFERAY_DEVELOPPER
+		assertThat(javaConsultantList.get(1).getName(), Matchers.is(Matchers.oneOf(Constants.JAVA_INTEGRATION_DEVELOPPER,
+				Constants.LIFERAY_DEVELOPPER,
+				Constants.J2EE_DEVELOPPER,
+				Constants.LIFERAY_DEVELOPPER
 				)));
 		/** Test query with LIKE expression */
-		List <Service> bwServiceList = serviceRepo.getServiceLikeName(BUSINESS_WORKS_WILDCARD);
+		List <Service> bwServiceList = serviceRepo.getServiceLikeName(Constants.BUSINESS_WORKS_WILDCARD);
 		assertNotNull(bwServiceList);
 		assertEquals(1, bwServiceList.size());
 		Service tibcoBwConsultantShort = bwServiceList.get(0);
-		assertEquals(TIBCO_BW_CONSULTANT, tibcoBwConsultantShort.getName());
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, tibcoBwConsultantShort.getName());
 		
 	}
 	
@@ -129,9 +120,9 @@ public class ServiceRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindService() {		
-		Service muleEsbService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		Service muleEsbService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);
 		assertNotNull(muleEsbService);
-		assertEquals(MULE_ESB_CONSULTANT, muleEsbService.getName());
+		assertEquals(Constants.MULE_ESB_CONSULTANT, muleEsbService.getName());
 		
 				
 	}
@@ -140,12 +131,12 @@ public class ServiceRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteService() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
-		Service tempService = ServiceTest.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));		
+		Service tempService = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		serviceRepo.delete(tempService);
-		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, serviceRepo.getServiceLikeName(Constants.SCM_ASSOCIATE_DEVELOPPER).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 	}
 	
 	@Test

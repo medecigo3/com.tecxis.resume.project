@@ -1,11 +1,6 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.EmploymentContractTest.PK_UPDATE_WARN;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.SKILL_TABLE;
-import static com.tecxis.resume.persistence.SkillRepositoryTest.TIBCO;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_LASTNAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.AMT_NAME;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -108,12 +103,12 @@ public class StaffSkillTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveStaffSkill() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		assertEquals(AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
 		/**Find Skill*/
-		Skill tibco = skillRepo.getSkillByName(TIBCO);
-		assertEquals(tibco.getName(), TIBCO);
+		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
+		assertEquals(tibco.getName(), Constants.TIBCO);
 		/***Find StaffSkill*/
 		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
 		assertEquals(amt, amtTibco.getStaffSkillId().getStaff());
@@ -123,16 +118,16 @@ public class StaffSkillTest {
 		entityManager.clear();
 		
 		/**Remove StaffSkill*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		amtTibco = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
 		entityManager.remove(amtTibco);
 		entityManager.flush();
 		
 		/**Test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		
 	}

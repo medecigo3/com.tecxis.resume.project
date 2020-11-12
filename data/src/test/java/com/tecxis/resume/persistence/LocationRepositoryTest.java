@@ -1,14 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.persistence.CityRepositoryTest.CITY_TABLE;
-import static com.tecxis.resume.persistence.CityRepositoryTest.PARIS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.CountryRepositoryTest.COUNTRY_TABLE;
-import static com.tecxis.resume.persistence.CountryRepositoryTest.FRANCE;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.ADIR;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.PROJECT_TABLE;
-import static com.tecxis.resume.persistence.ProjectRepositoryTest.VERSION_1;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -33,6 +25,7 @@ import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.City;
 import com.tecxis.resume.Client;
 import com.tecxis.resume.ClientTest;
+import com.tecxis.resume.Constants;
 import com.tecxis.resume.Country;
 import com.tecxis.resume.CountryTest;
 import com.tecxis.resume.Location;
@@ -49,8 +42,6 @@ import com.tecxis.resume.ProjectTest;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class LocationRepositoryTest {
 	
-	public static String LOCATION_TABLE = "LOCATION";
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -66,31 +57,31 @@ public class LocationRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertLocationRowsAndSetId() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 		/**Insert Country*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = CountryTest.insertACountry(FRANCE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
+		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = insertACity(PARIS, france, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
+		City paris = insertACity(Constants.PARIS, france, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Insert Location*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		LocationTest.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 	}
 	
@@ -100,31 +91,31 @@ public class LocationRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedLocation() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 		/**Insert Country*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = CountryTest.insertACountry(FRANCE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
+		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = insertACity(PARIS, france, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
+		City paris = insertACity(Constants.PARIS, france, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Insert Location*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		Location adirLocationIn = LocationTest.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 		LocationId adirLocationId = new LocationId(paris, adirProject);
 		Location adirLocationOut = locationRepo.findById(adirLocationId).get();
@@ -134,37 +125,37 @@ public class LocationRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteLocation() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 		/**Insert Country*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = CountryTest.insertACountry(FRANCE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
+		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = insertACity(PARIS, france, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
+		City paris = insertACity(Constants.PARIS, france, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Insert Location*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		Location adirLocation = LocationTest.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		
 		/**Delete location*/
 		entityManager.remove(adirLocation);
 		entityManager.flush();
 		/**Verify location doesn't exist*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 	}
 	
 	@Test

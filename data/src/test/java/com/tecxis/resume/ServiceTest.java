@@ -1,23 +1,14 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.ClientRepositoryTest.ARVAL;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.BARCLAYS;
-import static com.tecxis.resume.persistence.ClientRepositoryTest.MICROPOLE;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.EmploymentContractRepositoryTest.EMPLOYMENT_CONTRACT_TABLE;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.SERVICE_TABLE;
-import static com.tecxis.resume.persistence.ServiceRepositoryTest.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.persistence.StaffRepositoryTest.STAFF_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
-import static com.tecxis.resume.persistence.SupplyContractRepositoryTest.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -105,11 +96,11 @@ public class ServiceTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddContractServiceAgreement() throws EntityExistsException {		
 		/**Find a Service*/
-		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
+		Service scmDevService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);		
 		
 		/**Validate service to test*/
 		assertNotNull(scmDevService);
-		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+		assertEquals(Constants.SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
 				
 		/**Get contract to insert*/	
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);			
@@ -117,7 +108,7 @@ public class ServiceTest {
 		
 		/**Validate Contract to insert*/
 		assertEquals(1, fastconnectMicropoleContract.getContractServiceAgreements().size());		
-		assertEquals(MICROPOLE, fastconnectMicropoleContract.getClient().getName());
+		assertEquals(Constants.MICROPOLE, fastconnectMicropoleContract.getClient().getName());
 		
 		/**Validate SupplyContract*/	
 		assertEquals(1, fastconnectMicropoleContract.getSupplyContracts().size());
@@ -136,7 +127,7 @@ public class ServiceTest {
 		List <ContractServiceAgreement>  scmDevServiceContractServiceAgreements = scmDevService.getContractServiceAgreements();
 		assertEquals(1, scmDevServiceContractServiceAgreements.size());
 		Contract barclaysAccentureContract = scmDevServiceContractServiceAgreements.get(0).getContract();
-		assertEquals(BARCLAYS,barclaysAccentureContract.getClient().getName());
+		assertEquals(Constants.BARCLAYS,barclaysAccentureContract.getClient().getName());
 		assertEquals(1, barclaysAccentureContract.getSupplyContracts().size());
 		
 		/**Validate Contract -> SupplyContract */
@@ -149,7 +140,7 @@ public class ServiceTest {
 		/**Test ContractServiceAgreement table pre test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));	
 		
 		/**Add new ContractServiceAgreement to contract*/
 		scmDevService.addContractServiceAgreement(newContractServiceAgreement);		
@@ -163,10 +154,10 @@ public class ServiceTest {
 		/**Test tables post test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));	
 	
 		/**Validate Service -> ContractServiceAgreements*/
-		scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		 
+		scmDevService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);		 
 		assertEquals(2, scmDevService.getContractServiceAgreements().size());
 		
 		/**Validate Contract -> ContractServiceAgreements*/
@@ -181,10 +172,10 @@ public class ServiceTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testAddExistingContractServiceAgreementToService() throws EntityExistsException {				
 		/**Find a Service to test*/
-		Service tibcoEsbConsultant = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		Service tibcoEsbConsultant = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);
 		
 		/**Validate the service to test*/
-		assertEquals(TIBCO_BW_CONSULTANT, tibcoEsbConsultant.getName());
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, tibcoEsbConsultant.getName());
 		
 		/**Validate contracts of the service to test*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
@@ -193,7 +184,7 @@ public class ServiceTest {
 		
 		/**Find duplicate Contract to insert*/		
 		Contract alternaArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);		
-		assertEquals(ARVAL,  alternaArvalContract.getClient().getName());
+		assertEquals(Constants.ARVAL,  alternaArvalContract.getClient().getName());
 		assertEquals(1, alternaArvalContract.getSupplyContracts().size());
 		
 		/**Validate Contract -> SupplyContract asoc. in the duplicate*/
@@ -225,9 +216,9 @@ public class ServiceTest {
 		assertEquals(1, alphatressContract.getContractServiceAgreements().size());
 		
 		/**Find the Service  to test -> ContractServiceAgreements*/
-		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		Service bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		assertNotNull(bwService);
-		assertEquals(TIBCO_BW_CONSULTANT, bwService.getName());
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, bwService.getName());
 		assertEquals(8, bwService.getContractServiceAgreements().size());
 		
 		/**Find the ContractServiceAgreement to remove*/
@@ -239,31 +230,31 @@ public class ServiceTest {
 		
 		/**Detach entities*/
 		entityManager.clear();			
-		bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		/**Remove the ContractServiceAgreement from the Service */
 		assertTrue(bwService.removeContractServiceAgreement(alphatressBwContractServiceAgreement));
 		entityManager.merge(bwService);		
 		entityManager.flush();	
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		
 		/**validate Contract -> ContractServiceAgreements*/
 		alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		assertEquals(0, alphatressContract.getContractServiceAgreements().size());
 		
 		/**Validate the Service  to test -> ContractServiceAgreements*/
-		bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		assertEquals(7, bwService.getContractServiceAgreements().size());
 		
 		
@@ -284,18 +275,18 @@ public class ServiceTest {
 		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());
 		
 		/**Find the Service  to test -> ContractServiceAgreements*/
-		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		Service bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		assertNotNull(bwService);
-		assertEquals(TIBCO_BW_CONSULTANT, bwService.getName());
+		assertEquals(Constants.TIBCO_BW_CONSULTANT, bwService.getName());
 		assertEquals(8, bwService.getContractServiceAgreements().size());	
 
 				
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 		
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 		
 		/**Remove ContractServiceAgreement*/
 		assertTrue(alternaArvalContract.removeContractServiceAgreement(bwService));
 		assertTrue(bwService.removeContractServiceAgreement(alternaArvalContract));		
@@ -303,11 +294,11 @@ public class ServiceTest {
 		entityManager.merge(bwService);
 		entityManager.flush();	
 		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		
 		/**Validate the ContractServiceAgreement was removed*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
