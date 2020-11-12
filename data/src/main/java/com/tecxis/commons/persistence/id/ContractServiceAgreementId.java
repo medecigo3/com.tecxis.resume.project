@@ -3,7 +3,6 @@ package com.tecxis.commons.persistence.id;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,7 +10,6 @@ import javax.persistence.ManyToOne;
 import com.tecxis.resume.Contract;
 import com.tecxis.resume.Service;
 
-@Embeddable
 public class ContractServiceAgreementId implements Serializable{
 
 		private static final long serialVersionUID = 1L;
@@ -27,7 +25,7 @@ public class ContractServiceAgreementId implements Serializable{
 		 * However because associations in Contract entity are declared with @JoinColumn annotations, the order of these annotations has to be respected for all associated entities. 
 		 * That allows the AbstractComponentTuplizer to properly set the component's id property values in the sequential order of the @JoinColumn annotations below.
 		 */	
-		@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+		@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 		@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
 		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
 		private Contract contract;
@@ -37,7 +35,7 @@ public class ContractServiceAgreementId implements Serializable{
 		 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Service as it contains the relationship's foreign key
 		 * In OO terms, this ContractServiceAgreement "provides" to this Contract
 		 */	
-		@ManyToOne(cascade = CascadeType.ALL)
+		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 		@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
 		private Service service;
 

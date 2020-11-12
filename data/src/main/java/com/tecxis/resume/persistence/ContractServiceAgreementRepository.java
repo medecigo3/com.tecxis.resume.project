@@ -9,6 +9,6 @@ import com.tecxis.resume.Service;
 
 public interface ContractServiceAgreementRepository extends JpaRepository<ContractServiceAgreement, ContractServiceAgreementId> {
 	
-	public ContractServiceAgreement findByContractServiceAgreementId_contractAndContractServiceAgreementId_Service(Contract contract, Service service);
+	public ContractServiceAgreement findByContractAndService(Contract contract, Service service);
 
 }

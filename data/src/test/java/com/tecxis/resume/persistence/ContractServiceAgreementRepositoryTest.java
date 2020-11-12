@@ -133,7 +133,7 @@ public class ContractServiceAgreementRepositoryTest {
 		List <ContractServiceAgreement> j2eeDevelopperContractServiceAgreements = j2eeDevelopperService.getContractServiceAgreements();
 		assertNotNull(j2eeDevelopperContractServiceAgreements);
 		assertEquals(1, j2eeDevelopperContractServiceAgreements.size());
-		Contract j2eeDevelopperContract = j2eeDevelopperContractServiceAgreements.get(0).getContractServiceAgreementId().getContract();
+		Contract j2eeDevelopperContract = j2eeDevelopperContractServiceAgreements.get(0).getContract();
 		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
 		
 		
@@ -143,8 +143,8 @@ public class ContractServiceAgreementRepositoryTest {
 		contractServiceAgreementId.setService(j2eeDevelopperService);
 		ContractServiceAgreement contractServiceAgreement = contractServiceAgreementRepo.findById(contractServiceAgreementId).get();
 		assertNotNull(contractServiceAgreement);
-		assertEquals(j2eeDevelopperContract, contractServiceAgreement.getContractServiceAgreementId().getContract());
-		assertEquals(j2eeDevelopperService, contractServiceAgreement.getContractServiceAgreementId().getService());
+		assertEquals(j2eeDevelopperContract, contractServiceAgreement.getContract());
+		assertEquals(j2eeDevelopperService, contractServiceAgreement.getService());
 		
 				
 	}
@@ -160,13 +160,13 @@ public class ContractServiceAgreementRepositoryTest {
 		assertNotNull(bwService);
 		
 		/**Fetch the ConstractServiceAgreement*/
-		ContractServiceAgreement alphatressBelfiusBwService = contractServiceAgreementRepo.findByContractServiceAgreementId_contractAndContractServiceAgreementId_Service(alphatressBelfiusContract, bwService);
+		ContractServiceAgreement alphatressBelfiusBwService = contractServiceAgreementRepo.findByContractAndService(alphatressBelfiusContract, bwService);
 		/**Validate the ConstractServiceAgreement*/
 		assertNotNull(alphatressBelfiusBwService);
 		/**Validate Contract  association*/
-		assertEquals(alphatressBelfiusBwService.getContractServiceAgreementId().getContract(), alphatressBelfiusContract);
+		assertEquals(alphatressBelfiusBwService.getContract(), alphatressBelfiusContract);
 		/**Validate the Service association*/
-		assertEquals(alphatressBelfiusBwService.getContractServiceAgreementId().getService(), bwService);
+		assertEquals(alphatressBelfiusBwService.getService(), bwService);
 	}
 	
 	@Test

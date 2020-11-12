@@ -116,11 +116,7 @@ public class ContractServiceAgreementTest {
 	
 
 	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(contract);
-		contractServiceAgreementId.setService(service);
-		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement();
-		contractServiceAgreement.setContractServiceAgreementId(contractServiceAgreementId);
+		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
 		entityManager.persist(contractServiceAgreement);
 		entityManager.flush();
 		return contractServiceAgreement;

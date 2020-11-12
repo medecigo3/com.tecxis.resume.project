@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 
 
@@ -54,7 +52,7 @@ public class Service implements Serializable, StrongEntity {
 	* bi-directional one-to-many association to ContractServiceAgreement.
 	* In OO terms, this Service "is provided" to these ContractServiceAgreements
 	*/	
-	@OneToMany(mappedBy = "contractServiceAgreementId.service", cascade = {CascadeType.ALL}, orphanRemoval=true)
+	@OneToMany(mappedBy = "service", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <ContractServiceAgreement> contractServiceAgreements;
 
 	public Service() {
@@ -88,17 +86,13 @@ public class Service implements Serializable, StrongEntity {
 	}
 	
 
-	public void addContractServiceAgreement(Contract contract) throws EntityExistsException {
+	
+	public void addContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) throws EntityExistsException {
 		/**Check if 'contract' isn't in this service -> contractServiceAgreements */
-		if ( !Collections.disjoint(this.getContractServiceAgreements(), contract.getContractServiceAgreements()))
-			throw new EntityExistsException("Contract already exists in this Service -> contractServiceAgreements: " + contract.toString());
-				
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(contract);
-		contractServiceAgreementId.setService(this);
-		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement();
-		newContractServiceAgreement.setContractServiceAgreementId(contractServiceAgreementId);
-		this.getContractServiceAgreements().add(newContractServiceAgreement);
+		if ( this.getContractServiceAgreements().contains(contractServiceAgreement))
+			throw new EntityExistsException("Contract already exists in this Service -> contractServiceAgreements: " + contractServiceAgreement.toString());
+	
+		this.getContractServiceAgreements().add(contractServiceAgreement);
 	
 	}
 	
@@ -107,7 +101,7 @@ public class Service implements Serializable, StrongEntity {
 		
 		while(contractServiceAgreementIt.hasNext()) {			
 			ContractServiceAgreement tempContractServiceAgreement = contractServiceAgreementIt.next();
-			Contract tempContract = tempContractServiceAgreement.getContractServiceAgreementId().getContract();
+			Contract tempContract = tempContractServiceAgreement.getContract();
 			if (contract.equals(tempContract)) {
 				return this.getContractServiceAgreements().remove(tempContractServiceAgreement);
 				
@@ -118,7 +112,7 @@ public class Service implements Serializable, StrongEntity {
 	
 	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
 		 boolean ret = this.getContractServiceAgreements().remove(contractServiceAgreement);
-		 contractServiceAgreement.getContractServiceAgreementId().setService(null);
+		 contractServiceAgreement.setService(null);
 		 return ret;
 	}
 	

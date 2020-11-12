@@ -2,8 +2,13 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
@@ -15,27 +20,49 @@ import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
  * */
 @Entity
 @Table(name="CONTRACT_SERVICE_AGREEMENT")
+@IdClass(ContractServiceAgreementId.class)
 public class ContractServiceAgreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
+	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
+	private Contract contract;
+			
+
+	@Id
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
+	private Service service;
 	
 	public ContractServiceAgreement() {
 		super();
 	}
 	
-	public ContractServiceAgreement(ContractServiceAgreementId contractServiceAgreementId) {
+
+	public ContractServiceAgreement(Contract contract, Service service) {
 		super();
-		this.contractServiceAgreementId = contractServiceAgreementId;
-	}
-	
-	@EmbeddedId
-	private ContractServiceAgreementId contractServiceAgreementId;
-
-	public ContractServiceAgreementId getContractServiceAgreementId() {
-		return contractServiceAgreementId;
+		this.contract = contract;
+		this.service = service;
 	}
 
-	public void setContractServiceAgreementId(ContractServiceAgreementId contractServiceAgreementId) {
-		this.contractServiceAgreementId = contractServiceAgreementId;
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
+
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
 	}
 
 	@Override
@@ -48,11 +75,11 @@ public class ContractServiceAgreement implements Serializable{
 		}
 		ContractServiceAgreement castOther = (ContractServiceAgreement)other;
 		
-		if (this.getContractServiceAgreementId().getContract() != null && castOther.getContractServiceAgreementId().getContract() != null) {
-			if (this.getContractServiceAgreementId().getService() != null && castOther.getContractServiceAgreementId().getService() != null) {
+		if (this.getContract() != null && castOther.getContract() != null) {
+			if (this.getService() != null && castOther.getService() != null) {
 				
-				return 	this.getContractServiceAgreementId().getContract().equals(castOther.getContractServiceAgreementId().getContract()) &&
-						this.getContractServiceAgreementId().getService().equals(castOther.getContractServiceAgreementId().getService());
+				return 	this.getContract().equals(castOther.getContract()) &&
+						this.getService().equals(castOther.getService());
 			} else return false;
 		} else return false;
 	}
@@ -61,23 +88,21 @@ public class ContractServiceAgreement implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		
-		ContractServiceAgreementId contractServiceAgreementId = this.getContractServiceAgreementId();
-		if (contractServiceAgreementId != null) {
-			if (contractServiceAgreementId.getContract() != null) 
-				hash = hash * prime + contractServiceAgreementId.getContract().hashCode();
+
+			if (getContract() != null) 
+				hash = hash * prime + getContract().hashCode();
 						
-			if (contractServiceAgreementId.getService() != null)
-				hash = hash * prime + contractServiceAgreementId.getService().hashCode();
-		}
+			if (getService() != null)
+				hash = hash * prime + getService().hashCode();
+		
 		return hash;
 	}
 
 	@Override
 	public String toString() {
 		return  "["+this.getClass().getName() + 
-				"[contractId=" + (this.getContractServiceAgreementId() != null ? this.getContractServiceAgreementId().getContract().getId() : "null") +
-				", serviceId= " + (this.getContractServiceAgreementId() != null ? this.getContractServiceAgreementId().getService().getId() : "null") + 
+				"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") +
+				", serviceId=" + (this.getService() != null ? this.getService().getId() : "null") + 
 				"]]";
 	}
 	

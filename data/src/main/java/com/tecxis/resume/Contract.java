@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.resume.Contract.ContractPK;
 
@@ -40,6 +38,7 @@ import com.tecxis.resume.Contract.ContractPK;
 public class Contract implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
+	//TODO Move class to com.tecxis.commons.persistence.id and rename to ContractId
 	public static class ContractPK implements Serializable {
 
 		private static final long serialVersionUID = 1L;
@@ -128,7 +127,11 @@ public class Contract implements Serializable, StrongEntity {
 	@Id
 	@Column(name="CONTRACT_ID")	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CONTRACT_SEQ")
+	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="CONTRACT_SEQ", 
+			 parameters = {
+			            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+			            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	)
 	private long id;
 	
 	/**
@@ -153,7 +156,7 @@ public class Contract implements Serializable, StrongEntity {
 	 * bi-directional one-to-many association to ContractServiceAgreement
 	 * In OO terms, this Contract "engages" these ContractServiceAgreements
 	 */
-	@OneToMany(mappedBy="contractServiceAgreementId.contract", cascade = {CascadeType.ALL}, orphanRemoval=true)
+	@OneToMany(mappedBy="contract", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List <ContractServiceAgreement> contractServiceAgreements;
 	
 	@NotEmpty
@@ -191,22 +194,17 @@ public class Contract implements Serializable, StrongEntity {
 		this.name = name;
 	}
 
-	public void addContractServiceAgreement(Service service) throws EntityExistsException {
+	public void addContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) throws EntityExistsException {
 		/**check if 'service' isn't in this contract -> contractServiceAgreements*/
-		if ( !Collections.disjoint(this.getContractServiceAgreements(), service.getContractServiceAgreements() ))
-				throw new EntityExistsException("Service already exists in this Contract -> contractServiceAgreements: " + service.toString());
-		
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(this);
-		contractServiceAgreementId.setService(service);
-		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement();
-		newContractServiceAgreement.setContractServiceAgreementId(contractServiceAgreementId);
-		this.getContractServiceAgreements().add(newContractServiceAgreement);		
+		if ( this.getContractServiceAgreements().contains(contractServiceAgreement))
+				throw new EntityExistsException("Service already exists in this Contract -> contractServiceAgreements: " + contractServiceAgreement.toString());
+							
+		this.getContractServiceAgreements().add(contractServiceAgreement);		
 	}
 	
 	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
 		boolean ret = this.getContractServiceAgreements().remove(contractServiceAgreement);
-		contractServiceAgreement.getContractServiceAgreementId().setContract(null);
+		contractServiceAgreement.setContract(null);
 		return ret;
 	
 	}
@@ -216,7 +214,7 @@ public class Contract implements Serializable, StrongEntity {
 	
 		while(contractServiceAgreementIt.hasNext()) {			
 			ContractServiceAgreement tempContractServiceAgreement = contractServiceAgreementIt.next();
-			Service tempService = tempContractServiceAgreement.getContractServiceAgreementId().getService();
+			Service tempService = tempContractServiceAgreement.getService();
 			if (service.equals(tempService)) {
 				return this.getContractServiceAgreements().remove(tempContractServiceAgreement);
 				
