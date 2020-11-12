@@ -3,25 +3,23 @@ package com.tecxis.commons.persistence.id;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.tecxis.resume.Course;
 import com.tecxis.resume.Staff;
 
-@Embeddable
 public class EnrolmentId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	/**Directional association many-to-one to Staff*/
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
 	
 	/**Directional association many-to-one to Course*/
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID")
 	private Course course;
 	

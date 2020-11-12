@@ -71,8 +71,8 @@ public class EnrolmentTest {
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
-		assertEquals(amt, bwEnrolment.getEnrolmentId().getStaff());
-		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
+		assertEquals(amt, bwEnrolment.getStaff());
+		assertEquals(bwCourse, bwEnrolment.getCourse());
 				
 		/**Find Staff to set in the new Enrolment*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
@@ -81,7 +81,7 @@ public class EnrolmentTest {
 		assertEquals(Constants.JOHN_LASTNAME , john.getLastName());
 				
 		/**Create new Enrolment*/		
-		Enrolment newEnrolment = new Enrolment(new EnrolmentId(john, bwCourse));
+		Enrolment newEnrolment = new Enrolment(john, bwCourse);
 		
 		/**Verify initial state*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -122,8 +122,8 @@ public class EnrolmentTest {
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
-		assertEquals(amt, bwEnrolment.getEnrolmentId().getStaff());
-		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
+		assertEquals(amt, bwEnrolment.getStaff());
+		assertEquals(bwCourse, bwEnrolment.getCourse());
 		
 		/**Find Course to set in Enrolment*/
 		List <Course> javaWsCourses = courseRepo.getCourseLikeTitle(Constants.JAVA_WS);
@@ -132,7 +132,7 @@ public class EnrolmentTest {
 		assertEquals(Constants.JAVA_WS, javaWsCourse.getTitle());
 		
 		/**Create new Enrolment*/		
-		Enrolment newEnrolment = new Enrolment(new EnrolmentId(amt, javaWsCourse));
+		Enrolment newEnrolment = new Enrolment(amt, javaWsCourse);
 		
 		/**Verify initial state*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -173,8 +173,8 @@ public class EnrolmentTest {
 		
 		/**Find enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
-		assertEquals(amt, bwEnrolment.getEnrolmentId().getStaff());
-		assertEquals(bwCourse, bwEnrolment.getEnrolmentId().getCourse());
+		assertEquals(amt, bwEnrolment.getStaff());
+		assertEquals(bwCourse, bwEnrolment.getCourse());
 		
 		
 		/**Verify initial state*/
