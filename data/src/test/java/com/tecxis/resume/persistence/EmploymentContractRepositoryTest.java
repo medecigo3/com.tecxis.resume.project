@@ -30,8 +30,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.commons.persistence.id.EmploymentContractId;
 import com.tecxis.resume.EmploymentContract;
-import com.tecxis.resume.EmploymentContract.EmploymentContractPK;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.StaffTest;
 import com.tecxis.resume.Supplier;
@@ -103,7 +103,7 @@ public class EmploymentContractRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		
-		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractPK((long)1, amt, alterna)).get();
+		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractId((long)1, amt, alterna)).get();
 		
 		/**Verify the EmploymentContract*/
 		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	

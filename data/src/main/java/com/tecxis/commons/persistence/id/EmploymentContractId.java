@@ -1,36 +1,22 @@
-package com.tecxis.resume;
+package com.tecxis.commons.persistence.id;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.EmploymentContractId;
+import com.tecxis.resume.Staff;
+import com.tecxis.resume.Supplier;
 
-/**
- * The persistent class for the EMPLOYMENT_CONTRACT database table.
- * 
- */
-@Entity
-@Table(name="EMPLOYMENT_CONTRACT")
-@IdClass(EmploymentContractId.class)
-public class EmploymentContract implements Serializable  {
+public class EmploymentContractId implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -50,27 +36,18 @@ public class EmploymentContract implements Serializable  {
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")	
 	private Supplier supplier;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="END_DATE")
-	private Date endDate;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="START_DATE")
-	@NotNull
-	private Date startDate;
-
-
-	public EmploymentContract() {
+	public EmploymentContractId() {
 		super();
-	}
-	
-	public EmploymentContract(Staff staff, Supplier supplier) {
+	}		
+
+	public EmploymentContractId(long id, Staff staff, Supplier supplier) {
 		super();
+		this.id = id;
 		this.staff = staff;
 		this.supplier = supplier;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
@@ -92,23 +69,7 @@ public class EmploymentContract implements Serializable  {
 	}
 
 	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		this.supplier = supplier;			
 	}
 
 	@Override
@@ -116,11 +77,10 @@ public class EmploymentContract implements Serializable  {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof EmploymentContract)) {
+		if (!(other instanceof EmploymentContractId)) {
 			return false;
 		}
-		EmploymentContract castOther = (EmploymentContract)other;
-		
+		EmploymentContractId castOther = (EmploymentContractId)other;
 		if (this.getSupplier() != null && castOther.getSupplier() != null) {
 			if (this.getStaff() != null && castOther.getStaff() != null) {		
 				
@@ -129,12 +89,15 @@ public class EmploymentContract implements Serializable  {
 				
 			} else return false;
 		} else return false;
+
+			
+		
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;			
+		int hash = 17;		
 		hash = hash * prime + ((int) (this.getId()  ^ (this.getId()  >>> 32)));
 		
 		if (this.getSupplier() != null)
@@ -154,4 +117,5 @@ public class EmploymentContract implements Serializable  {
 				", staffId=" + (this.staff != null ? this.staff.getId() : "null") + 
 				"]]";
 	}
+			
 }

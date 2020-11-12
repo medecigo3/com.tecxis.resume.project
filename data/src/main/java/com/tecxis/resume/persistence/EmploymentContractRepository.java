@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.tecxis.commons.persistence.id.EmploymentContractId;
 import com.tecxis.resume.EmploymentContract;
-import com.tecxis.resume.EmploymentContract.EmploymentContractPK;
 import com.tecxis.resume.Staff;
 import com.tecxis.resume.Supplier;
 
-public interface EmploymentContractRepository extends JpaRepository<EmploymentContract, EmploymentContractPK> {
+public interface EmploymentContractRepository extends JpaRepository<EmploymentContract, EmploymentContractId> {
 	
 	public List <EmploymentContract> findByStaff(Staff staff);
 	
