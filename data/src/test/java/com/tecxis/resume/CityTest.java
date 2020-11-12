@@ -62,7 +62,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.CityId;
 import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.persistence.CityRepository;
 import com.tecxis.resume.persistence.ClientRepository;
@@ -710,12 +709,6 @@ public class CityTest {
 		Set<ConstraintViolation<City>> violations = validator.validate(city);
         assertFalse(violations.isEmpty());
 		
-	}
-	
-	@Test
-	public void testToStringCityPK() {
-		CityId cityPk = new CityId();
-		cityPk.toString();
 	}
 	
 	@Test
