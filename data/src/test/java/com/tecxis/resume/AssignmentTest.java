@@ -1,7 +1,6 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
-import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -99,19 +98,24 @@ public class AssignmentTest {
 		assertEquals(0, ted.getStaffProjectAssignments().size());
 		assertEquals(0, assignment12.getStaffProjectAssignments().size());
 		
-		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
-		ted.addStaffProjectAssignment(amt, assignment12);
-		amt.addStaffProjectAssignment(ted, assignment12);
-		assignment12.addStaffProjectAssignment(amt, ted);
+		/**Create new StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(ted,amt,assignment12);
+	
 		
+		/**Prepare staff assignments*/	
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		ted.addStaffProjectAssignment(newStaffProjectAssignment);
+		amt.addStaffProjectAssignment(newStaffProjectAssignment);
+		assignment12.addStaffProjectAssignment(newStaffProjectAssignment);
+		
+		entityManager.persist(newStaffProjectAssignment);
 		entityManager.merge(ted);
 		entityManager.merge(amt);
 		entityManager.merge(assignment12);
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getStaffProjectAssignments().size());		
 		assertEquals(1, ted.getStaffProjectAssignments().size());
 		assertEquals(1, assignment12.getStaffProjectAssignments().size());
@@ -146,19 +150,23 @@ public class AssignmentTest {
 		assertEquals(0, aos.getStaffProjectAssignments().size());
 		assertEquals(0, assignment47.getStaffProjectAssignments().size());
 		
+		/**Create new StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(aos, amt, assignment47);
+		
 		/**Prepare staff -> assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		aos.addStaffProjectAssignment(amt, assignment47);
-		amt.addStaffProjectAssignment(aos, assignment47);
-		assignment47.addStaffProjectAssignment(amt, aos);
-				
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		aos.addStaffProjectAssignment(newStaffProjectAssignment);
+		amt.addStaffProjectAssignment(newStaffProjectAssignment);
+		assignment47.addStaffProjectAssignment(newStaffProjectAssignment);
+		
+		entityManager.persist(newStaffProjectAssignment);
 		entityManager.merge(aos);
 		entityManager.merge(amt);
 		entityManager.merge(assignment47);
 		entityManager.flush();
 		
 		/**Validate staff -> assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getStaffProjectAssignments().size());		
 		assertEquals(1, aos.getStaffProjectAssignments().size());
 		assertEquals(1, assignment47.getStaffProjectAssignments().size());
@@ -211,8 +219,12 @@ public class AssignmentTest {
 		assertEquals(5, eolisStaffProjectAssignments.size());		
 		assertThat(eolisStaffProjectAssignments,  Matchers.containsInAnyOrder(staffProjectAssignment1,  staffProjectAssignment2,  staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5));
 		
+		
+		/**Create new StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(eolis, amt, assignment34);
+		
 		/**Add a duplicate Staff and Project association**/		
-		assignment34.addStaffProjectAssignment(amt, eolis); /***  <==== Throws EntityExistsException */
+		assignment34.addStaffProjectAssignment(newStaffProjectAssignment); /***  <==== Throws EntityExistsException */
 		
 	}
 	
@@ -231,9 +243,13 @@ public class AssignmentTest {
 		
 		/**Detach entities*/
 		entityManager.clear();
-
-		/**Validate staff assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		
+		/**Validate table state pre-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
@@ -242,9 +258,14 @@ public class AssignmentTest {
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();
+	
 		
-		/**Validate staff assignments*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		/**Validate table state post-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+				
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		ted = projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1);
 		amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
@@ -279,7 +300,7 @@ public class AssignmentTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted, amt, assignment12);
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
@@ -296,7 +317,7 @@ public class AssignmentTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
 	}
 	

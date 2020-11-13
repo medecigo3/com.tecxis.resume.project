@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 import com.tecxis.commons.persistence.id.ProjectId;
-import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 
 
 /**
@@ -71,7 +69,7 @@ public class Project implements Serializable, StrongEntity {
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
-	@OneToMany( mappedBy = "staffProjectAssignmentId.project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToMany( mappedBy = "project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<StaffProjectAssignment> staffProjectAssignments;
 
 	/**
@@ -162,18 +160,21 @@ public class Project implements Serializable, StrongEntity {
 		this.staffProjectAssignments = staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(Staff staff, Assignment assignment) {
+	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
 		/**check if 'staff' and 'assignment' aren't in staffProjectAgreements*/
-		if ( !Collections.disjoint(this.getStaffProjectAssignments(), staff.getStaffProjectAssignments()) )
-			if ( !Collections.disjoint(this.getStaffProjectAssignments(), assignment.getStaffProjectAssignments()) )
-				throw new EntityExistsException("Entities already exist in 'IS COMPOSED OF' association: [" + staff + ", " + assignment + "]");
+		if ( this.getStaffProjectAssignments().contains(staffProjectAssignment))			
+			throw new EntityExistsException("staffProjectAssignment already exist in this Project -> staffProjectAssignments: " + staffProjectAssignment.toString());
 				
-		
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(this, staff, assignment);
-		staffProjectAssignment.setStaffAssignmentId(id);		
 		getStaffProjectAssignments().add(staffProjectAssignment);
 		return staffProjectAssignment;
+	}
+	
+	public boolean removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		boolean ret = this.getStaffProjectAssignments().remove(staffProjectAssignment);
+		staffProjectAssignment.setStaff(null);
+		staffProjectAssignment.setProject(null);
+		staffProjectAssignment.setAssignment(null);
+		return ret;
 	}
 
 	public List<City> getCities() {

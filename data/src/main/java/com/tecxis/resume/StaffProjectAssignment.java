@@ -2,8 +2,12 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
@@ -14,20 +18,63 @@ import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
  */
 @Entity
 @Table(name="STAFF_PROJECT_ASSIGNMENT")
+@IdClass(StaffProjectAssignmentId.class)
 public class StaffProjectAssignment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	private StaffProjectAssignmentId staffProjectAssignmentId;
-
-	public StaffProjectAssignmentId getStaffProjectAssignmentId() {
-		return staffProjectAssignmentId;
-	}
-
-	public void setStaffAssignmentId(StaffProjectAssignmentId staffProjectAssignmentId) {
-		this.staffProjectAssignmentId = staffProjectAssignmentId;
-	}
+	@Id
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
+	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+	private Project project;
 	
+	@Id
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
+	private Staff staff;
+	
+	@Id
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
+	private Assignment assignment;
+
+	
+	
+	public StaffProjectAssignment() {
+		super();
+	}
+
+	public StaffProjectAssignment(Project project, Staff staff, Assignment assignment) {
+		super();
+		this.project = project;
+		this.staff = staff;
+		this.assignment = assignment;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public Assignment getAssignment() {
+		return assignment;
+	}
+
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -38,13 +85,13 @@ public class StaffProjectAssignment implements Serializable {
 		}
 		StaffProjectAssignment castOther = (StaffProjectAssignment)other;
 		
-		if(this.getStaffProjectAssignmentId().getAssignment() != null && castOther.getStaffProjectAssignmentId().getAssignment() != null) {
-			if (this.getStaffProjectAssignmentId().getProject() != null && castOther.getStaffProjectAssignmentId().getProject() != null) {
-				if (this.getStaffProjectAssignmentId().getStaff() != null && castOther.getStaffProjectAssignmentId().getStaff() != null) {
+		if(this.getAssignment() != null && castOther.getAssignment() != null) {
+			if (this.getProject() != null && castOther.getProject() != null) {
+				if (this.getStaff() != null && castOther.getStaff() != null) {
 					
-					return 	this.getStaffProjectAssignmentId().getAssignment().equals(castOther.getStaffProjectAssignmentId().getAssignment()) &&
-							this.getStaffProjectAssignmentId().getProject().equals(castOther.getStaffProjectAssignmentId().getProject()) && 
-							this.getStaffProjectAssignmentId().getStaff().equals(castOther.getStaffProjectAssignmentId().getStaff());
+					return 	this.getAssignment().equals(castOther.getAssignment()) &&
+							this.getProject().equals(castOther.getProject()) && 
+							this.getStaff().equals(castOther.getStaff());
 				} else return false;
 			} else return false;				
 		} else return false;
@@ -55,25 +102,33 @@ public class StaffProjectAssignment implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		
-		StaffProjectAssignmentId staffProjectAssignmentId = this.getStaffProjectAssignmentId();
-		if (staffProjectAssignmentId != null) {
-			if (staffProjectAssignmentId.getProject() != null)
-				hash = hash * prime + staffProjectAssignmentId.getProject().hashCode();
+		
+		
+			if (getProject() != null)
+				hash = hash * prime + getProject().hashCode();
 			
-			if (staffProjectAssignmentId.getAssignment() != null)
-				hash = hash * prime + staffProjectAssignmentId.getAssignment().hashCode();
+			if (getAssignment() != null)
+				hash = hash * prime + getAssignment().hashCode();
 			
-			if (staffProjectAssignmentId.getStaff() != null)
-				hash = hash * prime + staffProjectAssignmentId.getStaff().hashCode();
-		}
+			if (getStaff() != null)
+				hash = hash * prime + getStaff().hashCode();
+		
 
 		return hash;
 	}
 	
 	@Override
 	public String toString() {
-		return  "["+this.getClass().getName()+ "@" + this.getStaffProjectAssignmentId().hashCode()
-				+  this.getStaffProjectAssignmentId().toString() + "]";
+		Project project = this.getProject();		
+		Staff staff = this.getStaff();		
+		Assignment assignment = this.getAssignment();
+		
+		
+		return  "["+this.getClass().getName()+ "@" + this.hashCode() + 
+				"[projectId=" + (project != null ? project.getId() : "null") +
+				", staffId=" + (staff != null ? staff.getId() : "null") +
+				", assignmentId=" + (assignment != null ? assignment.getId() : "null") + 
+				"]]";
 	}
 
 

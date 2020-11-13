@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
-import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -89,7 +88,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment amtStaffProjectAssignment = insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);		
 		List <StaffProjectAssignment> amtStaffProjectAssignments = new ArrayList <> ();		
 		amtStaffProjectAssignments.add(amtStaffProjectAssignment);				
@@ -97,7 +96,7 @@ public class StaffProjectAssignmentTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 	}
 
 	@Test
@@ -117,7 +116,7 @@ public class StaffProjectAssignmentTest {
 		entityManager.clear();
 
 		/**Validate staff -> assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
@@ -130,7 +129,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
@@ -149,7 +148,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
@@ -195,12 +194,12 @@ public class StaffProjectAssignmentTest {
 		assertNotNull(staffAssignment3);
 			
 		/**The the removed staff assignment is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		entityManager.remove(staffAssignment2);
 		/**Entity deletion is un-scheduled when entity isn't detached from persistence context*/
 		entityManager.flush();		
 		/**Test entity was not removed*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id2));
 		
 		/**Detach entities from persistent context*/
@@ -211,7 +210,7 @@ public class StaffProjectAssignmentTest {
 		entityManager.flush();
 		assertNull(entityManager.find(StaffProjectAssignment.class, id2));
 		/**Test entity was removed*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 				
 
 	}
@@ -222,9 +221,7 @@ public class StaffProjectAssignmentTest {
 	}
 	
 	public static StaffProjectAssignment insertAStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, staff, assignment);
-		staffProjectAssignment.setStaffAssignmentId(id);
+		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment(project, staff, assignment);
 		entityManager.persist(staffProjectAssignment);
 		entityManager.flush();
 		return staffProjectAssignment;

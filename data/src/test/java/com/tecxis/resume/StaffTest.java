@@ -4,7 +4,6 @@ import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAs
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffProjectAssignmentRepositoryTest.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
@@ -14,6 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -391,29 +391,63 @@ public class StaffTest {
 		staffProjectAssignment30, staffProjectAssignment31a, staffProjectAssignment31b, staffProjectAssignment31c, staffProjectAssignment32, staffProjectAssignment33, staffProjectAssignment34, staffProjectAssignment37, staffProjectAssignment39, staffProjectAssignment40, staffProjectAssignment41, staffProjectAssignment42, staffProjectAssignment43, staffProjectAssignment44, staffProjectAssignment45, staffProjectAssignment46, staffProjectAssignment47, staffProjectAssignment48, staffProjectAssignment49,
 		staffProjectAssignment50, staffProjectAssignment51, staffProjectAssignment52, staffProjectAssignment53, staffProjectAssignment54, staffProjectAssignment55, staffProjectAssignment56, staffProjectAssignment57	));
 		
-	
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
 	public void testAddStaffProjectAssignment() {		
-		/**Fetch Project*/
-		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);		
+		/**Fetch Project and validate Project -> StaffProjectAssignments*/
+		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		assertEquals(6, adir.getStaffProjectAssignments().size());
 		
-		/**Fetch Assignment*/			
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT1);
-		
-		/**Fetch Staff*/		
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);		
-		
-		/**Test add StaffProjectAssignment*/
-		StaffProjectAssignment newStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
-		
+		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
+		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57);
+		assertEquals(2, assignment57.getStaffProjectAssignments().size());
+				
+		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		john.addStaffProjectAssignment(newStaffProjectAssignment);	 
-		//TO add StaffPRojectAssignment see AssignmentTest.testAddStaffProjectAssignment1, AssignmentTest.testAddStaffProjectAssignment2");
+		assertEquals(1, john.getStaffProjectAssignments().size());
+		
+		/**Create new StaffProjectAssignment */
+		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(adir, john, assignment57);
+		
+		/**Add the new StaffProjectAssignment*/
+		john.addStaffProjectAssignment(newStaffProjectAssignment);	
+		adir.addStaffProjectAssignment(newStaffProjectAssignment);
+		assignment57.addStaffProjectAssignment(newStaffProjectAssignment);
+		
+		/**Validate table state pre-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+				
+		entityManager.persist(newStaffProjectAssignment);
+		entityManager.merge(adir);
+		entityManager.merge(john);
+		entityManager.merge(assignment57);
+		entityManager.flush();
+		
+		/**Validate table state post-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(64, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		
+		/**Validate Project -> StaffProjectAssignments*/
+		adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		assertEquals(7, adir.getStaffProjectAssignments().size());
+		
+		/**Validate Assignment -> StaffProjectAssignments*/			
+		assignment57 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57);
+		assertEquals(3, assignment57.getStaffProjectAssignments().size());
+				
+		/**Validate Staff -> StaffProjectAssignments*/
+		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		assertEquals(2, john.getStaffProjectAssignments().size());
 	}
 	
 	@Test(expected=EntityExistsException.class)
@@ -462,30 +496,66 @@ public class StaffTest {
 		assertEquals(5, eolisStaffProjectAssignments.size());		
 		assertThat(eolisStaffProjectAssignments,  Matchers.containsInAnyOrder(staffProjectAssignment1,  staffProjectAssignment2,  staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5));
 		
+		/**Create new StaffProjectAssignment*/
+		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(eolis, amt, assignment23);
+		
 		/**Add a duplicate Staff and Project association**/		
-		amt.addStaffProjectAssignment(eolis, assignment23); /***  <==== Throws EntityExistsException */
+		amt.addStaffProjectAssignment(newStaffProjectAssignment); /***  <==== Throws EntityExistsException */
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveStaffProjectAssignment() {
-		/**Fetch Project*/
-		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);		
+	@Test
+	public void testRemoveStaffProjectAssignment() {		
+		/**Fetch Project and validate Project -> StaffProjectAssignments*/
+		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		assertEquals(6, adir.getStaffProjectAssignments().size());
 		
-		/**Fetch Assignment*/			
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT1);
+		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
+		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT3);
+		assertEquals(1, assignment3.getStaffProjectAssignments().size());
+				
+		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(62, amt.getStaffProjectAssignments().size());
 		
-		/**Fetch Staff*/		
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);		
+		/**Find the target StaffProjectAssignment*/
+		StaffProjectAssignment staleStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment3)).get();
 		
-		/**Test add StaffProjectAssignment*/
-		StaffProjectAssignment newStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir, amt, assignment1)).get();
+		/**Validate table state pre-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		john.removeStaffProjectAssignment(newStaffProjectAssignment);	
-		//To remove StaffPRojectAssignment see logic in StaffProjectAssignmentTest.RemoveStaffProjectAssignment");
+		/**Remove the target StaffProjectAssignment*/
+		assertTrue(amt.removeStaffProjectAssignment(staleStaffProjectAssignment));	
+		assertTrue(adir.removeStaffProjectAssignment(staleStaffProjectAssignment));
+		assertTrue(assignment3.removeStaffProjectAssignment(staleStaffProjectAssignment));
+				
+		entityManager.remove(staleStaffProjectAssignment);
+		entityManager.flush();
+		
+		/**Validate table state post-test*/
+		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
+		
+		/**Validate Project -> StaffProjectAssignments*/
+		adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		assertEquals(5, adir.getStaffProjectAssignments().size());
+		
+		/**Validate Assignment -> StaffProjectAssignments*/			
+		assignment3 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT3);
+		assertEquals(0, assignment3.getStaffProjectAssignments().size());
+				
+		/**Validate Staff -> StaffProjectAssignments*/
+		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(61, amt.getStaffProjectAssignments().size());		
+		
 	}
 	
 	@Test
@@ -513,7 +583,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		/**Validate staff -> assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adir, amt, assignment1);
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
@@ -530,7 +600,7 @@ public class StaffTest {
 		entityManager.flush();
 		
 		/**Validate staff -> assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
 	}
 
@@ -588,7 +658,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
@@ -610,7 +680,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE)); 	 /**O children for John Staff removed here*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
@@ -671,7 +741,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
@@ -693,7 +763,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
@@ -1335,7 +1405,7 @@ public class StaffTest {
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		/**WORKS ON*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
+		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
 		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1387,7 +1457,7 @@ public class StaffTest {
 		/**WORKS IN*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
 		/**WORKS ON*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
 		assertEquals(54, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));		
 		/**Tests the initial state of the children table(s) from the Parent table*/		

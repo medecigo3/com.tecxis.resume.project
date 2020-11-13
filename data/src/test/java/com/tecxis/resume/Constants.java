@@ -191,6 +191,9 @@ public class Constants {
 	public static  Date CONTRACT14_ENDDATE;
 	public static  Date CURRENT_DATE = new Date();
 	/**END SUPPLY_CONTRACT*/
+	/**STAFF_PROJECT_ASSIGNMENT*/
+	public static final String STAFF_PROJECT_ASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
+	/**END STAFF_PROJECT_ASSIGNMENT*/
 	
 	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -229,6 +232,8 @@ public class Constants {
 		}
 			
 	}
+
+	
 	
 	private Constants() {
 		super();

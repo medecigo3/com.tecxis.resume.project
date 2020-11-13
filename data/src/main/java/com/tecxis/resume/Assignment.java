@@ -3,7 +3,6 @@ package com.tecxis.resume;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,7 +21,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 
 
 /**
@@ -55,7 +53,7 @@ public class Assignment implements Serializable, StrongEntity {
 	 * In SQL terms, AssignmentAssignment is the "owner" of this association with Assignment as it contains the relationship's foreign key
 	 * In OO terms, this Assignment "is assigned" to staff assignments
 	 * */	
-	@OneToMany(mappedBy = "staffProjectAssignmentId.assignment", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL)
 	private List <StaffProjectAssignment> staffProjectAssignments;
 
 	public Assignment() {
@@ -96,17 +94,21 @@ public class Assignment implements Serializable, StrongEntity {
 		this.staffProjectAssignments = staffProjectAssignment;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(Staff staff, Project project) {
+	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
 		/**check if 'staff' and 'project' aren't in staffProjectAgreements*/
-		if ( !Collections.disjoint(this.getStaffProjectAssignments(), staff.getStaffProjectAssignments()) )
-			if ( !Collections.disjoint(this.getStaffProjectAssignments(), project.getStaffProjectAssignments()) )
-				throw new EntityExistsException("Entities already exist in 'ASSIGNS' association: [" + staff + ", " + project + "]");
-		
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, staff, this);
-		staffProjectAssignment.setStaffAssignmentId(id);
+		if ( this.getStaffProjectAssignments().contains(staffProjectAssignment))	
+			throw new EntityExistsException("Entity already exist in 'ASSIGNS' association:" + staffProjectAssignment.toString());
+
 		getStaffProjectAssignments().add(staffProjectAssignment);
 		return staffProjectAssignment;
+	}
+	
+	public boolean removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		boolean ret = this.getStaffProjectAssignments().remove(staffProjectAssignment);
+		staffProjectAssignment.setStaff(null);
+		staffProjectAssignment.setProject(null);
+		staffProjectAssignment.setAssignment(null);
+		return ret;
 	}
 
 	@Override

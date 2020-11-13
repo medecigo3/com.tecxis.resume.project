@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 
 
 /**
@@ -39,8 +37,6 @@ public class Staff implements Serializable, StrongEntity {
 	private static final String UNSUPPORTED_STAFF_SKILLS_OPERATION = "Staff -> Skills association managed by association owner StaffSkill.";
 
 	private static final String UNSUPPORTED_STAFF_COURSE_OPERATION = "Staff -> Course association managed by association owner Enrolment.";
-	
-	private static final String UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION = "Staff -> StaffProjectAssignment association managed by association owner StaffProjectAssignment.";
 
 	private static final long serialVersionUID = 1L;
 
@@ -99,7 +95,7 @@ public class Staff implements Serializable, StrongEntity {
 	 * In SQL terms, StaffProjectAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works on" staff assignments
 	 */
-	@OneToMany(mappedBy = "staffProjectAssignmentId.staff", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
 	private List<StaffProjectAssignment> staffProjectAssignments;
 
 	/**
@@ -224,24 +220,19 @@ public class Staff implements Serializable, StrongEntity {
 		this.staffProjectAssignments = staffProjectAssignments;
 	}
 	
-	public void addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION);
-	}
-	
-	public void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_STAFFPROJECTASSIGNMENT_OPERATION); 
+	public boolean removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
+		boolean ret = this.getStaffProjectAssignments().remove(staffProjectAssignment);		
+		staffProjectAssignment.setStaff(null);
+		staffProjectAssignment.setProject(null);
+		staffProjectAssignment.setAssignment(null);
+		return ret;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(Project project, Assignment assignment) {
+	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
 		/**check if 'project' and 'assignment' aren't in staffProjectAgreements*/
-		if ( !Collections.disjoint(this.getStaffProjectAssignments(), project.getStaffProjectAssignments()) )
-			if ( !Collections.disjoint(this.getStaffProjectAssignments(), assignment.getStaffProjectAssignments()) )
-				throw new EntityExistsException("Entities already exist in 'WORKS ON' association: [" + project + ", " + assignment + "]");
+		if ( this.getStaffProjectAssignments().contains(staffProjectAssignment))			
+				throw new EntityExistsException("Entity already exist in Staff 'WORKS ON' association: " + staffProjectAssignment);
 		
-		
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(project, this, assignment);
-		staffProjectAssignment.setStaffAssignmentId(id);
 		getStaffProjectAssignments().add(staffProjectAssignment);
 		return staffProjectAssignment;
 	}
