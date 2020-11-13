@@ -1,6 +1,6 @@
 ﻿/*
 Created: 11/05/2018
-Modified: 14/07/2020
+Modified: 15/07/2020
 Model: Resume
 Database: Oracle 11g Release 2
 */
@@ -845,6 +845,7 @@ insert into SKILL (SKILL_ID, NAME) VALUES (SKILL_SEQ.NEXTVAL, 'Java');
 insert into SKILL (SKILL_ID, NAME) VALUES (SKILL_SEQ.NEXTVAL, 'Spring');
 insert into SKILL (SKILL_ID, NAME) VALUES (SKILL_SEQ.NEXTVAL, 'UNIX');
 insert into SKILL (SKILL_ID, NAME) VALUES (SKILL_SEQ.NEXTVAL, 'Git');
+insert into SKILL (SKILL_ID, NAME) VALUES (SKILL_SEQ.NEXTVAL, 'Dummy skill');
 
 
 

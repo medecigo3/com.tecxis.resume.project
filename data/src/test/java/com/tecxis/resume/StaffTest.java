@@ -660,7 +660,7 @@ public class StaffTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
 		  
@@ -682,7 +682,7 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
 		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		
@@ -743,7 +743,7 @@ public class StaffTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
 		  
@@ -765,7 +765,7 @@ public class StaffTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		
@@ -896,7 +896,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -921,7 +921,7 @@ public class StaffTest {
 		/**Test post update state of Staff table*/
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -978,7 +978,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1003,7 +1003,7 @@ public class StaffTest {
 		/**Test post update state of Staff table*/
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1056,7 +1056,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1078,7 +1078,7 @@ public class StaffTest {
 		entityManager.clear();
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1129,7 +1129,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1153,7 +1153,7 @@ public class StaffTest {
 		
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'	
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
@@ -1208,7 +1208,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1232,7 +1232,7 @@ public class StaffTest {
 		/**Test post update state of Staff table*/
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1285,7 +1285,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1307,7 +1307,7 @@ public class StaffTest {
 		entityManager.clear();	
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1363,6 +1363,26 @@ public class StaffTest {
 		//To set Skills to a Staff see StaffSkillTest.testSetSkill()		
 	}
 	
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddSkill() {	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john.addSkill(new Skill());
+		//To add Skills to a Staff see StaffSkillTest.testAddStaffSkill
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveSkill() {		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john.removeSkill(new Skill());	
+		//To add Skills to a Staff see StaffSkillTest.testRemoveStaffSkill
+	}
+	
 	@Test
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -1394,7 +1414,7 @@ public class StaffTest {
 		/**HAS*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
 		/**USES*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
@@ -1447,7 +1467,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));	
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));	
 		/**ENROLS*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1511,7 +1531,8 @@ public class StaffTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		StaffSkill staffSkill = new StaffSkill();
+		staffSkill.toString();
 	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {

@@ -49,31 +49,6 @@ public class StaffSkillRepositoryTest {
 	
 	@Autowired
 	private StaffSkillRepository staffSkillRepo;
-
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
-	)
-	public void testInsertStaffSkillRowsAndSetIds() {
-		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		assertEquals(1, amt.getId());
-		
-		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		Skill tibco = SkillTest.insertASkill(Constants.TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(1, tibco.getId());
-		
-		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
-		insertAStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
-		
-	}
 	
 	@Test
 	@Sql(
@@ -100,8 +75,8 @@ public class StaffSkillRepositoryTest {
 		
 		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
 		assertNotNull(amtTibco);
-		assertEquals(amt, amtTibco.getStaffSkillId().getStaff());
-		assertEquals(tibco, amtTibco.getStaffSkillId().getSkill());
+		assertEquals(amt, amtTibco.getStaff());
+		assertEquals(tibco, amtTibco.getSkill());
 	}
 	
 	@Test

@@ -37,6 +37,8 @@ public class Staff implements Serializable, StrongEntity {
 	private static final String UNSUPPORTED_STAFF_SKILLS_OPERATION = "Staff -> Skills association managed by association owner StaffSkill.";
 
 	private static final String UNSUPPORTED_STAFF_COURSE_OPERATION = "Staff -> Course association managed by association owner Enrolment.";
+	
+	private static final String UNSUPPORTED_STAFF_SKILL_OPERATION = "Staff -> Skill association managed by association owner StaffSkill.";
 
 	private static final long serialVersionUID = 1L;
 
@@ -239,6 +241,14 @@ public class Staff implements Serializable, StrongEntity {
 
 	public List<Skill> getSkills() {
 		return skills;
+	}
+	
+	public void addSkill(Skill skill) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILL_OPERATION);
+	}
+	
+	public boolean removeSkill(Skill skill) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILL_OPERATION);
 	}
 
 	public void setSkills(List<Skill> skills) {

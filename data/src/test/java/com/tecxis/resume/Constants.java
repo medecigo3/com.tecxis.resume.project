@@ -150,6 +150,7 @@ public class Constants {
 	public static final String SPRING = "Spring";
 	public static final String UNIX = "Unix";
 	public static final String GIT = "Git";
+	public static final String DUMMY_SKILL = "Dummy skill";
 	/**END SKILL*/
 	/**STAFF*/
 	public static final String STAFF_TABLE = "STAFF";

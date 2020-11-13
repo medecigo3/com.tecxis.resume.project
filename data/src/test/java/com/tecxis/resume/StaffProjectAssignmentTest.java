@@ -131,7 +131,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 	
 	
@@ -150,7 +150,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		

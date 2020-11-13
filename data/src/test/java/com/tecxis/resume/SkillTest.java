@@ -80,13 +80,13 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
 		assertEquals(tibco.getName(), Constants.TIBCO);
 		
 		/**Test Skill initial state*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill many-to-many cascadings*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff initial state*/
@@ -97,13 +97,32 @@ public class SkillTest {
 		entityManager.flush();
 		
 		/**Test Skill was removed*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill DELETE many-to-many cascadings*/
 		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 	}
 	
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testAddStaff() {
+		Skill skill = new Skill();
+		skill.addStaff(new Staff());
+		//To add Staff to a Skill see StaffSkillTest.testAddStaffSkill
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testRemoveStaff() {	
+		Skill skill = new Skill();
+		skill.removeStaff(new Staff());
+		//To add Staff to a Skill see StaffSkillTest.testRemoveStaffSkill
+	}
 	
 	@Test
 	public void testNameIsNotNull() {

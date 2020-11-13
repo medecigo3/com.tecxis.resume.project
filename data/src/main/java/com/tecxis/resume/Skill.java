@@ -31,6 +31,8 @@ import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
 public class Skill implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 
+	private static final String UNSUPPORTED_STAFF_SKILL_OPERATION = "Skill -> Staff association managed by association owner StaffSkill.";
+	
 	@Id
 	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="SKILL_SEQ", 
 	 parameters = {
@@ -90,6 +92,14 @@ public class Skill implements Serializable, StrongEntity {
 
 	public void setStaff(List<Staff> staff) {
 		this.staff = staff;
+	}
+	
+	public void addStaff(Staff staff) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILL_OPERATION);
+	}
+	
+	public boolean removeStaff(Staff skill) {
+		throw new UnsupportedOperationException(UNSUPPORTED_STAFF_SKILL_OPERATION);
 	}
 	
 	@Override

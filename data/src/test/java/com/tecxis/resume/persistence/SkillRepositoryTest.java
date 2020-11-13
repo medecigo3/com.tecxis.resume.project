@@ -110,7 +110,7 @@ public class SkillRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Skill> skills = skillRepo.findAll();
-		assertEquals(6, skills.size());
+		assertEquals(7, skills.size());
 	}
 
 }
