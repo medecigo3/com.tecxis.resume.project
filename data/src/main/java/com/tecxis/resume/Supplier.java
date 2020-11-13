@@ -48,7 +48,7 @@ public class Supplier implements Serializable, StrongEntity {
 	 * In SQL terms, SupplyContract is the "owner" of this relationship with Supplier as it contains the relationship's foreign keys
 	 * In OO terms, this Supplier "AGREES" to these SupplyContracts.
 	 */
-	@OneToMany(mappedBy="supplyContractId.supplier", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="supplier", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<SupplyContract> supplyContracts;
 
 	@NotNull
@@ -87,12 +87,12 @@ public class Supplier implements Serializable, StrongEntity {
 	
 	public void addSupplyContract(SupplyContract supplyContract) {
 		this.supplyContracts.add(supplyContract);
-		supplyContract.getSupplyContractId().setSupplier(this);
+		supplyContract.setSupplier(this);
 	}
 	
 	public void removeSupplyContract(SupplyContract supplyContract) {
 		this.supplyContracts.remove(supplyContract);
-		supplyContract.getSupplyContractId().setSupplier(null);
+		supplyContract.setSupplier(null);
 	}
 	
 	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {

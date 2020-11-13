@@ -3,9 +3,14 @@ package com.tecxis.resume;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,13 +24,43 @@ import com.tecxis.commons.persistence.id.SupplyContractId;
  */
 @Entity
 @Table(name="SUPPLY_CONTRACT")
+@IdClass(SupplyContractId.class)
 public class SupplyContract implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	@NotNull
-	private SupplyContractId supplyContractId;
+
+	/**
+	 * bi-directional many-to-one association to Supplier. 
+	 * In SQL terms, ContractSupply is the "owner" of this relationship with Contract as it contains the relationship's foreign keys
+	 * In OO terms, the supplier who "AGREES" to this ContractSupply.
+	 */
+	@Id
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")	
+	private Supplier supplier;	
+	
+	/**
+	 * bi-directional many-to-one association to Contract. 
+	 * In SQL terms, ContractSupply is the "owner" of this relationship with Contract as it contains the relationship's foreign key
+	 * In OO terms, the client who "COMMITS TO" this SupplyContract.
+	 */
+	@Id
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
+	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
+	private Contract contract;
+	
+	/**
+	 * bi-directional many-to-one association to Staff. 
+	 * In SQL terms, ContractSupply is the "owner" of this relationship with Staff as it contains the relationship's foreign key
+	 * In OO terms, the staff who "WORKS IN"  this SupplyContract.
+	 */
+	@Id
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")				
+	private Staff staff;		
+	
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="END_DATE")
@@ -40,18 +75,36 @@ public class SupplyContract implements Serializable {
 	public SupplyContract() {
 		super();		
 	}
-	
-	public SupplyContract(SupplyContractId supplyContractId) {
+
+	public SupplyContract(Supplier supplier, Contract contract, Staff staff) {
 		super();
-		this.supplyContractId = supplyContractId;
+		this.supplier = supplier;
+		this.contract = contract;
+		this.staff = staff;
 	}
 
-	public SupplyContractId getSupplyContractId() {
-		return supplyContractId;
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
-	public void setSupplyContractId(SupplyContractId supplyContractId) {
-		this.supplyContractId = supplyContractId;
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
 	}
 
 	public Date getEndDate() {
@@ -79,13 +132,13 @@ public class SupplyContract implements Serializable {
 		}
 		SupplyContract castOther = (SupplyContract)other;
 		
-		if	(this.getSupplyContractId().getSupplier() != null && castOther.getSupplyContractId().getSupplier() != null) {
-			if (this.getSupplyContractId().getContract() != null && castOther.getSupplyContractId().getContract() != null) {
-				if (this.getSupplyContractId().getStaff()    != null && castOther.getSupplyContractId().getStaff()    != null) {				
+		if	(this.getSupplier() != null && castOther.getSupplier() != null) {
+			if (this.getContract() != null && castOther.getContract() != null) {
+				if (this.getStaff()    != null && castOther.getStaff()    != null) {				
 			
-					return 	this.getSupplyContractId().getSupplier().equals(castOther.getSupplyContractId().getSupplier()) && 
-							this.getSupplyContractId().getContract().equals(castOther.getSupplyContractId().getContract()) && 
-							this.getSupplyContractId().getStaff().equals(castOther.getSupplyContractId().getStaff());
+					return 	this.getSupplier().equals(castOther.getSupplier()) && 
+							this.getContract().equals(castOther.getContract()) && 
+							this.getStaff().equals(castOther.getStaff());
 				} else return false;
 			} else return false;			
 		}else return false;
@@ -94,19 +147,17 @@ public class SupplyContract implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;		
+		int hash = 17;			
 		
-		SupplyContractId supplyContractId = this.getSupplyContractId();
-		if (supplyContractId != null) {
-			if (supplyContractId.getSupplier() != null)
-				hash = hash * prime + supplyContractId.hashCode();
-			
-			if (this.getSupplyContractId().getContract() != null) 
-				hash = hash * prime + supplyContractId.hashCode();			
-			
-			if  (this.getSupplyContractId().getStaff() != null)
-				hash = hash * prime + supplyContractId.hashCode();
-		}
+		if (this.getSupplier() != null)
+			hash = hash * prime + getSupplier() .hashCode();
+		
+		if (this.getContract() != null) 
+			hash = hash * prime + getContract().hashCode();			
+		
+		if  (this.getStaff() != null)
+			hash = hash * prime + getStaff().hashCode();
+		
 		
 		return hash;
 	}
@@ -117,15 +168,14 @@ public class SupplyContract implements Serializable {
 		Contract contract = null;
 		Client client = null;
 		Staff staff = null;
+			
+		supplier = this.getSupplier();
+		contract = this.getContract();
+		client = null;
+		if (contract != null)
+			client = contract.getClient();
+		staff = this.getStaff();
 		
-		if (this.getSupplyContractId() != null) {
-			supplier = this.getSupplyContractId().getSupplier();
-			contract = this.getSupplyContractId().getContract();
-			client = null;
-			if (contract != null)
-				client = contract.getClient();
-			staff = this.getSupplyContractId().getStaff();
-		}
 		
 		return "["+ this.getClass().getName() +
 				"[supplierId=" + (supplier != null ? supplier.getId() : " null" ) +

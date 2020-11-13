@@ -33,7 +33,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import  com.tecxis.resume.persistence.ContractRepository;
 import com.tecxis.resume.persistence.StaffRepository;
 import com.tecxis.resume.persistence.SupplierRepository;
@@ -90,11 +89,11 @@ public class SupplyContractTest {
 		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
-		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(micropoleContract, fastconnect, amt);
+		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		assertNotNull(fastconnectMicropoleSupplyContract);
 		
 		/**Test target SupplyContract's Staff*/
-		assertEquals(amt, fastconnectMicropoleSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(amt, fastconnectMicropoleSupplyContract.getStaff());
 		
 	}
 
@@ -127,11 +126,11 @@ public class SupplyContractTest {
 		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
-		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(micropoleContract, fastconnect, amt);
+		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		assertNotNull(fastconnectMicropoleSupplyContract);
 		
 		/**Test target SupplyContract's Supplier*/
-		assertEquals(fastconnect, fastconnectMicropoleSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(fastconnect, fastconnectMicropoleSupplyContract.getSupplier());
 	}
 	
 	@Test
@@ -158,7 +157,7 @@ public class SupplyContractTest {
 		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
-		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(micropoleContract, fastconnect, amt);
+		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		assertNotNull(fastconnectMicropoleSupplyContract);
 	}
 	
@@ -181,13 +180,13 @@ public class SupplyContractTest {
 		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
-		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(micropoleContract, fastconnect, amt);
+		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		assertNotNull(fastconnectMicropoleSupplyContract);
 		
 		/**Verify target SupplyContract*/
-		assertEquals(micropoleContract, fastconnectMicropoleSupplyContract.getSupplyContractId().getContract());
-		assertEquals(amt, fastconnectMicropoleSupplyContract.getSupplyContractId().getStaff());
-		assertEquals(fastconnect, fastconnectMicropoleSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(micropoleContract, fastconnectMicropoleSupplyContract.getContract());
+		assertEquals(amt, fastconnectMicropoleSupplyContract.getStaff());
+		assertEquals(fastconnect, fastconnectMicropoleSupplyContract.getSupplier());
 		
 		/**Detach entities*/
 		entityManager.clear();		
@@ -198,7 +197,7 @@ public class SupplyContractTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
-		fastconnectMicropoleSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(micropoleContract, fastconnect, amt);
+		fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
@@ -226,7 +225,7 @@ public class SupplyContractTest {
 	}
 	
 	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
-		SupplyContract supplyContract = new SupplyContract( new SupplyContractId(supplier, contract, staff));
+		SupplyContract supplyContract = new SupplyContract(supplier, contract, staff);
 		supplyContract.setStartDate(startDate);
 		supplyContract.setEndDate(endDate);		
 		entityManager.persist(supplyContract);

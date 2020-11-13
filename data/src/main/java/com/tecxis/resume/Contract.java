@@ -63,7 +63,7 @@ public class Contract implements Serializable, StrongEntity {
 	 * In SQL terms, SupplyContract is the "owner" of this relationship with Contract as it contains the relationship's foreign keys
 	 * In OO terms, this Contract "COMMITS TO" to these SupplyContracts.
 	 */
-	@OneToMany(mappedBy="supplyContractId.contract", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="contract", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List <SupplyContract> supplyContracts;
 			
 

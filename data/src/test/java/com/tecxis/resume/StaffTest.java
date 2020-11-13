@@ -42,7 +42,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.persistence.AssignmentRepository;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.EmploymentContractRepository;
@@ -630,7 +629,7 @@ public class StaffTest {
 		SupplyContract johnSupplyContract = john.getSupplyContracts().get(0);
 		
 		/**SupplyContract -> Contract*/
-		Contract johnContract = johnSupplyContract.getSupplyContractId().getContract();	
+		Contract johnContract = johnSupplyContract.getContract();	
 		assertEquals(CONTRACT13_NAME, johnContract.getName());
 		
 		/**Validate Contract -> Client */
@@ -712,7 +711,7 @@ public class StaffTest {
 		SupplyContract johnSupplyContract = john.getSupplyContracts().get(0);
 		
 		/**SupplyContract -> Contract*/
-		Contract johnContract = johnSupplyContract.getSupplyContractId().getContract();	
+		Contract johnContract = johnSupplyContract.getContract();	
 		assertEquals(CONTRACT13_NAME, johnContract.getName());
 		
 		/**Validate Contract -> Client */
@@ -887,7 +886,7 @@ public class StaffTest {
 		newContract.setClient(belfius);		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
-		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList <>();
 		newSupplyContracts.add(newSupplyContract);		
@@ -936,8 +935,8 @@ public class StaffTest {
 		List <SupplyContract> amtSupplyContracts = amt.getSupplyContracts();		
 		assertEquals(1, amtSupplyContracts.size());
 		SupplyContract amtSupplyContract = amtSupplyContracts.get(0);
-		assertEquals(newContract, amtSupplyContract.getSupplyContractId().getContract());
-		assertEquals(accenture, amtSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(newContract, amtSupplyContract.getContract());
+		assertEquals(accenture, amtSupplyContract.getSupplier());
 		
 	}
 	
@@ -971,7 +970,7 @@ public class StaffTest {
 		newContract.setClient(belfius);		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		/**New SupplyContract*/
-		SupplyContract newSupplyContract = new SupplyContract (new SupplyContractId (accenture, newContract, amt));
+		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
 		
 		/**Test initial state of Staff table (the parent)*/
@@ -1020,7 +1019,7 @@ public class StaffTest {
 		assertThat(amtSupplyContracts, Matchers.hasItem(newSupplyContract));
 		
 		/**Validate inverse assoc. SupplyContract -> Staff*/
-		assertNotNull(supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(newContract, accenture, amt));
+		assertNotNull(supplyContractRepo.findByContractAndSupplierAndStaff(newContract, accenture, amt));
 				
 	}
 	

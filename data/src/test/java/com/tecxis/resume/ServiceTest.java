@@ -113,7 +113,7 @@ public class ServiceTest {
 		/**Validate SupplyContract*/	
 		assertEquals(1, fastconnectMicropoleContract.getSupplyContracts().size());
 		SupplyContract fastconnectMicropoleSupplyContract = fastconnectMicropoleContract.getSupplyContracts().get(0);		
-		assertEquals(FASTCONNECT,fastconnectMicropoleSupplyContract.getSupplyContractId().getSupplier().getName());	
+		assertEquals(FASTCONNECT,fastconnectMicropoleSupplyContract.getSupplier().getName());	
 		
 		
 		/**Validate ContractServiceAgreement table pre test state*/
@@ -132,7 +132,7 @@ public class ServiceTest {
 		
 		/**Validate Contract -> SupplyContract */
 		SupplyContract barclaysAccentureSupplyContract = barclaysAccentureContract.getSupplyContracts().get(0);		
-		assertEquals(ACCENTURE,barclaysAccentureSupplyContract.getSupplyContractId().getSupplier().getName());
+		assertEquals(ACCENTURE,barclaysAccentureSupplyContract.getSupplier().getName());
 
 		/**Create new ContractServiceAgreement*/
 		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement(fastconnectMicropoleContract, scmDevService);	
@@ -189,7 +189,7 @@ public class ServiceTest {
 		
 		/**Validate Contract -> SupplyContract asoc. in the duplicate*/
 		SupplyContract alternaArvalSupplyContract = alternaArvalContract.getSupplyContracts().get(0);
-		assertEquals(ALTERNA, alternaArvalSupplyContract.getSupplyContractId().getSupplier().getName());
+		assertEquals(ALTERNA, alternaArvalSupplyContract.getSupplier().getName());
 		
 		/**Test that alternaArvalContract's ContractServiceAgreement exists in the list of Tibco-ESB ContractServiceAgreements*/
 		assertEquals(1, alternaArvalContract.getContractServiceAgreements().size());

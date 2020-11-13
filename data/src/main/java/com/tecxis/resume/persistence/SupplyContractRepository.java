@@ -19,17 +19,17 @@ public interface SupplyContractRepository extends JpaRepository<SupplyContract, 
 	
 	public List <SupplyContract> getSupplyContractByEndDate(Date endDate);
 		
-	public List <SupplyContract> findBySupplyContractId_SupplierOrderByStartDateAsc(Supplier supplier);
+	public List <SupplyContract> findBySupplierOrderByStartDateAsc(Supplier supplier);
 	
-	public List <SupplyContract> findBySupplyContractId_StaffOrderByStartDateAsc(Staff staff);
+	public List <SupplyContract> findByStaffOrderByStartDateAsc(Staff staff);
 	
-	public List <SupplyContract> findBySupplyContractId_ContractOrderByStartDateAsc(Contract contract);
+	public List <SupplyContract> findByContractOrderByStartDateAsc(Contract contract);
 	
-	public List <SupplyContract> findBySupplyContractId_SupplierAndStartDateAndEndDateOrderByStartDateAsc(Supplier supplier, Date startDate, Date endDate);
+	public List <SupplyContract> findBySupplierAndStartDateAndEndDateOrderByStartDateAsc(Supplier supplier, Date startDate, Date endDate);
 
-	@Query("select sc from SupplyContract sc WHERE sc.supplyContractId.contract.client = ?1  AND sc.supplyContractId.supplier = ?2 ORDER BY sc.startDate")
+	@Query("select sc from SupplyContract sc WHERE sc.contract.client = ?1  AND sc.supplier = ?2 ORDER BY sc.startDate")
 	public List <SupplyContract> findByClientAndSupplierOrderByStartDateAsc(Client client, Supplier supplier);
 	
-	public SupplyContract findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(Contract contract, Supplier supplier, Staff staff);
+	public SupplyContract findByContractAndSupplierAndStaff(Contract contract, Supplier supplier, Staff staff);
 
 }

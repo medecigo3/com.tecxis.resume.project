@@ -48,7 +48,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.ContractRepository;
 import com.tecxis.resume.persistence.ContractServiceAgreementRepository;
@@ -138,12 +137,12 @@ public class ContractTest {
 		assertEquals(1, currentSagemContract.getSupplyContracts().size());
 		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
 		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
-		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(currentSagemContract, amesys, amt));
+		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
 		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
 		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
 		
 		/**Validate Supplier -> SupplyContract -> Contract*/		
-		assertEquals(amesys, amesysSagemSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 		
 		/**Find new Client to set*/
 		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
@@ -155,7 +154,7 @@ public class ContractTest {
 		newMicropoleContract.setClient(micropole);
 		newMicropoleContract.setName(CONTRACT4_NAME);
 		/**Set the new Contract with the SupplyContract (with new Client)*/	
-		SupplyContract amesysMicropoleSupplyContract = new SupplyContract(new SupplyContractId(amesys, newMicropoleContract, amt));
+		SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
 		amesysMicropoleSupplyContract.setStartDate(new Date());
 		List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
 		amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
@@ -203,7 +202,7 @@ public class ContractTest {
 		assertEquals(1, newMicropoleContract.getSupplyContracts().size());
 		
 		/**New SupplyContract -> Contract*/
-		assertNotNull(supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(newMicropoleContract, amesys, amt));
+		assertNotNull(supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, amesys, amt));
 		
 	}
 
@@ -222,10 +221,10 @@ public class ContractTest {
 		/**Validate Contract -> SupplyContract*/
 		assertEquals(1, amesysSagemContract.getSupplyContracts().size());
 		SupplyContract amesysSagemSupplyContract = amesysSagemContract.getSupplyContracts().get(0);
-		assertEquals(AMESYS,amesysSagemSupplyContract.getSupplyContractId().getSupplier().getName());	
+		assertEquals(AMESYS,amesysSagemSupplyContract.getSupplier().getName());	
 		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
 		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
-		assertEquals(amesys, amesysSagemSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 	}
 	
 	@Test
@@ -250,13 +249,13 @@ public class ContractTest {
 		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
 		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
-		assertEquals(amesys, amesysSagemSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(amt, amesysSagemSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(amt, amesysSagemSupplyContract.getStaff());
 		
 		/**Create the new SupplyContract for the current Client -> Contract different Staff*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		SupplyContract newAmesysSagemSupplyContract = new SupplyContract(new SupplyContractId(amesys, currentAmesysSagemContract, john));
+		SupplyContract newAmesysSagemSupplyContract = new SupplyContract(amesys, currentAmesysSagemContract, john);
 		/**Set the new dates of the SuppyContract*/
 		newAmesysSagemSupplyContract.setStartDate(startDate);
 		newAmesysSagemSupplyContract.setEndDate(endDate);
@@ -301,15 +300,15 @@ public class ContractTest {
 		/**SupplyContract relation has 1 element updated with same contract id,  same Client (Sagem) & new Staff (John)*/		
 		assertEquals(1, amesysSagemSupplyContracts.size());
 		SupplyContract amesysSagemJohnSupplyContract = amesysSagemSupplyContracts.get(0);
-		assertEquals(amesys, amesysSagemJohnSupplyContract.getSupplyContractId().getSupplier());
-		assertEquals(john,  amesysSagemJohnSupplyContract.getSupplyContractId().getStaff());
-		assertEquals(currentAmesysSagemContract, amesysSagemJohnSupplyContract.getSupplyContractId().getContract());
+		assertEquals(amesys, amesysSagemJohnSupplyContract.getSupplier());
+		assertEquals(john,  amesysSagemJohnSupplyContract.getStaff());
+		assertEquals(currentAmesysSagemContract, amesysSagemJohnSupplyContract.getContract());
 		/**Validate SupplyContract -> Contract*/		
-		amesysSagemJohnSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(currentAmesysSagemContract, amesys, john);
+		amesysSagemJohnSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(currentAmesysSagemContract, amesys, john);
 		assertNotNull(amesysSagemJohnSupplyContract);		
-		assertEquals(amesys, amesysSagemJohnSupplyContract.getSupplyContractId().getSupplier());
-		assertEquals(john,  amesysSagemJohnSupplyContract.getSupplyContractId().getStaff());
-		assertEquals(currentAmesysSagemContract, amesysSagemJohnSupplyContract.getSupplyContractId().getContract());
+		assertEquals(amesys, amesysSagemJohnSupplyContract.getSupplier());
+		assertEquals(john,  amesysSagemJohnSupplyContract.getStaff());
+		assertEquals(currentAmesysSagemContract, amesysSagemJohnSupplyContract.getContract());
 		
 	}
 	
@@ -489,10 +488,10 @@ public class ContractTest {
 		/**Validate Contract ->  Client*/
 		assertEquals(Constants.MICROPOLE, micropoleFastconnectContract.getClient().getName());
 		/**Validate SupplyContract-> Supplier*/
-		assertEquals(FASTCONNECT, micropoleFastconnectSupplyContract.getSupplyContractId().getSupplier().getName());
+		assertEquals(FASTCONNECT, micropoleFastconnectSupplyContract.getSupplier().getName());
 		/**Validate SupplyContract-> Staff*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(amt, micropoleFastconnectSupplyContract.getSupplyContractId().getStaff());		
+		assertEquals(amt, micropoleFastconnectSupplyContract.getStaff());		
 		/**Validate ContractServiceAgreement -> Service*/
 		assertEquals(Constants.MULE_ESB_CONSULTANT, micropolefastconnectContractServiceAgreement.getService().getName());
 			
@@ -518,9 +517,9 @@ public class ContractTest {
 		assertEquals(Constants.CONTRACT11_STARTDATE, alternaArvalSupplyContract.getStartDate());
 		assertEquals(Constants.CONTRACT11_ENDDATE, alternaArvalSupplyContract.getEndDate());
 		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
-		assertEquals(alterna, alternaArvalSupplyContract.getSupplyContractId().getSupplier());
+		assertEquals(alterna, alternaArvalSupplyContract.getSupplier());
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(amt, alternaArvalSupplyContract.getSupplyContractId().getStaff());
+		assertEquals(amt, alternaArvalSupplyContract.getStaff());
 		
 		
            
@@ -663,7 +662,7 @@ public class ContractTest {
 		assertEquals(Constants.MULE_ESB_CONSULTANT, muleService.getName());
 		assertEquals(1, muleService.getContractServiceAgreements().size());
 		assertEquals(1, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().size());		
-		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().get(0).getSupplyContractId().getSupplier().getName());
+		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().get(0).getSupplier().getName());
 		assertEquals(Constants.MICROPOLE, muleService.getContractServiceAgreements().get(0).getContract().getClient().getName());
 		
 		/**Find target Contract & validate*/			

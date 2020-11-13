@@ -36,7 +36,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.persistence.ClientRepository;
 import com.tecxis.resume.persistence.ContractRepository;
 import com.tecxis.resume.persistence.EmploymentContractRepository;
@@ -154,7 +153,7 @@ public class SupplierTest {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertNotNull(belfiusContract);
-		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
+		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
 	
 		/**Tests initial state of Suppliers table (the parent)*/
@@ -184,7 +183,7 @@ public class SupplierTest {
 		accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		assertEquals(4, accenture.getSupplyContracts().size());		
 		/**Validate the opposite association SupplyContract -> Supplier*/
-		SupplyContract johnBelfiusAccentureSupplyContract = supplyContractRepo.findBySupplyContractId_ContractAndSupplyContractId_SupplierAndSupplyContractId_Staff(belfiusContract, accenture, john);
+		SupplyContract johnBelfiusAccentureSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(belfiusContract, accenture, john);
 		assertNotNull(johnBelfiusAccentureSupplyContract);
 		assertEquals(newSupplyContract, johnBelfiusAccentureSupplyContract);
 		
@@ -328,7 +327,7 @@ public class SupplierTest {
 		/**Create the new SupplyContract to set to parent Supplier*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
-		SupplyContract newSupplyContract = new SupplyContract(new SupplyContractId(accenture, belfiusContract, john));
+		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList<>();
 		newSupplyContracts.add(newSupplyContract);
