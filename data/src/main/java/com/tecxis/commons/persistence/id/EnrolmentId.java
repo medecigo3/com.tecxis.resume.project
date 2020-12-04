@@ -13,12 +13,10 @@ public class EnrolmentId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	/**Directional association many-to-one to Staff*/
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
 	
-	/**Directional association many-to-one to Course*/
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID")
 	private Course course;

@@ -12,13 +12,11 @@ import com.tecxis.resume.Staff;
 public class StaffSkillId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	/**Directional many-to-one association to Skill*/
+
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="SKILL_ID", referencedColumnName="SKILL_ID")
 	private Skill skill;
 	
-	/**Directional many-to-one association to Staff*/
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
