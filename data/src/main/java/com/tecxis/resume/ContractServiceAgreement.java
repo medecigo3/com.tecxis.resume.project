@@ -24,6 +24,17 @@ import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
 public class ContractServiceAgreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * bi-directional many-to-one association to Contract.
+	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Contract as it contains the relationship's foreign key
+	 * In OO terms, this ContractServiceAgreement "engages" this Contract
+	 *
+	 * Hibernate BasicExtractor returns component values in alphabetical order when Contract entity is has @Column annotations for column specifications.
+	 * That allows the AbstractComponentTuplizer to properly set the component's id property values in alphabetical order.
+	 * 
+	 * However because associations in Contract entity are declared with @JoinColumn annotations, the order of these annotations has to be respected for all associated entities. 
+	 * That allows the AbstractComponentTuplizer to properly set the component's id property values in the sequential order of the @JoinColumn annotations below.
+	 */	
 	@Id
 	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
@@ -31,6 +42,11 @@ public class ContractServiceAgreement implements Serializable{
 	private Contract contract;
 			
 
+	/**
+	 * bi-directional many-to-one association to Service.
+	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Service as it contains the relationship's foreign key
+	 * In OO terms, this ContractServiceAgreement "provides" to this Contract
+	 */	
 	@Id
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
