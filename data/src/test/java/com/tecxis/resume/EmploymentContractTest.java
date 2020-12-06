@@ -1,6 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -147,7 +146,7 @@ public class EmploymentContractTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		entityManager.remove(johnAlhpatressEmploymentContract);
@@ -156,7 +155,7 @@ public class EmploymentContractTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
 	}

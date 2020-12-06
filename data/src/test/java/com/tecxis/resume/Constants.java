@@ -196,6 +196,23 @@ public class Constants {
 	public static final String STAFF_PROJECT_ASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
 	/**END STAFF_PROJECT_ASSIGNMENT*/
 	
+	/**CONTRACT*/
+	public static final String CONTRACT_TABLE = "Contract";
+	public static final String CONTRACT1_NAME = "BarclaysContract";
+	public static final String CONTRACT2_NAME = "AgeasContract";
+	public static final String CONTRACT3_NAME = "AccentureContract";
+	public static final String CONTRACT4_NAME = "SagemcomContract";
+	public static final String CONTRACT5_NAME = "MicropoleContract";
+	public static final String CONTRACT6_NAME = "LbpContract";
+	public static final String CONTRACT7_NAME = "AxeltisContract1";
+	public static final String CONTRACT8_NAME = "EhContract";
+	public static final String CONTRACT9_NAME = "AxeltisContract2";
+	public static final String CONTRACT10_NAME = "SGContract";
+	public static final String CONTRACT11_NAME = "ArvalContract";
+	public static final String CONTRACT12_NAME = "HermesContract";
+	public static final String CONTRACT13_NAME = "BelfiusContract";
+	public static final int CONTRACT2_ID = 2;
+	/**END CONTRACT*/
 	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	static{
@@ -233,7 +250,6 @@ public class Constants {
 		}
 			
 	}
-
 	
 	
 	private Constants() {

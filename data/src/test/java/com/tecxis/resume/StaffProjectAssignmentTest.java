@@ -1,7 +1,6 @@
 package com.tecxis.resume;
 
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -133,7 +132,7 @@ public class StaffProjectAssignmentTest {
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 	
 	
 		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */		
 		entityManager.remove(staffProjectAssignment1);
@@ -152,7 +151,7 @@ public class StaffProjectAssignmentTest {
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		
 		/**Validate staff -> assignments*/		
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));

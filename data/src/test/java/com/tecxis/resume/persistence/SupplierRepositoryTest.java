@@ -1,8 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT11_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT12_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -167,7 +164,7 @@ public class SupplierRepositoryTest {
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
 		assertEquals(2, alphatress.getSupplyContracts().size());				
 		/**Validate SupplyContract for Supplier ALPHATRESS-AMT */		
-		Contract belfiusAlphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		Contract belfiusAlphatressContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
 		SupplyContract amtBelfiusAlphatressSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(belfiusAlphatressContract, alphatress, amt);
 		assertEquals(Constants.CONTRACT13_STARTDATE, amtBelfiusAlphatressSupplyContract.getStartDate());
@@ -178,8 +175,8 @@ public class SupplierRepositoryTest {
 		assertEquals(Constants.CONTRACT14_STARTDATE, johnBelfiusAlphatressSupplyContract.getStartDate());
 		assertEquals(Constants.CONTRACT14_ENDDATE, johnBelfiusAlphatressSupplyContract.getEndDate());
 		/**Validate Contracts for Supplier ALHAPRES **/
-		assertEquals(CONTRACT13_NAME, amtBelfiusAlphatressSupplyContract.getContract().getName());		
-		assertEquals(CONTRACT13_NAME, johnBelfiusAlphatressSupplyContract.getContract().getName());
+		assertEquals(Constants.CONTRACT13_NAME, amtBelfiusAlphatressSupplyContract.getContract().getName());		
+		assertEquals(Constants.CONTRACT13_NAME, johnBelfiusAlphatressSupplyContract.getContract().getName());
 		/** John & AMT have the same Contract*/
 		assertEquals(amtBelfiusAlphatressSupplyContract.getContract(), johnBelfiusAlphatressSupplyContract.getContract());
 	
@@ -187,12 +184,12 @@ public class SupplierRepositoryTest {
 		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
 		assertEquals(2, alterna.getSupplyContracts().size()); 
 		/**Validate SupplyContract ALTERNA-ARVAL*/
-		Contract arvalAlternaContract = contractRepo.getContractByName(CONTRACT11_NAME);
+		Contract arvalAlternaContract = contractRepo.getContractByName(Constants.CONTRACT11_NAME);
 		SupplyContract arvalAlternaSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(arvalAlternaContract, alterna, amt);
 		assertEquals(Constants.CONTRACT11_STARTDATE,arvalAlternaSupplyContract.getStartDate());
 		assertEquals(Constants.CONTRACT11_ENDDATE,arvalAlternaSupplyContract.getEndDate());
 		/**Validate SupplyContract ALTERNA-HERMES*/
-		Contract hermesAlternaContract = contractRepo.getContractByName(CONTRACT12_NAME);
+		Contract hermesAlternaContract = contractRepo.getContractByName(Constants.CONTRACT12_NAME);
 		SupplyContract hermesAlternaSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(hermesAlternaContract, alterna, amt);
 		assertEquals(Constants.CONTRACT12_STARTDATE,hermesAlternaSupplyContract.getStartDate());
 		assertEquals(Constants.CONTRACT12_ENDDATE,hermesAlternaSupplyContract.getEndDate());

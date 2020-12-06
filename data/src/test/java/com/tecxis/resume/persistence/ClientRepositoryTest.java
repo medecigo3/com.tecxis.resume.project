@@ -1,7 +1,6 @@
 package com.tecxis.resume.persistence;
 
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -160,7 +159,7 @@ public class ClientRepositoryTest {
 		List <Contract> alphatressBelfiusContracts = belfius.getContracts();
 		assertEquals(1, alphatressBelfiusContracts.size());
 		Contract belfiusContract = alphatressBelfiusContracts.get(0);
-		assertEquals(CONTRACT13_NAME, belfiusContract.getName());
+		assertEquals(Constants.CONTRACT13_NAME, belfiusContract.getName());
 		List <SupplyContract> alphatressBelfiusSupplyContracts = belfiusContract.getSupplyContracts();
 		assertEquals(2, alphatressBelfiusSupplyContracts.size());
 		SupplyContract alphatressBelfiusSupplyContract =  alphatressBelfiusSupplyContracts.get(0);		

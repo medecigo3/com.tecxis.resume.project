@@ -1,8 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT13_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT1_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT4_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -74,7 +71,7 @@ public class ContractServiceAgreementRepositoryTest {
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
 		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
@@ -95,7 +92,7 @@ public class ContractServiceAgreementRepositoryTest {
 		
 		/**Insert Contract*/
 		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, CONTRACT1_NAME, entityManager);
+		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreementIn = ContractServiceAgreementTest.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
@@ -128,7 +125,7 @@ public class ContractServiceAgreementRepositoryTest {
 		assertNotNull(j2eeDevelopperContractServiceAgreements);
 		assertEquals(1, j2eeDevelopperContractServiceAgreements.size());
 		Contract j2eeDevelopperContract = j2eeDevelopperContractServiceAgreements.get(0).getContract();
-		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
+		assertEquals(Constants.CONTRACT4_NAME, j2eeDevelopperContract.getName());
 		
 		
 		/**Find ContractServiceAgreement*/
@@ -146,7 +143,7 @@ public class ContractServiceAgreementRepositoryTest {
 	@Test
 	public void testFindByContractServiceAgreementId_contractAndContractServiceAgreementId_Service() {		
 		/**Fetch  Contract*/
-		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		Contract alphatressBelfiusContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
 		assertNotNull(alphatressBelfiusContract); 
 		
 		/**Fetch Service*/
@@ -173,7 +170,7 @@ public class ContractServiceAgreementRepositoryTest {
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
 		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, CONTRACT13_NAME, entityManager);
+		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement tempContractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);

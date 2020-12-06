@@ -1,8 +1,6 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.EmploymentContractTest.PK_UPDATE_WARN;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT5_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -80,8 +78,8 @@ public class SupplyContractTest {
 		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
-		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
+		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -117,8 +115,8 @@ public class SupplyContractTest {
 		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
-		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
+		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -148,8 +146,8 @@ public class SupplyContractTest {
 		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
-		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
+		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -171,8 +169,8 @@ public class SupplyContractTest {
 		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
-		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
+		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -194,7 +192,7 @@ public class SupplyContractTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
@@ -204,7 +202,7 @@ public class SupplyContractTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
 

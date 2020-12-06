@@ -1,6 +1,4 @@
 package com.tecxis.resume;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT2_NAME;
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT_TABLE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
 import static org.junit.Assert.assertEquals;
@@ -100,7 +98,7 @@ public class ClientTest {
 		/**Get Supplier*/
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
 		assertEquals(ACCENTURE, accenture.getName());		
-		Contract ageasContract = contractRepo.getContractByName(CONTRACT2_NAME);
+		Contract ageasContract = contractRepo.getContractByName(Constants.CONTRACT2_NAME);
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
@@ -204,7 +202,7 @@ public class ClientTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		
@@ -222,7 +220,7 @@ public class ClientTest {
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		assertEquals(47, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(11	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		

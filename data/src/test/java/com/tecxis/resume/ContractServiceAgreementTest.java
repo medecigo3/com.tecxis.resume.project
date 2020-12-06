@@ -1,6 +1,5 @@
 package com.tecxis.resume;
 
-import static com.tecxis.resume.persistence.ContractRepositoryTest.CONTRACT7_NAME;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static org.junit.Assert.assertEquals;
@@ -75,7 +74,7 @@ public class ContractServiceAgreementTest {
 		assertEquals(FASTCONNECT, fastconnect.getName());
 				
 		/**Find Contract*/
-		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(Constants.CONTRACT7_NAME);
 		
 		
 		/**Find Service*/
@@ -97,7 +96,7 @@ public class ContractServiceAgreementTest {
 		/**Find Client*/
 		axeltis = clientRepo.getClientByName(Constants.AXELTIS);
 		fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);		
-		axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		axeltisFastConnectcontract = contractRepo.getContractByName(Constants.CONTRACT7_NAME);
 		tibcoCons = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
