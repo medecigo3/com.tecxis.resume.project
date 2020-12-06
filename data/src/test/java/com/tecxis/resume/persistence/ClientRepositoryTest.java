@@ -65,7 +65,7 @@ public class ClientRepositoryTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(2, ageas.getId());
 		
-		Client accenture = ClientTest.insertAClient(Constants.ACCENTURE, entityManager);
+		Client accenture = ClientTest.insertAClient(Constants.ACCENTURE_CLIENT, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(3, accenture.getId());
 		

@@ -3,7 +3,7 @@ package com.tecxis.resume;
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -882,7 +882,7 @@ public class StaffTest {
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -966,7 +966,7 @@ public class StaffTest {
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -1194,7 +1194,7 @@ public class StaffTest {
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Create new EmploymentContract to set to parent Staff*/		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
 		newEmploymentContract.setStartDate(new Date());

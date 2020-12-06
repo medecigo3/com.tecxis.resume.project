@@ -1,7 +1,7 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.SupplyContractTest.insertASupplyContract;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -173,7 +173,7 @@ public class SupplyContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByContractAndSupplierAndStaff() {
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		
 		/**Find test SupplyContract(s)*/

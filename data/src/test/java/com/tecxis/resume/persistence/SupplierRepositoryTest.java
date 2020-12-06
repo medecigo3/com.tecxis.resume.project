@@ -42,7 +42,7 @@ import com.tecxis.resume.SupplyContract;
 public class SupplierRepositoryTest {
 	
 	public static final String SUPPLIER_TABLE = "Supplier";
-	public static final String ACCENTURE = "ACCENTURE";
+	public static final String ACCENTURE_SUPPLIER = "ACCENTURE";
 	public static final String AMESYS = "AMESYS";
 	public static final String FASTCONNECT = "FASTCONNECT";
 	public static final String ALTERNA = "ALTERNA";
@@ -75,7 +75,7 @@ public class SupplierRepositoryTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		
-		Supplier accenture = SupplierTest.insertASupplier(ACCENTURE,  entityManager);
+		Supplier accenture = SupplierTest.insertASupplier(ACCENTURE_SUPPLIER,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, accenture.getId());
@@ -99,8 +99,8 @@ public class SupplierRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierByName() {
-		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE);
-		assertEquals(ACCENTURE, accenture.getName());
+		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
 		
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		assertEquals(FASTCONNECT, fastconnect.getName());
@@ -119,9 +119,9 @@ public class SupplierRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierByNameAndStaffId() {
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
-		assertEquals(ACCENTURE, accenture.getName());
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		assertNotNull(fastconnect);
 		assertEquals(FASTCONNECT, fastconnect.getName());

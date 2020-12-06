@@ -1,7 +1,7 @@
 package com.tecxis.resume;
 
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE;
+import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
 import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
@@ -128,7 +128,7 @@ public class ServiceTest {
 		
 		/**Validate Contract -> SupplyContract */
 		SupplyContract barclaysAccentureSupplyContract = barclaysAccentureContract.getSupplyContracts().get(0);		
-		assertEquals(ACCENTURE,barclaysAccentureSupplyContract.getSupplier().getName());
+		assertEquals(ACCENTURE_SUPPLIER,barclaysAccentureSupplyContract.getSupplier().getName());
 
 		/**Create new ContractServiceAgreement*/
 		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement(fastconnectMicropoleContract, scmDevService);	

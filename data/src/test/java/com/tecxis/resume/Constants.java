@@ -85,7 +85,7 @@ public class Constants {
 	public static String BARCLAYS = "Barclays";
 	public static String AGEAS = "Ageas (Formerly Fortis)";
 	public static String AGEAS_SHORT = "Ageas%";
-	public static String ACCENTURE = "Accenture";
+	public static String ACCENTURE_CLIENT = "Accenture";
 	public static String SAGEMCOM = "Sagemcom";
 	public static String MICROPOLE = "Micropole";
 	public static String BELFIUS = "Belfius Insurance";
