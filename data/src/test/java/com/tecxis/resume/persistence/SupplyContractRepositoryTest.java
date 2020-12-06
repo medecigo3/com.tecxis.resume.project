@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static com.tecxis.resume.Constants.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -248,8 +249,26 @@ public class SupplyContractRepositoryTest {
 	}
 	
 	@Test
-	public void testFindBySupplierAndStartDateAndEndDateOrderByStartDateAsc() {
-		fail("TODO");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindBySupplierAndStartDateAndEndDateOrderByStartDateAsc() {		
+		/**Fetch target Supplier*/
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		/**Validate target Supplier has 2 SupplyContracts*/
+		assertEquals(2, alphatress.getSupplyContracts().size());
+		
+		/**Let's narrow down search*/
+		List <SupplyContract> belfiusAmtSupplyContracts = supplyContractRepo.findBySupplierAndStartDateAndEndDateOrderByStartDateAsc(alphatress, CONTRACT13_STARTDATE, CONTRACT13_ENDDATE);
+		assertEquals(1, belfiusAmtSupplyContracts.size());
+		SupplyContract belfiusAmtSupplyContract = belfiusAmtSupplyContracts.get(0);
+		
+		/**Validate SupplyContract -> Staff*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);		
+		assertEquals(amt, belfiusAmtSupplyContract.getStaff()); 
+		/**Validate SupplyContract -> Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertEquals(belfiusContract, belfiusAmtSupplyContract.getContract()); 
 	}
 	
 	
