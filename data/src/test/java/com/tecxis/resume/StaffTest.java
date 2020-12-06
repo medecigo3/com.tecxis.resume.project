@@ -3,9 +3,6 @@ package com.tecxis.resume;
 import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.AMESYS;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -658,7 +655,7 @@ public class StaffTest {
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 		
 		  
 		/**Detach interest from Staff and remove staff*/
@@ -680,7 +677,7 @@ public class StaffTest {
 		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		
 		
@@ -741,7 +738,7 @@ public class StaffTest {
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 		
 		  
 		/**Detach interest from Staff */
@@ -763,7 +760,7 @@ public class StaffTest {
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		
 		
@@ -882,7 +879,7 @@ public class StaffTest {
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -900,7 +897,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	// Target orphans in  SUPPLY_CONTRACT table	
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -923,7 +920,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//13 orphans removed and 1 new child created in SUPPLY_CONTRACT table. 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); // 1 new contract created in CONTRACT table. 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
@@ -966,7 +963,7 @@ public class StaffTest {
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -982,7 +979,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1005,7 +1002,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(15, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//1 new child created.	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); // 1 new contract created.
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
@@ -1060,7 +1057,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1080,7 +1077,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//1 child removed.	
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
@@ -1133,7 +1130,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	//Target orphan table is EMPLOYMENT_CONTRACT table
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1155,7 +1152,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	// 5 orphans removed in EMPLOYMENT_CONTRACT table. Other tables ramain unchanged.
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));				
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
@@ -1194,7 +1191,7 @@ public class StaffTest {
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Create new EmploymentContract to set to parent Staff*/		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
 		newEmploymentContract.setStartDate(new Date());
@@ -1212,7 +1209,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1234,7 +1231,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		//1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. 
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
@@ -1271,7 +1268,7 @@ public class StaffTest {
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Create the new EmploymentContract*/			
-		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
+		Supplier amesys = supplierRepo.getSupplierByName(Constants.AMESYS);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(amt, amesys);
 		newEmploymentContract.setStartDate(new Date());
 		/**Test the existing state for 'amt' and 'amesys' EmploymentContract */
@@ -1289,7 +1286,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
 		/**Tests the initial state of the children table(s) from the Parent table*/		
@@ -1309,7 +1306,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		//1 child created.
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));			
@@ -1418,7 +1415,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		/**WORKS ON*/
@@ -1470,7 +1467,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		/**IS EMPLOYED*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE)); // 5 children with STAFF_ID=1 removed from EMPLOYMENT_CONTRACT table.  
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		/**WORKS IN*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
 		/**WORKS ON*/

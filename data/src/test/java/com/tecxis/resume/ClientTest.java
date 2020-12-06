@@ -1,6 +1,5 @@
 package com.tecxis.resume;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -96,8 +95,8 @@ public class ClientTest {
 		assertEquals(1, ageasContracts.size());
 		/**Compare with fetched contract*/
 		/**Get Supplier*/
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());		
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());		
 		Contract ageasContract = contractRepo.getContractByName(Constants.CONTRACT2_NAME);
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));

@@ -41,13 +41,6 @@ import com.tecxis.resume.SupplyContract;
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class SupplierRepositoryTest {
 	
-	public static final String SUPPLIER_TABLE = "Supplier";
-	public static final String ACCENTURE_SUPPLIER = "ACCENTURE";
-	public static final String AMESYS = "AMESYS";
-	public static final String FASTCONNECT = "FASTCONNECT";
-	public static final String ALTERNA = "ALTERNA";
-	public static final String ALPHATRESS = "ALPHATRESS";
-			
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -73,10 +66,10 @@ public class SupplierRepositoryTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		
-		Supplier accenture = SupplierTest.insertASupplier(ACCENTURE_SUPPLIER,  entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		Supplier accenture = SupplierTest.insertASupplier(Constants.ACCENTURE_SUPPLIER,  entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, accenture.getId());
 		
@@ -88,8 +81,8 @@ public class SupplierRepositoryTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {		
-		Supplier supplierIn = SupplierTest.insertASupplier(ALPHATRESS, entityManager);
-		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
+		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierOut = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
 		
 	}
@@ -99,17 +92,17 @@ public class SupplierRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierByName() {
-		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
+		Supplier accenture= supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());
 		
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
 		
-		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
-		assertEquals(ALTERNA, alterna.getName());
+		Supplier alterna = supplierRepo.getSupplierByName(Constants.ALTERNA);
+		assertEquals(Constants.ALTERNA, alterna.getName());
 		
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
-		assertEquals(ALPHATRESS, alphatress.getName());
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);		
+		assertEquals(Constants.ALPHATRESS, alphatress.getName());
 		
 		
 	}
@@ -119,15 +112,15 @@ public class SupplierRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierByNameAndStaffId() {
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
-		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
 		assertNotNull(fastconnect);
-		assertEquals(FASTCONNECT, fastconnect.getName());
-		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
+		Supplier alterna = supplierRepo.getSupplierByName(Constants.ALTERNA);
 		assertNotNull(alterna);
-		assertEquals(ALTERNA, alterna.getName());
+		assertEquals(Constants.ALTERNA, alterna.getName());
 				
 	}
 	
@@ -136,7 +129,7 @@ public class SupplierRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierContracts() {
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
 		assertNotNull(fastconnect.getSupplyContracts());
 		assertEquals(6, fastconnect.getSupplyContracts().size());
 		List <SupplyContract> fastconnectSupplyContracts = fastconnect.getSupplyContracts();
@@ -161,7 +154,7 @@ public class SupplierRepositoryTest {
 
 		
 		/**Validate SupplyContract(s) for Supplier ALPHATRESS */
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);		
 		assertEquals(2, alphatress.getSupplyContracts().size());				
 		/**Validate SupplyContract for Supplier ALPHATRESS-AMT */		
 		Contract belfiusAlphatressContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
@@ -181,7 +174,7 @@ public class SupplierRepositoryTest {
 		assertEquals(amtBelfiusAlphatressSupplyContract.getContract(), johnBelfiusAlphatressSupplyContract.getContract());
 	
 		/**Validate SupplyContract(s) for Supplier ALTERNA*/
-		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
+		Supplier alterna = supplierRepo.getSupplierByName(Constants.ALTERNA);
 		assertEquals(2, alterna.getSupplyContracts().size()); 
 		/**Validate SupplyContract ALTERNA-ARVAL*/
 		Contract arvalAlternaContract = contractRepo.getContractByName(Constants.CONTRACT11_NAME);
@@ -202,12 +195,12 @@ public class SupplierRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteSupplier() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
-		Supplier tempSupplier = SupplierTest.insertASupplier(AMESYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));		
+		Supplier tempSupplier = SupplierTest.insertASupplier(Constants.AMESYS, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
-		assertNull(supplierRepo.getSupplierByName(AMESYS));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertNull(supplierRepo.getSupplierByName(Constants.AMESYS));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 	}
 
 	@Test

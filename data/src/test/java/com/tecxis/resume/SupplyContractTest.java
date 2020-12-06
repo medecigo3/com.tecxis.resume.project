@@ -2,8 +2,6 @@ package com.tecxis.resume;
 
 import static com.tecxis.resume.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.FASTCONNECT;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -74,8 +72,8 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetStaff() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
 		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
@@ -111,8 +109,8 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetSupplier() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
 		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
@@ -142,8 +140,8 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetContract() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
 		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
@@ -165,8 +163,8 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testDbRemoveSupplyContract() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
+		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
 		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
@@ -189,7 +187,7 @@ public class SupplyContractTest {
 		/**Detach entities*/
 		entityManager.clear();		
 		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE)); 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
@@ -199,7 +197,7 @@ public class SupplyContractTest {
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		

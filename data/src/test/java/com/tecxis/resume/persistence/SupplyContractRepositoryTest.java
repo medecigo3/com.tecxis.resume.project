@@ -1,9 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.SupplyContractTest.insertASupplyContract;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -77,16 +74,16 @@ public class SupplyContractRepositoryTest {
 	public void testInsertSupplyContractRowsAndSetIds() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		Client accenture = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, Constants.CONTRACT1_NAME, entityManager);
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);	
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);	
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, Constants.CONTRACT1_STARTDATE, Constants.CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		
@@ -106,16 +103,16 @@ public class SupplyContractRepositoryTest {
 	public void findInsertedSupplyContract() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		Client accenture = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, Constants.CONTRACT1_NAME, entityManager);
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);		
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);		
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, Constants.CONTRACT1_STARTDATE, Constants.CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		
@@ -134,16 +131,16 @@ public class SupplyContractRepositoryTest {
 	public void testDeleteSupplyContract() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		Client accenture = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
 		Contract accentureContract = ContractTest.insertAContract(accenture, Constants.CONTRACT9_NAME, entityManager);
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = insertASupplyContract(alterna, accentureContract, amt, Constants.CONTRACT1_STARTDATE, Constants.CONTRACT1_ENDDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		
@@ -153,7 +150,7 @@ public class SupplyContractRepositoryTest {
 		
 		/**Verify*/		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 	}
@@ -173,7 +170,7 @@ public class SupplyContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByContractAndSupplierAndStaff() {
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		
 		/**Find test SupplyContract(s)*/

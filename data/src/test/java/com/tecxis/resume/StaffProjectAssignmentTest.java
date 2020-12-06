@@ -2,7 +2,6 @@ package com.tecxis.resume;
 
 
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -131,7 +130,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 	
 	
 		/**StaffProjectAssignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Assignment */		
@@ -150,7 +149,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(62, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));			
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		
 		/**Validate staff -> assignments*/		

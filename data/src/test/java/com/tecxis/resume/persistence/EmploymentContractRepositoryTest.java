@@ -1,9 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.EmploymentContractTest.insertEmploymentContract;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALPHATRESS;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.ALTERNA;
-import static com.tecxis.resume.persistence.SupplierRepositoryTest.SUPPLIER_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -64,13 +61,13 @@ public class EmploymentContractRepositoryTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		
@@ -86,13 +83,13 @@ public class EmploymentContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedEmploymentContract() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	
 		
@@ -106,13 +103,13 @@ public class EmploymentContractRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteSupplyContract() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(ALTERNA,  entityManager);			
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
 		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		
@@ -121,7 +118,7 @@ public class EmploymentContractRepositoryTest {
 		entityManager.flush();
 		
 		/**Verify*/		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 	}
@@ -156,7 +153,7 @@ public class EmploymentContractRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindBySupplier() {
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
 		List <EmploymentContract> alphatressEmploymentcontracts = employmentContractRepo.findBySupplier(alphatress);
 		assertEquals(2, alphatressEmploymentcontracts.size());
 		
@@ -168,7 +165,7 @@ public class EmploymentContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByStaffAndSupplier() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0); 
@@ -184,7 +181,7 @@ public class EmploymentContractRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByIdAndStaffAndSupplier() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
 		EmploymentContract johnAlhpatressEmploymentContract =  employmentContractRepo.findByIdAndStaffAndSupplier((long)6, john, alphatress);
 		
 		/**Verify the EmploymentContract*/

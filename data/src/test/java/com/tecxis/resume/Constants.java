@@ -214,6 +214,15 @@ public class Constants {
 	public static final int CONTRACT2_ID = 2;
 	/**END CONTRACT*/
 	
+	/**SUPPLIER*/
+	public static final String SUPPLIER_TABLE = "Supplier";
+	public static final String ACCENTURE_SUPPLIER = "ACCENTURE";
+	public static final String AMESYS = "AMESYS";
+	public static final String FASTCONNECT = "FASTCONNECT";
+	public static final String ALTERNA = "ALTERNA";
+	public static final String ALPHATRESS = "ALPHATRESS";
+	/**END SUPPLIER*/
+	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	static{
 		try {
@@ -250,7 +259,6 @@ public class Constants {
 		}
 			
 	}
-	
 	
 	private Constants() {
 		super();
