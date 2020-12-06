@@ -273,8 +273,19 @@ public class SupplyContractRepositoryTest {
 	
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByContractAndSupplierOrderByStartDateAsc() {
-		fail("TODO");
+		/**Find target Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		
+		/**Find target Supplier*/
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		
+		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(belfiusContract, alphatress);
+		assertEquals(2, belfiusAlphatressSupplyContracts .size());
+		
 	}
 	
 }

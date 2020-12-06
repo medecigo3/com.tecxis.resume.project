@@ -31,5 +31,7 @@ public interface SupplyContractRepository extends JpaRepository<SupplyContract, 
 	public List <SupplyContract> findByClientAndSupplierOrderByStartDateAsc(Client client, Supplier supplier);
 	
 	public SupplyContract findByContractAndSupplierAndStaff(Contract contract, Supplier supplier, Staff staff);
+	
+	public List <SupplyContract> findByContractAndSupplierOrderByStartDateAsc(Contract contract, Supplier supplier);
 
 }
