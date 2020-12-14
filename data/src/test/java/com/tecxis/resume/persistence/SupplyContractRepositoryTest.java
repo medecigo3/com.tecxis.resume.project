@@ -239,12 +239,42 @@ public class SupplyContractRepositoryTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByStaffOrderByStartDateAsc() {
-		fail("TODO");
+		/**Test with Staff 'John'*/
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		assertNotNull(john);
+		List <SupplyContract> johnSupplyContracts = supplyContractRepo.findByStaffOrderByStartDateAsc(john);
+		assertEquals(1, johnSupplyContracts.size());
+		
+		SupplyContract johnSupplyContract = johnSupplyContracts.get(0);
+		assertEquals(CONTRACT14_STARTDATE, johnSupplyContract.getStartDate());
+		
+		/**Test with Staff AMT*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertNotNull(amt);		
+		List <SupplyContract> amtSupplyContracts = supplyContractRepo.findByStaffOrderByStartDateAsc(amt);
+		assertEquals(13, amtSupplyContracts.size());
+		
+		/**First AMT SupplyContract ordered by StartDate*/
+		SupplyContract amtFirstSupplyContract = amtSupplyContracts.get(0);
+		assertEquals(CONTRACT1_STARTDATE, amtFirstSupplyContract.getStartDate());
+		
+		/**Last AMT SupplyContract ordered by EndDate*/
+		SupplyContract amtLastSupplyContract = amtSupplyContracts.get(amtSupplyContracts.size()-1);
+		assertEquals(CONTRACT13_STARTDATE, amtLastSupplyContract.getStartDate());
+		
+		
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByClientOrderByStartDateAsc() {
+		//TODO continue here
 		fail("TODO");
 	}
 	
