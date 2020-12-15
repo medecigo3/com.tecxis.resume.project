@@ -273,15 +273,6 @@ public class SupplyContractRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByClientOrderByStartDateAsc() {
-		//TODO continue here
-		fail("TODO");
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindBySupplierAndStartDateAndEndDateOrderByStartDateAsc() {		
 		/**Fetch target Supplier*/
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
