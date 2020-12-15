@@ -170,7 +170,7 @@ public class SupplyContractRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByContractAndSupplierAndStaff() {
+	public void testFindBySupplierOrderByStartDateAsc() {
 		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		
