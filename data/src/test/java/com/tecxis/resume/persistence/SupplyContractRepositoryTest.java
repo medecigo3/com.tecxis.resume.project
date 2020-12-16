@@ -1,11 +1,22 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.Constants.ALPHATRESS;
+import static com.tecxis.resume.Constants.AXELTIS;
+import static com.tecxis.resume.Constants.CONTRACT13_ENDDATE;
+import static com.tecxis.resume.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.Constants.CONTRACT13_STARTDATE;
+import static com.tecxis.resume.Constants.CONTRACT14_ENDDATE;
+import static com.tecxis.resume.Constants.CONTRACT14_STARTDATE;
+import static com.tecxis.resume.Constants.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.Constants.CONTRACT7_ENDDATE;
+import static com.tecxis.resume.Constants.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.Constants.CONTRACT9_ENDDATE;
+import static com.tecxis.resume.Constants.CONTRACT9_STARTDATE;
+import static com.tecxis.resume.Constants.FASTCONNECT;
 import static com.tecxis.resume.SupplyContractTest.insertASupplyContract;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static com.tecxis.resume.Constants.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -66,6 +77,9 @@ public class SupplyContractRepositoryTest {
 	
 	@Autowired
 	private StaffRepository staffRepo;
+	
+	@Autowired
+	private ClientRepository clientRepo;
 	
 	@Test
 	@Sql(
@@ -300,13 +314,110 @@ public class SupplyContractRepositoryTest {
 	public void testFindByContractAndSupplierOrderByStartDateAsc() {
 		/**Find target Contract*/
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(belfiusContract);
 		
 		/**Find target Supplier*/
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
+		assertNotNull(alphatress);
 		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
 		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(belfiusContract, alphatress);
 		assertEquals(2, belfiusAlphatressSupplyContracts .size());
 		
+		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
+		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
+		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
+		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
+		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
+		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
+		
+		
 	}
 	
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void findByContractOrderByStartDateAsc() {
+		/**Find target Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(belfiusContract);
+		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
+		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractOrderByStartDateAsc(belfiusContract);
+		assertEquals(2, belfiusAlphatressSupplyContracts .size());
+		
+		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
+		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
+		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
+		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
+		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
+		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByClientAndSupplierOrderByStartDateAsc() {
+		/**Fetch target Client*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertNotNull(axeltis);
+		
+		/**Fetch target Supplier*/
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT); 
+		assertNotNull(fastconnect);
+		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
+		List <SupplyContract> axeltisFastconnectSupplyContracts = supplyContractRepo.findByClientAndSupplierOrderByStartDateAsc(axeltis, fastconnect);
+		assertEquals(2, axeltisFastconnectSupplyContracts .size());
+		
+		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract axeltisFastconnectSupplyContract0 = axeltisFastconnectSupplyContracts.get(0);
+		assertEquals(CONTRACT7_STARTDATE, axeltisFastconnectSupplyContract0.getStartDate());
+		assertEquals(CONTRACT7_ENDDATE, axeltisFastconnectSupplyContract0.getEndDate());
+		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract axeltisFastconnectSupplyContract1 = axeltisFastconnectSupplyContracts.get(1);
+		assertEquals(CONTRACT9_STARTDATE, axeltisFastconnectSupplyContract1.getStartDate());
+		assertEquals(CONTRACT9_ENDDATE, axeltisFastconnectSupplyContract1.getEndDate());
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByContractAndSupplierAndStaff() {
+		/**Find target Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(belfiusContract);
+		
+		/**Find target Supplier*/
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
+		assertNotNull(alphatress);
+		
+		/**Fetch target Staff*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertNotNull(amt);		
+		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
+		SupplyContract belfiusAlphatressAmtSupplyContracts = supplyContractRepo.findByContractAndSupplierAndStaff(belfiusContract, alphatress, amt);
+		assertNotNull(belfiusAlphatressAmtSupplyContracts);
+		
+		/**Validate SupplyContract -> Contract*/
+		assertEquals(belfiusContract, belfiusAlphatressAmtSupplyContracts.getContract());	
+		
+		/**Validate SupplyContract -> Supplier*/
+		assertEquals(alphatress, belfiusAlphatressAmtSupplyContracts.getSupplier());
+		
+		/**Validate SupplyContract -> Staff*/
+		assertEquals(amt, belfiusAlphatressAmtSupplyContracts.getStaff());
+		
+	}
 }
