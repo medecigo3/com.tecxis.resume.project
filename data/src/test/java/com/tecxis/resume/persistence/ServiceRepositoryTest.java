@@ -75,7 +75,7 @@ public class ServiceRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindServiceByName() {		
+	public void testGetServiceByName() {		
 		Service serviceOut= serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);		
 		assertEquals(Constants.TIBCO_BW_CONSULTANT, serviceOut.getName());		
 		
@@ -86,7 +86,7 @@ public class ServiceRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindServiceLikeName() {		
+	public void testGetServiceLikeName() {		
 		List <Service> serviceList = serviceRepo.getServiceLikeName(Constants.TIBCO_BW_CONSULTANT);
 		assertNotNull(serviceList);
 		assertEquals(1, serviceList.size());

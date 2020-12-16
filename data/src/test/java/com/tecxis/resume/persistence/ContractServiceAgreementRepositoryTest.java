@@ -141,7 +141,7 @@ public class ContractServiceAgreementRepositoryTest {
 	}
 	
 	@Test
-	public void testFindByContractServiceAgreementId_contractAndContractServiceAgreementId_Service() {		
+	public void testFindByContractAndService() {		
 		/**Fetch  Contract*/
 		Contract alphatressBelfiusContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
 		assertNotNull(alphatressBelfiusContract); 

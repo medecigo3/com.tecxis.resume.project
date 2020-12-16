@@ -91,7 +91,7 @@ public class SupplierRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindSupplierByName() {
+	public void testGetSupplierByName() {
 		Supplier accenture= supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
 		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());
 		

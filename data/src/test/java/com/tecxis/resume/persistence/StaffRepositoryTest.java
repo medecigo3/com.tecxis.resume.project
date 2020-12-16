@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -61,6 +62,14 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)public void testGetStaffByFirstNameAndLastName() {
+		fail("TODO");
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
@@ -85,7 +94,7 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffLikeName() {
+	public void testGetStaffLikeFirstName() {
 		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertNotNull(amt);
 		assertEquals(Constants.AMT_NAME, amt.getFirstName());
@@ -101,7 +110,7 @@ public class StaffRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffLikeLastname() {
+	public void testGetStaffLikeLastName() {
 		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
 		assertNotNull(amt);
 		assertEquals(Constants.AMT_NAME, amt.getFirstName());

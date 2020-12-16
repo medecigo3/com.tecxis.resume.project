@@ -127,7 +127,7 @@ public class ProjectRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByProjectByNameAndVersion() {		
+	public void testFindByNameAndVersion() {		
 		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
 		assertNotNull(barclays);
 		assertEquals(Constants.BARCLAYS, barclays.getName());
@@ -157,7 +157,7 @@ public class ProjectRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByProjectByName() {
+	public void testFindByName() {
 		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);
 		assertNotNull(axeltis);
 		assertEquals(Constants.AXELTIS, axeltis.getName());

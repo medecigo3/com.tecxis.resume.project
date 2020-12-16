@@ -79,7 +79,7 @@ public class AssignmentRepositoryTest {
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAssignmentByLikeDesc() {
+	public void testGetAssignmentLikeDesc() {
 		/**Test query by name with LIKE expression*/
 		List <Assignment> assignments1 = assignmentRepo.getAssignmentLikeDesc(Constants.DEV_ASSIGNMENT_WILDCARD);
 		assertNotNull(assignments1);
