@@ -131,7 +131,7 @@ public class CountryRepositoryTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCountryByCountryId() {
+	public void testGetCountryById() {
 		Country country = countryRepo.getCountryById(1L);
 		assertEquals(1L, country.getId());
 	}
