@@ -6,7 +6,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -77,15 +76,42 @@ public class SupplierTest {
 	private Validator validator;
 
 	@Test
-	public void testGetSupplierId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		assertThat(supplierIn.getId(), Matchers.greaterThan((long)0));
+		
+	}
+	
+	@Test	
+	public void testSetId() {
+		Supplier supplier = new Supplier();
+		assertEquals(0, supplier.getId());		
+		supplier.setId(100);				
+		assertEquals(100, supplier.getId());
+		
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		fail("Not yet implemented");
+		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		assertEquals(supplierIn.getName(), supplierIn.getName());
 	}
 
+	@Test	
+	public void testSetName() {
+		Supplier supplier = new Supplier();
+		assertNull(supplier.getName());		
+		supplier.setName(Constants.ALPHATRESS);				
+		assertEquals(Constants.ALPHATRESS, supplier.getName());
+		
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
@@ -355,7 +381,19 @@ public class SupplierTest {
 	
 	@Test
 	public void testGetEmploymentContracts() {
-		fail("TODO");
+		/**Find target Supplier to test*/
+		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		assertNotNull(accenture);
+		
+		/**Test Supplier -> EmploymentContract*/
+		List <EmploymentContract> accentureEmploymentContracts =  accenture.getEmploymentContracts();
+		assertEquals(1, accentureEmploymentContracts.size());
+		/**Find target EmploymentContract*/
+		List <EmploymentContract> targetAccentureEmploymentContracts = employmentContractRepo.findBySupplier(accenture);
+		assertEquals (1, targetAccentureEmploymentContracts.size());
+		EmploymentContract targetAccentureEmploymentContract = targetAccentureEmploymentContracts.get(0);  
+		/**Validate Supplier -> EmploymentContract has the target*/
+		assertThat(accentureEmploymentContracts, Matchers.contains(targetAccentureEmploymentContract));		
 	}
 	
 	
@@ -704,7 +742,8 @@ public class SupplierTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		Supplier supplier = new Supplier();
+		supplier.toString();
 	}
 
 	public static Supplier insertASupplier(String name, EntityManager entityManager) {
