@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -215,7 +214,9 @@ public class StaffProjectAssignmentTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
+		staffProjectAssignment.toString();
+		
 	}
 	
 	public static StaffProjectAssignment insertAStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
