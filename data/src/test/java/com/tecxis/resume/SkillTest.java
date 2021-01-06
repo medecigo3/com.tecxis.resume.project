@@ -3,8 +3,8 @@ package com.tecxis.resume;
 import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -53,15 +53,41 @@ public class SkillTest {
 	private Validator validator;
 
 	@Test
-	public void testGetSkillId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Skill skill = insertASkill(Constants.TIBCO, entityManager);
+		assertThat(skill.getId(), Matchers.greaterThan((long)0));		
 	}
+	
+	@Test
+	public void testSetId() {
+		Skill skill = new Skill();
+		assertEquals(0, skill.getId());
+		skill.setId(1);
+		assertEquals(1, skill.getId());		
+	}	
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		fail("Not yet implemented");
+		Skill tibcoSkill = skillRepo.getSkillByName(Constants.TIBCO);
+		assertEquals(Constants.TIBCO, tibcoSkill.getName());		
 	}
-
+	
+	@Test
+	public void testSetName() {
+		Skill skill = new Skill();
+		assertNull(skill.getName());
+		skill.setName(Constants.TIBCO);
+		assertEquals(Constants.TIBCO, skill.getName());
+				
+	}
+	
+	
 	@Test
 	@Sql(
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
