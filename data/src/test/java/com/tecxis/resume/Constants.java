@@ -81,24 +81,24 @@ public class Constants {
 	public static final String UNITED_KINGDOM = "United Kingdom";
 	/**END COUNTRY*/	
 	/**CLIENT*/	
-	public static String CLIENT_TABLE =	"Client";
-	public static String BARCLAYS = "Barclays";
-	public static String AGEAS = "Ageas (Formerly Fortis)";
-	public static String AGEAS_SHORT = "Ageas%";
-	public static String ACCENTURE_CLIENT = "Accenture";
-	public static String SAGEMCOM = "Sagemcom";
-	public static String MICROPOLE = "Micropole";
-	public static String BELFIUS = "Belfius Insurance";
-	public static String AXELTIS = "Axeltis (Natixis group)";
-	public static String EULER_HERMES = "Euler Hermes";
-	public static String ARVAL = "Arval";
-	public static String LA_BANQUE_POSTALE = "La Banque Postale";
-	public static String SG = "Societe Generale Investment Banking";
+	public static final String CLIENT_TABLE =	"Client";
+	public static final String BARCLAYS = "Barclays";
+	public static final String AGEAS = "Ageas (Formerly Fortis)";
+	public static final String AGEAS_SHORT = "Ageas%";
+	public static final String ACCENTURE_CLIENT = "Accenture";
+	public static final String SAGEMCOM = "Sagemcom";
+	public static final String MICROPOLE = "Micropole";
+	public static final String BELFIUS = "Belfius Insurance";
+	public static final String AXELTIS = "Axeltis (Natixis group)";
+	public static final String EULER_HERMES = "Euler Hermes";
+	public static final String ARVAL = "Arval";
+	public static final String LA_BANQUE_POSTALE = "La Banque Postale";
+	public static final String SG = "Societe Generale Investment Banking";
 	/**END CLIENT*/	
-	public static String COURSE_TABLE = "COURSE";
-	public static String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
-	public static String SHORT_BW_6_COURSE = "BW618%";
-	public static String JAVA_WS = "Java Web Services";
+	public static final String COURSE_TABLE = "COURSE";
+	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
+	public static final String SHORT_BW_6_COURSE = "BW618%";
+	public static final String JAVA_WS = "Java Web Services";
 	/**END COURSE*/	
 	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT";
 	/**END EMPLOYMENT_CONTRACT*/	
@@ -114,33 +114,35 @@ public class Constants {
 	public static String LOCATION_TABLE = "LOCATION";
 	/**END LOCATION*/
 	/**PROJECT*/
-	public static String PROJECT_TABLE = "Project";
-	public static String ADIR = "ADIR";
-	public static String FORTIS = "FORTIS";
-	public static String DCSC = "DCSC";
-	public static String TED = "TED";
-	public static String PARCOURS = "PARCOURS";
-	public static String EOLIS = "EOLIS";
-	public static String AOS = "AOS";
-	public static String SHERPA = "SHERPA";
-	public static String SELENIUM = "SELENIUM";
-	public static String MORNINGSTAR = "MORNINGSTAR";
-	public static String CENTRE_DES_COMPETENCES = "CENTRE_DES_COMPETENCES";
-	public static String EUROCLEAR_VERS_CALYPSO = "EUROCLEAR_VERS_CALYPSO";
-	public static String VERSION_1 = "1.0";
-	public static String VERSION_2 = "2.0";
-	public static String VERSION_3 = "3.0";
+	public static final String PROJECT_TABLE = "Project";
+	public static final String ADIR = "ADIR";
+	public static final String FORTIS = "FORTIS";
+	public static final String DCSC = "DCSC";
+	public static final String TED = "TED";
+	public static final String PARCOURS = "PARCOURS";
+	public static final String EOLIS = "EOLIS";
+	public static final String AOS = "AOS";
+	public static final String SHERPA = "SHERPA";
+	public static final String SELENIUM = "SELENIUM";
+	public static final String MORNINGSTAR = "MORNINGSTAR";
+	public static final String CENTRE_DES_COMPETENCES = "CENTRE_DES_COMPETENCES";
+	public static final String EUROCLEAR_VERS_CALYPSO = "EUROCLEAR_VERS_CALYPSO";
+	public static final String VERSION_1 = "1.0";
+	public static final String VERSION_2 = "2.0";
+	public static final String VERSION_3 = "3.0";
+	public static final String PROJECT_DESC = "project desc.";
 	/**END PROJECT*/
 	/**SERVICE*/
-	public static String SERVICE_TABLE = "Service";
-	public static String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
-	public static String JAVA_INTEGRATION_DEVELOPPER = "Java Integration Developer";
-	public static String LIFERAY_DEVELOPPER = "Liferay Developer";
-	public static String J2EE_DEVELOPPER = "J2EE Developer";
-	public static String MULE_ESB_CONSULTANT = "Mule ESB Consultant";
-	public static String TIBCO_BW_CONSULTANT = "TIBCO Business Works Developer";
-	public static String DEVELOPER_WILDCARD = "%Developer";
-	public static String BUSINESS_WORKS_WILDCARD = "%Business Works%";
+	public static final String SERVICE_TABLE = "Service";
+	public static final String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
+	public static final String JAVA_INTEGRATION_DEVELOPPER = "Java Integration Developer";
+	public static final String LIFERAY_DEVELOPPER = "Liferay Developer";
+	public static final String J2EE_DEVELOPPER = "J2EE Developer";
+	public static final String MULE_ESB_CONSULTANT = "Mule ESB Consultant";
+	public static final String TIBCO_BW_CONSULTANT = "TIBCO Business Works Developer";
+	public static final String DEVELOPER_WILDCARD = "%Developer";
+	public static final String BUSINESS_WORKS_WILDCARD = "%Business Works%";
+	public static final String TEST_DESCRIPTION = "test description";
 	/**END SERVICE*/
 	/**SKILL*/
 	public static final String SKILL_TABLE = "Skill";
@@ -260,7 +262,6 @@ public class Constants {
 			
 	}
 
-	public static final String TEST_DESCRIPTION = "test description";
 	
 	private Constants() {
 		super();

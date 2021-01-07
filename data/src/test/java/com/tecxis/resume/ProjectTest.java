@@ -8,7 +8,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -84,20 +83,67 @@ public class ProjectTest {
 	
 	@Autowired
 	private Validator validator;
+	
 
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Client sagemcom = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);	
+		Project ted = ProjectTest.insertAProject(Constants.TED, Constants.VERSION_1, sagemcom, entityManager);
+		assertThat(ted.getId(), Matchers.greaterThan((long)0));		
+	}
+
+	@Test
+	public void testSetId() {
+		Project project = new Project();
+		assertEquals(0, project.getId());
+		project.setId(1);
+		assertEquals(1, project.getId());		
+	}	
+	
 	@Test
 	public void testGetDesc() {
-		fail("Not yet implemented");
+		Project project = new Project();
+		assertNull(project.getDesc());		
+	}
+	
+	@Test
+	public void testSetDesc() {
+		Project project = new Project();
+		assertNull(project.getDesc());
+		project.setDesc(Constants.PROJECT_DESC);
+		assertEquals(Constants.PROJECT_DESC,  project.getDesc());		
+	}
+	
+	@Test
+	public void testGetName() {
+		Project project = new Project();
+		assertNull(project.getName());		
 	}
 
 	@Test
-	public void testGetProjectId() {
-		fail("Not yet implemented");
+	public void testSetName() {
+		Project project = new Project();
+		assertNull(project.getName());		
+		project.setDesc(Constants.SAGEMCOM);
+		assertEquals(Constants.SAGEMCOM,  project.getDesc());
 	}
 
 	@Test
-	public void testSetProjectId() {
-		fail("Not yet implemented");
+	public void testGetVersion() {
+		Project project = new Project();
+		assertNull(project.getVersion());
+		
+	}
+
+	@Test
+	public void testSetVersion() {
+		Project project = new Project();
+		assertNull(project.getVersion());
+		project.setVersion(Constants.VERSION_1);
+		assertEquals(Constants.VERSION_1,  project.getVersion());		
 	}
 
 	@Test
@@ -173,11 +219,6 @@ public class ProjectTest {
 		
 		
 		
-	}
-
-	@Test
-	public void testSetDesc() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -913,25 +954,6 @@ public class ProjectTest {
 				
 	}
 
-	@Test
-	public void testGetName() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetName() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetVersion() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetVersion() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	@Sql(
@@ -1033,7 +1055,8 @@ public class ProjectTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		Project project = new Project ();
+		project.toString();		
 	}
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
