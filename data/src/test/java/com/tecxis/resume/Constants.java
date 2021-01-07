@@ -259,6 +259,8 @@ public class Constants {
 		}
 			
 	}
+
+	public static final String TEST_DESCRIPTION = "test description";
 	
 	private Constants() {
 		super();

@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -67,18 +66,51 @@ public class ServiceTest {
 	private Validator validator;
 	
 	@Test
-	public void testGetServiceId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Service service = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
+		assertThat(service.getId(), Matchers.greaterThan((long)0));
+		
+	}
+	
+	@Test
+	public void testSetId() {
+		Service service = new Service();
+		assertEquals(0, service.getId());
+		service.setId(1);
+		assertEquals(1, service.getId());
+		
 	}
 
 	@Test
 	public void testGetDesc() {
-		fail("Not yet implemented");
+		Service service = new Service();	
+		assertNull(service.getDesc()); 		
 	}
+	
+	@Test
+	public void testSetDesc() {
+		Service service = new Service();	
+		assertNull(service.getDesc());
+		service.setDesc(Constants.TEST_DESCRIPTION);
+		assertEquals(Constants.TEST_DESCRIPTION, service.getDesc());
+	}
+	
 
 	@Test
 	public void testGetName() {
-		fail("Not yet implemented");
+		Service service = new Service();	
+		assertNull(service.getName());		
+	}
+	
+	@Test
+	public void testSetName() {
+		Service service = new Service();	
+		assertNull(service.getName());
+		service.setDesc(Constants.MULE_ESB_CONSULTANT);
+		assertEquals(Constants.MULE_ESB_CONSULTANT, service.getDesc());		
 	}
 
 	
@@ -309,7 +341,8 @@ public class ServiceTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		Service service = new Service();
+		service.toString();
 	}
 
 	public static Service insertAService(String name, EntityManager entityManager) {
