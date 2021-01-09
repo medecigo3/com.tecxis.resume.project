@@ -111,18 +111,15 @@ public class InterestRepositoryTest {
 		InterestTest.insertAnInterest(Constants.RUNNING, entityManager);		
 		InterestTest.insertAnInterest(Constants.SWIMMING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		List <Interest> hobbyList = interestRepo.getInterestByDesc(Constants.HOBBY);
-		assertNotNull(hobbyList);
-		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestByDesc(Constants.RUNNING);
-		assertNotNull(hobbyList);
-		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.RUNNING, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestByDesc(Constants.SWIMMING);
-		assertNotNull(hobbyList);
-		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.SWIMMING, hobbyList.get(0).getDesc());
+		Interest hobby = interestRepo.getInterestByDesc(Constants.HOBBY);
+		assertNotNull(hobby);		
+		assertEquals(Constants.HOBBY, hobby.getDesc());
+		hobby = interestRepo.getInterestByDesc(Constants.RUNNING);
+		assertNotNull(hobby);		
+		assertEquals(Constants.RUNNING, hobby.getDesc());
+		hobby = interestRepo.getInterestByDesc(Constants.SWIMMING);
+		assertNotNull(hobby);		
+		assertEquals(Constants.SWIMMING, hobby.getDesc());
 		
 	}
 	

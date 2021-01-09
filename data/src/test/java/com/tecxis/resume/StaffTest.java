@@ -648,9 +648,8 @@ public class StaffTest {
 		assertEquals(belfius, johnContract.getClient());
 		
 		/**Test Interest -> Staff*/
-		List <Interest> johnInterests = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
-		assertEquals(1, johnInterests.size());
-		Interest johnInterest = johnInterests.get(0);
+		Interest johnInterest= interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		assertNotNull(johnInterest);		
 		assertEquals(john, johnInterest.getStaff());
 			
 		/**Detach entities*/		
@@ -698,9 +697,8 @@ public class StaffTest {
 		
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
-		johnInterests = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
-		assertEquals(1, johnInterests.size());
-		johnInterest = johnInterests.get(0);
+		johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		assertNotNull(johnInterest);		
 		assertNull(johnInterest.getStaff());
 		
 		
@@ -731,9 +729,8 @@ public class StaffTest {
 		
 				
 		/**Test Interest -> Staff*/
-		List <Interest> johnInterests = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
-		assertEquals(1, johnInterests.size());
-		Interest johnInterest = johnInterests.get(0);
+		Interest johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		assertNotNull(johnInterest);		
 		assertEquals(john, johnInterest.getStaff());
 			
 		/**Detach entities*/		
@@ -781,9 +778,8 @@ public class StaffTest {
 		
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
-		johnInterests = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
-		assertEquals(1, johnInterests.size());
-		johnInterest = johnInterests.get(0);
+		johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		assertNotNull(johnInterest);		
 		assertNull(johnInterest.getStaff());
 		
 	}

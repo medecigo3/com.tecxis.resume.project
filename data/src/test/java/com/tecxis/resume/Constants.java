@@ -109,6 +109,7 @@ public class Constants {
 	public static final String RUNNING = "Running";
 	public static final String SWIMMING = "Swimming";
 	public static final String JOHN_INTEREST = "Football soccer and running";
+	public static final String INTEREST_DESC = "interest desc.";
 	/**END INTEREST*/	
 	/**LOCATION*/
 	public static String LOCATION_TABLE = "LOCATION";
