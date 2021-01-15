@@ -2,8 +2,9 @@ package com.tecxis.resume;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -57,20 +58,60 @@ public class CourseTest {
 	private Validator validator;
 	
 	@Test
-	public void testGetCourseId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Course course = CourseTest.insertACourse(Constants.BW_6_COURSE, entityManager);
+		assertThat(course.getId(), Matchers.greaterThan((long)0));		
+	}
+	
+	@Test
+	public void testSetId() {
+		Course course = new Course();
+		assertEquals(0, course.getId());
+		course.setId(1);
+		assertEquals(1, course.getId());		
 	}
 
 	@Test
 	public void testGetCredits() {
-		fail("Not yet implemented");
+		Course course = new Course();
+		course.setCredits(1);
+		assertEquals(1, course.getCredits());
+		
+	}
+	
+	@Test
+	public void testSetCredits() {
+		Course course = new Course();
+		assertEquals(0,course.getCredits());
+		course.setCredits(1);
+		assertEquals(1, course.getCredits());
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetTitle() {
-		fail("Not yet implemented");
+		Course course = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
+		assertNotNull(course);		
+		assertEquals(Constants.BW_6_COURSE, course.getTitle());
+		
 	}
-
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testSetTitle() {
+		Course course = new Course();
+		assertNull(course.getTitle());
+		course.setTitle(Constants.BW_6_COURSE);
+		assertEquals(Constants.BW_6_COURSE,course.getTitle());	
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },

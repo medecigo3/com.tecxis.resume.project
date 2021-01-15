@@ -71,6 +71,7 @@ public class Course implements Serializable, StrongEntity {
 	
 	public Course() {
 		this.staffs = new ArrayList <> ();
+		this.credits = new Integer(0);
 	}
 
 	@Override
@@ -83,11 +84,11 @@ public class Course implements Serializable, StrongEntity {
 		this.id = id;
 	}
 
-	public Integer getCredits() {
+	public int getCredits() {
 		return this.credits;
 	}
 
-	public void setCredits(Integer credits) {
+	public void setCredits(int credits) {
 		this.credits = credits;
 	}
 
