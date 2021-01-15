@@ -101,6 +101,18 @@ public class Constants {
 	public static final String JAVA_WS = "Java Web Services";
 	/**END COURSE*/	
 	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT";
+	public static Date  AMT_ACCENTURE_EMPLOYMENT_STARTDATE;
+	public static Date  AMT_ACCENTURE_EMPLOYMENT_ENDDATE;
+	public static Date  AMT_AMESYS_EMPLOYMENT_STARTDATE;
+	public static Date  AMT_AMESYS_EMPLOYMENT_ENDDATE;
+	public static Date  AMT_FASTCONNECT_EMPLOYMENT_STARTDATE;
+	public static Date  AMT_FASTCONNECT_EMPLOYMENT_ENDDATE;
+	public static Date  AMT_ALTERNA_EMPLOYMENT_STARTDATE;
+	public static Date  AMT_ALTERNA_EMPLOYMENT_ENDDATE;
+	public static Date  AMT_ALPHATRESS_EMPLOYMENT_STARTDATE;
+	public static Date  AMT_ALPHATRESS_EMPLOYMENT_ENDDATE = null;
+	public static Date  JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
+	public static Date  JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
 	/**END EMPLOYMENT_CONTRACT*/	
 	final public static String ENROLMENT_TABLE = "ENROLMENT";
 	/**END ENROLMENT*/	
@@ -227,36 +239,51 @@ public class Constants {
 	/**END SUPPLIER*/
 	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat ddMMMyyyy = new   SimpleDateFormat("dd-MMM-yy");
 	static{
 		try {
-		Constants.CONTRACT1_STARTDATE = sdf.parse("01/01/2007");
-		Constants.CONTRACT1_ENDDATE = sdf.parse("01/02/2008'");
-		Constants.CONTRACT2_STARTDATE = sdf.parse("01/03/2008");
-		Constants.CONTRACT2_ENDDATE = sdf.parse("01/05/2008");
-		Constants.CONTRACT3_STARTDATE = sdf.parse("01/06/2008");
-		Constants.CONTRACT3_ENDDATE = sdf.parse("01/07/2008");
-		Constants.CONTRACT4_STARTDATE = sdf.parse("01/10/2008");
-		Constants.CONTRACT4_ENDDATE = sdf.parse("01/07/2010");
-		Constants.CONTRACT5_STARTDATE = sdf.parse("01/07/2010");
-		Constants.CONTRACT5_ENDDATE = sdf.parse("01/08/2010");
-		Constants.CONTRACT6_STARTDATE = sdf.parse("01/09/2010");
-		Constants.CONTRACT6_ENDDATE = sdf.parse("01/10/2010");
-		Constants.CONTRACT7_STARTDATE = sdf.parse("01/11/2010");
-		Constants.CONTRACT7_ENDDATE = sdf.parse("01/07/2012");
-		Constants.CONTRACT8_STARTDATE = sdf.parse("01/07/2012");
-		Constants.CONTRACT8_ENDDATE = sdf.parse("01/03/2013");
-		Constants.CONTRACT9_STARTDATE = sdf.parse("01/05/2013");
-		Constants.CONTRACT9_ENDDATE = sdf.parse("01/10/2013");
-		Constants.CONTRACT10_STARTDATE = sdf.parse("01/10/2013");
-		Constants.CONTRACT10_ENDDATE = sdf.parse("01/06/2015");
-		Constants.CONTRACT11_STARTDATE = sdf.parse("01/06/2015");
-		Constants.CONTRACT11_ENDDATE = sdf.parse("01/03/2016");
-		Constants.CONTRACT12_STARTDATE = sdf.parse("01/03/2016");
-		Constants.CONTRACT12_ENDDATE = sdf.parse("01/08/2016");
-		Constants.CONTRACT13_STARTDATE = sdf.parse("01/08/2016");
-		Constants.CONTRACT14_STARTDATE = sdf.parse("01/03/2017");
-		Constants.CONTRACT14_ENDDATE = sdf.parse("31/12/2019");
+			CONTRACT1_STARTDATE = sdf.parse("01/01/2007");
+			CONTRACT1_ENDDATE = sdf.parse("01/02/2008'");
+			CONTRACT2_STARTDATE = sdf.parse("01/03/2008");
+			CONTRACT2_ENDDATE = sdf.parse("01/05/2008");
+			CONTRACT3_STARTDATE = sdf.parse("01/06/2008");
+			CONTRACT3_ENDDATE = sdf.parse("01/07/2008");
+			CONTRACT4_STARTDATE = sdf.parse("01/10/2008");
+			CONTRACT4_ENDDATE = sdf.parse("01/07/2010");
+			CONTRACT5_STARTDATE = sdf.parse("01/07/2010");
+			CONTRACT5_ENDDATE = sdf.parse("01/08/2010");
+			CONTRACT6_STARTDATE = sdf.parse("01/09/2010");
+			CONTRACT6_ENDDATE = sdf.parse("01/10/2010");
+			CONTRACT7_STARTDATE = sdf.parse("01/11/2010");
+			CONTRACT7_ENDDATE = sdf.parse("01/07/2012");
+			CONTRACT8_STARTDATE = sdf.parse("01/07/2012");
+			CONTRACT8_ENDDATE = sdf.parse("01/03/2013");
+			CONTRACT9_STARTDATE = sdf.parse("01/05/2013");
+			CONTRACT9_ENDDATE = sdf.parse("01/10/2013");
+			CONTRACT10_STARTDATE = sdf.parse("01/10/2013");
+			CONTRACT10_ENDDATE = sdf.parse("01/06/2015");
+			CONTRACT11_STARTDATE = sdf.parse("01/06/2015");
+			CONTRACT11_ENDDATE = sdf.parse("01/03/2016");
+			CONTRACT12_STARTDATE = sdf.parse("01/03/2016");
+			CONTRACT12_ENDDATE = sdf.parse("01/08/2016");
+			CONTRACT13_STARTDATE = sdf.parse("01/08/2016");
+			CONTRACT14_STARTDATE = sdf.parse("01/03/2017");
+			CONTRACT14_ENDDATE = sdf.parse("31/12/2019");
+			
+			AMT_ACCENTURE_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-JAN-07");
+			AMT_ACCENTURE_EMPLOYMENT_ENDDATE = ddMMMyyyy.parse("01-JUL-08");
+			AMT_AMESYS_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-OCT-08");
+			AMT_AMESYS_EMPLOYMENT_ENDDATE = ddMMMyyyy.parse("01-JUL-10");
+			AMT_FASTCONNECT_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-JUL-10");
+			AMT_FASTCONNECT_EMPLOYMENT_ENDDATE = ddMMMyyyy.parse("01-JUN-15");
+			AMT_ALTERNA_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-JUN-15");
+			AMT_ALTERNA_EMPLOYMENT_ENDDATE = ddMMMyyyy.parse("01-AUG-16");
+			AMT_ALPHATRESS_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-AUG-16");			
+			JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE = ddMMMyyyy.parse("01-MAR-17");
+			JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE = ddMMMyyyy.parse("31-DEC-19");
 		}
+		
+		
 		catch (ParseException e) {
 			throw new IllegalArgumentException(e);
 		}

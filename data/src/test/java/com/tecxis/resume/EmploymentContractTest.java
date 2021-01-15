@@ -1,11 +1,15 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.Constants.AMT_ALTERNA_EMPLOYMENT_ENDDATE;
+import static com.tecxis.resume.Constants.AMT_ALTERNA_EMPLOYMENT_STARTDATE;
+import static com.tecxis.resume.Constants.JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
+import static com.tecxis.resume.Constants.JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.Date;
@@ -68,23 +72,69 @@ public class EmploymentContractTest {
 	private Validator validator;
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
+		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		assertNotNull(alterna);
+		assertNotNull(amt);
+		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
+		assertThat(alternaAmtEmploymentContract.getId(), Matchers.greaterThan((long)0));
+	}
+	
+	@Test
+	public void testSetId() {
+		EmploymentContract employmentContract = new EmploymentContract();
+		assertEquals(0, employmentContract.getId());
+		employmentContract.setId(1);
+		assertEquals(1, employmentContract.getId());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStartDate(){
-		fail("Not yet implemented");
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
+		assertEquals(JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE, johnAlhpatressEmploymentContract.getStartDate());
+
 	}
 	
 	@Test
 	public void testSetStartDate(){
-		fail("Not yet implemented");
+		EmploymentContract employmentContract = new EmploymentContract();
+		assertNull(employmentContract.getStartDate());
+		employmentContract.setStartDate(AMT_ALTERNA_EMPLOYMENT_STARTDATE);
+		assertEquals(AMT_ALTERNA_EMPLOYMENT_STARTDATE, employmentContract.getStartDate());
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetEndDate(){
-		fail("Not yet implemented");
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
+		assertEquals(1, johnAlhpatressEmploymentContracts.size());
+		
+		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
+		assertEquals(JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE, johnAlhpatressEmploymentContract.getEndDate());
 	}
 	
 	@Test
 	public void testSetEndDate(){
-		fail("Not yet implemented");
+		EmploymentContract employmentContract = new EmploymentContract();
+		assertNull(employmentContract.getEndDate());
+		employmentContract.setEndDate(AMT_ALTERNA_EMPLOYMENT_ENDDATE);
+		assertEquals(AMT_ALTERNA_EMPLOYMENT_ENDDATE, employmentContract.getEndDate());
 	}
 	
 	@Test
