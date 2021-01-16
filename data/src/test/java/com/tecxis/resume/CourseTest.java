@@ -78,16 +78,17 @@ public class CourseTest {
 	public void testGetCredits() {
 		Course course = new Course();
 		course.setCredits(1);
-		assertEquals(1, course.getCredits());
+		assertEquals(new Integer(1), course.getCredits());
 		
 	}
 	
 	@Test
 	public void testSetCredits() {
 		Course course = new Course();
-		assertEquals(0,course.getCredits());
-		course.setCredits(1);
-		assertEquals(1, course.getCredits());
+		assertNull(course.getCredits());
+		Integer credits = new Integer(1);
+		course.setCredits(credits);
+		assertEquals(credits, course.getCredits());
 	}
 
 	@Test
