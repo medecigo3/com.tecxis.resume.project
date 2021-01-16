@@ -1,12 +1,13 @@
 package com.tecxis.resume;
 
+import static com.tecxis.resume.Constants.BELGIUM;
+import static com.tecxis.resume.Constants.BRUSSELS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -75,13 +76,39 @@ public class CityTest {
 	private Validator validator;
 	
 	@Test
-	public void testGetCityId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
+		City city = insertACity(BRUSSELS, belgium, entityManager);
+		assertThat(city.getId(), Matchers.greaterThan((long)0));		
 	}
 
 	@Test
-	public void testSetCityId() {
-		fail("Not yet implemented");
+	public void testSetId() {
+		City city = new City();
+		assertEquals(0, city.getId());
+		city.setId(1);
+		assertEquals(1, city.getId());		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetName() {
+		City city = cityRepo.getCityByName(BRUSSELS);
+		assertEquals(BRUSSELS, city.getName());		
+	}
+
+	@Test
+	public void testSetName() {
+		City city = new City();
+		assertNull(city.getName());
+		city.setName(BRUSSELS);
+		assertEquals(BRUSSELS, city.getName());
+		
 	}
 
 	@Test
@@ -416,16 +443,6 @@ public class CityTest {
 		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, london));
 		
 	}	
-
-	@Test
-	public void testGetName() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetName() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	@Sql(
