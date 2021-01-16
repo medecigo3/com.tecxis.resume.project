@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -60,10 +59,12 @@ public class StaffRepositoryTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)public void testGetStaffByFirstNameAndLastName() {
-		fail("TODO");
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
 	}
 	
 	@Test
