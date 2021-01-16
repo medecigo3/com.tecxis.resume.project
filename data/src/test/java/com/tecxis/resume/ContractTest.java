@@ -1,4 +1,5 @@
 package com.tecxis.resume;
+import static com.tecxis.resume.Constants.ALPHATRESS;
 import static com.tecxis.resume.Constants.sdf;
 import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -6,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.text.ParseException;
@@ -85,6 +85,25 @@ public class ContractTest {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);	
+		Contract contract = ContractTest.insertAContract(axeltis, Constants.CONTRACT9_NAME, entityManager);
+		assertThat(contract.getId(), Matchers.greaterThan((long)0));
+	}
+	
+	@Test
+	public void testSetId() {
+		Contract contract = new Contract();
+		assertEquals(0, contract.getId());
+		contract.setId(1);
+		assertEquals(1, contract.getId());
+	}
+
 
 	@Test
 	@Sql(
@@ -303,35 +322,28 @@ public class ContractTest {
 	}
 	
 	@Test
-	public void testGetSupplyContracts() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSupplyContracts() {		
+		/**Find target contract*/			
+		Contract belfiusAlphatressContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
+		assertNotNull(belfiusAlphatressContract);
+		
+		/**Find target SupplyContracts*/
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
+		assertNotNull(alphatress);
+		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(belfiusAlphatressContract, alphatress);
+		assertEquals(2, belfiusAlphatressContract.getSupplyContracts().size());
+		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(0);
+		SupplyContract belfiusAlphatressSupplyContract2 = belfiusAlphatressSupplyContracts.get(0);
+		
+		
+		/**Validate Contract -> SupplyContract*/
+		List<SupplyContract> belfiusSupplyContracts = belfiusAlphatressContract.getSupplyContracts();
+		assertEquals(2, belfiusSupplyContracts.size());
+		assertThat(belfiusSupplyContracts, Matchers.hasItems(belfiusAlphatressSupplyContract1, belfiusAlphatressSupplyContract2));		
 	}
-
-	@Test
-	public void testGetServiceId() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetContractId() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetStaffId() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetEndDate() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetStartDate() {
-		fail("Not yet implemented");
-	}
-
 		
 	@Test
 	@Sql(
