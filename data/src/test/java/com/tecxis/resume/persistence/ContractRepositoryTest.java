@@ -60,8 +60,8 @@ public class ContractRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		Client accenture = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
-		Contract accentureContract = ContractTest.insertAContract(accenture, Constants.CONTRACT1_NAME, entityManager);		
+		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
+		Contract accentureContract = ContractTest.insertAContract(axeltis, Constants.CONTRACT1_NAME, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(1, accentureContract.getId());
 	}
@@ -83,8 +83,8 @@ public class ContractRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.EULER_HERMES, entityManager);	
-		Contract tempContract = ContractTest.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
+		Client eh = ClientTest.insertAClient(Constants.EULER_HERMES, entityManager);	
+		Contract tempContract = ContractTest.insertAContract(eh, Constants.CONTRACT1_NAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByName(Constants.CONTRACT1_NAME));
