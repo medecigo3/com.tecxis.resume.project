@@ -94,6 +94,7 @@ public class Constants {
 	public static final String ARVAL = "Arval";
 	public static final String LA_BANQUE_POSTALE = "La Banque Postale";
 	public static final String SG = "Societe Generale Investment Banking";
+	public static final String SG_WEBSITE = "www.sg.fr";
 	/**END CLIENT*/	
 	public static final String COURSE_TABLE = "COURSE";
 	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
@@ -67,18 +66,54 @@ public class ClientTest {
 	private Validator validator;
 	
 	@Test
-	public void testGetClientId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {			
+		Client client = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);
+		assertThat(client.getId(), Matchers.greaterThan((long)0));		
+	}
+	
+	@Test
+	public void testSetId() {
+		Client client = new Client();
+		assertEquals(0, client.getId());
+		client.setId(1);
+		assertEquals(1, client.getId());		
 	}
 
 	@Test
-	public void testGetName() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testGetName() {		
+		Client client = clientRepo.getClientByName(Constants.BELFIUS);
+		assertEquals(Constants.BELFIUS, client.getName());		
+	}
+	
+	@Test
+	public void testSetName() {
+		Client client = new Client();
+		assertNull(client.getName());
+		client.setName(Constants.BELFIUS);
+		assertEquals(Constants.BELFIUS, client.getName());		
+		
 	}
 
 	@Test
 	public void testGetWebsite() {
-		fail("Not yet implemented");
+		Client client = new Client();
+		assertNull(client.getWebsite());
+		client.setWebsite(Constants.SG_WEBSITE);
+		assertEquals(Constants.SG_WEBSITE, client.getWebsite());	
+	}
+	
+	@Test
+	public void testSetWebsite() {
+		Client client = new Client();
+		assertNull(client.getWebsite());
+		client.setWebsite(Constants.SG_WEBSITE);
+		assertEquals(Constants.SG_WEBSITE, client.getWebsite());
 	}
 
 	@Test
@@ -235,7 +270,8 @@ public class ClientTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		Client client = new Client();
+		client.toString();
 	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {
