@@ -2,8 +2,8 @@ package com.tecxis.resume;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -51,13 +51,39 @@ public class CountryTest {
 	private Validator validator;
 	
 	@Test
-	public void testGetCountryId() {
-		fail("Not yet implemented");
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {
+		Country country = CountryTest.insertACountry("United Kingdom", entityManager);
+		assertThat(country.getId(), Matchers.greaterThan((long)0));
+		
+	}
+	
+	@Test
+	public void testSetId() {
+		Country country = new Country();
+		assertEquals(0, country.getId());
+		country.setId(1);
+		assertEquals(1, country.getId());		
 	}
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		fail("Not yet implemented");
+		Country france = countryRepo.getCountryByName(Constants.FRANCE);
+		assertEquals(Constants.FRANCE, france.getName());
+	}
+	
+	@Test
+	public void testSetName() {
+		Country country = new Country();
+		assertNull(country.getName());
+		country.setName(Constants.BELGIUM);
+		assertEquals(Constants.BELGIUM, country.getName());	
+		
 	}
 
 	@Test
@@ -131,7 +157,8 @@ public class CountryTest {
 	
 	@Test
 	public void testToString() {
-		fail("TODO");
+		Country country = new Country();
+		country.toString();
 	}
 
 	public static Country insertACountry(String name, EntityManager entityManager) {
