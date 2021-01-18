@@ -14,6 +14,8 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
@@ -147,5 +149,14 @@ public class ServiceRepositoryTest {
 		assertEquals(6, serviceRepo.count());
 		List <Service> services = serviceRepo.findAll();
 		assertEquals(6, services.size());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Service> pageableService = serviceRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableService.getSize());
 	}
 }

@@ -15,6 +15,8 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
@@ -149,5 +151,12 @@ public class ContractRepositoryTest {
 		assertEquals(13, contracts.size());
 	}
 	
-	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Contract> pageableContract = contractRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableContract.getSize());
+	}
 }
