@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<artifactId>services</artifactId>	
+	<artifactId>resume-domain-plain</artifactId>	
 	<packaging>jar</packaging>
 	
 	<parent>
@@ -13,8 +13,8 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<name>services</name>
-	<description>Resume business model service layer</description>
+	<name>resume-domain-plain</name>
+	<description>Resume domain model definition layer</description>
 	
 	<dependencies>
 		<dependency>
@@ -30,12 +30,25 @@
 			<artifactId>spring-orm</artifactId>				
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.fusesource.jansi</groupId>
+		    <artifactId>jansi</artifactId>
+		    <scope>runtime</scope>
 		</dependency>
 		<!-- Spring UnitTests use slf4j with log4j 1.2 configured by log4j.properties -->
 		<dependency>
@@ -46,6 +59,43 @@
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-log4j12</artifactId>
 		</dependency>
+		<!-- Reflection tools lib -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>  
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<!-- END hibernate -->
+		<!-- JPA -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>					
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>			
+		</dependency>
+		<!-- END JPA -->
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -72,6 +122,29 @@
             <scope>test</scope>
         </dependency>	
         -->
+		<!-- Validation API-->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		</dependency>
+		<!-- Validation API implementation -->
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator-annotation-processor</artifactId>
+		</dependency>
+		<!-- Expression Language dependencies -->
+		<dependency>
+		    <groupId>javax.el</groupId>
+		    <artifactId>javax.el-api</artifactId>
+		</dependency>			 
+		<dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>javax.el</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

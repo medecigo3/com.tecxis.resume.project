@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<artifactId>services</artifactId>	
+	<artifactId>resume-persistence-common</artifactId>	
 	<packaging>jar</packaging>
 	
 	<parent>
@@ -13,8 +13,8 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<name>services</name>
-	<description>Resume business model service layer</description>
+	<name>resume-persistence-common</name>
+	<description>Resume common persistence definition layer</description>
 	
 	<dependencies>
 		<dependency>
