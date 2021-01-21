@@ -25,9 +25,7 @@
 
 	<modules>
 		<module>data</module>
-		<!--
 		<module>services</module>
-		-->
 		<module>web</module>
 	</modules>
 	<dependencyManagement>
