@@ -23,10 +23,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.EnrolmentId;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.id.EnrolmentId;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EnrolmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;

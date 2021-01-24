@@ -21,12 +21,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.LocationId;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.id.LocationId;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;

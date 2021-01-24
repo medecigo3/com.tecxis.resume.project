@@ -1,4 +1,4 @@
-package com.tecxis.commons.persistence.id;
+package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 import java.util.Properties;

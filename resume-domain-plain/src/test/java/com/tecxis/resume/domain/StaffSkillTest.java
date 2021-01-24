@@ -23,10 +23,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.StaffSkillId;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffSkill;
+import com.tecxis.resume.domain.id.StaffSkillId;
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;

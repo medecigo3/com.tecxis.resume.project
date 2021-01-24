@@ -1,4 +1,4 @@
-package com.tecxis.commons.persistence.id;
+package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ public class ProjectId implements Serializable {
 
 	@Id
 	@Column(name="PROJECT_ID")	
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
 	 parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

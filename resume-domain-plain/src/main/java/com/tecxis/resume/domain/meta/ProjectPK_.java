@@ -4,7 +4,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import com.tecxis.commons.persistence.id.ProjectId;
+import com.tecxis.resume.domain.id.ProjectId;
 
 @Generated(value="Dali", date="2018-07-20T21:52:58.806+0200")
 @StaticMetamodel(ProjectId.class)

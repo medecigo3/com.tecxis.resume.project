@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tecxis.commons.persistence.id.EnrolmentId;
+import com.tecxis.resume.domain.id.EnrolmentId;
 
 /**
  * The persistent class for the ENROLMENT database table.

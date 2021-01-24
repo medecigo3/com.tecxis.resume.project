@@ -26,12 +26,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffProjectAssignment;
+import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;

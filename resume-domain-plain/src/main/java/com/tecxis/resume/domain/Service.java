@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 
 
 /**
@@ -33,7 +33,7 @@ public class Service implements Serializable, StrongEntity {
 	
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="SERVICE_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="SERVICE_SEQ", 
 	 parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

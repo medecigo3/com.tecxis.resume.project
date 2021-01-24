@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
+import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 
 /**
  * The persistent class for the STAFF_ASSIGNMENT database table.

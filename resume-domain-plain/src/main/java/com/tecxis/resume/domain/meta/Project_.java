@@ -5,12 +5,12 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import com.tecxis.commons.persistence.id.ProjectId;
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.id.ProjectId;
 
 @Generated(value="Dali", date="2018-07-20T21:52:58.803+0200")
 @StaticMetamodel(Project.class)

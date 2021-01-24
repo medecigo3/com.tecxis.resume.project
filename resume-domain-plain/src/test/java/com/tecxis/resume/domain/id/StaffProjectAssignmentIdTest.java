@@ -1,6 +1,8 @@
-package com.tecxis.commons.persistence.id;
+package com.tecxis.resume.domain.id;
 
 import org.junit.Test;
+
+import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 
 public class StaffProjectAssignmentIdTest {
 

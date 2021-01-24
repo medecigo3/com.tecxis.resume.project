@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 
 
 /**
@@ -30,7 +30,7 @@ public class Country implements Serializable, StrongEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="COUNTRY_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="COUNTRY_SEQ", 
 	 parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

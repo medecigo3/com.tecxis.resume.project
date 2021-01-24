@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
+import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 
 /**
  * 

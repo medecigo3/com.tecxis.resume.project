@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tecxis.commons.persistence.id.EmploymentContractId;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.id.EmploymentContractId;
 
 public interface EmploymentContractRepository extends JpaRepository<EmploymentContract, EmploymentContractId> {
 	

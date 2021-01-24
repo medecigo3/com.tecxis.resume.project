@@ -23,13 +23,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.EmploymentContractId;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffTest;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplierTest;
+import com.tecxis.resume.domain.id.EmploymentContractId;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;

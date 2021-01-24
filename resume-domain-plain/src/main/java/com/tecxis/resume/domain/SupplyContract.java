@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import com.tecxis.commons.persistence.id.SupplyContractId;
+import com.tecxis.resume.domain.id.SupplyContractId;
 
 /**
  * The persistent class for SUPPLY_CONTRACT database table.

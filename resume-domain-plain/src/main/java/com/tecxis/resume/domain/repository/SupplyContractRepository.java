@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.id.SupplyContractId;
 
 public interface SupplyContractRepository extends JpaRepository<SupplyContract, SupplyContractId> {
 	

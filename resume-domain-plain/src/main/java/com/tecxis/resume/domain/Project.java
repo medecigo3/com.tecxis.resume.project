@@ -25,8 +25,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.commons.persistence.id.CustomSequenceGenerator;
-import com.tecxis.commons.persistence.id.ProjectId;
+import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.ProjectId;
 
 
 /**
@@ -41,7 +41,7 @@ public class Project implements Serializable, StrongEntity {
 
 	@Id
 	@Column(name="PROJECT_ID")	
-	@GenericGenerator(strategy="com.tecxis.commons.persistence.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
 	 parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

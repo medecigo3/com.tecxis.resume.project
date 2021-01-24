@@ -39,7 +39,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.commons.persistence.id.SupplyContractId;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.ClientTest;
 import com.tecxis.resume.domain.Constants;
@@ -50,6 +49,7 @@ import com.tecxis.resume.domain.StaffTest;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplierTest;
 import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.id.SupplyContractId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
