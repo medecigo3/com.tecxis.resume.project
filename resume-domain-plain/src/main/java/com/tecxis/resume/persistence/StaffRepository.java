@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.tecxis.resume.Project;
-import com.tecxis.resume.Staff;
+import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.Staff;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 

@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.EmploymentContractTest.insertEmploymentContract;
+import static com.tecxis.resume.domain.EmploymentContractTest.insertEmploymentContract;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -24,12 +24,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.EmploymentContractId;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.EmploymentContract;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.StaffTest;
-import com.tecxis.resume.Supplier;
-import com.tecxis.resume.SupplierTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.EmploymentContract;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.StaffTest;
+import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.SupplierTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

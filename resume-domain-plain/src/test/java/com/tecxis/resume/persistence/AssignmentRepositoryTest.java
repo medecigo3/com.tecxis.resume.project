@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.AssignmentTest.insertAssignment;
+import static com.tecxis.resume.domain.AssignmentTest.insertAssignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -27,8 +27,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Assignment;
-import com.tecxis.resume.Constants;
+import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.Constants;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

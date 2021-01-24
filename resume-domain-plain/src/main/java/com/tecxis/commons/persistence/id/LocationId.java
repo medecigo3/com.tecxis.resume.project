@@ -7,10 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.tecxis.resume.City;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.Country;
-import com.tecxis.resume.Project;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.Project;
 
 public class LocationId implements Serializable {
 	

@@ -11,7 +11,7 @@ import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 
-import com.tecxis.resume.StrongEntity;
+import com.tecxis.resume.domain.StrongEntity;
 
 public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	

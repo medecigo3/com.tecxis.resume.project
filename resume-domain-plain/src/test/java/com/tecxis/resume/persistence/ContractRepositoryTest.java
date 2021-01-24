@@ -27,11 +27,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.ContractId;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.ClientTest;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractTest;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.ClientTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.ContractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

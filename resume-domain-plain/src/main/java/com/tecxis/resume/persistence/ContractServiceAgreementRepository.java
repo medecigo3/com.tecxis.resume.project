@@ -3,9 +3,9 @@ package com.tecxis.resume.persistence;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractServiceAgreement;
-import com.tecxis.resume.Service;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.ContractServiceAgreement;
+import com.tecxis.resume.domain.Service;
 
 public interface ContractServiceAgreementRepository extends JpaRepository<ContractServiceAgreement, ContractServiceAgreementId> {
 	

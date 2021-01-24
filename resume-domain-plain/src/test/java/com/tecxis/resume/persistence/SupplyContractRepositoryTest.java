@@ -1,19 +1,19 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.Constants.ALPHATRESS;
-import static com.tecxis.resume.Constants.AXELTIS;
-import static com.tecxis.resume.Constants.CONTRACT13_ENDDATE;
-import static com.tecxis.resume.Constants.CONTRACT13_NAME;
-import static com.tecxis.resume.Constants.CONTRACT13_STARTDATE;
-import static com.tecxis.resume.Constants.CONTRACT14_ENDDATE;
-import static com.tecxis.resume.Constants.CONTRACT14_STARTDATE;
-import static com.tecxis.resume.Constants.CONTRACT1_STARTDATE;
-import static com.tecxis.resume.Constants.CONTRACT7_ENDDATE;
-import static com.tecxis.resume.Constants.CONTRACT7_STARTDATE;
-import static com.tecxis.resume.Constants.CONTRACT9_ENDDATE;
-import static com.tecxis.resume.Constants.CONTRACT9_STARTDATE;
-import static com.tecxis.resume.Constants.FASTCONNECT;
-import static com.tecxis.resume.SupplyContractTest.insertASupplyContract;
+import static com.tecxis.resume.domain.Constants.ALPHATRESS;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT14_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT14_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT7_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT9_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT9_STARTDATE;
+import static com.tecxis.resume.domain.Constants.FASTCONNECT;
+import static com.tecxis.resume.domain.SupplyContractTest.insertASupplyContract;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -40,16 +40,16 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.SupplyContractId;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.ClientTest;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractTest;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.StaffTest;
-import com.tecxis.resume.Supplier;
-import com.tecxis.resume.SupplierTest;
-import com.tecxis.resume.SupplyContract;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.ClientTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.ContractTest;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.StaffTest;
+import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.SupplierTest;
+import com.tecxis.resume.domain.SupplyContract;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

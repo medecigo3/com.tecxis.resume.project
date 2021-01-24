@@ -27,12 +27,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.Supplier;
-import com.tecxis.resume.SupplierTest;
-import com.tecxis.resume.SupplyContract;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.SupplierTest;
+import com.tecxis.resume.domain.SupplyContract;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

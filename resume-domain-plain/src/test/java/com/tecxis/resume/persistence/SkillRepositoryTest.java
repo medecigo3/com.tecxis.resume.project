@@ -24,9 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Skill;
-import com.tecxis.resume.SkillTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Skill;
+import com.tecxis.resume.domain.SkillTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

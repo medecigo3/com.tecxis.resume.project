@@ -1,7 +1,7 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.Constants.ENROLMENT_TABLE;
-import static com.tecxis.resume.StaffTest.insertAStaff;
+import static com.tecxis.resume.domain.Constants.ENROLMENT_TABLE;
+import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -31,10 +31,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Course;
-import com.tecxis.resume.Project;
-import com.tecxis.resume.Staff;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Course;
+import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.Staff;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

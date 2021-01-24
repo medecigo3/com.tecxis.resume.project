@@ -2,7 +2,7 @@ package com.tecxis.resume.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tecxis.resume.Skill;
+import com.tecxis.resume.domain.Skill;
 
 public interface SkillRepository extends JpaRepository<Skill, Long> {
 

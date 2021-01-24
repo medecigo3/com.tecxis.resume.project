@@ -1,8 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.AssignmentTest.insertAssignment;
-import static com.tecxis.resume.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
-import static com.tecxis.resume.StaffTest.insertAStaff;
+import static com.tecxis.resume.domain.AssignmentTest.insertAssignment;
+import static com.tecxis.resume.domain.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
+import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,14 +28,14 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.StaffProjectAssignmentId;
-import com.tecxis.resume.Assignment;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.ClientTest;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Project;
-import com.tecxis.resume.ProjectTest;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.StaffProjectAssignment;
+import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.ClientTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.ProjectTest;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.StaffProjectAssignment;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

@@ -1,7 +1,7 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.StaffSkillTest.insertAStaffSkill;
-import static com.tecxis.resume.StaffTest.insertAStaff;
+import static com.tecxis.resume.domain.StaffSkillTest.insertAStaffSkill;
+import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -26,11 +26,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.StaffSkillId;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Skill;
-import com.tecxis.resume.SkillTest;
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.StaffSkill;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Skill;
+import com.tecxis.resume.domain.SkillTest;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.StaffSkill;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

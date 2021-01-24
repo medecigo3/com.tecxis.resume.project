@@ -1,14 +1,14 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.CityTest.insertACity;
-import static com.tecxis.resume.Constants.BELGIUM;
-import static com.tecxis.resume.Constants.BRUSSELS;
-import static com.tecxis.resume.Constants.CITY_TABLE;
-import static com.tecxis.resume.Constants.COUNTRY_TABLE;
-import static com.tecxis.resume.Constants.FRANCE;
-import static com.tecxis.resume.Constants.LONDON;
-import static com.tecxis.resume.Constants.PARIS;
-import static com.tecxis.resume.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.CityTest.insertACity;
+import static com.tecxis.resume.domain.Constants.BELGIUM;
+import static com.tecxis.resume.domain.Constants.BRUSSELS;
+import static com.tecxis.resume.domain.Constants.CITY_TABLE;
+import static com.tecxis.resume.domain.Constants.COUNTRY_TABLE;
+import static com.tecxis.resume.domain.Constants.FRANCE;
+import static com.tecxis.resume.domain.Constants.LONDON;
+import static com.tecxis.resume.domain.Constants.PARIS;
+import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -33,9 +33,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.City;
-import com.tecxis.resume.Country;
-import com.tecxis.resume.CountryTest;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.CountryTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

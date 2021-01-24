@@ -1,6 +1,6 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.CityTest.insertACity;
+import static com.tecxis.resume.domain.CityTest.insertACity;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -24,16 +24,16 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.LocationId;
-import com.tecxis.resume.City;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.ClientTest;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Country;
-import com.tecxis.resume.CountryTest;
-import com.tecxis.resume.Location;
-import com.tecxis.resume.LocationTest;
-import com.tecxis.resume.Project;
-import com.tecxis.resume.ProjectTest;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.ClientTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.CountryTest;
+import com.tecxis.resume.domain.Location;
+import com.tecxis.resume.domain.LocationTest;
+import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.ProjectTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

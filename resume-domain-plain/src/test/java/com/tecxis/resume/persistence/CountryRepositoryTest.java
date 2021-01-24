@@ -25,10 +25,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.City;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Country;
-import com.tecxis.resume.CountryTest;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.CountryTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

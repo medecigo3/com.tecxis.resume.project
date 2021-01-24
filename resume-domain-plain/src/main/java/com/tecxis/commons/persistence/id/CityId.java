@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.Country;
+import com.tecxis.resume.domain.Country;
 
 public class CityId implements Serializable {
 	private static final long serialVersionUID = 1L;

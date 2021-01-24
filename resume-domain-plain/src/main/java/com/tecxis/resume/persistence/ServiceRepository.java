@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.tecxis.resume.Service;
+import com.tecxis.resume.domain.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
 

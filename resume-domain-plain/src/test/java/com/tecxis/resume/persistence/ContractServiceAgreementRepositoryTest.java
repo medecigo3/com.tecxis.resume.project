@@ -24,15 +24,15 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.commons.persistence.id.ContractServiceAgreementId;
-import com.tecxis.resume.Client;
-import com.tecxis.resume.ClientTest;
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.ContractServiceAgreement;
-import com.tecxis.resume.ContractServiceAgreementTest;
-import com.tecxis.resume.ContractTest;
-import com.tecxis.resume.Service;
-import com.tecxis.resume.ServiceTest;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.ClientTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.ContractServiceAgreement;
+import com.tecxis.resume.domain.ContractServiceAgreementTest;
+import com.tecxis.resume.domain.ContractTest;
+import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.ServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

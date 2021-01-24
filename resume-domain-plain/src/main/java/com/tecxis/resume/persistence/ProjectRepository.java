@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.tecxis.resume.Project;
+import com.tecxis.resume.domain.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 

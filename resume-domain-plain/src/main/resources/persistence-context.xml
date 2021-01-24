@@ -50,10 +50,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	</bean>
 
 	<!-- Component annotation scan -->
-	<context:component-scan base-package="com.habuma.spitter.persistence" />
-	<context:component-scan base-package="com.tecxis.resume.persistence" />
-	
-	<jpa:repositories base-package="com.habuma.spitter.persistence" />
+	<context:component-scan base-package="com.tecxis.resume.domain" />
 	<jpa:repositories base-package="com.tecxis.resume.persistence" />
 	
 	

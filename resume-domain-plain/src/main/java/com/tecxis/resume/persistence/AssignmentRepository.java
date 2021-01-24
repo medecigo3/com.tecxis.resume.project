@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.tecxis.resume.Assignment;
+import com.tecxis.resume.domain.Assignment;
 
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 

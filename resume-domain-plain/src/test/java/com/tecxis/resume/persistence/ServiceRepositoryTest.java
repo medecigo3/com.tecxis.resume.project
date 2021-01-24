@@ -25,9 +25,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.Constants;
-import com.tecxis.resume.Service;
-import com.tecxis.resume.ServiceTest;
+import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.ServiceTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

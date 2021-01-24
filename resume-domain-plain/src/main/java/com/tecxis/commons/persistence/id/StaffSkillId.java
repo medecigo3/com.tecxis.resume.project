@@ -6,8 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.tecxis.resume.Skill;
-import com.tecxis.resume.Staff;
+import com.tecxis.resume.domain.Skill;
+import com.tecxis.resume.domain.Staff;
 
 public class StaffSkillId implements Serializable {
 	

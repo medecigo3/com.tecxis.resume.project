@@ -7,8 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.tecxis.resume.Contract;
-import com.tecxis.resume.Service;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.Service;
 
 public class ContractServiceAgreementId implements Serializable{
 

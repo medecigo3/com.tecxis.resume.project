@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.Staff;
-import com.tecxis.resume.Supplier;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.Supplier;
 
 public class EmploymentContractId implements Serializable {
 	private static final long serialVersionUID = 1L;

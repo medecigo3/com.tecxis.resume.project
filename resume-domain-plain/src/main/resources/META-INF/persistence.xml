@@ -5,25 +5,25 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
    version="2.1">
    <persistence-unit name="ResumePU" transaction-type="RESOURCE_LOCAL">
    	<mapping-file>META-INF/orm.xml</mapping-file>
-  		<class>com.tecxis.resume.Assignment</class>	
-		<class>com.tecxis.resume.City</class>		
-		<class>com.tecxis.resume.Client</class>
-		<class>com.tecxis.resume.Contract</class>		
-		<class>com.tecxis.resume.Country</class>
-		<class>com.tecxis.resume.Course</class>		
-		<class>com.tecxis.resume.Interest</class>
-		<class>com.tecxis.resume.Project</class>		
-		<class>com.tecxis.resume.Service</class>
-		<class>com.tecxis.resume.Skill</class>
-		<class>com.tecxis.resume.Staff</class>		
-		<class>com.tecxis.resume.Supplier</class>
-		<class>com.tecxis.resume.ContractServiceAgreement</class>
-		<class>com.tecxis.resume.EmploymentContract</class>
-		<class>com.tecxis.resume.Enrolment</class>
-		<class>com.tecxis.resume.Location</class>
-		<class>com.tecxis.resume.StaffProjectAssignment</class>
-		<class>com.tecxis.resume.StaffSkill</class>
-		<class>com.tecxis.resume.SupplyContract</class>		
+  		<class>com.tecxis.resume.domain.Assignment</class>	
+		<class>com.tecxis.resume.domain.City</class>		
+		<class>com.tecxis.resume.domain.Client</class>
+		<class>com.tecxis.resume.domain.Contract</class>		
+		<class>com.tecxis.resume.domain.Country</class>
+		<class>com.tecxis.resume.domain.Course</class>		
+		<class>com.tecxis.resume.domain.Interest</class>
+		<class>com.tecxis.resume.domain.Project</class>		
+		<class>com.tecxis.resume.domain.Service</class>
+		<class>com.tecxis.resume.domain.Skill</class>
+		<class>com.tecxis.resume.domain.Staff</class>		
+		<class>com.tecxis.resume.domain.Supplier</class>
+		<class>com.tecxis.resume.domain.ContractServiceAgreement</class>
+		<class>com.tecxis.resume.domain.EmploymentContract</class>
+		<class>com.tecxis.resume.domain.Enrolment</class>
+		<class>com.tecxis.resume.domain.Location</class>
+		<class>com.tecxis.resume.domain.StaffProjectAssignment</class>
+		<class>com.tecxis.resume.domain.StaffSkill</class>
+		<class>com.tecxis.resume.domain.SupplyContract</class>		
       <properties>
       </properties>
    </persistence-unit>
