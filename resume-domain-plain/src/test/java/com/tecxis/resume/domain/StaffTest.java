@@ -1,8 +1,8 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
-import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -49,15 +49,15 @@ import com.tecxis.resume.domain.StaffProjectAssignment;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.persistence.AssignmentRepository;
-import com.tecxis.resume.persistence.ClientRepository;
-import com.tecxis.resume.persistence.EmploymentContractRepository;
-import com.tecxis.resume.persistence.InterestRepository;
-import com.tecxis.resume.persistence.ProjectRepository;
-import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
-import com.tecxis.resume.persistence.StaffRepository;
-import com.tecxis.resume.persistence.SupplierRepository;
-import com.tecxis.resume.persistence.SupplyContractRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.repository.EmploymentContractRepository;
+import com.tecxis.resume.domain.repository.InterestRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.repository.SupplyContractRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

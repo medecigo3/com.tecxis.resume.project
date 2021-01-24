@@ -27,9 +27,9 @@ import com.tecxis.commons.persistence.id.EnrolmentId;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.persistence.CourseRepository;
-import com.tecxis.resume.persistence.EnrolmentRepository;
-import com.tecxis.resume.persistence.StaffRepository;
+import com.tecxis.resume.domain.repository.CourseRepository;
+import com.tecxis.resume.domain.repository.EnrolmentRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

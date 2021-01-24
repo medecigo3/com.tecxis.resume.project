@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.persistence.InterestRepository;
-import com.tecxis.resume.persistence.StaffRepository;
+import com.tecxis.resume.domain.repository.InterestRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

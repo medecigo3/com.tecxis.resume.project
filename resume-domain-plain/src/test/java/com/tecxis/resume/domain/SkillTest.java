@@ -1,6 +1,6 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.persistence.SkillRepository;
+import com.tecxis.resume.domain.repository.SkillRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

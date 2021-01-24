@@ -37,10 +37,10 @@ import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffProjectAssignment;
-import com.tecxis.resume.persistence.AssignmentRepository;
-import com.tecxis.resume.persistence.ProjectRepository;
-import com.tecxis.resume.persistence.StaffProjectAssignmentRepository;
-import com.tecxis.resume.persistence.StaffRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

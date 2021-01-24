@@ -4,7 +4,7 @@ import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_STARTDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
-import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -39,9 +39,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.persistence.EmploymentContractRepository;
-import com.tecxis.resume.persistence.StaffRepository;
-import com.tecxis.resume.persistence.SupplierRepository;
+import com.tecxis.resume.domain.repository.EmploymentContractRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

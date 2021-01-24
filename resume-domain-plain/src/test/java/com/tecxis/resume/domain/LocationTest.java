@@ -27,9 +27,9 @@ import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.persistence.CityRepository;
-import com.tecxis.resume.persistence.LocationRepository;
-import com.tecxis.resume.persistence.ProjectRepository;
+import com.tecxis.resume.domain.repository.CityRepository;
+import com.tecxis.resume.domain.repository.LocationRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

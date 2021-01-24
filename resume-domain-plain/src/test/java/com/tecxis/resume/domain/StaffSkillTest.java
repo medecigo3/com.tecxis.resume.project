@@ -2,7 +2,7 @@ package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.domain.StaffTest.insertAStaff;
-import static com.tecxis.resume.persistence.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
+import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -27,9 +27,9 @@ import com.tecxis.commons.persistence.id.StaffSkillId;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffSkill;
-import com.tecxis.resume.persistence.SkillRepository;
-import com.tecxis.resume.persistence.StaffRepository;
-import com.tecxis.resume.persistence.StaffSkillRepository;
+import com.tecxis.resume.domain.repository.SkillRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.StaffSkillRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 

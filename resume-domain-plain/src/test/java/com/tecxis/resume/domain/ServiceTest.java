@@ -1,6 +1,6 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.persistence.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
+import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -36,9 +36,9 @@ import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.ContractServiceAgreement;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.persistence.ContractRepository;
-import com.tecxis.resume.persistence.ContractServiceAgreementRepository;
-import com.tecxis.resume.persistence.ServiceRepository;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
+import com.tecxis.resume.domain.repository.ServiceRepository;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

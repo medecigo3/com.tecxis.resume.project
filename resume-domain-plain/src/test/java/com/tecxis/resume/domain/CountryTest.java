@@ -27,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
-import com.tecxis.resume.persistence.CityRepository;
-import com.tecxis.resume.persistence.CountryRepository;
+import com.tecxis.resume.domain.repository.CityRepository;
+import com.tecxis.resume.domain.repository.CountryRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
