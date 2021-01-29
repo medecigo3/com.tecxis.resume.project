@@ -17,6 +17,12 @@
 	<description>Resume JPA persistence implementation layer</description>
 	
 	<dependencies>
+		<!-- RESUME libraries -->
+		<dependency>		
+			<groupId>com.tecxis.project</groupId>
+			<artifactId>resume-persistence-common</artifactId>
+		</dependency>
+		<!-- END RESUME libraries -->	
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
