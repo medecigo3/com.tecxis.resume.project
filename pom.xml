@@ -24,7 +24,7 @@
 	</properties>
 
 	<modules>
-		<module>resume-domain-plain</module>
+		<module>resume-domain-jpa</module>
 		<module>resume-persistence-common</module>
 		<module>resume-persistence-jpa</module>
 		<module>services</module>
@@ -37,7 +37,7 @@
 				<groupId>com.tecxis.project</groupId>
 				<artifactId>resume-domain-jpa</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
-			</dependency>	
+			</dependency>		
 			<!-- END RESUME libraries -->			
 			<dependency>
 				<groupId>org.apache.commons</groupId>  
