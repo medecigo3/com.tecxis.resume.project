@@ -19,7 +19,462 @@
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_o_JMEGI7Eeu1VtT0psHi2g" type="OperationCompartment"/>
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_o_JMEWI7Eeu1VtT0psHi2g" visible="false" type="SignalCompartment"/>
     <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=CountryDao%5Bjcu%5Ename=CountryDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o_FhsWI7Eeu1VtT0psHi2g" x="2219" y="2219"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o_FhsWI7Eeu1VtT0psHi2g" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_XdOMcGJGEeu1VtT0psHi2g" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_XdOMcWJGEeu1VtT0psHi2g" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_XdOMcmJGEeu1VtT0psHi2g" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_XdOMc2JGEeu1VtT0psHi2g" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_XdOMdGJGEeu1VtT0psHi2g" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_XdOzgGJGEeu1VtT0psHi2g" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_XdOzgWJGEeu1VtT0psHi2g" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_XdOzgmJGEeu1VtT0psHi2g" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_XdOzg2JGEeu1VtT0psHi2g" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XdLJIWJGEeu1VtT0psHi2g" x="40259" y="8242" width="5068"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_Gcar8GJIEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_GcmSIGJIEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_GcmSIWJIEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_Gcm5MGJIEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_Gcm5MWJIEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_Gcm5MmJIEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_GcngQGJIEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_GcngQWJIEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_GcoHUGJIEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_GcouYGJIEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=CityDao%5Bjcu%5Ename=CityDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Gcar8WJIEeux4J3oIztS_A" x="71642" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_cNhn0GJIEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_cNiO4GJIEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_cNiO4WJIEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNiO4mJIEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNiO42JIEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNi18GJIEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNi18WJIEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_cNi18mJIEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_cNi182JIEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_cNi19GJIEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=LocationDao%5Bjcu%5Ename=LocationDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cNhn0WJIEeux4J3oIztS_A" x="66570" y="1902"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_EDCkUGJJEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_EDGOsGJJEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_EDGOsWJJEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDGOsmJJEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDG1wGJJEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDHc0GJJEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDID4GJJEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_EDID4WJJEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_EDID4mJJEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_EDID42JJEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ProjectDao%5Bjcu%5Ename=ProjectDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EDCkUWJJEeux4J3oIztS_A" x="54841" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_myyg4GJJEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_my2yUGJJEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_my2yUWJJEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_my2yUmJJEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_my2yU2JJEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_my2yVGJJEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_my2yVWJJEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYGJJEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYWJJEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYmJJEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=StaffProjectAssignmentDao%5Bjcu%5Ename=StaffProjectAssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_myyg4WJJEeux4J3oIztS_A" x="47550" y="1902"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_vIluMGJJEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_vIpYkGJJEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_vIpYkWJJEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIp_oGJJEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIp_oWJJEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIp_omJJEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIp_o2JJEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIp_pGJJEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIp_pWJJEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIqmsGJJEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vIluMWJJEeux4J3oIztS_A" x="41210" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_DU850GJKEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_DU9g4GJKEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_DU9g4WJKEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_DU9g4mJKEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_DU9g42JKEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_DU9g5GJKEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_DU9g5WJKEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_DU9g5mJKEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_DU-H8GJKEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_DU-H8WJKEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ClientDao%5Bjcu%5Ename=ClientDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DU850WJKEeux4J3oIztS_A" x="35504" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_R4FMEGJKEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_R4HoUGJKEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_R4HoUWJKEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4HoUmJKEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4HoU2JKEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4HoVGJKEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4IPYGJKEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_R4IPYWJKEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_R4IPYmJKEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_R4IPY2JKEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ContractDao%5Bjcu%5Ename=ContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_R4FMEWJKEeux4J3oIztS_A" x="28530" y="1585"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_j9c2AGJKEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_j9ddEGJKEeux4J3oIztS_A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_j9ddEWJKEeux4J3oIztS_A" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9ddEmJKEeux4J3oIztS_A" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9ddE2JKEeux4J3oIztS_A" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9ddFGJKEeux4J3oIztS_A" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9ddFWJKEeux4J3oIztS_A" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_j9eEIGJKEeux4J3oIztS_A" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_j9eEIWJKEeux4J3oIztS_A" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_j9eEImJKEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SupplyContractDao%5Bjcu%5Ename=SupplyContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_j9c2AWJKEeux4J3oIztS_A" x="9193"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_0ZfYYGJPEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_0ZmtIGJPEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_0ZmtIWJPEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_0ZnUMGJPEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_0Zn7QGJPEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_0Zn7QWJPEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_0ZoiUGJPEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_0ZoiUWJPEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_0ZoiUmJPEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_0ZpJYGJPEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ContractServiceAgreementDao%5Bjcu%5Ename=ContractServiceAgreementDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0ZfYYWJPEeuKS44zEI52Xg" x="4921" y="9630"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_D4jHYGJQEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_D4ljoGJQEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_D4ljoWJQEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4mKsGJQEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4mxwGJQEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4mxwWJQEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4mxwmJQEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_D4mxw2JQEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_D4nY0GJQEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_D4nY0WJQEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ServiceDao%5Bjcu%5Ename=ServiceDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_D4jHYWJQEeuKS44zEI52Xg" x="20663" y="11377"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_ZV9rMGJQEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ZWBVkGJQEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_ZWBVkWJQEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWBVkmJQEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWBVk2JQEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWB8oGJQEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWB8oWJQEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ZWB8omJQEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ZWCjsGJQEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ZWCjsWJQEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=EmploymentContractDao%5Bjcu%5Ename=EmploymentContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZV9rMWJQEeuKS44zEI52Xg" x="31194" y="14737"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_ozUUkGJREeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ozWJwGJREeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_ozWJwWJREeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozWJwmJREeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozWJw2JREeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozWw0GJREeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozWw0WJREeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ozWw0mJREeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ozWw02JREeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ozWw1GJREeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SupplierDao%5Bjcu%5Ename=SupplierDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ozUUkWJREeuKS44zEI52Xg" x="46540" y="15054"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_8R6bQGJREeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8R83gGJREeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8R83gWJREeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8R9ekGJREeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8R9ekWJREeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8R9ekmJREeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8R9ek2JREeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_8R9elGJREeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_8R-FoGJREeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_8R-FoWJREeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=StaffDao%5Bjcu%5Ename=StaffDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8R6bQWJREeuKS44zEI52Xg" x="55475" y="14265"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_ahbG0GJSEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ahc8AGJSEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_ahc8AWJSEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahc8AmJSEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahc8A2JSEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahdjEGJSEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahdjEWJSEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_ahdjEmJSEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_aheKIGJSEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_aheKIWJSEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=InterestDao%5Bjcu%5Ename=InterestDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ahbG0WJSEeuKS44zEI52Xg" x="68791" y="14684"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_lv-C4GJSEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_lv_4EGJSEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_lv_4EWJSEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_lv_4EmJSEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_lv_4E2JSEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_lv_4FGJSEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_lwAfIGJSEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_lwAfIWJSEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_lwAfImJSEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_lwAfI2JSEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=StaffSkillDao%5Bjcu%5Ename=StaffSkillDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lv-C4WJSEeuKS44zEI52Xg" x="78140" y="14534"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_sqtAYGJSEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_sqvcoGJSEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_sqvcoWJSEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_sqvcomJSEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_sqwDsGJSEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_sqwDsWJSEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_sqwDsmJSEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_sqwDs2JSEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_sqwDtGJSEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_sqwDtWJSEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SkillDao%5Bjcu%5Ename=SkillDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_sqtAYWJSEeuKS44zEI52Xg" x="82761" y="14569"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_2pHKQGJSEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="_2pJmgGJSEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_2pJmgWJSEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pJmgmJSEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pJmg2JSEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pJmhGJSEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pKNkGJSEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_2pKNkWJSEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_2pKNkmJSEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="_2pKNk2JSEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=EnrolmentDao%5Bjcu%5Ename=EnrolmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2pHKQWJSEeuKS44zEI52Xg" x="71642" y="11412"/>
+  </children>
+  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="__IfKUGJSEeuKS44zEI52Xg" fontName="Segoe UI" fontHeight="8" showListSignature="true" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
+    <children xmi:type="notation:DecorationNode" xmi:id="__IfxYGJSEeuKS44zEI52Xg" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="__IfxYWJSEeuKS44zEI52Xg" width="530" height="530"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="__IfxYmJSEeuKS44zEI52Xg" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="__IfxY2JSEeuKS44zEI52Xg" type="Kind"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="__IgYcGJSEeuKS44zEI52Xg" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="__IgYcWJSEeuKS44zEI52Xg" type="Parent"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="__IgYcmJSEeuKS44zEI52Xg" type="AttributeCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="__IgYc2JSEeuKS44zEI52Xg" type="OperationCompartment"/>
+    <children xmi:type="notation:SemanticListCompartment" xmi:id="__IgYdGJSEeuKS44zEI52Xg" visible="false" type="SignalCompartment"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=CourseDao%5Bjcu%5Ename=CourseDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__IfKUWJSEeuKS44zEI52Xg" x="71325" y="8242"/>
   </children>
   <element xsi:nil="true"/>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_4wx30GJGEeu1VtT0psHi2g" source="_o_FhsGI7Eeu1VtT0psHi2g" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_4w2wUGJGEeu1VtT0psHi2g" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4w3XYGJGEeu1VtT0psHi2g" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4w3XYWJGEeu1VtT0psHi2g" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4w2wUWJGEeu1VtT0psHi2g" y="-124"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=CountryDao%5Bjcu%5Ename=CountryDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4wx30WJGEeu1VtT0psHi2g" points="[39, 101, -37218, -5158]$[39, 3803, -37218, -1456]$[37265, 3803, 8, -1456]$[37265, 4861, 8, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nfO0GJKEeux4J3oIztS_A" id="(0.49999999999999994,0.9532293986636969)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nf14GJKEeux4J3oIztS_A" id="(0.10268546773703256,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_GdcmsGJIEeux4J3oIztS_A" source="_Gcar8GJIEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_GddNwGJIEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_Gdd00GJIEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_Gdd00WJIEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GddNwWJIEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=CityDao%5Bjcu%5Ename=CityDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_GdcmsWJIEeux4J3oIztS_A" points="[39, 99, 29732, -5369]$[39, 4541, 29732, -927]$[-29620, 4541, 73, -927]$[-29620, 5070, 73, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nhEAGJKEeux4J3oIztS_A" id="(0.5,0.9423710208562017)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nhEAWJKEeux4J3oIztS_A" id="(0.924078992352107,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_cNqxwGJIEeux4J3oIztS_A" source="_cNhn0GJIEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_cNrY0GJIEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNrY0mJIEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_cNrY02JIEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cNrY0WJIEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=LocationDao%5Bjcu%5Ename=LocationDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_cNqxwWJIEeux4J3oIztS_A" points="[40, 99, 23722, -5436]$[40, 4079, 23722, -1456]$[-23617, 4079, 65, -1456]$[-23617, 5137, 65, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nhrEGJKEeux4J3oIztS_A" id="(0.5,0.9377962085308057)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1niSIGJKEeux4J3oIztS_A" id="(0.8214053953099661,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_EDURIGJJEeux4J3oIztS_A" source="_EDCkUGJJEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_EDURImJJEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDU4MGJJEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_EDU4MWJJEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EDURI2JJEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=ProjectDao%5Bjcu%5Ename=ProjectDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EDURIWJJEeux4J3oIztS_A" points="[40, 101, 15833, -5158]$[40, 3274, 15833, -1985]$[-15736, 3274, 57, -1985]$[-15736, 4861, 57, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1ni5MGJKEeux4J3oIztS_A" id="(0.5,0.9532293986636969)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1ni5MWJKEeux4J3oIztS_A" id="(0.7187310068881686,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_my-uIGJJEeux4J3oIztS_A" source="_myyg4GJJEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_my_VMGJJEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_my_VMmJJEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_my_8QGJJEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_my_VMWJJEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=StaffProjectAssignmentDao%5Bjcu%5Ename=StaffProjectAssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_my-uIWJJEeux4J3oIztS_A" points="[39, 99, 6924, -5436]$[39, 3021, 6924, -2514]$[-6837, 3021, 48, -2514]$[-6837, 5137, 48, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1njgQGJKEeux4J3oIztS_A" id="(0.5,0.9377962085308057)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkHUGJKEeux4J3oIztS_A" id="(0.6160566184663695,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_vIyigGJJEeux4J3oIztS_A" source="_vIluMGJJEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_vIyigmJJEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIzJkGJJEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIzwoGJJEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vIyig2JJEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vIyigWJJEeux4J3oIztS_A" points="[40, 101, 610, -5158]$[40, 2216, 610, -3043]$[-529, 2216, 41, -3043]$[-529, 4861, 41, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkHUWJKEeux4J3oIztS_A" id="(0.5,0.9532293986636969)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkuYGJKEeux4J3oIztS_A" id="(0.5133822300445705,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_DVEOkGJKEeux4J3oIztS_A" source="_DU850GJKEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_DVE1oGJKEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_DVE1omJKEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_DVE1o2JKEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DVE1oWJKEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=ClientDao%5Bjcu%5Ename=ClientDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_DVEOkWJKEeux4J3oIztS_A" points="[40, 99, -5030, -5369]$[40, 2425, -5030, -3043]$[5103, 2425, 33, -3043]$[5103, 5070, 33, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nlVcGJKEeux4J3oIztS_A" id="(0.5,0.9423710208562017)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nlVcWJKEeux4J3oIztS_A" id="(0.4107086330024311,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_R4SncGJKEeux4J3oIztS_A" source="_R4FMEGJKEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_R4TOgGJKEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4TOgmJKEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_R4TOg2JKEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_R4TOgWJKEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=ContractDao%5Bjcu%5Ename=ContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_R4SncWJKEeux4J3oIztS_A" points="[40, 101, -10790, -5158]$[40, 2745, -10790, -2514]$[10854, 2745, 24, -2514]$[10854, 4861, 24, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nl8gGJKEeux4J3oIztS_A" id="(0.4999999999999992,0.9532293986636969)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nmjkGJKEeux4J3oIztS_A" id="(0.3080342445806321,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_j9lY4GJKEeux4J3oIztS_A" source="_j9c2AGJKEeux4J3oIztS_A" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_j9l_8GJKEeux4J3oIztS_A" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9l_8mJKEeux4J3oIztS_A" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_j9l_82JKEeux4J3oIztS_A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_j9l_8WJKEeux4J3oIztS_A" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=SupplyContractDao%5Bjcu%5Ename=SupplyContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_j9lY4WJKEeux4J3oIztS_A" points="[40, 103, -23415, -3677]$[40, 1795, -23415, -1985]$[23471, 1795, 16, -1985]$[23471, 3382, 16, -398]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nmjkWJKEeux4J3oIztS_A" id="(0.5,0.9798309642719939)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nnKoGJKEeux4J3oIztS_A" id="(0.2053598561588316,0.0)"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_0Z5oEGJPEeuKS44zEI52Xg" source="_0ZfYYGJPEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_0Z62MGJPEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_0Z62MmJPEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_0Z62M2JPEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0Z62MWJPEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=ContractServiceAgreementDao%5Bjcu%5Ename=ContractServiceAgreementDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_0Z5oEWJPEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_D4vUoGJQEeuKS44zEI52Xg" source="_D4jHYGJQEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_D4v7sGJQEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4v7smJQEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_D4v7s2JQEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_D4v7sWJQEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=ServiceDao%5Bjcu%5Ename=ServiceDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_D4vUoWJQEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_ZWLtoGJQEeuKS44zEI52Xg" source="_ZV9rMGJQEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ZWLtomJQEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWMUsGJQEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZWMUsWJQEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZWLto2JQEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=EmploymentContractDao%5Bjcu%5Ename=EmploymentContractDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ZWLtoWJQEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_ozfTsGJREeuKS44zEI52Xg" source="_ozUUkGJREeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ozfTsmJREeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozfTtGJREeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ozf6wGJREeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ozfTs2JREeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=SupplierDao%5Bjcu%5Ename=SupplierDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ozfTsWJREeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_8SIdsGJREeuKS44zEI52Xg" source="_8R6bQGJREeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8SIdsmJREeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_8SJEwGJREeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_8SJEwWJREeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8SIds2JREeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=StaffDao%5Bjcu%5Ename=StaffDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8SIdsWJREeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_ahle4GJSEeuKS44zEI52Xg" source="_ahbG0GJSEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_ahmF8GJSEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahmF8mJSEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_ahmtAGJSEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ahmF8WJSEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=InterestDao%5Bjcu%5Ename=InterestDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ahle4WJSEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_lwHM0GJSEeuKS44zEI52Xg" source="_lv-C4GJSEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_lwHz4GJSEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_lwHz4mJSEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_lwHz42JSEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lwHz4WJSEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=StaffSkillDao%5Bjcu%5Ename=StaffSkillDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_lwHM0WJSEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_sq2xYGJSEeuKS44zEI52Xg" source="_sqtAYGJSEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_sq3YcGJSEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_sq3YcmJSEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_sq3_gGJSEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_sq3YcWJSEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=SkillDao%5Bjcu%5Ename=SkillDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sq2xYWJSEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_2pRiUGJSEeuKS44zEI52Xg" source="_2pHKQGJSEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_2pRiUmJSEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pRiVGJSEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_2pRiVWJSEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2pRiU2JSEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=EnrolmentDao%5Bjcu%5Ename=EnrolmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_2pRiUWJSEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="__ImfEGJSEeuKS44zEI52Xg" source="__IfKUGJSEeuKS44zEI52Xg" target="_XdLJIGJGEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="__InGIGJSEeuKS44zEI52Xg" type="NameLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__IntMGJSEeuKS44zEI52Xg" type="Stereotype"/>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__IntMWJSEeuKS44zEI52Xg" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="__InGIWJSEeuKS44zEI52Xg" y="-186"/>
+    </children>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=CourseDao%5Bjcu%5Ename=CourseDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="__ImfEWJSEeuKS44zEI52Xg" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
 </umlnotation:UMLDiagram>

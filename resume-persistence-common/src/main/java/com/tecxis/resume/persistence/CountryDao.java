@@ -2,8 +2,10 @@ package com.tecxis.resume.persistence;
 
 import com.tecxis.resume.domain.Country;
 
-public interface CountryDao {
+public interface CountryDao extends Dao <Country>  {
 
-	public void saveCountry(Country country);
+	public Country getCountryById(int id);
+
+	public Country getCountryByName(String name);
 
 }
