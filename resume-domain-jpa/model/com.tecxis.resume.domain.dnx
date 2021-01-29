@@ -2,23 +2,833 @@
 <!--xtools2_universal_type_manager-->
 <!--Rational Software Architect Designer 9.7.0-->
 <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
-<umlnotation:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id="_MJAfgGJBEeu1VtT0psHi2g" type="Class" name="com.tecxis.resume.domain.dnx">
-  <eAnnotations xmi:id="_MJAfgWJBEeu1VtT0psHi2g" source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
-    <details xmi:id="_MJAfgmJBEeu1VtT0psHi2g" key="com.ibm.xtools.activities.javaVisualizerActivity" value="1"/>
+<umlnotation:UMLDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id="_6Ta0oGJZEeuXuf3kPz8CUQ" type="Class" name="com.tecxis.resume.domain.dnx">
+  <eAnnotations xmi:id="_6Ta0oWJZEeuXuf3kPz8CUQ" source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
+    <details xmi:id="_6Ta0omJZEeuXuf3kPz8CUQ" key="com.ibm.xtools.activities.javaVisualizerActivity" value="1"/>
+    <details xmi:id="_6Ta0o2JZEeuXuf3kPz8CUQ" key="com.ibm.xtools.activities.EJB3JPAVisualizerActivity" value="1"/>
   </eAnnotations>
-  <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_dz1igGJBEeu1VtT0psHi2g" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
-    <children xmi:type="notation:DecorationNode" xmi:id="_dz2JkGJBEeu1VtT0psHi2g" type="ImageCompartment">
-      <layoutConstraint xmi:type="notation:Size" xmi:id="_dz2JkWJBEeu1VtT0psHi2g" width="530" height="530"/>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dSEIGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dXjsGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dXjsWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
     </children>
-    <children xmi:type="notation:BasicDecorationNode" xmi:id="_dz2JkmJBEeu1VtT0psHi2g" type="Stereotype"/>
-    <children xmi:type="notation:BasicDecorationNode" xmi:id="_dz2woGJBEeu1VtT0psHi2g" type="Kind"/>
-    <children xmi:type="notation:BasicDecorationNode" xmi:id="_dz2woWJBEeu1VtT0psHi2g" type="Name"/>
-    <children xmi:type="notation:BasicDecorationNode" xmi:id="_dz2womJBEeu1VtT0psHi2g" type="Parent"/>
-    <children xmi:type="notation:SemanticListCompartment" xmi:id="_dz2wo2JBEeu1VtT0psHi2g" type="AttributeCompartment"/>
-    <children xmi:type="notation:SemanticListCompartment" xmi:id="_dz2wpGJBEeu1VtT0psHi2g" type="OperationCompartment"/>
-    <children xmi:type="notation:SemanticListCompartment" xmi:id="_dz3XsGJBEeu1VtT0psHi2g" visible="false" type="SignalCompartment"/>
-    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=StrongEntity%5Bjcu%5Ename=StrongEntity.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Interface"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dz1igWJBEeu1VtT0psHi2g" x="1476" y="1599"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dYKwGJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dYx0GJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dYx0WJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dYx0mJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dZY4GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dZ_8GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Contract%5Bjcu%5Ename=Contract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dSEIWJZEeuXuf3kPz8CUQ" x="40392" y="11088" width="3515" height="1151"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dZ_8WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8ddqUGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8ddqUWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8ddqUmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8ddqU2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8ddqVGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8ddqVWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8ddqVmJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8ddqV2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=StaffProjectAssignment%5Bjcu%5Ename=StaffProjectAssignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dZ_8mJZEeuXuf3kPz8CUQ" x="19932" y="11748" width="5753" height="1438"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8de4cGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8de4cmJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8de4c2JZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8de4dGJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8de4dWJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8de4dmJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8de4d2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8de4eGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dffgGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Service%5Bjcu%5Ename=Service.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8de4cWJZEeuXuf3kPz8CUQ" x="70620" y="11352"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dffgWJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dffg2JZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dffhGJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dffhWJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dffhmJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dffh2JZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dffiGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dffiWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dffimJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=ContractServiceAgreement%5Bjcu%5Ename=ContractServiceAgreement.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dffgmJZEeuXuf3kPz8CUQ" x="52140" y="11484" width="6529" height="760"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dgGkGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dgGkmJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dgGk2JZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgGlGJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgGlWJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgGlmJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dgGl2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dgtoGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dgtoWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Assignment%5Bjcu%5Ename=Assignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dgGkWJZEeuXuf3kPz8CUQ" x="8052" y="11880" width="4308" height="1291"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dgtomJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dgtpGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dgtpWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgtpmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgtp2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dgtqGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dgtqWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dhUsGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dhUsWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Location%5Bjcu%5Ename=Location.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dgto2JZEeuXuf3kPz8CUQ" x="8844" y="6336" width="3012" height="1424"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dhUsmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dhUtGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dhUtWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dhUtmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dhUt2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dhUuGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dhUuWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dh7wGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dh7wWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Country%5Bjcu%5Ename=Country.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dhUs2JZEeuXuf3kPz8CUQ" x="1716" y="10956"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dh7wmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dh7xGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dh7xWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dh7xmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dh7x2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dh7yGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dii0GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dii0WJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dii0mJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=StaffSkill%5Bjcu%5Ename=StaffSkill.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dh7w2JZEeuXuf3kPz8CUQ" x="16764" y="26796"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8djJ4GJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8djJ4WJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8djJ4mJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8djJ42JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8djJ5GJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8djw8GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8djw8WJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8djw8mJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Staff%5Bjcu%5Ename=Staff.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dii1GJZEeuXuf3kPz8CUQ" x="20328" y="22176" width="4572" height="1345"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8djw82JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dkYAGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dkYAWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dkYAmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dkYA2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dkYBGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dkYBWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dkYBmJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dkYB2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=City%5Bjcu%5Ename=City.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8djw9GJZEeuXuf3kPz8CUQ" x="1452" y="6468" width="2272" height="1424"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dk_EGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dk_EmJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dk_E2JZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dk_FGJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dk_FWJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dk_FmJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dk_F2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dk_GGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dk_GWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=EmploymentContract%5Bjcu%5Ename=EmploymentContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dk_EWJZEeuXuf3kPz8CUQ" x="30096" y="22044" width="4308" height="1363"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dk_GmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dlmIGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dlmIWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dlmImJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dlmI2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dlmJGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dlmJWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dlmJmJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dlmJ2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Project%5Bjcu%5Ename=Project.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dk_G2JZEeuXuf3kPz8CUQ" x="20064" y="6336" width="4969" height="1424"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dlmKGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dmNMGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dmNMWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dmNMmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dmNM2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dm0QGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dm0QWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dm0QmJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dm0Q2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SupplyContract%5Bjcu%5Ename=SupplyContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dlmKWJZEeuXuf3kPz8CUQ" x="40260" y="16500" width="4034" height="1679"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dm0RGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dm0RmJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dm0R2JZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dm0SGJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dm0SWJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dnbUGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dnbUWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dnbUmJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dnbU2JZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Supplier%5Bjcu%5Ename=Supplier.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dm0RWJZEeuXuf3kPz8CUQ" x="40524" y="21912" width="3646" height="1555"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dnbVGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8doCYGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8doCYWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8doCYmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8doCY2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8doCZGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8doCZWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dopcGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dopcWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Client%5Bjcu%5Ename=Client.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dnbVWJZEeuXuf3kPz8CUQ" x="40788" y="6072" width="2968" height="1291"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dp3kWJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dp3k2JZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dp3lGJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dp3lWJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dp3lmJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dqeoGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dqeoWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drFsGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drFsWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Course%5Bjcu%5Ename=Course.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dp3kmJZEeuXuf3kPz8CUQ" x="26004" y="29700"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8drFsmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8drFtGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8drFtWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drFtmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drFt2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drFuGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drFuWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drswGJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drswWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Enrolment%5Bjcu%5Ename=Enrolment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8drFs2JZEeuXuf3kPz8CUQ" x="25476" y="26664"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8drswmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8drsxGJZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8drsxWJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drsxmJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drsx2JZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8drsyGJZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drsyWJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8drsymJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dsT0GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Skill%5Bjcu%5Ename=Skill.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8drsw2JZEeuXuf3kPz8CUQ" x="16896" y="29700"/>
+  </children>
+  <children xmi:type="umlnotation:UMLShape" xmi:id="_8dsT0WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+    <children xmi:type="notation:DecorationNode" xmi:id="_8dsT02JZEeuXuf3kPz8CUQ" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_8dsT1GJZEeuXuf3kPz8CUQ" width="1320" height="1320"/>
+    </children>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dsT1WJZEeuXuf3kPz8CUQ" type="Stereotype"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dsT1mJZEeuXuf3kPz8CUQ" type="Name"/>
+    <children xmi:type="notation:BasicDecorationNode" xmi:id="_8dsT12JZEeuXuf3kPz8CUQ" type="Parent"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dsT2GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATION_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8dsT2WJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_ATTRIBUTE_COMPARTMENT"/>
+    <children xmi:type="notation:ListCompartment" xmi:id="_8ds64GJZEeuXuf3kPz8CUQ" visible="false" type="ANNOTATED_OPERATION_COMPARTMENT"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Interest%5Bjcu%5Ename=Interest.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8dsT0mJZEeuXuf3kPz8CUQ" x="10824" y="22308" width="3030" height="1151"/>
   </children>
   <element xsi:nil="true"/>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mNvDUGJaEeuXuf3kPz8CUQ" source="_8dnbVGJZEeuXuf3kPz8CUQ" target="_8dSEIGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNvqYGJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNvqYmJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNvqYWJaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNwRcGJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNwRcmJaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNwRcWJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNwRc2JaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mNwRdWJaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNwRdGJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=contracts%5Bjsrctype%5Ename=Client%5Bjcu%5Ename=Client.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mNvDUWJaEeuXuf3kPz8CUQ" points="[908, 593, 370, -5217]$[908, 4687, 370, -1123]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mNw4gGJaEeuXuf3kPz8CUQ" source="_8dffgWJZEeuXuf3kPz8CUQ" target="_8dSEIGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNw4gmJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNw4hGJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNw4g2JaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNw4hWJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNxfkGJaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNw4hmJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNxfkWJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mNxfk2JaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNxfkmJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=contract%5Bjsrctype%5Ename=ContractServiceAgreement%5Bjcu%5Ename=ContractServiceAgreement.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mNw4gWJaEeuXuf3kPz8CUQ" points="[-4654, 281, 7918, 246]$[-10854, 281, 1718, 246]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mNyGoWJaEeuXuf3kPz8CUQ" source="_8dlmKGJZEeuXuf3kPz8CUQ" target="_8dSEIGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNyGo2JaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNyGpWJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNyGpGJaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNyGpmJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNyGqGJaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNyGp2JaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNyGqWJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mNyGq2JaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNyGqmJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=contract%5Bjsrctype%5Ename=SupplyContract%5Bjcu%5Ename=SupplyContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mNyGomJaEeuXuf3kPz8CUQ" points="[1629, -734, 1163, 5285]$[1629, -5496, 1163, 523]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mNzUwGJaEeuXuf3kPz8CUQ" source="_8dSEIGJZEeuXuf3kPz8CUQ" target="_8dnbVGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNzUwmJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNzUxGJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNzUw2JaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNzUxWJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mNzUx2JaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNzUxmJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mNzUyGJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mNzUymJaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mNzUyWJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=client%5Bjsrctype%5Ename=Contract%5Bjcu%5Ename=Contract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mNzUwWJaEeuXuf3kPz8CUQ" points="[-689, -1123, -151, 4687]$[-689, -5217, -151, 593]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mN1xA2JaEeuXuf3kPz8CUQ" source="_8dSEIGJZEeuXuf3kPz8CUQ" target="_8dffgWJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN1xBWJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mN1xB2JaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN1xBmJaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN1xCGJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mN1xCmJaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN1xCWJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN1xC2JaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mN1xDWJaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN1xDGJaEeuXuf3kPz8CUQ" x="-857" y="-267"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=contractServiceAgreements%5Bjsrctype%5Ename=Contract%5Bjcu%5Ename=Contract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mN1xBGJaEeuXuf3kPz8CUQ" points="[1718, -283, -10854, -248]$[7918, -283, -4654, -248]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_mN2YEGJaEeuXuf3kPz8CUQ" source="_8dSEIGJZEeuXuf3kPz8CUQ" target="_8dlmKGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN2YEmJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mN2YFGJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN2YE2JaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN2YFWJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_mN2YF2JaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN2YFmJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_mN2YGGJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_mN2YGmJaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_mN2YGWJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=supplyContracts%5Bjsrctype%5Ename=Contract%5Bjcu%5Ename=Contract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mN2YEWJaEeuXuf3kPz8CUQ" points="[-1218, 523, -752, -5496]$[-1218, 5285, -752, -734]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="__ek1cGJaEeuXuf3kPz8CUQ" source="_8dsT0WJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="__ek1cmJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__elcgGJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__ek1c2JaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="__elcgWJaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__elcg2JaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__elcgmJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="__elchGJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="__elchmJaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__elchWJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=Interest%5Bjcu%5Ename=Interest.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="__ek1cWJaEeuXuf3kPz8CUQ" points="[1476, -285, -8799, -250]$[8029, -285, -2246, -250]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="__emDkGJaEeuXuf3kPz8CUQ" source="_8dii02JZEeuXuf3kPz8CUQ" target="_8dsT0WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="__emqoGJaEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__emqomJaEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__emqoWJaEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="__emqo2JaEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="__enRsGJaEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__emqpGJaEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="__enRsWJaEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="__enRs2JaEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="__enRsmJaEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=interests%5Bjsrctype%5Ename=Staff%5Bjcu%5Ename=Staff.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="__emDkWJaEeuXuf3kPz8CUQ" points="[-2246, 279, 8029, 244]$[-8799, 279, 1476, 244]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_PZG_gGJbEeuXuf3kPz8CUQ" source="_8dhUsmJZEeuXuf3kPz8CUQ" target="_8djw82JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZG_gmJbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_PZHmkGJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZG_g2JbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZHmkWJbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_PZHmk2JbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZHmkmJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZHmlGJbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_PZHmlmJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZHmlWJbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=cities%5Bjsrctype%5Ename=Country%5Bjcu%5Ename=Country.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PZG_gWJbEeuXuf3kPz8CUQ" points="[-323, -488, -323, 4000]$[-323, -4000, -323, 488]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_PZINpGJbEeuXuf3kPz8CUQ" source="_8djw82JZEeuXuf3kPz8CUQ" target="_8dhUsmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZINpmJbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_PZINqGJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZINp2JbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZINqWJbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_PZINq2JbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZINqmJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PZINrGJbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_PZI0sGJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PZINrWJbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=country%5Bjsrctype%5Ename=City%5Bjcu%5Ename=City.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PZINpWJbEeuXuf3kPz8CUQ" points="[603, 488, 603, -4000]$[603, 4000, 603, -488]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hsFnoGJbEeuXuf3kPz8CUQ" source="_8dgtomJZEeuXuf3kPz8CUQ" target="_8djw82JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsGOsGJbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsGOsmJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsGOsWJbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsGOs2JbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsGOtWJbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsGOtGJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsGOtmJbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hsGOuGJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsGOt2JbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=city%5Bjsrctype%5Ename=Location%5Bjcu%5Ename=Location.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hsFnoWJbEeuXuf3kPz8CUQ" points="[-1466, 390, 6296, 258]$[-6665, 390, 1097, 258]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hsGOuWJbEeuXuf3kPz8CUQ" source="_8djw82JZEeuXuf3kPz8CUQ" target="_8dgtomJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsGOu2JbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsGOvWJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsGOvGJbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsG1wGJbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsG1wmJbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsG1wWJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsG1w2JbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hsG1xWJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsG1xGJbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=locations%5Bjsrctype%5Ename=City%5Bjcu%5Ename=City.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hsGOumJbEeuXuf3kPz8CUQ" points="[-323, -488, -7095, 2020]$[-323, -2476, -7095, 32]$[5636, -2476, -1136, 32]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hsG1xmJbEeuXuf3kPz8CUQ" source="_8dk_GmJZEeuXuf3kPz8CUQ" target="_8dgtomJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsG1yGJbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsG1ymJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsG1yWJbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsHc0GJbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsHc0mJbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsHc0WJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsHc02JbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hsHc1WJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsHc1GJbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=locations%5Bjsrctype%5Ename=Project%5Bjcu%5Ename=Project.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hsG1x2JbEeuXuf3kPz8CUQ" points="[-1519, -536, 6586, -536]$[-6638, -536, 1467, -536]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hsHc1mJbEeuXuf3kPz8CUQ" source="_8dgtomJZEeuXuf3kPz8CUQ" target="_8dk_GmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsHc2GJbEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsID4GJbEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsHc2WJbEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsID4WJbEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hsID42JbEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsID4mJbEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hsID5GJbEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hsID5mJbEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hsID5WJbEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=project%5Bjsrctype%5Ename=Location%5Bjcu%5Ename=Location.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hsHc12JbEeuXuf3kPz8CUQ" points="[1467, 655, -6638, 655]$[6586, 655, -1519, 655]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kfkmcGJcEeuXuf3kPz8CUQ" source="_8dii02JZEeuXuf3kPz8CUQ" target="_8dZ_8WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfoQ0GJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfo34GJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfoQ0WJcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfo34WJcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfo342JcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfo34mJcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfpe8GJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kfpe8mJcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfpe8WJcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staffProjectAssignments%5Bjsrctype%5Ename=Staff%5Bjcu%5Ename=Staff.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kfkmcWJcEeuXuf3kPz8CUQ" points="[-1619, -620, -1814, 9762]$[-1619, -9715, -1814, 667]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kfpe82JcEeuXuf3kPz8CUQ" source="_8dZ_8WJZEeuXuf3kPz8CUQ" target="_8dgGkGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfqGAGJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfqtEGJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfqGAWJcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfqtEWJcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfqtE2JcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfqtEmJcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfqtFGJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kfqtFmJcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfqtFWJcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=assignment%5Bjsrctype%5Ename=StaffProjectAssignment%5Bjcu%5Ename=StaffProjectAssignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kfpe9GJcEeuXuf3kPz8CUQ" points="[-2837, -425, 9502, -484]$[-10224, -425, 2115, -484]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kfqtF2JcEeuXuf3kPz8CUQ" source="_8dZ_8WJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfrUIGJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfrUImJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfrUIWJcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfrUI2JcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfrUJWJcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfrUJGJcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfrUJmJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kfrUKGJcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfrUJ2JcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=StaffProjectAssignment%5Bjcu%5Ename=StaffProjectAssignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kfqtGGJcEeuXuf3kPz8CUQ" points="[-95, 667, 100, -9715]$[-95, 9762, 100, -620]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kfr7MGJcEeuXuf3kPz8CUQ" source="_8dk_GmJZEeuXuf3kPz8CUQ" target="_8dZ_8WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfr7MmJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfr7NGJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfr7M2JcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfr7NWJcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kfsiQGJcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfr7NmJcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfsiQWJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kfsiQ2JcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kfsiQmJcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staffProjectAssignments%5Bjsrctype%5Ename=Project%5Bjcu%5Ename=Project.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kfr7MWJcEeuXuf3kPz8CUQ" points="[-1138, 660, -1004, -4941]$[-1138, 4885, -1004, -716]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kfsiRGJcEeuXuf3kPz8CUQ" source="_8dZ_8WJZEeuXuf3kPz8CUQ" target="_8dk_GmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kfsiRmJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kftJUWJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftJUGJcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kftJUmJcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kftJVGJcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftJU2JcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kftJVWJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kftJV2JcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftJVmJcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=project%5Bjsrctype%5Ename=StaffProjectAssignment%5Bjcu%5Ename=StaffProjectAssignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kfsiRWJcEeuXuf3kPz8CUQ" points="[2436, -716, 1376, 4885]$[2436, -4941, 1376, 660]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kftJWGJcEeuXuf3kPz8CUQ" source="_8dgGkGJZEeuXuf3kPz8CUQ" target="_8dZ_8WJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kftwYGJcEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kftwYmJcEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftwYWJcEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kftwY2JcEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kftwZWJcEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftwZGJcEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kftwZmJcEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kftwaGJcEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kftwZ2JcEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staffProjectAssignments%5Bjsrctype%5Ename=Assignment%5Bjcu%5Ename=Assignment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kftJWWJcEeuXuf3kPz8CUQ" points="[2115, 574, -10224, 633]$[9502, 574, -2837, 633]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_GN7-gGJdEeuXuf3kPz8CUQ" source="_8dk_GmJZEeuXuf3kPz8CUQ" target="_8dnbVGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN7-gmJdEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_GN7-hGJdEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN7-g2JdEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN8lkGJdEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_GN8lkmJdEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN8lkWJdEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN8lk2JdEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_GN8llWJdEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN8llGJdEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=client%5Bjsrctype%5Ename=Project%5Bjcu%5Ename=Project.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_GN7-gWJdEeuXuf3kPz8CUQ" points="[2445, 258, -7774, 456]$[8775, 258, -1444, 456]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_GN8llmJdEeuXuf3kPz8CUQ" source="_8dnbVGJZEeuXuf3kPz8CUQ" target="_8dk_GmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN9MoGJdEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_GN9MomJdEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN9MoWJdEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN9Mo2JdEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_GN9MpWJdEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN9MpGJdEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_GN9MpmJdEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_GN9MqGJdEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_GN9Mp2JdEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=projects%5Bjsrctype%5Ename=Client%5Bjcu%5Ename=Client.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_GN8ll2JdEeuXuf3kPz8CUQ" points="[-1444, -232, 8775, -430]$[-7774, -232, 2445, -430]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kWV8gGJdEeuXuf3kPz8CUQ" source="_8de4cGJZEeuXuf3kPz8CUQ" target="_8dffgWJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWV8gmJdEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kWWjkGJdEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWV8g2JdEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWWjkWJdEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kWWjk2JdEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWWjkmJdEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWWjlGJdEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kWWjlmJdEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWWjlWJdEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=contractServiceAgreements%5Bjsrctype%5Ename=Service%5Bjcu%5Ename=Service.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kWV8gWJdEeuXuf3kPz8CUQ" points="[-1017, 281, 13826, 149]$[-10189, 281, 4654, 149]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kWXKoGJdEeuXuf3kPz8CUQ" source="_8dffgWJZEeuXuf3kPz8CUQ" target="_8de4cGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWXKomJdEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kWXKpGJdEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWXKo2JdEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWXKpWJdEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_kWXxsGJdEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWXKpmJdEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_kWXxsWJdEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_kWXxs2JdEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_kWXxsmJdEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=service%5Bjsrctype%5Ename=ContractServiceAgreement%5Bjcu%5Ename=ContractServiceAgreement.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kWXKoWJdEeuXuf3kPz8CUQ" points="[4654, -380, -10189, -248]$[13826, -380, -1017, -248]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_b6iYYGJeEeuXuf3kPz8CUQ" source="_8dlmKGJZEeuXuf3kPz8CUQ" target="_8dm0RGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6i_cGJeEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6i_cmJeEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6i_cWJeEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6i_c2JeEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6i_dWJeEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6i_dGJeEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6i_dmJeEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_b6i_eGJeEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6i_d2JeEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=supplier%5Bjsrctype%5Ename=SupplyContract%5Bjcu%5Ename=SupplyContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_b6iYYWJeEeuXuf3kPz8CUQ" points="[-1318, 787, -1256, -3903]$[-1318, 3965, -1256, -725]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_b6i_eWJeEeuXuf3kPz8CUQ" source="_8dm0RGJZEeuXuf3kPz8CUQ" target="_8dk_EGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6jmgGJeEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6jmgmJeEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6jmgWJeEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6jmg2JeEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6jmhWJeEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6jmhGJeEeuXuf3kPz8CUQ" x="417" y="-653"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6jmhmJeEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_b6jmiGJeEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6jmh2JeEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=employmentContracts%5Bjsrctype%5Ename=Supplier%5Bjcu%5Ename=Supplier.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_b6i_emJeEeuXuf3kPz8CUQ" points="[-1783, 571, 9079, 412]$[-8853, 571, 2009, 412]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_b6jmiWJeEeuXuf3kPz8CUQ" source="_8dm0RGJZEeuXuf3kPz8CUQ" target="_8dlmKGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6kNkGJeEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6kNkmJeEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6kNkWJeEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6k0oGJeEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6k0omJeEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6k0oWJeEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6k0o2JeEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_b6k0pWJeEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6k0pGJeEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=supplyContracts%5Bjsrctype%5Ename=Supplier%5Bjcu%5Ename=Supplier.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_b6jmimJeEeuXuf3kPz8CUQ" points="[1559, -858, 640, 3965]$[1559, -4036, 640, 787]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_b6k0pmJeEeuXuf3kPz8CUQ" source="_8dk_EGJZEeuXuf3kPz8CUQ" target="_8dm0RGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6k0qGJeEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6lbsGJeEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6k0qWJeEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6lbsWJeEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_b6lbs2JeEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6lbsmJeEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_b6lbtGJeEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_b6lbtmJeEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_b6lbtWJeEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=supplier%5Bjsrctype%5Ename=EmploymentContract%5Bjcu%5Ename=EmploymentContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_b6k0p2JeEeuXuf3kPz8CUQ" points="[2115, -286, -8642, -250]$[8974, -286, -1783, -250]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_p3HykGJfEeuXuf3kPz8CUQ" source="_8dii02JZEeuXuf3kPz8CUQ" target="_8dk_EGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3IZoGJfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_p3IZomJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3IZoWJfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3IZo2JfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_p3IZpWJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3IZpGJfEeuXuf3kPz8CUQ" x="544" y="-858"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3IZpmJfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_p3JAsGJfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3IZp2JfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=employmentContracts%5Bjsrctype%5Ename=Staff%5Bjcu%5Ename=Staff.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_p3HykWJfEeuXuf3kPz8CUQ" points="[1718, -383, -7787, -260]$[7391, -383, -2114, -260]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_p3JAsWJfEeuXuf3kPz8CUQ" source="_8dk_EGJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3JAs2JfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_p3JAtWJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3JAtGJfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3JAtmJfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_p3JnwGJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3JAt2JfEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_p3JnwWJfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_p3Jnw2JfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_p3JnwmJfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=EmploymentContract%5Bjcu%5Ename=EmploymentContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_p3JAsmJfEeuXuf3kPz8CUQ" points="[-2114, 402, 7391, 147]$[-7787, 402, 1718, 147]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_4NQKoGJfEeuXuf3kPz8CUQ" source="_8dh7wmJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NQKomJfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4NQKpGJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NQKo2JfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NQxsGJfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4NQxsmJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NQxsWJfEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NQxs2JfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_4NQxtWJfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NQxtGJfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=StaffSkill%5Bjcu%5Ename=StaffSkill.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4NQKoWJfEeuXuf3kPz8CUQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_4NQxtmJfEeuXuf3kPz8CUQ" source="_8dh7wmJZEeuXuf3kPz8CUQ" target="_8drswmJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NRYwGJfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4NRYwmJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NRYwWJfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NRYw2JfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_4NRYxWJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NRYxGJfEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_4NRYxmJfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_4NR_0GJfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4NRYx2JfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=skill%5Bjsrctype%5Ename=StaffSkill%5Bjcu%5Ename=StaffSkill.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4NQxt2JfEeuXuf3kPz8CUQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_-DXCYGJfEeuXuf3kPz8CUQ" source="_8drFsmJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DXpcGJfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-DXpcmJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DXpcWJfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DXpc2JfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-DXpdWJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DXpdGJfEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DXpdmJfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_-DXpeGJfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DXpd2JfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=Enrolment%5Bjcu%5Ename=Enrolment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-DXCYWJfEeuXuf3kPz8CUQ" points="[-467, -488, 3703, 3868]$[-467, -2178, 3703, 2178]$[-2985, -2178, 1185, 2178]$[-2985, -3736, 1185, 620]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_-DYQhWJfEeuXuf3kPz8CUQ" source="_8drFsmJZEeuXuf3kPz8CUQ" target="_8dp3kWJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DY3kGJfEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-DY3kmJfEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DY3kWJfEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DY3k2JfEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-DY3lWJfEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DY3lGJfEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_-DY3lmJfEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_-DY3mGJfEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-DY3l2JfEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=course%5Bjsrctype%5Ename=Enrolment%5Bjcu%5Ename=Enrolment.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-DYQhmJfEeuXuf3kPz8CUQ" points="[561, 488, 284, -2548]$[561, 2548, 284, -488]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hQpPgGJgEeuXuf3kPz8CUQ" source="_8dii02JZEeuXuf3kPz8CUQ" target="_8dlmKGJZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQp2kGJgEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hQp2kmJgEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQp2kWJgEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQp2k2JgEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hQp2lWJgEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQp2lGJgEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQp2lmJgEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hQp2mGJgEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQp2l2JgEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=supplyContracts%5Bjsrctype%5Ename=Staff%5Bjcu%5Ename=Staff.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hQpPgWJgEeuXuf3kPz8CUQ" points="[1926, -620, -17737, 4889]$[1926, -4990, -17737, 519]$[17686, -4990, -1977, 519]"/>
+  </edges>
+  <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hQp2mWJgEeuXuf3kPz8CUQ" source="_8dlmKGJZEeuXuf3kPz8CUQ" target="_8dii02JZEeuXuf3kPz8CUQ" fontName="Segoe UI" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQqdoGJgEeuXuf3kPz8CUQ" type="FromMultiplicityLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hQqdomJgEeuXuf3kPz8CUQ" type="FromMultiplicity"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQqdoWJgEeuXuf3kPz8CUQ" y="396"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQqdo2JgEeuXuf3kPz8CUQ" type="FromRoleLabel">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_hQqdpWJgEeuXuf3kPz8CUQ" type="FromRole"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQqdpGJgEeuXuf3kPz8CUQ" y="-397"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hQqdpmJgEeuXuf3kPz8CUQ" type="associationTypeLabel">
+      <children xmi:id="_hQqdqGJgEeuXuf3kPz8CUQ" type="associationTypeCompartment"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hQqdp2JgEeuXuf3kPz8CUQ" y="-186"/>
+    </children>
+    <element xmi:type="uml:Property" href="mmi:///#jfield%5Ename=staff%5Bjsrctype%5Ename=SupplyContract%5Bjcu%5Ename=SupplyContract.java%5Bjpack%5Ename=com.tecxis.resume.domain%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-domain-jpa%5D%5D%5D%5D%5D$uml.Property"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hQp2mmJgEeuXuf3kPz8CUQ" points="[-1977, -301, 17686, -5810]$[-18504, -301, 1159, -5810]$[-18504, 4889, 1159, -620]"/>
+  </edges>
 </umlnotation:UMLDiagram>
