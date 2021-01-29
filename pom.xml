@@ -38,6 +38,11 @@
 				<artifactId>resume-domain-jpa</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>		
+			<dependency>		
+				<groupId>com.tecxis.project</groupId>
+				<artifactId>resume-persistence-common</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
 			<!-- END RESUME libraries -->			
 			<dependency>
 				<groupId>org.apache.commons</groupId>  
