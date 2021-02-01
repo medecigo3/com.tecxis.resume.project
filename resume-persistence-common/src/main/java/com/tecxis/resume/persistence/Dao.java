@@ -1,6 +1,8 @@
 package com.tecxis.resume.persistence;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface Dao <K> {
 
@@ -11,5 +13,7 @@ public interface Dao <K> {
 	public void delete(K k);
 
 	public List <K> findAll();
+
+	public Page <K> findAll(Pageable pageable);
 
 }
