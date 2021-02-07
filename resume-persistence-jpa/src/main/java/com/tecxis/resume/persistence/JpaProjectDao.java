@@ -47,8 +47,7 @@ public class JpaProjectDao implements ProjectDao {
 
 	@Override
 	public Page<Project> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

@@ -45,8 +45,7 @@ public class JpaCityDao implements CityDao {
 
 	@Override
 	public Page<City> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

@@ -50,8 +50,7 @@ public class JpaSupplyContractDao implements SupplyContractDao {
 
 	@Override
 	public Page<SupplyContract> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

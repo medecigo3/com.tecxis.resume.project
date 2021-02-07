@@ -45,8 +45,7 @@ public class JpaCountryDao implements CountryDao {
 
 	@Override
 	public Page<Country> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

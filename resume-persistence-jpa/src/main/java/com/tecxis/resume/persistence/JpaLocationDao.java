@@ -45,8 +45,7 @@ public class JpaLocationDao implements LocationDao {
 
 	@Override
 	public Page<Location> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 }

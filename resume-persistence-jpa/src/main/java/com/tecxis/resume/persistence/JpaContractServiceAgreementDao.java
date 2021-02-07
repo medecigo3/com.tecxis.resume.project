@@ -48,8 +48,7 @@ public class JpaContractServiceAgreementDao implements ContractServiceAgreementD
 
 	@Override
 	public Page<ContractServiceAgreement> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

@@ -45,8 +45,7 @@ public class JpaInterestDao implements InterestDao {
 
 	@Override
 	public Page<Interest> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

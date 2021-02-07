@@ -45,8 +45,7 @@ public class JpaAssignmentDao implements AssignmentDao {
 
 	@Override
 	public Page<Assignment> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override

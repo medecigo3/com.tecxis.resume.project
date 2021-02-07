@@ -45,8 +45,7 @@ public class JpaCourseDao implements CourseDao{
 
 	@Override
 	public Page<Course> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAll(pageable);
 	}
 
 	@Override
