@@ -2,35 +2,47 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.repository.ProjectRepository;
 
 public class JpaProjectDao implements ProjectDao {
 
+	@Autowired
+	private ProjectRepository projectRepo;
+
+	
+	@PersistenceContext
+	private EntityManager em;
+	
+	
 	@Override
-	public void save(Project k) {
-		// TODO Auto-generated method stub
+	public void save(Project project) {
+		em.merge(project);
 
 	}
 
 	@Override
-	public void add(Project k) {
-		// TODO Auto-generated method stub
+	public void add(Project project) {
+		em.persist(project);
 
 	}
 
 	@Override
-	public void delete(Project k) {
-		// TODO Auto-generated method stub
+	public void delete(Project project) {
+		em.remove(project);
 
 	}
 
 	@Override
 	public List<Project> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return projectRepo.findAll();
 	}
 
 	@Override

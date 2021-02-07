@@ -2,36 +2,46 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.repository.StaffRepository;
 
 public class JpaStaffDao implements StaffDao {
 
+	@Autowired
+	private StaffRepository staffRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
+
 	@Override
-	public void save(Staff k) {
-		// TODO Auto-generated method stub
+	public void save(Staff staff) {
+		em.merge(staff);
 
 	}
 
 	@Override
-	public void add(Staff k) {
-		// TODO Auto-generated method stub
+	public void add(Staff staff) {
+		em.persist(staff);
 
 	}
 
 	@Override
-	public void delete(Staff k) {
-		// TODO Auto-generated method stub
+	public void delete(Staff staff) {
+		em.remove(staff);
 
 	}
 
 	@Override
 	public List<Staff> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return staffRepo.findAll();
 	}
 
 	@Override

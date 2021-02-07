@@ -2,35 +2,45 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 
 public class JpaAssignmentDao implements AssignmentDao {
+	
+	@Autowired
+	private AssignmentRepository assignmentRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
-	public void save(Assignment k) {
-		// TODO Auto-generated method stub
+	public void save(Assignment assignment) {
+		em.merge(assignment);
 
 	}
 
 	@Override
-	public void add(Assignment k) {
-		// TODO Auto-generated method stub
+	public void add(Assignment assignment) {
+		em.persist(assignment);
 
 	}
 
 	@Override
-	public void delete(Assignment k) {
-		// TODO Auto-generated method stub
+	public void delete(Assignment assignment) {
+		em.remove(assignment);
 
 	}
 
 	@Override
 	public List<Assignment> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return assignmentRepo.findAll();
 	}
 
 	@Override

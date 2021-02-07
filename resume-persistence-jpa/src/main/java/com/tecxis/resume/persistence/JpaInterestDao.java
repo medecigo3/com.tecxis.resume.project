@@ -2,35 +2,45 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Interest;
+import com.tecxis.resume.domain.repository.InterestRepository;
 
 public class JpaInterestDao implements InterestDao {
-
+	
+	@Autowired
+	private InterestRepository interestRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
+	
 	@Override
-	public void save(Interest k) {
-		// TODO Auto-generated method stub
+	public void save(Interest interest) {
+		em.merge(interest);
 
 	}
 
 	@Override
-	public void add(Interest k) {
-		// TODO Auto-generated method stub
+	public void add(Interest interest) {
+		em.persist(interest);
 
 	}
 
 	@Override
-	public void delete(Interest k) {
-		// TODO Auto-generated method stub
+	public void delete(Interest interest) {
+		em.remove(interest);
 
 	}
 
 	@Override
 	public List<Interest> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return interestRepo.findAll();
 	}
 
 	@Override

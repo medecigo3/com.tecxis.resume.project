@@ -2,35 +2,45 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.repository.ServiceRepository;
 
 public class JpaServiceDao implements ServiceDao {
+	
+	@Autowired
+	private ServiceRepository serviceRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
-	public void save(Service k) {
-		// TODO Auto-generated method stub
+	public void save(Service service) {
+		em.merge(service);
 
 	}
 
 	@Override
-	public void add(Service k) {
-		// TODO Auto-generated method stub
+	public void add(Service service) {
+		em.persist(service);
 
 	}
 
 	@Override
-	public void delete(Service k) {
-		// TODO Auto-generated method stub
+	public void delete(Service service) {
+		em.remove(service);
 
 	}
 
 	@Override
 	public List<Service> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return serviceRepo.findAll();
 	}
 
 	@Override

@@ -2,35 +2,45 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.repository.CountryRepository;
 
 public class JpaCountryDao implements CountryDao {
 
+	@Autowired
+	private CountryRepository countryRepo;
+	
+	@PersistenceContext
+	private EntityManager em;	
+	
 	@Override
-	public void save(Country k) {
-		// TODO Auto-generated method stub
+	public void save(Country country) {
+		em.merge(country);
 
 	}
 
 	@Override
-	public void add(Country k) {
-		// TODO Auto-generated method stub
+	public void add(Country country) {
+		em.persist(country);
 
 	}
 
 	@Override
-	public void delete(Country k) {
-		// TODO Auto-generated method stub
+	public void delete(Country country) {
+		em.remove(country);
 
 	}
 
 	@Override
 	public List<Country> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return countryRepo.findAll();
 	}
 
 	@Override

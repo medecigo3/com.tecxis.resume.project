@@ -3,6 +3,10 @@ package com.tecxis.resume.persistence;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,31 +15,37 @@ import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.repository.SupplyContractRepository;
 
-public class JpaSupplycontractDao implements SupplyContractDao {
+public class JpaSupplyContractDao implements SupplyContractDao {
+	
+	@Autowired 
+	private SupplyContractRepository supplyContractRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
-	public void save(SupplyContract k) {
-		// TODO Auto-generated method stub
+	public void save(SupplyContract supplyContract) {
+		em.merge(supplyContract);
 
 	}
 
 	@Override
-	public void add(SupplyContract k) {
-		// TODO Auto-generated method stub
+	public void add(SupplyContract supplyContract) {
+		em.persist(supplyContract);
 
 	}
 
 	@Override
-	public void delete(SupplyContract k) {
-		// TODO Auto-generated method stub
+	public void delete(SupplyContract supplyContract) {
+		em.remove(supplyContract);
 
 	}
 
 	@Override
 	public List<SupplyContract> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findAll();
 	}
 
 	@Override

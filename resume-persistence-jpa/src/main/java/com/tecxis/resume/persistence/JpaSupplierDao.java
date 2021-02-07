@@ -2,35 +2,45 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.repository.SupplierRepository;
 
 public class JpaSupplierDao implements SupplierDao {
+	
+	@Autowired
+	private SupplierRepository supplierRepo;
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
-	public void save(Supplier k) {
-		// TODO Auto-generated method stub
+	public void save(Supplier supplier) {
+		em.merge(supplier);
 
 	}
 
 	@Override
-	public void add(Supplier k) {
-		// TODO Auto-generated method stub
+	public void add(Supplier supplier) {
+		em.persist(supplier);
 
 	}
 
 	@Override
-	public void delete(Supplier k) {
-		// TODO Auto-generated method stub
+	public void delete(Supplier supplier) {
+		em.remove(supplier);
 
 	}
 
 	@Override
 	public List<Supplier> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierRepo.findAll();
 	}
 
 	@Override
