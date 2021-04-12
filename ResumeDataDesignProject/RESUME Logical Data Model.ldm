@@ -3,7 +3,7 @@
 <xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.9.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:LogicalDataModel="http:///com/ibm/db/models/logical/logical.ecore" xmlns:datanotation="http:///datanotation.ecore" xmlns:ilvglnotation="http://www.ilog.com/views/8.5.0/LayoutNotationExtensionDefinition" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
   <LogicalDataModel:Package xmi:id="_fSBr0Js5EeubbOMtXs3wyg" name="RESUME" targetNamespace="RESUME Logical Data Model.ldm" contents="_fVpAgJs5EeubbOMtXs3wyg _fVpnkJs5EeubbOMtXs3wyg _fVpnmps5EeubbOMtXs3wyg _fVqOo5s5EeubbOMtXs3wyg _fVqOsJs5EeubbOMtXs3wyg _fVq1s5s5EeubbOMtXs3wyg _fVq1ups5EeubbOMtXs3wyg _fVrczps5EeubbOMtXs3wyg _fVsD0Js5EeubbOMtXs3wyg _fVsD2Js5EeubbOMtXs3wyg _fVsD5Zs5EeubbOMtXs3wyg _fVsq4Js5EeubbOMtXs3wyg _fVsq5ps5EeubbOMtXs3wyg _fVsq75s5EeubbOMtXs3wyg _fVtR8Js5EeubbOMtXs3wyg _fVtR_Js5EeubbOMtXs3wyg _fVtSBJs5EeubbOMtXs3wyg _fVt5AJs5EeubbOMtXs3wyg _fVt5CJs5EeubbOMtXs3wyg">
     <eAnnotations xmi:id="_oXdmUJs5EeubbOMtXs3wyg" source="diagram">
-      <contents xsi:type="datanotation:DataDiagram" xmi:id="_oXdmUZs5EeubbOMtXs3wyg" type="IE_CrowFoot" name="RESUME Logical Schema" viewKind="ProjectExplorer" notation="IE_CrowFoot">
+      <contents xsi:type="datanotation:DataDiagram" xmi:id="_oXdmUZs5EeubbOMtXs3wyg" type="IE_CrowFoot" name="RESUME logical model" viewKind="ProjectExplorer" notation="IE_CrowFoot">
         <children xmi:id="_ux3d8Js5EeubbOMtXs3wyg" element="_fVpAgJs5EeubbOMtXs3wyg">
           <children xsi:type="notation:Shape" xmi:id="_ux-ysJs5EeubbOMtXs3wyg" type="IEEntityName" fontName="Segoe UI">
             <layoutConstraint xsi:type="notation:Bounds" xmi:id="_ux-ysZs5EeubbOMtXs3wyg"/>
@@ -1322,7 +1322,7 @@
       </contents>
     </eAnnotations>
     <eAnnotations xmi:id="_IZ47MJuhEeuL38wrrKyslg" source="overviewDiagram">
-      <contents xsi:type="datanotation:DataDiagram" xmi:id="_IZ5iQJuhEeuL38wrrKyslg" type="IE_CrowFoot" name="RESUME Conceptual model" viewKind="ProjectExplorer" notation="IE_CrowFoot">
+      <contents xsi:type="datanotation:DataDiagram" xmi:id="_IZ5iQJuhEeuL38wrrKyslg" type="IE_CrowFoot" name="RESUME conceptual model" viewKind="ProjectExplorer" notation="IE_CrowFoot">
         <children xmi:id="_IddMkJuhEeuL38wrrKyslg" element="_fVpAgJs5EeubbOMtXs3wyg">
           <children xsi:type="notation:Shape" xmi:id="_IddzoJuhEeuL38wrrKyslg" type="IEEntityName" fontName="Segoe UI">
             <layoutConstraint xsi:type="notation:Bounds" xmi:id="_IddzoZuhEeuL38wrrKyslg"/>
