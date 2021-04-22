@@ -13,7 +13,7 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<name>resume-domain-plain</name>
+	<name>resume-domain-jpa</name>
 	<description>Resume domain model definition layer</description>
 	
 	<dependencies>
