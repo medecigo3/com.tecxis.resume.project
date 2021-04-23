@@ -10,8 +10,9 @@
 		<config>src/main/resources/datasource-context.xml</config>
 		<config>src/main/resources/persistence-context.xml</config>
 		<config>src/test/resources/test-dataSource-context.xml</config>
-		<config>src/test/resources/test-transaction-context.xml</config>
-		<config>src/test/resources/validation-api-context.xml</config>
+		<config>src/main/resources/validation-api-context.xml</config>
+		<config>src/main/resources/transaction-context.xml</config>
+		<config>src/test/resources/test-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
