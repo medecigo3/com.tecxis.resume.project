@@ -25,8 +25,8 @@
 		<module>resume-domain-jpa</module>
 		<module>resume-persistence-common</module>
 		<module>resume-persistence-jpa</module>
-		<module>services</module>
-		<module>web</module>
+		<module>resume-service-common</module>
+		<module>resume-web</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
