@@ -47,10 +47,7 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
-		"classpath:persistence-context.xml", 
-		"classpath:test-dataSource-context.xml",
-		"classpath:test-transaction-context.xml",
-		"classpath:validation-api-context.xml"})
+		"classpath:test-context.xml"})
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class CityTest {

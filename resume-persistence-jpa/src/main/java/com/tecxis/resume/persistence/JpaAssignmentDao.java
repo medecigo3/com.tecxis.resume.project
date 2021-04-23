@@ -8,10 +8,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 
+@Repository("AssignmentDao")
 public class JpaAssignmentDao implements AssignmentDao {
 	
 	@Autowired
@@ -49,15 +51,13 @@ public class JpaAssignmentDao implements AssignmentDao {
 	}
 
 	@Override
-	public List<Assignment> getAssignmentLikeDesc(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Assignment> getAssignmentLikeDesc(String desc) {		
+		return assignmentRepo.getAssignmentLikeDesc(desc);
 	}
 
 	@Override
-	public Assignment getAssignmentByDesc(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public Assignment getAssignmentByDesc(String desc) {
+		return assignmentRepo.getAssignmentByDesc(desc);
 	}
 
 }
