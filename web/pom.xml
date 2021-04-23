@@ -8,12 +8,11 @@
 	
 	<parent>
 		<groupId>com.tecxis.project</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>resume-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
-	<name>web</name>
 	<description>Resume model presentation layer</description>
 	
 	<dependencies>

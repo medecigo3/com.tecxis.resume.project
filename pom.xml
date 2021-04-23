@@ -4,13 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.tecxis.project</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>resume-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-	<name>parent</name>
-	<description>Tecxis parent project</description>
-
+	
+	<description>RESUME parent project</description>
 
 	<properties>		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
