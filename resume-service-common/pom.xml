@@ -13,7 +13,7 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<description>Resume business model service layer</description>
+	<description>Resume business model service definition layer</description>
 	
 	<dependencies>
 		<dependency>
