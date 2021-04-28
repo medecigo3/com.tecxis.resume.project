@@ -26,6 +26,7 @@
 		<module>resume-persistence-common</module>
 		<module>resume-persistence-jpa</module>
 		<module>resume-service-common</module>
+		<module>resume-service-declarative-tx</module>
 		<module>resume-web</module>
 	</modules>
 	<dependencyManagement>
