@@ -1,5 +1,4 @@
 package com.tecxis.resume.domain;
-import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,10 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
@@ -236,7 +232,7 @@ public class ClientTest {
 		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
@@ -254,7 +250,7 @@ public class ClientTest {
 
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
 		assertEquals(47, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(11, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
 		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
 		assertEquals(11	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));

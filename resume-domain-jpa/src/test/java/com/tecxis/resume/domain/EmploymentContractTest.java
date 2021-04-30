@@ -4,7 +4,6 @@ import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_STARTDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
-import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -36,9 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.EmploymentContract;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
@@ -196,7 +193,7 @@ public class EmploymentContractTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		entityManager.remove(johnAlhpatressEmploymentContract);
 		entityManager.flush();
 		entityManager.clear();
@@ -205,7 +202,7 @@ public class EmploymentContractTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 	}
 	
 	@Test

@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
 import static com.tecxis.resume.domain.Constants.sdf;
-import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -37,13 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.ContractServiceAgreement;
-import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
@@ -175,13 +168,13 @@ public class ContractTest {
 
 		/**These steps will update the Parent (non-owner of this relation)*/ 
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		/**Firstly remove the Child (Owner)*/
 		entityManager.remove(currentSagemContract);
 		entityManager.flush();
 		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));//1 orphan removed
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));//1 orphan removed
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE)); //1 orphan removed
 		/**Finally insert Child with new Parent (non-owner)*/
 		entityManager.persist(newMicropoleContract);
@@ -189,7 +182,7 @@ public class ContractTest {
 		entityManager.clear();
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		
 		/**Validate new Contract*/
@@ -273,7 +266,7 @@ public class ContractTest {
 		newAmesysSagemSupplyContract.setStartDate(startDate);
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -287,7 +280,7 @@ public class ContractTest {
 		entityManager.merge(currentAmesysSagemContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));				//1 orphan removed and 1 new child created in SUPPLY_CONTRACT table. Other tables remain unchanged.
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 						
@@ -371,7 +364,7 @@ public class ContractTest {
 		assertEquals(1, scmDevService.getContractServiceAgreements().size());
 		
 		/**Validate ContractServiceAgreement table pre test state*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
 		contractServiceAgreementId.setContract(micropoleFastconnectContract);
 		contractServiceAgreementId.setService(scmDevService);
@@ -388,7 +381,7 @@ public class ContractTest {
 		
 		/**Test tables pre test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 	
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));				
 
 	
@@ -403,7 +396,7 @@ public class ContractTest {
 				
 		/**Test tables post test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 	
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));				
 		
 		/**Validate the Contract -> ContractServiceAgreements*/
@@ -434,7 +427,7 @@ public class ContractTest {
 		
 		
 		/**Validate Services -> contract to test*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		assertEquals(1, micropoleFastconnectContract.getContractServiceAgreements().size());
 		Service currentService = micropoleFastconnectContract.getContractServiceAgreements().get(0).getService();
 		assertNotNull(currentService);
@@ -551,7 +544,7 @@ public class ContractTest {
 		newContractServiceAgreements.add(alternaScmContractServiceAgreement);
 			
 		/**Set ContractServiceAgreements*/	
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -563,7 +556,7 @@ public class ContractTest {
 		entityManager.merge(arvalContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
+		assertEquals(14, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -631,7 +624,7 @@ public class ContractTest {
 		
 				
 		/**Find ContractServiceAgreement */		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -643,7 +636,7 @@ public class ContractTest {
 		entityManager.merge(barclaysAccentureContract);
 		entityManager.merge(scmDevService);
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -685,7 +678,7 @@ public class ContractTest {
 		micropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
 			
 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -695,7 +688,7 @@ public class ContractTest {
 		assertTrue(micropoleContract.removeContractServiceAgreement(staleContractServiceAgreement));		
 		entityManager.merge(micropoleContract);
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 			
@@ -738,7 +731,7 @@ public class ContractTest {
 		/**Tests initial state of Contracts table (the parent)*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));	// CONTRACT_ID='5'
 		/**Tests the initial state of the children table(s) from the target Parent table*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/	
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE)); 
@@ -767,7 +760,7 @@ public class ContractTest {
 		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//1 child with CONTRACT_ID='5' removed from the SUPPLY_CONTRACT table.
 		/**Tests the cascaded children of the OneToMany association between Contract -> ContractServiceAgreement */
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the CONTRACT_SERVICE_AGREEMENT table. 		
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the CONTRACT_SERVICE_AGREEMENT table. 		
 		/**Tests post state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));  //1 child with CONTRACT_ID='5' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the SUPPLIER table. 
 		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/

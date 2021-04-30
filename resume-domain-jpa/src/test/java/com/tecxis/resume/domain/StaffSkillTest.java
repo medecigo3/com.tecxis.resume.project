@@ -2,8 +2,8 @@ package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.domain.StaffTest.insertAStaff;
-import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import javax.persistence.EntityManager;
@@ -23,9 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Skill;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffSkill;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.StaffSkillId;
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
@@ -124,7 +122,7 @@ public class StaffSkillTest {
 		/**Remove StaffSkill*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		amtTibco = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
 		entityManager.remove(amtTibco);
 		entityManager.flush();
@@ -132,7 +130,7 @@ public class StaffSkillTest {
 		/**Test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		/**Validate StaffSkill*/
 		assertFalse(staffSkillRepo.findById(new StaffSkillId(amt, tibco)).isPresent());
@@ -167,9 +165,9 @@ public class StaffSkillTest {
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		insertAStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		/**Validate StaffSkill*/
 		StaffSkill amtTibcoSkill = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
@@ -207,7 +205,7 @@ public class StaffSkillTest {
 		/**Validate state of tables pre-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		/**Insert new StaffSkill*/
 		entityManager.persist(newStaffSkill);		
 		entityManager.flush();
@@ -218,7 +216,7 @@ public class StaffSkillTest {
 		/**Validate state of tables post-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		/**Validate new StaffSkill*/
 		newStaffSkill = staffSkillRepo.findById(new StaffSkillId(amt, testSkill)).get();

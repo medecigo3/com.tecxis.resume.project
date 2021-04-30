@@ -1,8 +1,6 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
-import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
-import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -35,19 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Assignment;
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.EmploymentContract;
-import com.tecxis.resume.domain.Interest;
-import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.Skill;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffProjectAssignment;
-import com.tecxis.resume.domain.StaffSkill;
-import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
@@ -673,7 +659,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		/**Tests initial state children tables*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
@@ -695,7 +681,7 @@ public class StaffTest {
 		/**Test non-identifying Staff-> Interest children table didn't change*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
 		/**Tests state of children tables*/		
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));  /**O children for John Staff removed here*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));  /**O children for John Staff removed here*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE)); 	 /**O children for John Staff removed here*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
@@ -754,7 +740,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		/**Tests initial state children tables*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
@@ -776,7 +762,7 @@ public class StaffTest {
 		/**Test non-identifying Staff-> Interest children table didn't change*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
 		/**Tests state of children tables*/		
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	
@@ -913,7 +899,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -926,7 +912,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		/**This sets new AMT's SupplyContracts and leaves orphans*/
 		amt.setSupplyContracts(newSupplyContracts);
 		entityManager.persist(newContract);
@@ -938,14 +924,14 @@ public class StaffTest {
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//13 orphans removed and 1 new child created in SUPPLY_CONTRACT table. 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); // 1 new contract created in CONTRACT table. 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
 		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -995,7 +981,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1008,7 +994,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Amend the new SupplyContract*/		
 		amt.addSupplyContract(newSupplyContract);
 		entityManager.persist(newContract);
@@ -1020,14 +1006,14 @@ public class StaffTest {
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(15, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//1 new child created.	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); // 1 new contract created.
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
 		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -1073,7 +1059,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1086,7 +1072,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Remove the SupplyContract*/
 		amt.removeSupplyContract(staleSupplyContract);
 		entityManager.merge(amt);
@@ -1095,14 +1081,14 @@ public class StaffTest {
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));	//1 child removed.	
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate stale SupplyContract doesn't exist*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
@@ -1152,7 +1138,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1165,7 +1151,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		/**This sets current Staff with EmploymenContracts as orphans*/
 		amt.setEmploymentContracts(null);
@@ -1176,14 +1162,14 @@ public class StaffTest {
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //AMT STAFF_ID='1'	
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	// 5 orphans removed in EMPLOYMENT_CONTRACT table. Other tables ramain unchanged.
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));				
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		
 		/**Test parent Staff has no EmploymentContracts*/
@@ -1225,7 +1211,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1238,7 +1224,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		/**Remove EmploymentContract*/
 		john.removeEmploymentContract(staleEmploymentcontract);
 		entityManager.merge(john);
@@ -1248,14 +1234,14 @@ public class StaffTest {
 		/**Test post update state of Staff table*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE)); 
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 	}
 	
 	@Test
@@ -1288,7 +1274,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1301,7 +1287,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		/**Sets currents John's EmploymentContracts as orphans*/
 		john.setEmploymentContracts(null);
 		entityManager.merge(john);
@@ -1311,14 +1297,14 @@ public class StaffTest {
 		/**Test post update state of Staff table*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE)); 
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 
 	}
 	
@@ -1356,7 +1342,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1369,7 +1355,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		/**This sets new AMT's SupplyContracts and leaves orphans*/
 		john.setEmploymentContracts(newEmploymentContracts);		
 		entityManager.merge(john);
@@ -1380,14 +1366,14 @@ public class StaffTest {
 
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		//1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. 
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new EmploymentContract*/		
 		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
@@ -1433,7 +1419,7 @@ public class StaffTest {
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1446,7 +1432,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		/**Amend the new EmploymentContract*/
 		amt.addEmploymentContract(newEmploymentContract);
 		entityManager.merge(amt);
@@ -1455,14 +1441,14 @@ public class StaffTest {
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		//1 child created.
 		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));			
 		
 		amtAmesysEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(amt, amesys);
 		assertEquals(2, amtAmesysEmploymentContracts.size());
@@ -1562,7 +1548,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
 		/**USES*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**ENROLS*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
@@ -1579,7 +1565,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Remove the Staff*/		
 		entityManager.remove(amt);
 		entityManager.flush();
@@ -1613,7 +1599,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE)); // 1 child with STAFF_ID=1 removed from INTEREST table.
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));	
 		/**ENROLS*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
@@ -1631,7 +1617,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));  
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));  
 		/**Finally the state of Staff table (the parent)*/
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));  //1 Parent removed
 		

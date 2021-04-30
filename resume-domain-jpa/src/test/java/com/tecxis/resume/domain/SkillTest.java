@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -28,8 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Skill;
-import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.SkillRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -113,7 +111,7 @@ public class SkillTest {
 		/**Test Skill initial state*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill many-to-many cascadings*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**Test Staff initial state*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
@@ -124,7 +122,7 @@ public class SkillTest {
 		/**Test Skill was removed*/
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		/***Test Skill DELETE many-to-many cascadings*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 	}

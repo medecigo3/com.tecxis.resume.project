@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain;
 
 
-import static com.tecxis.resume.domain.repository.StaffSkillRepositoryTest.STAFF_SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -26,11 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Assignment;
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffProjectAssignment;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
@@ -125,7 +120,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		/**Tests initial state children tables*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));
@@ -144,7 +139,7 @@ public class StaffProjectAssignmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		/**Tests initial state children tables*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));

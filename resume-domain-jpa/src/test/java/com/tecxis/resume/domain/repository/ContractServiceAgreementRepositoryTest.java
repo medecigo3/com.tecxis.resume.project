@@ -32,6 +32,7 @@ import com.tecxis.resume.domain.ContractServiceAgreementTest;
 import com.tecxis.resume.domain.ContractTest;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.ServiceTest;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
@@ -43,8 +44,6 @@ import com.tecxis.resume.domain.repository.ServiceRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class ContractServiceAgreementRepositoryTest {
-	public static final String CONTRACT_SERVICE_AGREEMENT_TABLE = "CONTRACT_SERVICE_AGREEMENT";
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -67,7 +66,7 @@ public class ContractServiceAgreementRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
@@ -79,7 +78,7 @@ public class ContractServiceAgreementRepositoryTest {
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(contractServiceAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 	}
 	
@@ -100,7 +99,7 @@ public class ContractServiceAgreementRepositoryTest {
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement contractServiceAgreementIn = ContractServiceAgreementTest.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
 		assertNotNull(contractServiceAgreementIn);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		/** Build ContraServiceAgreement Id*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
@@ -166,7 +165,7 @@ public class ContractServiceAgreementRepositoryTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteServiceContractAgreement() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
@@ -178,13 +177,13 @@ public class ContractServiceAgreementRepositoryTest {
 		/**Insert ContraServiceAgreement */
 		ContractServiceAgreement tempContractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(tempContractServiceAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		/**Delete ContraServiceAgreement and test*/
 		entityManager.remove(tempContractServiceAgreement);	
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 	}
 	
 	@Test

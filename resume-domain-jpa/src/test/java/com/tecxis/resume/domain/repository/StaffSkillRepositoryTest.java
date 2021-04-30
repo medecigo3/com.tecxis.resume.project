@@ -30,6 +30,7 @@ import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.SkillTest;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffSkill;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.StaffSkillId;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
 
@@ -39,8 +40,6 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
 public class StaffSkillRepositoryTest {
-	
-	final public static String STAFF_SKILL_TABLE = "STAFF_SKILL";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -70,9 +69,9 @@ public class StaffSkillRepositoryTest {
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		insertAStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
 		assertNotNull(amtTibco);
@@ -96,15 +95,15 @@ public class StaffSkillRepositoryTest {
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		StaffSkill amtTibco =  insertAStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		/**Delete StaffSkill*/
 		entityManager.remove(amtTibco);
 		entityManager.flush();
 		/**Verify*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 	}
 	
@@ -113,7 +112,7 @@ public class StaffSkillRepositoryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll() {
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		List <StaffSkill> staffSkills = staffSkillRepo.findAll();
 		assertEquals(5, staffSkills.size());
 	}

@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.repository.ContractServiceAgreementRepositoryTest.CONTRACT_SERVICE_AGREEMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -20,11 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.ContractServiceAgreement;
-import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
@@ -88,11 +83,11 @@ public class ContractServiceAgreementTest {
 		/**Do not detach and remove entity directly*/		
 				
 		/**Remove ContractServiceAgreement*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		entityManager.remove(axeltisFastConnectContractServiceAgreement);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
 		/**Test ContractServiceAgreement was removed */
 		/**Find Client*/
