@@ -39,7 +39,7 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class StaffSkillRepositoryTest {
+public class JpaStaffSkillDaoTest {
 	
 	@PersistenceContext
 	private EntityManager entityManager;

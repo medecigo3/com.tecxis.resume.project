@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain.repository;
 
-import static com.tecxis.resume.domain.AssignmentTest.insertAssignment;
 import static com.tecxis.resume.domain.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
@@ -36,17 +35,14 @@ import com.tecxis.resume.domain.ProjectTest;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffProjectAssignment;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
-import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.utils.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class StaffProjectAssignmentRepositoryTest {
+public class JpaStaffProjectAssignmentDaoTest {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -84,7 +80,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
-		Assignment assignment1 = insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
@@ -112,7 +108,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
-		Assignment assignment1 = insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
@@ -149,7 +145,7 @@ public class StaffProjectAssignmentRepositoryTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
-		Assignment assignment1 = insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));

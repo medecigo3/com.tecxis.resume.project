@@ -36,7 +36,7 @@ import com.tecxis.resume.domain.repository.ServiceRepository;
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class ServiceRepositoryTest {
+public class JpaServiceDaoTest {
 
 	@PersistenceContext
 	private EntityManager entityManager;

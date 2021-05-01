@@ -44,7 +44,7 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class ProjectRepositoryTest {
+public class JpaProjectDaoTest {
 	
     /** For Log4j2 dependencies >= 2.10 set this system property to configure ANSI Styling for Windows 
      * Unix-based operating systems such as Linux and Mac OS X support ANSI color codes by default. 

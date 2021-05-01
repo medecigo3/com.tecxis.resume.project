@@ -33,7 +33,7 @@ import com.tecxis.resume.domain.repository.InterestRepository;
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class InterestRepositoryTest {
+public class JpaInterestDaoTest {
 
 	@PersistenceContext
 	private EntityManager entityManager;

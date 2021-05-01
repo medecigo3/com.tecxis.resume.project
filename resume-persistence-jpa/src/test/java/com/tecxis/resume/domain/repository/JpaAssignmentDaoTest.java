@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain.repository;
 
-import static com.tecxis.resume.domain.AssignmentTest.insertAssignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -29,14 +28,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.Constants;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.utils.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class AssignmentRepositoryTest {
+public class JpaAssignmentDaoTest {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
@@ -55,11 +54,11 @@ public class AssignmentRepositoryTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
-		Assignment assignment1 = insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 						
-		Assignment assignment2 = insertAssignment(Constants.ASSIGNMENT2, entityManager);
+		Assignment assignment2 = Utils.insertAssignment(Constants.ASSIGNMENT2, entityManager);
 		assertEquals(2, assignment2.getId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
@@ -71,7 +70,7 @@ public class AssignmentRepositoryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedAssingmnet() {		
-		Assignment assignmentIn = insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignmentIn = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		Assignment assignmentOut = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT1);
 		assertEquals(assignmentIn, assignmentOut);
 	}
@@ -126,7 +125,7 @@ public class AssignmentRepositoryTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
-		Assignment tempAssignment = insertAssignment(Constants.ASSIGNMENT57, entityManager);
+		Assignment tempAssignment = Utils.insertAssignment(Constants.ASSIGNMENT57, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		assignmentRepo.delete(tempAssignment);
 		assertNull(assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57));
