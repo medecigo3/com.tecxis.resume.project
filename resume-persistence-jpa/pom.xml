@@ -22,6 +22,10 @@
 			<groupId>com.tecxis.project</groupId>
 			<artifactId>resume-persistence-common</artifactId>
 		</dependency>
+		<dependency>		
+			<groupId>com.tecxis.project</groupId>
+			<artifactId>resume-domain-jpa</artifactId>		
+		</dependency>	
 		<!-- END RESUME libraries -->	
 		<dependency>
 			<groupId>org.springframework</groupId>

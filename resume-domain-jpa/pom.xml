@@ -17,6 +17,12 @@
 	<description>Resume domain model definition layer</description>
 	
 	<dependencies>
+		<!-- RESUME libraries -->
+		<dependency>		
+			<groupId>com.tecxis.project</groupId>
+			<artifactId>resume-test-utils</artifactId>		
+		</dependency>
+		<!-- END RESUME libraries -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
