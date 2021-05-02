@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 
 import static com.tecxis.resume.domain.Constants.BUSINESS_WORKS_WILDCARD;
@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 

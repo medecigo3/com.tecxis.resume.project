@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
 import static com.tecxis.resume.domain.Constants.ALTERNA;
@@ -36,6 +36,9 @@ import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.id.EmploymentContractId;
+import com.tecxis.resume.domain.repository.EmploymentContractRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 

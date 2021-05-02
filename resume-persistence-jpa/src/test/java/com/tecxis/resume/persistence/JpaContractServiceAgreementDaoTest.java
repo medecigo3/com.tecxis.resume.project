@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
@@ -38,6 +38,9 @@ import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.ContractServiceAgreement;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
+import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

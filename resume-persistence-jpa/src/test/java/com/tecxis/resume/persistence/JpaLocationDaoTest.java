@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.City.CITY_TABLE;
 import static com.tecxis.resume.domain.Constants.ADIR;
@@ -37,6 +37,7 @@ import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.id.LocationId;
+import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

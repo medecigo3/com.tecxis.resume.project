@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
@@ -64,6 +64,10 @@ import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

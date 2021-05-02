@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 
 import static com.tecxis.resume.domain.Constants.ADIR;
@@ -46,6 +46,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

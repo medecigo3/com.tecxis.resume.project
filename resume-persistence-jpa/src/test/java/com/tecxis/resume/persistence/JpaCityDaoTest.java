@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.City.CITY_TABLE;
 import static com.tecxis.resume.domain.Constants.BELGIUM;
@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 

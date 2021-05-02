@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
@@ -33,6 +33,7 @@ import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.id.StaffSkillId;
+import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

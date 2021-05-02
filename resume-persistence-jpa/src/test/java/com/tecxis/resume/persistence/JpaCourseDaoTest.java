@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Course;
+import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

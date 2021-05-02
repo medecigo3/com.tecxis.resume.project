@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ADIR;
@@ -43,6 +43,10 @@ import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffProjectAssignment;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)

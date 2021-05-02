@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
@@ -60,6 +60,11 @@ import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.id.SupplyContractId;
+import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 
