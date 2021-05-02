@@ -17,10 +17,12 @@ import com.tecxis.resume.domain.id.EnrolmentId;
  * 
  */
 @Entity
-@Table(name="ENROLMENT")
+@Table(name=Enrolment.ENROLMENT_TABLE)
 @IdClass(EnrolmentId.class)
 public class Enrolment implements Serializable{
 	private static final long serialVersionUID = 1L;	
+	
+	final public static String ENROLMENT_TABLE = "ENROLMENT";
 
 	/**Directional association many-to-one to Staff*/
 	@Id

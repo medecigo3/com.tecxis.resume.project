@@ -17,10 +17,12 @@ import com.tecxis.resume.domain.id.StaffSkillId;
  * 
  */
 @Entity
-@Table(name="STAFF_SKILL")
+@Table(name=StaffSkill.STAFF_SKILL_TABLE)
 @IdClass(StaffSkillId.class)
 public class StaffSkill implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
+	final public static String STAFF_SKILL_TABLE = "STAFF_SKILL";
 	
 	/**Directional many-to-one association to Skill*/
 	@Id

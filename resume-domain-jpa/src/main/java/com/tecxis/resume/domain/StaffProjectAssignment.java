@@ -17,10 +17,13 @@ import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
  * 
  */
 @Entity
-@Table(name="STAFF_PROJECT_ASSIGNMENT")
+@Table(name=StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE)
 @IdClass(StaffProjectAssignmentId.class)
 public class StaffProjectAssignment implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String STAFF_PROJECT_ASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
+	
 	
 	@Id
 	@ManyToOne(cascade = CascadeType.ALL)

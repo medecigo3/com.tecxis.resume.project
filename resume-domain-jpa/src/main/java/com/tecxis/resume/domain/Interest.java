@@ -23,6 +23,8 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @Entity
 public class Interest implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String INTEREST_TABLE = "Interest";
 
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="INTEREST_SEQ", 

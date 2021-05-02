@@ -30,6 +30,8 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @NamedQuery(name="Skill.findAll", query="SELECT s FROM Skill s")
 public class Skill implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String SKILL_TABLE = "SKILL";
 
 	private static final String UNSUPPORTED_STAFF_SKILL_OPERATION = "Skill -> Staff association managed by association owner StaffSkill.";
 	

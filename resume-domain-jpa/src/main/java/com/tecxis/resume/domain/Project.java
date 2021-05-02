@@ -38,6 +38,7 @@ import com.tecxis.resume.domain.id.ProjectId;
 @IdClass(ProjectId.class)
 public class Project implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
+	public static final String PROJECT_TABLE = "PROJECT";
 
 	@Id
 	@Column(name="PROJECT_ID")	

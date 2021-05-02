@@ -1,5 +1,7 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -22,8 +24,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Interest;
-import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.repository.InterestRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -132,14 +132,14 @@ public class InterestTest {
 		
 		/** Set new Staff*/		
 		hobby.setStaff(john);
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
 		entityManager.merge(hobby);
 		entityManager.merge(john);
 		entityManager.flush();		
 		entityManager.clear();
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Validate Interest -> Staff association*/
 		/**Find Interest*/

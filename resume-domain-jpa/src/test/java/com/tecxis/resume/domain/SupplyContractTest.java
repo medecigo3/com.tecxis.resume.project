@@ -1,6 +1,11 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
+import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
+import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
+import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -27,7 +32,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
@@ -183,22 +187,22 @@ public class SupplyContractTest {
 		/**Detach entities*/
 		entityManager.clear();		
 		
-		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(5, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 
 	}
 	

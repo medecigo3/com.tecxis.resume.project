@@ -28,6 +28,8 @@ import javax.validation.constraints.NotNull;
 public class Supplier implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
+	public static final String SUPPLIER_TABLE = "SUPPLIER";
+	
 	@Id
 	@Column(name="SUPPLIER_ID")
 	@SequenceGenerator(name="SUPPLIER_SUPPLIERID_GENERATOR", sequenceName="SUPPLIER_SEQ", allocationSize=1, initialValue=1)

@@ -1,5 +1,8 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Course.COURSE_TABLE;
+import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,8 +32,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -177,19 +178,19 @@ public class CourseTest {
 		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		/**Test cascadings*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 	}
 	

@@ -19,11 +19,13 @@ import com.tecxis.resume.domain.id.LocationId;
  * 
  * */
 @Entity
-@Table(name="LOCATION")
+@Table(name=Location.LOCATION_TABLE)
 @IdClass(LocationId.class)
 public class Location implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	final public static String LOCATION_TABLE = "LOCATION";	
 	
 	/**Bi-direccional many-to-one association to City*/
 	@Id

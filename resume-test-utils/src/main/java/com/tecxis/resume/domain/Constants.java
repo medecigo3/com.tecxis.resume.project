@@ -7,9 +7,7 @@ import java.util.GregorianCalendar;
 
 public class Constants {
 
-	/**ASSIGNMENT*/
-	public static final String ASSIGNMENT_TABLE = "Assignment";
-	public static final String ASSIGNING_TABLE = "Staff_Assignment";
+	/**ASSIGNMENT*/	
 	public static final String ASSIGNMENT1 = "Contributing to the build, deployment and software configuration lifecycle phases of a three tier Java banking system.";
 	public static final String ASSIGNMENT2 = "Working on with Rational multi-site Clear Case tools to control and manage software code evolution.";
 	public static final String ASSIGNMENT3 = "Acting on as a conduit between offshore and onshore development teams.";
@@ -66,22 +64,19 @@ public class Constants {
 	public static final String ASSIGNMENT57 = "Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.";
 	public static final String DEV_ASSIGNMENT_WILDCARD = "Development%";
 	/**END ASSIGNMENT*/
-	/**CITY*/
-	public static final String CITY_TABLE = "CITY";
+	/**CITY*/	
 	public static final String BRUSSELS = "Brussels";
 	public static final String PARIS = "Paris";
 	public static final String LONDON = "London";
 	public static final String MANCHESTER = "Manchester";
 	public static final String SWINDON = "Swindon";
 	/**END CITY*/
-	/**COUNTRY*/	
-	public static final String COUNTRY_TABLE = "COUNTRY";
+	/**COUNTRY*/		
 	public static final String BELGIUM = "Belgium";
 	public static final String FRANCE = "France";
 	public static final String UNITED_KINGDOM = "United Kingdom";
 	/**END COUNTRY*/	
-	/**CLIENT*/	
-	public static final String CLIENT_TABLE =	"Client";
+	/**CLIENT*/		
 	public static final String BARCLAYS = "Barclays";
 	public static final String AGEAS = "Ageas (Formerly Fortis)";
 	public static final String AGEAS_SHORT = "Ageas%";
@@ -95,13 +90,11 @@ public class Constants {
 	public static final String LA_BANQUE_POSTALE = "La Banque Postale";
 	public static final String SG = "Societe Generale Investment Banking";
 	public static final String SG_WEBSITE = "www.sg.fr";
-	/**END CLIENT*/	
-	public static final String COURSE_TABLE = "COURSE";
+	/**END CLIENT*/		
 	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
 	public static final String SHORT_BW_6_COURSE = "BW618%";
 	public static final String JAVA_WS = "Java Web Services";
-	/**END COURSE*/	
-	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT";
+	/**END COURSE*/		
 	public static Date  AMT_ACCENTURE_EMPLOYMENT_STARTDATE;
 	public static Date  AMT_ACCENTURE_EMPLOYMENT_ENDDATE;
 	public static Date  AMT_AMESYS_EMPLOYMENT_STARTDATE;
@@ -115,20 +108,13 @@ public class Constants {
 	public static Date  JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
 	public static Date  JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
 	/**END EMPLOYMENT_CONTRACT*/	
-	final public static String ENROLMENT_TABLE = "ENROLMENT";
-	/**END ENROLMENT*/	
-	public static final String INTEREST_TABLE = "Interest";
 	public static final String HOBBY = "Apart from being an integration consultant, I enjoy practicing endurance sports. I am an avid short distance runner but after a recent knee injury I've found a new passion in road bike riding.";
 	public static final String RUNNING = "Running";
 	public static final String SWIMMING = "Swimming";
 	public static final String JOHN_INTEREST = "Football soccer and running";
 	public static final String INTEREST_DESC = "interest desc.";
-	/**END INTEREST*/	
-	/**LOCATION*/
-	public static String LOCATION_TABLE = "LOCATION";
-	/**END LOCATION*/
-	/**PROJECT*/
-	public static final String PROJECT_TABLE = "Project";
+	/**END INTEREST*/		
+	/**PROJECT*/	
 	public static final String ADIR = "ADIR";
 	public static final String FORTIS = "FORTIS";
 	public static final String DCSC = "DCSC";
@@ -146,8 +132,7 @@ public class Constants {
 	public static final String VERSION_3 = "3.0";
 	public static final String PROJECT_DESC = "project desc.";
 	/**END PROJECT*/
-	/**SERVICE*/
-	public static final String SERVICE_TABLE = "Service";
+	/**SERVICE*/	
 	public static final String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
 	public static final String JAVA_INTEGRATION_DEVELOPPER = "Java Integration Developer";
 	public static final String LIFERAY_DEVELOPPER = "Liferay Developer";
@@ -158,8 +143,7 @@ public class Constants {
 	public static final String BUSINESS_WORKS_WILDCARD = "%Business Works%";
 	public static final String TEST_DESCRIPTION = "test description";
 	/**END SERVICE*/
-	/**SKILL*/
-	public static final String SKILL_TABLE = "Skill";
+	/**SKILL*/	
 	public static final String TIBCO = "TIBCO";
 	public static final String ORACLE = "Oracle";
 	public static final String JAVA = "Java";
@@ -168,16 +152,14 @@ public class Constants {
 	public static final String GIT = "Git";
 	public static final String DUMMY_SKILL = "Dummy skill";
 	/**END SKILL*/
-	/**STAFF*/
-	public static final String STAFF_TABLE = "STAFF";
+	/**STAFF*/	
 	public static final String AMT_NAME = "Arturo";
 	public static final String AMT_LASTNAME = "Medecigo Tress";
 	public static final String JOHN_NAME = "John";
 	public static final String JOHN_LASTNAME = "Smith";
 	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
 	/**STAFF*/
-	/**SUPPLY_CONTRACT*/
-	final public static String SUPPLY_CONTRACT_TABLE ="SUPPLY_CONTRACT";
+	/**SUPPLY_CONTRACT*/	
 	public static  Date CONTRACT1_STARTDATE;
 	public static  Date CONTRACT1_ENDDATE;
 	public static  Date CONTRACT2_STARTDATE;
@@ -208,12 +190,8 @@ public class Constants {
 	public static  Date CONTRACT14_ENDDATE;
 	public static  Date CURRENT_DATE = new Date();
 	/**END SUPPLY_CONTRACT*/
-	/**STAFF_PROJECT_ASSIGNMENT*/
-	public static final String STAFF_PROJECT_ASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
-	/**END STAFF_PROJECT_ASSIGNMENT*/
 	
-	/**CONTRACT*/
-	public static final String CONTRACT_TABLE = "Contract";
+	/**CONTRACT*/	
 	public static final String CONTRACT1_NAME = "BarclaysContract";
 	public static final String CONTRACT2_NAME = "AgeasContract";
 	public static final String CONTRACT3_NAME = "AccentureContract";
@@ -230,8 +208,7 @@ public class Constants {
 	public static final int CONTRACT2_ID = 2;
 	/**END CONTRACT*/
 	
-	/**SUPPLIER*/
-	public static final String SUPPLIER_TABLE = "Supplier";
+	/**SUPPLIER*/	
 	public static final String ACCENTURE_SUPPLIER = "ACCENTURE";
 	public static final String AMESYS = "AMESYS";
 	public static final String FASTCONNECT = "FASTCONNECT";

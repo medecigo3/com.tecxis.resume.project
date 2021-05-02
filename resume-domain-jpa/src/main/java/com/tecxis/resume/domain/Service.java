@@ -31,6 +31,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 public class Service implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
 	
+	public static final String SERVICE_TABLE = "SERVICE";
 
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="SERVICE_SEQ", 

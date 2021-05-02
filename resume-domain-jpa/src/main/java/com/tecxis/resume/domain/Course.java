@@ -34,6 +34,8 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 public class Course implements Serializable, StrongEntity {
 	private static final String UNSUPPORTED_COURSE_STAFF_OPERATION = "Course -> Staff association is managed by association owner Enrolment";
 	
+	public static final String COURSE_TABLE = "COURSE";
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id

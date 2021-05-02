@@ -1,5 +1,8 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Course.COURSE_TABLE;
+import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -23,9 +26,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.Enrolment;
-import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.id.EnrolmentId;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EnrolmentRepository;
@@ -85,9 +85,9 @@ public class EnrolmentTest {
 		Enrolment newEnrolment = new Enrolment(john, bwCourse);
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Staff*/		
 		entityManager.remove(bwEnrolment);
@@ -95,9 +95,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
@@ -136,9 +136,9 @@ public class EnrolmentTest {
 		Enrolment newEnrolment = new Enrolment(amt, javaWsCourse);
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Course*/
 		entityManager.remove(bwEnrolment);
@@ -146,9 +146,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
@@ -179,19 +179,19 @@ public class EnrolmentTest {
 		
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove enrolment*/
 		entityManager.remove(bwEnrolment);
 		entityManager.flush();
 		
 		/**Verify initial state*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		/**Verify cascading*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		
 	}

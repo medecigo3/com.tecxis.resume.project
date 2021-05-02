@@ -1,5 +1,7 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -27,7 +29,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.util.Utils;
 
@@ -104,28 +105,28 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
 		assertEquals(tibco.getName(), Constants.TIBCO);
 		
 		/**Test Skill initial state*/
-		assertEquals(7, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		/***Test Skill many-to-many cascadings*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		/**Test Staff initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
 		entityManager.flush();
 		
 		/**Test Skill was removed*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		/***Test Skill DELETE many-to-many cascadings*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		/**Test Staff hasn't changed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
