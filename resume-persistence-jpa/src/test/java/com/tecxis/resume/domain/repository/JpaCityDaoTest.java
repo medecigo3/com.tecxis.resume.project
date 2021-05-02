@@ -1,13 +1,13 @@
 package com.tecxis.resume.domain.repository;
 
+import static com.tecxis.resume.domain.City.CITY_TABLE;
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.BRUSSELS;
-import static com.tecxis.resume.domain.Constants.CITY_TABLE;
-import static com.tecxis.resume.domain.Constants.COUNTRY_TABLE;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.LONDON;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

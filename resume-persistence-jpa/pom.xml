@@ -20,6 +20,10 @@
 		<!-- RESUME libraries -->
 		<dependency>		
 			<groupId>com.tecxis.project</groupId>
+			<artifactId>resume-test-utils</artifactId>		
+		</dependency>
+		<dependency>		
+			<groupId>com.tecxis.project</groupId>
 			<artifactId>resume-persistence-common</artifactId>
 		</dependency>
 		<dependency>		
