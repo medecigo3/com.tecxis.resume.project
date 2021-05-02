@@ -70,6 +70,15 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetId() {			
+		Assignment assignment12 = Utils.insertAssignment(Constants.ASSIGNMENT12, entityManager);
+		assertThat(assignment12.getId(), Matchers.greaterThan((long)0));		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddStaffProjectAssignment1() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));

@@ -54,8 +54,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
 		Utils.insertAssignment(Constants.ASSIGNMENT12, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
-		//TODO move to AssignmentTest.getId()
-//		assertThat(assignment12.getId(), Matchers.greaterThan((long)0));
 				
 	}
 
@@ -70,8 +68,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		Utils.insertACity(Constants.LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		//TODO move to CityTest.getId()
-//		assertThat(london.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -82,8 +78,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		Utils.insertAClient(Constants.SAGEMCOM, entityManager);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		//TODO Move to ClientTest.getId() 
-//		assertThat(client.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -112,8 +106,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		Utils.insertAContract(axeltis, Constants.CONTRACT9_NAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		//TODO move to ContractTest.testGetId()
-//		assertThat(contract.getId(), Matchers.greaterThan((long)0));
 	
 	}
 
@@ -125,8 +117,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		Utils.insertACountry(Constants.UNITED_KINGDOM, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
-		//TODO move to Country.testGetId()
-//		assertThat(uk.getId(), Matchers.greaterThanOrEqualTo((long)0));
 	}
 
 	@Test
@@ -137,8 +127,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
-		//TODO move to CourseTEst.getId()
-//		assertThat(course.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -153,8 +141,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
 		Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		//TODO move to EmployeeContractTest.getId()
-//		assertThat(alternaAmtEmploymentContract.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -165,8 +151,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
 		Utils.insertAnInterest(Constants.HOBBY, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		//TODO move to Interest.getId()
-//		assertThat(interest.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -198,8 +182,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));		
-		//TODO move to Project.testgetId()
-//		assertThat(adirProject.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -210,8 +192,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		Utils.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
-		//TODO move to ServiceTest.testGetID()
-//		assertThat(service.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
@@ -222,8 +202,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		Utils.insertASkill(Constants.TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		//TODO move to SkillTest.testGetId()
-//		assertThat(skill.getId(), Matchers.greaterThan((long)0));	
 	}
 
 	@Test
@@ -265,8 +243,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		//TODO  move to StaffTest.testGetId()
-//		assertThat(staff.getId(), Matchers.greaterThan((long)0));	
 	}
 
 	@Test
@@ -277,8 +253,6 @@ public class UtilsTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		Utils.insertASupplier(Constants.ALPHATRESS, entityManager);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
-		//TODO move to SupplierTest.testGetId()
-//		assertThat(supplierIn.getId(), Matchers.greaterThan((long)0));
 	}
 
 	@Test
