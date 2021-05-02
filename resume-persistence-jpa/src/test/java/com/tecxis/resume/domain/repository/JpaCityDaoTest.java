@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain.repository;
 
-import static com.tecxis.resume.domain.CityTest.insertACity;
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.BRUSSELS;
 import static com.tecxis.resume.domain.Constants.CITY_TABLE;
@@ -35,8 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
-import com.tecxis.resume.domain.CountryTest;
-import com.tecxis.resume.domain.repository.CityRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,21 +60,21 @@ public class JpaCityDaoTest {
 	@Test
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City london = insertACity(LONDON, uk, entityManager);
+		City london = Utils.insertACity(LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, london.getId());
 		
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = CountryTest.insertACountry(FRANCE, entityManager);
-		City paris = insertACity(PARIS, france, entityManager);
+		Country france = Utils.insertACountry(FRANCE, entityManager);
+		City paris = Utils.insertACity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(2, paris.getId());
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);		
-		City brussels = insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertACountry(BELGIUM, entityManager);		
+		City brussels = Utils.insertACity(BRUSSELS, belgium, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, brussels.getId());
 	}
@@ -88,8 +86,8 @@ public class JpaCityDaoTest {
 	@Test
 	public void shouldBeAbleToFindInsertedCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
-		City cityIn = insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
+		City cityIn = Utils.insertACity(BRUSSELS, belgium, entityManager);
 		City cityOut = cityRepo.getCityByName(BRUSSELS);		
 		assertEquals(cityIn, cityOut);
 	}
@@ -114,9 +112,9 @@ public class JpaCityDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = CountryTest.insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City tempCity = insertACity(LONDON, uk, entityManager);
+		City tempCity = Utils.insertACity(LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		cityRepo.delete(tempCity);
 		assertNull(cityRepo.getCityByName(LONDON));

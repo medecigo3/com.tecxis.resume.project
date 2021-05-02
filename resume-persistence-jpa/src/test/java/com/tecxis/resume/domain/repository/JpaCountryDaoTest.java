@@ -28,8 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Country;
-import com.tecxis.resume.domain.CountryTest;
 import com.tecxis.resume.domain.repository.CountryRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -57,15 +57,15 @@ public class JpaCountryDaoTest {
 	)
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
-		Country uk = CountryTest.insertACountry(Constants.UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertACountry(Constants.UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(2, uk.getId());
 		
-		Country belgium = CountryTest.insertACountry(Constants.BELGIUM, entityManager);
+		Country belgium = Utils.insertACountry(Constants.BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(3, belgium.getId());
 	}
@@ -76,7 +76,7 @@ public class JpaCountryDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void shouldBeAbleToFindInsertedCountry() {
-		Country countryIn = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		Country countryIn = Utils.insertACountry(Constants.FRANCE, entityManager);
 		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
 	}
@@ -101,7 +101,7 @@ public class JpaCountryDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));	
-		Country tempCountry = CountryTest.insertACountry("temp", entityManager);
+		Country tempCountry = Utils.insertACountry("temp", entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));

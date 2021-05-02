@@ -11,7 +11,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -39,6 +38,7 @@ import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -73,11 +73,11 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertASupplier(Constants.ALTERNA,  entityManager);			
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertNotNull(alterna);
 		assertNotNull(amt);
-		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
+		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertThat(alternaAmtEmploymentContract.getId(), Matchers.greaterThan((long)0));
 	}
 	
@@ -217,16 +217,6 @@ public class EmploymentContractTest {
 	public void testToString() {
 		EmploymentContract employmentContract = new EmploymentContract();
 		employmentContract.toString();
-	}
-		
-	public static EmploymentContract insertEmploymentContract(Supplier supplier, Staff staff, EntityManager entityManager){
-		EmploymentContract employmentContract = new EmploymentContract(staff, supplier);
-		employmentContract.setStartDate(new Date());
-		entityManager.persist(employmentContract);
-		entityManager.flush();
-		assertThat(employmentContract.getId(), Matchers.greaterThan((long)0));
-		return employmentContract;
-		
 	}
 
 }

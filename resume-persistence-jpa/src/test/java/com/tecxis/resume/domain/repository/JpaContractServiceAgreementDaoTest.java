@@ -24,19 +24,16 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.ClientTest;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.ContractServiceAgreement;
-import com.tecxis.resume.domain.ContractServiceAgreementTest;
-import com.tecxis.resume.domain.ContractTest;
 import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.ServiceTest;
 import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -68,15 +65,15 @@ public class JpaContractServiceAgreementDaoTest {
 	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service scmAssoc = Utils.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = Utils.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		ContractServiceAgreement contractServiceAgreement = Utils.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(contractServiceAgreement);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
@@ -89,15 +86,15 @@ public class JpaContractServiceAgreementDaoTest {
 	)
 	public void findInsertedContractServiceAgreement() {
 		/**Insert service*/
-		Service muleEsbCons = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
+		Service muleEsbCons = Utils.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
 		
 		
 		/**Insert Contract*/
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Contract accentureBarclaysContract = ContractTest.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Contract accentureBarclaysContract = Utils.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreementIn = ContractServiceAgreementTest.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
+		ContractServiceAgreement contractServiceAgreementIn = Utils.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
 		assertNotNull(contractServiceAgreementIn);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
@@ -167,15 +164,15 @@ public class JpaContractServiceAgreementDaoTest {
 	public void testDeleteServiceContractAgreement() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service scmAssoc = Utils.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = ContractTest.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = Utils.insertAContract(belfius, Constants.CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement tempContractServiceAgreement = ContractServiceAgreementTest.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		ContractServiceAgreement tempContractServiceAgreement = Utils.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(tempContractServiceAgreement);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		

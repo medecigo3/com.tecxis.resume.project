@@ -26,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.CourseTest;
 import com.tecxis.resume.domain.repository.CourseRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -52,7 +52,7 @@ public class JpaCourseDaoTest {
 	@Test
 	public void testCreateAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
-		Course bw6 = CourseTest.insertACourse(Constants.BW_6_COURSE, entityManager);
+		Course bw6 = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		assertEquals(1, bw6.getId());
 		
@@ -64,7 +64,7 @@ public class JpaCourseDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedCourse() {
-		Course courseIn = CourseTest.insertACourse(Constants.BW_6_COURSE, entityManager);
+		Course courseIn = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
 		Course courseOut = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
 		assertEquals(courseIn, courseOut);
 	}
@@ -96,7 +96,7 @@ public class JpaCourseDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
-		Course tempCourse = CourseTest.insertACourse(Constants.BW_6_COURSE, entityManager);
+		Course tempCourse = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
 		courseRepo.delete(tempCourse);
 		assertNull(courseRepo.getCourseByTitle(Constants.BW_6_COURSE));

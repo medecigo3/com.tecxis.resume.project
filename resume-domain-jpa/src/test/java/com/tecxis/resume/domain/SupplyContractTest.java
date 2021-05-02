@@ -6,7 +6,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -215,16 +214,6 @@ public class SupplyContractTest {
 	public void testToString() {
 		SupplyContract supplyContract = new SupplyContract();
 		supplyContract.toString();
-	}
-	
-	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
-		SupplyContract supplyContract = new SupplyContract(supplier, contract, staff);
-		supplyContract.setStartDate(startDate);
-		supplyContract.setEndDate(endDate);		
-		entityManager.persist(supplyContract);
-		entityManager.flush();
-		return supplyContract;
-		
 	}
 	
 

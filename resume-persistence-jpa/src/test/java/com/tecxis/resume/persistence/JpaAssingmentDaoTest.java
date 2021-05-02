@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.repository;
+package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,14 +28,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.Constants;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
-		"classpath:test-context.xml" })
+		"classpath:persistence-context.xml", 
+		"classpath:test-dataSource-context.xml",
+		"classpath:test-transaction-context.xml" })
 @Commit
 @Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-public class JpaAssignmentDaoTest {
+public class JpaAssingmentDaoTest {
 	
 	@Autowired
 	private AssignmentRepository assignmentRepo;
@@ -52,7 +55,7 @@ public class JpaAssignmentDaoTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertRowsAndSetIds() {
+	public void testAdd() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));		
 		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
@@ -69,7 +72,7 @@ public class JpaAssignmentDaoTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testFindInsertedAssingmnet() {		
+	public void save() {		
 		Assignment assignmentIn = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		Assignment assignmentOut = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT1);
 		assertEquals(assignmentIn, assignmentOut);

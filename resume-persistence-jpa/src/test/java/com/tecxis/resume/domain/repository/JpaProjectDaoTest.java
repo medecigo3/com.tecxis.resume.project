@@ -32,12 +32,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.ClientTest;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.ProjectTest;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -90,23 +89,23 @@ public class JpaProjectDaoTest {
 		@Test
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 			
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);
-		Project sherpaProject = ProjectTest.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 				
-		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);
-		Project morningStarV1Project = ProjectTest.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
+		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
-		Project monringstarV2Project = ProjectTest.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_2, axeltis, entityManager);
+		Project monringstarV2Project = Utils.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_2, axeltis, entityManager);
 		assertEquals(4, monringstarV2Project.getId());
 		assertEquals(4, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 
@@ -119,8 +118,8 @@ public class JpaProjectDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
-		Client euler = ClientTest.insertAClient(Constants.EULER_HERMES, entityManager);
-		Project eolisIn = ProjectTest.insertAProject(Constants.EOLIS, Constants.VERSION_1, euler, entityManager);
+		Client euler = Utils.insertAClient(Constants.EULER_HERMES, entityManager);
+		Project eolisIn = Utils.insertAProject(Constants.EOLIS, Constants.VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);
 		assertEquals(eolisIn, eolisOut);
 	}
@@ -177,8 +176,8 @@ public class JpaProjectDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);
-		Project tempProject = ProjectTest.insertAProject(Constants.TED, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(Constants.SAGEMCOM, entityManager);
+		Project tempProject = Utils.insertAProject(Constants.TED, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		projectRepo.delete(tempProject);
 		assertNull(projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1));

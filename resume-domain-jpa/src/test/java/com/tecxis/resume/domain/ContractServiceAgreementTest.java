@@ -107,13 +107,5 @@ public class ContractServiceAgreementTest {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement();
 		contractServiceAgreement.toString();
 	}
-	
-
-	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
-		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
-		entityManager.persist(contractServiceAgreement);
-		entityManager.flush();
-		return contractServiceAgreement;
-	}
 
 }

@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
-import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -28,6 +27,7 @@ import com.tecxis.resume.domain.id.StaffSkillId;
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -154,19 +154,19 @@ public class StaffSkillTest {
 	public void testInsertStaffSkillRowsAndSetIds() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
-		Skill tibco = SkillTest.insertASkill(Constants.TIBCO, entityManager);
+		Skill tibco = Utils.insertASkill(Constants.TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
-		insertAStaffSkill(amt, tibco, entityManager);
+		Utils.insertAStaffSkill(amt, tibco, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Tables.STAFF_SKILL_TABLE));
 		
 		/**Validate StaffSkill*/
@@ -237,13 +237,5 @@ public class StaffSkillTest {
 	public void testToString() {
 		StaffSkill staffSkill = new StaffSkill();
 		staffSkill.toString();
-	}
-	
-	public static StaffSkill insertAStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {
-		StaffSkill staffSkill = new StaffSkill(skill, staff);
-		entityManager.persist(staffSkill);
-		entityManager.flush();
-		return staffSkill;
-		
 	}
 }

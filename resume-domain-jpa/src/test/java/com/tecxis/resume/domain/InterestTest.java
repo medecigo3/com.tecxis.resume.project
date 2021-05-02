@@ -26,6 +26,7 @@ import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.repository.InterestRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -51,7 +52,7 @@ public class InterestTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Interest interest = insertAnInterest(Constants.HOBBY, entityManager);
+		Interest interest = Utils.insertAnInterest(Constants.HOBBY, entityManager);
 		assertThat(interest.getId(), Matchers.greaterThan((long)0));
 	}
 	
@@ -200,15 +201,5 @@ public class InterestTest {
 	public void testToString() {
 		Interest interest = new Interest();
 		interest.toString();
-	}
-	
-	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
-		Interest interest = new Interest();
-		interest.setDesc(desc);
-		assertEquals(0, interest.getId());
-		entityManager.persist(interest);
-		entityManager.flush();
-		assertThat(interest.getId(), Matchers.greaterThan((long)0));
-		return interest;
 	}
 }

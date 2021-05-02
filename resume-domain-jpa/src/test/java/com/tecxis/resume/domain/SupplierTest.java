@@ -37,6 +37,7 @@ import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -77,7 +78,7 @@ public class SupplierTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertASupplier(Constants.ALPHATRESS, entityManager);
 		assertThat(supplierIn.getId(), Matchers.greaterThan((long)0));
 		
 	}
@@ -96,7 +97,7 @@ public class SupplierTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertASupplier(Constants.ALPHATRESS, entityManager);
 		assertEquals(supplierIn.getName(), supplierIn.getName());
 	}
 
@@ -741,15 +742,6 @@ public class SupplierTest {
 	public void testToString() {
 		Supplier supplier = new Supplier();
 		supplier.toString();
-	}
-
-	public static Supplier insertASupplier(String name, EntityManager entityManager) {
-		Supplier supplier = new Supplier();
-		supplier.setName(name);
-		entityManager.persist(supplier);
-		entityManager.flush();
-		assertThat(supplier.getId(), Matchers.greaterThan((long)0));
-		return supplier;
 	}
 
 }

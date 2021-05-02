@@ -1,7 +1,5 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.CityTest.insertACity;
-import static com.tecxis.resume.domain.StaffProjectAssignmentTest.insertAStaffProjectAssignment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -34,14 +32,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Assignment;
-import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Country;
-import com.tecxis.resume.domain.Location;
-import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffProjectAssignment;
 import com.tecxis.resume.domain.id.LocationId;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
@@ -51,6 +41,7 @@ import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -95,8 +86,8 @@ public class ProjectTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Client sagemcom = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);	
-		Project ted = ProjectTest.insertAProject(Constants.TED, Constants.VERSION_1, sagemcom, entityManager);
+		Client sagemcom = Utils.insertAClient(Constants.SAGEMCOM, entityManager);	
+		Project ted = Utils.insertAProject(Constants.TED, Constants.VERSION_1, sagemcom, entityManager);
 		assertThat(ted.getId(), Matchers.greaterThan((long)0));		
 	}
 
@@ -233,20 +224,20 @@ public class ProjectTest {
 	public void testSetStaffProjectAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adir = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adir = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
-		Assignment assignment1 = AssignmentTest.insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
@@ -256,7 +247,7 @@ public class ProjectTest {
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
 		/**Prepare staff assignments*/			
-		StaffProjectAssignment amtStaffProjectAssignment = insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);		
+		StaffProjectAssignment amtStaffProjectAssignment = Utils.insertAStaffProjectAssignment(adir, amt, assignment1, entityManager);		
 		List <StaffProjectAssignment> amtStaffProjectAssignments = new ArrayList <> ();		
 		amtStaffProjectAssignments.add(amtStaffProjectAssignment);
 		adir.setStaffProjectAssignment(amtStaffProjectAssignments);
@@ -279,20 +270,20 @@ public class ProjectTest {
 	public void testAddStaffProjectAssignmentFromScratch() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adir = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adir = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
-		Assignment assignment1 = AssignmentTest.insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.ASSIGNMENT_TABLE));
 		
@@ -602,16 +593,16 @@ public class ProjectTest {
 	public void testSetCities() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);
-		Project sherpaProject = ProjectTest.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 				
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
-		Country belgium = CountryTest.insertACountry(Constants.BELGIUM, entityManager);
-		City brussels = insertACity(Constants.BRUSSELS, belgium, entityManager);
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
-		City paris = insertACity(Constants.PARIS, france, entityManager);
+		Country belgium = Utils.insertACountry(Constants.BELGIUM, entityManager);
+		City brussels = Utils.insertACity(Constants.BRUSSELS, belgium, entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
+		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		
@@ -634,22 +625,22 @@ public class ProjectTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
-		Country uk = CountryTest.insertACountry("United Kingdom", entityManager);
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		Country uk = Utils.insertACountry("United Kingdom", entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));		
-		City london = insertACity(Constants.LONDON, uk, entityManager);
-		City swindon = insertACity(Constants.SWINDON, uk, entityManager);
-		City paris = insertACity(Constants.PARIS, france, entityManager);
+		City london = Utils.insertACity(Constants.LONDON, uk, entityManager);
+		City swindon = Utils.insertACity(Constants.SWINDON, uk, entityManager);
+		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
-		Client ageas = ClientTest.insertAClient(Constants.AGEAS, entityManager);		
-		Project fortisProject = ProjectTest.insertAProject(Constants.FORTIS, Constants.VERSION_1, ageas, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client ageas = Utils.insertAClient(Constants.AGEAS, entityManager);		
+		Project fortisProject = Utils.insertAProject(Constants.FORTIS, Constants.VERSION_1, ageas, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		
@@ -679,12 +670,12 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));		
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);
-		Project sherpaProject = ProjectTest.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);			
-		Country belgium = CountryTest.insertACountry(Constants.BELGIUM, entityManager);
-		City brussels = insertACity(Constants.BRUSSELS, belgium, entityManager);
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
-		City paris = insertACity(Constants.PARIS, france, entityManager);		
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);			
+		Country belgium = Utils.insertACountry(Constants.BELGIUM, entityManager);
+		City brussels = Utils.insertACity(Constants.BRUSSELS, belgium, entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
+		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));	
@@ -1062,19 +1053,6 @@ public class ProjectTest {
 	public void testToString() {
 		Project project = new Project ();
 		project.toString();		
-	}
-
-	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
-		Project project = new Project();
-		project.setClient(client);		
-		project.setName(name);
-		project.setVersion(version);
-		assertEquals(0, project.getId());
-		entityManager.persist(project);
-		entityManager.flush();
-		assertThat(project.getId(), Matchers.greaterThan((long)0));
-		return project;
-	
 	}
 
 }

@@ -29,11 +29,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.ClientTest;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -58,15 +58,15 @@ public class JpaClientDaoTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(1, barclays.getId());
 		
-		Client ageas = ClientTest.insertAClient(Constants.AGEAS, entityManager);
+		Client ageas = Utils.insertAClient(Constants.AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(2, ageas.getId());
 		
-		Client accenture = ClientTest.insertAClient(Constants.ACCENTURE_CLIENT, entityManager);
+		Client accenture = Utils.insertAClient(Constants.ACCENTURE_CLIENT, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(3, accenture.getId());
 		
@@ -78,7 +78,7 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void findInsertedClient() {
-		Client clientIn = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);
+		Client clientIn = Utils.insertAClient(Constants.BARCLAYS, entityManager);
 		Client clientOut = clientRepo.getClientByName(clientIn.getName());
 		assertEquals(clientIn, clientOut);
 		
@@ -174,7 +174,7 @@ public class JpaClientDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteClientByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		Client tempClient = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);
+		Client tempClient = Utils.insertAClient(Constants.BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(Constants.SAGEMCOM));

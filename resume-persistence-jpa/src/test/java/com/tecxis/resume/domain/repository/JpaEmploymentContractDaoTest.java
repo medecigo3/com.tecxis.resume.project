@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain.repository;
 
-import static com.tecxis.resume.domain.EmploymentContractTest.insertEmploymentContract;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -26,13 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffTest;
 import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.domain.SupplierTest;
 import com.tecxis.resume.domain.id.EmploymentContractId;
-import com.tecxis.resume.domain.repository.EmploymentContractRepository;
-import com.tecxis.resume.domain.repository.StaffRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -67,9 +62,9 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
-		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
+		Supplier alterna = Utils.insertASupplier(Constants.ALTERNA,  entityManager);			
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
@@ -89,9 +84,9 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
-		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
+		Supplier alterna = Utils.insertASupplier(Constants.ALTERNA,  entityManager);			
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));	
@@ -109,9 +104,9 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = SupplierTest.insertASupplier(Constants.ALTERNA,  entityManager);			
-		Staff amt = StaffTest.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
-		EmploymentContract alternaAmtEmploymentContract = insertEmploymentContract(alterna, amt, entityManager);
+		Supplier alterna = Utils.insertASupplier(Constants.ALTERNA,  entityManager);			
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.EMPLOYMENT_CONTRACT_TABLE));

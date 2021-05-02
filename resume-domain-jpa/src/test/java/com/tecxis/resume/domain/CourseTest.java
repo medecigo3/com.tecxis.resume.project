@@ -33,6 +33,7 @@ import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -61,7 +62,7 @@ public class CourseTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Course course = CourseTest.insertACourse(Constants.BW_6_COURSE, entityManager);
+		Course course = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
 		assertThat(course.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -203,16 +204,6 @@ public class CourseTest {
 	public void testToString() {
 		Course course = new Course();
 		course.toString();
-	}
-	
-	
-	public static Course insertACourse(String title,  EntityManager entityManager) {
-		Course course = new Course();
-		course.setTitle(title);
-		entityManager.persist(course);
-		entityManager.flush();
-		assertThat(course.getId(), Matchers.greaterThan((long)0));
-		return course;
 	}
 
 }

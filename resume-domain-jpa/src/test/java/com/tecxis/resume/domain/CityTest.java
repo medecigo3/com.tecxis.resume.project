@@ -44,6 +44,7 @@ import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -82,8 +83,8 @@ public class CityTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Country belgium = CountryTest.insertACountry(BELGIUM, entityManager);
-		City city = insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
+		City city = Utils.insertACity(BRUSSELS, belgium, entityManager);
 		assertThat(city.getId(), Matchers.greaterThan((long)0));		
 	}
 
@@ -545,24 +546,24 @@ public class CityTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
-		Country uk = CountryTest.insertACountry(Constants.UNITED_KINGDOM, entityManager);
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
+		Country uk = Utils.insertACountry(Constants.UNITED_KINGDOM, entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);
-		Project sherpaProject = ProjectTest.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
-		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);
-		Project morningStarV1Project = ProjectTest.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
+		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
 								
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));		
-		City london = insertACity(Constants.LONDON, uk, entityManager);
-		City paris = insertACity(Constants.PARIS, france, entityManager);
+		City london = Utils.insertACity(Constants.LONDON, uk, entityManager);
+		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 				
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));	
@@ -603,16 +604,16 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));		
-		Country UK = CountryTest.insertACountry(Constants.UNITED_KINGDOM, entityManager);
-		Country france = CountryTest.insertACountry(Constants.FRANCE, entityManager);
-		Client belfius = ClientTest.insertAClient(Constants.BELFIUS, entityManager);
-		Project sherpaProject = ProjectTest.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
-		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);
-		Project morningStarV1Project = ProjectTest.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adirProject = ProjectTest.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);			
-		City london = insertACity(Constants.LONDON, UK, entityManager);		
-		City paris = insertACity(Constants.PARIS, france, entityManager);
+		Country UK = Utils.insertACountry(Constants.UNITED_KINGDOM, entityManager);
+		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
+		Client belfius = Utils.insertAClient(Constants.BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertAProject(Constants.SHERPA, Constants.VERSION_1, belfius, entityManager);
+		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertAProject(Constants.MORNINGSTAR, Constants.VERSION_1, axeltis, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);			
+		City london = Utils.insertACity(Constants.LONDON, UK, entityManager);		
+		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.COUNTRY_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
@@ -713,17 +714,6 @@ public class CityTest {
 	public void testToString() {
 		City city = new City();
 		city.toString();
-	}
-		
-	public static City insertACity(String name, Country country, EntityManager entityManager) {
-		City city = new City();
-		city.setName(name);				
-		city.setCountry(country);
-		entityManager.persist(city);
-		entityManager.flush();
-		assertThat(city.getId(), Matchers.greaterThan((long)0));		
-		return city;
-		
 	}
 	
 

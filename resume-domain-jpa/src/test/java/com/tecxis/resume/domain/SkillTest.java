@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.SkillRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -54,7 +55,7 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Skill skill = insertASkill(Constants.TIBCO, entityManager);
+		Skill skill = Utils.insertASkill(Constants.TIBCO, entityManager);
 		assertThat(skill.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -158,16 +159,6 @@ public class SkillTest {
 	public void testToString() {
 		Skill skill = new Skill();
 		skill.toString();
-	}
-
-	public static Skill insertASkill(String name, EntityManager entityManager) {
-		Skill skill = new Skill();
-		skill.setName(name);
-		assertEquals(0, skill.getId());
-		entityManager.persist(skill);		
-		entityManager.flush();
-		assertThat(skill.getId(), Matchers.greaterThan((long)0));
-		return skill;
 	}
 
 }

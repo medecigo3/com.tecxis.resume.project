@@ -31,12 +31,12 @@ import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.domain.SupplierTest;
 import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -72,7 +72,7 @@ public class JpaSupplierDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		
-		Supplier accenture = SupplierTest.insertASupplier(Constants.ACCENTURE_SUPPLIER,  entityManager);
+		Supplier accenture = Utils.insertASupplier(Constants.ACCENTURE_SUPPLIER,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, accenture.getId());
@@ -85,7 +85,7 @@ public class JpaSupplierDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {		
-		Supplier supplierIn = SupplierTest.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertASupplier(Constants.ALPHATRESS, entityManager);
 		Supplier supplierOut = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
 		
@@ -200,7 +200,7 @@ public class JpaSupplierDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));		
-		Supplier tempSupplier = SupplierTest.insertASupplier(Constants.AMESYS, entityManager);
+		Supplier tempSupplier = Utils.insertASupplier(Constants.AMESYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
 		assertNull(supplierRepo.getSupplierByName(Constants.AMESYS));

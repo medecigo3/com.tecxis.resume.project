@@ -45,6 +45,7 @@ import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -88,8 +89,8 @@ public class ContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);	
-		Contract contract = ContractTest.insertAContract(axeltis, Constants.CONTRACT9_NAME, entityManager);
+		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);	
+		Contract contract = Utils.insertAContract(axeltis, Constants.CONTRACT9_NAME, entityManager);
 		assertThat(contract.getId(), Matchers.greaterThan((long)0));
 	}
 	
@@ -782,17 +783,6 @@ public class ContractTest {
 	public void testToString() {
 		Contract contract = new Contract();
 		contract.toString();
-	}
-
-	public static Contract insertAContract(Client client, String name, EntityManager entityManager) {
-		Contract contract  = new Contract();
-		contract.setName(name);
-		contract.setClient(client);
-		entityManager.persist(contract);
-		entityManager.flush();
-		assertThat(contract.getId(), Matchers.greaterThan((long)0));
-		return contract;
-		
 	}
 
 }

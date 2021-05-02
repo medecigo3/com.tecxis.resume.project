@@ -33,6 +33,7 @@ import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -67,7 +68,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {			
-		Client client = ClientTest.insertAClient(Constants.SAGEMCOM, entityManager);
+		Client client = Utils.insertAClient(Constants.SAGEMCOM, entityManager);
 		assertThat(client.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -269,17 +270,6 @@ public class ClientTest {
 	public void testToString() {
 		Client client = new Client();
 		client.toString();
-	}
-
-	public static Client insertAClient(String name, EntityManager entityManager) {
-		Client client = new Client();
-		client.setName(name);
-		assertEquals(0, client.getId());
-		entityManager.persist(client);		
-		entityManager.flush();
-		assertThat(client.getId(), Matchers.greaterThan((long)0));
-		return client;
-		
 	}
 
 }

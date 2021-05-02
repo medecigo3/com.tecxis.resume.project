@@ -27,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.ServiceTest;
 import com.tecxis.resume.domain.repository.ServiceRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,7 +54,7 @@ public class JpaServiceDaoTest {
 	)
 	public void testInsertServiceRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
-		Service scmAssoc = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service scmAssoc = Utils.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());		
 	}
@@ -66,7 +66,7 @@ public class JpaServiceDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {	
-		Service serviceIn = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
+		Service serviceIn = Utils.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
 		Service serviceOut= serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);		
 		assertEquals(serviceIn, serviceOut);		
 		
@@ -133,7 +133,7 @@ public class JpaServiceDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));		
-		Service tempService = ServiceTest.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service tempService = Utils.insertAService(Constants.SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.SERVICE_TABLE));
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceLikeName(Constants.SCM_ASSOCIATE_DEVELOPPER).size());

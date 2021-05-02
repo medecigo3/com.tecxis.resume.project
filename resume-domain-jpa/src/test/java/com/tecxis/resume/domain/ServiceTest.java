@@ -35,6 +35,7 @@ import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -67,7 +68,7 @@ public class ServiceTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Service service = ServiceTest.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
+		Service service = Utils.insertAService(Constants.MULE_ESB_CONSULTANT, entityManager);
 		assertThat(service.getId(), Matchers.greaterThan((long)0));
 		
 	}
@@ -340,16 +341,6 @@ public class ServiceTest {
 	public void testToString() {
 		Service service = new Service();
 		service.toString();
-	}
-
-	public static Service insertAService(String name, EntityManager entityManager) {
-		Service service = new Service();
-		service.setName(name);		
-		assertEquals(0, service.getId());
-		entityManager.persist(service);
-		entityManager.flush();
-		assertThat(service.getId(), Matchers.greaterThan((long)0));
-		return service;
 	}
 
 }

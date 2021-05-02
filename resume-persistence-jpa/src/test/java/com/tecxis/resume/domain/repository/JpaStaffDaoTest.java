@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain.repository;
 
 import static com.tecxis.resume.domain.Constants.ENROLMENT_TABLE;
-import static com.tecxis.resume.domain.StaffTest.insertAStaff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,8 +34,7 @@ import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -76,7 +74,7 @@ public class JpaStaffDaoTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff amt = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		assertEquals(1, amt.getId());
 	}
@@ -87,7 +85,7 @@ public class JpaStaffDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedStaff() {
-		Staff staffIn = insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff staffIn = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		Staff staffOut = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
 		assertEquals(staffIn, staffOut);		
 	}
@@ -244,7 +242,7 @@ public class JpaStaffDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
-		Staff tempStaff = insertAStaff(Constants.AMT_LASTNAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff tempStaff = Utils.insertAStaff(Constants.AMT_LASTNAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.STAFF_TABLE));
 		staffRepo.delete(tempStaff);
 		assertNull(staffRepo.getStaffLikeFirstName(Constants.AMT_NAME));

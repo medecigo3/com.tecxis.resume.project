@@ -27,13 +27,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.ClientTest;
 import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.ContractTest;
 import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -62,8 +61,8 @@ public class JpaContractDaoTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		Client axeltis = ClientTest.insertAClient(Constants.AXELTIS, entityManager);		
-		Contract accentureContract = ContractTest.insertAContract(axeltis, Constants.CONTRACT1_NAME, entityManager);		
+		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);		
+		Contract accentureContract = Utils.insertAContract(axeltis, Constants.CONTRACT1_NAME, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		assertEquals(1, accentureContract.getId());
 	}
@@ -73,8 +72,8 @@ public class JpaContractDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testFindInsertedContract() {
-		Client barclays = ClientTest.insertAClient(Constants.BARCLAYS, entityManager);			
-		Contract contractIn = ContractTest.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
+		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);			
+		Contract contractIn = Utils.insertAContract(barclays, Constants.CONTRACT1_NAME, entityManager);
 		Contract contractOut = contractRepo.getContractByName(Constants.CONTRACT1_NAME);
 		assertNotNull(contractOut);
 		assertEquals(contractIn, contractOut);		
@@ -85,8 +84,8 @@ public class JpaContractDaoTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
-		Client eh = ClientTest.insertAClient(Constants.EULER_HERMES, entityManager);	
-		Contract tempContract = ContractTest.insertAContract(eh, Constants.CONTRACT1_NAME, entityManager);
+		Client eh = Utils.insertAClient(Constants.EULER_HERMES, entityManager);	
+		Contract tempContract = Utils.insertAContract(eh, Constants.CONTRACT1_NAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByName(Constants.CONTRACT1_NAME));

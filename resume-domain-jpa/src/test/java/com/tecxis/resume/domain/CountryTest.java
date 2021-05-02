@@ -29,6 +29,7 @@ import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -54,7 +55,7 @@ public class CountryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Country country = CountryTest.insertACountry("United Kingdom", entityManager);
+		Country country = Utils.insertACountry("United Kingdom", entityManager);
 		assertThat(country.getId(), Matchers.greaterThan((long)0));
 		
 	}
@@ -158,16 +159,6 @@ public class CountryTest {
 	public void testToString() {
 		Country country = new Country();
 		country.toString();
-	}
-
-	public static Country insertACountry(String name, EntityManager entityManager) {
-		Country country = new Country();
-		country.setName(name);
-		assertEquals(0, country.getId());
-		entityManager.persist(country);		
-		entityManager.flush();
-		assertThat(country.getId(), Matchers.greaterThanOrEqualTo((long)0));
-		return country;
 	}
 
 }
