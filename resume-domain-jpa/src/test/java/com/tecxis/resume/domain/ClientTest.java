@@ -1,5 +1,13 @@
 package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
+import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
+import static com.tecxis.resume.domain.Constants.AGEAS;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
+import static com.tecxis.resume.domain.Constants.BELFIUS;
+import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
+import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
+import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
@@ -72,7 +80,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {			
-		Client client = Utils.insertAClient(Constants.SAGEMCOM, entityManager);
+		Client client = Utils.insertAClient(SAGEMCOM, entityManager);
 		assertThat(client.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -89,16 +97,16 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetName() {		
-		Client client = clientRepo.getClientByName(Constants.BELFIUS);
-		assertEquals(Constants.BELFIUS, client.getName());		
+		Client client = clientRepo.getClientByName(BELFIUS);
+		assertEquals(BELFIUS, client.getName());		
 	}
 	
 	@Test
 	public void testSetName() {
 		Client client = new Client();
 		assertNull(client.getName());
-		client.setName(Constants.BELFIUS);
-		assertEquals(Constants.BELFIUS, client.getName());		
+		client.setName(BELFIUS);
+		assertEquals(BELFIUS, client.getName());		
 		
 	}
 
@@ -106,16 +114,16 @@ public class ClientTest {
 	public void testGetWebsite() {
 		Client client = new Client();
 		assertNull(client.getWebsite());
-		client.setWebsite(Constants.SG_WEBSITE);
-		assertEquals(Constants.SG_WEBSITE, client.getWebsite());	
+		client.setWebsite(SG_WEBSITE);
+		assertEquals(SG_WEBSITE, client.getWebsite());	
 	}
 	
 	@Test
 	public void testSetWebsite() {
 		Client client = new Client();
 		assertNull(client.getWebsite());
-		client.setWebsite(Constants.SG_WEBSITE);
-		assertEquals(Constants.SG_WEBSITE, client.getWebsite());
+		client.setWebsite(SG_WEBSITE);
+		assertEquals(SG_WEBSITE, client.getWebsite());
 	}
 
 	@Test
@@ -123,8 +131,8 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetContracts() {		
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		assertEquals(Constants.AGEAS, ageas.getName());
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		assertEquals(AGEAS, ageas.getName());
 		
 		
 		/**Get client contracts*/
@@ -132,9 +140,9 @@ public class ClientTest {
 		assertEquals(1, ageasContracts.size());
 		/**Compare with fetched contract*/
 		/**Get Supplier*/
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());		
-		Contract ageasContract = contractRepo.getContractByName(Constants.CONTRACT2_NAME);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());		
+		Contract ageasContract = contractRepo.getContractByName(CONTRACT2_NAME);
 		assertNotNull(ageasContract);
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
@@ -144,7 +152,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetContracts() {		
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setContracts(new ArrayList<Contract> ());
 		//To update a Contract's Client see ContractTest.testSetClient()
 	}
@@ -154,7 +162,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddContract() {
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addContract(new Contract());	
 		//To update a Contract's Client see ContractTest.testSetClient()
 	}
@@ -164,7 +172,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveContract() {
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeContract(new Contract());		
 		//To remove a Contract's Client see ContractTest.testSetClient()		
 	}
@@ -174,14 +182,14 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetProjects() {
-		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);
-		assertEquals(Constants.AXELTIS, axeltis.getName());
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
 				
 		List <Project> axeltisProjects = axeltis.getProjects();
 		assertEquals(2, axeltisProjects.size());
 		
 		/**Retrieve projects to test axeltis projects*/
-		List <Project> morningstartProjects = projectRepo.findByName(Constants.MORNINGSTAR);
+		List <Project> morningstartProjects = projectRepo.findByName(MORNINGSTAR);
 		assertEquals(2, morningstartProjects.size());
 		assertThat(axeltisProjects.get(0), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
 		assertThat(axeltisProjects.get(1), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
@@ -193,7 +201,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetProjects() {
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setProjects(new ArrayList<Project> ());
 		//To set a Client's Project see ProjectTest.testSetClient()		
 			
@@ -204,7 +212,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addProject(new Project());
 		//To add a Client's Project see ProjectTest.testSetClient()		
 	}
@@ -214,7 +222,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveProject() {
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeProject(new Project());
 		//To remove a Client's Project see ProjectTest.testSetClient()		
 	}
@@ -226,8 +234,8 @@ public class ClientTest {
 	public void testRemoveClient() {
 	
 		/**Find a Client to remove*/
-		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);
-		assertEquals(Constants.AXELTIS, axeltis.getName());
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
 		
 		/**Test Client -> Project*/
 		assertEquals(2, axeltis.getProjects().size());
@@ -251,7 +259,7 @@ public class ClientTest {
 		entityManager.clear();
 		
 		/**Validate client doesn't exist*/
-		assertNull(clientRepo.getClientByName(Constants.AXELTIS));
+		assertNull(clientRepo.getClientByName(AXELTIS));
 
 		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(47, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));

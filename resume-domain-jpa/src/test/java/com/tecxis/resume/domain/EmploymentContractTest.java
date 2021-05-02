@@ -1,9 +1,16 @@
 package com.tecxis.resume.domain;
-
+ 
+import static com.tecxis.resume.domain.Constants.ALPHATRESS;
+import static com.tecxis.resume.domain.Constants.ALTERNA;
 import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_STARTDATE;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
@@ -77,8 +84,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Supplier alterna = Utils.insertASupplier(Constants.ALTERNA,  entityManager);			
-		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertASupplier(ALTERNA,  entityManager);			
+		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertNotNull(alterna);
 		assertNotNull(amt);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
@@ -98,8 +105,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStartDate(){
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		
@@ -121,8 +128,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetEndDate(){
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		
@@ -143,8 +150,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaff() {		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
@@ -158,8 +165,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplier() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
@@ -183,8 +190,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDbRemoveEmploymentContract() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Supplier alphatress = supplierRepo.getSupplierByName(Constants.ALPHATRESS);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);

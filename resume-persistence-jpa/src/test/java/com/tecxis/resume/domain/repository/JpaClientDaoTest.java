@@ -1,6 +1,26 @@
 package com.tecxis.resume.domain.repository;
 
-
+import static com.tecxis.resume.domain.Constants.ACCENTURE_CLIENT;
+import static com.tecxis.resume.domain.Constants.AGEAS;
+import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
+import static com.tecxis.resume.domain.Constants.BELFIUS;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT1_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT1_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT2_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT2_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT5_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT5_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT7_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT7_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT9_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT9_STARTDATE;
+import static com.tecxis.resume.domain.Constants.MICROPOLE;
+import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -29,10 +49,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -57,17 +75,17 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testCreateRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, barclays.getId());
 		
-		Client ageas = Utils.insertAClient(Constants.AGEAS, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		Client ageas = Utils.insertAClient(AGEAS, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, ageas.getId());
 		
-		Client accenture = Utils.insertAClient(Constants.ACCENTURE_CLIENT, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		Client accenture = Utils.insertAClient(ACCENTURE_CLIENT, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, accenture.getId());
 		
 	}
@@ -78,7 +96,7 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void findInsertedClient() {
-		Client clientIn = Utils.insertAClient(Constants.BARCLAYS, entityManager);
+		Client clientIn = Utils.insertAClient(BARCLAYS, entityManager);
 		Client clientOut = clientRepo.getClientByName(clientIn.getName());
 		assertEquals(clientIn, clientOut);
 		
@@ -89,20 +107,20 @@ public class JpaClientDaoTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetClientByName() {
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		assertNotNull(barclays);
-		assertEquals(Constants.BARCLAYS, barclays.getName());		
+		assertEquals(BARCLAYS, barclays.getName());		
 		/**Tests query by name with LIKE expression*/
-		Client ageasShort = clientRepo.getClientByName(Constants.AGEAS_SHORT);
+		Client ageasShort = clientRepo.getClientByName(AGEAS_SHORT);
 		assertNotNull(ageasShort);
 		assertTrue(ageasShort.getName().startsWith("Ageas"));
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		assertNotNull(ageas);
-		assertEquals(Constants.AGEAS, ageas.getName());
+		assertEquals(AGEAS, ageas.getName());
 		assertEquals(ageas, ageasShort);
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertNotNull(micropole);
-		assertEquals(Constants.MICROPOLE, micropole.getName());
+		assertEquals(MICROPOLE, micropole.getName());
 			
 	}
 	
@@ -111,9 +129,9 @@ public class JpaClientDaoTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetClientContracts() {
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		assertNotNull(barclays);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
+		assertEquals(BARCLAYS, barclays.getName());
 		List <Contract> accentureBarclaysContractList = barclays.getContracts();
 		assertNotNull(accentureBarclaysContractList);
 		assertEquals(1, accentureBarclaysContractList.size());
@@ -121,31 +139,31 @@ public class JpaClientDaoTest {
 		List <SupplyContract> accentureBarclaysSupplyContracts = accentureBarclaysContract.getSupplyContracts();
 		assertEquals(1, accentureBarclaysSupplyContracts.size());
 		SupplyContract barclaysSupplyContract =  accentureBarclaysSupplyContracts.get(0);
-		assertEquals(Constants.CONTRACT1_STARTDATE, barclaysSupplyContract.getStartDate());
-		assertEquals(Constants.CONTRACT1_ENDDATE, barclaysSupplyContract.getEndDate());		
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
+		assertEquals(CONTRACT1_STARTDATE, barclaysSupplyContract.getStartDate());
+		assertEquals(CONTRACT1_ENDDATE, barclaysSupplyContract.getEndDate());		
+		Client ageas = clientRepo.getClientByName(AGEAS);
 		assertNotNull(ageas);
-		assertEquals(Constants.AGEAS, ageas.getName());
+		assertEquals(AGEAS, ageas.getName());
 		assertNotNull(ageas.getContracts());
 		assertEquals(1, ageas.getContracts().size());
 		Contract accentureAgeasContract = ageas.getContracts().get(0);
 		List <SupplyContract> accentureAgeasSupplyContracts = accentureAgeasContract.getSupplyContracts();
 		assertEquals(1, accentureAgeasSupplyContracts.size());
 		SupplyContract accentureAgeasSupplyContract = accentureAgeasSupplyContracts.get(0);		
-		assertEquals(Constants.CONTRACT2_STARTDATE, accentureAgeasSupplyContract.getStartDate());
-		assertEquals(Constants.CONTRACT2_ENDDATE, accentureAgeasSupplyContract.getEndDate());
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		assertEquals(CONTRACT2_STARTDATE, accentureAgeasSupplyContract.getStartDate());
+		assertEquals(CONTRACT2_ENDDATE, accentureAgeasSupplyContract.getEndDate());
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertNotNull(micropole);
-		assertEquals(Constants.MICROPOLE, micropole.getName());
+		assertEquals(MICROPOLE, micropole.getName());
 		assertNotNull(micropole.getContracts());
 		assertEquals(1, micropole.getContracts().size());
 		Contract fastconnectMicropoleContract = micropole.getContracts().get(0);
 		List <SupplyContract> fastconnectMicropoleContracts = fastconnectMicropoleContract.getSupplyContracts();
 		assertEquals(1, fastconnectMicropoleContracts.size());
 		SupplyContract fastconnectMicropoleSupplyContract = fastconnectMicropoleContracts.get(0);
-		assertEquals(Constants.CONTRACT5_STARTDATE, fastconnectMicropoleSupplyContract.getStartDate());
-		assertEquals(Constants.CONTRACT5_ENDDATE, fastconnectMicropoleSupplyContract.getEndDate());
-		Client axeltis = clientRepo.getClientByName(Constants.AXELTIS);
+		assertEquals(CONTRACT5_STARTDATE, fastconnectMicropoleSupplyContract.getStartDate());
+		assertEquals(CONTRACT5_ENDDATE, fastconnectMicropoleSupplyContract.getEndDate());
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertNotNull(axeltis.getContracts());
 		List <Contract> fasctconnectAxeltisContracts = axeltis.getContracts();
 		assertEquals(2, fasctconnectAxeltisContracts.size());
@@ -153,18 +171,18 @@ public class JpaClientDaoTest {
 		List <SupplyContract>  fastconnectAxeltisSupplyContracts1 = fastconnectAxeltisContract1.getSupplyContracts();
 		assertEquals(1, fastconnectAxeltisSupplyContracts1.size());
 		SupplyContract fastconnectAxeltisSupplyContract1 = fastconnectAxeltisSupplyContracts1.get(0);
-		assertThat(fastconnectAxeltisSupplyContract1.getStartDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT7_STARTDATE, Constants.CONTRACT9_STARTDATE)));
-		assertThat(fastconnectAxeltisSupplyContract1.getEndDate(), Matchers.is(Matchers.oneOf(Constants.CONTRACT7_ENDDATE, Constants.CONTRACT9_ENDDATE)));
-		Client belfius = clientRepo.getClientByName(Constants.BELFIUS);
+		assertThat(fastconnectAxeltisSupplyContract1.getStartDate(), Matchers.is(Matchers.oneOf(CONTRACT7_STARTDATE, CONTRACT9_STARTDATE)));
+		assertThat(fastconnectAxeltisSupplyContract1.getEndDate(), Matchers.is(Matchers.oneOf(CONTRACT7_ENDDATE, CONTRACT9_ENDDATE)));
+		Client belfius = clientRepo.getClientByName(BELFIUS);
 		assertNotNull(belfius.getContracts());
 		List <Contract> alphatressBelfiusContracts = belfius.getContracts();
 		assertEquals(1, alphatressBelfiusContracts.size());
 		Contract belfiusContract = alphatressBelfiusContracts.get(0);
-		assertEquals(Constants.CONTRACT13_NAME, belfiusContract.getName());
+		assertEquals(CONTRACT13_NAME, belfiusContract.getName());
 		List <SupplyContract> alphatressBelfiusSupplyContracts = belfiusContract.getSupplyContracts();
 		assertEquals(2, alphatressBelfiusSupplyContracts.size());
 		SupplyContract alphatressBelfiusSupplyContract =  alphatressBelfiusSupplyContracts.get(0);		
-		assertEquals(alphatressBelfiusSupplyContract.getStartDate(), Constants.CONTRACT13_STARTDATE);
+		assertEquals(alphatressBelfiusSupplyContract.getStartDate(), CONTRACT13_STARTDATE);
 		assertNull(alphatressBelfiusSupplyContract.getEndDate());
 		
 		
@@ -173,12 +191,12 @@ public class JpaClientDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteClientByName() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
-		Client tempClient = Utils.insertAClient(Constants.BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		Client tempClient = Utils.insertAClient(BARCLAYS, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		clientRepo.delete(tempClient);
-		assertNull(clientRepo.getClientByName(Constants.SAGEMCOM));
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		assertNull(clientRepo.getClientByName(SAGEMCOM));
+		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 	}
 	
 	@Test

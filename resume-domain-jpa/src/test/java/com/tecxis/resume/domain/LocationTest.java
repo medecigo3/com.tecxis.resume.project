@@ -1,6 +1,12 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.City.CITY_TABLE;
+import static com.tecxis.resume.domain.Constants.ADIR;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
+import static com.tecxis.resume.domain.Constants.FRANCE;
+import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
+import static com.tecxis.resume.domain.Constants.PARIS;
+import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
@@ -62,20 +68,20 @@ public class LocationTest {
 		
 		/**Insert Country*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(Constants.FRANCE, entityManager);
+		Country france = Utils.insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = Utils.insertACity(Constants.PARIS, france, entityManager);
+		City paris = Utils.insertACity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -92,12 +98,12 @@ public class LocationTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveLocation() {		
 		/**Find Project */
-		Project morningstartV1Project = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_1);
-		assertEquals(Constants.MORNINGSTAR, morningstartV1Project.getName());
-		assertEquals(Constants.VERSION_1, morningstartV1Project.getVersion());	
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
 		
 		/**Find a City*/		
-		City paris = cityRepo.getCityByName(Constants.PARIS);
+		City paris = cityRepo.getCityByName(PARIS);
 		
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
@@ -110,8 +116,8 @@ public class LocationTest {
 		entityManager.clear();
 		
 		/**Find Location to remove again*/
-		morningstartV1Project = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_1);
-		paris = cityRepo.getCityByName(Constants.PARIS);
+		morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		paris = cityRepo.getCityByName(PARIS);
 		morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
 		
 		

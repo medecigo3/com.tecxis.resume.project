@@ -1,5 +1,15 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.ACCENTURE_CLIENT;
+import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
+import static com.tecxis.resume.domain.Constants.AGEAS;
+import static com.tecxis.resume.domain.Constants.ALPHATRESS;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
@@ -82,7 +92,7 @@ public class SupplierTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Supplier supplierIn = Utils.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertASupplier(ALPHATRESS, entityManager);
 		assertThat(supplierIn.getId(), Matchers.greaterThan((long)0));
 		
 	}
@@ -101,7 +111,7 @@ public class SupplierTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		Supplier supplierIn = Utils.insertASupplier(Constants.ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertASupplier(ALPHATRESS, entityManager);
 		assertEquals(supplierIn.getName(), supplierIn.getName());
 	}
 
@@ -109,8 +119,8 @@ public class SupplierTest {
 	public void testSetName() {
 		Supplier supplier = new Supplier();
 		assertNull(supplier.getName());		
-		supplier.setName(Constants.ALPHATRESS);				
-		assertEquals(Constants.ALPHATRESS, supplier.getName());
+		supplier.setName(ALPHATRESS);				
+		assertEquals(ALPHATRESS, supplier.getName());
 		
 	}
 	
@@ -120,18 +130,18 @@ public class SupplierTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplyContracts() {
 		/**Find a Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		
 		/**Find Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());
 					
 		/**Verify the Supplier*/
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());				
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());				
 		
 		/**Check SupplyContracts*/
 		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
@@ -154,16 +164,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddSupplyContract() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());		
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());		
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -174,8 +184,8 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());	
 		
 		/**Create the new SupplyContract*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Contract belfiusContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertNotNull(belfiusContract);
 		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
@@ -204,7 +214,7 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate parent Supplier has all SupplyContracts*/
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(4, accenture.getSupplyContracts().size());		
 		/**Validate the opposite association SupplyContract -> Supplier*/
 		SupplyContract johnBelfiusAccentureSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(belfiusContract, accenture, john);
@@ -217,16 +227,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSupplyContract() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());		
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());		
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -241,7 +251,7 @@ public class SupplierTest {
 		
 		/**Detach entities*/
 		entityManager.clear();	
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -272,16 +282,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveSupplyContractsWithNullSet() {					
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());		
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());		
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -293,7 +303,7 @@ public class SupplierTest {
 
 		/**Detach entities*/
 		entityManager.clear();		
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -319,7 +329,7 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Test parent Supplier has no SupplyContract(s)*/
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		assertEquals(0, accenture.getSupplyContracts().size());
 		
@@ -329,16 +339,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetSupplyContractsWithOrmOrphanRemove() {	
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());
 										
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -349,8 +359,8 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());
 		
 		/**Create the new SupplyContract to set to parent Supplier*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		Contract belfiusContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList<>();
@@ -384,7 +394,7 @@ public class SupplierTest {
 	@Test
 	public void testGetEmploymentContracts() {
 		/**Find target Supplier to test*/
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		
 		/**Test Supplier -> EmploymentContract*/
@@ -405,16 +415,16 @@ public class SupplierTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddEmploymentContract() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());		
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());		
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -425,7 +435,7 @@ public class SupplierTest {
 		assertEquals(3, accentureSupplycontracts.size());	
 		
 		/**Create the new EmploymentContract*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);		
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 		newEmploymentContract.setStartDate(new Date());
 	
@@ -453,7 +463,7 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate parent Supplier has all EmploymentContracts*/
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(2, accenture.getEmploymentContracts().size());		
 		/**Validate the opposite association EmploymentContract -> Supplier*/
 		List <EmploymentContract> johnAccentureEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(john, accenture);
@@ -470,16 +480,16 @@ public class SupplierTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEmploymentContract() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());		
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());		
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
@@ -494,7 +504,7 @@ public class SupplierTest {
 		
 		/**Detach entities*/
 		entityManager.clear();	
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -525,16 +535,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveEmploymentContractsWithNullSet() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());
 							
 		/**Verify Supplier -> SupplyContracts*/		
 		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
@@ -546,7 +556,7 @@ public class SupplierTest {
 			
 		/**Detach entities*/
 		entityManager.clear();		
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -572,7 +582,7 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Test parent Supplier has no EmploymentContract(s)*/
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		assertEquals(0, accenture.getEmploymentContracts().size());
 	}
@@ -581,16 +591,16 @@ public class SupplierTest {
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetEmploymentContractsWithOrmOrphanRemove() {		
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());
 							
 		/**Verify Supplier -> SupplyContracts*/		
 		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
@@ -601,7 +611,7 @@ public class SupplierTest {
 		assertEquals(1, accentureEmploymentContracts.size());	
 				
 		/**Create the new EmploymentContract to set to parent Supplier*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 		newEmploymentContract.setStartDate(new Date());
 		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();
@@ -631,8 +641,8 @@ public class SupplierTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate parent Supplier has new EmploymentContract(s)*/
-		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		newEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(john, accenture);
 		assertEquals(1, newEmploymentContracts.size());
 		newEmploymentContract = newEmploymentContracts.get(0);
@@ -646,16 +656,16 @@ public class SupplierTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDbRemoveSupplierWithCascadings() {
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
-		assertEquals(Constants.ACCENTURE_SUPPLIER, accenture.getName());	
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
-		Client barclays = clientRepo.getClientByName(Constants.BARCLAYS);
-		Client ageas = clientRepo.getClientByName(Constants.AGEAS);
-		Client accentureClient = clientRepo.getClientByName(Constants.ACCENTURE_CLIENT);
-		assertEquals(Constants.BARCLAYS, barclays.getName());
-		assertEquals(Constants.AGEAS, ageas.getName());
-		assertEquals(Constants.ACCENTURE_CLIENT, accentureClient.getName());
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		Client accentureClient = clientRepo.getClientByName(ACCENTURE_CLIENT);
+		assertEquals(BARCLAYS, barclays.getName());
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ACCENTURE_CLIENT, accentureClient.getName());
 							
 		/**Verify Supplier -> SupplyContracts*/		
 		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
@@ -668,7 +678,7 @@ public class SupplierTest {
 		/**Detach entities*/
 		entityManager.clear();
 		
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		
 		/**Tests initial state of Suppliers table (the parent)*/
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
@@ -711,16 +721,16 @@ public class SupplierTest {
 		
 		/**Test Suppliers*/
 		assertEquals(4, supplierRepo.findAll().size());
-		accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNull(accenture);
 				
 		/**Test  EmploymentContract children were cleared*/
 		/**Can't really search anything here as all EmploymentContacts with target Supplier were cleared*/
 		
 		/**Test  Staff parents aren't cascaded*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertNotNull(amt);		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertNotNull(john);
 		
 		/**Test SupplyContract children were cleared*/		

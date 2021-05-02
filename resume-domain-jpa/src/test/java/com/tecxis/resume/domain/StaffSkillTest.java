@@ -1,5 +1,10 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.BIRTHDATE;
+import static com.tecxis.resume.domain.Constants.DUMMY_SKILL;
+import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
@@ -104,11 +109,11 @@ public class StaffSkillTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveStaffSkill() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);	
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		assertEquals(5, amt.getSkills().size());
 		
 		/**Find Skill*/
-		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
+		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(1, tibco.getStaff().size());
 		
 		
@@ -137,10 +142,10 @@ public class StaffSkillTest {
 		assertFalse(staffSkillRepo.findById(new StaffSkillId(amt, tibco)).isPresent());
 				
 		/**Validate Staff -> Skills*/
-		amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
 		assertEquals(4, amt.getSkills().size());
 		
-		tibco = skillRepo.getSkillByName(Constants.TIBCO);
+		tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(0, tibco.getStaff().size());
 		
 		
@@ -155,13 +160,13 @@ public class StaffSkillTest {
 	public void testInsertStaffSkillRowsAndSetIds() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = Utils.insertASkill(Constants.TIBCO, entityManager);
+		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
@@ -179,11 +184,11 @@ public class StaffSkillTest {
 		entityManager.clear();
 		
 		/**Validate Staff -> Skills*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(1, amt.getSkills().size());
 		
 		/**Validate Skill -> Staff*/
-		tibco= skillRepo.getSkillByName(Constants.TIBCO);
+		tibco= skillRepo.getSkillByName(TIBCO);
 		assertEquals(1, tibco.getStaff().size());
 		
 	}
@@ -195,11 +200,11 @@ public class StaffSkillTest {
 	)
 	public void testAddStaffSkill() {
 		/**Fetch Staff and validate*/	
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(5, amt.getSkills().size());
 		
 		/**Create new Skill for testing purposes*/
-		Skill testSkill = skillRepo.getSkillByName(Constants.DUMMY_SKILL);
+		Skill testSkill = skillRepo.getSkillByName(DUMMY_SKILL);
 		/**Create new TestSkill*/
 		StaffSkill newStaffSkill = new StaffSkill(testSkill, amt);
 		
@@ -225,11 +230,11 @@ public class StaffSkillTest {
 		assertEquals(testSkill, newStaffSkill.getSkill());
 		
 		/**Validate Skill -> Staff*/
-		testSkill= skillRepo.getSkillByName(Constants.DUMMY_SKILL);
+		testSkill= skillRepo.getSkillByName(DUMMY_SKILL);
 		assertEquals(1, testSkill.getStaff().size());
 		
 		/**Validate Staff -> Skills*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(6, amt.getSkills().size());
 				
 	}

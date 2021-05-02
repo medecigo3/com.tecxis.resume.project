@@ -1,5 +1,6 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
@@ -56,7 +57,7 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Skill skill = Utils.insertASkill(Constants.TIBCO, entityManager);
+		Skill skill = Utils.insertASkill(TIBCO, entityManager);
 		assertThat(skill.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -73,16 +74,16 @@ public class SkillTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		Skill tibcoSkill = skillRepo.getSkillByName(Constants.TIBCO);
-		assertEquals(Constants.TIBCO, tibcoSkill.getName());		
+		Skill tibcoSkill = skillRepo.getSkillByName(TIBCO);
+		assertEquals(TIBCO, tibcoSkill.getName());		
 	}
 	
 	@Test
 	public void testSetName() {
 		Skill skill = new Skill();
 		assertNull(skill.getName());
-		skill.setName(Constants.TIBCO);
-		assertEquals(Constants.TIBCO, skill.getName());
+		skill.setName(TIBCO);
+		assertEquals(TIBCO, skill.getName());
 				
 	}
 	
@@ -93,7 +94,7 @@ public class SkillTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testGetStaff() {
-		Skill tibcoSkill = skillRepo.getSkillByName(Constants.TIBCO);
+		Skill tibcoSkill = skillRepo.getSkillByName(TIBCO);
 		List<Staff> tibcoStaff = tibcoSkill.getStaff();
 		
 		assertEquals(1, tibcoStaff.size());
@@ -107,8 +108,8 @@ public class SkillTest {
 	public void testRemoveSkill() {
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		/**Find Skill*/
-		Skill tibco = skillRepo.getSkillByName(Constants.TIBCO);
-		assertEquals(tibco.getName(), Constants.TIBCO);
+		Skill tibco = skillRepo.getSkillByName(TIBCO);
+		assertEquals(tibco.getName(), TIBCO);
 		
 		/**Test Skill initial state*/
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));

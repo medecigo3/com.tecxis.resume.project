@@ -1,6 +1,85 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
+import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
+import static com.tecxis.resume.domain.Constants.ADIR;
+import static com.tecxis.resume.domain.Constants.AMESYS;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.AOS;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT1;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT10;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT11;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT12;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT13;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT14;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT15;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT16;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT17;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT18;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT19;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT2;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT20;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT21;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT22;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT23;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT24;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT25;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT26;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT27;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT28;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT29;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT3;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT30;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT31;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT32;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT33;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT34;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT37;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT39;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT4;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT40;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT41;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT42;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT43;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT44;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT45;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT46;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT47;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT48;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT49;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT5;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT50;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT51;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT52;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT53;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT54;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT55;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT56;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT57;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT6;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT7;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT8;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT9;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
+import static com.tecxis.resume.domain.Constants.BELFIUS;
+import static com.tecxis.resume.domain.Constants.BIRTHDATE;
+import static com.tecxis.resume.domain.Constants.CENTRE_DES_COMPETENCES;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.domain.Constants.DCSC;
+import static com.tecxis.resume.domain.Constants.EOLIS;
+import static com.tecxis.resume.domain.Constants.EUROCLEAR_VERS_CALYPSO;
+import static com.tecxis.resume.domain.Constants.FORTIS;
+import static com.tecxis.resume.domain.Constants.JOHN_INTEREST;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
+import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
+import static com.tecxis.resume.domain.Constants.PARCOURS;
+import static com.tecxis.resume.domain.Constants.SELENIUM;
+import static com.tecxis.resume.domain.Constants.SHERPA;
+import static com.tecxis.resume.domain.Constants.TED;
+import static com.tecxis.resume.domain.Constants.VERSION_1;
+import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
@@ -104,7 +183,7 @@ public class StaffTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getId() {
-		Staff staff = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff staff = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertThat(staff.getId(), Matchers.greaterThan((long)0));
 	}
 	
@@ -122,163 +201,163 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjectAssignments() {
 		/**Prepare projects*/
-		Project adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);
+		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);
-		assertEquals(Constants.ADIR, adir.getName());
-		assertEquals(Constants.VERSION_1, adir.getVersion());		
+		assertEquals(ADIR, adir.getName());
+		assertEquals(VERSION_1, adir.getVersion());		
 		List <StaffProjectAssignment> adirStaffProjectAssignments = adir.getStaffProjectAssignments();
 		assertEquals(6, adirStaffProjectAssignments.size());
 		
-		Project aos = projectRepo.findByNameAndVersion(Constants.AOS, Constants.VERSION_1);
+		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
 		assertNotNull(aos);
-		assertEquals(Constants.AOS, aos.getName());
-		assertEquals(Constants.VERSION_1, aos.getVersion());		
+		assertEquals(AOS, aos.getName());
+		assertEquals(VERSION_1, aos.getVersion());		
 		List <StaffProjectAssignment> aosStaffProjectAssignments = aos.getStaffProjectAssignments();
 		assertEquals(6, aosStaffProjectAssignments.size());
 		
-		Project coc = projectRepo.findByNameAndVersion(Constants.CENTRE_DES_COMPETENCES, Constants.VERSION_1);
+		Project coc = projectRepo.findByNameAndVersion(CENTRE_DES_COMPETENCES, VERSION_1);
 		assertNotNull(coc);
-		assertEquals(Constants.CENTRE_DES_COMPETENCES, coc.getName());
-		assertEquals(Constants.VERSION_1, coc.getVersion());
+		assertEquals(CENTRE_DES_COMPETENCES, coc.getName());
+		assertEquals(VERSION_1, coc.getVersion());
 		
 		List <StaffProjectAssignment> cocStaffProjectAssignments = coc.getStaffProjectAssignments();
 		assertEquals(5, cocStaffProjectAssignments.size());
 		
-		Project dcsc = projectRepo.findByNameAndVersion(Constants.DCSC, Constants.VERSION_1);
+		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
 		assertNotNull(dcsc);
-		assertEquals(Constants.DCSC, dcsc.getName());
-		assertEquals(Constants.VERSION_1, dcsc.getVersion());		
+		assertEquals(DCSC, dcsc.getName());
+		assertEquals(VERSION_1, dcsc.getVersion());		
 		List <StaffProjectAssignment> dcscStaffProjectAssignments = dcsc.getStaffProjectAssignments();
 		assertEquals(1, dcscStaffProjectAssignments.size());
 		
-		Project eolis = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);
+		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertNotNull(eolis);
-		assertEquals(Constants.EOLIS, eolis.getName());
-		assertEquals(Constants.VERSION_1, eolis.getVersion());
+		assertEquals(EOLIS, eolis.getName());
+		assertEquals(VERSION_1, eolis.getVersion());
 		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
 		assertEquals(5, eolisStaffProjectAssignments.size());
 				
-		Project euroclear = projectRepo.findByNameAndVersion(Constants.EUROCLEAR_VERS_CALYPSO, Constants.VERSION_1);
+		Project euroclear = projectRepo.findByNameAndVersion(EUROCLEAR_VERS_CALYPSO, VERSION_1);
 		assertNotNull(euroclear);
-		assertEquals(Constants.EUROCLEAR_VERS_CALYPSO, euroclear.getName());
-		assertEquals(Constants.VERSION_1, euroclear.getVersion());
+		assertEquals(EUROCLEAR_VERS_CALYPSO, euroclear.getName());
+		assertEquals(VERSION_1, euroclear.getVersion());
 		List <StaffProjectAssignment>  euroclearStaffProjectAssignments = euroclear.getStaffProjectAssignments();
 		assertEquals(2, euroclearStaffProjectAssignments.size());
 		
-		Project fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
 		assertNotNull(fortis);
-		assertEquals(Constants.FORTIS, fortis.getName());
-		assertEquals(Constants.VERSION_1, fortis.getVersion());
+		assertEquals(FORTIS, fortis.getName());
+		assertEquals(VERSION_1, fortis.getVersion());
 		List <StaffProjectAssignment>  fortisStaffProjectAssignments = fortis.getStaffProjectAssignments();
 		assertEquals(3, fortisStaffProjectAssignments.size());
 				
-		Project morningstarv1 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_1);
+		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstarv1);
-		assertEquals(Constants.MORNINGSTAR, morningstarv1.getName());
-		assertEquals(Constants.VERSION_1, morningstarv1.getVersion());
+		assertEquals(MORNINGSTAR, morningstarv1.getName());
+		assertEquals(VERSION_1, morningstarv1.getVersion());
 		List <StaffProjectAssignment>  morningstarv1StaffProjectAssignments = morningstarv1.getStaffProjectAssignments();
 		assertEquals(10, morningstarv1StaffProjectAssignments.size());
 		
-		Project morningstarv2 = projectRepo.findByNameAndVersion(Constants.MORNINGSTAR, Constants.VERSION_2);
+		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
 		assertNotNull(morningstarv2);
-		assertEquals(Constants.MORNINGSTAR, morningstarv2.getName());
-		assertEquals(Constants.VERSION_2, morningstarv2.getVersion());
+		assertEquals(MORNINGSTAR, morningstarv2.getName());
+		assertEquals(VERSION_2, morningstarv2.getVersion());
 		List <StaffProjectAssignment>  morningstarv2StaffProjectAssignments = morningstarv2.getStaffProjectAssignments();
 		assertEquals(6, morningstarv2StaffProjectAssignments.size());
 		
-		Project parcours = projectRepo.findByNameAndVersion(Constants.PARCOURS, Constants.VERSION_1);
+		Project parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		assertNotNull(parcours);
-		assertEquals(Constants.PARCOURS, parcours.getName());
-		assertEquals(Constants.VERSION_1, parcours.getVersion());
+		assertEquals(PARCOURS, parcours.getName());
+		assertEquals(VERSION_1, parcours.getVersion());
 		List <StaffProjectAssignment>  parcoursStaffProjectAssignments = parcours.getStaffProjectAssignments();
 		assertEquals(6, parcoursStaffProjectAssignments.size());
 		
-		Project selenium = projectRepo.findByNameAndVersion(Constants.SELENIUM, Constants.VERSION_1);
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
 		assertNotNull(selenium);
-		assertEquals(Constants.SELENIUM, selenium.getName());
-		assertEquals(Constants.VERSION_1, selenium.getVersion());
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());
 		List <StaffProjectAssignment>  seleniumStaffProjectAssignments = selenium.getStaffProjectAssignments();
 		assertEquals(3, seleniumStaffProjectAssignments.size());
 		
-		Project sherpa = projectRepo.findByNameAndVersion(Constants.SHERPA, Constants.VERSION_1);
+		Project sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
 		assertNotNull(sherpa);
-		assertEquals(Constants.SHERPA, sherpa.getName());
-		assertEquals(Constants.VERSION_1, sherpa.getVersion());
+		assertEquals(SHERPA, sherpa.getName());
+		assertEquals(VERSION_1, sherpa.getVersion());
 		List <StaffProjectAssignment>  sherpaStaffProjectAssignments = sherpa.getStaffProjectAssignments();
 		assertEquals(6, sherpaStaffProjectAssignments.size());
 	
-		Project ted = projectRepo.findByNameAndVersion(Constants.TED, Constants.VERSION_1);
+		Project ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
 		assertNotNull(ted);
-		assertEquals(Constants.TED, ted.getName());
-		assertEquals(Constants.VERSION_1, ted.getVersion());
+		assertEquals(TED, ted.getName());
+		assertEquals(VERSION_1, ted.getVersion());
 		List <StaffProjectAssignment>  tedStaffProjectAssignments = ted.getStaffProjectAssignments();
 		assertEquals(4, tedStaffProjectAssignments.size());
 				
 		/**Prepare staff*/
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertNotNull(amt);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());
 		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
 		List <StaffProjectAssignment> amtProjectAssignments = amt.getStaffProjectAssignments();
 		assertEquals(62, amtProjectAssignments.size());
 		
 		/**Prepare assignments*/	
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT1);
-		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT2);
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT3);
-		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT4);
-		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT5);
-		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT6);
-		Assignment assignment7 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT7);
-		Assignment assignment8 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT8);
-		Assignment assignment9 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT9);		
-		Assignment assignment10 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT10);
-		Assignment assignment11 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT11);
-		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT12);
-		Assignment assignment13 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT13);
-		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT14);
-		Assignment assignment15 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT15);
-		Assignment assignment16 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT16);
-		Assignment assignment17 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT17);
-		Assignment assignment18 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT18);
-		Assignment assignment19 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT19);		
-		Assignment assignment20 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT20);
-		Assignment assignment21 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT21);
-		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT22);
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT23);
-		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT24);
-		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT25);
-		Assignment assignment26 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT26);
-		Assignment assignment27 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT27);
-		Assignment assignment28 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT28);
-		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT29);		
-		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT30);
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT31);
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT33);
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT34);
-		Assignment assignment37 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT37);	
-		Assignment assignment39 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT39);		
-		Assignment assignment40 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT40);
-		Assignment assignment41 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT41);
-		Assignment assignment42 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT42);
-		Assignment assignment43 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT43);
-		Assignment assignment44 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT44);
-		Assignment assignment45 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT45);
-		Assignment assignment46 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT46);
-		Assignment assignment47 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT47);
-		Assignment assignment48 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT48);
-		Assignment assignment49 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT49);		
-		Assignment assignment50 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT50);
-		Assignment assignment51 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT51);
-		Assignment assignment52 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT52);
-		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT53);
-		Assignment assignment54 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT54);
-		Assignment assignment55 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT55);
-		Assignment assignment56 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT56);
-		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57);		
+		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
+		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);
+		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
+		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);
+		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);
+		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT6);
+		Assignment assignment7 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT7);
+		Assignment assignment8 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT8);
+		Assignment assignment9 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT9);		
+		Assignment assignment10 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT10);
+		Assignment assignment11 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT11);
+		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);
+		Assignment assignment13 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT13);
+		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);
+		Assignment assignment15 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT15);
+		Assignment assignment16 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT16);
+		Assignment assignment17 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT17);
+		Assignment assignment18 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT18);
+		Assignment assignment19 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT19);		
+		Assignment assignment20 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT20);
+		Assignment assignment21 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT21);
+		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
+		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT24);
+		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT25);
+		Assignment assignment26 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT26);
+		Assignment assignment27 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT27);
+		Assignment assignment28 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT28);
+		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT29);		
+		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT30);
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
+		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
+		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);
+		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34);
+		Assignment assignment37 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT37);	
+		Assignment assignment39 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT39);		
+		Assignment assignment40 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT40);
+		Assignment assignment41 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT41);
+		Assignment assignment42 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT42);
+		Assignment assignment43 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT43);
+		Assignment assignment44 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT44);
+		Assignment assignment45 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT45);
+		Assignment assignment46 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT46);
+		Assignment assignment47 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT47);
+		Assignment assignment48 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT48);
+		Assignment assignment49 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT49);		
+		Assignment assignment50 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT50);
+		Assignment assignment51 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT51);
+		Assignment assignment52 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT52);
+		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);
+		Assignment assignment54 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT54);
+		Assignment assignment55 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT55);
+		Assignment assignment56 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT56);
+		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);		
 		assertEquals(1, assignment1.getStaffProjectAssignments().size());
 		assertEquals(1, assignment2.getStaffProjectAssignments().size());
 		assertEquals(1, assignment3.getStaffProjectAssignments().size());
@@ -417,15 +496,15 @@ public class StaffTest {
 	@Test
 	public void testAddStaffProjectAssignment() {		
 		/**Fetch Project and validate Project -> StaffProjectAssignments*/
-		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getStaffProjectAssignments().size());
 		
 		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
-		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57);
+		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);
 		assertEquals(2, assignment57.getStaffProjectAssignments().size());
 				
 		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getStaffProjectAssignments().size());
 		
 		/**Create new StaffProjectAssignment */
@@ -455,15 +534,15 @@ public class StaffTest {
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Validate Project -> StaffProjectAssignments*/
-		adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(7, adir.getStaffProjectAssignments().size());
 		
 		/**Validate Assignment -> StaffProjectAssignments*/			
-		assignment57 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT57);
+		assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);
 		assertEquals(3, assignment57.getStaffProjectAssignments().size());
 				
 		/**Validate Staff -> StaffProjectAssignments*/
-		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(2, john.getStaffProjectAssignments().size());
 	}
 	
@@ -473,32 +552,32 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testAddExistingStaffProjectAssignment() {
 		/**Find projects*/
-		Project eolis = projectRepo.findByNameAndVersion(Constants.EOLIS, Constants.VERSION_1);	
+		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
 		/**Validate Projects -> test*/
-		assertEquals(Constants.EOLIS, eolis.getName());
-		assertEquals(Constants.VERSION_1, eolis.getVersion());
+		assertEquals(EOLIS, eolis.getName());
+		assertEquals(VERSION_1, eolis.getVersion());
 		
 		/**Prepare Staff*/
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
 		/**Validate Staff -> test*/
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_NAME, amt.getFirstName());
 						
 		/**Find assignments*/		
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT23);
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT31);		
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT33);		
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT34); 
+		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
+		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);		
+		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
+		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);		
+		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34); 
 		
 		
 		/**Validate Assignments to test**/
-		assertEquals(Constants.ASSIGNMENT23, assignment23.getDesc());
-		assertEquals(Constants.ASSIGNMENT31, assignment31.getDesc());
-		assertEquals(Constants.ASSIGNMENT32, assignment32.getDesc());
-		assertEquals(Constants.ASSIGNMENT33, assignment33.getDesc());
-		assertEquals(Constants.ASSIGNMENT34, assignment34.getDesc());
+		assertEquals(ASSIGNMENT23, assignment23.getDesc());
+		assertEquals(ASSIGNMENT31, assignment31.getDesc());
+		assertEquals(ASSIGNMENT32, assignment32.getDesc());
+		assertEquals(ASSIGNMENT33, assignment33.getDesc());
+		assertEquals(ASSIGNMENT34, assignment34.getDesc());
 		
 		
 		/**Find StaffProjectAssignments to test*/
@@ -527,15 +606,15 @@ public class StaffTest {
 	@Test
 	public void testRemoveStaffProjectAssignment() {		
 		/**Fetch Project and validate Project -> StaffProjectAssignments*/
-		Project  adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getStaffProjectAssignments().size());
 		
 		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT3);
+		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
 		assertEquals(1, assignment3.getStaffProjectAssignments().size());
 				
 		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(62, amt.getStaffProjectAssignments().size());
 		
 		/**Find the target StaffProjectAssignment*/
@@ -562,15 +641,15 @@ public class StaffTest {
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Validate Project -> StaffProjectAssignments*/
-		adir = projectRepo.findByNameAndVersion(Constants.ADIR, Constants.VERSION_1);	
+		adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(5, adir.getStaffProjectAssignments().size());
 		
 		/**Validate Assignment -> StaffProjectAssignments*/			
-		assignment3 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT3);
+		assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
 		assertEquals(0, assignment3.getStaffProjectAssignments().size());
 				
 		/**Validate Staff -> StaffProjectAssignments*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(61, amt.getStaffProjectAssignments().size());		
 		
 	}
@@ -582,20 +661,20 @@ public class StaffTest {
 	public void testSetStaffProjectAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adir = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
+		Project adir = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME,  Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME,  BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
@@ -626,7 +705,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetProjects() {
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		List <Project> amtProject = amt.getProjects();
 		assertEquals(62, amtProject.size());
 		
@@ -638,9 +717,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDetachInterestAndDbRemoveStaffWithCascadings() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
-		assertEquals(Constants.JOHN_NAME, john.getFirstName());
-		assertEquals(Constants.JOHN_LASTNAME, john.getLastName());	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());	
 		
 		/**Get Staff -> SupplyContracts**/
 		assertEquals(1, john.getSupplyContracts().size());
@@ -648,14 +727,14 @@ public class StaffTest {
 		
 		/**SupplyContract -> Contract*/
 		Contract johnContract = johnSupplyContract.getContract();	
-		assertEquals(Constants.CONTRACT13_NAME, johnContract.getName());
+		assertEquals(CONTRACT13_NAME, johnContract.getName());
 		
 		/**Validate Contract -> Client */
-		Client belfius = clientRepo.getClientByName(Constants.BELFIUS);		
+		Client belfius = clientRepo.getClientByName(BELFIUS);		
 		assertEquals(belfius, johnContract.getClient());
 		
 		/**Test Interest -> Staff*/
-		Interest johnInterest= interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		Interest johnInterest= interestRepo.getInterestByDesc(JOHN_INTEREST);
 		assertNotNull(johnInterest);		
 		assertEquals(john, johnInterest.getStaff());
 			
@@ -663,7 +742,7 @@ public class StaffTest {
 		entityManager.clear();		
 		
 		/**Find detached Staff entity*/
-		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);		
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		
 		/***Remove Staff*/
 		/**Tests initial state parent table*/
@@ -704,7 +783,7 @@ public class StaffTest {
 		
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
-		johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		johnInterest = interestRepo.getInterestByDesc(JOHN_INTEREST);
 		assertNotNull(johnInterest);		
 		assertNull(johnInterest.getStaff());
 		
@@ -717,9 +796,9 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveInterest() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
-		assertEquals(Constants.JOHN_NAME, john.getFirstName());
-		assertEquals(Constants.JOHN_LASTNAME, john.getLastName());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 	
 		
 		/**Get Staff -> SupplyContracts**/
@@ -728,15 +807,15 @@ public class StaffTest {
 		
 		/**SupplyContract -> Contract*/
 		Contract johnContract = johnSupplyContract.getContract();	
-		assertEquals(Constants.CONTRACT13_NAME, johnContract.getName());
+		assertEquals(CONTRACT13_NAME, johnContract.getName());
 		
 		/**Validate Contract -> Client */
-		Client belfius = clientRepo.getClientByName(Constants.BELFIUS);		
+		Client belfius = clientRepo.getClientByName(BELFIUS);		
 		assertEquals(belfius, johnContract.getClient());
 		
 				
 		/**Test Interest -> Staff*/
-		Interest johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		Interest johnInterest = interestRepo.getInterestByDesc(JOHN_INTEREST);
 		assertNotNull(johnInterest);		
 		assertEquals(john, johnInterest.getStaff());
 			
@@ -744,7 +823,7 @@ public class StaffTest {
 		entityManager.clear();		
 		
 		/**Find detached Staff entity*/
-		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);		
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		
 		/***Remove Staff*/
 		/**Tests initial state parent table*/
@@ -785,7 +864,7 @@ public class StaffTest {
 		
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
-		johnInterest = interestRepo.getInterestByDesc(Constants.JOHN_INTEREST);
+		johnInterest = interestRepo.getInterestByDesc(JOHN_INTEREST);
 		assertNotNull(johnInterest);		
 		assertNull(johnInterest.getStaff());
 		
@@ -796,7 +875,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCourses() {				
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setCourses(new ArrayList <Course> ());
 		//To set Courses to a Staff see EnrolmentTest.testSetStaff()		
 	}
@@ -806,7 +885,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddCourse() {			
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.addCourse(new Course());
 		//To add a Course to a Staff see EnrolmentTest.testSetStaff()
 	}
@@ -816,7 +895,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveCourse() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.removeCourse(new Course());
 		//To remove a Course to a Staff see EnrolmentTest.testSetStaff()
 	}
@@ -827,13 +906,13 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void getInterests() {
 		/**Find Staff to test*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);		
-		assertEquals(Constants.JOHN_NAME, john.getFirstName());
-		assertEquals(Constants.JOHN_LASTNAME, john.getLastName());
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME, john.getLastName());
 				
 		/**Test Staff -> Interests*/
 		assertEquals(1, john.getInterests().size());
-		assertEquals(Constants.JOHN_INTEREST, john.getInterests().get(0).getDesc());
+		assertEquals(JOHN_INTEREST, john.getInterests().get(0).getDesc());
 		
 	}
 	
@@ -842,7 +921,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void  testSetInterests() {				
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setInterests(new ArrayList <Interest> ());			
 		//To set Interest to a Staff see InterestTest.testSetStaff()
 	}
@@ -852,7 +931,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddInterest() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.addInterest(new Interest ());					
 		//To add Interest into a Staff see InterestTest.testSetStaff()
 	}
@@ -862,10 +941,10 @@ public class StaffTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplyContracts() {
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertEquals(1, john.getSupplyContracts().size());
 		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 	}
@@ -876,7 +955,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetSupplyContractsWithOrmOrphanRemove() {	
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -892,13 +971,13 @@ public class StaffTest {
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Create new SupplyContract to set to parent Staff*/
-		Client belfius = clientRepo.getClientByName(Constants.BELFIUS);
+		Client belfius = clientRepo.getClientByName(BELFIUS);
 		final String newContractName = "AccentureBelfiusContract";	
 		/**New Contract*/
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -945,7 +1024,7 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		List <SupplyContract> amtSupplyContracts = amt.getSupplyContracts();		
 		assertEquals(1, amtSupplyContracts.size());
 		SupplyContract amtSupplyContract = amtSupplyContracts.get(0);
@@ -960,7 +1039,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddSupplyContract() {
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -976,13 +1055,13 @@ public class StaffTest {
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Create new SupplyContract to set to parent Staff*/
-		Client belfius = clientRepo.getClientByName(Constants.BELFIUS);
+		Client belfius = clientRepo.getClientByName(BELFIUS);
 		final String newContractName = "AccentureBelfiusContract";	
 		/**New Contract*/
 		Contract newContract = new Contract();
 		newContract.setName(newContractName);
 		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
@@ -1027,7 +1106,7 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		List <SupplyContract> amtSupplyContracts = amt.getSupplyContracts();		
 		assertEquals(14, amtSupplyContracts.size());		
 		assertThat(amtSupplyContracts, Matchers.hasItem(newSupplyContract));
@@ -1043,7 +1122,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSupplyContract() {
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1063,7 +1142,7 @@ public class StaffTest {
 		
 		/**Detach entities*/
 		entityManager.clear();
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
@@ -1102,7 +1181,7 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate stale SupplyContract doesn't exist*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		List <SupplyContract> supplyContracts = amt.getSupplyContracts();
 		assertThat(supplyContracts, Matchers.not(Matchers.hasItem(staleSupplyContract)));
 		
@@ -1114,7 +1193,7 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetEmploymentContracts() {
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
 		assertEquals(5, amt.getEmploymentContracts().size());		
 	}
@@ -1125,7 +1204,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEmploymentContractsWithNullSet() {
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1142,7 +1221,7 @@ public class StaffTest {
 		
 		/**Detach entities*/
 		entityManager.clear();		
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
@@ -1184,7 +1263,7 @@ public class StaffTest {
 		
 		
 		/**Test parent Staff has no EmploymentContracts*/
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(0, amt.getEmploymentContracts().size());
 	
 	}
@@ -1195,7 +1274,7 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEmploymentContractWithCascadings() {				
 		/**Find target Staff*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1215,7 +1294,7 @@ public class StaffTest {
 		
 		/**Detach entities*/
 		entityManager.clear();
-		john =  staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john =  staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //John STAFF_ID='1'
@@ -1261,7 +1340,7 @@ public class StaffTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEmploymentContractWithNullSet() {
 		/**Find target Staff*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1278,7 +1357,7 @@ public class StaffTest {
 		
 		/**Detach entities*/
 		entityManager.clear();
-		john =  staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john =  staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //John STAFF_ID='1'
@@ -1325,7 +1404,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetEmploymentContractsWithOrmOrphanRemove() {
 		/**Find target Staff*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1341,7 +1420,7 @@ public class StaffTest {
 		assertEquals(1, john.getSupplyContracts().size());
 		
 		/**Create new EmploymentContract to set to parent Staff*/		
-		Supplier accenture = supplierRepo.getSupplierByName(Constants.ACCENTURE_SUPPLIER);
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		/**New SupplyContract*/
 		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
 		newEmploymentContract.setStartDate(new Date());
@@ -1387,7 +1466,7 @@ public class StaffTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new EmploymentContract*/		
-		john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		newEmploymentContracts = john.getEmploymentContracts();
 		assertEquals(1, newEmploymentContracts.size());
 		newEmploymentContract = newEmploymentContracts.get(0);
@@ -1402,7 +1481,7 @@ public class StaffTest {
 	public void testAddEmploymentContract() {
 	
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills*/
@@ -1418,7 +1497,7 @@ public class StaffTest {
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Create the new EmploymentContract*/			
-		Supplier amesys = supplierRepo.getSupplierByName(Constants.AMESYS);		
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
 		EmploymentContract newEmploymentContract = new EmploymentContract(amt, amesys);
 		newEmploymentContract.setStartDate(new Date());
 		/**Test the existing state for 'amt' and 'amesys' EmploymentContract */
@@ -1481,7 +1560,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSkills() {
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(5, amt.getSkills().size());
 
 	}
@@ -1491,7 +1570,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaffSkills() {				
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setStaffSkills(new ArrayList <StaffSkill> ());
 		//To set StaffSkills to a Staff see StaffSkillTest.testSetStaff()
 	}
@@ -1502,7 +1581,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetSkills() {		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);	
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setSkills(new ArrayList <Skill> ());
 		//To set Skills to a Staff see StaffSkillTest.testSetSkill()		
 	}
@@ -1512,7 +1591,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddSkill() {	
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		john.addSkill(new Skill());
 		//To add Skills to a Staff see StaffSkillTest.testAddStaffSkill
 	}
@@ -1522,7 +1601,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		john.removeSkill(new Skill());	
 		//To add Skills to a Staff see StaffSkillTest.testRemoveStaffSkill
 	}
@@ -1533,7 +1612,7 @@ public class StaffTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDbRemoveStaffWithCascadings() {
 		/**Find target Staff*/		
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
 		
 		/**Verify parent Staff -> Skills is a many-to-many with no REMOVE cascadings*/
@@ -1550,7 +1629,7 @@ public class StaffTest {
 		
 		/**Detach entities*/
 		entityManager.clear();
-		amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //AMT STAFF_ID='1'
@@ -1667,8 +1746,8 @@ public class StaffTest {
 	
 	public static Staff createValidStaff(){
 		Staff staff = new Staff();
-		staff.setFirstName(Constants.AMT_NAME);
-		staff.setLastName(Constants.AMT_LASTNAME);
+		staff.setFirstName(AMT_NAME);
+		staff.setLastName(AMT_LASTNAME);
 		staff.setBirthDate(new Date());
 		return staff;
 	}

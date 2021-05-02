@@ -1,5 +1,30 @@
 package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
+import static com.tecxis.resume.domain.Constants.ALTERNA;
+import static com.tecxis.resume.domain.Constants.AMESYS;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.ARVAL;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
+import static com.tecxis.resume.domain.Constants.BELFIUS;
+import static com.tecxis.resume.domain.Constants.CONTRACT11_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT11_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT11_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_STARTDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT5_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT9_NAME;
+import static com.tecxis.resume.domain.Constants.FASTCONNECT;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
+import static com.tecxis.resume.domain.Constants.MICROPOLE;
+import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
+import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
+import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.sdf;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
@@ -94,8 +119,8 @@ public class ContractTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Client axeltis = Utils.insertAClient(Constants.AXELTIS, entityManager);	
-		Contract contract = Utils.insertAContract(axeltis, Constants.CONTRACT9_NAME, entityManager);
+		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);	
+		Contract contract = Utils.insertAContract(axeltis, CONTRACT9_NAME, entityManager);
 		assertThat(contract.getId(), Matchers.greaterThan((long)0));
 	}
 	
@@ -114,10 +139,10 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetClient() {
 		/**Find a contract*/		
-		Contract alphatressBelfiusContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
+		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		
 		/**Validate Contract-> Client */
-		assertEquals(Constants.BELFIUS, alphatressBelfiusContract.getClient().getName());
+		assertEquals(BELFIUS, alphatressBelfiusContract.getClient().getName());
 		
 		/**Validate Contract-> SupplyContract */
 		List <SupplyContract> alphatressBelfiusContracts = alphatressBelfiusContract.getSupplyContracts();
@@ -135,36 +160,36 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetClientWithOrmOrhpanRemoval() {
 		/**Find a Contract*/			
-		Contract currentSagemContract = contractRepo.getContractByName(Constants.CONTRACT4_NAME);
+		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = currentSagemContract.getId();
 				
 		/**Validate Contract-> Client */
 		Client sagem = currentSagemContract.getClient();
-		assertEquals(Constants.SAGEMCOM, sagem.getName());				
+		assertEquals(SAGEMCOM, sagem.getName());				
 		
 		/**Validate Contract -> SupplyContract*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertNotNull(amt);		
-		Supplier amesys = supplierRepo.getSupplierByName(Constants.AMESYS);
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 		assertEquals(1, currentSagemContract.getSupplyContracts().size());
 		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
 		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
 		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
-		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
+		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
 		
 		/**Validate Supplier -> SupplyContract -> Contract*/		
 		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 		
 		/**Find new Client to set*/
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(1, micropole.getContracts().size());
 				
 		/**Create new Contract with new Client*/
 		Contract newMicropoleContract = new Contract();
 		newMicropoleContract.setId(sagemContractId);
 		newMicropoleContract.setClient(micropole);
-		newMicropoleContract.setName(Constants.CONTRACT4_NAME);
+		newMicropoleContract.setName(CONTRACT4_NAME);
 		/**Set the new Contract with the SupplyContract (with new Client)*/	
 		SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
 		amesysMicropoleSupplyContract.setStartDate(new Date());
@@ -192,15 +217,15 @@ public class ContractTest {
 		
 		
 		/**Validate new Contract*/
-		newMicropoleContract = contractRepo.getContractByName(Constants.CONTRACT4_NAME);					
+		newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);					
 		assertEquals(sagemContractId, newMicropoleContract.getId());
 		
 		/**Validate new Contract ->  Client*/
-		micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(micropole, newMicropoleContract.getClient());	
 		
 		/**Validate old Contract -> Client*/
-		Contract fcMicropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract fcMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(micropole, fcMicropoleContract.getClient());
 		
 		/**Now Client -> Contracts has 2 */
@@ -224,18 +249,18 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplier() {
 		/**Find a contract*/	
-		Supplier amesys = supplierRepo.getSupplierByName(Constants.AMESYS);		
-		Contract amesysSagemContract = contractRepo.getContractByName(Constants.CONTRACT4_NAME);
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
+		Contract amesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		
 		/**Validate Contract-> Client */				
-		assertEquals(Constants.SAGEMCOM, amesysSagemContract.getClient().getName());
+		assertEquals(SAGEMCOM, amesysSagemContract.getClient().getName());
 		
 		/**Validate Contract -> SupplyContract*/
 		assertEquals(1, amesysSagemContract.getSupplyContracts().size());
 		SupplyContract amesysSagemSupplyContract = amesysSagemContract.getSupplyContracts().get(0);
-		assertEquals(Constants.AMESYS,amesysSagemSupplyContract.getSupplier().getName());	
-		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+		assertEquals(AMESYS,amesysSagemSupplyContract.getSupplier().getName());	
+		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
+		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
 		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 	}
 	
@@ -248,25 +273,25 @@ public class ContractTest {
 		final Date endDate = sdf.parse("13/30/2019");
 		
 		/**Find a contract*/			
-		Contract currentAmesysSagemContract = contractRepo.getContractByName(Constants.CONTRACT4_NAME);
+		Contract currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		
 		/**Validate Contract-> Client */
-		assertEquals(Constants.SAGEMCOM, currentAmesysSagemContract.getClient().getName());		
+		assertEquals(SAGEMCOM, currentAmesysSagemContract.getClient().getName());		
 		Client sagemcom = currentAmesysSagemContract.getClient();
 		final long amesysContractId = currentAmesysSagemContract.getId();
 		
 		/**Validate Contract -> SupplyContract*/
 		assertEquals(1, currentAmesysSagemContract.getSupplyContracts().size());
 		SupplyContract amesysSagemSupplyContract =  currentAmesysSagemContract.getSupplyContracts().get(0);
-		assertEquals(Constants.CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-		assertEquals(Constants.CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
-		Supplier amesys = supplierRepo.getSupplierByName(Constants.AMESYS);
+		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
+		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, amesysSagemSupplyContract.getStaff());
 		
 		/**Create the new SupplyContract for the current Client -> Contract different Staff*/
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		SupplyContract newAmesysSagemSupplyContract = new SupplyContract(amesys, currentAmesysSagemContract, john);
 		/**Set the new dates of the SuppyContract*/
 		newAmesysSagemSupplyContract.setStartDate(startDate);
@@ -294,12 +319,12 @@ public class ContractTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate the new Contract*/		
-		currentAmesysSagemContract = contractRepo.getContractByName(Constants.CONTRACT4_NAME);
+		currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		assertNotNull(currentAmesysSagemContract);
 		assertEquals(amesysContractId, currentAmesysSagemContract.getId());
 		
 		/**Validate the Contract -> Client*/
-		sagemcom = clientRepo.getClientByName(Constants.SAGEMCOM);
+		sagemcom = clientRepo.getClientByName(SAGEMCOM);
 		assertEquals(sagemcom, currentAmesysSagemContract.getClient());
 		
 		/**Validate the Client -> Contract*/		
@@ -330,7 +355,7 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplyContracts() {		
 		/**Find target contract*/			
-		Contract belfiusAlphatressContract = contractRepo.getContractByName(Constants.CONTRACT13_NAME);
+		Contract belfiusAlphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		assertNotNull(belfiusAlphatressContract);
 		
 		/**Find target SupplyContracts*/
@@ -354,19 +379,19 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddContractServiceAgreement() throws EntityExistsException {
 		/**Find a contract*/				
-		Contract micropoleFastconnectContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(1, micropoleFastconnectContract.getContractServiceAgreements().size());
 			
 		/**Validate contract to test*/		
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);		
 		assertEquals(micropole, micropoleFastconnectContract.getClient());		
 		
 		/**Get Service to insert*/
-		Service scmDevService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);		
+		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
 		assertNotNull(scmDevService);
 		
 		/**Validate service to insert**/
-		assertEquals(Constants.SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
 		assertEquals(1, scmDevService.getContractServiceAgreements().size());
 		
 		/**Validate ContractServiceAgreement table pre test state*/
@@ -380,7 +405,7 @@ public class ContractTest {
 		List <ContractServiceAgreement> fastconnectContractServiceAgreements = micropoleFastconnectContract.getContractServiceAgreements();
 		assertEquals(1, fastconnectContractServiceAgreements.size());
 		Service muleEsbService = fastconnectContractServiceAgreements.get(0).getService();
-		assertEquals(Constants.MULE_ESB_CONSULTANT, muleEsbService.getName());
+		assertEquals(MULE_ESB_CONSULTANT, muleEsbService.getName());
 		
 		/**Create new ContractServiceAgreement*/
 		ContractServiceAgreement newContractServiceAgreement = new ContractServiceAgreement(micropoleFastconnectContract, scmDevService);	
@@ -406,11 +431,11 @@ public class ContractTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));				
 		
 		/**Validate the Contract -> ContractServiceAgreements*/
-		micropoleFastconnectContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(2, micropoleFastconnectContract.getContractServiceAgreements().size());
 		
 		/**Validate the Service -> ContractServiceAgreements */
-		scmDevService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);	
+		scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);	
 		assertEquals(2, scmDevService.getContractServiceAgreements().size());
 		assertTrue(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 		
@@ -424,10 +449,10 @@ public class ContractTest {
 	public void testAddExistingContractServiceAgreementToContract() throws EntityExistsException {		
 			
 		/**Find contracts*/
-		Contract micropoleFastconnectContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		
 		/**Validate contract to test*/		
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);		
 		assertEquals(micropole, micropoleFastconnectContract.getClient());		
 		
 		
@@ -437,12 +462,12 @@ public class ContractTest {
 		assertEquals(1, micropoleFastconnectContract.getContractServiceAgreements().size());
 		Service currentService = micropoleFastconnectContract.getContractServiceAgreements().get(0).getService();
 		assertNotNull(currentService);
-		assertEquals(Constants.MULE_ESB_CONSULTANT, currentService.getName());		
+		assertEquals(MULE_ESB_CONSULTANT, currentService.getName());		
 		
 		/**Find duplicate Service to insert*/
-		Service duplicateMuleEsbService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);		
+		Service duplicateMuleEsbService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
 		assertNotNull(duplicateMuleEsbService);
-		assertEquals(Constants.MULE_ESB_CONSULTANT, duplicateMuleEsbService.getName());	
+		assertEquals(MULE_ESB_CONSULTANT, duplicateMuleEsbService.getName());	
 		assertEquals(1, duplicateMuleEsbService.getContractServiceAgreements().size());
 	
 		
@@ -468,10 +493,10 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetContractServiceAgreements() {
 		/**Find a contract*/				
-		Contract micropoleFastconnectContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 			
 		/**Validate Contract to test*/		
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);		
 		assertEquals(micropole, micropoleFastconnectContract.getClient());		
 		
 		/**Validate Contract -> ContractServiceAgreements*/
@@ -491,14 +516,14 @@ public class ContractTest {
         assertTrue(startDate.isEqual(contractStartDate));
 		assertTrue(endDate.isEqual(contractEndDate));
 		/**Validate Contract ->  Client*/
-		assertEquals(Constants.MICROPOLE, micropoleFastconnectContract.getClient().getName());
+		assertEquals(MICROPOLE, micropoleFastconnectContract.getClient().getName());
 		/**Validate SupplyContract-> Supplier*/
-		assertEquals(Constants.FASTCONNECT, micropoleFastconnectSupplyContract.getSupplier().getName());
+		assertEquals(FASTCONNECT, micropoleFastconnectSupplyContract.getSupplier().getName());
 		/**Validate SupplyContract-> Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, micropoleFastconnectSupplyContract.getStaff());		
 		/**Validate ContractServiceAgreement -> Service*/
-		assertEquals(Constants.MULE_ESB_CONSULTANT, micropolefastconnectContractServiceAgreement.getService().getName());
+		assertEquals(MULE_ESB_CONSULTANT, micropolefastconnectContractServiceAgreement.getService().getName());
 			
 	}
 	
@@ -508,10 +533,10 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetContractServiceAgreementsWithOrmOrphanRemove() {
 		/**Find a Contract*/		
-		Contract arvalContract = contractRepo.getContractByName(Constants.CONTRACT11_NAME);
+		Contract arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		
 		/**Validate contract to test*/
-		Client arval= clientRepo.getClientByName(Constants.ARVAL);
+		Client arval= clientRepo.getClientByName(ARVAL);
 		assertEquals(arval, arvalContract.getClient());		
 		
 		
@@ -519,26 +544,26 @@ public class ContractTest {
 		List <SupplyContract> alternaArvalContracts = arvalContract.getSupplyContracts();
 		assertEquals(1, alternaArvalContracts.size());			
 		SupplyContract alternaArvalSupplyContract =  alternaArvalContracts.get(0);
-		assertEquals(Constants.CONTRACT11_STARTDATE, alternaArvalSupplyContract.getStartDate());
-		assertEquals(Constants.CONTRACT11_ENDDATE, alternaArvalSupplyContract.getEndDate());
-		Supplier alterna = supplierRepo.getSupplierByName(Constants.ALTERNA);
+		assertEquals(CONTRACT11_STARTDATE, alternaArvalSupplyContract.getStartDate());
+		assertEquals(CONTRACT11_ENDDATE, alternaArvalSupplyContract.getEndDate());
+		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
 		assertEquals(alterna, alternaArvalSupplyContract.getSupplier());
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, alternaArvalSupplyContract.getStaff());
 		
 		
            
 		/**Find & validate Services to test */		
-		Service muleService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);		
-		Service scmService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER); 
-		assertEquals(Constants.MULE_ESB_CONSULTANT, muleService.getName());
-		assertEquals(Constants.SCM_ASSOCIATE_DEVELOPPER, scmService.getName());
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
+		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmService.getName());
 		
 		/***Validate the state of the current ContractServiceAgreeements*/		
 		assertEquals(1, arvalContract.getContractServiceAgreements().size());
 		ContractServiceAgreement  alternaArvalContractServiceAgreement = arvalContract.getContractServiceAgreements().get(0);
 		assertEquals(arvalContract, alternaArvalContractServiceAgreement.getContract());
-		Service bwService = serviceRepo.getServiceByName(Constants.TIBCO_BW_CONSULTANT);
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		/**Validate opposite associations - Arval Contract has BW Service*/
 		assertEquals(bwService, alternaArvalContractServiceAgreement.getService());
 				
@@ -570,7 +595,7 @@ public class ContractTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Validate test*/			
-		arvalContract = contractRepo.getContractByName(Constants.CONTRACT11_NAME);
+		arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		assertEquals(2, arvalContract.getContractServiceAgreements().size());
 		
 		ContractServiceAgreement alternaContractServiceAgreement1 = arvalContract.getContractServiceAgreements().get(0);
@@ -588,26 +613,26 @@ public class ContractTest {
         Date contract2StartDate 	= alternaSupplyContracts2.get(0).getStartDate();
         Date contract2EndDate 		= alternaSupplyContracts2.get(0).getEndDate();  
         
-        assertEquals(Constants.CONTRACT11_STARTDATE, contract1StartDate);
-        assertEquals(Constants.CONTRACT11_ENDDATE, contract1EndDate);
-        assertEquals(Constants.CONTRACT11_STARTDATE, contract2StartDate);
-        assertEquals(Constants.CONTRACT11_ENDDATE, contract2EndDate);
+        assertEquals(CONTRACT11_STARTDATE, contract1StartDate);
+        assertEquals(CONTRACT11_ENDDATE, contract1EndDate);
+        assertEquals(CONTRACT11_STARTDATE, contract2StartDate);
+        assertEquals(CONTRACT11_ENDDATE, contract2EndDate);
         
         /**Test Services*/
         assertThat(alternaContractServiceAgreement1.getService(), Matchers.oneOf(muleService, scmService));
         assertThat(alternaContractServiceAgreement2.getService(), Matchers.oneOf(muleService, scmService));
         
         /**Test the opposite association*/
-        muleService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);
-		scmService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);
+        muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
+		scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);
 		/**Test mule Service has all contracts*/
 		assertEquals(2, muleService.getContractServiceAgreements().size());				
-		Contract micropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);		
+		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);		
 		assertThat(muleService.getContractServiceAgreements().get(0).getContract(), Matchers.oneOf(arvalContract,  micropoleContract));
 		assertThat(muleService.getContractServiceAgreements().get(1).getContract(), Matchers.oneOf(arvalContract,  micropoleContract));		
 		/**Now test scm Service */
 		assertEquals(2, scmService.getContractServiceAgreements().size());
-		Contract barclaysContract =  contractRepo.getContractByName(Constants.CONTRACT1_NAME);	
+		Contract barclaysContract =  contractRepo.getContractByName(CONTRACT1_NAME);	
 		assertNotNull(barclaysContract);
 		/**Retreive 2nd scm Contract & test*/		
 		assertThat(scmService.getContractServiceAgreements().get(0).getContract(), Matchers.oneOf(arvalContract, barclaysContract));
@@ -621,12 +646,12 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveContractServiceAgreementByService() {
 		/**Find  Contract*/		
-		Contract barclaysAccentureContract = contractRepo.getContractByName(Constants.CONTRACT1_NAME);		
+		Contract barclaysAccentureContract = contractRepo.getContractByName(CONTRACT1_NAME);		
 		
 		/**Get Service & validate */
-		Service scmDevService = serviceRepo.getServiceByName(Constants.SCM_ASSOCIATE_DEVELOPPER);		
+		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
 		assertNotNull(scmDevService);
-		assertEquals(Constants.SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmDevService.getName());
 		
 				
 		/**Find ContractServiceAgreement */		
@@ -662,16 +687,16 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveContractServiceAgreement() {			
 		/**Get Service & validate */
-		Service muleService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);		
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
 		assertNotNull(muleService);
-		assertEquals(Constants.MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
 		assertEquals(1, muleService.getContractServiceAgreements().size());
 		assertEquals(1, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().size());		
-		assertEquals(Constants.FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().get(0).getSupplier().getName());
-		assertEquals(Constants.MICROPOLE, muleService.getContractServiceAgreements().get(0).getContract().getClient().getName());
+		assertEquals(FASTCONNECT, muleService.getContractServiceAgreements().get(0).getContract().getSupplyContracts().get(0).getSupplier().getName());
+		assertEquals(MICROPOLE, muleService.getContractServiceAgreements().get(0).getContract().getClient().getName());
 		
 		/**Find target Contract & validate*/			
-		Contract micropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(1, micropoleContract.getContractServiceAgreements().size());				
 	
 		
@@ -681,7 +706,7 @@ public class ContractTest {
 
 		/**Detach entities*/
 		entityManager.clear();	
-		micropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 			
 
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
@@ -702,9 +727,9 @@ public class ContractTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
 		/**Test that  ContractServiceAgreement was removed */
-		micropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(0, micropoleContract.getContractServiceAgreements().size());
-		muleService = serviceRepo.getServiceByName(Constants.MULE_ESB_CONSULTANT);
+		muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		assertEquals(0, muleService.getContractServiceAgreements().size());
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
 		contractServiceAgreementId.setContract(micropoleContract);
@@ -718,11 +743,11 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testDbRemoveContractwithCascadings() {
 		/**Find and validate Contract to test*/
-		Contract fastconnectMicropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertNotNull(fastconnectMicropoleContract);
 				
 		/**Verify Contract -> Client*/
-		Client micropole = clientRepo.getClientByName(Constants.MICROPOLE);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(micropole, fastconnectMicropoleContract.getClient());
 		
 		/**Verify Contract -> SupplySontract(s)*/
@@ -731,7 +756,7 @@ public class ContractTest {
 		/**Detach entities*/
 		entityManager.clear();
 		 
-		fastconnectMicropoleContract = contractRepo.getContractByName(Constants.CONTRACT5_NAME);
+		fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		
 		
 		/**Tests initial state of Contracts table (the parent)*/

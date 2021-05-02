@@ -1,5 +1,10 @@
 package com.tecxis.resume.domain.repository;
 
+
+import static com.tecxis.resume.domain.Constants.HOBBY;
+import static com.tecxis.resume.domain.Constants.RUNNING;
+import static com.tecxis.resume.domain.Constants.SWIMMING;
+import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -23,9 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Interest;
-import com.tecxis.resume.domain.repository.InterestRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -50,17 +53,17 @@ public class JpaInterestDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		Interest hobby = Utils.insertAnInterest(Constants.HOBBY, entityManager);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		Interest hobby = Utils.insertAnInterest(HOBBY, entityManager);		
+		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(1, hobby.getId());
 		
-		Interest running = Utils.insertAnInterest(Constants.RUNNING, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		Interest running = Utils.insertAnInterest(RUNNING, entityManager);
+		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(2, running.getId());
 		
-		Interest swimming = Utils.insertAnInterest(Constants.SWIMMING, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		Interest swimming = Utils.insertAnInterest(SWIMMING, entityManager);
+		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(3, swimming.getId());
 	}
 	
@@ -70,7 +73,7 @@ public class JpaInterestDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedInterest() {
-		Interest hobbyIn = Utils.insertAnInterest(Constants.HOBBY, entityManager);
+		Interest hobbyIn = Utils.insertAnInterest(HOBBY, entityManager);
 		List<Interest> hobbyOutList = interestRepo.getInterestLikeDesc("%bike%");
 		assertEquals(1, hobbyOutList.size());
 		Interest hobbyOut = hobbyOutList.get(0);
@@ -82,25 +85,25 @@ public class JpaInterestDaoTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetInterestLikeDesc() {
-		Utils.insertAnInterest(Constants.RUNNING, entityManager);		
-		Utils.insertAnInterest(Constants.SWIMMING, entityManager);
-		assertEquals(4, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(Constants.HOBBY);
+		Utils.insertAnInterest(RUNNING, entityManager);		
+		Utils.insertAnInterest(SWIMMING, entityManager);
+		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(HOBBY);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestLikeDesc(Constants.RUNNING);
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestLikeDesc(RUNNING);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.RUNNING, hobbyList.get(0).getDesc());
-		hobbyList = interestRepo.getInterestLikeDesc(Constants.SWIMMING);
+		assertEquals(RUNNING, hobbyList.get(0).getDesc());
+		hobbyList = interestRepo.getInterestLikeDesc(SWIMMING);
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.SWIMMING, hobbyList.get(0).getDesc());
+		assertEquals(SWIMMING, hobbyList.get(0).getDesc());
 		hobbyList = interestRepo.getInterestLikeDesc("%bike%");
 		assertNotNull(hobbyList);
 		assertEquals(1, hobbyList.size());
-		assertEquals(Constants.HOBBY, hobbyList.get(0).getDesc());
+		assertEquals(HOBBY, hobbyList.get(0).getDesc());
 		
 	}
 	
@@ -109,18 +112,18 @@ public class JpaInterestDaoTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetInterestByDesc() {
-		Utils.insertAnInterest(Constants.RUNNING, entityManager);		
-		Utils.insertAnInterest(Constants.SWIMMING, entityManager);
-		assertEquals(4, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		Interest hobby = interestRepo.getInterestByDesc(Constants.HOBBY);
+		Utils.insertAnInterest(RUNNING, entityManager);		
+		Utils.insertAnInterest(SWIMMING, entityManager);
+		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		Interest hobby = interestRepo.getInterestByDesc(HOBBY);
 		assertNotNull(hobby);		
-		assertEquals(Constants.HOBBY, hobby.getDesc());
-		hobby = interestRepo.getInterestByDesc(Constants.RUNNING);
+		assertEquals(HOBBY, hobby.getDesc());
+		hobby = interestRepo.getInterestByDesc(RUNNING);
 		assertNotNull(hobby);		
-		assertEquals(Constants.RUNNING, hobby.getDesc());
-		hobby = interestRepo.getInterestByDesc(Constants.SWIMMING);
+		assertEquals(RUNNING, hobby.getDesc());
+		hobby = interestRepo.getInterestByDesc(SWIMMING);
 		assertNotNull(hobby);		
-		assertEquals(Constants.SWIMMING, hobby.getDesc());
+		assertEquals(SWIMMING, hobby.getDesc());
 		
 	}
 	
@@ -128,12 +131,12 @@ public class JpaInterestDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteInterest() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
-		Interest tempInterest = Utils.insertAnInterest(Constants.HOBBY, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		Interest tempInterest = Utils.insertAnInterest(HOBBY, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		interestRepo.delete(tempInterest);
-		assertEquals(0, interestRepo.getInterestLikeDesc(Constants.HOBBY).size());
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.INTEREST_TABLE));
+		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 	}
 	
 	@Test

@@ -1,5 +1,12 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.BELGIUM;
+import static com.tecxis.resume.domain.Constants.FRANCE;
+import static com.tecxis.resume.domain.Constants.LONDON;
+import static com.tecxis.resume.domain.Constants.MANCHESTER;
+import static com.tecxis.resume.domain.Constants.PARIS;
+import static com.tecxis.resume.domain.Constants.SWINDON;
+import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -71,16 +78,16 @@ public class CountryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetName() {
-		Country france = countryRepo.getCountryByName(Constants.FRANCE);
-		assertEquals(Constants.FRANCE, france.getName());
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(FRANCE, france.getName());
 	}
 	
 	@Test
 	public void testSetName() {
 		Country country = new Country();
 		assertNull(country.getName());
-		country.setName(Constants.BELGIUM);
-		assertEquals(Constants.BELGIUM, country.getName());	
+		country.setName(BELGIUM);
+		assertEquals(BELGIUM, country.getName());	
 		
 	}
 
@@ -90,20 +97,20 @@ public class CountryTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetCities() {
 		/**Find Cities to test*/		
-		City london = cityRepo.getCityByName(Constants.LONDON);
-		City manchester = cityRepo.getCityByName(Constants.MANCHESTER);
-		City swindon = cityRepo.getCityByName(Constants.SWINDON);
-		City paris = cityRepo.getCityByName(Constants.PARIS);		
+		City london = cityRepo.getCityByName(LONDON);
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		City swindon = cityRepo.getCityByName(SWINDON);
+		City paris = cityRepo.getCityByName(PARIS);		
 		
 		/**Find a Country to test*/
-		Country france = countryRepo.getCountryByName(Constants.FRANCE);
-		assertEquals(Constants.FRANCE, france.getName());
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertEquals(FRANCE, france.getName());
 		assertEquals(1, france.getCities().size());
 		assertEquals(paris, france.getCities().get(0));		
 		
 		/**Find another Country to test*/
-		Country uk = countryRepo.getCountryByName(Constants.UNITED_KINGDOM);
-		assertEquals(Constants.UNITED_KINGDOM, uk.getName());
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
 		assertEquals(3, uk.getCities().size());
 		assertThat(uk.getCities().get(0), Matchers.oneOf(london, manchester, swindon));
 		assertThat(uk.getCities().get(1), Matchers.oneOf(london, manchester, swindon));
@@ -116,7 +123,7 @@ public class CountryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetCities() {
-		Country france = countryRepo.getCountryByName(Constants.FRANCE);
+		Country france = countryRepo.getCountryByName(FRANCE);
 		france.setCities(new ArrayList<City> ());		
 		//To update the Cities in a Country see CityTest.testSetCountry()			
 	}
@@ -126,7 +133,7 @@ public class CountryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testAddCity() {		
-		Country france = countryRepo.getCountryByName(Constants.FRANCE);
+		Country france = countryRepo.getCountryByName(FRANCE);
 		france.addCity(new City());	
 		//To update a City in a Country see CityTest.testSetCountry()
 	}
@@ -136,7 +143,7 @@ public class CountryTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveCity() {
-		Country france = countryRepo.getCountryByName(Constants.FRANCE);
+		Country france = countryRepo.getCountryByName(FRANCE);
 		france.removeCity(new City());	
 		//To remove or update a City in a Country see CityTest.testSetCountry()
 		//The mappedBy is set in the inverse side of the association (non-owing). To remove the non-owing (Country), the parent (Country) has to have the cascading strategy set to REMOVE.

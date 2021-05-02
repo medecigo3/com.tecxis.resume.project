@@ -1,7 +1,16 @@
 package com.tecxis.resume.domain;
 
-
 import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
+import static com.tecxis.resume.domain.Constants.ADIR;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT1;
+import static com.tecxis.resume.domain.Constants.ASSIGNMENT14;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
+import static com.tecxis.resume.domain.Constants.BIRTHDATE;
+import static com.tecxis.resume.domain.Constants.FORTIS;
+import static com.tecxis.resume.domain.Constants.PARCOURS;
+import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
@@ -76,20 +85,20 @@ public class StaffProjectAssignmentTest {
 	public void testInsertStaffProjectAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(Constants.BARCLAYS, entityManager);		
-		Project adir = Utils.insertAProject(Constants.ADIR, Constants.VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
+		Project adir = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(Constants.AMT_NAME, Constants.AMT_LASTNAME, Constants.BIRTHDATE, entityManager);
+		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment1 = Utils.insertAssignment(Constants.ASSIGNMENT1, entityManager);
+		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
 		assertEquals(1, assignment1.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
@@ -110,9 +119,9 @@ public class StaffProjectAssignmentTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
-		Project  parcours = projectRepo.findByNameAndVersion(Constants.PARCOURS, Constants.VERSION_1);
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
-		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT14);		
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours, amt, assignment14);	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
 		assertEquals(6, parcours.getStaffProjectAssignments().size());
@@ -162,9 +171,9 @@ public class StaffProjectAssignmentTest {
 		
 		/**Validate staff -> assignments*/		
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
-		parcours = projectRepo.findByNameAndVersion(Constants.PARCOURS, Constants.VERSION_1);
-		amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
-		assignment14 = assignmentRepo.getAssignmentByDesc(Constants.ASSIGNMENT14);	
+		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);	
 		assertEquals(61, amt.getStaffProjectAssignments().size());		
 		assertEquals(5, parcours.getStaffProjectAssignments().size());
 		assertEquals(0, assignment14.getStaffProjectAssignments().size());
@@ -178,13 +187,13 @@ public class StaffProjectAssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testCascadedDeletion() {
 		/**Retrieve staff*/
-		Staff amt = staffRepo.getStaffLikeFirstName(Constants.AMT_NAME);
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
 		/**Retrieve from project*/
-		Project fortis = projectRepo.findByNameAndVersion(Constants.FORTIS, Constants.VERSION_1);
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
 		assertNotNull(fortis);
-		assertEquals(Constants.FORTIS, fortis.getName());
-		assertEquals(Constants.VERSION_1, fortis.getVersion());
+		assertEquals(FORTIS, fortis.getName());
+		assertEquals(VERSION_1, fortis.getVersion());
 		
 		/**Here persist operation will be cascaded from fortis (parent) to StaffAssignments (child) 
 		 * When we delete the staff assignment instance referenced by fortis which is also loaded in the persistence context 

@@ -1,5 +1,8 @@
 package com.tecxis.resume.domain.repository;
 
+import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
+import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -24,9 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,9 +52,9 @@ public class JpaCourseDaoTest {
 			)
 	@Test
 	public void testCreateAndInsertIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
-		Course bw6 = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		Course bw6 = Utils.insertACourse(BW_6_COURSE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		assertEquals(1, bw6.getId());
 		
 	}
@@ -64,8 +65,8 @@ public class JpaCourseDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedCourse() {
-		Course courseIn = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
-		Course courseOut = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
+		Course courseIn = Utils.insertACourse(BW_6_COURSE, entityManager);
+		Course courseOut = courseRepo.getCourseByTitle(BW_6_COURSE);
 		assertEquals(courseIn, courseOut);
 	}
 	
@@ -74,10 +75,10 @@ public class JpaCourseDaoTest {
 			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCourseLikeTitle() {
-		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 	}
 		
@@ -86,21 +87,21 @@ public class JpaCourseDaoTest {
 		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCourseByTitle() {
-		Course bwCourse = courseRepo.getCourseByTitle(Constants.BW_6_COURSE);
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		assertNotNull(bwCourse);
-		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 	}
 	
 
 	@Test
 	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
-		Course tempCourse = Utils.insertACourse(Constants.BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		Course tempCourse = Utils.insertACourse(BW_6_COURSE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		courseRepo.delete(tempCourse);
-		assertNull(courseRepo.getCourseByTitle(Constants.BW_6_COURSE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, Constants.COURSE_TABLE));
+		assertNull(courseRepo.getCourseByTitle(BW_6_COURSE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 	}
 	
 	@Test

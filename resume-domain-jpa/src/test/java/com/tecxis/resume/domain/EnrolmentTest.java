@@ -1,5 +1,12 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.JAVA_WS;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
+import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
 import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
@@ -60,15 +67,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetStaff() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
@@ -76,10 +83,10 @@ public class EnrolmentTest {
 		assertEquals(bwCourse, bwEnrolment.getCourse());
 				
 		/**Find Staff to set in the new Enrolment*/		
-		Staff john = staffRepo.getStaffByFirstNameAndLastName(Constants.JOHN_NAME, Constants.JOHN_LASTNAME);
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertNotNull(john);
-		assertEquals(Constants.JOHN_NAME, john.getFirstName());
-		assertEquals(Constants.JOHN_LASTNAME , john.getLastName());
+		assertEquals(JOHN_NAME, john.getFirstName());
+		assertEquals(JOHN_LASTNAME , john.getLastName());
 				
 		/**Create new Enrolment*/		
 		Enrolment newEnrolment = new Enrolment(john, bwCourse);
@@ -111,15 +118,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCourse() {		
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
@@ -127,10 +134,10 @@ public class EnrolmentTest {
 		assertEquals(bwCourse, bwEnrolment.getCourse());
 		
 		/**Find Course to set in Enrolment*/
-		List <Course> javaWsCourses = courseRepo.getCourseLikeTitle(Constants.JAVA_WS);
+		List <Course> javaWsCourses = courseRepo.getCourseLikeTitle(JAVA_WS);
 		assertEquals(1, javaWsCourses.size());
 		Course javaWsCourse = javaWsCourses.get(0);
-		assertEquals(Constants.JAVA_WS, javaWsCourse.getTitle());
+		assertEquals(JAVA_WS, javaWsCourse.getTitle());
 		
 		/**Create new Enrolment*/		
 		Enrolment newEnrolment = new Enrolment(amt, javaWsCourse);
@@ -162,15 +169,15 @@ public class EnrolmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveEnrolment() {
 		/**Find Staff*/
-		Staff amt = staffRepo.getStaffLikeLastName(Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME , amt.getLastName());
+		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME , amt.getLastName());
 		
 		/**Find Course*/
-		List <Course> courses = courseRepo.getCourseLikeTitle(Constants.SHORT_BW_6_COURSE);
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
 		Course bwCourse = courses.get(0);
-		assertEquals(Constants.BW_6_COURSE, bwCourse.getTitle());
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();

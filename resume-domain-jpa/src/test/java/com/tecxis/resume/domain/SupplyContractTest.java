@@ -1,5 +1,9 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT5_NAME;
+import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
@@ -72,17 +76,17 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetStaff() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
-		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
-		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
+		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
@@ -109,17 +113,17 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetSupplier() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
-		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
-		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
+		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
@@ -140,17 +144,17 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testGetContract() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
-		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
-		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
+		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
@@ -163,17 +167,17 @@ public class SupplyContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testDbRemoveSupplyContract() {
 		/**Find target Supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(Constants.FASTCONNECT);
-		assertEquals(Constants.FASTCONNECT, fastconnect.getName());
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());
 		
 		/**Find target Contract*/
-		Contract micropoleContract = contracRepo.getContractByName(Constants.CONTRACT5_NAME);
-		assertEquals(Constants.CONTRACT5_NAME, micropoleContract.getName());
+		Contract micropoleContract = contracRepo.getContractByName(CONTRACT5_NAME);
+		assertEquals(CONTRACT5_NAME, micropoleContract.getName());
 				
 		/**Find target Staff*/
-		Staff amt = staffRepo.getStaffByFirstNameAndLastName(Constants.AMT_NAME, Constants.AMT_LASTNAME);
-		assertEquals(Constants.AMT_NAME, amt.getFirstName());
-		assertEquals(Constants.AMT_LASTNAME, amt.getLastName());		
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(AMT_NAME, amt.getFirstName());
+		assertEquals(AMT_LASTNAME, amt.getLastName());		
 		
 		/**Find target SupplyContract*/
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
