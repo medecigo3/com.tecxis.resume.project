@@ -29,8 +29,9 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "\"DESC\"" }))
-public class Assignment implements Serializable, StrongEntity {
+public class Assignment implements Serializable, StrongEntity {	
 	private static final long serialVersionUID = 1L;
+	public static final String ASSIGNMENT_TABLE = "ASSIGNMENT";
 
 	@NotNull
 	@Column(name="\"DESC\"")

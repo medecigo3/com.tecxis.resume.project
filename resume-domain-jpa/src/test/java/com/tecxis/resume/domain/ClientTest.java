@@ -1,4 +1,9 @@
 package com.tecxis.resume.domain;
+import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
+import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
+import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
+import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
+import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +33,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.constants.Tables;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
@@ -231,12 +235,12 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		assertEquals(14, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(13	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		
 		/**Remove client*/
 		entityManager.remove(axeltis);
@@ -249,12 +253,12 @@ public class ClientTest {
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(Constants.AXELTIS));
 
-		assertEquals(12, countRowsInTable(jdbcTemplate, Constants.LOCATION_TABLE));
-		assertEquals(47, countRowsInTable(jdbcTemplate, Constants.STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(11, countRowsInTable(jdbcTemplate, Tables.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CONTRACT_TABLE)); 
-		assertEquals(11	, countRowsInTable(jdbcTemplate, Constants.PROJECT_TABLE));
-		assertEquals(11, countRowsInTable(jdbcTemplate, Constants.CLIENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(47, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(11, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
+		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		
 	}
 	

@@ -37,6 +37,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @IdClass(ContractId.class)
 public class Contract implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
+	public static final String CONTRACT_TABLE = "CONTRACT";
 	
 	@Id
 	@Column(name="CONTRACT_ID")	

@@ -26,6 +26,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @Entity
 public class Country implements Serializable, StrongEntity  {
 	private static final String UNSUPPORTED_COUNTRY_CITY_OPERATION = "Country -> City association managed by association owner City.";
+	public static final String COUNTRY_TABLE = "COUNTRY";
 
 	private static final long serialVersionUID = 1L;
 

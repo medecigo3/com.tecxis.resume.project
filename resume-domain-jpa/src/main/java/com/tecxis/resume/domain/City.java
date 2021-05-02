@@ -34,6 +34,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @IdClass(CityId.class)
 public class City implements Serializable, StrongEntity {
 	private static final long serialVersionUID = 1L;
+	public static final String CITY_TABLE = "CITY";
 	
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="CITY_SEQ", 

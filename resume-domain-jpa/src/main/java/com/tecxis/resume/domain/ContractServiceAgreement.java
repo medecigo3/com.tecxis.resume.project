@@ -19,11 +19,12 @@ import com.tecxis.resume.domain.id.ContractServiceAgreementId;
  * 
  * */
 @Entity
-@Table(name="CONTRACT_SERVICE_AGREEMENT")
+@Table(name=ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)
 @IdClass(ContractServiceAgreementId.class)
 public class ContractServiceAgreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
 	
+	final public static String CONTRACT_SERVICE_AGREEMENT_TABLE = "CONTRACT_SERVICE_AGREEMENT";	
 	/**
 	 * bi-directional many-to-one association to Contract.
 	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Contract as it contains the relationship's foreign key
