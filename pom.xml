@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.tecxis.project</groupId>
+	<groupId>com.tecxis.resume.project</groupId>
 	<artifactId>resume-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -34,23 +34,18 @@
 		<dependencies>
 			<!-- RESUME libraries -->
 			<dependency>		
-				<groupId>com.tecxis.project</groupId>
+				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-test-utils</artifactId>
 				<scope>test</scope>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>		
-				<groupId>com.tecxis.project</groupId>
+				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-domain-jpa</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
-			</dependency>	
+			</dependency>						
 			<dependency>		
-				<groupId>com.tecxis.project</groupId>
-				<artifactId>resume-domain-jpa</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
-			</dependency>					
-			<dependency>		
-				<groupId>com.tecxis.project</groupId>
+				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-persistence-common</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
