@@ -3,6 +3,8 @@ package com.tecxis.resume.domain.id;
 import java.io.Serializable;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -19,6 +21,7 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
 	public static final String INITIAL_VALUE_PARAMETER = "InitialValue";
 	public static final int INITIAL_VALUE_DEFAULT = 1;
+	private final static Logger LOG = LogManager.getLogger();
 	
 	public int allocationSize;
 	public int initialValue;
@@ -39,15 +42,19 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 		
 		if (object instanceof StrongEntity) {
 			
+			LOG.debug("Detected instance of " +StrongEntity.class +"..." );
 			StrongEntity strongEntity = (StrongEntity)object;	        
 			if (strongEntity.getId() > 0L) {  
+				LOG.debug("Returning id for entity: " + object);
 	            return strongEntity.getId();  
 	        }
 			else
+				LOG.debug("Generating custom sequence for entity: " + object);
 				return super.generate(session, object);
 			}					
-		   	
-	    return super.generate(session, object);
+		
+		LOG.debug("Generating custom sequence for entity: " + object);
+		return super.generate(session, object);		    
 
 	}
 
