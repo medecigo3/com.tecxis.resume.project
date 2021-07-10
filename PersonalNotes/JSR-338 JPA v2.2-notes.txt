@@ -1,0 +1,2 @@
+https://download.oracle.com/otndocs/jcp/persistence-2_1-fr-eval-spec/index.html
+https://www.oracle.com/technical-resources/articles/javaee/marx-jpa.html (BestPractices) (reference not used particularly used only as a future reference)
