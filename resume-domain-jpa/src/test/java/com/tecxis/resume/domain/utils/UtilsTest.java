@@ -174,10 +174,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACityWithSpringJpaRepo() {
 		/**Prepare test*/
 		Country uk = Utils.insertACountry(UNITED_KINGDOM, countryRepo);		
@@ -221,10 +221,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 	}
 
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractServiceAgreementWithSpringJpaRepo() {
 		/**Prepare test*/
 		Service muleEsbCons = Utils.insertAService(MULE_ESB_CONSULTANT, serviceRepo);
@@ -250,10 +250,10 @@ public class UtilsTest {
 	
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);
@@ -319,10 +319,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEmploymentContractWithSpringJpaRepo() {
 		/**Prepare test*/
 		Supplier alterna = Utils.insertASupplier(ALTERNA,  supplierRepo);			
@@ -370,10 +370,10 @@ public class UtilsTest {
 
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertLocationWithSpringJpaRepo() {
 		/**Prepare test*/
 		Country france = Utils.insertACountry(FRANCE, countryRepo);
@@ -401,10 +401,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAProjectWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client barclays = Utils.insertAClient(BARCLAYS, clientRepo);		
@@ -471,10 +471,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffProjectAssignmentWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, clientRepo);		
@@ -502,10 +502,10 @@ public class UtilsTest {
 		
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffSkillWithSpringJpaRepo() {
 		/**Prepare test*/
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
@@ -573,10 +573,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+//	@Test
+//	@Sql(
+//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplyContractWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);		
