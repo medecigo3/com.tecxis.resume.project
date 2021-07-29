@@ -43,7 +43,7 @@
 			<dependency>		
 				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-domain-jpa</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.6.0-SNAPSHOT</version>
 			</dependency>						
 			<dependency>		
 				<groupId>com.tecxis.resume.project</groupId>
