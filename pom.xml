@@ -20,6 +20,7 @@
 		<spring.security.version>5.0.4.RELEASE</spring.security.version>
 		<hibernate.version>5.5.4.Final</hibernate.version>
 		<jackson.version>1.9.10</jackson.version>
+		<resume.domain.jpa.version>1.6.0-SNAPSHOT</resume.domain.jpa.version>
 	</properties>
 
 	<modules>
@@ -43,7 +44,7 @@
 			<dependency>		
 				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-domain-jpa</artifactId>
-				<version>1.6.0-SNAPSHOT</version>
+				<version>${resume.domain.jpa.version}</version>
 			</dependency>						
 			<dependency>		
 				<groupId>com.tecxis.resume.project</groupId>

@@ -5,6 +5,7 @@
 	
 	<artifactId>resume-domain-jpa</artifactId>	
 	<packaging>jar</packaging>
+	<version>${resume.domain.jpa.version}</version>
 	
 	<parent>
 		<groupId>com.tecxis.resume.project</groupId>
