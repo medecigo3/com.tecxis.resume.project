@@ -29,7 +29,7 @@
    </bean>
 
     <jdbc:initialize-database>
-        <jdbc:script location="classpath:SQL/CreateResumeSchema.sql"/>        
+        <jdbc:script location="classpath:SQL/H2/CreateResumeSchema.sql"/>        
     </jdbc:initialize-database>
  
   
