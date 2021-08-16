@@ -97,7 +97,7 @@ public class JpaSupplierDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testCreateRowsAndSetIds() {
@@ -112,7 +112,7 @@ public class JpaSupplierDaoTest {
 	}
 	
 	@Sql(
-		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
@@ -125,7 +125,7 @@ public class JpaSupplierDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSupplierByName() {
 		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
@@ -145,7 +145,7 @@ public class JpaSupplierDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierByNameAndStaffId() {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
@@ -162,7 +162,7 @@ public class JpaSupplierDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindSupplierContracts() {
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
@@ -229,7 +229,7 @@ public class JpaSupplierDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
 		Supplier tempSupplier = Utils.insertASupplier(AMESYS, entityManager);
@@ -241,7 +241,7 @@ public class JpaSupplierDaoTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Supplier> suppliers = supplierRepo.findAll();
@@ -250,7 +250,7 @@ public class JpaSupplierDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <Supplier> pageableSupplier = supplierRepo.findAll(PageRequest.of(1, 1));

@@ -141,7 +141,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAssignment() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -152,7 +152,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAssignmentSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -163,7 +163,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACity() {
 		/**Prepare test*/
@@ -176,7 +176,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACityWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -188,7 +188,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAClient() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -198,7 +198,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAClientWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -208,7 +208,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractServiceAgreement() {
 		/**Prepare test*/
@@ -223,7 +223,7 @@ public class UtilsTest {
 
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractServiceAgreementWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -238,7 +238,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContract() {
 		/**Prepare test*/
@@ -252,7 +252,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -266,7 +266,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACountry() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -276,7 +276,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACountryWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -286,7 +286,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACourse() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -296,7 +296,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACourseWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -307,7 +307,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEmploymentContract() {
 		/**Prepare test*/
@@ -321,7 +321,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEmploymentContractWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -335,7 +335,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAnInterest() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
@@ -345,7 +345,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAnInterestWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
@@ -355,7 +355,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertLocation() {
 		/**Prepare test*/
@@ -372,7 +372,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertLocationWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -389,7 +389,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAProject() {
 		/**Prepare test*/
@@ -403,7 +403,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAProjectWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -417,7 +417,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -427,7 +427,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAServiceWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -437,7 +437,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASkill() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -447,7 +447,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASkillWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -457,7 +457,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffProjectAssignment() {
 		/**Prepare test*/
@@ -473,7 +473,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffProjectAssignmentWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -489,7 +489,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffSkill() {
 		/**Prepare test*/
@@ -504,7 +504,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffSkillWithSpringJpaRepo() {
 		/**Prepare test*/
@@ -519,7 +519,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -529,7 +529,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffWithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -539,7 +539,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplier() {		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -549,7 +549,7 @@ public class UtilsTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplierWithSpringJpaRepo() {		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -559,7 +559,7 @@ public class UtilsTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplyContract() {
 		/**Prepare test*/
@@ -575,7 +575,7 @@ public class UtilsTest {
 	
 //	@Test
 //	@Sql(
-//		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 //		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplyContractWithSpringJpaRepo() {
 		/**Prepare test*/

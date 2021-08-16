@@ -58,7 +58,7 @@ public class JpaServiceDaoTest {
 		
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertServiceRowsAndSetIds() {
@@ -71,7 +71,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void findInsertedService() {	
@@ -83,7 +83,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetServiceByName() {		
 		Service serviceOut= serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
@@ -94,7 +94,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetServiceLikeName() {		
 		List <Service> serviceList = serviceRepo.getServiceLikeName(TIBCO_BW_CONSULTANT);
@@ -127,7 +127,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindService() {		
 		Service muleEsbService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
@@ -139,7 +139,7 @@ public class JpaServiceDaoTest {
 		
 
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
 		Service tempService = Utils.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
@@ -151,7 +151,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){		
 		assertEquals(6, serviceRepo.count());
@@ -161,7 +161,7 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <Service> pageableService = serviceRepo.findAll(PageRequest.of(1, 1));

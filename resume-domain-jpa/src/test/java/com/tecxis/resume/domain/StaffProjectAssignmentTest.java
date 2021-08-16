@@ -80,7 +80,7 @@ public class StaffProjectAssignmentTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertStaffProjectAssignment() {
 		/**Prepare project*/
@@ -116,7 +116,7 @@ public class StaffProjectAssignmentTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveStaffProjectAssignment() {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
@@ -183,7 +183,7 @@ public class StaffProjectAssignmentTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testCascadedDeletion() {
 		/**Retrieve staff*/

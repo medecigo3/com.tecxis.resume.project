@@ -48,7 +48,7 @@ public class JpaCourseDaoTest {
 	private CourseRepository courseRepo;
 	
 	@Sql(
-			scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+			scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 			)
 	@Test
@@ -61,7 +61,7 @@ public class JpaCourseDaoTest {
 	}
 	
 	@Sql(
-		    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
@@ -73,7 +73,7 @@ public class JpaCourseDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCourseLikeTitle() {
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
@@ -85,7 +85,7 @@ public class JpaCourseDaoTest {
 		
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCourseByTitle() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
@@ -95,7 +95,7 @@ public class JpaCourseDaoTest {
 	
 
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Course tempCourse = Utils.insertACourse(BW_6_COURSE, entityManager);
@@ -107,7 +107,7 @@ public class JpaCourseDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Course> courses = courseRepo.findAll();
@@ -116,7 +116,7 @@ public class JpaCourseDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <Course> pageableCourse = courseRepo.findAll(PageRequest.of(1, 1));

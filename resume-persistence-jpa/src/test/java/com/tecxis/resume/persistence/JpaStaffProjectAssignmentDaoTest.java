@@ -75,7 +75,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	private AssignmentRepository assignmentRepo;
 
 	@Sql(
-		scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
@@ -105,7 +105,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertStaffProjectAssignment() {
@@ -132,7 +132,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetStaffProjectAssignmentById() {
 		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
@@ -144,7 +144,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
@@ -170,7 +170,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <StaffProjectAssignment> staffProjectAssignments = staffProjectAssignmentRepo.findAll();
@@ -179,7 +179,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <StaffProjectAssignment> pageableStaffProjectAssignment = staffProjectAssignmentRepo.findAll(PageRequest.of(1, 1));

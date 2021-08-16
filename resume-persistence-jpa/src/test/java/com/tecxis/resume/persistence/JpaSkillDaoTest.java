@@ -52,7 +52,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testCreateRowsAndSetIds() {
@@ -77,7 +77,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"}, 
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedSkill() {
@@ -88,7 +88,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetSkillByName() {
 		Skill java = skillRepo.getSkillByName(JAVA);
@@ -100,7 +100,7 @@ public class JpaSkillDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteSkillByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tempSkill = Utils.insertASkill(ORACLE, entityManager);
@@ -112,7 +112,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <Skill> skills = skillRepo.findAll();
@@ -121,7 +121,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <Skill> pageableSkill =  skillRepo.findAll(PageRequest.of(1, 1));

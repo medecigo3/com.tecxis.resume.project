@@ -55,7 +55,7 @@ public class JpaCityDaoTest {
 	private CityRepository cityRepo;
 	
 	@Sql(
-		scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
@@ -81,7 +81,7 @@ public class JpaCityDaoTest {
 	}
 	
 	@Sql(
-	    scripts = {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"},
+	    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	@Test
@@ -95,7 +95,7 @@ public class JpaCityDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCityByName() {
 		City london = cityRepo.getCityByName(LONDON);
@@ -110,7 +110,7 @@ public class JpaCityDaoTest {
 	}
 		
 	@Test
-	@Sql(scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
@@ -124,7 +124,7 @@ public class JpaCityDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){
 		List <City> allCities = cityRepo.findAll();
@@ -134,7 +134,7 @@ public class JpaCityDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/DropResumeSchema.sql", "classpath:SQL/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
 		Page <City> pageableCity = cityRepo.findAll(PageRequest.of(1, 1));
