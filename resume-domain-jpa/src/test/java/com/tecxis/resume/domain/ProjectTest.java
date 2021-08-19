@@ -89,6 +89,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.id.LocationId;
+import com.tecxis.resume.domain.id.ProjectId;
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
@@ -144,15 +145,15 @@ public class ProjectTest {
 	public void testGetId() {
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);	
 		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
-		assertThat(ted.getId(), Matchers.greaterThan((long)0));		
+		assertThat(ted.getId().getProjectId(), Matchers.greaterThan((long)0));		
 	}
 
 	@Test
 	public void testSetId() {
 		Project project = new Project();
-		assertEquals(0, project.getId());
-		project.setId(1);
-		assertEquals(1, project.getId());		
+		assertEquals(new ProjectId(0, 0), project.getProjectId());	
+		project.setProjectId(new ProjectId());
+		assertEquals(new ProjectId(0, 0), project.getProjectId());			
 	}	
 	
 	@Test
@@ -225,7 +226,7 @@ public class ProjectTest {
 	public void testSetClient() {
 		/**Find project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		long morningstartV1ProjectId = morningstartV1Project.getId();
+		ProjectId morningstartV1ProjectId = morningstartV1Project.getId();
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
 		
@@ -244,10 +245,11 @@ public class ProjectTest {
 				
 		/**Build new Project -> Client association*/
 		Project newAxeltisProject = new Project();
-		newAxeltisProject.setId(morningstartV1Project.getId());		
+		ProjectId id = newAxeltisProject.getProjectId();
+		id.setProjectId(morningstartV1Project.getId().getProjectId()); //sets Project id
 		newAxeltisProject.setName(MORNINGSTAR);
 		newAxeltisProject.setVersion(VERSION_3);
-		newAxeltisProject.setClient(eh);
+		newAxeltisProject.setClient(eh);  //sets Client id
 		newAxeltisProject.setCities(morningstartV1Project.getCities());
 		
 		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -260,8 +262,8 @@ public class ProjectTest {
 		
 		/**Validate project was updated */
 		Project morningstartV3Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_3);
-		/**Test id is same as old*/
-		assertEquals(morningstartV1ProjectId, morningstartV3Project.getId());
+		/**Test Project id is same as old*/
+		assertEquals(morningstartV1ProjectId.getProjectId(), morningstartV3Project.getId().getProjectId());
 		/**Test new client*/
 		assertEquals(eh, morningstartV3Project.getClient());
 		/**Test new version*/
@@ -289,12 +291,12 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getId());
+		assertEquals(1L, assignment1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
@@ -335,12 +337,12 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getId());
+		assertEquals(1L, assignment1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
