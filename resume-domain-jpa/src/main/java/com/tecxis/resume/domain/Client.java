@@ -24,7 +24,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Client implements Serializable, StrongEntity {
+public class Client implements Serializable, StrongEntity <Long>{
 	private static final String UNSUPPORTED_CLIENT_CONTRACT_OPERATION = "Client -> Contract association managed by association owner Contract.";
 	
 	private static final String UNSUPPORTED_CLIENT_PROJECT_OPERATION = "Client -> Project association managed through by association owner Project.";
@@ -72,12 +72,12 @@ public class Client implements Serializable, StrongEntity {
 	}
 	
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

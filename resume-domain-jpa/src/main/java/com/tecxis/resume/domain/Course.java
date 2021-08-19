@@ -31,7 +31,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {"TITLE"}))
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
-public class Course implements Serializable, StrongEntity {
+public class Course implements Serializable, StrongEntity <Long>{
 	private static final String UNSUPPORTED_COURSE_STAFF_OPERATION = "Course -> Staff association is managed by association owner Enrolment";
 	
 	public static final String COURSE_TABLE = "COURSE";
@@ -76,12 +76,12 @@ public class Course implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

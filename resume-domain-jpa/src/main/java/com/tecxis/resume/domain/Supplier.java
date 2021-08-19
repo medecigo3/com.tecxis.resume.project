@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
-public class Supplier implements Serializable, StrongEntity {
+public class Supplier implements Serializable, StrongEntity <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SUPPLIER_TABLE = "SUPPLIER";
@@ -63,12 +63,12 @@ public class Supplier implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -28,7 +28,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @NamedQuery(name="Skill.findAll", query="SELECT s FROM Skill s")
-public class Skill implements Serializable, StrongEntity {
+public class Skill implements Serializable, StrongEntity <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SKILL_TABLE = "SKILL";
@@ -71,12 +71,12 @@ public class Skill implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -31,7 +31,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Staff implements Serializable, StrongEntity {
+public class Staff implements Serializable, StrongEntity <Long>{
 	public static final String STAFF_TABLE = "STAFF";
 	
 	private static final String UNSUPPORTED_STAFF_INTEREST_OPERATION = "Staff -> Interest association managed by association owner Interest.";
@@ -145,12 +145,12 @@ public class Staff implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

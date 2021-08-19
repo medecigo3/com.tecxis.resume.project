@@ -29,7 +29,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "\"DESC\"" }))
-public class Assignment implements Serializable, StrongEntity {	
+public class Assignment implements Serializable, StrongEntity <Long> {	
 	private static final long serialVersionUID = 1L;
 	public static final String ASSIGNMENT_TABLE = "ASSIGNMENT";
 
@@ -78,12 +78,12 @@ public class Assignment implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

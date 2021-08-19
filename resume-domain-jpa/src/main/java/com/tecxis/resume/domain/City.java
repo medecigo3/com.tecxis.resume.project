@@ -32,7 +32,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @IdClass(CityId.class)
-public class City implements Serializable, StrongEntity {
+public class City implements Serializable, StrongEntity <Long>{
 	private static final long serialVersionUID = 1L;
 	public static final String CITY_TABLE = "CITY";
 	
@@ -75,12 +75,12 @@ public class City implements Serializable, StrongEntity {
 	}
 	
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

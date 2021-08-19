@@ -28,7 +28,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @Table(name="\"SERVICE\"")
-public class Service implements Serializable, StrongEntity {
+public class Service implements Serializable, StrongEntity <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SERVICE_TABLE = "SERVICE";
@@ -61,12 +61,12 @@ public class Service implements Serializable, StrongEntity {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
