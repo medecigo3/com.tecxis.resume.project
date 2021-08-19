@@ -162,13 +162,13 @@ public class StaffSkillTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(1, tibco.getId());
+		assertEquals(1L, tibco.getId().longValue());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));

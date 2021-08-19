@@ -127,9 +127,9 @@ public class ContractTest {
 	@Test
 	public void testSetId() {
 		Contract contract = new Contract();
-		assertEquals(0, contract.getId());
-		contract.setId(1);
-		assertEquals(1, contract.getId());
+		assertEquals(0L, contract.getId().longValue());
+		contract.setId(1L);
+		assertEquals(1L, contract.getId().longValue());
 	}
 
 
@@ -218,7 +218,7 @@ public class ContractTest {
 		
 		/**Validate new Contract*/
 		newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);					
-		assertEquals(sagemContractId, newMicropoleContract.getId());
+		assertEquals(sagemContractId, newMicropoleContract.getId().longValue());
 		
 		/**Validate new Contract ->  Client*/
 		micropole = clientRepo.getClientByName(MICROPOLE);
@@ -321,7 +321,7 @@ public class ContractTest {
 		/**Validate the new Contract*/		
 		currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		assertNotNull(currentAmesysSagemContract);
-		assertEquals(amesysContractId, currentAmesysSagemContract.getId());
+		assertEquals(amesysContractId, currentAmesysSagemContract.getId().longValue());
 		
 		/**Validate the Contract -> Client*/
 		sagemcom = clientRepo.getClientByName(SAGEMCOM);

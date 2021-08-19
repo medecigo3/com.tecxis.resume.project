@@ -94,9 +94,9 @@ public class ServiceTest {
 	@Test
 	public void testSetId() {
 		Service service = new Service();
-		assertEquals(0, service.getId());
-		service.setId(1);
-		assertEquals(1, service.getId());
+		assertEquals(0L, service.getId().longValue());
+		service.setId(1L);
+		assertEquals(1L, service.getId().longValue());
 		
 	}
 

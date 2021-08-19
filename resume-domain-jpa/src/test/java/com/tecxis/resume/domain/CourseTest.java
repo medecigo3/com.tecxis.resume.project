@@ -73,9 +73,9 @@ public class CourseTest {
 	@Test
 	public void testSetId() {
 		Course course = new Course();
-		assertEquals(0, course.getId());
-		course.setId(1);
-		assertEquals(1, course.getId());		
+		assertEquals(0L, course.getId().longValue());
+		course.setId(1L);
+		assertEquals(1L, course.getId().longValue());		
 	}
 
 	@Test

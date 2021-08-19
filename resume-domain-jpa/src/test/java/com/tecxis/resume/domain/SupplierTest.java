@@ -100,9 +100,9 @@ public class SupplierTest {
 	@Test	
 	public void testSetId() {
 		Supplier supplier = new Supplier();
-		assertEquals(0, supplier.getId());		
-		supplier.setId(100);				
-		assertEquals(100, supplier.getId());
+		assertEquals(0L, supplier.getId().longValue());		
+		supplier.setId(100L);				
+		assertEquals(100L, supplier.getId().longValue());
 		
 	}
 

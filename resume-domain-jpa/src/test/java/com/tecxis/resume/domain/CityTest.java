@@ -114,9 +114,9 @@ public class CityTest {
 	@Test
 	public void testSetId() {
 		City city = new City();
-		assertEquals(0, city.getId());
-		city.setId(1);
-		assertEquals(1, city.getId());		
+		assertEquals(0L, city.getId().longValue());
+		city.setId(1L);
+		assertEquals(1L, city.getId().longValue());		
 	}
 	
 	@Test

@@ -87,9 +87,9 @@ public class ClientTest {
 	@Test
 	public void testSetId() {
 		Client client = new Client();
-		assertEquals(0, client.getId());
-		client.setId(1);
-		assertEquals(1, client.getId());		
+		assertEquals(0L, client.getId().longValue());
+		client.setId(1L);
+		assertEquals(1L, client.getId().longValue());		
 	}
 
 	@Test

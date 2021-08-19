@@ -113,12 +113,12 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		Assignment assignment12 = Utils.insertAssignment(ASSIGNMENT12, entityManager);
-		assertEquals(1, assignment12.getId());
+		assertEquals(1L, assignment12.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/		
@@ -165,12 +165,12 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment47 = Utils.insertAssignment(ASSIGNMENT47, entityManager);
-		assertEquals(1, assignment47.getId());
+		assertEquals(1L, assignment47.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff -> assignments*/		
@@ -319,12 +319,12 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment12 = Utils.insertAssignment(ASSIGNMENT12, entityManager);
-		assertEquals(1, assignment12.getId());
+		assertEquals(1L, assignment12.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff assignments*/

@@ -66,9 +66,9 @@ public class InterestTest {
 	@Test
 	public void testSetId() {
 		Interest interest = new Interest();
-		assertEquals(0, interest.getId());
-		interest.setId(1);
-		assertEquals(1, interest.getId());		
+		assertEquals(0L, interest.getId().longValue());
+		interest.setId(1L);
+		assertEquals(1L, interest.getId().longValue());		
 	}
 	
 	@Test
@@ -152,7 +152,7 @@ public class InterestTest {
 		/**Find Interest*/
 		hobby = interestRepo.getInterestByDesc(HOBBY);
 		assertNotNull(hobby);
-		assertEquals(hobbyId, hobby.getId());
+		assertEquals(hobbyId, hobby.getId().longValue());
 		/**Find Staff*/		
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(JOHN_NAME, john.getFirstName());

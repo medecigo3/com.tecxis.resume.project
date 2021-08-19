@@ -70,13 +70,13 @@ public class LocationTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertACountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getId());
+		assertEquals(1L, france.getId().longValue());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City paris = Utils.insertACity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, paris.getId());
+		assertEquals(1L, paris.getId().longValue());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));

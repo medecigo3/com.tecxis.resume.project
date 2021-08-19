@@ -94,12 +94,12 @@ public class StaffProjectAssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getId());
+		assertEquals(1L, assignment1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Prepare staff assignments*/	

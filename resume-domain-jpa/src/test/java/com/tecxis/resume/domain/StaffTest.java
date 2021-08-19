@@ -190,9 +190,9 @@ public class StaffTest {
 	@Test
 	public void setId() {
 		Staff staff = new Staff();
-		assertEquals(0, staff.getId());
-		staff.setId(1);
-		assertEquals(1, staff.getId());
+		assertEquals(0L, staff.getId().longValue());
+		staff.setId(1L);
+		assertEquals(1L, staff.getId().longValue());
 	}
 	
 	@Test
@@ -670,12 +670,12 @@ public class StaffTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME,  BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare assignment*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
-		assertEquals(1, assignment1.getId());
+		assertEquals(1L, assignment1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		/**Validate staff -> assignments*/

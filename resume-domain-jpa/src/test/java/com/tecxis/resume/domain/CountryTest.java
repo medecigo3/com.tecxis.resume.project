@@ -68,9 +68,9 @@ public class CountryTest {
 	@Test
 	public void testSetId() {
 		Country country = new Country();
-		assertEquals(0, country.getId());
-		country.setId(1);
-		assertEquals(1, country.getId());		
+		assertEquals(0L, country.getId().longValue());
+		country.setId(1L);
+		assertEquals(1L, country.getId().longValue());		
 	}
 
 	@Test

@@ -64,9 +64,9 @@ public class SkillTest {
 	@Test
 	public void testSetId() {
 		Skill skill = new Skill();
-		assertEquals(0, skill.getId());
-		skill.setId(1);
-		assertEquals(1, skill.getId());		
+		assertEquals(0L, skill.getId().longValue());
+		skill.setId(1L);
+		assertEquals(1L, skill.getId().longValue());		
 	}	
 
 	@Test
