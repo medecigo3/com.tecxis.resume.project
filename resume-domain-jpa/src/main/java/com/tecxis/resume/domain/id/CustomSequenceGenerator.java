@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerationException;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
@@ -26,12 +27,11 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	public int allocationSize;
 	public int initialValue;
 
-	
-
 	@Override
 	public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
-		allocationSize = ConfigurationHelper.getInt(ALLOCATION_SIZE_PARAMETER, params, ALLOCATION_SIZE_DEFAULT);
-		initialValue = ConfigurationHelper.getInt(INITIAL_VALUE_PARAMETER, params, INITIAL_VALUE_DEFAULT);
+		params.put(ALLOCATION_SIZE_PARAMETER, ConfigurationHelper.getInt(ALLOCATION_SIZE_PARAMETER, params, ALLOCATION_SIZE_DEFAULT));
+		params.put(INITIAL_VALUE_PARAMETER, ConfigurationHelper.getInt(INITIAL_VALUE_PARAMETER, params, INITIAL_VALUE_DEFAULT));		
+		LOG.debug("Configuring sequence generator with params:" +  params);
 		super.configure(type, params, serviceRegistry);
 	}
 
@@ -40,25 +40,24 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
 		
-		if (object instanceof StrongEntity) {
-			
-			LOG.debug("Detected instance of " +StrongEntity.class +"..." );
-			StrongEntity strongEntity = (StrongEntity)object;	        
-			if (strongEntity.getId() > 0L) {  
-				LOG.debug("Returning id for entity: " + object);
-	            return strongEntity.getId();  
-	        }
-			else
-				LOG.debug("Generating custom sequence for entity: " + object);
+		LOG.debug("Processing entity: " + object);
+		if (object instanceof StrongEntity) {			
+			LOG.debug("Detected entity of type: " + StrongEntity.class);
+			StrongEntity <?> entity = (StrongEntity <?>)object;
+			Object id = entity.getId();
+			LOG.debug("Processing entity with simple primary key: " + id);
+			if (id instanceof Long) {
+				LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
+				Long sequenceId = (Long)id;
+				if ( ((Long)sequenceId).longValue()  > 0L ) {  
+					LOG.debug("Entity with sequence id is not null, returning id: " + id);
+		            return sequenceId;  
+		        }				
+				LOG.debug("Generating sequence with default sequence generator for entity: " + object);
 				return super.generate(session, object);
-			}					
-		
-		LOG.debug("Generating custom sequence for entity: " + object);
-		return super.generate(session, object);		    
-
+			} else
+				throw new IdentifierGenerationException("Cannot determine entity's id integral data type: id is null.");
+		}
+		throw new IdentifierGenerationException("Unknown entity type: " + object.getClass());
 	}
-
-
-	
-
 }

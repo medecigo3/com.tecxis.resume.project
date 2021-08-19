@@ -7,12 +7,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -35,20 +35,18 @@ import com.tecxis.resume.domain.id.ProjectId;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
-@IdClass(ProjectId.class)
-public class Project implements Serializable, StrongEntity {
+public class Project implements Serializable, StrongEntity <ProjectId>{
 	private static final long serialVersionUID = 1L;
 	public static final String PROJECT_TABLE = "PROJECT";
 
-	@Id
-	@Column(name="PROJECT_ID")	
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="PROJECT_SEQ", 
-	 parameters = {
+	@EmbeddedId
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="PROJECT_SEQ"	 
+	, parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
-	private long id;
+	private ProjectId id;
 	
 	/**
 	 * bi-directional many-to-one association to Client.
@@ -121,6 +119,7 @@ public class Project implements Serializable, StrongEntity {
 		this.staffProjectAssignments = new ArrayList<>();
 		this.locations = new ArrayList<>();
 		this.staff = new ArrayList<>();
+		this.id = new ProjectId();
 	}
 
 	public String getDesc() {
@@ -128,12 +127,12 @@ public class Project implements Serializable, StrongEntity {
 	}
 	
 	@Override
-	public long getId() {
+	public ProjectId getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setId(ProjectId id) {
 		this.id = id;
 	}
 
@@ -143,6 +142,7 @@ public class Project implements Serializable, StrongEntity {
 
 	public void setClient(Client client) {
 		this.client = client;
+		this.getProjectId().setClientId(client.getId());
 	}
 
 	public void setDesc(String desc) {
@@ -253,6 +253,14 @@ public class Project implements Serializable, StrongEntity {
 		return this.locations;
 	}
 	
+	public ProjectId getProjectId() {
+		return id;
+	}
+
+	public void setProjectId(ProjectId id) {
+		this.id = id;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -263,23 +271,13 @@ public class Project implements Serializable, StrongEntity {
 		}
 		Project castOther = (Project)other;
 		
-		if (this.getClient() != null && castOther.getClient() != null)			
-			return 	this.getId() == castOther.getId() && 
-					this.getClient().equals(castOther.getClient());
-		else
-			return this.getId() == castOther.getId();
+	
+		return this.getProjectId().equals(castOther.getProjectId());
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
-		
-		if (this.getClient() != null)
-			hash = hash * prime + this.getClient().hashCode();
-		
-		return hash;
+		return this.getProjectId().hashCode();
 	}
 
 	@Override
