@@ -12,11 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -53,7 +53,7 @@ public class Project implements Serializable, StrongEntity <ProjectId>{
 	 * In SQL terms, Project is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this project "is controlled " by a client
 	 */
-	@Id
+	@MapsId("clientId")
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CLIENT_ID")
 	private Client client;
