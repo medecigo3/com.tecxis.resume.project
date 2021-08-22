@@ -142,7 +142,7 @@ public class Project implements Serializable, StrongEntity <ProjectId>{
 
 	public void setClient(Client client) {
 		this.client = client;
-		this.getProjectId().setClientId(client.getId());
+		this.getId().setClientId(client.getId());
 	}
 
 	public void setDesc(String desc) {
@@ -252,14 +252,7 @@ public class Project implements Serializable, StrongEntity <ProjectId>{
 	public List<Location> getLocations() {
 		return this.locations;
 	}
-	
-	public ProjectId getProjectId() {
-		return id;
-	}
 
-	public void setProjectId(ProjectId id) {
-		this.id = id;
-	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -272,12 +265,12 @@ public class Project implements Serializable, StrongEntity <ProjectId>{
 		Project castOther = (Project)other;
 		
 	
-		return this.getProjectId().equals(castOther.getProjectId());
+		return this.getId().equals(castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
-		return this.getProjectId().hashCode();
+		return this.getId().hashCode();
 	}
 
 	@Override
