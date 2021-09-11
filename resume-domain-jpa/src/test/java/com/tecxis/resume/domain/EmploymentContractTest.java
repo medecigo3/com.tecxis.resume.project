@@ -97,9 +97,9 @@ public class EmploymentContractTest {
 	@Test
 	public void testSetId() {
 		EmploymentContract employmentContract = new EmploymentContract();
-		assertEquals(0, employmentContract.getId());
-		employmentContract.setId(1);
-		assertEquals(1, employmentContract.getId());
+		assertEquals(0, employmentContract.getId().longValue());
+		employmentContract.setId(new Long(1));
+		assertEquals(1, employmentContract.getId().longValue());
 	}
 	
 	@Test

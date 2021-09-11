@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -21,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
-import com.tecxis.resume.domain.id.EmploymentContractId;
+import com.tecxis.resume.domain.id.Identifiable;
 
 /**
  * The persistent class for the EMPLOYMENT_CONTRACT database table.
@@ -29,8 +28,7 @@ import com.tecxis.resume.domain.id.EmploymentContractId;
  */
 @Entity
 @Table(name=EmploymentContract.EMPLOYMENT_CONTRACT_TABLE)
-@IdClass(EmploymentContractId.class)
-public class EmploymentContract implements Serializable  {
+public class EmploymentContract implements Serializable, Identifiable  <Long>  {
 	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT";
 	
 	private static final long serialVersionUID = 1L;
@@ -72,12 +70,14 @@ public class EmploymentContract implements Serializable  {
 		this.staff = staff;
 		this.supplier = supplier;
 	}
-
-	public long getId() {
+	
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	@Override
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -122,15 +122,8 @@ public class EmploymentContract implements Serializable  {
 			return false;
 		}
 		EmploymentContract castOther = (EmploymentContract)other;
-		
-		if (this.getSupplier() != null && castOther.getSupplier() != null) {
-			if (this.getStaff() != null && castOther.getStaff() != null) {		
-				
-				return 	this.getSupplier().equals(castOther.getSupplier()) && 
-						this.getStaff().equals(castOther.getStaff());
-				
-			} else return false;
-		} else return false;
+		return this.getId().equals(castOther.getId());
+
 	}
 
 	@Override
@@ -138,13 +131,6 @@ public class EmploymentContract implements Serializable  {
 		final int prime = 31;
 		int hash = 17;			
 		hash = hash * prime + ((int) (this.getId()  ^ (this.getId()  >>> 32)));
-		
-		if (this.getSupplier() != null)
-			hash = hash * prime + this.getSupplier().hashCode();
-		
-		if (this.getStaff() != null)
-			hash = hash * prime + this.getStaff().hashCode();
-		
 		return hash;
 	}
 
