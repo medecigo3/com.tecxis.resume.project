@@ -6,16 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityExistsException;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -24,6 +23,7 @@ import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -31,27 +31,26 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-@IdClass(CityId.class)
-public class City implements Serializable, StrongEntity <Long>{
+public class City implements Serializable, Identifiable <CityId>{
 	private static final long serialVersionUID = 1L;
 	public static final String CITY_TABLE = "CITY";
 	
-	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="CITY_SEQ", 
+	
+	@EmbeddedId
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
 	 parameters = {
 	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
-	@Column(name="CITY_ID")
-	private long id;
+	private CityId id;
 
 	/**
 	 * bi-directional many-to-one association to Country
 	 * In SQL terms, City is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this City "belongs" to a Country
 	 */
-	@Id
+	@MapsId("countryId")
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="COUNTRY_ID", insertable=false, updatable=false)
 	private Country country;
@@ -72,15 +71,17 @@ public class City implements Serializable, StrongEntity <Long>{
 	
 	public City() {
 		this.projects = new ArrayList <> ();
+		this.id = new CityId();
+		this.locations = new ArrayList <> ();
 	}
 	
 	@Override
-	public Long getId() {
+	public CityId getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(Long id) {
+	public void setId(CityId id) {
 		this.id = id;
 	}
 	
@@ -90,6 +91,7 @@ public class City implements Serializable, StrongEntity <Long>{
 	
 	public void setCountry(Country country) {
 		this.country = country;
+		this.getId().setCountryId(country.getId());
 	}
 
 	public String getName() {
@@ -154,34 +156,19 @@ public class City implements Serializable, StrongEntity <Long>{
 			return false;
 		}
 		City castOther = (City)other;
-		
-		if (this.getCountry() != null && castOther.getCountry()!= null)
-			return 	this.getId() == castOther.getId()  && 
-					this.getCountry().equals(castOther.getCountry());
-		else
-			return 	this.getId() == castOther.getId();
+		return 	this.getId().equals(castOther.getId());
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		
-		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
-		
-		if (this.getCountry() != null)
-			hash = hash * prime + this.getCountry().hashCode();
-		
-		return hash;
+		return this.getId().hashCode();
 	}
 
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() +   
 				", name=" +this.getName() +
-				"["+ CityId.class.getName()+
-				"[id=" + this.getId() +
-				", countryId=" + (this.getCountry() != null ? this.getCountry().getId() : "null") + "]]]";
+				"[" + this.getId() + "]";
 	}
 
 }

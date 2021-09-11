@@ -1,4 +1,4 @@
-package com.tecxis.resume.domain.utils;
+package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.domain.City.CITY_TABLE;
@@ -52,6 +52,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -95,7 +96,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml"})
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class UtilsTest {
 	
 	@PersistenceContext
@@ -174,10 +176,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertACityWithSpringJpaRepo() {
 		/**Prepare test*/
 		Country uk = Utils.insertACountry(UNITED_KINGDOM, countryRepo);		
@@ -370,10 +372,10 @@ public class UtilsTest {
 
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertLocationWithSpringJpaRepo() {
 		/**Prepare test*/
 		Country france = Utils.insertACountry(FRANCE, countryRepo);
@@ -401,10 +403,12 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAProjectWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client barclays = Utils.insertAClient(BARCLAYS, clientRepo);		

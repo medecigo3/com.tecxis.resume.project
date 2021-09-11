@@ -2,92 +2,82 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.tecxis.resume.domain.Country;
-
-public class CityId implements Serializable {
+@Embeddable
+public class CityId implements Serializable, Sequence <Long> {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="CITY_SEQ", 
-	 parameters = {
-	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
-	)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
-	@Column(name="CITY_ID")
-	private long id;
 
-	@Id
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="COUNTRY_ID")
-	private Country country;
+	@Column(name="CITY_ID")
+	private long cityId;
+
+	
+	@Column(name="COUNTRY_ID")
+	private long countryId;
 		
-	public CityId(long id, Country country) {
+	public CityId(long cityId, long countryId) {
 		this();
-		this.id = id;
-		this.country = country;
+		this.cityId = cityId;
+		this.countryId = countryId;
 	}
 	
 	public CityId() {
 		super();
 	}
-	public long getId() {
-		return this.id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public Country getCountry() {
-		return this.country;
-	}
-	public void setCountry(Country country) {
-		this.country = country;
+	
+	public long getCityId() {
+		return cityId;
 	}
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof CityId)) {
-			return false;
-		}
-		CityId castOther = (CityId)other;
-		
-		if (this.getCountry() != null && castOther.getCountry() != null)
-			return 	this.getId() == castOther.getId()  && 
-					this.getCountry().equals(castOther.getCountry());
-		else
-			return 	this.getId() == castOther.getId();
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
 	}
 
-	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		
-		hash = hash * prime + ((int) (this.getId() ^ (this.getId() >>> 32)));
-		
-		if (this.getCountry() != null)
-			hash = hash * prime + this.getCountry().hashCode();
-		
-		return hash;
+	public long getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(long countryId) {
+		this.countryId = countryId;
 	}
 	
 	@Override
+	public Long getSequentialValue() {		
+		return this.getCityId();
+	}
+		
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (cityId ^ (cityId >>> 32));
+		result = prime * result + (int) (countryId ^ (countryId >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CityId other = (CityId) obj;
+		if (cityId != other.cityId)
+			return false;
+		if (countryId != other.countryId)
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {		
-		return 	"["+ CityId.class.getName()+
-				"[id=" + this.getId() +
-				", countryId=" + (this.getCountry() != null ? this.getCountry().getId() : "null" )  + "]]";
+		return 	CityId.class.getName()+
+				"[cityId=" + this.getCityId() +
+				", countryId=" + this.getCountryId() + "]";
 				
 	}
 }

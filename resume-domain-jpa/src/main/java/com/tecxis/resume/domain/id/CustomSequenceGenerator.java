@@ -3,18 +3,15 @@ package com.tecxis.resume.domain.id;
 import java.io.Serializable;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerationException;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
-
-import com.tecxis.resume.domain.StrongEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	
@@ -22,7 +19,7 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
 	public static final String INITIAL_VALUE_PARAMETER = "InitialValue";
 	public static final int INITIAL_VALUE_DEFAULT = 1;
-	private final static Logger LOG = LogManager.getLogger();
+	private final static Logger LOG = LoggerFactory.getLogger(CustomSequenceGenerator.class);
 	
 	public int allocationSize;
 	public int initialValue;
@@ -41,9 +38,9 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
 		
 		LOG.debug("Processing entity: " + object);
-		if (object instanceof StrongEntity) {			
-			LOG.debug("Detected entity of type: " + StrongEntity.class);
-			StrongEntity <?> entity = (StrongEntity <?>)object;
+		if (object instanceof Identifiable) {			
+			LOG.debug("Detected entity of type: " + Identifiable.class);
+			Identifiable <?> entity = (Identifiable <?>)object;
 			Object id = entity.getId();
 			LOG.debug("Processing entity with simple primary key: " + id);
 			if (id instanceof Long) {
@@ -56,8 +53,8 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 				LOG.debug("Generating sequence with default sequence generator for entity: " + object);
 				return super.generate(session, object);
 			} else
-				throw new IdentifierGenerationException("Cannot determine entity's id integral data type: id is null.");
+				throw new NullIdException("Cannot determine entity's id integral data type: id is null.");
 		}
-		throw new IdentifierGenerationException("Unknown entity type: " + object.getClass());
+		throw new UnsupportedEntityException("Entity [" + object + "] not instance of [" + Identifiable.class+"]");
 	}
 }

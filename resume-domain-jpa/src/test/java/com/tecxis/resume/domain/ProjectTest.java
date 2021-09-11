@@ -82,6 +82,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -104,7 +105,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml"})
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class ProjectTest {
 	
 	@PersistenceContext
@@ -151,9 +153,9 @@ public class ProjectTest {
 	@Test
 	public void testSetId() {
 		Project project = new Project();
-		assertEquals(new ProjectId(0, 0), project.getProjectId());	
-		project.setProjectId(new ProjectId());
-		assertEquals(new ProjectId(0, 0), project.getProjectId());			
+		assertEquals(new ProjectId(0, 0), project.getId());	
+		project.setId(new ProjectId());
+		assertEquals(new ProjectId(0, 0), project.getId());			
 	}	
 	
 	@Test
@@ -245,11 +247,11 @@ public class ProjectTest {
 				
 		/**Build new Project -> Client association*/
 		Project newAxeltisProject = new Project();
-		ProjectId id = newAxeltisProject.getProjectId();
-		id.setProjectId(morningstartV1Project.getId().getProjectId()); //sets Project id
+		ProjectId id = newAxeltisProject.getId();
+		id.setProjectId(morningstartV1Project.getId().getProjectId()); //sets old id to the new Project 
 		newAxeltisProject.setName(MORNINGSTAR);
 		newAxeltisProject.setVersion(VERSION_3);
-		newAxeltisProject.setClient(eh);  //sets Client id
+		newAxeltisProject.setClient(eh);  //sets new Client
 		newAxeltisProject.setCities(morningstartV1Project.getCities());
 		
 		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -284,7 +286,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getId());
+		assertEquals(1, adir.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -330,7 +332,7 @@ public class ProjectTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getId());
+		assertEquals(1, adir.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -891,7 +893,7 @@ public class ProjectTest {
 		
 		/**Remove location*/
 		/**Location has to be removed as it is the relation owner between Project <-> Location*/
-		Location seleniumLocation = locationRepo.findById(new LocationId(paris, selenium)).get();
+		Location seleniumLocation = locationRepo.findById(new LocationId(paris.getId(), selenium.getId())).get();
 		entityManager.remove(seleniumLocation);
 		entityManager.flush();
 		
@@ -940,7 +942,7 @@ public class ProjectTest {
 
 		/***Validate the Project's current Locations*/
 		assertEquals(1, selenium.getLocations().size());		
-		Location seleniumLocation = locationRepo.findById(new LocationId(paris, selenium)).get();		
+		Location seleniumLocation = locationRepo.findById(new LocationId(paris.getId(), selenium.getId())).get();		
 		assertEquals(seleniumLocation, selenium.getLocations().get(0));
 				
 		/**Prepare new Locations*/
@@ -1066,7 +1068,7 @@ public class ProjectTest {
 		assertEquals(paris, axeltisV1ProjectLocations.get(0).getCity());
 		
 		/**Test Location -> Project association*/
-		Location axeltisMorningstarv1ProjectLocation =  locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+		Location axeltisMorningstarv1ProjectLocation =  locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		assertEquals(paris, axeltisMorningstarv1ProjectLocation.getCity());
 		assertEquals(morningstartV1Project, axeltisMorningstarv1ProjectLocation.getProject());
 		
@@ -1097,7 +1099,7 @@ public class ProjectTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(53, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		assertNull(projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1));		
-		assertNull(locationRepo.findById(new LocationId(paris, morningstartV1Project)).get());
+		assertNull(locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get());
 	}
 	
 	@Test

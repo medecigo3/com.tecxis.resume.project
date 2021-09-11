@@ -26,6 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 import com.tecxis.resume.domain.id.ProjectId;
 
 
@@ -35,7 +36,7 @@ import com.tecxis.resume.domain.id.ProjectId;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
-public class Project implements Serializable, StrongEntity <ProjectId>{
+public class Project implements Serializable, Identifiable <ProjectId>{
 	private static final long serialVersionUID = 1L;
 	public static final String PROJECT_TABLE = "PROJECT";
 

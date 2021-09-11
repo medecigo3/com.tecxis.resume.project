@@ -3,30 +3,29 @@ package com.tecxis.resume.domain.id;
 import java.io.Serializable;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.Session;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerationException;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.StrongEntity;
-/** Supports entities implementing {@link com.tecxis.resume.domain.StrongEntity} with composite primary key implementing {@link com.tecxis.resume.domain.id.SequencedEntityId}  in the need of a DB sequence generator. */
+/** Supports entities implementing {@link com.tecxis.resume.domain.id.Identifiable} with composite primary key implementing {@link com.tecxis.resume.domain.id.Sequence}  in the need of a DB sequence generator. */
 public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
 	public static final String INITIAL_VALUE_PARAMETER = "InitialValue";
 	public static final int INITIAL_VALUE_DEFAULT = 1;
-	private final static Logger LOG = LogManager.getLogger();
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	private String sequenceCallSyntax;
 
@@ -51,41 +50,54 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {  		
 		LOG.debug("Processing entity: " + object);		
-		if(object instanceof StrongEntity) {
-			LOG.debug("Detected entity of type: " + StrongEntity.class.getName());			
-			StrongEntity <?> entity = (StrongEntity<?>) object;			
+		if(object instanceof Identifiable) {
+			LOG.debug("Detected entity of type: " + Identifiable.class.getName());			
+			Identifiable <?> entity = (Identifiable<?>) object;			
 			Object id = entity.getId();
-			LOG.debug("Processing entity's id:" + id);		
-			if (id instanceof SequencedEntityId) {
-				LOG.debug("Detected entity with composite primary key type: " + SequencedEntityId.class.getName());
-				SequencedEntityId <?> sequenceId = (SequencedEntityId <?>) id;			
-				if(entity.getId() != null) {
-					Object sequencedValue = sequenceId.getSequenceValue();
-					if (sequencedValue instanceof Long) {
-						LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
-						if ( ((Long) sequencedValue).longValue()  > 0L ) {
-							LOG.debug("Entity with sequence id is not null, returning id: " + sequenceId);
-							return sequenceId;	
+			if(id != null) {
+				LOG.debug("Processing entity's id:" + id);		
+				if (id instanceof Sequence) {
+					LOG.debug("Detected entity with composite primary key type: " + Sequence.class.getName());
+					Sequence <?> sequenceId = (Sequence <?>) id;
+						Object sequentialValue = sequenceId.getSequentialValue();
+						if (sequentialValue != null) {
+							if (sequentialValue instanceof Long) {
+								LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
+								if ( ((Long) sequentialValue).longValue()  > 0L ) {
+									LOG.debug("Entity with sequence id is not null, returning id: " + sequenceId);
+									return sequenceId;	
+								}
+								LOG.debug("Generating " + Long.class.getSimpleName() + " sequence id for entity: " + object);
+						   	 	long seqValue = ((Number) ((Session) session).createNativeQuery(sequenceCallSyntax).uniqueResult()).longValue();
+						   	 	LOG.debug("Generated sequence value: " + seqValue);
+						   	 	
+						   	 	Sequence <Long> generatedId = null; 
+						   	 	if (object instanceof Project){
+							   	 	Project project = (Project)object;   	 	
+							   	 	ProjectId projectId = project.getId();
+							   	 	projectId.setProjectId(seqValue); 
+							   	 	projectId.setClientId(project.getClient().getId());
+							   	 	generatedId = projectId;
+						   	 	} else if(object instanceof City) {
+							   	 	City city = (City)object;   	 	
+							   	 	CityId cityId = city.getId();
+							   	 	cityId.setCityId(seqValue);
+							   	 	cityId.setCountryId(city.getCountry().getId());
+							   	 	generatedId = cityId;
+						   	 	}				   	 	
+						   	 	LOG.debug("Returning id with generated value: " + generatedId);
+						        return generatedId; 
+							}
+							throw new UnsupportedSequenceException("Entity with sequential type [" + sequentialValue.getClass() +"]  not supported." );
 						}
-						LOG.debug("Generating " + Long.class.getSimpleName() + " sequence id for entity: " + object);
-				   	 	long seqValue = ((Number) ((Session) session).createNativeQuery(sequenceCallSyntax).uniqueResult()).longValue();
-				   	 	LOG.debug("Generated sequence value: " + seqValue);
-				   	 	Project project = (Project)object;   	 	
-				   	 	ProjectId projectId = project.getId(); //TODO start refactoring from here...
-				   	 	projectId.setProjectId(seqValue); 
-				   	 	projectId.setClientId(project.getClient().getId());
-				   	 	LOG.debug("Returning id with generated value: " + projectId);				   	 	
-				        return projectId;
-					} else{
-						LOG.debug("Entity with sequence id type not supported: " + sequencedValue.getClass());
-					}
-					
-				}
-				throw new IdentifierGenerationException("Cannot determine entity's id integral data type, id is null.");
+						throw new NullSequenceException("Cannot determine entity's id integral data type: id is null.");
+			
 			}
-			throw new IdentifierGenerationException("Enity with unknown id type: " + id.getClass());				
+			throw new UnsupportedIdException("Id [" + id + "] not instance of "+Sequence.class+" for entity [" + entity + "]");
+			}
+			throw new NullIdException("Cannot determine entity's id integral data type, id is null.");
 			}  
-			throw new IdentifierGenerationException("Unknown entity type: " + object.getClass());
+			throw new UnsupportedEntityException("Entity type [" + object + "] not an instance of [" + Identifiable.class+"]");
 			
 	}
 }

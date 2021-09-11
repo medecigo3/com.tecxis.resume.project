@@ -3,12 +3,12 @@ package com.tecxis.resume.domain;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.tecxis.resume.domain.id.LocationId;
@@ -20,37 +20,41 @@ import com.tecxis.resume.domain.id.LocationId;
  * */
 @Entity
 @Table(name=Location.LOCATION_TABLE)
-@IdClass(LocationId.class)
 public class Location implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	final public static String LOCATION_TABLE = "LOCATION";	
 	
+	@EmbeddedId
+	private LocationId id;
+	
 	/**Bi-direccional many-to-one association to City*/
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@MapsId("cityId")	
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to City 
 	@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID")
 	@JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")		
 	private City city;
 	
 	/**Bi-direccional many-to-one association to Project*/
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)		
+	@MapsId("projectId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Project
 	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
 	private Project project;
 	
 	public Location() {
 		super();
-	}
-		
+		this.id = new LocationId();
+	}		
+
 	public Location(City city, Project project) {
-		super();
-		this.city = city;
-		this.project = project;
+		this();
+		this.getId().setCityId(city.getId());
+		this.getId().setProjectId(project.getId());
+		this.setCity(city);
+		this.setProject(project);
 	}
-	
 
 	public City getCity() {
 		return city;
@@ -58,6 +62,7 @@ public class Location implements Serializable {
 
 	public void setCity(City city) {
 		this.city = city;
+		this.getId().setCityId(city.getId());
 	}
 
 	public Project getProject() {
@@ -66,6 +71,15 @@ public class Location implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+		this.getId().setProjectId(project.getId());
+	}	
+
+	public LocationId getId() {
+		return id;
+	}
+
+	public void setId(LocationId id) {
+		this.id = id;
 	}
 
 	@Override
@@ -105,31 +119,11 @@ public class Location implements Serializable {
 	}
 	
 	@Override
-	public String toString() {
-		
-		City city = null;
-		Country country = null;
-		Project project = null;
-		Client client = null;
-		
-	
-			city = this.getCity();
+	public String toString() {			
+		return "["+ this.getClass().getName() +
+				this.getId()+
+				"]";
 			
-			if (city != null)
-				country = this.getCity().getCountry();
-			
-			project = this.getProject();
-			
-			if (project != null)
-				client = this.getProject().getClient();
-			
-			return "["+ this.getClass().getName() +
-					"[cityId=" + (city != null ? city.getId() : "null") + 
-					", countryId=" + (country != null ? country.getId() : "null")   +
-					", projectId=" + (project != null ? project.getId() : "null")   +
-					", clientId=" + (client != null ? client.getId() : "null")  +
-					"]]";
-			
-		}	
+	}	
 
 }

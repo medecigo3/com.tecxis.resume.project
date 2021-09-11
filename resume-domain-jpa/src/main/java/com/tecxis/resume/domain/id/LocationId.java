@@ -2,115 +2,81 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 
-import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Country;
-import com.tecxis.resume.domain.Project;
-
+@Embeddable
 public class LocationId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID")
-	@JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")		
-	private City city;
+	private CityId cityId; // corresponds to PK type of Client
 	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})		
-	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
-	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
-	private Project project;
+	private ProjectId projectId; // corresponds to PK type of Project
 
-	public LocationId(City city, Project project) {
+	public LocationId(CityId cityId, ProjectId projectId) {
 		super();
-		this.city = city;
-		this.project = project;
+		this.cityId = cityId;
+		this.projectId = projectId;
 	}
 	
 	public LocationId() {
 		super();
 	}
 
-	public City getCity() {
-		return city;
+	public CityId getCityId() {
+		return cityId;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
+	public void setCityId(CityId city) {
+		this.cityId = city;
 	}
 
-	public Project getProject() {
-		return project;
+	public ProjectId getProjectId() {
+		return projectId;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setProjectId(ProjectId project) {
+		this.projectId = project;
 	}		
 	
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof LocationId)) {
-			return false;
-		}
-		LocationId castOther = (LocationId)other;
 		
-		if(this.getCity() != null && castOther.getCity() != null) {
-			if (this.getProject() != null && castOther.getProject() != null) {
-				
-				 return 	this.getCity().equals(castOther.getCity()) &&
-						 	this.getProject().equals(castOther.getProject());
-				 
-			} else return false;
-		} else return false;
-			
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		
-		if (this.getCity() != null) {
-			hash = hash * prime + this.getCity().hashCode();
-		}
-		
-		if (this.getProject() != null) {
-			hash = hash * prime +  this.getProject().hashCode();
-		}
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((cityId == null) ? 0 : cityId.hashCode());
+		result = prime * result + ((projectId == null) ? 0 : projectId.hashCode());
+		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LocationId other = (LocationId) obj;
+		if (cityId == null) {
+			if (other.cityId != null)
+				return false;
+		} else if (!cityId.equals(other.cityId))
+			return false;
+		if (projectId == null) {
+			if (other.projectId != null)
+				return false;
+		} else if (!projectId.equals(other.projectId))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
-		City city = null;			
-		Country country = null;
-		Project project = null;
-		Client client = null;
-					
-		city = this.getCity();
-		if (city != null)
-			country = this.getCity().getCountry();
-		
-		project = this.getProject();
-		if (project != null)
-			client = project.getClient();
-		
-		
-		return "["+ this.getClass().getName() +
-				"[cityId=" + (city != null ? this.city.getId() : "null" )  + 
-				", countryId= " + (country != null ? country.getId() : "null")  +
-				", projectId=" + (project != null ? project.getId() : "null" )   +
-				", clientId=" + (client != null ?  client.getId() : "null")  +
-				"]]";
+		return  this.getClass().getName() +
+				"[" + (this.getCityId() != null ? this.cityId.getCityId() : "cityId=null" )  + 
+				  (this.getProjectId() != null ? this.getProjectId() : "projectId=null") +
+				"]";
 	
 	}
 

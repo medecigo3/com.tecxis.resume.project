@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,7 +39,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class LocationTest {
 	
 	
@@ -76,13 +78,13 @@ public class LocationTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City paris = Utils.insertACity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1L, paris.getId().longValue());
+		assertEquals(1L, paris.getId().getCityId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Insert Location*/
@@ -106,7 +108,7 @@ public class LocationTest {
 		City paris = cityRepo.getCityByName(PARIS);
 		
 		/**Find a Location*/
-		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 	
 		/**Test Location*/
 		assertEquals(paris, morningstartV1ProjectLocation.getCity());
@@ -118,7 +120,7 @@ public class LocationTest {
 		/**Find Location to remove again*/
 		morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		paris = cityRepo.getCityByName(PARIS);
-		morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris, morningstartV1Project)).get();
+		morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
 		
 		/**Remove location*/

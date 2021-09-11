@@ -192,8 +192,10 @@ public class Utils {
 		return interest;
 	}
 	
-	public static Location insertLocation(City city, Project project, EntityManager entityManager) {		
+	public static Location insertLocation(City city, Project project, EntityManager entityManager) {
 		Location location = new Location(city, project);
+//		location.setCity(city);
+//		location.setProject(project);
 		entityManager.persist(location);
 		entityManager.flush();
 		return location;
@@ -201,7 +203,9 @@ public class Utils {
 	}
 	
 	public static Location insertLocation(City city, Project project, LocationRepository locationRepo) {		
-		Location location = new Location(city, project);		
+		Location location = new Location();	
+		location.setCity(city);
+		location.setProject(project);
 		locationRepo.saveAndFlush(location);
 		return location;
 				

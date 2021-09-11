@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -24,7 +25,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Client implements Serializable, StrongEntity <Long>{
+public class Client implements Serializable, Identifiable <Long>{
 	private static final String UNSUPPORTED_CLIENT_CONTRACT_OPERATION = "Client -> Contract association managed by association owner Contract.";
 	
 	private static final String UNSUPPORTED_CLIENT_PROJECT_OPERATION = "Client -> Project association managed through by association owner Project.";
@@ -156,8 +157,7 @@ public class Client implements Serializable, StrongEntity <Long>{
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
 				", name=" + this.getName()+ 
-				"[id=" + this.getId() +
-				 "]]";
+				"[" + this.getId() +  "]]";
 				
 	}
 }
