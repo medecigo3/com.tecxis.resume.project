@@ -55,12 +55,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.LocationId;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
@@ -73,7 +75,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml"})
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class CityTest {
 
 	
@@ -108,15 +111,15 @@ public class CityTest {
 	public void testGetId() {
 		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
 		City city = Utils.insertACity(BRUSSELS, belgium, entityManager);
-		assertThat(city.getId(), Matchers.greaterThan((long)0));		
+		assertThat(city.getId().getCityId(), Matchers.greaterThan((long)0));		
 	}
 
 	@Test
 	public void testSetId() {
 		City city = new City();
-		assertEquals(0L, city.getId().longValue());
-		city.setId(1L);
-		assertEquals(1L, city.getId().longValue());		
+		assertEquals(0L, city.getId().getCityId());
+		city.getId().setCityId(1L);
+		assertEquals(1L, city.getId().getCityId());		
 	}
 	
 	@Test
@@ -177,7 +180,8 @@ public class CityTest {
 		
 		/**Create new City with new Country*/
 		City newLondon =  new City();
-		newLondon.setId(currentLondon.getId());
+		CityId id = newLondon.getId();
+		id.setCityId(currentLondon.getId().getCityId()); //sets old id to the new City
 		newLondon.setCountry(france);		
 		newLondon.setName(currentLondon.getName());
 				
@@ -202,7 +206,7 @@ public class CityTest {
 		/**Validate the new City*/		
 		newLondon = null;
 		newLondon = cityRepo.getCityByName(LONDON);		
-		assertEquals(currentLondon.getId(), newLondon.getId());
+		assertEquals(currentLondon.getId().getCityId(), newLondon.getId().getCityId());
 		france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(france, newLondon.getCountry());
 		
@@ -238,14 +242,14 @@ public class CityTest {
 				
 		/**Validate pre-test state of Location*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		LocationId locationId = new LocationId(london, sherpa);
+		LocationId locationId = new LocationId(london.getId(), sherpa.getId());
 		assertFalse(locationRepo.findById(locationId).isPresent());
 		
 		/**Validate state of current City -> Locations */
 		List <Location> londonLocations = london.getLocations();
 		assertEquals(2, londonLocations.size());		
-		Location fortisLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(FORTIS, VERSION_1))).get();
-		Location dcscLocation = locationRepo.findById(new LocationId(london, projectRepo.findByNameAndVersion(DCSC, VERSION_1))).get();
+		Location fortisLocation = locationRepo.findById(new LocationId(london.getId(), projectRepo.findByNameAndVersion(FORTIS, VERSION_1).getId())).get();
+		Location dcscLocation = locationRepo.findById(new LocationId(london.getId(), projectRepo.findByNameAndVersion(DCSC, VERSION_1).getId())).get();
 		assertThat(londonLocations, Matchers.containsInAnyOrder(fortisLocation, dcscLocation)); 
 		
 		/**Create new Location*/
@@ -332,12 +336,12 @@ public class CityTest {
 		/**Find the Location*/
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		entityManager.merge(manchester);
-		entityManager.merge(currentAdir);
+		entityManager.merge(currentAdir);			
 		entityManager.flush();
 		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(0, manchester.getLocations().size());
 		assertEquals(0, currentAdir.getLocations().size());
-		LocationId locaitonId = new LocationId(manchester, currentAdir);
+		LocationId locaitonId = new LocationId(manchester.getId(), currentAdir.getId());
 		assertFalse(locationRepo.findById(locaitonId).isPresent());
 	}
 	
