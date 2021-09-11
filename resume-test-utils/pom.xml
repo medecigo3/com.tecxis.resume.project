@@ -15,7 +15,72 @@
 
 	<description>Resume test utilities library.</description>
 	
-	<dependencies>		
+	<dependencies>
+		<dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-api</artifactId>        
+       </dependency>
+       <dependency>
+           <groupId>ch.qos.logback</groupId>
+           <artifactId>logback-classic</artifactId>           
+       </dependency>
+		<!-- Reflection tools lib -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>  
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<!-- END hibernate -->
+		<!-- com.vladmihalcea testing tools -->
+		<dependency>
+		     <groupId>com.zaxxer</groupId>
+		     <artifactId>HikariCP</artifactId>	            
+		</dependency>
+			<dependency>
+		     <groupId>net.sf.ehcache</groupId>
+		     <artifactId>ehcache</artifactId>            
+		</dependency>
+		<dependency>
+		     <groupId>org.hibernate</groupId>
+		     <artifactId>hibernate-ehcache</artifactId>    
+		</dependency>
+		<dependency>
+		     <groupId>net.ttddyy</groupId>
+		     <artifactId>datasource-proxy</artifactId>         
+		</dependency>
+			<dependency>
+		    <groupId>p6spy</groupId>
+		    <artifactId>p6spy</artifactId>
+		</dependency>      
+		<dependency>
+	         <groupId>org.hsqldb</groupId>
+	         <artifactId>hsqldb</artifactId>        
+	     </dependency>      
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>		    
+		</dependency>
+		<!-- Unit test framework -->				
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>  		
 	</dependencies>
 
 	<build>

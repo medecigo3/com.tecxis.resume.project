@@ -18,9 +18,19 @@
 		<spring.version>5.3.9</spring.version>
 		<spring.data.jpa>2.1.0.RELEASE</spring.data.jpa>
 		<spring.security.version>5.0.4.RELEASE</spring.security.version>
-		<hibernate.version>5.4.22.Final</hibernate.version>
+		<hibernate.version>5.5.7.Final</hibernate.version>
 		<jackson.version>1.9.10</jackson.version>
 		<resume.domain.jpa.version>1.6.0-SNAPSHOT</resume.domain.jpa.version>
+		<hikari.version>1.3.3</hikari.version>
+		<ehcache.version>2.10.6</ehcache.version>
+		<datasource-proxy.version>1.6</datasource-proxy.version>
+		<p6spy.version>2.1.4</p6spy.version>
+		<hsqldb.version>2.4.0</hsqldb.version>
+		<mysql.version>8.0.12</mysql.version>
+		<oracle.version>19.3.0.0</oracle.version>
+		<slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+        <assertj.version>3.20.2</assertj.version>
 	</properties>
 
 	<modules>
@@ -108,38 +118,28 @@
 				<artifactId>javax.servlet-api</artifactId>
 				<version>4.0.0</version>
 			</dependency>
+			<!-- Logging -->
 			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>2.9.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>2.9.1</version>
-			</dependency>
-			<!-- Adds level coloring support for Log4J2 in windows console -->
+	            <groupId>org.slf4j</groupId>
+	            <artifactId>slf4j-api</artifactId>
+	            <version>${slf4j.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>ch.qos.logback</groupId>
+	            <artifactId>logback-classic</artifactId>
+	            <version>${logback.version}</version>
+	        </dependency>				
+			<!-- Adds coloring support for logging levels in windows console -->
 			<dependency>
 			    <groupId>org.fusesource.jansi</groupId>
 			    <artifactId>jansi</artifactId>
 			    <version>1.17.1</version>
 			</dependency>
-			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-api</artifactId>
-			    <version>1.7.25</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-log4j12</artifactId>
-			    <version>1.7.25</version>
-			</dependency>
 			<!-- test dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
-				<scope>test</scope>
+				<version>4.12</version>				
 			</dependency>			
 			<!-- JUnit 5 
 			<dependency>
@@ -154,7 +154,13 @@
 	            <version>5.4.2</version>
 	            <scope>test</scope>
 	        </dependency>
-	        -->
+			-->
+			<dependency>
+			    <groupId>org.assertj</groupId>
+			    <artifactId>assertj-core</artifactId>
+			    <version>${assertj.version}</version>
+			    <scope>test</scope>
+			</dependency>	       
 			<dependency>
 			    <groupId>org.hamcrest</groupId>
 			    <artifactId>hamcrest-junit</artifactId>
@@ -182,16 +188,6 @@
 				<groupId>javax.xml.bind</groupId>
 				<artifactId>jaxb-api</artifactId>
 				<version>2.3.0</version>			
-			</dependency>
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>1.4.196</version>
-			</dependency>
-			<dependency>
-			    <groupId>mysql</groupId>
-			    <artifactId>mysql-connector-java</artifactId>
-			    <version>8.0.12</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -236,6 +232,56 @@
 			    <artifactId>javax.el</artifactId>
 			    <version>2.2.6</version>
 			</dependency>
+			<!-- com.vladmihalcea testing tools -->
+			<dependency>
+	            <groupId>com.zaxxer</groupId>
+	            <artifactId>HikariCP</artifactId>
+	            <version>${hikari.version}</version>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>org.slf4j</groupId>
+	                    <artifactId>slf4j-api</artifactId>
+	                </exclusion>
+	            </exclusions>	          
+	        </dependency>
+	        <dependency>
+	            <groupId>net.sf.ehcache</groupId>
+	            <artifactId>ehcache</artifactId>
+	            <version>${ehcache.version}</version>	       
+	        </dependency>
+	        <dependency>
+	            <groupId>org.hibernate</groupId>
+	            <artifactId>hibernate-ehcache</artifactId>
+	            <version>${hibernate.version}</version>	           
+	        </dependency>	 
+	         <!-- Database -->       
+	        <dependency>
+	            <groupId>net.ttddyy</groupId>
+	            <artifactId>datasource-proxy</artifactId>
+	            <version>${datasource-proxy.version}</version>	         
+	        </dependency>
+	        <dependency>
+	            <groupId>p6spy</groupId>
+	            <artifactId>p6spy</artifactId>
+	            <version>${p6spy.version}</version>	            
+	        </dependency>
+	        <dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.196</version>				
+			</dependency>
+			<dependency>
+			    <groupId>mysql</groupId>
+			    <artifactId>mysql-connector-java</artifactId>
+			    <version>${mysql.version}</version>
+			</dependency>
+			<dependency>
+	            <groupId>org.hsqldb</groupId>
+	            <artifactId>hsqldb</artifactId>
+	            <version>${hsqldb.version}</version>	          
+	        </dependency>
+	         <!-- END Database -->
+	         <!-- END com.vladmihalcea testing tools -->
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -243,9 +289,11 @@
 	        <plugin>
 	        	<!-- Adds mvn build support for Eclipse-->
 	            <artifactId>maven-compiler-plugin</artifactId>
-	            <version>3.1</version>
+	            <version>3.8.1</version>
 	            <configuration>
-	                <fork>true</fork>	         
+	                <fork>true</fork>
+	                <source>1.8</source>
+	                <target>1.8</target>
 	            </configuration>
 	        </plugin>
 	        <!-- Enables support with JUnit 5 + Spring 5 integration
