@@ -2,7 +2,6 @@ package com.tecxis.resume.domain.meta;
 
 import java.util.Date;
 
-import javax.annotation.Generated;
 import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -10,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Service;
 
-@Generated(value="Dali", date="2018-07-20T21:52:58.792+0200")
+
 @StaticMetamodel(Contract.class)
 public class Contract_ {
 	public static volatile SingularAttribute <Contract, Long> clientId;
