@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -21,7 +22,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Interest implements Serializable, StrongEntity <Long>{
+public class Interest implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String INTEREST_TABLE = "Interest";

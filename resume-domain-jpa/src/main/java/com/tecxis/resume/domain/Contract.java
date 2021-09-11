@@ -26,6 +26,7 @@ import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -35,7 +36,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
 @IdClass(ContractId.class)
-public class Contract implements Serializable, StrongEntity <Long>{
+public class Contract implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	public static final String CONTRACT_TABLE = "CONTRACT";
 	

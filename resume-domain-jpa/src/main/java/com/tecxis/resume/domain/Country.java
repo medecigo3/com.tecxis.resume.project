@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -24,7 +25,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Country implements Serializable, StrongEntity  <Long>{
+public class Country implements Serializable, Identifiable  <Long>{
 	private static final String UNSUPPORTED_COUNTRY_CITY_OPERATION = "Country -> City association managed by association owner City.";
 	public static final String COUNTRY_TABLE = "COUNTRY";
 

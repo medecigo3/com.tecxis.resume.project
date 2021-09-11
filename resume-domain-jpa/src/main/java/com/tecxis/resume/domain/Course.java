@@ -22,6 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -31,7 +32,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {"TITLE"}))
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
-public class Course implements Serializable, StrongEntity <Long>{
+public class Course implements Serializable, Identifiable <Long>{
 	private static final String UNSUPPORTED_COURSE_STAFF_OPERATION = "Course -> Staff association is managed by association owner Enrolment";
 	
 	public static final String COURSE_TABLE = "COURSE";

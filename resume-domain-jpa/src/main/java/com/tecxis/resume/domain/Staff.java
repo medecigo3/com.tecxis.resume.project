@@ -24,6 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -31,7 +32,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  * 
  */
 @Entity
-public class Staff implements Serializable, StrongEntity <Long>{
+public class Staff implements Serializable, Identifiable <Long>{
 	public static final String STAFF_TABLE = "STAFF";
 	
 	private static final String UNSUPPORTED_STAFF_INTEREST_OPERATION = "Staff -> Interest association managed by association owner Interest.";

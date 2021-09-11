@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import com.tecxis.resume.domain.id.Identifiable;
+
 
 
 /**
@@ -25,7 +27,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
-public class Supplier implements Serializable, StrongEntity <Long>{
+public class Supplier implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SUPPLIER_TABLE = "SUPPLIER";
