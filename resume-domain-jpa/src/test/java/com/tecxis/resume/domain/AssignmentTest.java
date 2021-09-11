@@ -47,6 +47,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -63,8 +64,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml"})
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
-
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class AssignmentTest {
 	
 	@PersistenceContext
@@ -106,7 +107,7 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
-		assertEquals(1, ted.getId());
+		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -158,7 +159,7 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client arval = Utils.insertAClient(ARVAL, entityManager);		
 		Project aos = Utils.insertAProject(AOS, VERSION_1, arval, entityManager);
-		assertEquals(1, aos.getId());
+		assertEquals(1, aos.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
@@ -312,7 +313,7 @@ public class AssignmentTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
-		assertEquals(1, ted.getId());
+		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
