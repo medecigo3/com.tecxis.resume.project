@@ -20,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -28,7 +29,7 @@ import com.tecxis.resume.domain.id.CustomSequenceGenerator;
  */
 @Entity
 @Table(name="\"SERVICE\"")
-public class Service implements Serializable, StrongEntity <Long>{
+public class Service implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String SERVICE_TABLE = "SERVICE";
