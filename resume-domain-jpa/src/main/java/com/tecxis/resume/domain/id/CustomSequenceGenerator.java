@@ -47,13 +47,13 @@ public class CustomSequenceGenerator extends SequenceStyleGenerator {
 				LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
 				Long sequenceId = (Long)id;
 				if ( ((Long)sequenceId).longValue()  > 0L ) {  
-					LOG.debug("Entity with sequence id is not null, returning id: " + id);
+					LOG.debug("Entity with sequence id is not null, returning id: [" + id + "]");
 		            return sequenceId;  
 		        }				
-				LOG.debug("Generating sequence with default sequence generator for entity: " + object);
+				LOG.debug("Generating sequence with default sequence generator for entity: [" + object + "]");
 				return super.generate(session, object);
 			} else
-				throw new NullIdException("Cannot determine entity's id integral data type: id is null.");
+				throw new NullIdException("Id not an integral data type or id is null: [" + id + "]");
 		}
 		throw new UnsupportedEntityException("Entity [" + object + "] not instance of [" + Identifiable.class+"]");
 	}
