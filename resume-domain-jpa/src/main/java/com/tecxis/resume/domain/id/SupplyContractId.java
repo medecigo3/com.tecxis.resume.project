@@ -2,129 +2,97 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Supplier;
-
-
+@Embeddable
 public class SupplyContractId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="SUPPLIER_ID", referencedColumnName="SUPPLIER_ID")	
-	private Supplier supplier;	
-	
-	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
-	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
-	private Contract contract;
+	@Column(name="SUPPLIER_ID")	
+	private long supplierId;	
+			
+	private ContractId contractId; // corresponds to PK type of Contract
 
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")				
-	private Staff staff;			
+	@Column(name="STAFF_ID")	
+	private long staffId;			
 						
 	public SupplyContractId() {
 		super();
 	}
-		
-
-	public SupplyContractId(Supplier supplier, Contract contract, Staff staff) {
+	
+	public SupplyContractId(long supplierId, ContractId contractId, long staffId) {
 		super();
-		this.supplier = supplier;
-		this.contract = contract;
-		this.staff = staff;
-
+		this.supplierId = supplierId;
+		this.contractId = contractId;
+		this.staffId = staffId;
 	}
-
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-			
-	public Contract getContract() {
-		return contract;
-	}
-
-	public void setContract(Contract contract) {
-		this.contract = contract;
-	}		
-			
-	public Staff getStaff() {
-		return staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof SupplyContractId)) {
-			return false;
-		}
 	
-		
-		SupplyContractId castOther = (SupplyContractId)other;
-		
-		if	(this.getSupplier() != null && castOther.getSupplier() != null) {
-			if (this.getContract() != null && castOther.getContract() != null) {
-				if (this.getStaff()    != null && castOther.getStaff()    != null) {				
-			
-					return 	this.getSupplier().equals(castOther.getSupplier()) && 
-							this.getContract().equals(castOther.getContract()) && 
-							this.getStaff().equals(castOther.getStaff());
-				} else return false;
-			} else return false;			
-		}else return false;
+	public long getSupplierId() {
+		return supplierId;
 	}
-					
-	
+
+	public void setSupplierId(long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public ContractId getContractId() {
+		return contractId;
+	}
+
+	public void setContractId(ContractId contractId) {
+		this.contractId = contractId;
+	}
+
+	public long getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(long staffId) {
+		this.staffId = staffId;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;			
-		if (this.getSupplier() != null)
-			hash = hash * prime + this.getSupplier().hashCode();
-		
-		if (this.getContract() != null) {
-			hash = hash * prime + this.getContract().hashCode();
-		}
-		
-		if  (this.getStaff() != null)
-			hash = hash * prime + this.getStaff().hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((contractId == null) ? 0 : contractId.hashCode());
+		result = prime * result + (int) (staffId ^ (staffId >>> 32));
+		result = prime * result + (int) (supplierId ^ (supplierId >>> 32));
+		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SupplyContractId other = (SupplyContractId) obj;
+		if (contractId == null) {
+			if (other.contractId != null)
+				return false;
+		} else if (!contractId.equals(other.contractId))
+			return false;
+		if (staffId != other.staffId)
+			return false;
+		if (supplierId != other.supplierId)
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
+		ContractId contractId = this.getContractId(); 
 		
-		Supplier supplier = this.getSupplier();
-		Contract contract = this.getContract();
-		Client client = null;
-		if (contract != null)
-			client = contract.getClient();
-		Staff staff = this.getStaff();
-		
-		return "["+ this.getClass().getName() +
-				"[supplierId=" + (supplier != null ? supplier.getId() : " null" ) +
-				", contractId=" + (contract != null ? contract.getId() : "null") +
-				", clientId=" + (client != null ? client.getId() : "null") +
-				", staffId=" + (staff != null ? staff.getId() : "null") + 
-				"]]";
+		return this.getClass().getName() +
+				"[supplierId=" + this.getSupplierId() +
+				", contractId=" + (contractId != null ? contractId.getContractId() : "null") +
+				", clientId=" + (contractId != null ? contractId.getClientId() : "null") +
+				", staffId=" + this.getStaffId() + 
+				"]";
 	}
 }

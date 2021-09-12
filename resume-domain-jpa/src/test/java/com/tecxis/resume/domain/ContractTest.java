@@ -61,13 +61,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
@@ -123,15 +124,15 @@ public class ContractTest {
 	public void testGetId() {
 		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);	
 		Contract contract = Utils.insertAContract(axeltis, CONTRACT9_NAME, entityManager);
-		assertThat(contract.getId(), Matchers.greaterThan((long)0));
+		org.assertj.core.api.Assertions.assertThat(contract.getId().getContractId()).isGreaterThan((long)0);
 	}
 	
 	@Test
 	public void testSetId() {
 		Contract contract = new Contract();
-		assertEquals(0L, contract.getId().longValue());
-		contract.setId(1L);
-		assertEquals(1L, contract.getId().longValue());
+		assertEquals(0L, contract.getId().getContractId());
+		contract.getId().setContractId(1L);
+		assertEquals(1L, contract.getId().getContractId());
 	}
 
 
@@ -163,7 +164,7 @@ public class ContractTest {
 	public void testSetClientWithOrmOrhpanRemoval() {
 		/**Find a Contract*/			
 		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
-		final long sagemContractId = currentSagemContract.getId();
+		final long sagemContractId = currentSagemContract.getId().getContractId();
 				
 		/**Validate Contract-> Client */
 		Client sagem = currentSagemContract.getClient();
@@ -189,7 +190,8 @@ public class ContractTest {
 				
 		/**Create new Contract with new Client*/
 		Contract newMicropoleContract = new Contract();
-		newMicropoleContract.setId(sagemContractId);
+		ContractId newMicropoleContractId = newMicropoleContract.getId();
+		newMicropoleContractId.setContractId(sagemContractId);
 		newMicropoleContract.setClient(micropole);
 		newMicropoleContract.setName(CONTRACT4_NAME);
 		/**Set the new Contract with the SupplyContract (with new Client)*/	
@@ -220,7 +222,7 @@ public class ContractTest {
 		
 		/**Validate new Contract*/
 		newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);					
-		assertEquals(sagemContractId, newMicropoleContract.getId().longValue());
+		assertEquals(sagemContractId, newMicropoleContract.getId().getContractId());
 		
 		/**Validate new Contract ->  Client*/
 		micropole = clientRepo.getClientByName(MICROPOLE);
@@ -232,7 +234,7 @@ public class ContractTest {
 		
 		/**Now Client -> Contracts has 2 */
 		assertEquals(2, micropole.getContracts().size());
-		assertThat(micropole.getContracts(), Matchers.hasItems(newMicropoleContract, fcMicropoleContract));
+		org.assertj.core.api.Assertions.assertThat(micropole.getContracts()).contains(newMicropoleContract, fcMicropoleContract);
 		
 		/**New Contract ->  ContractServiceAgreements has 0 */
 		assertEquals(0, newMicropoleContract.getContractServiceAgreements().size());
@@ -280,7 +282,7 @@ public class ContractTest {
 		/**Validate Contract-> Client */
 		assertEquals(SAGEMCOM, currentAmesysSagemContract.getClient().getName());		
 		Client sagemcom = currentAmesysSagemContract.getClient();
-		final long amesysContractId = currentAmesysSagemContract.getId();
+		final long amesysContractId = currentAmesysSagemContract.getId().getContractId();
 		
 		/**Validate Contract -> SupplyContract*/
 		assertEquals(1, currentAmesysSagemContract.getSupplyContracts().size());
@@ -323,7 +325,7 @@ public class ContractTest {
 		/**Validate the new Contract*/		
 		currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		assertNotNull(currentAmesysSagemContract);
-		assertEquals(amesysContractId, currentAmesysSagemContract.getId().longValue());
+		assertEquals(amesysContractId, currentAmesysSagemContract.getId().getContractId());
 		
 		/**Validate the Contract -> Client*/
 		sagemcom = clientRepo.getClientByName(SAGEMCOM);
@@ -372,7 +374,7 @@ public class ContractTest {
 		/**Validate Contract -> SupplyContract*/
 		List<SupplyContract> belfiusSupplyContracts = belfiusAlphatressContract.getSupplyContracts();
 		assertEquals(2, belfiusSupplyContracts.size());
-		assertThat(belfiusSupplyContracts, Matchers.hasItems(belfiusAlphatressSupplyContract1, belfiusAlphatressSupplyContract2));		
+		org.assertj.core.api.Assertions.assertThat(belfiusSupplyContracts).contains(belfiusAlphatressSupplyContract1, belfiusAlphatressSupplyContract2);		
 	}
 		
 	@Test

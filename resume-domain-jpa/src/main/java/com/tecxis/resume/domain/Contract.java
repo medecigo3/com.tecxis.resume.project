@@ -6,16 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityExistsException;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -35,27 +34,25 @@ import com.tecxis.resume.domain.id.Identifiable;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
-@IdClass(ContractId.class)
-public class Contract implements Serializable, Identifiable <Long>{
+public class Contract implements Serializable, Identifiable <ContractId>{
 	private static final long serialVersionUID = 1L;
 	public static final String CONTRACT_TABLE = "CONTRACT";
 	
-	@Id
-	@Column(name="CONTRACT_ID")	
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="CONTRACT_SEQ", 
+	@EmbeddedId
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CONTRACT_SEQ", 
 			 parameters = {
 			            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 			            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
-	private long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
+	private ContractId id;
 	
 	/**
 	 * bi-directional many-to-one association to Client. 
 	 * In SQL terms, Contract is the "owner" of this relationship with Client as it contains the relationship's foreign key
 	 * In OO terms, this Client "signed" this Contract.
 	 */
-	@Id
+	@MapsId("clientId")
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private Client client;		
@@ -81,17 +78,18 @@ public class Contract implements Serializable, Identifiable <Long>{
 
 
 	public Contract() {
+		this.id = new ContractId();
 		this.contractServiceAgreements = new ArrayList <> ();
 		this.supplyContracts = new ArrayList<> ();
 	}
 	
 	@Override
-	public Long getId() {
+	public ContractId getId() {
 		return this.id;
 	}
 	
 	@Override
-	public void setId(Long id) {
+	public void setId(ContractId id) {
 		this.id = id;
 	}
 
@@ -101,6 +99,7 @@ public class Contract implements Serializable, Identifiable <Long>{
 
 	public void setClient(Client client) {
 		this.client = client;
+		this.getId().setClientId(client.getId());
 	}
 	
 	public String getName() {
@@ -180,33 +179,19 @@ public class Contract implements Serializable, Identifiable <Long>{
 		if (!(other instanceof Contract)) {
 			return false;
 		}
-		Contract castOther = (Contract)other;
-		
-		if (this.getClient() != null && this.getClient() != null)
-			return 	this.id == castOther.getId() && 
-					this.getClient().equals(castOther.getClient());
-		else
-			return 	this.id == castOther.getId();
+		Contract castOther = (Contract)other;		
+		return this.getId().equals(castOther.getId());
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;		
-		
-		hash = hash * prime + ((int) (this.id ^ (this.id >>> 32)));
-		
-		if (this.getClient() != null)
-			hash = hash * prime + this.getClient().hashCode();
-		
-		return hash;
+	public int hashCode() {		
+		return this.getId().hashCode();
 	}
 
 	@Override
 	public String toString() {
 		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
-				"id=" + this.getId() + 
-				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + 
+				this.getId() +
 				"]";
 	}
 }

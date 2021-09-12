@@ -252,10 +252,10 @@ public class UtilsTest {
 	
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAContractWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);
@@ -577,10 +577,10 @@ public class UtilsTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplyContractWithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);		

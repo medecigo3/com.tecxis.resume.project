@@ -975,12 +975,21 @@ public class StaffTest {
 		/**Create new SupplyContract to set to parent Staff*/
 		Client belfius = clientRepo.getClientByName(BELFIUS);
 		final String newContractName = "AccentureBelfiusContract";	
+		
 		/**New Contract*/
-		Contract newContract = new Contract();
+		Contract newContract = new Contract(); //new sequence id will be generated
 		newContract.setName(newContractName);
-		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		newContract.setClient(belfius);
+		
+		/**Persists new Contract*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));	
+		entityManager.persist(newContract);
+		entityManager.flush();
+		entityManager.clear();
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created in CONTRACT table. 
+		
 		/**New SupplyContract*/
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = new ArrayList <>();
@@ -1002,18 +1011,16 @@ public class StaffTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	// Target orphans in  SUPPLY_CONTRACT table	
 		/**Tests the initial state of the children table(s) from the Parent table*/		
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
 		/**This sets new AMT's SupplyContracts and leaves orphans*/
 		amt.setSupplyContracts(newSupplyContracts);
-		entityManager.persist(newContract);
-		entityManager.merge(amt);
+		entityManager.merge(amt); //New Contract was previously created otherwise this error generates: org.hibernate.HibernateException: Flush during cascade is dangerous
 		entityManager.flush();
 		entityManager.clear();	
 		
 		/**Test post update state of Staff table*/
-
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));	
@@ -1022,7 +1029,7 @@ public class StaffTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//13 orphans removed and 1 new child created in SUPPLY_CONTRACT table. 	
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created in CONTRACT table. 
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
@@ -1058,13 +1065,22 @@ public class StaffTest {
 		
 		/**Create new SupplyContract to set to parent Staff*/
 		Client belfius = clientRepo.getClientByName(BELFIUS);
-		final String newContractName = "AccentureBelfiusContract";	
+		final String newContractName = "AccentureBelfiusContract";
+		
 		/**New Contract*/
-		Contract newContract = new Contract();
+		Contract newContract = new Contract(); //new sequence id will be generated
 		newContract.setName(newContractName);
-		newContract.setClient(belfius);		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		newContract.setClient(belfius);
+		
+		/**Persists new Contract*/
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		entityManager.persist(newContract);
+		entityManager.flush();
+		entityManager.clear();	
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created in CONTRACT table.
+		
 		/**New SupplyContract*/
+		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
 		
@@ -1084,13 +1100,13 @@ public class StaffTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		/**Tests the initial state of the children table(s) from the Parent table*/		
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
-		/**Amend the new SupplyContract*/		
-		amt.addSupplyContract(newSupplyContract);
-		entityManager.persist(newContract);
-		entityManager.merge(amt);
+		/**Amend the new SupplyContract*/
+		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		amt.addSupplyContract(newSupplyContract);		
+		entityManager.merge(amt); //New Contract was previously created otherwise this error generates: org.hibernate.HibernateException: Flush during cascade is dangerous
 		entityManager.flush();
 		entityManager.clear();	
 		
@@ -1104,7 +1120,7 @@ public class StaffTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(15, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 new child created.	
-		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 1 new contract created.
+		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
