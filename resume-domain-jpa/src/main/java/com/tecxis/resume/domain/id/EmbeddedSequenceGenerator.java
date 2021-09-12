@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.Project;
 /** Supports entities implementing {@link com.tecxis.resume.domain.id.Identifiable} with composite primary key implementing {@link com.tecxis.resume.domain.id.Sequence}  in the need of a DB sequence generator. */
 public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
@@ -48,7 +49,7 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 
 	/**Entities with sequence id of type Long are only supported, however other integral data types can be easily implemented in the future.*/ 
 	@Override
-	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {  		
+	public synchronized Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {  		
 		LOG.debug("Processing entity: " + object);		
 		if(object instanceof Identifiable) {
 			LOG.debug("Detected entity of type: " + Identifiable.class.getName());			
@@ -72,19 +73,29 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 						   	 	LOG.debug("Generated sequence value: " + seqValue);
 						   	 	
 						   	 	Sequence <Long> generatedId = null; 
-						   	 	if (object instanceof Project){
+						   	 	if (object instanceof Project){ // TODO refactor using interfaces
 							   	 	Project project = (Project)object;   	 	
 							   	 	ProjectId projectId = project.getId();
 							   	 	projectId.setProjectId(seqValue); 
-							   	 	projectId.setClientId(project.getClient().getId());
+							   	 	LOG.debug("projectId.clientId: " + projectId.getClientId() + " Project.Id.getClientId: "+ projectId.getClientId());
+							   	 	projectId.setClientId(project.getClient().getId()); //TODO Setting done in Project.setClient() remove line 
 							   	 	generatedId = projectId;
 						   	 	} else if(object instanceof City) {
 							   	 	City city = (City)object;   	 	
 							   	 	CityId cityId = city.getId();
 							   	 	cityId.setCityId(seqValue);
-							   	 	cityId.setCountryId(city.getCountry().getId());
+							   	 	LOG.debug("citytId.countryId: " + cityId.getCountryId() + " Client.Id.getCountryId: "+ cityId.getCountryId());
+							   	 	cityId.setCountryId(city.getCountry().getId()); //TODO Setting done in City.setCountry(), remove line
 							   	 	generatedId = cityId;
-						   	 	}				   	 	
+						   	 	} else if (object instanceof Contract) {
+							   	 	Contract contract = (Contract)object;   	 	
+							   	 	ContractId contractId = contract.getId();
+							   	 	contractId.setContractId(seqValue);							  
+//							   	 	contractId.setClientId(contract.getClient().getId());
+							   	 	generatedId = contractId;
+						   	 	} else {
+						   	 		throw new UnsupportedEntityException("Entity type [" + object.getClass() + "] not supported by generator."); //TODO unit test
+						   	 	}
 						   	 	LOG.debug("Returning id with generated value: " + generatedId);
 						        return generatedId; 
 							}
