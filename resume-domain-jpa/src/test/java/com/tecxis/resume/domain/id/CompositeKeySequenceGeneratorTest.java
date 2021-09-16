@@ -21,7 +21,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     @Override
     protected Class<?>[] entities() {
         return new Class<?>[] {
-                CityNullId.class,UnsupportedCity.class,CommonCity.class,UncommonCity.class,AnotherUncommonCity.class,HappyCity.class
+                CityNullId.class,UnsupportedCity.class,UncommonCity.class,AnotherUncommonCity.class,HappyCity.class
         };
     }
 
@@ -40,15 +40,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     
         });
     }
-    
-    @Test(expected=UnsupportedIdException.class)
-    public void testUnsuppportedId() throws Throwable {       
-        doInJPA(entityManager -> {
-            entityManager.persist(new CommonCity());
-    
-        });
-    }
-    
+        
     @Test(expected=UnsupportedSequenceException.class)
     public void testUnsuppportedSequentialIdType() throws Throwable {       
         doInJPA(entityManager -> {
@@ -75,7 +67,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 
     @Entity(name = "CityNullId")
     @Table(name = "CITY_NULL_ID")
-    public static class CityNullId implements  Serializable, Identifiable  <CityId> {
+    public static class CityNullId implements  Serializable, CompositeIdentifiable  <CityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
@@ -132,56 +124,9 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
      
     }
     
-    @Entity(name = "CommonCity")
-    @Table(name = "COMMON_CITY")
-    public static class CommonCity implements  Serializable, Identifiable  <UnsupportedCityId> {
-		private static final long serialVersionUID = 1L;
-		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
-    	 parameters = {
-    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
-    	)
-    	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
-        private UnsupportedCityId id;
-		
-		
-
-		public CommonCity() {
-			super();
-			this.id = new UnsupportedCityId();
-		}
-
-		@Override
-		public UnsupportedCityId getId() {
-			return id;
-		}
-
-		@Override
-		public void setId(UnsupportedCityId id) {
-			this.id = id;
-			
-		}
-    	
-    }
-    
-    @Embeddable
-    public static class UnsupportedCityId implements Serializable {
-
-    	private static final long serialVersionUID = 1L;
-    	@Column(name="CITY_ID")
-    	private long id;
-    	public long getId() {
-    		return id;
-    	}
-    	public void setId(long id) {
-    		this.id = id;
-    	}	
-    }
-    
     @Entity(name = "UncommonCity")
     @Table(name = "UNCOMMON_CITY")
-    public static class UncommonCity implements  Serializable, Identifiable  <SequentialId> {
+    public static class UncommonCity implements  Serializable, CompositeIdentifiable  <SequentialId> {
 		private static final long serialVersionUID = 1L;
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
@@ -213,36 +158,36 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     }
     
     @Embeddable
-    public static class SequentialId implements Serializable, Sequence <String, Long> {
+    public static class SequentialId implements Serializable, Sequence <Float, Float> {
 
     	private static final long serialVersionUID = 1L;
     	@Column(name="CITY_ID")
-    	private String id;
+    	private Float id;
     	
     	public SequentialId() {
 			super();
-			this.id = "";
+			this.id = new Float(0.0);
 		}
-		public String getId() {
+		public Float getId() {
     		return id;
     	}
-    	public void setId(String id) {
+    	public void setId(Float id) {
     		this.id = id;
     	}
 		@Override
-		public String getSequentialValue() {			
+		public Float getSequentialValue() {			
 			return id;
 		}
 		@Override
-		public String setSequentialValue(Long... t) {
-			this.id = t[0] + "-id-test";
+		public Float setSequentialValue(Float... t) {
+			this.id = t[0];
 			return this.getId();
 		}	
     }
     
     @Entity(name = "AnotherUncommonCity")
     @Table(name = "ANOTHER_UNCOMMON_CITY")
-    public static class AnotherUncommonCity implements  Serializable, Identifiable  <NullSequenceId> {
+    public static class AnotherUncommonCity implements  Serializable, CompositeIdentifiable  <NullSequenceId> {
 		private static final long serialVersionUID = 1L;
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
@@ -302,7 +247,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     
     @Entity(name = "HappyCity")
     @Table(name = "HAPPY_CITY")
-    public static class HappyCity implements  Serializable, Identifiable  <HappyCityId> {
+    public static class HappyCity implements  Serializable, CompositeIdentifiable  <HappyCityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
