@@ -23,9 +23,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.tecxis.resume.domain.id.CompositeIdentifiable;
 import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.id.KeySequenceGenerator;
-import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -34,7 +34,7 @@ import com.tecxis.resume.domain.id.Identifiable;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
-public class Contract implements Serializable, Identifiable <ContractId>{
+public class Contract implements Serializable, CompositeIdentifiable <ContractId>{
 	private static final long serialVersionUID = 1L;
 	public static final String CONTRACT_TABLE = "CONTRACT";
 	

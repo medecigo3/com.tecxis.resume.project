@@ -25,8 +25,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.tecxis.resume.domain.id.CompositeIdentifiable;
 import com.tecxis.resume.domain.id.KeySequenceGenerator;
-import com.tecxis.resume.domain.id.Identifiable;
 import com.tecxis.resume.domain.id.ProjectId;
 
 
@@ -36,7 +36,7 @@ import com.tecxis.resume.domain.id.ProjectId;
  */
 @Entity
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
-public class Project implements Serializable, Identifiable <ProjectId>{
+public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	private static final long serialVersionUID = 1L;
 	public static final String PROJECT_TABLE = "PROJECT";
 
