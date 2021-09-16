@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class CityId implements Serializable, Sequence <Long> {
+public class CityId implements Serializable, Sequence <Long, Long> {
 	private static final long serialVersionUID = 1L;
 
 
@@ -47,7 +47,13 @@ public class CityId implements Serializable, Sequence <Long> {
 	public Long getSequentialValue() {		
 		return this.getCityId();
 	}
-		
+
+	@Override
+	public  Long setSequentialValue(Long... id) {
+		this.setCityId(id[0]);
+		return this.getCityId();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

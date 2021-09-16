@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ProjectId implements Serializable, Sequence <Long> {
+public class ProjectId implements Serializable, Sequence <Long, Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "PROJECT_ID")
@@ -47,6 +47,12 @@ public class ProjectId implements Serializable, Sequence <Long> {
 	
 	@Override
 	public Long getSequentialValue() {
+		return this.getProjectId();
+	}
+	
+	@Override
+	public Long setSequentialValue(Long... t) {
+		this.setProjectId(t[0]);
 		return this.getProjectId();
 	}
 	

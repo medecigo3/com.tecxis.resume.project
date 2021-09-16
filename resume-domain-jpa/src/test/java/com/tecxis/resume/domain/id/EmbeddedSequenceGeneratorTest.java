@@ -21,7 +21,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     @Override
     protected Class<?>[] entities() {
         return new Class<?>[] {
-                CityNullId.class,UnsupportedCity.class,CommonCity.class,UncommonCity.class,AnotherUncommonCity.class
+                CityNullId.class,UnsupportedCity.class,CommonCity.class,UncommonCity.class,AnotherUncommonCity.class,HappyCity.class
         };
     }
 
@@ -61,6 +61,14 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public void testNullSequentialId() throws Throwable {       
         doInJPA(entityManager -> {
             entityManager.persist(new AnotherUncommonCity());
+    
+        });
+    }
+    
+    @Test
+    public void testHappyCase() throws Throwable {       
+        doInJPA(entityManager -> {
+            entityManager.persist(new HappyCity());
     
         });
     }
@@ -205,7 +213,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     }
     
     @Embeddable
-    public static class SequentialId implements Serializable, Sequence <String> {
+    public static class SequentialId implements Serializable, Sequence <String, Long> {
 
     	private static final long serialVersionUID = 1L;
     	@Column(name="CITY_ID")
@@ -224,6 +232,11 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
 		@Override
 		public String getSequentialValue() {			
 			return id;
+		}
+		@Override
+		public String setSequentialValue(Long... t) {
+			this.id = t[0] + "-id-test";
+			return this.getId();
 		}	
     }
     
@@ -261,7 +274,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     }
     
     @Embeddable
-    public static class NullSequenceId implements Serializable, Sequence <Long> {
+    public static class NullSequenceId implements Serializable, Sequence <Long, Long> {
 
     	private static final long serialVersionUID = 1L;
     	@Column(name="CITY_ID")
@@ -279,6 +292,72 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
 		@Override
 		public Long getSequentialValue() {			
 			return id;
+		}
+		@Override
+		public Long setSequentialValue(Long... t) {
+			this.id = t[0];
+			return this.getId();
+		}	
+    }
+    
+    @Entity(name = "HappyCity")
+    @Table(name = "HAPPY_CITY")
+    public static class HappyCity implements  Serializable, Identifiable  <HappyCityId> {
+		private static final long serialVersionUID = 1L;
+		@Id
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	 parameters = {
+    	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	)
+    	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
+        private HappyCityId id;
+		
+		
+
+		public HappyCity() {
+			super();
+			this.id = new HappyCityId();
+		}
+
+		@Override
+		public HappyCityId getId() {
+			return id;
+		}
+
+		@Override
+		public void setId(HappyCityId id) {
+			this.id = id;
+			
+		}
+    	
+    }
+    
+    @Embeddable
+    public static class HappyCityId implements Serializable, Sequence <Long, Long> {
+
+    	private static final long serialVersionUID = 1L;
+    	@Column(name="CITY_ID")
+    	private Long id;  	
+    	
+    	public HappyCityId() {
+			super();
+			this.id= new Long(0);
+		}
+		public Long getId() {
+    		return id;
+    	}
+    	public void setId(Long id) {
+    		this.id = id;
+    	}
+		@Override
+		public Long getSequentialValue() {			
+			return id;
+		}
+		@Override
+		public Long setSequentialValue(Long... t) {
+			this.id = t[0];
+			return this.getId();
 		}	
     }
 

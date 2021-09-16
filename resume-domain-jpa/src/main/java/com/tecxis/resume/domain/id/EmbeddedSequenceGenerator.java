@@ -15,12 +15,8 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Project;
-/** Supports entities implementing {@link com.tecxis.resume.domain.id.Identifiable} with composite primary key implementing {@link com.tecxis.resume.domain.id.Sequence}  in the need of a DB sequence generator. */
-public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
+/** Generic sequence id generator for composite primary keys.*/
+public class EmbeddedSequenceGenerator <T extends Serializable> extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
@@ -29,7 +25,6 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	private String sequenceCallSyntax;
-
 	
 
 	@Override
@@ -47,7 +42,12 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 	}
 
 
-	/**Entities with sequence id of type Long are only supported, however other integral data types can be easily implemented in the future.*/ 
+	/**Generates and sets the new sequence to the composite primary key. 
+	 * @param object the entity implementing {@link com.tecxis.resume.domain.id.Identifiable} with a composite primary key implementing {@link com.tecxis.resume.domain.id.Sequence}.
+	 * @return and instance of {@link com.tecxis.resume.domain.id.Sequence} with the new sequence. 
+	 * @throws UnsupportedSequenceDataTypeException if id sequence data type is different from {@link java.lang.Long}. 
+	 * */	
+	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {  		
 		LOG.debug("Processing entity: " + object);		
@@ -59,7 +59,12 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 				LOG.debug("Processing entity's id:" + id);		
 				if (id instanceof Sequence) {
 					LOG.debug("Detected entity with composite primary key type: " + Sequence.class.getName());
-					Sequence <?> sequenceId = (Sequence <?>) id;
+					Sequence <T, Long> sequenceId  = null;
+					try {
+						sequenceId = (Sequence <T,Long>) id;
+					} catch (ClassCastException e) {
+						throw new UnsupportedSequenceDataTypeException("Sequence data type not supported: " + id, e); //TODO test with other unsupported sequence data type, for instance String.
+					}
 						Object sequentialValue = sequenceId.getSequentialValue();
 						if (sequentialValue != null) {
 							if (sequentialValue instanceof Long) {
@@ -68,36 +73,12 @@ public class EmbeddedSequenceGenerator extends SequenceStyleGenerator {
 									LOG.debug("Entity with sequence id is not null, returning id: " + sequenceId);
 									return sequenceId;	
 								}
-								LOG.debug("Generating " + Long.class.getSimpleName() + " sequence id for entity: " + object);
+								LOG.debug("Generating " + Long.class.getSimpleName() + " sequence in DB for the entity: " + object);
 						   	 	long seqValue = ((Number) ((Session) session).createNativeQuery(sequenceCallSyntax).uniqueResult()).longValue();
-						   	 	LOG.debug("Generated sequence value: " + seqValue);
-						   	 	
-						   	 	Sequence <Long> generatedId = null; 
-						   	 	if (object instanceof Project){ // TODO refactor using interfaces
-							   	 	Project project = (Project)object;   	 	
-							   	 	ProjectId projectId = project.getId();
-							   	 	projectId.setProjectId(seqValue); 
-							   	 	LOG.debug("projectId.clientId: " + projectId.getClientId() + " Project.Id.getClientId: "+ projectId.getClientId());
-							   	 	projectId.setClientId(project.getClient().getId()); //TODO Setting done in Project.setClient() remove line 
-							   	 	generatedId = projectId;
-						   	 	} else if(object instanceof City) {
-							   	 	City city = (City)object;   	 	
-							   	 	CityId cityId = city.getId();
-							   	 	cityId.setCityId(seqValue);
-							   	 	LOG.debug("citytId.countryId: " + cityId.getCountryId() + " Client.Id.getCountryId: "+ cityId.getCountryId());
-							   	 	cityId.setCountryId(city.getCountry().getId()); //TODO Setting done in City.setCountry(), remove line
-							   	 	generatedId = cityId;
-						   	 	} else if (object instanceof Contract) {
-							   	 	Contract contract = (Contract)object;   	 	
-							   	 	ContractId contractId = contract.getId();
-							   	 	contractId.setContractId(seqValue);							  
-//							   	 	contractId.setClientId(contract.getClient().getId());
-							   	 	generatedId = contractId;
-						   	 	} else {
-						   	 		throw new UnsupportedEntityException("Entity type [" + object.getClass() + "] not supported by generator."); //TODO unit test
-						   	 	}
-						   	 	LOG.debug("Returning id with generated value: " + generatedId);
-						        return generatedId; 
+						   	 	LOG.debug("Integral DB generated sequence value is: " + seqValue);
+						   	 	sequenceId.setSequentialValue(seqValue);
+						   	 	LOG.debug("Returning id with generated sequence value: [" + sequenceId + "]");
+						   	 	return sequenceId;
 							}
 							throw new UnsupportedSequenceException("Entity with sequential type [" + sequentialValue.getClass() +"]  not supported." );
 						}
