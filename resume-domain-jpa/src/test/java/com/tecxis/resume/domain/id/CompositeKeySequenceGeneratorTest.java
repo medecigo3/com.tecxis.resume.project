@@ -80,8 +80,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
     	@Column(name="CITY_ID")
@@ -111,8 +111,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
     	@Column(name="CITY_ID")
@@ -139,8 +139,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
         private UnsupportedCityId id;
@@ -186,8 +186,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
         private SequentialId id;
@@ -247,8 +247,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
         private NullSequenceId id;
@@ -307,8 +307,8 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 		@Id
     	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ") 
         private HappyCityId id;

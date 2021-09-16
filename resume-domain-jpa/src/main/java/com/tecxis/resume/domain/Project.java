@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SimpleKeySequenceGenerator;
+import com.tecxis.resume.domain.id.KeySequenceGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 import com.tecxis.resume.domain.id.ProjectId;
 
@@ -43,8 +43,8 @@ public class Project implements Serializable, Identifiable <ProjectId>{
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="PROJECT_SEQ"	 
 	, parameters = {
-	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJECT_SEQ")
 	private ProjectId id;
