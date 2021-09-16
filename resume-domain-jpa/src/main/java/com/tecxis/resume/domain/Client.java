@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SimpleKeySequenceGenerator;
+import com.tecxis.resume.domain.id.KeySequenceGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -35,10 +35,10 @@ public class Client implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SimpleKeySequenceGenerator", name="CLIENT_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="CLIENT_SEQ", 
 	 parameters = {
-	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_SEQ")
 	@Column(name="CLIENT_ID")
