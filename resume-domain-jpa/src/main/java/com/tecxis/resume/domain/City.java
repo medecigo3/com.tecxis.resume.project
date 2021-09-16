@@ -22,8 +22,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.id.CompositeIdentifiable;
 import com.tecxis.resume.domain.id.KeySequenceGenerator;
-import com.tecxis.resume.domain.id.Identifiable;
 
 
 /**
@@ -31,7 +31,7 @@ import com.tecxis.resume.domain.id.Identifiable;
  * 
  */
 @Entity
-public class City implements Serializable, Identifiable <CityId>{
+public class City implements Serializable, CompositeIdentifiable <CityId>{
 	private static final long serialVersionUID = 1L;
 	public static final String CITY_TABLE = "CITY";
 	
