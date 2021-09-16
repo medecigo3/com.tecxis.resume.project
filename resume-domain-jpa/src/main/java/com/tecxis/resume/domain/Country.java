@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.SimpleKeySequenceGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -32,10 +32,10 @@ public class Country implements Serializable, Identifiable  <Long>{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CustomSequenceGenerator", name="COUNTRY_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SimpleKeySequenceGenerator", name="COUNTRY_SEQ", 
 	 parameters = {
-	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_SEQ")
 	@Column(name="COUNTRY_ID")

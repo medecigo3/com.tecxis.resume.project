@@ -24,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.ContractId;
-import com.tecxis.resume.domain.id.CustomSequenceGenerator;
+import com.tecxis.resume.domain.id.SimpleKeySequenceGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -41,8 +41,8 @@ public class Contract implements Serializable, Identifiable <ContractId>{
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CONTRACT_SEQ", 
 			 parameters = {
-			            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-			            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+			            @Parameter(name = SimpleKeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+			            @Parameter(name = SimpleKeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRACT_SEQ")
 	private ContractId id;
