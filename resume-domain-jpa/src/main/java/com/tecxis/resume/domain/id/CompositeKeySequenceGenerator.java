@@ -16,7 +16,7 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /** Generic sequence id generator for composite primary keys.*/
-public class EmbeddedSequenceGenerator <T extends Serializable> extends SequenceStyleGenerator {
+public class CompositeKeySequenceGenerator <T extends Serializable> extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	

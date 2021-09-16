@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.vladmihalcea.book.hpjp.util.AbstractTest;
 
-public class EmbeddedSequenceGeneratorTest extends AbstractTest {
+public class CompositeKeySequenceGeneratorTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
@@ -78,7 +78,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class CityNullId implements  Serializable, Identifiable  <CityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -109,7 +109,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class UnsupportedCity implements  Serializable{
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -137,7 +137,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class CommonCity implements  Serializable, Identifiable  <UnsupportedCityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -184,7 +184,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class UncommonCity implements  Serializable, Identifiable  <SequentialId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -245,7 +245,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class AnotherUncommonCity implements  Serializable, Identifiable  <NullSequenceId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -305,7 +305,7 @@ public class EmbeddedSequenceGeneratorTest extends AbstractTest {
     public static class HappyCity implements  Serializable, Identifiable  <HappyCityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.EmbeddedSequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = CustomSequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = CustomSequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
