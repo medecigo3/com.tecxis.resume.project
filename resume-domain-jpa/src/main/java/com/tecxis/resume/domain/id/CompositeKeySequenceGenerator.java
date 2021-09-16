@@ -56,9 +56,16 @@ public class CompositeKeySequenceGenerator <T extends Serializable, X> extends S
 			CompositeIdentifiable <? extends Sequence <? extends Serializable, ?>> entity = (CompositeIdentifiable<? extends Sequence <? extends Serializable, ?>>) object;			
 			Sequence <? extends Serializable, ?> sequenceId = entity.getId();
 			if(sequenceId != null) {
-				LOG.debug("Processing entity's id:" + sequenceId);
+				LOG.debug("Processing entity's id:" + sequenceId);		
+//				if (id instanceof Sequence) {
 					LOG.debug("Detected entity with composite primary key type: " + Sequence.class.getName());
-						Object sequentialValue = sequenceId.getSequentialValue();
+//					Sequence <T, Long> sequenceId  = null;
+//					try {
+//						sequenceId = (Sequence <T,Long>) id;
+//					} catch (ClassCastException e) {
+//						throw new UnsupportedSequenceDataTypeException("Sequence data type not supported: " + id, e); //TODO test with other unsupported sequence data type, for instance String.
+//					}
+						Object sequentialValue = sequenceId.getSequentialValue();						
 						if (sequentialValue != null) {
 							if (sequentialValue instanceof Long) {
 								/**Casts to a Long based sequence*/ 
@@ -86,6 +93,9 @@ public class CompositeKeySequenceGenerator <T extends Serializable, X> extends S
 							throw new UnsupportedSequenceException("Entity with sequential type [" + sequentialValue.getClass() +"] not supported." );
 						}
 						throw new NullSequenceException("Cannot determine entity's id integral data type: id is null.");
+			
+//			}
+//			throw new UnsupportedIdException("Id [" + id + "] not instance of "+Sequence.class+" for entity [" + entity + "]");
 			}
 			throw new NullIdException("Cannot determine entity's id integral data type, id is null.");
 			}  
