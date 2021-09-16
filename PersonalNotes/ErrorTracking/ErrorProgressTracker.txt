@@ -1,0 +1,132 @@
+testDelete(com.tecxis.resume.persistence.JpaStaffProjectAssignmentDaoTest) 
+org.springframework.beans.ConversionNotSupportedException: 
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Staff' for property 'staff';
+nested exception is java.lang.IllegalStateException: 
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Staff' for property 'staff': no matching editors or conversion strategy found
+
+testDeleteContract(com.tecxis.resume.persistence.JpaContractDaoTest)  
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client': no matching editors or conversion strategy found
+
+testDeleteCity(com.tecxis.resume.persistence.JpaCityDaoTest)
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country': no matching editors or conversion strategy found
+
+testInsertEmploymentContractWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  -> FIXED
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Staff' for property 'staff';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Staff' for property 'staff': no matching editors or conversion strategy found
+
+testInsertAContractWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  -> FIXED
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client': no matching editors or conversion strategy found
+
+testInsertACityWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) -> FIXED
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country': no matching editors or conversion strategy found
+
+testInsertLocationWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  -> FIXED
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country': no matching editors or conversion strategy found
+
+testInsertAStaffSkillWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Skill' for property 'skill';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Skill' for property 'skill': no matching editors or conversion strategy found
+
+testInsertASupplyContractWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) -> FIXED
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client': no matching editors or conversion strategy found
+
+testInsertAContractServiceAgreementWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) 
+org.springframework.beans.ConversionNotSupportedException:
+Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client';
+nested exception is java.lang.IllegalStateException:
+Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client': no matching editors or conversion strategy found
+
+testInsertAProjectWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) -> FIXED
+org.springframework.dao.InvalidDataAccessApiUsageException:
+Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long;
+nested exception is java.lang.IllegalArgumentException: Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long
+feature/POC/AdherenceToJpaDerivedIdentityStandards/InvalidDataAccessApiUsageException/Project-Client 
+
+testInsertAStaffProjectAssignmentWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  
+org.springframework.dao.InvalidDataAccessApiUsageException:
+Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long;
+nested exception is java.lang.IllegalArgumentException:
+Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long
+
+testDeleteProject(com.tecxis.resume.persistence.JpaProjectDaoTest)  
+org.springframework.dao.InvalidDataAccessApiUsageException: 
+Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long;
+nested exception is java.lang.IllegalArgumentException:
+Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long
+
+
+org.springframework.orm.jpa.JpaSystemException: Unknown integral data type for ids : com.tecxis.resume.domain.id.ProjectId; nested exception is org.hibernate.id.IdentifierGenerationException: Unknown integral data type for ids : com.tecxis.resume.domain.id.ProjectId
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:331)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:233)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:551)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:242)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:152)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:135)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:61)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
+	at com.sun.proxy.$Proxy76.saveAndFlush(Unknown Source)
+	at com.tecxis.resume.domain.util.Utils.insertAProject(Utils.java:49)
+	at com.tecxis.resume.domain.utils.UtilsTest.testInsertAProjectWithSpringJpaRepo(UtilsTest.java:99)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestExecutionCallbacks.evaluate(RunBeforeTestExecutionCallbacks.java:74)
+	at org.springframework.test.context.junit4.statements.RunAfterTestExecutionCallbacks.evaluate(RunAfterTestExecutionCallbacks.java:84)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:75)
+	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:86)
+	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:84)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:251)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:538)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:760)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:206)
+Caused by: org.hibernate.id.IdentifierGenerationException: Unknown integral data type for ids : com.tecxis.resume.domain.id.ProjectId
+
+
+
