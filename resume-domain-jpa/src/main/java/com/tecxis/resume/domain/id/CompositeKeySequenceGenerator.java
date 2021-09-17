@@ -16,7 +16,7 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /** Generic sequence id generator for composite primary keys.*/
-public class CompositeKeySequenceGenerator <T extends Serializable, X> extends SequenceStyleGenerator {
+public class CompositeKeySequenceGenerator  extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
@@ -43,9 +43,14 @@ public class CompositeKeySequenceGenerator <T extends Serializable, X> extends S
 
 
 	/**Generates and sets the new sequence to the composite primary key. 
-	 * @param object the entity implementing {@link com.tecxis.resume.domain.id.Identifiable} with a composite primary key implementing {@link com.tecxis.resume.domain.id.Sequence}.
-	 * @return and instance of {@link com.tecxis.resume.domain.id.Sequence} with the new sequence. 
-	 * @throws UnsupportedSequenceDataTypeException if id sequence data type is different from {@link java.lang.Long}. 
+	 * @param object The entity implementing {@link com.tecxis.resume.domain.id.CompositeIdentifiable CompositeIdentifiable}.
+	 * @return an instance of {@link com.tecxis.resume.domain.id.Sequence Sequence} with the new sequence. 
+	 * @throws UnsupportedSequenceException if the underlying data type of the sequence id is different from {@link java.lang.Long Long} or {@link java.lang.String String}.
+	 * @throws NullSequenceException if the sequence id is null.
+	 * @throws NullIdException if the id of the entity is null.
+	 * @throws UnsupportedEntityException if {@code object} entity is not an instance of {@link com.tecxis.resume.domain.id.CompositeIdentifiable CompositeIdentifiable}.
+	 *  
+	 * 
 	 * */	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -89,7 +94,6 @@ public class CompositeKeySequenceGenerator <T extends Serializable, X> extends S
 			}
 			throw new NullIdException("Cannot determine entity's id integral data type, id is null.");
 			}  
-			throw new UnsupportedEntityException("Entity type [" + object + "] not an instance of [" + CompositeIdentifiable.class+"]");
-			
+			throw new UnsupportedEntityException("Entity type [" + object + "] not an instance of [" + CompositeIdentifiable.class+"]");			
 	}
 }

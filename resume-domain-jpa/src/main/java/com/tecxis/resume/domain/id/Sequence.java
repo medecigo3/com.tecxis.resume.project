@@ -3,7 +3,7 @@ package com.tecxis.resume.domain.id;
 import java.io.Serializable;
 
 /**
- * Defines a generic API to deal with sequential data.* 
+ * Defines a generic API to deal with sequential data.
  */
 public interface Sequence <T extends Serializable, X>  extends Serializable{
 	
@@ -13,12 +13,13 @@ public interface Sequence <T extends Serializable, X>  extends Serializable{
 	
 	
 	/** Generates and sets the internal state by the given input data. 
-	 * @param <T> the underlying type of the internal state of the sequence, for instance an integral data type or a String to represent an UUID value.
-	 * @param <X> the input data type given to generate the sequence, for instance any integral data type or an instance of {@link java.time.LocalDate} for time based sequences.  
-	 * The responsibility to make safe usage of the varargs parameters relies on implementing classes. 
+	 * @param <T> The underlying type of the internal state of the sequence. For instance an integral data type or a {@link java.lang.String String}.
+	 * @param <X> The input data type given to generate the sequence, for instance any integral data type or an instance of {@link java.time.LocalDate LocalDate} for time based sequences.
+	 * @param summation a series of input items to be summed or added to calculate the internal state of the sequence. It's responsibility of the implementing class to make safe usage of the varargs. 
 	 * @see <a href="https://www.geeksforgeeks.org/what-is-heap-pollution-in-java-and-how-to-resolve-it/">What is heap pollution in java and how to resolve it</a> 
-	 * @see <a href="https://www.baeldung.com/java-varargs">Varargs ihn Java</a> 
+	 * @see <a href="https://www.baeldung.com/java-varargs">Varargs in Java</a> 
+	 * @see <a href="https://howtodoinjava.com/java/basics/primitive-data-types-in-java/">Java Integral Data Types</a>
 	 * */
-	T setSequentialValue(X... t);
+	T setSequentialValue(X... summation);
 	
 }
