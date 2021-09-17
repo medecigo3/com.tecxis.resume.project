@@ -57,45 +57,35 @@ public class CompositeKeySequenceGenerator <T extends Serializable, X> extends S
 			Sequence <? extends Serializable, ?> sequenceId = entity.getId();
 			if(sequenceId != null) {
 				LOG.debug("Processing entity's id:" + sequenceId);		
-//				if (id instanceof Sequence) {
-					LOG.debug("Detected entity with composite primary key type: " + Sequence.class.getName());
-//					Sequence <T, Long> sequenceId  = null;
-//					try {
-//						sequenceId = (Sequence <T,Long>) id;
-//					} catch (ClassCastException e) {
-//						throw new UnsupportedSequenceDataTypeException("Sequence data type not supported: " + id, e); //TODO test with other unsupported sequence data type, for instance String.
-//					}
-						Object sequentialValue = sequenceId.getSequentialValue();						
-						if (sequentialValue != null) {
-							if (sequentialValue instanceof Long) {
-								/**Casts to a Long based sequence*/ 
-								Sequence <? extends Serializable, Long> longSequenceId = (Sequence <? extends Serializable, Long>)entity.getId();
-								LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
-								if ( ((Long) sequentialValue).longValue()  > 0L ) {/**Long based sequence already set*/
-									LOG.debug("Entity with sequence id greater than 0, returning id: " + sequenceId);
-									return sequenceId;	
-								}
-								/**Generates Long based sequence*/
-								LOG.debug("Generating " + Long.class.getSimpleName() + " sequence in DB for the entity: " + object);
-						   	 	long seqValue = ((Number) ((Session) session).createNativeQuery(sequenceCallSyntax).uniqueResult()).longValue();
-						   	 	LOG.debug("Integral DB generated sequence value is: " + seqValue);
-						   	 	longSequenceId.setSequentialValue(seqValue);
-						   	 	LOG.debug("Returning id with generated sequence value: [" + sequenceId + "]");
-						   	 	return sequenceId;
-							} else if (sequentialValue instanceof String) {
-								/**Casts to a String based sequence*/ 
-								if (sequentialValue !=   null ) {/**String based sequence already set*/
-									LOG.debug("Entity with sequence id not null, returning id: " + sequenceId);
-									return sequenceId;	
-								}
-								//TODO impl. generate String based sequence  
-							}
-							throw new UnsupportedSequenceException("Entity with sequential type [" + sequentialValue.getClass() +"] not supported." );
+				LOG.debug("Detected entity with composite primary key type: " + Sequence.class.getName());
+				Object sequentialValue = sequenceId.getSequentialValue();						
+				if (sequentialValue != null) {
+					if (sequentialValue instanceof Long) {
+						/**Casts to a Long based sequence*/ 
+						Sequence <? extends Serializable, Long> longSequenceId = (Sequence <? extends Serializable, Long>)entity.getId();
+						LOG.debug("Detected entity with id integral data type: " + Long.class.getName());
+						if ( ((Long) sequentialValue).longValue()  > 0L ) {/**Long based sequence already set*/
+							LOG.debug("Entity with sequence id greater than 0, returning id: " + sequenceId);
+							return sequenceId;	
 						}
-						throw new NullSequenceException("Cannot determine entity's id integral data type: id is null.");
-			
-//			}
-//			throw new UnsupportedIdException("Id [" + id + "] not instance of "+Sequence.class+" for entity [" + entity + "]");
+						/**Generates Long based sequence*/
+						LOG.debug("Generating " + Long.class.getSimpleName() + " sequence in DB for the entity: " + object);
+				   	 	long seqValue = ((Number) ((Session) session).createNativeQuery(sequenceCallSyntax).uniqueResult()).longValue();
+				   	 	LOG.debug("Integral DB generated sequence value is: " + seqValue);
+				   	 	longSequenceId.setSequentialValue(seqValue);
+				   	 	LOG.debug("Returning id with generated sequence value: [" + sequenceId + "]");
+				   	 	return sequenceId;
+					} else if (sequentialValue instanceof String) {
+						/**Casts to a String based sequence*/ 
+						if (sequentialValue !=   null ) {/**String based sequence already set*/
+							LOG.debug("Entity with sequence id not null, returning id: " + sequenceId);
+							return sequenceId;	
+						}
+						//TODO impl. generate String based sequence  
+					}
+					throw new UnsupportedSequenceException("Entity with sequential type [" + sequentialValue.getClass() +"] not supported." );
+				}
+				throw new NullSequenceException("Cannot determine entity's id integral data type: id is null.");
 			}
 			throw new NullIdException("Cannot determine entity's id integral data type, id is null.");
 			}  
