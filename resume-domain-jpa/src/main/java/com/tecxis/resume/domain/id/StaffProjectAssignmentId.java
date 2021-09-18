@@ -107,10 +107,10 @@ public class StaffProjectAssignmentId implements Serializable {
 
 	@Override
 	public String toString() {
-		return "["+this.getClass().getName()+
+		return this.getClass().getName()+ "@" + this.hashCode() + 
 				"[projectId=" + (this.getProject() != null ? this.getProject().getId() : "null") + 
 				", staffId=" + (this.staff != null ? this.staff.getId() : "null")  +
-				", assignmentId=" + (this.assignment != null ? this.assignment.getId() : "null" )+ "]]" ; 
+				", assignmentId=" + (this.assignment != null ? this.assignment.getId() : "null" )+ "]" ; 
 	}
 
 	

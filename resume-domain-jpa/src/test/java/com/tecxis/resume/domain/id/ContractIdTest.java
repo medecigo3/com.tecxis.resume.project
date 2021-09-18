@@ -1,15 +1,17 @@
 package com.tecxis.resume.domain.id;
 
-import org.junit.Test;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tecxis.resume.domain.id.ContractId;
+import org.junit.Test;
 
 public class ContractIdTest {
 
 	@Test
 	public void testToString() {
 		ContractId contractId = new ContractId();
-		contractId.toString();
+		assertThat(contractId.toString()).matches(DEFAULT_ID);
+		
 	}
 
 }
