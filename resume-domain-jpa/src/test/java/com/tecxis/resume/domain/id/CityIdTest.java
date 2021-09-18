@@ -1,9 +1,10 @@
 package com.tecxis.resume.domain.id;
 
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class CityIdTest {
 	@Test
 	public void testToString() {
 		CityId cityId = new CityId();
-		cityId.toString();
+		assertThat(cityId.toString()).matches(DEFAULT_ID);
 	}
 	
 	@Test
@@ -72,7 +73,7 @@ public class CityIdTest {
 	@Test
 	public void testHashCode() {
 		CityId cityId = new CityId(4,1);
-		assertThat(cityId.getCityId()).isGreaterThan(1);
+		assertThat(cityId.hashCode()).isGreaterThan(1);
 	}
 	
 	@Test
