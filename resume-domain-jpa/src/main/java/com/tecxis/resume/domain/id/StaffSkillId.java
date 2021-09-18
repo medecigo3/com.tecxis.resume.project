@@ -82,10 +82,10 @@ public class StaffSkillId implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
+		return 	this.getClass().getName() + "@" + this.hashCode() + 
 				"[skillId=" + (this.getSkill() != null ? this.getSkill().getId() : "null") + 
 				", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : "null")  +
-				"]]";
+				"]";
 	
 	}
 

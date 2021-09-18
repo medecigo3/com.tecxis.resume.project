@@ -80,7 +80,7 @@ public class ContractId implements Serializable, Sequence <Long, Long> {
 
 	@Override
 	public String toString() {
-		return this.getClass().getName() +
+		return this.getClass().getName() + "@" + this.hashCode() +
 				"[contractId=" + this.getContractId() + 
 				", clientId=" + this.getClientId() + 
 				"]";

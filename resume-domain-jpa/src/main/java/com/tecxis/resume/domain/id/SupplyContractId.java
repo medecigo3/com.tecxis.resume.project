@@ -88,7 +88,7 @@ public class SupplyContractId implements Serializable {
 	public String toString() {
 		ContractId contractId = this.getContractId(); 
 		
-		return this.getClass().getName() +
+		return this.getClass().getName() + "@" + this.hashCode() +
 				"[supplierId=" + this.getSupplierId() +
 				", contractId=" + (contractId != null ? contractId.getContractId() : "null") +
 				", clientId=" + (contractId != null ? contractId.getClientId() : "null") +

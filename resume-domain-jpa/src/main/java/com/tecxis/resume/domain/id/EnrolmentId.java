@@ -50,35 +50,42 @@ public class EnrolmentId implements Serializable{
 	}
 	
 	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof EnrolmentId)) {
-			return false;
-		}
-		EnrolmentId castOther = (EnrolmentId)other;
-		return
-			(this.getStaff().getId() == castOther.getStaff().getId())
-			&& (this.getStaff().getId() == castOther.getStaff().getId());
-			
-	}
-	
-	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + ((int) (this.getStaff().getId() ^ (this.getStaff().getId() >>> 32)));
-		hash = hash * prime + ((int) (this.getCourse().getId()  ^ (this.getCourse().getId() >>> 32)));
-		return hash;
+		int result = 1;
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
+		result = prime * result + ((staff == null) ? 0 : staff.hashCode());
+		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EnrolmentId other = (EnrolmentId) obj;
+		if (course == null) {
+			if (other.course != null)
+				return false;
+		} else if (!course.equals(other.course))
+			return false;
+		if (staff == null) {
+			if (other.staff != null)
+				return false;
+		} else if (!staff.equals(other.staff))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
+		return  this.getClass().getName() + "@" + this.hashCode() + 
 				"[staffId=" + (this.getStaff() != null ? this.getStaff().getId() : "null") + 
 				", courseId=" + (this.getCourse() !=null ? this.getCourse().getId() : "null")  +
-				"]]";
+				"]";
 	
 	}
 

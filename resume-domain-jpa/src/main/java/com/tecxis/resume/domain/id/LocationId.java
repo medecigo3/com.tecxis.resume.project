@@ -73,8 +73,8 @@ public class LocationId implements Serializable {
 
 	@Override
 	public String toString() {
-		return  this.getClass().getName() +
-				"[" + (this.getCityId() != null ? this.cityId.getCityId() : "cityId=null" )  + 
+		return  this.getClass().getName() + "@" + this.hashCode() + 
+				"[" + (this.getCityId() != null ? this.getCityId() : "cityId=null, " )  + 
 				  (this.getProjectId() != null ? this.getProjectId() : "projectId=null") +
 				"]";
 	
