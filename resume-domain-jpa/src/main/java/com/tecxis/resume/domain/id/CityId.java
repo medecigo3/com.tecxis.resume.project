@@ -81,7 +81,7 @@ public class CityId implements Serializable, Sequence <Long, Long> {
 
 	@Override
 	public String toString() {		
-		return 	CityId.class.getName()+
+		return 	CityId.class.getName()+ "@" + this.hashCode() + 
 				"[cityId=" + this.getCityId() +
 				", countryId=" + this.getCountryId() + "]";
 				
