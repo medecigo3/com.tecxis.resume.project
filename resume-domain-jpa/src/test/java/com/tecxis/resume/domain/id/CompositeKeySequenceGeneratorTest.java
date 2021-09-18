@@ -1,5 +1,7 @@
 package com.tecxis.resume.domain.id;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -60,7 +62,18 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     @Test
     public void testHappyCase() throws Throwable {       
         doInJPA(entityManager -> {
-            entityManager.persist(new HappyCity());
+        	HappyCity happyCase = new HappyCity();
+        	assertEquals(new Long(0), happyCase.id.getId());
+            entityManager.persist(happyCase);
+            assertEquals(new Long(1L), happyCase.id.getId());
+        	happyCase = new HappyCity();
+        	assertEquals(new Long(0), happyCase.id.getId());
+            entityManager.persist(happyCase);
+            assertEquals(new Long(2L), happyCase.id.getId());
+        	happyCase = new HappyCity();
+        	assertEquals(new Long(0), happyCase.id.getId());
+            entityManager.persist(happyCase);
+            assertEquals(new Long(3L), happyCase.id.getId());
     
         });
     }
