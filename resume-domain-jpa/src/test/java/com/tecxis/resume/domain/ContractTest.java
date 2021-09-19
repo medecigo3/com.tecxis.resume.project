@@ -401,8 +401,8 @@ public class ContractTest {
 		/**Validate ContractServiceAgreement table pre test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(micropoleFastconnectContract);
-		contractServiceAgreementId.setService(scmDevService);
+		contractServiceAgreementId.setContractId(micropoleFastconnectContract.getId());
+		contractServiceAgreementId.setServiceId(scmDevService.getId());
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 		
 		/**Validate state of current Contract -> ContractServiceAgreements*/
@@ -680,8 +680,8 @@ public class ContractTest {
 		
 		/**Validate the ContractServiceAgreement was removed*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(barclaysAccentureContract);
-		contractServiceAgreementId.setService(scmDevService);
+		contractServiceAgreementId.setContractId(barclaysAccentureContract.getId());
+		contractServiceAgreementId.setServiceId(scmDevService.getId());
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 	
@@ -705,7 +705,7 @@ public class ContractTest {
 	
 		
 		/**Find the ContractServiceAgreement to remove*/		
-		ContractServiceAgreement staleContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(micropoleContract, muleService)).get();
+		ContractServiceAgreement staleContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(micropoleContract.getId(), muleService.getId())).get();
 		assertNotNull(staleContractServiceAgreement);
 
 		/**Detach entities*/
@@ -736,8 +736,8 @@ public class ContractTest {
 		muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		assertEquals(0, muleService.getContractServiceAgreements().size());
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(micropoleContract);
-		contractServiceAgreementId.setService(muleService);
+		contractServiceAgreementId.setContractId(micropoleContract.getId());
+		contractServiceAgreementId.setServiceId(muleService.getId());
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 	

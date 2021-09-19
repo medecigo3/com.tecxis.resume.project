@@ -161,8 +161,8 @@ public class ServiceTest {
 		/**Validate ContractServiceAgreement table pre test state*/
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(fastconnectMicropoleContract);
-		contractServiceAgreementId.setService(scmDevService);
+		contractServiceAgreementId.setContractId(fastconnectMicropoleContract.getId());
+		contractServiceAgreementId.setServiceId(scmDevService.getId());
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 		
 		/**Validate state of current Service ContractServiceAgreements*/
@@ -250,9 +250,11 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveContractServiceAgreement1() {
+	public void testRemoveContractServiceAgreementViaServiceWithOrmOrphanRemove() {
 		/**Find a contract*/				
 		Contract alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);		
+		assertEquals(Constants.BELFIUS, alphatressContract.getClient().getName());
+		assertEquals(Constants.CONTRACT13_NAME, alphatressContract.getName());
 
 		/**validate Contract -> ContractServiceAgreements*/
 		assertEquals(1, alphatressContract.getContractServiceAgreements().size());
@@ -279,17 +281,20 @@ public class ServiceTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
 		/**Remove the ContractServiceAgreement from the Service */
 		assertTrue(bwService.removeContractServiceAgreement(alphatressBwContractServiceAgreement));
+		assertEquals(7, bwService.getContractServiceAgreements().size());
 		entityManager.merge(bwService);		
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 orphan child is removed	
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));			
 		
 		/**validate Contract -> ContractServiceAgreements*/
 		alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
@@ -309,7 +314,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveContractServiceAgreementByContract() {
+	public void testRemoveContractServiceAgreementViaContractWithOrmOrhpanRemove() {
 		/**Find a contract*/		
 		Contract alternaArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		
@@ -328,24 +333,26 @@ public class ServiceTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 		
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
 		/**Remove ContractServiceAgreement*/
 		assertTrue(alternaArvalContract.removeContractServiceAgreement(bwService));
 		assertTrue(bwService.removeContractServiceAgreement(alternaArvalContract));		
 		entityManager.merge(alternaArvalContract);
 		entityManager.merge(bwService);
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	//1 orphan child is removed.
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
 		
 		/**Validate the ContractServiceAgreement was removed*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(alternaArvalContract);
-		contractServiceAgreementId.setService(bwService);
+		contractServiceAgreementId.setContractId(alternaArvalContract.getId());
+		contractServiceAgreementId.setServiceId(bwService.getId());
 		assertFalse(contractServiceAgreementRepo.findById(contractServiceAgreementId).isPresent());
 	}
 	
