@@ -2,92 +2,78 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 
-import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Service;
-
+@Embeddable
 public class ContractServiceAgreementId implements Serializable{
 
 		private static final long serialVersionUID = 1L;
-		
-		@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-		@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
-		@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
-		private Contract contract;
+			
+		private ContractId contractId; //corresponds to the PK type of Contract
 				
-		@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-		@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
-		private Service service;
+		private long serviceId; //Corresponds to the PK of Service
 
-		public ContractServiceAgreementId(Contract contract, Service service) {
+		public ContractServiceAgreementId(ContractId contractId, long serviceId) {
 			super();
-			this.contract = contract;
-			this.service = service;
+			this.contractId = contractId;
+			this.serviceId = serviceId;
 		}
 
 		public ContractServiceAgreementId() {
 			super();
 		}
 
-		public Contract getContract() {
-			return contract;
+		public ContractId getContractId() {
+			return contractId;
 		}
 
-		public void setContract(Contract contract) {
-			this.contract = contract;
+		public void setContractId(ContractId contractId) {
+			this.contractId = contractId;
 		}
 
-		public Service getService() {
-			return service;
+		public long getServiceId() {
+			return serviceId;
 		}
 
-		public void setService(Service service) {
-			this.service = service;
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			if (this == other) {
-				return true;
-			}
-			if (!(other instanceof ContractServiceAgreementId)) {
-				return false;
-			}
-			ContractServiceAgreementId castOther = (ContractServiceAgreementId)other;
-			
-			if (this.getContract() != null && castOther.getContract() != null) {
-				if (this.getService() != null && castOther.getService() != null) {
-					
-					return 	this.getContract().equals(castOther.getContract()) &&
-							this.getService().equals(castOther.getService());
-				} else return false;
-			} else return false;
+		public void setServiceId(long serviceId) {
+			this.serviceId = serviceId;
 		}
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
-			int hash = 17;		
-			
-			if (this.getContract() != null) 
-				hash = hash * prime + this.getContract().hashCode();
-			
-			if (this.getService() != null)
-				hash = hash * prime + this.getService().hashCode();
-			
-			return hash;
+			int result = 1;
+			result = prime * result + ((contractId == null) ? 0 : contractId.hashCode());
+			result = prime * result + (int) (serviceId ^ (serviceId >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ContractServiceAgreementId other = (ContractServiceAgreementId) obj;
+			if (contractId == null) {
+				if (other.contractId != null)
+					return false;
+			} else if (!contractId.equals(other.contractId))
+				return false;
+			if (serviceId != other.serviceId)
+				return false;
+			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "[" + this.getClass().getName() + 
-					"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") + 
-					", clientId="+   (this.getContract() != null ?  (this.getContract().getClient() != null ? this.getContract().getClient().getId() : "null") : "null") +					
-					", serviceId= "+ (this.getService() != null ? this.getService().getId() : "null") + "]]";		
+			return  this.getClass().getName() + "@" + this.hashCode() + 
+					"[" +
+					(this.getContractId() != null ? this.getContractId().toString() : "contractId=null, ") +										
+					"serviceId="+  this.getServiceId() + 
+					"]";		
 		}
 
 }

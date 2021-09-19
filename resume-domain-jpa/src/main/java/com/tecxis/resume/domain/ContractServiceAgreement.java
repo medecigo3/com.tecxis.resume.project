@@ -3,41 +3,45 @@ package com.tecxis.resume.domain;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.tecxis.resume.domain.id.ContractServiceAgreementId;
 
 /**
  * 
- * Persistence class for CONTRACT_SERVICE_AGREEMENT table
+ * Persistence class for CONTRACT_SERVICE_AGREEMENT table. <br><br>
+*  Note about the order of associations are declared in this entity:<br>
+*  When Contract entity has @Column annotation declarations for column specifications, the Hibernate {@link org.hibernate.type.descriptor.sql.BasicExtractor BasicExtractor} returns component values in alphabetical order.<br>
+*  That allows the {@link org.hibernate.tuple.component.AbstractComponentTuplizer AbstractComponentTuplizer} to properly set the component's id property values in alphabetical order.<br><br>
+*
+*  However,  associations in {@link com.tecxis.resume.domain.Contract Contract} entity are rather declared with @JoinColumn annotations. The order of these declarations has to be respected amongst associated entities.<br> 
+*  Consequently, @JoinColumn annotations in this class respect the order declaration in {@link com.tecxis.resume.domain.Contract Contract}, {@link com.tecxis.resume.domain.Service Service} and vice-versa. <br> 
+*  {@link org.hibernate.tuple.component.AbstractComponentTuplizer AbstractComponentTuplizer} will accurately set the id values in the sequence order dictated between these associations.
  * 
  * */
 @Entity
 @Table(name=ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)
-@IdClass(ContractServiceAgreementId.class)
 public class ContractServiceAgreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
 	
-	final public static String CONTRACT_SERVICE_AGREEMENT_TABLE = "CONTRACT_SERVICE_AGREEMENT";	
+	final public static String CONTRACT_SERVICE_AGREEMENT_TABLE = "CONTRACT_SERVICE_AGREEMENT";
+	
+	@EmbeddedId
+	private ContractServiceAgreementId id;
 	/**
 	 * bi-directional many-to-one association to Contract.
 	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Contract as it contains the relationship's foreign key
 	 * In OO terms, this ContractServiceAgreement "engages" this Contract
 	 *
-	 * Hibernate BasicExtractor returns component values in alphabetical order when Contract entity is has @Column annotations for column specifications.
-	 * That allows the AbstractComponentTuplizer to properly set the component's id property values in alphabetical order.
-	 * 
-	 * However because associations in Contract entity are declared with @JoinColumn annotations, the order of these annotations has to be respected for all associated entities. 
-	 * That allows the AbstractComponentTuplizer to properly set the component's id property values in the sequential order of the @JoinColumn annotations below.
 	 */	
-	@Id
-	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@MapsId("contractId")
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="CONTRACT_ID", referencedColumnName="CONTRACT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")		
 	private Contract contract;
@@ -48,20 +52,23 @@ public class ContractServiceAgreement implements Serializable{
 	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Service as it contains the relationship's foreign key
 	 * In OO terms, this ContractServiceAgreement "provides" to this Contract
 	 */	
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("serviceId")
+	@ManyToOne(cascade =  {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
 	private Service service;
 	
 	public ContractServiceAgreement() {
 		super();
+		this.id = new ContractServiceAgreementId();
 	}
 	
 
 	public ContractServiceAgreement(Contract contract, Service service) {
-		super();
-		this.contract = contract;
-		this.service = service;
+		this();
+		this.getId().setContractId(contract.getId());
+		this.getId().setServiceId(service.getId());
+		this.setContract(contract);
+		this.setService(service);
 	}
 
 
@@ -81,48 +88,47 @@ public class ContractServiceAgreement implements Serializable{
 	public void setService(Service service) {
 		this.service = service;
 	}
+	
+	public ContractServiceAgreementId getId() {
+		return id;
+	}
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof ContractServiceAgreement)) {
-			return false;
-		}
-		ContractServiceAgreement castOther = (ContractServiceAgreement)other;
-		
-		if (this.getContract() != null && castOther.getContract() != null) {
-			if (this.getService() != null && castOther.getService() != null) {
-				
-				return 	this.getContract().equals(castOther.getContract()) &&
-						this.getService().equals(castOther.getService());
-			} else return false;
-		} else return false;
+
+	public void setId(ContractServiceAgreementId id) {
+		this.id = id;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-
-			if (getContract() != null) 
-				hash = hash * prime + getContract().hashCode();
-						
-			if (getService() != null)
-				hash = hash * prime + getService().hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContractServiceAgreement other = (ContractServiceAgreement) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 
 	@Override
 	public String toString() {
 		return  "["+this.getClass().getName() + 
-				"[contractId=" + (this.getContract() != null ? this.getContract().getId() : "null") +
-				", serviceId=" + (this.getService() != null ? this.getService().getId() : "null") + 
-				"]]";
+				this.getId() + 
+				"]";
 	}
-	
-	
 	
 }
