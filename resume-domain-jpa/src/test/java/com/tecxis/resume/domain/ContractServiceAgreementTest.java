@@ -4,6 +4,12 @@ import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
 import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
+import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
+import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
+import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
+import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
+import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
+import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -83,16 +89,29 @@ public class ContractServiceAgreementTest {
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
-		ContractServiceAgreement axeltisFastConnectContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).get();
+		ContractServiceAgreement axeltisFastConnectContractServiceAgreement = contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
 				
 		/**Do not detach and remove entity directly*/		
 				
 		/**Remove ContractServiceAgreement*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
+		/**Remove the ContractServiceAgreement from the Service */
 		entityManager.remove(axeltisFastConnectContractServiceAgreement);
 		entityManager.flush();
 		entityManager.clear();
 		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
 		
 		/**Test ContractServiceAgreement was removed */
 		/**Find Client*/
@@ -102,7 +121,7 @@ public class ContractServiceAgreementTest {
 		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 
 		/**Find ContractServiceAgreement to remove*/
-		assertFalse(contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract, tibcoCons)).isPresent());
+		assertFalse(contractServiceAgreementRepo.findById(new ContractServiceAgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());
 			
 		
 	}
