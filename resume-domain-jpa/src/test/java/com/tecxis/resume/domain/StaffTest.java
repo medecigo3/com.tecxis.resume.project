@@ -1008,7 +1008,7 @@ public class StaffTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));			
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		/**WORKS IN*/
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	// Target orphans in  SUPPLY_CONTRACT table	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	// Targeted orphans in SUPPLY_CONTRACT table	
 		/**Tests the initial state of the children table(s) from the Parent table*/		
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
@@ -1138,7 +1138,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveSupplyContract() {
+	public void testRemoveSupplyContractWithOrmOrphanRemove() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1194,7 +1194,7 @@ public class StaffTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 child removed.	
+		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 orphan child is removed.	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
 		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
 		
