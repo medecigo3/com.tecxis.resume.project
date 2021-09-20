@@ -8,12 +8,17 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CityIdTest {
+	
+	private final  Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Test
 	public void testToString() {
 		CityId cityId = new CityId();
+		LOG.debug(DEFAULT_ID);
 		assertThat(cityId.toString()).matches(DEFAULT_ID);
 	}
 	
@@ -22,22 +27,15 @@ public class CityIdTest {
 		CityId cityId1 = new CityId();
 		CityId cityId2 = new CityId();
 		assertTrue(cityId1.equals(cityId2));
-	}
-	
-	@Test
-	public void testEqualsWithContructor() {
-		CityId cityId1 = new CityId(4,1);
-		CityId cityId2 = new CityId(4,1);
+		
+		cityId1 = new CityId(4,1);
+		cityId2 = new CityId(4,1);
 		assertTrue(cityId1.equals(cityId2));
-	}
-	
-	@Test
-	public void testEqualsWithContructor2() {
-		CityId cityId1 = new CityId(4,1);
-		CityId cityId2 = new CityId(1,4);
+		
+		cityId1 = new CityId(4,1);
+		cityId2 = new CityId(1,4);
 		assertFalse(cityId1.equals(cityId2));
-	}
-	
+	}	
 	
 	@Test
 	public void testSetGetCityId() {
@@ -58,36 +56,32 @@ public class CityIdTest {
 	}
 	
 	@Test
-	public void testContructor() {
-		CityId cityId = new CityId(4,1);
+	public void testContructors() {
+		CityId cityId = new CityId();
+		assertEquals(cityId.getCityId(), 0);
+		assertEquals(cityId.getCountryId(), 0);
+		
+		cityId = new CityId(4,1);
 		assertEquals(cityId.getCityId(), 4);
 		assertEquals(cityId.getCountryId(), 1);
 	}
 	
-	@Test
-	public void testHashCodeDefaultConstructor() {
-		CityId cityId = new CityId();
-		assertThat(cityId.hashCode()).isGreaterThan(1);
-	}
 
 	@Test
 	public void testHashCode() {
-		CityId cityId = new CityId(4,1);
-		assertThat(cityId.hashCode()).isGreaterThan(1);
-	}
-	
-	@Test
-	public void testComapreHashCode() {
 		CityId cityId1 = new CityId();
 		CityId cityId2 = new CityId();
+		assertThat(cityId1.hashCode()).isGreaterThan(1);
 		assertEquals(cityId1.hashCode(), cityId2.hashCode());
 		
 		cityId1 = new CityId(4, 1);
 		cityId2 = new CityId(4, 1);
+		assertThat(cityId1.hashCode()).isGreaterThan(1);
 		assertEquals(cityId1.hashCode(), cityId2.hashCode());
 		
 		cityId1 = new CityId(4, 1);
 		cityId2 = new CityId(1, 4);
+		assertThat(cityId1.hashCode()).isGreaterThan(1);
 		assertNotEquals(cityId1.hashCode(), cityId2.hashCode());
 		
 	}
