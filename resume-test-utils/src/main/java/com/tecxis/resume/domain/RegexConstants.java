@@ -20,6 +20,8 @@ public class RegexConstants {
 
 	final private static String DEFAULT_FULLY_QUALIFIED_ID_NAME = "com\\.tecxis\\.resume\\.domain\\.id\\.\\w+(?:Id\\@\\d+)";
 	
+	final private static String DEFAULT_FULLY_QUALIFIED_ENTITY_NAME = "com\\.tecxis\\.resume\\.domain\\.\\w+\\@\\d+";
+	
 	/**
 	 * Matches default composite primary keys separated by comma and space ","
 	 ^\[(\w+(?:Id=null))(,\s\w+(?:Id=null))*]$  matches exactly "[cityId=null, projectId=null, projectId=null, projectId=null, projectId=null]" or:
@@ -33,5 +35,7 @@ public class RegexConstants {
 	final public static String DEFAULT_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT + END_OF_STRING;
 	
 	final public static String DEFAULT_NESTED_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_NESTED_COMPOSITE_ID_CONTENT + END_OF_STRING;
+	
+	final public static String DEFAULT_ENTITY_SIMPLE_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[" + DEFAULT_SIMPLE_ID + "]" + END_OF_STRING;
 
 }
