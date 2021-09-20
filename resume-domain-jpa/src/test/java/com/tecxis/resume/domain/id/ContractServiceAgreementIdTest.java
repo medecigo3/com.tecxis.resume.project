@@ -1,24 +1,19 @@
 package com.tecxis.resume.domain.id;
 
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_NESTED_ID;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ContractServiceAgreementIdTest {
-	private final  Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Test
 	public void testToString() {
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		LOG.debug(DEFAULT_NESTED_ID);
 		assertThat(contractServiceAgreementId.toString()).matches(DEFAULT_NESTED_ID);
 		
 	}
