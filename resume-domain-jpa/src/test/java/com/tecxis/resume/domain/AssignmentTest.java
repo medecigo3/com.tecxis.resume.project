@@ -418,7 +418,7 @@ public class AssignmentTest {
 	@Test
 	public void testToString() {
 		Assignment assignment = new Assignment();	
-		LOG.debug("DEFAULT_NESTED_ID: "+ DEFAULT_ENTITY_SIMPLE_ID);
+		LOG.debug(assignment.toString());
 		assertThat(assignment.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID);
 	}
 
