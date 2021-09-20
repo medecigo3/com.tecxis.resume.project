@@ -20,8 +20,10 @@ import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_SIMPLE_ID;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -42,6 +44,8 @@ import javax.validation.Validator;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
@@ -410,11 +414,12 @@ public class AssignmentTest {
         assertFalse(violations.isEmpty());
 		
 	}
-	
+	private final  Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Test
 	public void testToString() {
-		Assignment assignment = new Assignment();
-		assignment.toString();
+		Assignment assignment = new Assignment();	
+		LOG.debug("DEFAULT_NESTED_ID: "+ DEFAULT_ENTITY_SIMPLE_ID);
+		assertThat(assignment.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID);
 	}
 
 }
