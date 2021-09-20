@@ -30,7 +30,7 @@ public class RegexConstants {
 	*/
 	final private static String DEFAULT_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:"+ DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))*]";	
 	
-	final private static String DEFAULT_NESTED_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:Id=null|Id=0)|" + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT +")(,\\s\\w+(?:Id=null|Id=0))*]";	
+	final private static String DEFAULT_NESTED_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID +")|" + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT +")(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))*]";	
 	
 	final public static String DEFAULT_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT + END_OF_STRING;
 	
