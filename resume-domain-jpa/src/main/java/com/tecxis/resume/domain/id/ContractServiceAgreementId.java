@@ -14,13 +14,14 @@ public class ContractServiceAgreementId implements Serializable{
 		private long serviceId; //Corresponds to the PK of Service
 
 		public ContractServiceAgreementId(ContractId contractId, long serviceId) {
-			super();
+			this();
 			this.contractId = contractId;
 			this.serviceId = serviceId;
 		}
 
 		public ContractServiceAgreementId() {
 			super();
+			this.contractId = new ContractId();
 		}
 
 		public ContractId getContractId() {
@@ -71,7 +72,7 @@ public class ContractServiceAgreementId implements Serializable{
 		public String toString() {
 			return  this.getClass().getName() + "@" + this.hashCode() + 
 					"[" +
-					(this.getContractId() != null ? this.getContractId().toString() : "contractId=null, ") +										
+					(this.getContractId() != null ? this.getContractId().toString() + ", " : "contractId=null, ") +										
 					"serviceId="+  this.getServiceId() + 
 					"]";		
 		}
