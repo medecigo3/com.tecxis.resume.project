@@ -12,7 +12,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/** Generic sequence id generator for simple primary keys as defined in chapter 2.4 Primary Keys and Entity Identity of the JSR-338 JPA v2.2 specification.*/
 public class SequenceKeyGenerator extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
