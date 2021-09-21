@@ -8,17 +8,14 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CityIdTest {
 	
-	private final  Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 
 	@Test
 	public void testToString() {
 		CityId cityId = new CityId();
-		LOG.debug(DEFAULT_ID_REGEX);
 		assertThat(cityId.toString()).matches(DEFAULT_ID_REGEX);
 	}
 	
