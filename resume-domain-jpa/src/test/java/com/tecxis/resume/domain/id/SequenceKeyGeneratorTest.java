@@ -16,7 +16,7 @@ import org.junit.Test;
 import com.tecxis.resume.domain.Country;
 import com.vladmihalcea.book.hpjp.util.AbstractTest;
 
-public class KeySequenceGeneratorTest extends AbstractTest {
+public class SequenceKeyGeneratorTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
@@ -47,10 +47,10 @@ public class KeySequenceGeneratorTest extends AbstractTest {
     public static class CountryNullId implements  Serializable, Identifiable  <Long> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="COUNTRY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="COUNTRY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_SEQ")
     	@Column(name="COUNTRY_ID")
@@ -77,10 +77,10 @@ public class KeySequenceGeneratorTest extends AbstractTest {
     public static class UnsupportedCountry implements  Serializable{
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="COUNTRY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="COUNTRY_SEQ", 
     	 parameters = {
-    	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-    	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+    	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+    	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
     	)
     	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COUNTRY_SEQ")
     	@Column(name="COUNTRY_ID")

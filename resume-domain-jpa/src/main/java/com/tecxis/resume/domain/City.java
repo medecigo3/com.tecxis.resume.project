@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.CompositeIdentifiable;
-import com.tecxis.resume.domain.id.KeySequenceGenerator;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 
 
 /**
@@ -39,8 +39,8 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
 	 parameters = {
-	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CITY_SEQ")
 	private CityId id;

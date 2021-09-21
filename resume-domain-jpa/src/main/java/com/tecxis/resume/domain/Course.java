@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.KeySequenceGenerator;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -40,10 +40,10 @@ public class Course implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="COURSE_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="COURSE_SEQ", 
 	 parameters = {
-	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COURSE_SEQ")
 	@Column(name="COURSE_ID")

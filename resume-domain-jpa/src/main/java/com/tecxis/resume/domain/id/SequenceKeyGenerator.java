@@ -13,13 +13,13 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class KeySequenceGenerator extends SequenceStyleGenerator {
+public class SequenceKeyGenerator extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	
 	public static final String INITIAL_VALUE_PARAMETER = "InitialValue";
 	public static final int INITIAL_VALUE_DEFAULT = 1;
-	private final static Logger LOG = LoggerFactory.getLogger(KeySequenceGenerator.class);
+	private final static Logger LOG = LoggerFactory.getLogger(SequenceKeyGenerator.class);
 	
 	public int allocationSize;
 	public int initialValue;
