@@ -166,9 +166,10 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() +   
-				", name=" +this.getName() +
-				"[" + this.getId() + "]";
+		return this.getClass().getName() + "[" +
+				"name=" +this.getName() +
+				 "[" + this.getId() + 
+				 "]]";
 	}
 
 }
