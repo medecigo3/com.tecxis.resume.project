@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.KeySequenceGenerator;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -37,10 +37,10 @@ public class Skill implements Serializable, Identifiable <Long>{
 	private static final String UNSUPPORTED_STAFF_SKILL_OPERATION = "Skill -> Staff association managed by association owner StaffSkill.";
 	
 	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="SKILL_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="SKILL_SEQ", 
 	 parameters = {
-	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SKILL_SEQ")
 	@Column(name="SKILL_ID")

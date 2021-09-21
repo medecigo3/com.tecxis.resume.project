@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.KeySequenceGenerator;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
 
 
@@ -41,10 +41,10 @@ public class Assignment implements Serializable, Identifiable <Long> {
 	private BigDecimal priority;
 
 	@Id
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.KeySequenceGenerator", name="ASSIGNMENT_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="ASSIGNMENT_SEQ", 
 	 parameters = {
-	            @Parameter(name = KeySequenceGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
-	            @Parameter(name = KeySequenceGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
+	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
+	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
 	)	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ASSIGNMENT_SEQ")
 	@Column(name="ASSIGNMENT_ID")
