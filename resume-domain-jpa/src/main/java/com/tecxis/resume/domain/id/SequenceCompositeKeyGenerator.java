@@ -15,8 +15,10 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/** Generic sequence id generator for composite primary keys.*/
-public class CompositeKeySequenceGenerator  extends SequenceStyleGenerator {
+/** Generic sequence id generator for composite primary key. <br> 
+*@See composite primary key definition in chapter 2.4 Primary Keys and Entity Identity of the JSR-338 JPA v2.2 specification.
+**/
+public class SequenceCompositeKeyGenerator  extends SequenceStyleGenerator {
 	
 	public static final String ALLOCATION_SIZE_PARAMETER = "AllocationSize";
 	public static final int ALLOCATION_SIZE_DEFAULT = 1;	

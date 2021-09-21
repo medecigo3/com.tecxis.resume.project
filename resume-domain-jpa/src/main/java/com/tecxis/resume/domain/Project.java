@@ -41,7 +41,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	public static final String PROJECT_TABLE = "PROJECT";
 
 	@EmbeddedId
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="PROJECT_SEQ"	 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="PROJECT_SEQ"	 
 	, parameters = {
 	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

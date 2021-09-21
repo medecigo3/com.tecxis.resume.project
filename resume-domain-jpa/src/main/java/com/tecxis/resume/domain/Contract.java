@@ -39,7 +39,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	public static final String CONTRACT_TABLE = "CONTRACT";
 	
 	@EmbeddedId
-	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CONTRACT_SEQ", 
+	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CONTRACT_SEQ", 
 			 parameters = {
 			            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
 			            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}

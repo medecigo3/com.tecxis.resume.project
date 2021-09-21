@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import com.vladmihalcea.book.hpjp.util.AbstractTest;
 
-public class CompositeKeySequenceGeneratorTest extends AbstractTest {
+public class SequenceCompositeKeyGeneratorTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
@@ -83,7 +83,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     public static class CityNullId implements  Serializable, CompositeIdentifiable  <CityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -114,7 +114,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     public static class UnsupportedCity implements  Serializable{
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -142,7 +142,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     public static class UncommonCity implements  Serializable, CompositeIdentifiable  <SequentialId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -203,7 +203,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     public static class AnotherUncommonCity implements  Serializable, CompositeIdentifiable  <NullSequenceId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
@@ -263,7 +263,7 @@ public class CompositeKeySequenceGeneratorTest extends AbstractTest {
     public static class HappyCity implements  Serializable, CompositeIdentifiable  <HappyCityId> {
 		private static final long serialVersionUID = 1L;
 		@Id
-    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.CompositeKeySequenceGenerator", name="CITY_SEQ", 
+    	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
     	 parameters = {
     	            @Parameter(name = SequenceKeyGenerator.ALLOCATION_SIZE_PARAMETER, value = "1"),
     	            @Parameter(name = SequenceKeyGenerator.INITIAL_VALUE_PARAMETER, value = "1")}
