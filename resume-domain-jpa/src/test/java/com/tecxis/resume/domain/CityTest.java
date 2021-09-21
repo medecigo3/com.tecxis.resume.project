@@ -30,6 +30,8 @@ import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_COMPOSITE_ENTITY_SIMPLE_ID_REGEX;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -739,8 +741,8 @@ public class CityTest {
 	
 	@Test
 	public void testToString() {
-		City city = new City();
-		city.toString();
+		City city = new City();		
+		assertThat(city.toString()).matches(DEFAULT_COMPOSITE_ENTITY_SIMPLE_ID_REGEX);
 	}
 	
 
