@@ -17,10 +17,11 @@ public class RegexConstants {
 	
 	final private static String DEFAULT_SIMPLE_ID = "Id=0"; 
 	
+	final private static String DEFAULT_NAME = "name=null";	
 
 	final private static String DEFAULT_FULLY_QUALIFIED_ID_NAME = "com\\.tecxis\\.resume\\.domain\\.id\\.\\w+(?:Id\\@\\d+)";
 	
-	final private static String DEFAULT_FULLY_QUALIFIED_ENTITY_NAME = "com\\.tecxis\\.resume\\.domain\\.\\w+\\@\\d+";
+	final private static String DEFAULT_FULLY_QUALIFIED_ENTITY_NAME = "com\\.tecxis\\.resume\\.domain\\.\\w+";
 	
 	/**
 	 * Matches default composite primary keys separated by comma and space ","
@@ -30,12 +31,16 @@ public class RegexConstants {
 	*/
 	final private static String DEFAULT_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:"+ DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))*]";	
 	
-	final private static String DEFAULT_NESTED_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID +")|" + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT +")(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))*]";	
+	final private static String DEFAULT_NESTED_COMPOSITE_ID_CONTENT = "\\[(\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID +")|" + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT +")(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID + "|" + DEFAULT_SIMPLE_ID + "))*]";
 	
-	final public static String DEFAULT_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT + END_OF_STRING;
+	final private static String DEFAULT_ID =  DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_COMPOSITE_ID_CONTENT;
 	
-	final public static String DEFAULT_NESTED_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_NESTED_COMPOSITE_ID_CONTENT + END_OF_STRING;
+	final public static String DEFAULT_ID_REGEX = START_OF_STRING + DEFAULT_ID + END_OF_STRING;
 	
-	final public static String DEFAULT_ENTITY_SIMPLE_ID = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[\\w+(?:" + DEFAULT_SIMPLE_ID + ")" + "]" + END_OF_STRING;
+	final public static String DEFAULT_NESTED_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ID_NAME + DEFAULT_NESTED_COMPOSITE_ID_CONTENT + END_OF_STRING;
+	
+	final public static String DEFAULT_ENTITY_SIMPLE_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\@\\d+\\[\\w+(?:" + DEFAULT_SIMPLE_ID + ")" + "]" + END_OF_STRING;
+	
+	final public static String DEFAULT_COMPOSITE_ENTITY_SIMPLE_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[" + DEFAULT_NAME  + "\\[" + DEFAULT_ID + "]]" + END_OF_STRING;
 
 }
