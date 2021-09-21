@@ -1,6 +1,6 @@
 package com.tecxis.resume.domain.id;
 
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ID;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ID_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -18,8 +18,8 @@ public class CityIdTest {
 	@Test
 	public void testToString() {
 		CityId cityId = new CityId();
-		LOG.debug(DEFAULT_ID);
-		assertThat(cityId.toString()).matches(DEFAULT_ID);
+		LOG.debug(DEFAULT_ID_REGEX);
+		assertThat(cityId.toString()).matches(DEFAULT_ID_REGEX);
 	}
 	
 	@Test

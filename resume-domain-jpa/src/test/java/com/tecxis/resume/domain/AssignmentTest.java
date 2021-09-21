@@ -20,7 +20,7 @@ import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_SIMPLE_ID;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -416,7 +416,7 @@ public class AssignmentTest {
 	@Test
 	public void testToString() {
 		Assignment assignment = new Assignment();
-		assertThat(assignment.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID);
+		assertThat(assignment.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID_REGEX);
 	}
 
 }

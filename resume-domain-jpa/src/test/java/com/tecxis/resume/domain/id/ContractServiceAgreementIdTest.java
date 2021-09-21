@@ -1,6 +1,6 @@
 package com.tecxis.resume.domain.id;
 
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_NESTED_ID;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_NESTED_ID_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -14,7 +14,7 @@ public class ContractServiceAgreementIdTest {
 	@Test
 	public void testToString() {
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		assertThat(contractServiceAgreementId.toString()).matches(DEFAULT_NESTED_ID);
+		assertThat(contractServiceAgreementId.toString()).matches(DEFAULT_NESTED_ID_REGEX);
 		
 	}
 	
