@@ -11,7 +11,7 @@ import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -285,7 +285,7 @@ public class ClientTest {
 	@Test
 	public void testToString() {
 		Client client = new Client();		
-		assertThat(client.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID_REGEX);
+		assertThat(client.toString()).matches(DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX);
 	}
 
 }
