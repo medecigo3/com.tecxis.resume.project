@@ -52,7 +52,7 @@ Failed to convert property value of type 'java.lang.Long' to required type 'com.
 nested exception is java.lang.IllegalStateException:
 Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client': no matching editors or conversion strategy found
 
-testInsertAContractServiceAgreementWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) 
+testInsertAContractServiceAgreementWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest) -> FIXED
 org.springframework.beans.ConversionNotSupportedException:
 Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Client' for property 'client';
 nested exception is java.lang.IllegalStateException:
