@@ -127,11 +127,11 @@ public class StaffProjectAssignment implements Serializable {
 		Assignment assignment = this.getAssignment();
 		
 		
-		return  "["+this.getClass().getName()+ "@" + this.hashCode() + 
+		return  this.getClass().getName()+ "@" + this.hashCode() + 
 				"[projectId=" + (project != null ? project.getId() : "null") +
 				", staffId=" + (staff != null ? staff.getId() : "null") +
 				", assignmentId=" + (assignment != null ? assignment.getId() : "null") + 
-				"]]";
+				"]";
 	}
 
 

@@ -107,10 +107,10 @@ public class StaffSkill implements Serializable{
 		Skill skill = this.getSkill();;
 		Staff staff = this.getStaff();
 		
-		return "["+ this.getClass().getName() +
-					"[skillId=" + (skill != null ?  skill.getId() : "null") + 
-					", staffId=" + (staff != null ? staff.getId() : "null") +
-					"]]";
+		return  this.getClass().getName() + "@" + this.hashCode() +
+				"[skillId=" + (skill != null ?  skill.getId() : "null") + 
+				", staffId=" + (staff != null ? staff.getId() : "null") +
+				"]";
 
 	
 	}

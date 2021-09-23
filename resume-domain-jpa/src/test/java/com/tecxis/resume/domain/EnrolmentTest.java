@@ -9,7 +9,9 @@ import static com.tecxis.resume.domain.Constants.JOHN_NAME;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
 import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +25,8 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
@@ -204,11 +208,12 @@ public class EnrolmentTest {
 		
 		
 	}
-	
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Test
 	public void testToString() {
 		Enrolment newEnrolment = new Enrolment();
-		newEnrolment.toString();
+		LOG.debug(newEnrolment.toString());
+		assertThat(newEnrolment.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 		
 	}
 	
