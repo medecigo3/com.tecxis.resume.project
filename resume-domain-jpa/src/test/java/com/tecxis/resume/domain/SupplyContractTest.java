@@ -7,9 +7,11 @@ import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
 import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -30,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -219,11 +221,11 @@ public class SupplyContractTest {
         assertFalse(violations.isEmpty());
 		
 	}	
-	
+
 	@Test
 	public void testToString() {
 		SupplyContract supplyContract = new SupplyContract();
-		supplyContract.toString();
+		assertThat(supplyContract.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 	}
 	
 

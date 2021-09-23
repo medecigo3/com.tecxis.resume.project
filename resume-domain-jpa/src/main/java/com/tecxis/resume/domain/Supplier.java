@@ -158,10 +158,10 @@ public class Supplier implements Serializable, Identifiable <Long>{
 
 	@Override
 	public String toString() {
-		return "[" + this.getClass().getName() + "@" + this.hashCode() +		
-				", name=" +this.getName() + 
-				"[id=" + id +
-				"]]";
+		return  this.getClass().getName() + "@" + this.hashCode() +		
+				"[name=" +this.getName() + 
+				", supplierId=" + getId() +
+				"]";
 	}
 
 }

@@ -10,6 +10,8 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -22,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -141,7 +143,7 @@ public class LocationTest {
 	@Test
 	public void testToString() {
 		Location location = new Location();
-		location.toString();
+		assertThat(location.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 	}
 
 }
