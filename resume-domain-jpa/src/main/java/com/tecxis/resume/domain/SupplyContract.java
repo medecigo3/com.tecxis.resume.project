@@ -158,8 +158,8 @@ public class SupplyContract implements Serializable {
 
 	@Override
 	public String toString() {		
-		return "["+ this.getClass().getName() + "@" + this.hashCode() + 
-				 this.getId() + 
+		return  this.getClass().getName() +
+				 "[" + this.getId() + 
 				"]";
 	}
 }

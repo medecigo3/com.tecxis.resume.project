@@ -106,9 +106,9 @@ public class Location implements Serializable {
 
 	@Override
 	public String toString() {			
-		return "["+ this.getClass().getName() +
-				this.getId()+
-				"]";
+		return  this.getClass().getName() + "[" +
+				this.getId() +
+				 "]";
 			
 	}	
 

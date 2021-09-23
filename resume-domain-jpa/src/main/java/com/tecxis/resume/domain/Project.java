@@ -276,10 +276,9 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 
 	@Override
 	public String toString() {
-		return 	"[" +this.getClass().getName()+ "@" + this.hashCode() +
-				"["+ ProjectId.class.getName() +
-				"[id=" + this.getId() + 
-				", clientId=" + (this.getClient() != null ? this.getClient().getId() : "null") + "]]";
+		return 	this.getClass().getName()+ "[" +
+				this.getId().toString() +
+				"]";
 	}
 
 }
