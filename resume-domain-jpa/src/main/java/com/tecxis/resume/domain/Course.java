@@ -142,8 +142,8 @@ public class Course implements Serializable, Identifiable <Long>{
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
-				"[id=" + this.getId() + "]]";
+		return  this.getClass().getName()+ "@" + this.hashCode() + 
+				"[courseId=" + this.getId() + "]";
 	}
 
 }

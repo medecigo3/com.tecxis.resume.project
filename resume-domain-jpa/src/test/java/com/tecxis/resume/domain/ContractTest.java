@@ -28,10 +28,12 @@ import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.sdf;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
 import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -812,11 +814,11 @@ public class ContractTest {
         assertFalse(violations.isEmpty());
 		
 	}
-	
+
 	@Test
 	public void testToString() {
-		Contract contract = new Contract();
-		contract.toString();
+		Contract contract = new Contract();	
+		assertThat(contract.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 	}
 
 }

@@ -190,7 +190,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
+		return this.getClass().getName() + "[" +
 				this.getId() +
 				"]";
 	}

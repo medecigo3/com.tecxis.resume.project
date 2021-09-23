@@ -136,10 +136,8 @@ public class EmploymentContract implements Serializable, Identifiable  <Long>  {
 
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
-				"[id=" + this.getId() +
-				", supplierId=" + (this.getSupplier() != null ? this.getSupplier().getId() : " null" ) +
-				", staffId=" + (this.staff != null ? this.staff.getId() : "null") + 
-				"]]";
+		return  this.getClass().getName() + "@" + this.hashCode() +
+				"[employmentContractId=" + this.getId() +				
+				"]";
 	}
 }

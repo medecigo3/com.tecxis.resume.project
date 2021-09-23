@@ -7,6 +7,8 @@ import static com.tecxis.resume.domain.Constants.MANCHESTER;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -26,8 +28,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -161,11 +163,11 @@ public class CountryTest {
         assertFalse(violations.isEmpty());
 		
 	}
-	
+
 	@Test
 	public void testToString() {
-		Country country = new Country();
-		country.toString();
+		Country country = new Country();		
+		assertThat(country.toString()).matches(DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX);
 	}
 
 }

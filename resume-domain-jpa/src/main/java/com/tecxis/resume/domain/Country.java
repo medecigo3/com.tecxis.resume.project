@@ -115,10 +115,10 @@ public class Country implements Serializable, Identifiable  <Long>{
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() +
-				", name=" +this.getName() + 
-				"[id=" + this.getId() +
-				 "]]";
+		return this.getClass().getName()+ "@" + this.hashCode() +
+				"[name=" +this.getName() + 
+				", countryId=" + this.getId() +
+				 "]";
 	}
 
 }
