@@ -16,7 +16,7 @@ import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TA
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
 import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
