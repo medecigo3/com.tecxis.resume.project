@@ -103,10 +103,10 @@ public class Enrolment implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "["+ this.getClass().getName() +
+		return  this.getClass().getName() + "@" + this.hashCode() + 
 				"[staffId=" + (getStaff() != null ? this.getStaff().getId() : "null")  + 
 				", courseId=" + (getCourse() != null ?  this.getCourse().getId() : "null")  +
-				"]]";
+				"]";
 	
 	}
 }

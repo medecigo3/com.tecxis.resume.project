@@ -6,8 +6,10 @@ import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.DUMMY_SKILL;
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -240,10 +242,11 @@ public class StaffSkillTest {
 		assertEquals(6, amt.getSkills().size());
 				
 	}
-	
+//	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Test
 	public void testToString() {
 		StaffSkill staffSkill = new StaffSkill();
-		staffSkill.toString();
+		LOG.debug(staffSkill.toString());
+		assertThat(staffSkill.toString()).matches(DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX);
 	}
 }
