@@ -6,10 +6,12 @@ import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
 import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -23,8 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -125,11 +127,11 @@ public class ContractServiceAgreementTest {
 			
 		
 	}
-	
+
 	@Test
 	public void testToString() {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement();
-		contractServiceAgreement.toString();
+		assertThat(contractServiceAgreement.toString()).matches(DEFAULT_ENTITY_NESTED_ID_REGEX);
 	}
 
 }

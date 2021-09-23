@@ -11,7 +11,9 @@ import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
 import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
 import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
 import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -35,8 +37,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -279,11 +281,11 @@ public class ClientTest {
         assertFalse(violations.isEmpty());
 		
 	}
-	
+
 	@Test
 	public void testToString() {
-		Client client = new Client();
-		client.toString();
+		Client client = new Client();		
+		assertThat(client.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID_REGEX);
 	}
 
 }

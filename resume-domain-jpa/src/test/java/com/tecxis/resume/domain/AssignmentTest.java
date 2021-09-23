@@ -44,6 +44,8 @@ import javax.validation.Validator;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
@@ -412,10 +414,11 @@ public class AssignmentTest {
         assertFalse(violations.isEmpty());
 		
 	}
-
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Test
 	public void testToString() {
 		Assignment assignment = new Assignment();
+		LOG.debug(assignment.toString());
 		assertThat(assignment.toString()).matches(DEFAULT_ENTITY_SIMPLE_ID_REGEX);
 	}
 
