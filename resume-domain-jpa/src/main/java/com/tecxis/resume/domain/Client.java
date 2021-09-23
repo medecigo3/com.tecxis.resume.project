@@ -155,9 +155,10 @@ public class Client implements Serializable, Identifiable <Long>{
 
 	@Override
 	public String toString() {
-		return "[" +this.getClass().getName()+ "@" + this.hashCode() + 
-				", name=" + this.getName()+ 
-				"[" + this.getId() +  "]]";
+		return  this.getClass().getName() + "@" + this.hashCode() 
+				+ "[" +
+				"name=" + this.getName() + ", clientId=" + this.getId() +  
+				"]";
 				
 	}
 }
