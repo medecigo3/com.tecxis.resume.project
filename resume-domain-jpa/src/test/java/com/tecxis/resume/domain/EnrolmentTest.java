@@ -9,7 +9,7 @@ import static com.tecxis.resume.domain.Constants.JOHN_NAME;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
 import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
