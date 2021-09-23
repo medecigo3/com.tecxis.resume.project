@@ -5,7 +5,9 @@ import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
 import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -208,8 +210,8 @@ public class CourseTest {
 	
 	@Test
 	public void testToString() {
-		Course course = new Course();
-		course.toString();
+		Course course = new Course();				
+		assertThat(course.toString()).matches(DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX);
 	}
 
 }

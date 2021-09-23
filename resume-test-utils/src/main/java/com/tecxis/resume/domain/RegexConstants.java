@@ -56,6 +56,7 @@ public class RegexConstants {
 	
 	/**Tests for string sample:
 	 * com.tecxis.resume.domain.ContractServiceAgreement[com.tecxis.resume.domain.id.ContractServiceAgreementId@30752[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0], serviceId=0]]
+	 * com.tecxis.resume.domain.Contract[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0]]
 	 * */
 	final public static String DEFAULT_ENTITY_WITH_NESTED_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[" + DEFAULT_ID + "(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID +  "|" + DEFAULT_SIMPLE_ID + ")*)*]" + END_OF_STRING;
 
