@@ -6,7 +6,7 @@ import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.DUMMY_SKILL;
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.EmploymentContractTest.PK_UPDATE_WARN;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -122,7 +122,7 @@ public class StaffSkillTest {
 		
 		
 		/***Find StaffSkill*/
-		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
+		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		assertEquals(amt, amtTibco.getStaff());
 		assertEquals(tibco, amtTibco.getSkill());
 		
@@ -133,7 +133,7 @@ public class StaffSkillTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		amtTibco = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
+		amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		entityManager.remove(amtTibco);
 		entityManager.flush();
 		
@@ -143,7 +143,7 @@ public class StaffSkillTest {
 		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
 		/**Validate StaffSkill*/
-		assertFalse(staffSkillRepo.findById(new StaffSkillId(amt, tibco)).isPresent());
+		assertFalse(staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).isPresent());
 				
 		/**Validate Staff -> Skills*/
 		amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
@@ -180,7 +180,7 @@ public class StaffSkillTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
 		/**Validate StaffSkill*/
-		StaffSkill amtTibcoSkill = staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
+		StaffSkill amtTibcoSkill = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		assertEquals(amt, amtTibcoSkill.getStaff());
 		assertEquals(tibco, amtTibcoSkill.getSkill());
 		
@@ -229,7 +229,7 @@ public class StaffSkillTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
 		/**Validate new StaffSkill*/
-		newStaffSkill = staffSkillRepo.findById(new StaffSkillId(amt, testSkill)).get();
+		newStaffSkill = staffSkillRepo.findById(new StaffSkillId(amt.getId(), testSkill.getId())).get();
 		assertEquals(amt, newStaffSkill.getStaff());
 		assertEquals(testSkill, newStaffSkill.getSkill());
 		
@@ -242,11 +242,10 @@ public class StaffSkillTest {
 		assertEquals(6, amt.getSkills().size());
 				
 	}
-//	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 	@Test
 	public void testToString() {
 		StaffSkill staffSkill = new StaffSkill();
-		LOG.debug(staffSkill.toString());
-		assertThat(staffSkill.toString()).matches(DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX);
+		assertThat(staffSkill.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 	}
 }

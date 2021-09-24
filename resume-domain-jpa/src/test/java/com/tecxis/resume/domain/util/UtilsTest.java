@@ -506,10 +506,10 @@ public class UtilsTest {
 		
 	}
 	
-//	@Test
-//	@Sql(
-//		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
-//		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAStaffSkillWithSpringJpaRepo() {
 		/**Prepare test*/
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);

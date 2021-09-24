@@ -2,89 +2,74 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 
-import com.tecxis.resume.domain.Skill;
-import com.tecxis.resume.domain.Staff;
-
+@Embeddable
 public class StaffSkillId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="SKILL_ID", referencedColumnName="SKILL_ID")
-	private Skill skill;
+	private long skillId; //corresponds to PK type of Skill 
 	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-	private Staff staff;
+
+	private long staffId; //Corresponds to PK type of Staff
 
 	public StaffSkillId() {
 		super();
 	}
 	
-	public StaffSkillId(Staff staff, Skill skill) {
+	public StaffSkillId(long staffId, long skillId) {
 		super();
-		this.skill = skill;
-		this.staff = staff;		
+		this.skillId = skillId;
+		this.staffId = staffId;
 	}
 
-	public Skill getSkill() {
-		return skill;
+	public long getSkillId() {
+		return skillId;
 	}
 
-	public void setSkill(Skill skill) {
-		this.skill = skill;
+	public void setSkillId(long skillId) {
+		this.skillId = skillId;
 	}
 
-	public Staff getStaff() {
-		return staff;
+	public long getStaffId() {
+		return staffId;
 	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-			
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof StaffSkillId)) {
-			return false;
-		}
-		StaffSkillId castOther = (StaffSkillId)other;
-		
-		if (this.getSkill() != null && castOther.getSkill() != null) {
-			if (this.getStaff() != null && castOther.getStaff() != null) {
-				
-				return 	this.getSkill().equals(castOther.getSkill()) &&
-						this.getStaff().equals(castOther.getStaff());
-			} else return false;
-		} else return false;
-			
+	public void setStaffId(long staffId) {
+		this.staffId = staffId;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		if (this.getSkill() != null)
-			hash = hash * prime + this.getSkill().hashCode();
-		
-		if (this.getStaff() != null)
-			hash = hash * prime + this.getStaff().hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + (int) (skillId ^ (skillId >>> 32));
+		result = prime * result + (int) (staffId ^ (staffId >>> 32));
+		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StaffSkillId other = (StaffSkillId) obj;
+		if (skillId != other.skillId)
+			return false;
+		if (staffId != other.staffId)
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return 	this.getClass().getName() + "@" + this.hashCode() + 
-				"[skillId=" + (this.getSkill() != null ? this.getSkill().getId() : "null") + 
-				", staffId=" + (this.getStaff() != null ? this.getStaff().getId() : "null")  +
+				"[skillId=" + this.getSkillId()  + 
+				", staffId=" + this.getStaffId() +
 				"]";
 	
 	}

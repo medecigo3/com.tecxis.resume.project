@@ -3,11 +3,11 @@ package com.tecxis.resume.domain;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.tecxis.resume.domain.id.StaffSkillId;
@@ -18,36 +18,48 @@ import com.tecxis.resume.domain.id.StaffSkillId;
  */
 @Entity
 @Table(name=StaffSkill.STAFF_SKILL_TABLE)
-@IdClass(StaffSkillId.class)
 public class StaffSkill implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	final public static String STAFF_SKILL_TABLE = "STAFF_SKILL";
 	
+	@EmbeddedId
+	private StaffSkillId id;
+	
 	/**Directional many-to-one association to Skill*/
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("skillId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Skill
 	@JoinColumn(name="SKILL_ID", referencedColumnName="SKILL_ID")
 	private Skill skill;
 	
 	/**Directional many-to-one association to Staff*/
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("staffId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Staff
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
 		
 
 	public StaffSkill() {
 		super();
+		this.id = new StaffSkillId();
 
 	}
 
 	public StaffSkill(Skill skill, Staff staff) {
-		super();
-		this.skill = skill;
-		this.staff = staff;
+		this();
+		this.getId().setSkillId(skill.getId());
+		this.getId().setStaffId(staff.getId());
+		this.setSkill(skill);
+		this.setStaff(staff);
 	}	
-	
+
+	public StaffSkillId getId() {
+		return id;
+	}
+
+	public void setId(StaffSkillId id) {
+		this.id = id;
+	}
 
 	public Skill getSkill() {
 		return skill;
@@ -64,52 +76,38 @@ public class StaffSkill implements Serializable{
 	public void setStaff(Staff staff) {
 		this.staff = staff;
 	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof StaffSkill)) {
-			return false;
-		}
-		
-		StaffSkill castOther = (StaffSkill)other;
-		
-		if (this.getSkill() != null && castOther.getSkill() != null) {
-			if (this.getStaff() != null && castOther.getStaff() != null) {
-				
-				return 	this.getSkill().equals(castOther.getSkill()) &&
-						this.getStaff().equals(castOther.getStaff());
-			} else return false;
-		} else return false;
-			
-	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-	
-		
-		if (getSkill() != null)
-			hash = hash * prime + this.getSkill().hashCode();
-		
-		if (getStaff() != null)
-			hash = hash * prime + this.getStaff().hashCode();
-		
-		return hash;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StaffSkill other = (StaffSkill) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
-	
-		Skill skill = this.getSkill();;
-		Staff staff = this.getStaff();
 		
-		return  this.getClass().getName() + "@" + this.hashCode() +
-				"[skillId=" + (skill != null ?  skill.getId() : "null") + 
-				", staffId=" + (staff != null ? staff.getId() : "null") +
+		return  this.getClass().getName() +
+				"[" + 
+				this.getId() +
 				"]";
 
 	
