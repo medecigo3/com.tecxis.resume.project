@@ -40,7 +40,7 @@ Failed to convert property value of type 'java.lang.Long' to required type 'com.
 nested exception is java.lang.IllegalStateException:
 Cannot convert value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Country' for property 'country': no matching editors or conversion strategy found
 
-testInsertAStaffSkillWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  
+testInsertAStaffSkillWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  -> FIXED
 org.springframework.beans.ConversionNotSupportedException:
 Failed to convert property value of type 'java.lang.Long' to required type 'com.tecxis.resume.domain.Skill' for property 'skill';
 nested exception is java.lang.IllegalStateException:
@@ -64,7 +64,7 @@ Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.Pr
 nested exception is java.lang.IllegalArgumentException: Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long
 feature/POC/AdherenceToJpaDerivedIdentityStandards/InvalidDataAccessApiUsageException/Project-Client 
 
-testInsertAStaffProjectAssignmentWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  
+testInsertAStaffProjectAssignmentWithSpringJpaRepo(com.tecxis.resume.domain.utils.UtilsTest)  -> FIXED
 org.springframework.dao.InvalidDataAccessApiUsageException:
 Can not set com.tecxis.resume.domain.Client field com.tecxis.resume.domain.id.ProjectId.client to java.lang.Long;
 nested exception is java.lang.IllegalArgumentException:
