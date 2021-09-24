@@ -115,22 +115,7 @@ public class StaffProjectAssignment implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		
-		
-		
-			if (getProject() != null)
-				hash = hash * prime + getProject().hashCode();
-			
-			if (getAssignment() != null)
-				hash = hash * prime + getAssignment().hashCode();
-			
-			if (getStaff() != null)
-				hash = hash * prime + getStaff().hashCode();
-		
-
-		return hash;
+		return this.getId().hashCode();
 	}
 	
 	@Override
