@@ -128,7 +128,7 @@ public class StaffProjectAssignmentTest {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);		
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours, amt, assignment14);	
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(parcours.getId(), amt.getId(), assignment14.getId());	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
 		assertEquals(6, parcours.getStaffProjectAssignments().size());
 		assertEquals(1, assignment14.getStaffProjectAssignments().size());
@@ -208,7 +208,7 @@ public class StaffProjectAssignmentTest {
 		List <StaffProjectAssignment>  fortisStaffAssignments = fortis.getStaffProjectAssignments();
 		assertEquals(3, fortisStaffAssignments.size());
 
-		StaffProjectAssignmentId id2 = new StaffProjectAssignmentId(fortis, amt, entityManager.find(Assignment.class, 6L));	
+		StaffProjectAssignmentId id2 = new StaffProjectAssignmentId(fortis.getId(), amt.getId(), entityManager.find(Assignment.class, 6L).getId());	
 		StaffProjectAssignment staffAssignment2 =	entityManager.find(StaffProjectAssignment.class, id2);
 		StaffProjectAssignment staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
 		assertTrue(staffAssignment2.equals(staffAssignment3));
