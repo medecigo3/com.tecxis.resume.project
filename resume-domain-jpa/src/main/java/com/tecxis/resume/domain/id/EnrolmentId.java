@@ -2,24 +2,17 @@ package com.tecxis.resume.domain.id;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Embeddable;
 
-import com.tecxis.resume.domain.Course;
-import com.tecxis.resume.domain.Staff;
-
+@Embeddable
 public class EnrolmentId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
-	private Staff staff;
+	private long staffId;//corresponds to PK type of Staff
 	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID")
-	private Course course;
+
+	private long courseId;//corresponds to PK type of Course
 	
 	
 	public EnrolmentId() {
@@ -27,34 +20,34 @@ public class EnrolmentId implements Serializable{
 		
 	}
 
-	public EnrolmentId(Staff staff, Course course) {
+	public EnrolmentId(long staffId, long courseId) {
 		super();
-		this.staff = staff;
-		this.course = course;
-	}
-
-	public Staff getStaff() {
-		return staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
+		this.staffId = staffId;
+		this.courseId = courseId;
 	}
 	
+	public long getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(long staffId) {
+		this.staffId = staffId;
+	}
+
+	public long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(long courseId) {
+		this.courseId = courseId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((course == null) ? 0 : course.hashCode());
-		result = prime * result + ((staff == null) ? 0 : staff.hashCode());
+		result = prime * result + (int) (courseId ^ (courseId >>> 32));
+		result = prime * result + (int) (staffId ^ (staffId >>> 32));
 		return result;
 	}
 
@@ -67,15 +60,9 @@ public class EnrolmentId implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		EnrolmentId other = (EnrolmentId) obj;
-		if (course == null) {
-			if (other.course != null)
-				return false;
-		} else if (!course.equals(other.course))
+		if (courseId != other.courseId)
 			return false;
-		if (staff == null) {
-			if (other.staff != null)
-				return false;
-		} else if (!staff.equals(other.staff))
+		if (staffId != other.staffId)
 			return false;
 		return true;
 	}
@@ -83,8 +70,8 @@ public class EnrolmentId implements Serializable{
 	@Override
 	public String toString() {
 		return  this.getClass().getName() + "@" + this.hashCode() + 
-				"[staffId=" + (this.getStaff() != null ? this.getStaff().getId() : "null") + 
-				", courseId=" + (this.getCourse() !=null ? this.getCourse().getId() : "null")  +
+				"[staffId=" + this.getStaffId()+ 
+				", courseId=" + this.getCourseId()   +
 				"]";
 	
 	}
