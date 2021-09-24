@@ -3,11 +3,11 @@ package com.tecxis.resume.domain;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
@@ -18,26 +18,27 @@ import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
  */
 @Entity
 @Table(name=StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE)
-@IdClass(StaffProjectAssignmentId.class)
 public class StaffProjectAssignment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String STAFF_PROJECT_ASSIGNMENT_TABLE = "STAFF_PROJECT_ASSIGNMENT";
 	
+	@EmbeddedId
+	private StaffProjectAssignmentId id; 
 	
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("projectId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Project 
 	@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID")
 	@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
 	private Project project;
 	
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("staffId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Staff
 	@JoinColumn(name="STAFF_ID", referencedColumnName="STAFF_ID")
 	private Staff staff;
 	
-	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@MapsId("assignmentId")
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})//Do not cascade REMOVE to Assignment 
 	@JoinColumn(name="ASSIGNMENT_ID", referencedColumnName="ASSIGNMENT_ID")
 	private Assignment assignment;
 
@@ -45,13 +46,25 @@ public class StaffProjectAssignment implements Serializable {
 	
 	public StaffProjectAssignment() {
 		super();
+		this.id = new StaffProjectAssignmentId();
 	}
 
 	public StaffProjectAssignment(Project project, Staff staff, Assignment assignment) {
-		super();
-		this.project = project;
-		this.staff = staff;
-		this.assignment = assignment;
+		this();
+		this.getId().setProjectId(project.getId());
+		this.getId().setStaffId(staff.getId());
+		this.getId().setAssignmentId(assignment.getId());
+		this.setProject(project);		
+		this.setStaff(staff);
+		this.setAssignment(assignment);
+	}
+
+	public StaffProjectAssignmentId getId() {
+		return id;
+	}
+
+	public void setId(StaffProjectAssignmentId id) {
+		this.id = id;
 	}
 
 	public Project getProject() {
@@ -122,15 +135,8 @@ public class StaffProjectAssignment implements Serializable {
 	
 	@Override
 	public String toString() {
-		Project project = this.getProject();		
-		Staff staff = this.getStaff();		
-		Assignment assignment = this.getAssignment();
-		
-		
-		return  this.getClass().getName()+ "@" + this.hashCode() + 
-				"[projectId=" + (project != null ? project.getId() : "null") +
-				", staffId=" + (staff != null ? staff.getId() : "null") +
-				", assignmentId=" + (assignment != null ? assignment.getId() : "null") + 
+		return  this.getClass().getName() + "[" +
+				this.getId() + 
 				"]";
 	}
 

@@ -241,11 +241,11 @@ public class AssignmentTest {
 		
 		
 		/**Find StaffProjectAssignments to test*/
-		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment23)).get();
-		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment31)).get();
-		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment32)).get();
-		StaffProjectAssignment staffProjectAssignment4 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment33)).get();
-		StaffProjectAssignment staffProjectAssignment5 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment34)).get();
+		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment23.getId())).get();
+		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment31.getId())).get();
+		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment32.getId())).get();
+		StaffProjectAssignment staffProjectAssignment4 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment33.getId())).get();
+		StaffProjectAssignment staffProjectAssignment5 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment34.getId())).get();
 	
 		/**Validate StaffProjectAssignments already exist in Project*/
 		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
@@ -269,7 +269,7 @@ public class AssignmentTest {
 		Project  ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);		
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted, amt, assignment12);	
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted.getId(), amt.getId(), assignment12.getId());	
 		assertEquals(62, amt.getStaffProjectAssignments().size());		
 		assertEquals(4, ted.getStaffProjectAssignments().size());
 		assertEquals(1, assignment12.getStaffProjectAssignments().size());
@@ -334,7 +334,7 @@ public class AssignmentTest {
 		
 		/**Validate staff assignments*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted, amt, assignment12);
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(ted.getId(), amt.getId(), assignment12.getId());
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
 		/**Prepare staff assignments*/		
@@ -397,9 +397,9 @@ public class AssignmentTest {
 	
 
 		/**Prepare staff assignments*/
-		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis, amt, assignment23)).get();
-		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(morningstarv1, amt, assignment23)).get();
-		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(morningstarv2, amt, assignment23)).get();
+		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment23.getId())).get();
+		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(morningstarv1.getId(), amt.getId(), assignment23.getId())).get();
+		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(morningstarv2.getId(), amt.getId(), assignment23.getId())).get();
 
 		
 		/**Validate assignments's staff assignments*/
