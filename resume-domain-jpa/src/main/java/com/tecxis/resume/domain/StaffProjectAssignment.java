@@ -92,32 +92,30 @@ public class StaffProjectAssignment implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof StaffProjectAssignment)) {
-			return false;
-		}
-		StaffProjectAssignment castOther = (StaffProjectAssignment)other;
-		
-		if(this.getAssignment() != null && castOther.getAssignment() != null) {
-			if (this.getProject() != null && castOther.getProject() != null) {
-				if (this.getStaff() != null && castOther.getStaff() != null) {
-					
-					return 	this.getAssignment().equals(castOther.getAssignment()) &&
-							this.getProject().equals(castOther.getProject()) && 
-							this.getStaff().equals(castOther.getStaff());
-				} else return false;
-			} else return false;				
-		} else return false;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
-	public int hashCode() {
-		return this.getId().hashCode();
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StaffProjectAssignment other = (StaffProjectAssignment) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return  this.getClass().getName() + "[" +
