@@ -37,8 +37,6 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
@@ -235,11 +233,10 @@ public class StaffProjectAssignmentTest {
 				
 
 	}
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
 	@Test
 	public void testToString() {
 		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment();
-		LOG.debug(staffProjectAssignment.toString());
 		assertThat(staffProjectAssignment.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 		
 	}
