@@ -136,7 +136,10 @@ public class SupplyContract implements Serializable {
 	
 	@Override
 	public int hashCode() {
-		return this.getId().hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
