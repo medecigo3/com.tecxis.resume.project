@@ -25,14 +25,12 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -84,7 +82,7 @@ public class EnrolmentTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
-		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
+		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
 		assertEquals(amt, bwEnrolment.getStaff());
 		assertEquals(bwCourse, bwEnrolment.getCourse());
 				
@@ -113,9 +111,9 @@ public class EnrolmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Find old Enrolment*/
-		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
+		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).isPresent());
 		/**Find new Enrolment*/
-		assertTrue(enrolmentRepo.findById(new EnrolmentId(john, bwCourse)).isPresent());
+		assertTrue(enrolmentRepo.findById(new EnrolmentId(john.getId(), bwCourse.getId())).isPresent());
 	}
 	
 	@Test
@@ -135,7 +133,7 @@ public class EnrolmentTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find Enrolment to update*/
-		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
+		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
 		assertEquals(amt, bwEnrolment.getStaff());
 		assertEquals(bwCourse, bwEnrolment.getCourse());
 		
@@ -164,9 +162,9 @@ public class EnrolmentTest {
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		/**Find old Enrolment*/
-		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).isPresent());
+		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).isPresent());
 		/**Find new Enrolment*/
-		assertTrue(enrolmentRepo.findById(new EnrolmentId(amt, javaWsCourse)).isPresent());
+		assertTrue(enrolmentRepo.findById(new EnrolmentId(amt.getId(), javaWsCourse.getId())).isPresent());
 		
 	}
 	@Test
@@ -186,7 +184,7 @@ public class EnrolmentTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Find enrolment*/
-		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt, bwCourse)).get();
+		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
 		assertEquals(amt, bwEnrolment.getStaff());
 		assertEquals(bwCourse, bwEnrolment.getCourse());
 		
@@ -208,11 +206,10 @@ public class EnrolmentTest {
 		
 		
 	}
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 	@Test
 	public void testToString() {
 		Enrolment newEnrolment = new Enrolment();
-		LOG.debug(newEnrolment.toString());
 		assertThat(newEnrolment.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 		
 	}
