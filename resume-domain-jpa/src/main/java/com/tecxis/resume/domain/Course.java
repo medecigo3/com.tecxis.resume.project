@@ -57,9 +57,9 @@ public class Course implements Serializable, Identifiable <Long>{
 	/**
 	 * bi-directional many-to-many association to Staff
 	 */
-	//Cannot use mappedBy when cascading operations to Enrolment entity 
+	//To cascade operations to Enrolment entity efficiently "mappedBy" isn't allowed here.  
 //	@ManyToMany(mappedBy="courses", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Does not cascade REMOVE to Staff, nevertheless it still cascades REMOVE to Enrolment 
 	@JoinTable(
 			name="ENROLMENT",
 			joinColumns= {
