@@ -61,6 +61,16 @@ public class Utils {
 		assignmentRepo.saveAndFlush(assignment);
 		return assignment;
 	}
+	
+	public static void removeAssignment(Assignment assignment, EntityManager entityManager) {		
+		entityManager.remove(assignment);
+		entityManager.flush();
+	}
+	
+	public static void removeAssignment(Assignment assignment, AssignmentRepository assignmentRepo) {
+		assignmentRepo.delete(assignment);
+		assignmentRepo.flush();
+	}
 
 	public static City insertACity(String name, Country country, EntityManager entityManager) {
 		City city = new City();
@@ -80,6 +90,16 @@ public class Utils {
 		return city;
 		
 	}
+	
+	public static void removeCity(City city, EntityManager entityManager) {		
+		entityManager.remove(city);
+		entityManager.flush();
+	}
+	
+	public static void removeCity(City city, CityRepository assignmentRepo) {
+		assignmentRepo.delete(city);
+		assignmentRepo.flush();
+	}
 
 	public static Client insertAClient(String name, EntityManager entityManager) {
 		Client client = new Client();
@@ -97,6 +117,16 @@ public class Utils {
 		return client;
 		
 	}
+	
+	public static void removeClient(Client client, EntityManager entityManager) {		
+		entityManager.remove(client);
+		entityManager.flush();
+	}
+	
+	public static void removeClient(Client client, ClientRepository clientRepo) {
+		clientRepo.delete(client);
+		clientRepo.flush();
+	}
 
 	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
@@ -109,6 +139,16 @@ public class Utils {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
 		contractServiceAgreementRepo.saveAndFlush(contractServiceAgreement);
 		return contractServiceAgreement;
+	}
+	
+	public static void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement, EntityManager entityManager) {		
+		entityManager.remove(contractServiceAgreement);
+		entityManager.flush();
+	}
+	
+	public static void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement, ContractServiceAgreementRepository contractServiceAgreementRepo) {
+		contractServiceAgreementRepo.delete(contractServiceAgreement);
+		contractServiceAgreementRepo.flush();
 	}
 
 	public static Contract insertAContract(Client client, String name, EntityManager entityManager) {
@@ -129,6 +169,16 @@ public class Utils {
 		return contract;
 		
 	}
+	
+	public static void removeContract(Contract contract, EntityManager entityManager) {		
+		entityManager.remove(contract);
+		entityManager.flush();
+	}
+	
+	public static void removeContract(Contract contract, ContractRepository contractRepo) {
+		contractRepo.delete(contract);
+		contractRepo.flush();
+	}
 
 	public static Country insertACountry(String name, EntityManager entityManager) {
 		Country country = new Country();
@@ -144,6 +194,16 @@ public class Utils {
 		countryRepo.saveAndFlush(country);		
 		return country;
 	}
+	
+	public static void removeCountry(Country country, EntityManager entityManager) {		
+		entityManager.remove(country);
+		entityManager.flush();
+	}
+	
+	public static void removeCountry(Country country, CountryRepository countryRepo) {
+		countryRepo.delete(country);
+		countryRepo.flush();
+	}
 
 	public static Course insertACourse(String title,  EntityManager entityManager) {
 		Course course = new Course();
@@ -151,6 +211,16 @@ public class Utils {
 		entityManager.persist(course);
 		entityManager.flush();
 		return course;
+	}
+	
+	public static void removeCourse(Course course, EntityManager entityManager) {		
+		entityManager.remove(course);
+		entityManager.flush();
+	}
+	
+	public static void removeCourse(Course course, CourseRepository courseRepo) {
+		courseRepo.delete(course);
+		courseRepo.flush();
 	}
 	
 	public static Course insertACourse(String title,  CourseRepository courseRepo) {
@@ -176,6 +246,16 @@ public class Utils {
 		return employmentContract;
 		
 	}
+	
+	public static void removeEmploymentContract(EmploymentContract employmentContract, EntityManager entityManager) {		
+		entityManager.remove(employmentContract);
+		entityManager.flush();
+	}
+	
+	public static void removeEmploymentContract(EmploymentContract employmentContract, EmploymentContractRepository employmentContractRepo) {
+		employmentContractRepo.delete(employmentContract);
+		employmentContractRepo.flush();
+	}
 
 	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
 		Interest interest = new Interest();
@@ -190,6 +270,16 @@ public class Utils {
 		interest.setDesc(desc);		
 		InterestRepo.saveAndFlush(interest);
 		return interest;
+	}
+	
+	public static void removeInterest(Interest interest, EntityManager entityManager) {		
+		entityManager.remove(interest);
+		entityManager.flush();
+	}
+	
+	public static void removeInterest(Interest interest, InterestRepository interestRepo) {
+		interestRepo.delete(interest);
+		interestRepo.flush();
 	}
 	
 	public static Location insertLocation(City city, Project project, EntityManager entityManager) {
@@ -210,6 +300,16 @@ public class Utils {
 		return location;
 				
 	}
+	
+	public static void removeLocation(Location location, EntityManager entityManager) {		
+		entityManager.remove(location);
+		entityManager.flush();
+	}
+	
+	public static void removeLocation(Location location, LocationRepository locationRepo) {
+		locationRepo.delete(location);
+		locationRepo.flush();
+	}	
 
 	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
 		Project project = new Project();
@@ -231,6 +331,16 @@ public class Utils {
 		return project;
 	
 	}
+	
+	public static void removeProject(Project project, EntityManager entityManager) {		
+		entityManager.remove(project);
+		entityManager.flush();
+	}
+	
+	public static void removeProject(Project project, ProjectRepository projectRepo) {
+		projectRepo.delete(project);
+		projectRepo.flush();
+	}	
 
 	public static Service insertAService(String name, EntityManager entityManager) {
 		Service service = new Service();
@@ -246,6 +356,16 @@ public class Utils {
 		serviceRepo.saveAndFlush(service);
 		return service;
 	}
+	
+	public static void removeService(Service service, EntityManager entityManager) {		
+		entityManager.remove(service);
+		entityManager.flush();
+	}
+	
+	public static void removeService(Service service, ServiceRepository serviceRepo) {
+		serviceRepo.delete(service);
+		serviceRepo.flush();
+	}	
 
 	public static Skill insertASkill(String name, EntityManager entityManager) {
 		Skill skill = new Skill();
@@ -254,6 +374,16 @@ public class Utils {
 		entityManager.flush();
 		return skill;
 	}
+	
+	public static void removeSkill(Skill skill, EntityManager entityManager) {		
+		entityManager.remove(skill);
+		entityManager.flush();
+	}
+	
+	public static void removeSkill(Skill skill, SkillRepository skillRepo) {
+		skillRepo.delete(skill);
+		skillRepo.flush();
+	}	
 	
 	public static Skill insertASkill(String name, SkillRepository skillRepository) {
 		Skill skill = new Skill();
@@ -277,6 +407,16 @@ public class Utils {
 		
 	}
 	
+	public static void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment, EntityManager entityManager) {		
+		entityManager.remove(staffProjectAssignment);
+		entityManager.flush();
+	}
+	
+	public static void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment, StaffProjectAssignmentRepository StaffProjectAssignmentRepo) {
+		StaffProjectAssignmentRepo.delete(staffProjectAssignment);
+		StaffProjectAssignmentRepo.flush();
+	}	
+	
 	public static StaffSkill insertAStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {
 		StaffSkill staffSkill = new StaffSkill(skill, staff);
 		entityManager.persist(staffSkill);
@@ -292,6 +432,16 @@ public class Utils {
 		
 	}
 	
+	public static void removeStaffSkill(StaffSkill staffSkill, EntityManager entityManager) {		
+		entityManager.remove(staffSkill);
+		entityManager.flush();
+	}
+	
+	public static void removeStaffSkill(StaffSkill StaffSkill, StaffSkillRepository StaffSkillRepo) {
+		StaffSkillRepo.delete(StaffSkill);
+		StaffSkillRepo.flush();
+	}
+	
 	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
 		Staff staff = new Staff();
 		staff.setFirstName(firstName);
@@ -301,6 +451,16 @@ public class Utils {
 		entityManager.flush();
 		return staff;
 		
+	}
+	
+	public static void removeStaff(Staff staff, EntityManager entityManager) {		
+		entityManager.remove(staff);
+		entityManager.flush();
+	}
+	
+	public static void removeStaff(Staff StaffSkill, StaffRepository StaffRepo) {
+		StaffRepo.delete(StaffSkill);
+		StaffRepo.flush();
 	}
 	
 	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  StaffRepository staffRepo) {
@@ -327,6 +487,16 @@ public class Utils {
 		supplierRepo.saveAndFlush(supplier);
 		return supplier;
 	}
+	
+	public static void removeSupplier(Supplier supplier, EntityManager entityManager) {		
+		entityManager.remove(supplier);
+		entityManager.flush();
+	}
+	
+	public static void removeSupplier(Supplier supplier, SupplierRepository supplierRepo) {
+		supplierRepo.delete(supplier);
+		supplierRepo.flush();
+	}
 
 	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
 		SupplyContract supplyContract = new SupplyContract(supplier, contract, staff);
@@ -347,5 +517,14 @@ public class Utils {
 		
 	}
 	
+	public static void removeSupplyContract(SupplyContract supplyContract, EntityManager entityManager) {		
+		entityManager.remove(supplyContract);
+		entityManager.flush();
+	}
+	
+	public static void removeSupplyContract(SupplyContract supplyContract, SupplyContractRepository supplierContractRepo) {
+		supplierContractRepo.delete(supplyContract);
+		supplierContractRepo.flush();
+	}
 
 }
