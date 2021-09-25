@@ -64,7 +64,7 @@ public class Client implements Serializable, Identifiable <Long>{
 	 * In SQL terms, Project is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Client "controls" projects
 	 */
-	@OneToMany(mappedBy="client", orphanRemoval=true)
+	@OneToMany(mappedBy="client", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=true)
 	private List<Project> projects;
 
 	public Client() {
