@@ -97,7 +97,8 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	/**
 	 * bi-directional one-to-many association to Project
 	 */
-	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	//To cascade operations to Enrolment entity efficiently "mappedBy" isn't allowed here.  
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Does not cascade REMOVE to Staff, nevertheless it still cascades REMOVE to STAFF_PROJECT_ASSIGNMENT
 	@JoinTable(
 		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
