@@ -1315,7 +1315,7 @@ public class UtilsTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 	}
 
-	private static void testStateAfterMovingFanceCitiesWithNewHost(JdbcTemplate jdbcTemplate) {
+	public static void testStateAfterMovingFanceCitiesWithNewHost(JdbcTemplate jdbcTemplate) {
 		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed
