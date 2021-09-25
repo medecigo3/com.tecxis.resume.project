@@ -180,7 +180,7 @@ public class CityTest {
 		assertEquals(FRANCE, france.getName());
 		assertEquals(1, france.getCities().size());
 		
-		/**Create new City with new Country*/
+		/**Create new City with new host Country*/
 		City newLondon =  new City();
 		CityId id = newLondon.getId();
 		id.setCityId(currentLondon.getId().getCityId()); //sets old id to the new City
@@ -191,7 +191,7 @@ public class CityTest {
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		entityManager.remove(currentLondon);
+		entityManager.remove(currentLondon); //Probably not the best approach here to delete, then insert new city. //TODO try generate SQL UPDATE City statement
 		entityManager.flush();		
 		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
