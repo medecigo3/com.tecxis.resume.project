@@ -36,6 +36,7 @@ import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -72,20 +73,20 @@ public class LocationTest {
 		
 		/**Insert Country*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1L, france.getId().longValue());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1L, paris.getId().getCityId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -126,17 +127,13 @@ public class LocationTest {
 		
 		
 		/**Remove location*/
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);
 		entityManager.remove(morningstartV1ProjectLocation);
 		entityManager.flush();
 		entityManager.clear();
 		
 		/**Test */		
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		UtilsTest.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplate);
 		
 	}
 	

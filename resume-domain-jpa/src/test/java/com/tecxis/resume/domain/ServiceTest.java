@@ -90,7 +90,7 @@ public class ServiceTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Service service = Utils.insertAService(MULE_ESB_CONSULTANT, entityManager);
+		Service service = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
 		assertThat(service.getId(), Matchers.greaterThan((long)0));
 		
 	}

@@ -104,7 +104,7 @@ public class JpaSupplierDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		
-		Supplier accenture = Utils.insertASupplier(ACCENTURE_SUPPLIER,  entityManager);
+		Supplier accenture = Utils.insertSupplier(ACCENTURE_SUPPLIER,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, accenture.getId());
@@ -117,7 +117,7 @@ public class JpaSupplierDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedSupplier() {		
-		Supplier supplierIn = Utils.insertASupplier(ALPHATRESS, entityManager);
+		Supplier supplierIn = Utils.insertSupplier(ALPHATRESS, entityManager);
 		Supplier supplierOut = supplierRepo.getSupplierByName(ALPHATRESS);
 		assertEquals(supplierIn, supplierOut);
 		
@@ -232,7 +232,7 @@ public class JpaSupplierDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteSupplier() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
-		Supplier tempSupplier = Utils.insertASupplier(AMESYS, entityManager);
+		Supplier tempSupplier = Utils.insertSupplier(AMESYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
 		assertNull(supplierRepo.getSupplierByName(AMESYS));

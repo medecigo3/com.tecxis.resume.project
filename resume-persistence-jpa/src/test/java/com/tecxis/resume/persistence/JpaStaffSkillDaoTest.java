@@ -60,19 +60,19 @@ public class JpaStaffSkillDaoTest {
 	public void findInsertedStaffSkill() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
+		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		Utils.insertAStaffSkill(amt, tibco, entityManager);
+		Utils.insertStaffSkill(amt, tibco, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
 		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
@@ -86,19 +86,19 @@ public class JpaStaffSkillDaoTest {
 	public void testDeleteStaffSkill() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
+		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		StaffSkill amtTibco =  Utils.insertAStaffSkill(amt, tibco, entityManager);
+		StaffSkill amtTibco =  Utils.insertStaffSkill(amt, tibco, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
 		/**Delete StaffSkill*/

@@ -61,21 +61,21 @@ public class JpaCityDaoTest {
 	@Test
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City london = Utils.insertACity(LONDON, uk, entityManager);
+		City london = Utils.insertCity(LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, london.getId());
 		
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(2, paris.getId());
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country belgium = Utils.insertACountry(BELGIUM, entityManager);		
-		City brussels = Utils.insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);		
+		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, brussels.getId());
 	}
@@ -87,8 +87,8 @@ public class JpaCityDaoTest {
 	@Test
 	public void shouldBeAbleToFindInsertedCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
-		City cityIn = Utils.insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
+		City cityIn = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		City cityOut = cityRepo.getCityByName(BRUSSELS);		
 		assertEquals(cityIn, cityOut);
 	}
@@ -113,9 +113,9 @@ public class JpaCityDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City tempCity = Utils.insertACity(LONDON, uk, entityManager);
+		City tempCity = Utils.insertCity(LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		cityRepo.delete(tempCity);
 		assertNull(cityRepo.getCityByName(LONDON));

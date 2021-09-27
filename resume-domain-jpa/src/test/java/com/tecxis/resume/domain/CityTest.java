@@ -72,6 +72,7 @@ import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -111,8 +112,8 @@ public class CityTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
-		City city = Utils.insertACity(BRUSSELS, belgium, entityManager);
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
+		City city = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		assertThat(city.getId().getCityId(), Matchers.greaterThan((long)0));		
 	}
 
@@ -501,13 +502,13 @@ public class CityTest {
 		london = cityRepo.getCityByName(LONDON);		
 		
 		/**Remove city*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);
 		entityManager.remove(london);
 		entityManager.flush();
 		entityManager.clear();
 		
 		/**Test city was removed*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		UtilsTest.testStateAfterLondonCityDelete(jdbcTemplate);
 		assertNull(cityRepo.getCityByName(LONDON));
 		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertEquals(UNITED_KINGDOM, uk.getName());
@@ -575,24 +576,24 @@ public class CityTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client belfius = Utils.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
+		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 								
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
-		City london = Utils.insertACity(LONDON, uk, entityManager);
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		City london = Utils.insertCity(LONDON, uk, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 				
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
@@ -633,16 +634,16 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
-		Country UK = Utils.insertACountry(UNITED_KINGDOM, entityManager);
-		Country france = Utils.insertACountry(FRANCE, entityManager);
-		Client belfius = Utils.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertAProject(SHERPA, VERSION_1, belfius, entityManager);
-		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);			
-		City london = Utils.insertACity(LONDON, UK, entityManager);		
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		Country UK = Utils.insertCountry(UNITED_KINGDOM, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
+		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);			
+		City london = Utils.insertCity(LONDON, UK, entityManager);		
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));

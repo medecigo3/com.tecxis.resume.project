@@ -80,6 +80,7 @@ import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -124,8 +125,8 @@ public class ContractTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);	
-		Contract contract = Utils.insertAContract(axeltis, CONTRACT9_NAME, entityManager);
+		Client axeltis = Utils.insertClient(AXELTIS, entityManager);	
+		Contract contract = Utils.insertContract(axeltis, CONTRACT9_NAME, entityManager);
 		org.assertj.core.api.Assertions.assertThat(contract.getId().getContractId()).isGreaterThan((long)0);
 	}
 	
@@ -765,45 +766,24 @@ public class ContractTest {
 		fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		
 		
-		/**Tests initial state of Contracts table (the parent)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));	// CONTRACT_ID='5'
-		/**Tests the initial state of the children table(s) from the target Parent table*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/			
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
+		/**Tests initial state of the parent table. Target is: CONTRACT_ID='5'
+		*  CONTRACT_TABLE
+		*  Tests the initial state of the children tables from the target Parent table
+		*  CONTRACT_SERVICE_AGREEMENT_TABLE
+		*  SUPPLY_CONTRACT_TABLE
+		*  Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.
+		*  SUPPLIER_TABLE
+		*  Tests the initial state of the children table(s) from previous Parent table(s)
+		*  EMPLOYMENT_CONTRACT_TABLE
+		*  Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.
+		*  STAFF_TABLE*/
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);
 		/**Remove contract*/			
 		entityManager.remove(fastconnectMicropoleContract);
 		entityManager.flush();
 		entityManager.clear();
 		
-		/**See SQL cascadings applied to one-to-many relations*/
-		/**CONTRACT 	-> 		SUPPLY_CONTRACT					CascadeType.ALL*/
-		/**CONTRACT 	-> 		CONTRACT_SERVICE_AGREEMENT		CascadeType.ALL*/
-		
-		/*** Cascadings in this sequence*/
-		/**  CONTRACT (P) -> SUPPLY_CONTRACT (c) */	
-		/**      |                               */
-		/**      |                      		 */
-		/**      v                               */
-		/** CONTRACT_SERVICE_AGREEMENT (c)       */
-		
-		/**Tests the cascaded parent of the OneToMany association between Contract -> SupplyContract*/		
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); //Parent is removed
-		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 child with CONTRACT_ID='5' removed from the SUPPLY_CONTRACT table.
-		/**Tests the cascaded children of the OneToMany association between Contract -> ContractServiceAgreement */
-		assertEquals(12, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the CONTRACT_SERVICE_AGREEMENT table. 		
-		/**Tests post state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));  //1 child with CONTRACT_ID='5' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the SUPPLIER table. 
-		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//0 children previously removed from SUPPLIER table. That cascades to 0 children being removed from the EMPLOYMENT_CONTRACT table.		
-		/**Tests the cascaded parent of the OneToMany association between  Staff -> EmploymentContract */
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //0 children previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.
+		UtilsTest.testStateAfterContract5Delete(jdbcTemplate);
 		
 	}
 	

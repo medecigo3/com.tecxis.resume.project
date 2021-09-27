@@ -11,19 +11,13 @@ import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_ENDD
 import static com.tecxis.resume.domain.Constants.JOHN_ALPHATRESS_EMPLOYMENT_STARTDATE;
 import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
 import static com.tecxis.resume.domain.Constants.JOHN_NAME;
-import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
-import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
-import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 import java.util.Set;
@@ -42,8 +36,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
@@ -53,6 +47,7 @@ import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -88,8 +83,8 @@ public class EmploymentContractTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Supplier alterna = Utils.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertNotNull(alterna);
 		assertNotNull(amt);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
@@ -203,21 +198,11 @@ public class EmploymentContractTest {
 		/**Verify target EmploymentContract*/
 		assertNotNull(johnAlhpatressEmploymentContract);
 				
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);
 		entityManager.remove(johnAlhpatressEmploymentContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		UtilsTest.testStateAfterjohnAlhpatressEmploymentContractDelete(jdbcTemplate);
 	}
 	
 	@Test

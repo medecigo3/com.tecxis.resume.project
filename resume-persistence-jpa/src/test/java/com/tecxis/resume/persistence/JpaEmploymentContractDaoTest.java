@@ -74,8 +74,8 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = Utils.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -96,8 +96,8 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = Utils.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -116,8 +116,8 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
-		Supplier alterna = Utils.insertASupplier(ALTERNA,  entityManager);			
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));

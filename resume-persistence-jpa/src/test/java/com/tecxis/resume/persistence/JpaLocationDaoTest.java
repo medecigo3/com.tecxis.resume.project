@@ -66,20 +66,20 @@ public class JpaLocationDaoTest {
 		
 		/**Insert Country*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -100,20 +100,20 @@ public class JpaLocationDaoTest {
 		
 		/**Insert Country*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
@@ -134,20 +134,20 @@ public class JpaLocationDaoTest {
 		
 		/**Insert Country*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		City paris = Utils.insertACity(PARIS, france, entityManager);
+		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		assertEquals(1, paris.getId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		

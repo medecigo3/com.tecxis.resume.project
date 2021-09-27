@@ -55,15 +55,15 @@ public class JpaInterestDaoTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		Interest hobby = Utils.insertAnInterest(HOBBY, entityManager);		
+		Interest hobby = Utils.insertInterest(HOBBY, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(1, hobby.getId());
 		
-		Interest running = Utils.insertAnInterest(RUNNING, entityManager);
+		Interest running = Utils.insertInterest(RUNNING, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(2, running.getId());
 		
-		Interest swimming = Utils.insertAnInterest(SWIMMING, entityManager);
+		Interest swimming = Utils.insertInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		assertEquals(3, swimming.getId());
 	}
@@ -74,7 +74,7 @@ public class JpaInterestDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedInterest() {
-		Interest hobbyIn = Utils.insertAnInterest(HOBBY, entityManager);
+		Interest hobbyIn = Utils.insertInterest(HOBBY, entityManager);
 		List<Interest> hobbyOutList = interestRepo.getInterestLikeDesc("%bike%");
 		assertEquals(1, hobbyOutList.size());
 		Interest hobbyOut = hobbyOutList.get(0);
@@ -86,8 +86,8 @@ public class JpaInterestDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetInterestLikeDesc() {
-		Utils.insertAnInterest(RUNNING, entityManager);		
-		Utils.insertAnInterest(SWIMMING, entityManager);
+		Utils.insertInterest(RUNNING, entityManager);		
+		Utils.insertInterest(SWIMMING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		List <Interest> hobbyList = interestRepo.getInterestLikeDesc(HOBBY);
 		assertNotNull(hobbyList);
@@ -113,8 +113,8 @@ public class JpaInterestDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetInterestByDesc() {
-		Utils.insertAnInterest(RUNNING, entityManager);		
-		Utils.insertAnInterest(SWIMMING, entityManager);
+		Utils.insertInterest(RUNNING, entityManager);		
+		Utils.insertInterest(SWIMMING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);
 		assertNotNull(hobby);		
@@ -133,7 +133,7 @@ public class JpaInterestDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteInterest() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		Interest tempInterest = Utils.insertAnInterest(HOBBY, entityManager);
+		Interest tempInterest = Utils.insertInterest(HOBBY, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		interestRepo.delete(tempInterest);
 		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());

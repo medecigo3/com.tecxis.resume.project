@@ -12,6 +12,7 @@ import com.tecxis.resume.domain.ContractServiceAgreement;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.EmploymentContract;
+import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
@@ -30,6 +31,7 @@ import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
+import com.tecxis.resume.domain.repository.EnrolmentRepository;
 import com.tecxis.resume.domain.repository.InterestRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
@@ -72,7 +74,7 @@ public class Utils {
 		assignmentRepo.flush();
 	}
 
-	public static City insertACity(String name, Country country, EntityManager entityManager) {
+	public static City insertCity(String name, Country country, EntityManager entityManager) {
 		City city = new City();
 		city.setName(name);				
 		city.setCountry(country);
@@ -82,7 +84,7 @@ public class Utils {
 		
 	}
 	
-	public static City insertACity(String name, Country country, CityRepository cityRepo) {
+	public static City insertCity(String name, Country country, CityRepository cityRepo) {
 		City city = new City();
 		city.setName(name);				
 		city.setCountry(country);
@@ -101,7 +103,7 @@ public class Utils {
 		assignmentRepo.flush();
 	}
 
-	public static Client insertAClient(String name, EntityManager entityManager) {
+	public static Client insertClient(String name, EntityManager entityManager) {
 		Client client = new Client();
 		client.setName(name);	
 		entityManager.persist(client);		
@@ -110,7 +112,7 @@ public class Utils {
 		
 	}
 	
-	public static Client insertAClient(String name, ClientRepository clientRepo) {
+	public static Client insertClient(String name, ClientRepository clientRepo) {
 		Client client = new Client();
 		client.setName(name);	
 		clientRepo.saveAndFlush(client);		
@@ -128,14 +130,14 @@ public class Utils {
 		clientRepo.flush();
 	}
 
-	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
+	public static ContractServiceAgreement insertContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
 		entityManager.persist(contractServiceAgreement);
 		entityManager.flush();
 		return contractServiceAgreement;
 	}
 	
-	public static ContractServiceAgreement insertAContractServiceAgreement(Contract contract, Service service, ContractServiceAgreementRepository contractServiceAgreementRepo) {
+	public static ContractServiceAgreement insertContractServiceAgreement(Contract contract, Service service, ContractServiceAgreementRepository contractServiceAgreementRepo) {
 		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
 		contractServiceAgreementRepo.saveAndFlush(contractServiceAgreement);
 		return contractServiceAgreement;
@@ -151,7 +153,7 @@ public class Utils {
 		contractServiceAgreementRepo.flush();
 	}
 
-	public static Contract insertAContract(Client client, String name, EntityManager entityManager) {
+	public static Contract insertContract(Client client, String name, EntityManager entityManager) {
 		Contract contract  = new Contract();
 		contract.setName(name);
 		contract.setClient(client);
@@ -161,7 +163,7 @@ public class Utils {
 		
 	}
 	
-	public static Contract insertAContract(Client client, String name, ContractRepository contractRepo) {
+	public static Contract insertContract(Client client, String name, ContractRepository contractRepo) {
 		Contract contract  = new Contract();
 		contract.setName(name);
 		contract.setClient(client);		
@@ -180,7 +182,7 @@ public class Utils {
 		contractRepo.flush();
 	}
 
-	public static Country insertACountry(String name, EntityManager entityManager) {
+	public static Country insertCountry(String name, EntityManager entityManager) {
 		Country country = new Country();
 		country.setName(name);
 		entityManager.persist(country);		
@@ -188,7 +190,7 @@ public class Utils {
 		return country;
 	}
 	
-	public static Country insertACountry(String name, CountryRepository countryRepo) {
+	public static Country insertCountry(String name, CountryRepository countryRepo) {
 		Country country = new Country();
 		country.setName(name);
 		countryRepo.saveAndFlush(country);		
@@ -205,7 +207,7 @@ public class Utils {
 		countryRepo.flush();
 	}
 
-	public static Course insertACourse(String title,  EntityManager entityManager) {
+	public static Course insertCourse(String title,  EntityManager entityManager) {
 		Course course = new Course();
 		course.setTitle(title);
 		entityManager.persist(course);
@@ -223,7 +225,7 @@ public class Utils {
 		courseRepo.flush();
 	}
 	
-	public static Course insertACourse(String title,  CourseRepository courseRepo) {
+	public static Course insertCourse(String title,  CourseRepository courseRepo) {
 		Course course = new Course();
 		course.setTitle(title);		
 		courseRepo.saveAndFlush(course);
@@ -257,7 +259,7 @@ public class Utils {
 		employmentContractRepo.flush();
 	}
 
-	public static Interest insertAnInterest(String desc, EntityManager entityManager) {
+	public static Interest insertInterest(String desc, EntityManager entityManager) {
 		Interest interest = new Interest();
 		interest.setDesc(desc);		
 		entityManager.persist(interest);
@@ -265,7 +267,7 @@ public class Utils {
 		return interest;
 	}
 
-	public static Interest insertAnInterest(String desc, InterestRepository InterestRepo) {
+	public static Interest insertInterest(String desc, InterestRepository InterestRepo) {
 		Interest interest = new Interest();
 		interest.setDesc(desc);		
 		InterestRepo.saveAndFlush(interest);
@@ -311,7 +313,7 @@ public class Utils {
 		locationRepo.flush();
 	}	
 
-	public static Project insertAProject(String name, String version, Client client, EntityManager entityManager) {
+	public static Project insertProject(String name, String version, Client client, EntityManager entityManager) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
@@ -322,7 +324,7 @@ public class Utils {
 	
 	}
 	
-	public static Project insertAProject(String name, String version, Client client, ProjectRepository projectRepo) {
+	public static Project insertProject(String name, String version, Client client, ProjectRepository projectRepo) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
@@ -342,7 +344,7 @@ public class Utils {
 		projectRepo.flush();
 	}	
 
-	public static Service insertAService(String name, EntityManager entityManager) {
+	public static Service insertService(String name, EntityManager entityManager) {
 		Service service = new Service();
 		service.setName(name);			
 		entityManager.persist(service);
@@ -350,7 +352,7 @@ public class Utils {
 		return service;
 	}
 	
-	public static Service insertAService(String name, ServiceRepository serviceRepo) {
+	public static Service insertService(String name, ServiceRepository serviceRepo) {
 		Service service = new Service();
 		service.setName(name);					
 		serviceRepo.saveAndFlush(service);
@@ -367,7 +369,7 @@ public class Utils {
 		serviceRepo.flush();
 	}	
 
-	public static Skill insertASkill(String name, EntityManager entityManager) {
+	public static Skill insertSkill(String name, EntityManager entityManager) {
 		Skill skill = new Skill();
 		skill.setName(name);
 		entityManager.persist(skill);		
@@ -385,14 +387,14 @@ public class Utils {
 		skillRepo.flush();
 	}	
 	
-	public static Skill insertASkill(String name, SkillRepository skillRepository) {
+	public static Skill insertSkill(String name, SkillRepository skillRepository) {
 		Skill skill = new Skill();
 		skill.setName(name);			
 		skillRepository.saveAndFlush(skill);
 		return skill;
 	}
 
-	public static StaffProjectAssignment insertAStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
+	public static StaffProjectAssignment insertStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
 		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment(project, staff, assignment);
 		entityManager.persist(staffProjectAssignment);
 		entityManager.flush();
@@ -400,7 +402,7 @@ public class Utils {
 		
 	}
 
-	public static StaffProjectAssignment insertAStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, StaffProjectAssignmentRepository staffProjectAssignmentRepo) {
+	public static StaffProjectAssignment insertStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, StaffProjectAssignmentRepository staffProjectAssignmentRepo) {
 		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment(project, staff, assignment);		
 		staffProjectAssignmentRepo.saveAndFlush(staffProjectAssignment);
 		return staffProjectAssignment;
@@ -417,7 +419,7 @@ public class Utils {
 		StaffProjectAssignmentRepo.flush();
 	}	
 	
-	public static StaffSkill insertAStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {
+	public static StaffSkill insertStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {
 		StaffSkill staffSkill = new StaffSkill(skill, staff);
 		entityManager.persist(staffSkill);
 		entityManager.flush();
@@ -425,7 +427,7 @@ public class Utils {
 		
 	}
 
-	public static StaffSkill insertAStaffSkill(Staff staff, Skill skill, StaffSkillRepository StaffSkillRepository) {
+	public static StaffSkill insertStaffSkill(Staff staff, Skill skill, StaffSkillRepository StaffSkillRepository) {
 		StaffSkill staffSkill = new StaffSkill(skill, staff);		
 		StaffSkillRepository.saveAndFlush(staffSkill);
 		return staffSkill;
@@ -442,7 +444,7 @@ public class Utils {
 		StaffSkillRepo.flush();
 	}
 	
-	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
+	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
 		Staff staff = new Staff();
 		staff.setFirstName(firstName);
 		staff.setLastName(lastName);
@@ -463,7 +465,7 @@ public class Utils {
 		StaffRepo.flush();
 	}
 	
-	public static Staff insertAStaff(String firstName, String lastName, Date birthDate,  StaffRepository staffRepo) {
+	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  StaffRepository staffRepo) {
 		Staff staff = new Staff();
 		staff.setFirstName(firstName);
 		staff.setLastName(lastName);
@@ -473,7 +475,7 @@ public class Utils {
 		
 	}
 
-	public static Supplier insertASupplier(String name, EntityManager entityManager) {
+	public static Supplier insertSupplier(String name, EntityManager entityManager) {
 		Supplier supplier = new Supplier();
 		supplier.setName(name);
 		entityManager.persist(supplier);
@@ -481,7 +483,7 @@ public class Utils {
 		return supplier;
 	}
 	
-	public static Supplier insertASupplier(String name, SupplierRepository supplierRepo) {
+	public static Supplier insertSupplier(String name, SupplierRepository supplierRepo) {
 		Supplier supplier = new Supplier();
 		supplier.setName(name);		
 		supplierRepo.saveAndFlush(supplier);
@@ -498,7 +500,7 @@ public class Utils {
 		supplierRepo.flush();
 	}
 
-	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
+	public static SupplyContract insertSupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, EntityManager entityManager){
 		SupplyContract supplyContract = new SupplyContract(supplier, contract, staff);
 		supplyContract.setStartDate(startDate);
 		supplyContract.setEndDate(endDate);		
@@ -508,7 +510,7 @@ public class Utils {
 		
 	}
 	
-	public static SupplyContract insertASupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, SupplyContractRepository supplyContractRepository){
+	public static SupplyContract insertSupplyContract(Supplier supplier, Contract contract, Staff staff, Date startDate, Date endDate, SupplyContractRepository supplyContractRepository){
 		SupplyContract supplyContract = new SupplyContract(supplier, contract, staff);
 		supplyContract.setStartDate(startDate);
 		supplyContract.setEndDate(endDate);				
@@ -526,5 +528,27 @@ public class Utils {
 		supplierContractRepo.delete(supplyContract);
 		supplierContractRepo.flush();
 	}
-
+	
+	public static Enrolment insertEnrolment(Staff staff, Course course, EnrolmentRepository enrolmentRepo) {
+		Enrolment enrolment = new Enrolment(staff, course);
+		enrolmentRepo.saveAndFlush(enrolment);
+		return enrolment;		
+	}
+	
+	public static Enrolment insertEnrolment(Staff staff, Course course, EntityManager entityManager) {
+		Enrolment enrolment = new Enrolment(staff, course);		
+		entityManager.persist(enrolment);
+		entityManager.flush();
+		return enrolment;		
+	}
+	
+	public static void removeEnrolment(Enrolment enrolment, EntityManager entityManager) {		
+		entityManager.remove(enrolment);
+		entityManager.flush();
+	}
+	
+	public static void removeEnrolment(Enrolment enrolment, EnrolmentRepository enrolmentRepo) {
+		enrolmentRepo.delete(enrolment);
+		enrolmentRepo.flush();
+	}
 }

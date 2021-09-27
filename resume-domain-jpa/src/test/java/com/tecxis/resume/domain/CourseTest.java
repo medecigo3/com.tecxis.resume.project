@@ -3,17 +3,13 @@ package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
-import static com.tecxis.resume.domain.Course.COURSE_TABLE;
-import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -70,7 +67,7 @@ public class CourseTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Course course = Utils.insertACourse(BW_6_COURSE, entityManager);
+		Course course = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertThat(course.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -185,20 +182,14 @@ public class CourseTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));		
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		/**Test cascadings*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
+		UtilsTest.testStateAfterBw6CourseDelete(jdbcTemplate);		
 	}
 	
 	@Test

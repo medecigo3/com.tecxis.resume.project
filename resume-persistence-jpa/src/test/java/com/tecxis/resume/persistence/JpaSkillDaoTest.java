@@ -57,19 +57,19 @@ public class JpaSkillDaoTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
+		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(1, tibco.getId());
 		
-		Skill oracle = Utils.insertASkill(ORACLE, entityManager);
+		Skill oracle = Utils.insertSkill(ORACLE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(2, oracle.getId());
 		
-		Skill java = Utils.insertASkill(JAVA, entityManager);
+		Skill java = Utils.insertSkill(JAVA, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(3, java.getId());
 		
-		Skill spring = Utils.insertASkill(SPRING, entityManager);
+		Skill spring = Utils.insertSkill(SPRING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(4, spring.getId());
 	
@@ -81,7 +81,7 @@ public class JpaSkillDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedSkill() {
-		Skill skillIn = Utils.insertASkill(TIBCO, entityManager);
+		Skill skillIn = Utils.insertSkill(TIBCO, entityManager);
 		Skill skillOut = skillRepo.getSkillByName(TIBCO);
 		assertEquals(skillIn, skillOut);
 	}
@@ -103,7 +103,7 @@ public class JpaSkillDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteSkillByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		Skill tempSkill = Utils.insertASkill(ORACLE, entityManager);
+		Skill tempSkill = Utils.insertSkill(ORACLE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		skillRepo.delete(tempSkill);
 		assertNull(skillRepo.getSkillByName(ORACLE));

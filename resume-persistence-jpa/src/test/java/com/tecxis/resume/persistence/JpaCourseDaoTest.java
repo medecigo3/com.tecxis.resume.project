@@ -54,7 +54,7 @@ public class JpaCourseDaoTest {
 	@Test
 	public void testCreateAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		Course bw6 = Utils.insertACourse(BW_6_COURSE, entityManager);
+		Course bw6 = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		assertEquals(1, bw6.getId());
 		
@@ -66,7 +66,7 @@ public class JpaCourseDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedCourse() {
-		Course courseIn = Utils.insertACourse(BW_6_COURSE, entityManager);
+		Course courseIn = Utils.insertCourse(BW_6_COURSE, entityManager);
 		Course courseOut = courseRepo.getCourseByTitle(BW_6_COURSE);
 		assertEquals(courseIn, courseOut);
 	}
@@ -98,7 +98,7 @@ public class JpaCourseDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteCourse() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		Course tempCourse = Utils.insertACourse(BW_6_COURSE, entityManager);
+		Course tempCourse = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		courseRepo.delete(tempCourse);
 		assertNull(courseRepo.getCourseByTitle(BW_6_COURSE));
