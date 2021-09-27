@@ -182,7 +182,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAssignmentSpringJpaRepo() {
+	public void testInsertAssignment_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		Utils.insertAssignment(ASSIGNMENT12, assignmentRepo);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
@@ -193,7 +193,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACity() {
+	public void testInsertCity() {
 		/**Prepare test*/
 		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
 		
@@ -206,7 +206,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACityWithSpringJpaRepo() {
+	public void testInsertCity_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Country uk = Utils.insertACountry(UNITED_KINGDOM, countryRepo);		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
@@ -218,7 +218,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAClient() {
+	public void testInsertClient() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		Utils.insertAClient(SAGEMCOM, entityManager);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -228,7 +228,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAClientWithSpringJpaRepo() {
+	public void testInsertClient_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		Utils.insertAClient(SAGEMCOM, clientRepo);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -238,7 +238,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAContractServiceAgreement() {
+	public void testInsertContractServiceAgreement() {
 		/**Prepare test*/
 		Service muleEsbCons = Utils.insertAService(MULE_ESB_CONSULTANT, entityManager);
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);
@@ -253,7 +253,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAContractServiceAgreementWithSpringJpaRepo() {
+	public void testInsertContractServiceAgreement_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Service muleEsbCons = Utils.insertAService(MULE_ESB_CONSULTANT, serviceRepo);
 		Client barclays = Utils.insertAClient(BARCLAYS, clientRepo);
@@ -268,7 +268,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAContract() {
+	public void testInsertContract() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);
 		
@@ -282,7 +282,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAContractWithSpringJpaRepo() {
+	public void testInsertContract_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);
 		
@@ -296,7 +296,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACountry() {
+	public void testInsertCountry() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Utils.insertACountry(UNITED_KINGDOM, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -306,7 +306,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACountryWithSpringJpaRepo() {
+	public void testInsertCountry_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Utils.insertACountry(UNITED_KINGDOM, countryRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -316,7 +316,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACourse() {
+	public void testInsertCourse() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Utils.insertACourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -326,7 +326,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertACourseWithSpringJpaRepo() {
+	public void testInsertCourse_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Utils.insertACourse(BW_6_COURSE, courseRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -351,7 +351,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertEmploymentContractWithSpringJpaRepo() {
+	public void testInsertEmploymentContract_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Supplier alterna = Utils.insertASupplier(ALTERNA,  supplierRepo);			
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
@@ -365,7 +365,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAnInterest() {
+	public void testInsertInterest() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		Utils.insertAnInterest(HOBBY, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
@@ -375,7 +375,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAnInterestWithSpringJpaRepo() {
+	public void testInsertInterest_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		Utils.insertAnInterest(HOBBY, interestRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
@@ -402,7 +402,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertLocationWithSpringJpaRepo() {
+	public void testInsertLocation_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Country france = Utils.insertACountry(FRANCE, countryRepo);
 		City paris = Utils.insertACity(PARIS, france, cityRepo);		
@@ -419,7 +419,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAProject() {
+	public void testInsertProject() {
 		/**Prepare test*/
 		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
 		
@@ -435,7 +435,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAProjectWithSpringJpaRepo() {
+	public void testInsertProject_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Client barclays = Utils.insertAClient(BARCLAYS, clientRepo);		
 		
@@ -449,7 +449,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAService() {
+	public void testInsertService() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		Utils.insertAService(MULE_ESB_CONSULTANT, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -459,7 +459,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAService_WithSpringJpaRepo() {
+	public void testInsertService_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		Utils.insertAService(MULE_ESB_CONSULTANT, serviceRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -469,7 +469,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASkill() {
+	public void testInsertSkill() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Utils.insertASkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -479,7 +479,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASkillWithSpringJpaRepo() {
+	public void testInsertSkill_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Utils.insertASkill(TIBCO, skillRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -489,7 +489,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaffProjectAssignment() {
+	public void testInsertStaffProjectAssignment() {
 		/**Prepare test*/
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
@@ -505,7 +505,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaffProjectAssignmentWithSpringJpaRepo() {
+	public void testInsertStaffProjectAssignment_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Client sagemcom = Utils.insertAClient(SAGEMCOM, clientRepo);		
 		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, projectRepo);
@@ -521,7 +521,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaffSkill() {
+	public void testInsertStaffSkill() {
 		/**Prepare test*/
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Skill tibco = Utils.insertASkill(TIBCO, entityManager);
@@ -536,7 +536,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaffSkillWithSpringJpaRepo() {
+	public void testInsertStaffSkill_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Skill tibco = Utils.insertASkill(TIBCO, skillRepo);
@@ -551,7 +551,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaff() {
+	public void testInsertStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -561,7 +561,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertAStaffWithSpringJpaRepo() {
+	public void testInsertStaff_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -571,7 +571,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASupplier() {		
+	public void testInsertSupplier() {		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Utils.insertASupplier(ALPHATRESS, entityManager);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -581,7 +581,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASupplierWithSpringJpaRepo() {		
+	public void testInsertASupplier_WithSpringJpaRepo() {		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 		Utils.insertASupplier(ALPHATRESS, supplierRepo);	
 		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -591,7 +591,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASupplyContract() {
+	public void testInsertSupplyContract() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);		
 		Contract accentureContract = Utils.insertAContract(axeltis, CONTRACT1_NAME, entityManager);
@@ -607,7 +607,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertASupplyContractWithSpringJpaRepo() {
+	public void testInsertSupplyContract_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Client axeltis = Utils.insertAClient(AXELTIS, clientRepo);		
 		Contract accentureContract = Utils.insertAContract(axeltis, CONTRACT1_NAME, contractRepo);
@@ -649,7 +649,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACity() {
+	public void testDeleteCity() {
 		/**Test init state tables*/
 		testStateBeforeDelete(jdbcTemplate);		
 		/**Find City to remove*/
@@ -663,7 +663,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACity_WithSpringJpaRepo() {
+	public void testDeleteCity_WithSpringJpaRepo() {
 		/**Test init state tables*/
 		testStateBeforeDelete(jdbcTemplate);		
 		/**Find City to remove*/
@@ -679,7 +679,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAClient() {
+	public void testDeleteClient() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find a Client to remove*/
@@ -694,7 +694,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAClient_WithSpringJpaRepo() {
+	public void testDeleteClient_WithSpringJpaRepo() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);		
 		/**Find a Client to remove*/
@@ -708,7 +708,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAContractServiceAgreement() {
+	public void testDeleteContractServiceAgreement() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find Client*/
@@ -731,7 +731,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAContractServiceAgreement_WithSpringJpaRepo() {
+	public void testDeleteContractServiceAgreement_WithSpringJpaRepo() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find Client*/
@@ -754,7 +754,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAContract() {
+	public void testDeleteContract() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find and validate Contract to test*/
@@ -768,7 +768,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAContract_WithSpringJpaRepo() {
+	public void testDeleteContract_WithSpringJpaRepo() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
@@ -782,7 +782,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACourse() {
+	public void testDeleteCourse() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find course to remove*/
@@ -797,7 +797,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACourse_WithSpringJpaRepo() {
+	public void testDeleteCourse_WithSpringJpaRepo() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find course to remove*/
@@ -812,7 +812,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACountry() {
+	public void testDeleteCountry() {
 		/***Test inital state before City delete*/ 
 		testStateBeforeDelete(jdbcTemplate);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
@@ -850,7 +850,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteACountry_WithSpringJpaRepo() {
+	public void testDeleteCountry_WithSpringJpaRepo() {
 		/***Test inital state before City delete*/ 
 		testStateBeforeDelete(jdbcTemplate);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
@@ -924,7 +924,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAnInterest() {
+	public void testDeleteInterest() {
 		testStateBeforeDelete(jdbcTemplate);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, entityManager);	
@@ -935,7 +935,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAnInterest_WithSpringJpaRepo() {
+	public void testDeleteInterest_WithSpringJpaRepo() {
 		testStateBeforeDelete(jdbcTemplate);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, interestRepo);	
@@ -996,7 +996,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAProject() {
+	public void testDeleteProject() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find a Project to remove*/
@@ -1012,7 +1012,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAProject_WithSpringJpaRepo() {
+	public void testDeleteProject_WithSpringJpaRepo() {
 		/**Test init state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find a Project to remove*/
@@ -1026,7 +1026,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAService() {
+	public void testDeleteService() {
 		testStateBeforeDelete(jdbcTemplate);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, entityManager);
@@ -1037,7 +1037,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAService_WithSpringJpaRepo() {
+	public void testDeleteService_WithSpringJpaRepo() {
 		testStateBeforeDelete(jdbcTemplate);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, serviceRepo);
@@ -1048,7 +1048,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteASkill() {
+	public void testDeleteSkill() {
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
@@ -1060,7 +1060,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteASkill_WithSpringJpaRepo() {
+	public void testDeleteSkill_WithSpringJpaRepo() {
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
@@ -1072,7 +1072,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaffProjectAssignment() {
+	public void testDeleteStaffProjectAssignment() {
 		/**Test initial state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target StaffProjectAssignment*/
@@ -1090,7 +1090,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaffProjectAssignment_WithSpringJpaRepo() {
+	public void testDeleteStaffProjectAssignment_WithSpringJpaRepo() {
 		/**Test initial state*/
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target StaffProjectAssignment*/
@@ -1108,7 +1108,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaffSkill() {
+	public void testDeleteStaffSkill() {
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
@@ -1122,7 +1122,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaffSkill_WithSpringJpaRepo() {
+	public void testDeleteStaffSkill_WithSpringJpaRepo() {
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
@@ -1137,7 +1137,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaff() {
+	public void testDeleteStaff() {
 		testStateBeforeDelete(jdbcTemplate);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, entityManager);		
@@ -1148,7 +1148,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteAStaff_WithSpringJpaRepo() {
+	public void testDeleteStaff_WithSpringJpaRepo() {
 		testStateBeforeDelete(jdbcTemplate);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, staffRepo);		
@@ -1159,7 +1159,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteASupplier() {
+	public void testDeleteSupplier() {
 		testStateBeforeDelete(jdbcTemplate);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, entityManager);	
@@ -1170,7 +1170,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteASupplier_WithSpringJpaRepo() {		
+	public void testDeleteSupplier_WithSpringJpaRepo() {		
 		testStateBeforeDelete(jdbcTemplate);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, supplierRepo);	
@@ -1181,7 +1181,7 @@ public class UtilsTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDeleteASupplyContract() {
+	public void testDeleteSupplyContract() {
 		testStateBeforeDelete(jdbcTemplate);
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
