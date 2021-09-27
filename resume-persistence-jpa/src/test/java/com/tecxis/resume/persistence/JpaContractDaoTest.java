@@ -69,8 +69,8 @@ public class JpaContractDaoTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);		
-		Contract accentureContract = Utils.insertAContract(axeltis, CONTRACT1_NAME, entityManager);		
+		Client axeltis = Utils.insertClient(AXELTIS, entityManager);		
+		Contract accentureContract = Utils.insertContract(axeltis, CONTRACT1_NAME, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		assertEquals(1, accentureContract.getId());
 	}
@@ -80,8 +80,8 @@ public class JpaContractDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testFindInsertedContract() {
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);			
-		Contract contractIn = Utils.insertAContract(barclays, CONTRACT1_NAME, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);			
+		Contract contractIn = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
 		Contract contractOut = contractRepo.getContractByName(CONTRACT1_NAME);
 		assertNotNull(contractOut);
 		assertEquals(contractIn, contractOut);		
@@ -92,8 +92,8 @@ public class JpaContractDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteContract() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		Client eh = Utils.insertAClient(EULER_HERMES, entityManager);	
-		Contract tempContract = Utils.insertAContract(eh, CONTRACT1_NAME, entityManager);
+		Client eh = Utils.insertClient(EULER_HERMES, entityManager);	
+		Contract tempContract = Utils.insertContract(eh, CONTRACT1_NAME, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		contractRepo.delete(tempContract);
 		assertNull(contractRepo.getContractByName(CONTRACT1_NAME));

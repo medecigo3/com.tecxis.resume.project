@@ -107,14 +107,14 @@ public class AssignmentTest {
 	public void testAddStaffProjectAssignment1() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
@@ -159,14 +159,14 @@ public class AssignmentTest {
 	public void testAddStaffProjectAssignment2() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client arval = Utils.insertAClient(ARVAL, entityManager);		
-		Project aos = Utils.insertAProject(AOS, VERSION_1, arval, entityManager);
+		Client arval = Utils.insertClient(ARVAL, entityManager);		
+		Project aos = Utils.insertProject(AOS, VERSION_1, arval, entityManager);
 		assertEquals(1, aos.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
@@ -313,14 +313,14 @@ public class AssignmentTest {
 	public void testSetStaffProjectAssignments() {		
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client sagemcom = Utils.insertAClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertAProject(TED, VERSION_1, sagemcom, entityManager);
+		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Prepare staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
@@ -336,7 +336,7 @@ public class AssignmentTest {
 		assertNull(entityManager.find(StaffProjectAssignment.class, id));
 		
 		/**Prepare staff assignments*/		
-		StaffProjectAssignment amtStaffProjectAssignment = Utils.insertAStaffProjectAssignment(ted, amt, assignment12, entityManager);		
+		StaffProjectAssignment amtStaffProjectAssignment = Utils.insertStaffProjectAssignment(ted, amt, assignment12, entityManager);		
 		List <StaffProjectAssignment> amtStaffAssignments = new ArrayList <> ();		
 		amtStaffAssignments.add(amtStaffProjectAssignment);
 		ted.setStaffProjectAssignment(amtStaffAssignments);

@@ -64,7 +64,7 @@ public class CountryTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Country country = Utils.insertACountry("United Kingdom", entityManager);
+		Country country = Utils.insertCountry("United Kingdom", entityManager);
 		assertThat(country.getId(), Matchers.greaterThan((long)0));
 		
 	}

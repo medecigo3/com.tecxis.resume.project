@@ -77,15 +77,15 @@ public class JpaClientDaoTest {
 		)
 	public void testCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(1, barclays.getId());
 		
-		Client ageas = Utils.insertAClient(AGEAS, entityManager);
+		Client ageas = Utils.insertClient(AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(2, ageas.getId());
 		
-		Client accenture = Utils.insertAClient(ACCENTURE_CLIENT, entityManager);
+		Client accenture = Utils.insertClient(ACCENTURE_CLIENT, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(3, accenture.getId());
 		
@@ -97,7 +97,7 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void findInsertedClient() {
-		Client clientIn = Utils.insertAClient(BARCLAYS, entityManager);
+		Client clientIn = Utils.insertClient(BARCLAYS, entityManager);
 		Client clientOut = clientRepo.getClientByName(clientIn.getName());
 		assertEquals(clientIn, clientOut);
 		
@@ -193,7 +193,7 @@ public class JpaClientDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteClientByName() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		Client tempClient = Utils.insertAClient(BARCLAYS, entityManager);
+		Client tempClient = Utils.insertClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(SAGEMCOM));

@@ -101,23 +101,23 @@ public class JpaProjectDaoTest {
 		@Test
 	public void testCreateRowsAndInsertIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
-		Client belfius = Utils.insertAClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertAProject(SHERPA, VERSION_1, belfius, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
-		Client axeltis = Utils.insertAClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertAProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
-		Project monringstarV2Project = Utils.insertAProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
+		Project monringstarV2Project = Utils.insertProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
 		assertEquals(4, monringstarV2Project.getId());
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
@@ -130,8 +130,8 @@ public class JpaProjectDaoTest {
 		)
 	@Test
 	public void shouldBeAbleToFindInsertedProject() {
-		Client euler = Utils.insertAClient(EULER_HERMES, entityManager);
-		Project eolisIn = Utils.insertAProject(EOLIS, VERSION_1, euler, entityManager);
+		Client euler = Utils.insertClient(EULER_HERMES, entityManager);
+		Project eolisIn = Utils.insertProject(EOLIS, VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
 	}
@@ -188,8 +188,8 @@ public class JpaProjectDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(SAGEMCOM, entityManager);
-		Project tempProject = Utils.insertAProject(TED, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
+		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		projectRepo.delete(tempProject);
 		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));

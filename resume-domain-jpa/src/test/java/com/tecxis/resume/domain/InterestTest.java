@@ -63,7 +63,7 @@ public class InterestTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Interest interest = Utils.insertAnInterest(HOBBY, entityManager);
+		Interest interest = Utils.insertInterest(HOBBY, entityManager);
 		assertThat(interest.getId(), Matchers.greaterThan((long)0));
 	}
 	

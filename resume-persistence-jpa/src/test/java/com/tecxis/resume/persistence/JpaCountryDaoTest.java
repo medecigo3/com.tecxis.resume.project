@@ -64,15 +64,15 @@ public class JpaCountryDaoTest {
 	)
 	public void testShouldCreateRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country france = Utils.insertACountry(FRANCE, entityManager);
+		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(1, france.getId());
 		
-		Country uk = Utils.insertACountry(UNITED_KINGDOM, entityManager);
+		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(2, uk.getId());
 		
-		Country belgium = Utils.insertACountry(BELGIUM, entityManager);
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		assertEquals(3, belgium.getId());
 	}
@@ -83,7 +83,7 @@ public class JpaCountryDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void shouldBeAbleToFindInsertedCountry() {
-		Country countryIn = Utils.insertACountry(FRANCE, entityManager);
+		Country countryIn = Utils.insertCountry(FRANCE, entityManager);
 		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
 	}
@@ -108,7 +108,7 @@ public class JpaCountryDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteCountryById() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
-		Country tempCountry = Utils.insertACountry("temp", entityManager);
+		Country tempCountry = Utils.insertCountry("temp", entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));

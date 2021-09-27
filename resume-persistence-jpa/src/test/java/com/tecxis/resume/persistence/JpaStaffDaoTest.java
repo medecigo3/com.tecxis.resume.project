@@ -96,7 +96,7 @@ public class JpaStaffDaoTest {
 	)
 	public void testInsertRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, amt.getId());
 	}
@@ -107,7 +107,7 @@ public class JpaStaffDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testFindInsertedStaff() {
-		Staff staffIn = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff staffIn = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Staff staffOut = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		assertEquals(staffIn, staffOut);		
 	}
@@ -264,7 +264,7 @@ public class JpaStaffDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteStaff() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff tempStaff = Utils.insertAStaff(AMT_LASTNAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff tempStaff = Utils.insertStaff(AMT_LASTNAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		staffRepo.delete(tempStaff);
 		assertNull(staffRepo.getStaffLikeFirstName(AMT_NAME));

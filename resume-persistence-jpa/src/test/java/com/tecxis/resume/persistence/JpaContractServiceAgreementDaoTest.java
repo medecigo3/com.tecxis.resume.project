@@ -73,15 +73,15 @@ public class JpaContractServiceAgreementDaoTest {
 	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = Utils.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = Utils.insertAClient(BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = Utils.insertAContract(belfius, CONTRACT13_NAME, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreement = Utils.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		ContractServiceAgreement contractServiceAgreement = Utils.insertContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(contractServiceAgreement);
 		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
@@ -94,15 +94,15 @@ public class JpaContractServiceAgreementDaoTest {
 	)
 	public void findInsertedContractServiceAgreement() {
 		/**Insert service*/
-		Service muleEsbCons = Utils.insertAService(MULE_ESB_CONSULTANT, entityManager);
+		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
 		
 		
 		/**Insert Contract*/
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Contract accentureBarclaysContract = Utils.insertAContract(barclays, CONTRACT1_NAME, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreementIn = Utils.insertAContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
+		ContractServiceAgreement contractServiceAgreementIn = Utils.insertContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
 		assertNotNull(contractServiceAgreementIn);
 		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		
@@ -172,15 +172,15 @@ public class JpaContractServiceAgreementDaoTest {
 	public void testDeleteServiceContractAgreement() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = Utils.insertAService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId());
 		/**Insert Contract*/
-		Client belfius = Utils.insertAClient(BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = Utils.insertAContract(belfius, CONTRACT13_NAME, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
+		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
 		
 		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement tempContractServiceAgreement = Utils.insertAContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		ContractServiceAgreement tempContractServiceAgreement = Utils.insertContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(tempContractServiceAgreement);
 		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
 		

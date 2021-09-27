@@ -1,5 +1,4 @@
 package com.tecxis.resume.domain;
-import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
@@ -8,18 +7,13 @@ import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
-import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
-import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +43,7 @@ import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -84,7 +79,7 @@ public class ClientTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {			
-		Client client = Utils.insertAClient(SAGEMCOM, entityManager);
+		Client client = Utils.insertClient(SAGEMCOM, entityManager);
 		assertThat(client.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -247,12 +242,7 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);		
 		
 		/**Remove client*/
 		entityManager.remove(axeltis);
@@ -265,12 +255,7 @@ public class ClientTest {
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(AXELTIS));
 
-		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(47, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(11, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)); 
-		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		UtilsTest.testStateAfterAxeltisClientDelete(jdbcTemplate);		
 		
 	}
 	

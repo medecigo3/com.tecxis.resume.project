@@ -82,13 +82,13 @@ public class JpaStaffProjectAssignmentDaoTest {
 	public void testShouldCreateRowsAndSetIds() {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE,  entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE,  entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -96,7 +96,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignment staffProjectAssignment = Utils.insertAStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
+		StaffProjectAssignment staffProjectAssignment = Utils.insertStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
 		assertNotNull(staffProjectAssignment);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		
@@ -110,13 +110,13 @@ public class JpaStaffProjectAssignmentDaoTest {
 	)
 	public void testInsertStaffProjectAssignment() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -124,7 +124,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignment inStaffProjectAssignment = Utils.insertAStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
+		StaffProjectAssignment inStaffProjectAssignment = Utils.insertStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject, amt, assignment1);	
 		StaffProjectAssignment outStaffAssignment = staffProjectAssignmentRepo.findById(id).get();
 		assertEquals(inStaffProjectAssignment, outStaffAssignment);
@@ -147,13 +147,13 @@ public class JpaStaffProjectAssignmentDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		Client barclays = Utils.insertAClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertAProject(ADIR, VERSION_1, barclays, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff amt = Utils.insertAStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
@@ -161,7 +161,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignment tempStaffProjectAssignment = Utils.insertAStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
+		StaffProjectAssignment tempStaffProjectAssignment = Utils.insertStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		staffProjectAssignmentRepo.delete(tempStaffProjectAssignment);
 		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject, amt, assignment1);	

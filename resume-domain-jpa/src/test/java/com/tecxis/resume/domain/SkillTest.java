@@ -3,7 +3,6 @@ package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -35,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -61,7 +61,7 @@ public class SkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {
-		Skill skill = Utils.insertASkill(TIBCO, entityManager);
+		Skill skill = Utils.insertSkill(TIBCO, entityManager);
 		assertThat(skill.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -116,22 +116,13 @@ public class SkillTest {
 		assertEquals(tibco.getName(), TIBCO);
 		
 		/**Test Skill initial state*/
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/***Test Skill many-to-many cascadings*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		/**Test Staff initial state*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
+		UtilsTest.testStateBeforeDelete(jdbcTemplate);		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
-		entityManager.flush();
-		
+		entityManager.flush();		
 		/**Test Skill was removed*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		/***Test Skill DELETE many-to-many cascadings*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		/**Test Staff hasn't changed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		UtilsTest.testStateAfterTibcoSkillDelete(jdbcTemplate);
+		
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
