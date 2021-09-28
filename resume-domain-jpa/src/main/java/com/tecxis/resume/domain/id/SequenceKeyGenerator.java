@@ -51,9 +51,10 @@ public class SequenceKeyGenerator extends SequenceStyleGenerator {
 				if ( ((Long)sequenceId).longValue()  > 0L ) {  
 					LOG.debug("Entity with sequence id is not null, returning id: [" + id + "]");
 		            return sequenceId;  
-		        }				
-				LOG.debug("Generating sequence with default sequence generator for entity: [" + object + "]");
-				return super.generate(session, object);
+		        }
+				Serializable ret = super.generate(session, object);
+				LOG.debug("Generated sequence value: [" + ret + "] for entity: [" + object + "]");
+				return ret;
 			} else
 				throw new NullIdException("Id not an integral data type or id is null: [" + id + "]");
 		}
