@@ -25,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,7 +45,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaLocationDaoTest {
 	
 	@PersistenceContext
@@ -68,13 +70,13 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getId());
+		assertEquals(1, france.getId().longValue());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, paris.getId());
+		assertEquals(1, paris.getId().getCityId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
@@ -102,7 +104,7 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getId());
+		assertEquals(1, france.getId().longValue());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
@@ -122,7 +124,7 @@ public class JpaLocationDaoTest {
 		Location adirLocationIn = Utils.insertLocation(paris, adirProject, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		
-		LocationId adirLocationId = new LocationId(paris, adirProject);
+		LocationId adirLocationId = new LocationId(paris.getId(), adirProject.getId());
 		Location adirLocationOut = locationRepo.findById(adirLocationId).get();
 		assertEquals(adirLocationIn, adirLocationOut);
 	}
@@ -136,7 +138,7 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getId());
+		assertEquals(1, france.getId().longValue());
 		
 		/**Insert City*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));

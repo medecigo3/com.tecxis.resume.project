@@ -31,6 +31,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -53,7 +54,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaStaffProjectAssignmentDaoTest {
 
 	@PersistenceContext
@@ -125,7 +127,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		StaffProjectAssignment inStaffProjectAssignment = Utils.insertStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject, amt, assignment1);	
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject.getId(), amt.getId(), assignment1.getId());	
 		StaffProjectAssignment outStaffAssignment = staffProjectAssignmentRepo.findById(id).get();
 		assertEquals(inStaffProjectAssignment, outStaffAssignment);
 	}
@@ -138,7 +140,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		Project  sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);		
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa, amt, assignment53);		
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(sherpa.getId(), amt.getId(), assignment53.getId());		
 		StaffProjectAssignment staffProjectAssignment = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment);
 	}
@@ -164,7 +166,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		StaffProjectAssignment tempStaffProjectAssignment = Utils.insertStaffProjectAssignment(adirProject, amt, assignment1, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		staffProjectAssignmentRepo.delete(tempStaffProjectAssignment);
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject, amt, assignment1);	
+		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adirProject.getId(), amt.getId(), assignment1.getId());	
 		assertFalse(staffProjectAssignmentRepo.findById(id).isPresent());
 	}
 	

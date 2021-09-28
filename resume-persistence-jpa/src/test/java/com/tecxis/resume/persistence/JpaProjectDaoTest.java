@@ -25,11 +25,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -54,7 +52,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaProjectDaoTest {
 	
     /** For Log4j2 dependencies >= 2.10 set this system property to configure ANSI Styling for Windows 
@@ -77,15 +76,7 @@ public class JpaProjectDaoTest {
     public static void afterClass() {
         System.clearProperty(LOG4J_SKIP_JANSI);
     }
-
-    @BeforeClass
-    public static void beforeClass() {
-    	Logger log = LogManager.getLogger();
-		System.clearProperty(LOG4J_SKIP_JANSI);
-		System.setProperty(LOG4J_SKIP_JANSI, "false");
-		log.debug("Starting class unit testing");
-    }
-	
+    
     @Before
     public void before() {
     	System.clearProperty(LOG4J_SKIP_JANSI);

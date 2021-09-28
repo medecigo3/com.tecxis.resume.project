@@ -264,10 +264,13 @@ public class Constants {
 		
 		catch (ParseException e) {
 			throw new IllegalArgumentException(e);
-		}
+		}	
+
 			
 	}
 
+	/**EMPLOYMENT_CONTRACT*/
+	public static final long AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID = 1L; 
 	
 	private Constants() {
 		super();

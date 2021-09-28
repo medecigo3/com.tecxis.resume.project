@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,7 +41,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaStaffSkillDaoTest {
 	
 	@PersistenceContext
@@ -62,20 +64,20 @@ public class JpaStaffSkillDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1, amt.getId().longValue());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(1, tibco.getId());
+		assertEquals(1, tibco.getId().longValue());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
 		
-		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt, tibco)).get();
+		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		assertNotNull(amtTibco);
 		assertEquals(amt, amtTibco.getStaff());
 		assertEquals(tibco, amtTibco.getSkill());
@@ -88,13 +90,13 @@ public class JpaStaffSkillDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, amt.getId());
+		assertEquals(1, amt.getId().longValue());
 		
 		/**Insert Skill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(1, tibco.getId());
+		assertEquals(1, tibco.getId().longValue());
 		
 		/**Insert StaffSkill*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
