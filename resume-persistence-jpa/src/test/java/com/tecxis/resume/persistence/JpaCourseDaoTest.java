@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,7 +36,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaCourseDaoTest {
 
 	@PersistenceContext
@@ -56,7 +58,7 @@ public class JpaCourseDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Course bw6 = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, bw6.getId());
+		assertEquals(1, bw6.getId().longValue());
 		
 	}
 	

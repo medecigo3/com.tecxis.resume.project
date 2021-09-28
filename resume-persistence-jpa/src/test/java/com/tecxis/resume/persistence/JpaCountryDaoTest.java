@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -43,7 +44,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaCountryDaoTest {
 	
 	@PersistenceContext
@@ -66,15 +68,15 @@ public class JpaCountryDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(1, france.getId());
+		assertEquals(1, france.getId().longValue());
 		
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(2, uk.getId());
+		assertEquals(2, uk.getId().longValue());
 		
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(3, belgium.getId());
+		assertEquals(3, belgium.getId().longValue());
 	}
 	
 	@Test
@@ -141,7 +143,7 @@ public class JpaCountryDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetCountryById() {
 		Country country = countryRepo.getCountryById(1L);
-		assertEquals(1L, country.getId());
+		assertEquals(1L, country.getId().longValue());
 	}
 	
 	@Test

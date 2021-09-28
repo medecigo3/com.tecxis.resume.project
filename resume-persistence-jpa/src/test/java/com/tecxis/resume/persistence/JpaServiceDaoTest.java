@@ -29,6 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,7 +45,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaServiceDaoTest {
 
 	@PersistenceContext
@@ -65,7 +67,7 @@ public class JpaServiceDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getId());		
+		assertEquals(1, scmAssoc.getId().longValue());		
 	}
 
 	

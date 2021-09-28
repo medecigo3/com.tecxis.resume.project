@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,7 +39,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaSkillDaoTest {
 	
 	@PersistenceContext
@@ -59,19 +61,19 @@ public class JpaSkillDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(1, tibco.getId());
+		assertEquals(1, tibco.getId().longValue());
 		
 		Skill oracle = Utils.insertSkill(ORACLE, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(2, oracle.getId());
+		assertEquals(2, oracle.getId().longValue());
 		
 		Skill java = Utils.insertSkill(JAVA, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(3, java.getId());
+		assertEquals(3, java.getId().longValue());
 		
 		Skill spring = Utils.insertSkill(SPRING, entityManager);
 		assertEquals(4, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(4, spring.getId());
+		assertEquals(4, spring.getId().longValue());
 	
 	}
 	

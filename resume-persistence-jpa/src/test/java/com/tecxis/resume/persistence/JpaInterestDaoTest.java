@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,7 +37,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaInterestDaoTest {
 
 	@PersistenceContext
@@ -57,15 +59,15 @@ public class JpaInterestDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
 		Interest hobby = Utils.insertInterest(HOBBY, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(1, hobby.getId());
+		assertEquals(1, hobby.getId().longValue());
 		
 		Interest running = Utils.insertInterest(RUNNING, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, running.getId());
+		assertEquals(2, running.getId().longValue());
 		
 		Interest swimming = Utils.insertInterest(SWIMMING, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(3, swimming.getId());
+		assertEquals(3, swimming.getId().longValue());
 	}
 	
 	@Test

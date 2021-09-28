@@ -42,6 +42,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,7 +59,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaClientDaoTest {
 	
 	@PersistenceContext
@@ -79,15 +81,15 @@ public class JpaClientDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, barclays.getId());
+		assertEquals(1, barclays.getId().longValue());
 		
 		Client ageas = Utils.insertClient(AGEAS, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(2, ageas.getId());
+		assertEquals(2, ageas.getId().longValue());
 		
 		Client accenture = Utils.insertClient(ACCENTURE_CLIENT, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(3, accenture.getId());
+		assertEquals(3, accenture.getId().longValue());
 		
 	}
 	

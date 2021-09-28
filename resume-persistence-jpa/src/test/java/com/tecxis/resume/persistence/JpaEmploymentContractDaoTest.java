@@ -2,6 +2,7 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
 import static com.tecxis.resume.domain.Constants.ALTERNA;
+import static com.tecxis.resume.domain.Constants.AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
@@ -26,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
-import com.tecxis.resume.domain.id.EmploymentContractId;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
@@ -46,7 +47,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaEmploymentContractDaoTest {
 	
 	@PersistenceContext
@@ -103,7 +105,7 @@ public class JpaEmploymentContractDaoTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		
-		alternaAmtEmploymentContract = employmentContractRepo.findById(new EmploymentContractId((long)1, amt, alterna)).get();
+		alternaAmtEmploymentContract = employmentContractRepo.findByIdAndStaffAndSupplier(AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID, amt, alterna);
 		
 		/**Verify the EmploymentContract*/
 		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	

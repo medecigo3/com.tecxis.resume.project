@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -47,7 +48,8 @@ import com.tecxis.resume.domain.util.Utils;
 @SpringJUnitConfig (locations = { 
 		"classpath:test-context.xml" })
 @Commit
-@Transactional(transactionManager = "transactionManager", isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
+@SqlConfig(dataSource="dataSource")
 public class JpaContractServiceAgreementDaoTest {
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -75,7 +77,7 @@ public class JpaContractServiceAgreementDaoTest {
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getId());
+		assertEquals(1, scmAssoc.getId().longValue());
 		/**Insert Contract*/
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
@@ -108,8 +110,8 @@ public class JpaContractServiceAgreementDaoTest {
 		
 		/** Build ContraServiceAgreement Id*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(accentureBarclaysContract);
-		contractServiceAgreementId.setService(muleEsbCons);
+		contractServiceAgreementId.setContractId(accentureBarclaysContract.getId());
+		contractServiceAgreementId.setServiceId(muleEsbCons.getId());
 		
 		ContractServiceAgreement contractServiceAgreementOut =contractServiceAgreementRepo.findById(contractServiceAgreementId).get();		
 		assertNotNull(contractServiceAgreementOut);
@@ -137,8 +139,8 @@ public class JpaContractServiceAgreementDaoTest {
 		
 		/**Find ContractServiceAgreement*/
 		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContract(j2eeDevelopperContract);
-		contractServiceAgreementId.setService(j2eeDevelopperService);
+		contractServiceAgreementId.setContractId(j2eeDevelopperContract.getId());
+		contractServiceAgreementId.setServiceId(j2eeDevelopperService.getId());
 		ContractServiceAgreement contractServiceAgreement = contractServiceAgreementRepo.findById(contractServiceAgreementId).get();
 		assertNotNull(contractServiceAgreement);
 		assertEquals(j2eeDevelopperContract, contractServiceAgreement.getContract());
@@ -174,7 +176,7 @@ public class JpaContractServiceAgreementDaoTest {
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getId());
+		assertEquals(1, scmAssoc.getId().longValue());
 		/**Insert Contract*/
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
