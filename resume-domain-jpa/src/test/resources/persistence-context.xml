@@ -11,23 +11,6 @@ http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/data/jpa
 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-	<!-- FactoryBean that creates a JPA EntityManagerFactory. -->
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSourceProxy" />
-		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-		<property name="jpaProperties">
-            <props>
-                <prop key="hibernate.use_sql_comments">false</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-                <prop key="hibernate.event.merge.entity_copy_observer">allow</prop>
-                <prop key="hibernate.generate_statistics">true</prop>
-         		<!-- Drops the schema when the SessionFactory is closed explicitly, typically when the application is stopped. -->
-				<!-- <prop key="hibernate.hbm2ddl.auto">create-drop</prop> -->
-            </props>
-        </property>
-	</bean>
-	
 	<!-- Spring's Implementation for Hibernate EntityManager -->
 	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="database" value="HSQL" />
