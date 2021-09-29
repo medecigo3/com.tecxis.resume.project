@@ -94,22 +94,22 @@ public class JpaProjectDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 			
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
 		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
-		assertEquals(2, sherpaProject.getId());
+		assertEquals(2, sherpaProject.getId().getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
 		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
-		assertEquals(3, morningStarV1Project.getId());
+		assertEquals(3, morningStarV1Project.getId().getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
 		Project monringstarV2Project = Utils.insertProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
-		assertEquals(4, monringstarV2Project.getId());
+		assertEquals(4, monringstarV2Project.getId().getProjectId());
 		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 
 	}

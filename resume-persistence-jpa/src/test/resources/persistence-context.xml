@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/data/jpa
+http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<!-- Spring's Implementation for Hibernate EntityManager -->
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="database" value="HSQL" />
+		<property name="showSql" value="false" />
+		<property name="generateDdl" value="false" />
+		<property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
+	</bean>
+
+
+	<!-- Bean that works with @Repository components so that any platform specific exceptions are 
+	caught and re-thrown as one of Spring's unchecked data access exceptions -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- BeanPostProcessor that processes PersistenceUnit and PersistenceContext annotations, 
+	for injection of the corresponding JPA resources EntityManagerFactory and EntityManager.
+	 Any such annotated fields or methods in any Spring-managed object will automatically be injected. -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	
+	<!-- Component annotation scan -->
+	<context:component-scan base-package="com.tecxis.resume.domain" />
+	<jpa:repositories base-package="com.tecxis.resume.domain.repository" transaction-manager-ref="txManagerProxy"/>
+	
+	
+</beans>

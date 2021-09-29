@@ -82,7 +82,7 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Insert Location*/
@@ -110,13 +110,13 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, paris.getId());
+		assertEquals(1, paris.getId().getCityId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Insert Location*/
@@ -144,13 +144,13 @@ public class JpaLocationDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, paris.getId());
+		assertEquals(1, paris.getId().getCityId());
 		
 		/**Insert Project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		/**Insert Location*/

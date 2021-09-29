@@ -67,19 +67,19 @@ public class JpaCityDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 		City london = Utils.insertCity(LONDON, uk, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(1, london.getId());
+		assertEquals(1, london.getId().getCityId());
 		
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(2, paris.getId());
+		assertEquals(2, paris.getId().getCityId());
 		
 		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);		
 		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(3, brussels.getId());
+		assertEquals(3, brussels.getId().getCityId());
 	}
 	
 	@Sql(
