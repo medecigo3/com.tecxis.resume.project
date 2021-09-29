@@ -7,6 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
+		<config>src/test/resources/spring-context/persistence-context.xml</config>
 		<config>src/test/resources/spring-context/validation-api-context.xml</config>
 		<config>src/test/resources/spring-context/sql-script-helper/sql-script-helper-context.xml</config>
 		<config>src/test/resources/spring-context/sql-logging-listener/sql-logging-listener-context.xml</config>
