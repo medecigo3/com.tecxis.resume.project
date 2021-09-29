@@ -86,7 +86,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -114,7 +114,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -151,7 +151,7 @@ public class JpaStaffProjectAssignmentDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adirProject.getId());
+		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));

@@ -74,7 +74,7 @@ public class JpaContractDaoTest {
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);		
 		Contract accentureContract = Utils.insertContract(axeltis, CONTRACT1_NAME, entityManager);		
 		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		assertEquals(1, accentureContract.getId());
+		assertEquals(1, accentureContract.getId().getContractId());
 	}
 	
 	@Sql(
@@ -113,7 +113,7 @@ public class JpaContractDaoTest {
 		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractId(5L, micropole.getId())).get();
 		assertNotNull(fastconnectMicropoleContract);
 		assertEquals(micropole, fastconnectMicropoleContract.getClient());		
-		assertEquals(5L, fastconnectMicropoleContract.getId());
+		assertEquals(5L, fastconnectMicropoleContract.getId().getContractId());
 		
 	}
 		

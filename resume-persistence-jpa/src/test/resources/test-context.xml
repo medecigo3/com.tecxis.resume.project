@@ -8,22 +8,12 @@
 		http://www.springframework.org/schema/tx 
       http://www.springframework.org/schema/tx/spring-tx.xsd"> 
   
-  <!-- DataSource context with SQL query logging listener to debug unit test SQL statements.  -->
-  <import resource="classpath:sql-logging-listener-dataSource-context.xml" />
-  <!-- Spring's JPA transaction context to coordinate trans. for DataSource with SQL query logging listener.--> 
-  <import resource="classpath:sql-logging-listener-transaction-context.xml" />
-    <!-- EntityMananger factory with hibernate statistics logging turned off. -->
-  <import resource="classpath:sql-logging-listener-entitymanager-context.xml" />
-  
-  
-  <!-- DataSource context to inject SQL scripts in prep. of unit tests. -->  
-  <import resource="classpath:sql-script-helper-dataSource-context.xml" />
-  <!-- Spring's JPA transaction context to coordinate trans. for SQL script injection.--> 
-  <import resource="classpath:sql-script-helper-transaction-context.xml" />
-   <!-- EntityMananger factory with hibernate statistics logging capabilities for debugging purposes. -->
-  <import resource="classpath:sql-script-helper-entitymanager-context.xml" />
-
-  <!-- Persistence context for both SQL injection and DataSource with SQL query logging listener. -->
+	<!-- SQL query logging and stats listener context for debugging unit test SQL statements.  -->
+  <import resource="classpath:sql-logging-listener-context.xml" />  
+   <!--  SQL injection helper context for unit tests setup. -->  
+  <import resource="classpath:sql-script-helper-context.xml" />
+ 
+   <!-- Persistence context for both SQL injection and DataSource with SQL query logging listener. -->
   <import resource="classpath:persistence-context.xml" />  
   <!-- Validation API -->
   <import resource="classpath:validation-api-context.xml" />

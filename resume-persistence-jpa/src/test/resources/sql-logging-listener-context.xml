@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- DataSource context with SQL query logging listener to debug unit test SQL statements.  -->
+  	<!-- 
+	<jdbc:embedded-database id="dataSource" type="H2">
+		<jdbc:script location="classpath:schema.sql"/>
+	</jdbc:embedded-database>
+	 -->
+		
+      <!-- load H2 jdbc properties -->
+    <context:property-placeholder location="classpath:jdbc-h2.properties"/>
+    
+     <bean id="dataSourceHelper" class="org.h2.jdbcx.JdbcDataSource">
+       <property name="URL" value="${jdbc.url}"/>
+       <property name="user" value="${jdbc.user}"/>
+       <property name="password" value="${jdbc.password}"/>
+   	</bean>
+   
+   	<util:constant id="dataSourceFactory" static-field="com.vladmihalcea.book.hpjp.util.DataSourceProxyType.DATA_SOURCE_PROXY" />
+   	<bean id="dataSourceProxy" factory-bean="dataSourceFactory" factory-method="dataSource">
+   		<constructor-arg ref="dataSourceHelper"/>
+   	</bean>        	
+	
+	<!--     
+    <jdbc:initialize-database data-source="dataSourceProxy">    	
+        <jdbc:script location="classpath:SQL/H2/CreateResumeSchema.sql"/>        
+    </jdbc:initialize-database>   -->
+
+
+    <!-- EntityMananger factory with hibernate statistics logging capabilities for debugging purposes. -->
+    <!-- FactoryBean that creates a JPA EntityManagerFactory. -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSourceProxy" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="jpaProperties">
+            <props>
+                <prop key="hibernate.use_sql_comments">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.event.merge.entity_copy_observer">allow</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+         		<!-- Drops the schema when the SessionFactory is closed explicitly, typically when the application is stopped. -->
+				<!-- <prop key="hibernate.hbm2ddl.auto">create-drop</prop> -->
+            </props>
+        </property>
+	</bean>
+	
+	<!-- Spring's JPA transaction context to coordinate trans. for DataSource with SQL query logging listener.--> 
+	<bean id="txManagerProxy" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSourceProxy" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManagerProxy" />	
+
+</beans>
