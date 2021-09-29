@@ -9,13 +9,13 @@
       http://www.springframework.org/schema/tx/spring-tx.xsd"> 
   
 	<!-- SQL query logging and stats listener context for debugging unit test SQL statements.  -->
-  <import resource="classpath:sql-logging-listener-context.xml" />  
+  <import resource="classpath:spring-context/sql-logging-listener/sql-logging-listener-context.xml" />  
    <!--  SQL injection helper context for unit tests setup. -->  
-  <import resource="classpath:sql-script-helper-context.xml" />
+  <import resource="classpath:spring-context/sql-script-helper/sql-script-helper-context.xml" />
  
    <!-- Persistence context for both SQL injection and DataSource with SQL query logging listener. -->
-  <import resource="classpath:persistence-context.xml" />  
+  <import resource="classpath:spring-context/persistence-context.xml" />  
   <!-- Validation API -->
-  <import resource="classpath:validation-api-context.xml" />
+  <import resource="classpath:spring-context/validation-api-context.xml" />
   
 </beans>
