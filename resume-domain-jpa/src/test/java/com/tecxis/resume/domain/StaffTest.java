@@ -141,7 +141,7 @@ import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
-		"classpath:test-context.xml"})
+		"classpath:spring-context/test-context.xml"})
 @Commit
 @Transactional(transactionManager = "txManager", isolation = Isolation.READ_UNCOMMITTED)
 @SqlConfig(dataSource="dataSource")
