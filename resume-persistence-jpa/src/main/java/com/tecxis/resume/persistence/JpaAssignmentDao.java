@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 
-@Repository("AssignmentDao")
+@Repository("assignmentDao")
 public class JpaAssignmentDao implements AssignmentDao {
 	
 	@Autowired

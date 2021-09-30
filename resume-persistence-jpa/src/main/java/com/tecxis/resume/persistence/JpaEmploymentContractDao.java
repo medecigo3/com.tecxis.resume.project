@@ -8,12 +8,14 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 
+@Repository("employmentDao")
 public class JpaEmploymentContractDao implements EmploymentContractDao{
 
 	@Autowired

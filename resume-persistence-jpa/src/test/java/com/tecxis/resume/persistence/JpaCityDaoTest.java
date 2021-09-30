@@ -61,7 +61,7 @@ public class JpaCityDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testShouldCreateRowsAndSetIds() {
+	public void testAdd() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));

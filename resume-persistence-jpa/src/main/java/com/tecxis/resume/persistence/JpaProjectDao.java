@@ -8,10 +8,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 
+@Repository("projectDao")
 public class JpaProjectDao implements ProjectDao {
 
 	@Autowired

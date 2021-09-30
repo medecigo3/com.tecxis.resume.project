@@ -8,10 +8,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.repository.InterestRepository;
 
+@Repository("interestDao")
 public class JpaInterestDao implements InterestDao {
 	
 	@Autowired
