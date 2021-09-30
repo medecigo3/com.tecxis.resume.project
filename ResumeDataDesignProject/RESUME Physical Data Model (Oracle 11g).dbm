@@ -2697,55 +2697,81 @@
   </OracleModel:OracleTable>
   <SQLSchema:Sequence xmi:id="_gCVToJyHEeut8JKFAekvOQ" name="TASK_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVToZyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTopyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTopyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_H-AV0CH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTo5yHEeut8JKFAekvOQ" name="CITY_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTpJyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTpZyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTpZyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_DNP8kCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTppyHEeut8JKFAekvOQ" name="CLIENT_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTp5yHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTqJyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTqJyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_DrszICH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTqZyHEeut8JKFAekvOQ" name="CONTRACT_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTqpyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTq5yHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTq5yHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_EDEKQCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTrJyHEeut8JKFAekvOQ" name="COUNTRY_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTrZyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTrpyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTrpyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_EbOyoCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTr5yHEeut8JKFAekvOQ" name="COURSE_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTsJyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTsZyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTsZyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_Ew6uwCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTspyHEeut8JKFAekvOQ" name="EMPLOYMENT_CONTRACT_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTs5yHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTtJyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTtJyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_FD6jQCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTtZyHEeut8JKFAekvOQ" name="INTEREST_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTtpyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTt5yHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTt5yHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_FaqPUCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTuJyHEeut8JKFAekvOQ" name="PROJECT_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTuZyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTupyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTupyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_F3RS0CH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTu5yHEeut8JKFAekvOQ" name="SERVICE_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTvJyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTvZyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTvZyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_GOjKYCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTvpyHEeut8JKFAekvOQ" name="SKILL_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTv5yHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTwJyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTwJyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_Gl9k0CH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTwZyHEeut8JKFAekvOQ" name="STAFF_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTwpyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTw5yHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTw5yHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_G7HVcCH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLSchema:Sequence xmi:id="_gCVTxJyHEeut8JKFAekvOQ" name="SUPPLIER_SEQ" schema="_QJa6MJyHEeut8JKFAekvOQ">
     <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_gCVTxZyHEeut8JKFAekvOQ" name="NUMBER" primitiveType="NUMERIC"/>
-    <identity xmi:id="_gCVTxpyHEeut8JKFAekvOQ" startValue="1" increment="1" minimum="1" maximum="9999999999999999999999999999"/>
+    <identity xmi:id="_gCVTxpyHEeut8JKFAekvOQ" startValue="0" increment="1" minimum="-1">
+      <extensions xsi:type="OracleModel:OracleIdentitySpecifierExtension" xmi:id="_HVm5ECH7EeyEuKbLsGfbrw" cacheValue="20"/>
+    </identity>
   </SQLSchema:Sequence>
   <SQLTables:ViewTable xmi:id="_hlfIcJyHEeut8JKFAekvOQ" name="v_Experience" description="" label="" schema="_QJa6MJyHEeut8JKFAekvOQ" checkType="LOCAL">
     <dependencies xmi:id="_9Mk98CHWEeyPw_-qRFArbg" name="Dependency" targetEnd="_QPz2R5yHEeut8JKFAekvOQ"/>
