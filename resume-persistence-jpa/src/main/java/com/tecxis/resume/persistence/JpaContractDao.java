@@ -8,11 +8,13 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.repository.ContractRepository;
 
+@Repository("contractDao")
 public class JpaContractDao implements ContractDao{
 	
 	@Autowired
