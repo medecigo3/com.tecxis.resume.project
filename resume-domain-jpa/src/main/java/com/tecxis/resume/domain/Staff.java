@@ -96,12 +96,12 @@ public class Staff implements Serializable, Identifiable <Long>{
 	private List<Project> projects;
 		
 	/**
-	 * bi-directional one-to-many association to StaffProjectAssignment
-	 * In SQL terms, StaffProjectAssignment is the "owner" of this association with Staff as it contains the relationship's foreign key
+	 * bi-directional one-to-many association to Assignment
+	 * In SQL terms, Assignment is the "owner" of this association with Staff as it contains the relationship's foreign key
 	 * In OO terms, this Staff "works on" staff assignments
 	 */
 	@OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
-	private List<StaffProjectAssignment> staffProjectAssignments;
+	private List<Assignment> assignments;
 
 	/**
 	 *  bi-directional many-to-many association to Skill 
@@ -139,7 +139,7 @@ public class Staff implements Serializable, Identifiable <Long>{
 		this.courses = new ArrayList<>();
 		this.interests = new ArrayList<>();
 		this.projects = new ArrayList<>();
-		this.staffProjectAssignments = new ArrayList<>();
+		this.assignments = new ArrayList<>();
 		this.skills = new ArrayList<>();		
 		this.supplyContracts = new ArrayList<>();
 		this.employmentContracts = new ArrayList<>();
@@ -217,29 +217,29 @@ public class Staff implements Serializable, Identifiable <Long>{
 		return this.projects;
 	}
 	
-	public List<StaffProjectAssignment> getStaffProjectAssignments() {
-		return this.staffProjectAssignments;
+	public List<Assignment> getAssignments() {
+		return this.assignments;
 	}
 
-	public void setStaffProjectAssignment(List<StaffProjectAssignment> staffProjectAssignments) {
-		this.staffProjectAssignments = staffProjectAssignments;
+	public void setAssignment(List<Assignment> assignments) {
+		this.assignments = assignments;
 	}
 	
-	public boolean removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		boolean ret = this.getStaffProjectAssignments().remove(staffProjectAssignment);		
-		staffProjectAssignment.setStaff(null);
-		staffProjectAssignment.setProject(null);
-		staffProjectAssignment.setAssignment(null);
+	public boolean removeAssignment(Assignment assignment) {
+		boolean ret = this.getAssignments().remove(assignment);		
+		assignment.setStaff(null);
+		assignment.setProject(null);
+		assignment.setAssignment(null);
 		return ret;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		/**check if 'project' and 'assignment' aren't in staffProjectAgreements*/
-		if ( this.getStaffProjectAssignments().contains(staffProjectAssignment))			
-				throw new EntityExistsException("Entity already exist in Staff 'WORKS ON' association: " + staffProjectAssignment);
+	public Assignment addAssignment(Assignment assignment) {
+		/**check if 'project' and 'Task' aren't in Assignments*/
+		if ( this.getAssignments().contains(assignment))			
+				throw new EntityExistsException("Entity already exist in Staff 'WORKS ON' association: " + assignment);
 		
-		getStaffProjectAssignments().add(staffProjectAssignment);
-		return staffProjectAssignment;
+		getAssignments().add(assignment);
+		return assignment;
 	}
 
 	public List<Skill> getSkills() {

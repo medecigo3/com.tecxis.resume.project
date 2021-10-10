@@ -5,7 +5,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
    version="2.1">
    <persistence-unit name="ResumePU" transaction-type="RESOURCE_LOCAL">
    	<mapping-file>META-INF/orm.xml</mapping-file>
-  		<class>com.tecxis.resume.domain.Assignment</class>	
+  		<class>com.tecxis.resume.domain.Task</class>	
 		<class>com.tecxis.resume.domain.City</class>		
 		<class>com.tecxis.resume.domain.Client</class>
 		<class>com.tecxis.resume.domain.Contract</class>		
@@ -17,11 +17,11 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
 		<class>com.tecxis.resume.domain.Skill</class>
 		<class>com.tecxis.resume.domain.Staff</class>		
 		<class>com.tecxis.resume.domain.Supplier</class>
-		<class>com.tecxis.resume.domain.ContractServiceAgreement</class>
+		<class>com.tecxis.resume.domain.Agreement</class>
 		<class>com.tecxis.resume.domain.EmploymentContract</class>
 		<class>com.tecxis.resume.domain.Enrolment</class>
 		<class>com.tecxis.resume.domain.Location</class>
-		<class>com.tecxis.resume.domain.StaffProjectAssignment</class>
+		<class>com.tecxis.resume.domain.Assignment</class>
 		<class>com.tecxis.resume.domain.StaffSkill</class>
 		<class>com.tecxis.resume.domain.SupplyContract</class>		
       <properties>

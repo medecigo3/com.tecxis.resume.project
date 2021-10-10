@@ -4,11 +4,11 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.ContractServiceAgreement;
+import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.EmploymentContract;
@@ -19,15 +19,15 @@ import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.StaffProjectAssignment;
+import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
+import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
@@ -37,7 +37,7 @@ import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SkillRepository;
-import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
@@ -49,29 +49,29 @@ public class Utils {
 		super();
 	}
 
-	public static Assignment insertAssignment(String desc, EntityManager entityManager) {
-		Assignment assignment = new Assignment();
-		assignment.setDesc(desc);		
-		entityManager.persist(assignment);
+	public static Task insertTask(String desc, EntityManager entityManager) {
+		Task task = new Task();
+		task.setDesc(desc);		
+		entityManager.persist(task);
 		entityManager.flush();
-		return assignment;
+		return task;
 	}
 	
-	public static Assignment insertAssignment(String desc, AssignmentRepository assignmentRepo) {
-		Assignment assignment = new Assignment();
-		assignment.setDesc(desc);		
-		assignmentRepo.saveAndFlush(assignment);
-		return assignment;
+	public static Task insertTask(String desc, TaskRepository taskRepo) {
+		Task task = new Task();
+		task.setDesc(desc);		
+		taskRepo.saveAndFlush(task);
+		return task;
 	}
 	
-	public static void removeAssignment(Assignment assignment, EntityManager entityManager) {		
-		entityManager.remove(assignment);
+	public static void removeTask(Task task, EntityManager entityManager) {		
+		entityManager.remove(task);
 		entityManager.flush();
 	}
 	
-	public static void removeAssignment(Assignment assignment, AssignmentRepository assignmentRepo) {
-		assignmentRepo.delete(assignment);
-		assignmentRepo.flush();
+	public static void removeTask(Task task, TaskRepository taskRepo) {
+		taskRepo.delete(task);
+		taskRepo.flush();
 	}
 
 	public static City insertCity(String name, Country country, EntityManager entityManager) {
@@ -130,26 +130,26 @@ public class Utils {
 		clientRepo.flush();
 	}
 
-	public static ContractServiceAgreement insertContractServiceAgreement(Contract contract, Service service, EntityManager entityManager) {
-		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
-		entityManager.persist(contractServiceAgreement);
+	public static Agreement insertAgreement(Contract contract, Service service, EntityManager entityManager) {
+		Agreement agreement = new Agreement(contract, service);		
+		entityManager.persist(agreement);
 		entityManager.flush();
-		return contractServiceAgreement;
+		return agreement;
 	}
 	
-	public static ContractServiceAgreement insertContractServiceAgreement(Contract contract, Service service, ContractServiceAgreementRepository contractServiceAgreementRepo) {
-		ContractServiceAgreement contractServiceAgreement = new ContractServiceAgreement(contract, service);		
-		contractServiceAgreementRepo.saveAndFlush(contractServiceAgreement);
-		return contractServiceAgreement;
+	public static Agreement insertAgreement(Contract contract, Service service, AgreementRepository contractServiceAgreementRepo) {
+		Agreement agreement = new Agreement(contract, service);		
+		contractServiceAgreementRepo.saveAndFlush(agreement);
+		return agreement;
 	}
 	
-	public static void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement, EntityManager entityManager) {		
-		entityManager.remove(contractServiceAgreement);
+	public static void removeAgreement(Agreement agreement, EntityManager entityManager) {		
+		entityManager.remove(agreement);
 		entityManager.flush();
 	}
 	
-	public static void removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement, ContractServiceAgreementRepository contractServiceAgreementRepo) {
-		contractServiceAgreementRepo.delete(contractServiceAgreement);
+	public static void removeAgreement(Agreement agreement, AgreementRepository contractServiceAgreementRepo) {
+		contractServiceAgreementRepo.delete(agreement);
 		contractServiceAgreementRepo.flush();
 	}
 
@@ -394,29 +394,29 @@ public class Utils {
 		return skill;
 	}
 
-	public static StaffProjectAssignment insertStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, EntityManager entityManager) {
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment(project, staff, assignment);
-		entityManager.persist(staffProjectAssignment);
+	public static Assignment insertAssignment(Project project, Staff staff,  Task task, EntityManager entityManager) {
+		Assignment assignment = new Assignment(project, staff, task);
+		entityManager.persist(assignment);
 		entityManager.flush();
-		return staffProjectAssignment;
+		return assignment;
 		
 	}
 
-	public static StaffProjectAssignment insertStaffProjectAssignment(Project project, Staff staff,  Assignment assignment, StaffProjectAssignmentRepository staffProjectAssignmentRepo) {
-		StaffProjectAssignment staffProjectAssignment = new StaffProjectAssignment(project, staff, assignment);		
-		staffProjectAssignmentRepo.saveAndFlush(staffProjectAssignment);
-		return staffProjectAssignment;
+	public static Assignment insertAssignment(Project project, Staff staff,  Task task, AssignmentRepository assignmentRepo) {
+		Assignment assignment = new Assignment(project, staff, task);		
+		assignmentRepo.saveAndFlush(assignment);
+		return assignment;
 		
 	}
 	
-	public static void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment, EntityManager entityManager) {		
-		entityManager.remove(staffProjectAssignment);
+	public static void removeAssignment(Assignment assignment, EntityManager entityManager) {		
+		entityManager.remove(assignment);
 		entityManager.flush();
 	}
 	
-	public static void removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment, StaffProjectAssignmentRepository StaffProjectAssignmentRepo) {
-		StaffProjectAssignmentRepo.delete(staffProjectAssignment);
-		StaffProjectAssignmentRepo.flush();
+	public static void removeAssignment(Assignment assignment, AssignmentRepository assignmentRepo) {
+		assignmentRepo.delete(assignment);
+		assignmentRepo.flush();
 	}	
 	
 	public static StaffSkill insertStaffSkill(Staff staff, Skill skill, EntityManager entityManager) {

@@ -67,11 +67,11 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 			
 
 	/**
-	 * bi-directional one-to-many association to ContractServiceAgreement
-	 * In OO terms, this Contract "engages" these ContractServiceAgreements
+	 * bi-directional one-to-many association to Agreement
+	 * In OO terms, this Contract "engages" these Agreements
 	 */
 	@OneToMany(mappedBy="contract", cascade = {CascadeType.ALL}, orphanRemoval=true)
-	private List <ContractServiceAgreement> contractServiceAgreements;
+	private List <Agreement> agreements;
 	
 	@NotEmpty
 	private String name;
@@ -79,7 +79,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 
 	public Contract() {
 		this.id = new ContractId();
-		this.contractServiceAgreements = new ArrayList <> ();
+		this.agreements = new ArrayList <> ();
 		this.supplyContracts = new ArrayList<> ();
 	}
 	
@@ -110,47 +110,47 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 		this.name = name;
 	}
 
-	public void addContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) throws EntityExistsException {
-		/**check if 'service' isn't in this contract -> contractServiceAgreements*/
-		if ( this.getContractServiceAgreements().contains(contractServiceAgreement))
-				throw new EntityExistsException("Service already exists in this Contract -> contractServiceAgreements: " + contractServiceAgreement.toString());
+	public void addAgreement(Agreement agreement) throws EntityExistsException {
+		/**check if 'service' isn't in this contract -> Agreements*/
+		if ( this.getAgreements().contains(agreement))
+				throw new EntityExistsException("Service already exists in this Contract -> Agreements: " + agreement.toString());
 							
-		this.getContractServiceAgreements().add(contractServiceAgreement);		
+		this.getAgreements().add(agreement);		
 	}
 	
-	public boolean removeContractServiceAgreement(ContractServiceAgreement contractServiceAgreement) {		
-		boolean ret = this.getContractServiceAgreements().remove(contractServiceAgreement);
-		contractServiceAgreement.setContract(null);
+	public boolean removeAgreement(Agreement agreement) {		
+		boolean ret = this.getAgreements().remove(agreement);
+		agreement.setContract(null);
 		return ret;
 	
 	}
 	
-	public boolean removeContractServiceAgreement(Service service) {		
-		Iterator <ContractServiceAgreement> contractServiceAgreementIt =  this.getContractServiceAgreements().iterator();
+	public boolean removeAgreement(Service service) {		
+		Iterator <Agreement> agreementIt =  this.getAgreements().iterator();
 	
-		while(contractServiceAgreementIt.hasNext()) {			
-			ContractServiceAgreement tempContractServiceAgreement = contractServiceAgreementIt.next();
-			Service tempService = tempContractServiceAgreement.getService();
+		while(agreementIt.hasNext()) {			
+			Agreement tempAgreement = agreementIt.next();
+			Service tempService = tempAgreement.getService();
 			if (service.equals(tempService)) {
-				return this.getContractServiceAgreements().remove(tempContractServiceAgreement);
+				return this.getAgreements().remove(tempAgreement);
 				
 			}
 		}
 		return false;
 	}
 		
-	public List<ContractServiceAgreement> getContractServiceAgreements() {
-		return contractServiceAgreements;
+	public List<Agreement> getAgreements() {
+		return agreements;
 	}
 
-	public void setContractServiceAgreements(List<ContractServiceAgreement> contractServiceAgreements) {
-		if (contractServiceAgreements != null) {
-			this.contractServiceAgreements.clear();
-			for (ContractServiceAgreement contractServiceAgreement : contractServiceAgreements) {
-				this.contractServiceAgreements.add(contractServiceAgreement);
+	public void setAgreements(List<Agreement> agreements) {
+		if (agreements != null) {
+			this.agreements.clear();
+			for (Agreement agreement : agreements) {
+				this.agreements.add(agreement);
 			}
 		} else {
-			this.contractServiceAgreements = null;
+			this.agreements = null;
 		}
 		
 	}

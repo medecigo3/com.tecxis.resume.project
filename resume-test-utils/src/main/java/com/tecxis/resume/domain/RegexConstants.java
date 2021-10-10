@@ -44,7 +44,7 @@ public class RegexConstants {
 	final public static String DEFAULT_NESTED_ID_REGEX = START_OF_STRING + DEFAULT_NESTED_ID + END_OF_STRING;
 	
 	/**Tests for string example:
-	 * com.tecxis.resume.domain.Assignment@527[assignmentId=0]
+	 * com.tecxis.resume.domain.Task@527[taskId=0]
 	 * com.tecxis.resume.domain.Client@527[name=null, clientId=0]
 	 * */
 	final public static String DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\@\\d+\\[(" + DEFAULT_NAME + ")*(\\w+(?:" + DEFAULT_SIMPLE_ID + ")|,\\s\\w+(?:" + DEFAULT_SIMPLE_ID + "))]" + END_OF_STRING;
@@ -55,7 +55,7 @@ public class RegexConstants {
 	final public static String DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[(" + DEFAULT_NAME  + ")*\\[" + DEFAULT_ID + "(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID +  "|" + DEFAULT_SIMPLE_ID + ")*)*]]" + END_OF_STRING;
 	
 	/**Tests for string sample:
-	 * com.tecxis.resume.domain.ContractServiceAgreement[com.tecxis.resume.domain.id.ContractServiceAgreementId@30752[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0], serviceId=0]]
+	 * com.tecxis.resume.domain.Agreement[com.tecxis.resume.domain.id.AgreementId@30752[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0], serviceId=0]]
 	 * com.tecxis.resume.domain.Contract[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0]]
 	 * */
 	final public static String DEFAULT_ENTITY_WITH_NESTED_ID_REGEX = START_OF_STRING + DEFAULT_FULLY_QUALIFIED_ENTITY_NAME + "\\[" + DEFAULT_ID + "(,\\s\\w+(?:" + DEFAULT_COMPOSITE_ID +  "|" + DEFAULT_SIMPLE_ID + ")*)*]" + END_OF_STRING;

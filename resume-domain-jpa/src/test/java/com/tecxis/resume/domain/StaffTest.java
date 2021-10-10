@@ -1,66 +1,66 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
+import static com.tecxis.resume.domain.Task.TASK_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.AMESYS;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.AOS;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT1;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT10;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT11;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT12;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT13;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT14;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT15;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT16;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT17;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT18;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT19;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT2;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT20;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT21;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT22;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT23;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT24;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT25;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT26;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT27;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT28;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT29;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT3;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT30;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT31;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT32;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT33;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT34;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT37;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT39;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT4;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT40;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT41;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT42;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT43;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT44;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT45;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT46;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT47;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT48;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT49;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT5;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT50;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT51;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT52;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT53;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT54;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT55;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT56;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT57;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT6;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT7;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT8;
-import static com.tecxis.resume.domain.Constants.ASSIGNMENT9;
+import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK10;
+import static com.tecxis.resume.domain.Constants.TASK11;
+import static com.tecxis.resume.domain.Constants.TASK12;
+import static com.tecxis.resume.domain.Constants.TASK13;
+import static com.tecxis.resume.domain.Constants.TASK14;
+import static com.tecxis.resume.domain.Constants.TASK15;
+import static com.tecxis.resume.domain.Constants.TASK16;
+import static com.tecxis.resume.domain.Constants.TASK17;
+import static com.tecxis.resume.domain.Constants.TASK18;
+import static com.tecxis.resume.domain.Constants.TASK19;
+import static com.tecxis.resume.domain.Constants.TASK2;
+import static com.tecxis.resume.domain.Constants.TASK20;
+import static com.tecxis.resume.domain.Constants.TASK21;
+import static com.tecxis.resume.domain.Constants.TASK22;
+import static com.tecxis.resume.domain.Constants.TASK23;
+import static com.tecxis.resume.domain.Constants.TASK24;
+import static com.tecxis.resume.domain.Constants.TASK25;
+import static com.tecxis.resume.domain.Constants.TASK26;
+import static com.tecxis.resume.domain.Constants.TASK27;
+import static com.tecxis.resume.domain.Constants.TASK28;
+import static com.tecxis.resume.domain.Constants.TASK29;
+import static com.tecxis.resume.domain.Constants.TASK3;
+import static com.tecxis.resume.domain.Constants.TASK30;
+import static com.tecxis.resume.domain.Constants.TASK31;
+import static com.tecxis.resume.domain.Constants.TASK32;
+import static com.tecxis.resume.domain.Constants.TASK33;
+import static com.tecxis.resume.domain.Constants.TASK34;
+import static com.tecxis.resume.domain.Constants.TASK37;
+import static com.tecxis.resume.domain.Constants.TASK39;
+import static com.tecxis.resume.domain.Constants.TASK4;
+import static com.tecxis.resume.domain.Constants.TASK40;
+import static com.tecxis.resume.domain.Constants.TASK41;
+import static com.tecxis.resume.domain.Constants.TASK42;
+import static com.tecxis.resume.domain.Constants.TASK43;
+import static com.tecxis.resume.domain.Constants.TASK44;
+import static com.tecxis.resume.domain.Constants.TASK45;
+import static com.tecxis.resume.domain.Constants.TASK46;
+import static com.tecxis.resume.domain.Constants.TASK47;
+import static com.tecxis.resume.domain.Constants.TASK48;
+import static com.tecxis.resume.domain.Constants.TASK49;
+import static com.tecxis.resume.domain.Constants.TASK5;
+import static com.tecxis.resume.domain.Constants.TASK50;
+import static com.tecxis.resume.domain.Constants.TASK51;
+import static com.tecxis.resume.domain.Constants.TASK52;
+import static com.tecxis.resume.domain.Constants.TASK53;
+import static com.tecxis.resume.domain.Constants.TASK54;
+import static com.tecxis.resume.domain.Constants.TASK55;
+import static com.tecxis.resume.domain.Constants.TASK56;
+import static com.tecxis.resume.domain.Constants.TASK57;
+import static com.tecxis.resume.domain.Constants.TASK6;
+import static com.tecxis.resume.domain.Constants.TASK7;
+import static com.tecxis.resume.domain.Constants.TASK8;
+import static com.tecxis.resume.domain.Constants.TASK9;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
@@ -89,7 +89,7 @@ import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.StaffProjectAssignment.STAFF_PROJECT_ASSIGNMENT_TABLE;
+import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
 import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -125,13 +125,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.id.StaffProjectAssignmentId;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.id.AssignmentId;
+import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
 import com.tecxis.resume.domain.repository.InterestRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.StaffProjectAssignmentRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
@@ -158,10 +158,10 @@ public class StaffTest {
 	private ProjectRepository projectRepo;
 	
 	@Autowired
-	private AssignmentRepository assignmentRepo;
+	private TaskRepository taskRepo;
 	
 	@Autowired
-	private StaffProjectAssignmentRepository staffProjectAssignmentRepo;
+	private AssignmentRepository assignmentRepo;
 	
 	@Autowired
 	private InterestRepository interestRepo;
@@ -202,99 +202,99 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffProjectAssignments() {
+	public void testGetAssignments() {
 		/**Prepare projects*/
 		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);
 		assertEquals(ADIR, adir.getName());
 		assertEquals(VERSION_1, adir.getVersion());		
-		List <StaffProjectAssignment> adirStaffProjectAssignments = adir.getStaffProjectAssignments();
-		assertEquals(6, adirStaffProjectAssignments.size());
+		List <Assignment> adirAssignments = adir.getAssignments();
+		assertEquals(6, adirAssignments.size());
 		
 		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
 		assertNotNull(aos);
 		assertEquals(AOS, aos.getName());
 		assertEquals(VERSION_1, aos.getVersion());		
-		List <StaffProjectAssignment> aosStaffProjectAssignments = aos.getStaffProjectAssignments();
-		assertEquals(6, aosStaffProjectAssignments.size());
+		List <Assignment> aosAssignments = aos.getAssignments();
+		assertEquals(6, aosAssignments.size());
 		
 		Project coc = projectRepo.findByNameAndVersion(CENTRE_DES_COMPETENCES, VERSION_1);
 		assertNotNull(coc);
 		assertEquals(CENTRE_DES_COMPETENCES, coc.getName());
 		assertEquals(VERSION_1, coc.getVersion());
 		
-		List <StaffProjectAssignment> cocStaffProjectAssignments = coc.getStaffProjectAssignments();
-		assertEquals(5, cocStaffProjectAssignments.size());
+		List <Assignment> cocAssignments = coc.getAssignments();
+		assertEquals(5, cocAssignments.size());
 		
 		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
 		assertNotNull(dcsc);
 		assertEquals(DCSC, dcsc.getName());
 		assertEquals(VERSION_1, dcsc.getVersion());		
-		List <StaffProjectAssignment> dcscStaffProjectAssignments = dcsc.getStaffProjectAssignments();
-		assertEquals(1, dcscStaffProjectAssignments.size());
+		List <Assignment> dcscAssignments = dcsc.getAssignments();
+		assertEquals(1, dcscAssignments.size());
 		
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertNotNull(eolis);
 		assertEquals(EOLIS, eolis.getName());
 		assertEquals(VERSION_1, eolis.getVersion());
-		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
-		assertEquals(5, eolisStaffProjectAssignments.size());
+		List <Assignment>  eolisAssignments = eolis.getAssignments();
+		assertEquals(5, eolisAssignments.size());
 				
 		Project euroclear = projectRepo.findByNameAndVersion(EUROCLEAR_VERS_CALYPSO, VERSION_1);
 		assertNotNull(euroclear);
 		assertEquals(EUROCLEAR_VERS_CALYPSO, euroclear.getName());
 		assertEquals(VERSION_1, euroclear.getVersion());
-		List <StaffProjectAssignment>  euroclearStaffProjectAssignments = euroclear.getStaffProjectAssignments();
-		assertEquals(2, euroclearStaffProjectAssignments.size());
+		List <Assignment>  euroclearAssignments = euroclear.getAssignments();
+		assertEquals(2, euroclearAssignments.size());
 		
 		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
 		assertNotNull(fortis);
 		assertEquals(FORTIS, fortis.getName());
 		assertEquals(VERSION_1, fortis.getVersion());
-		List <StaffProjectAssignment>  fortisStaffProjectAssignments = fortis.getStaffProjectAssignments();
-		assertEquals(3, fortisStaffProjectAssignments.size());
+		List <Assignment>  fortisAssignments = fortis.getAssignments();
+		assertEquals(3, fortisAssignments.size());
 				
 		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstarv1);
 		assertEquals(MORNINGSTAR, morningstarv1.getName());
 		assertEquals(VERSION_1, morningstarv1.getVersion());
-		List <StaffProjectAssignment>  morningstarv1StaffProjectAssignments = morningstarv1.getStaffProjectAssignments();
-		assertEquals(10, morningstarv1StaffProjectAssignments.size());
+		List <Assignment>  morningstarv1Assignments = morningstarv1.getAssignments();
+		assertEquals(10, morningstarv1Assignments.size());
 		
 		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
 		assertNotNull(morningstarv2);
 		assertEquals(MORNINGSTAR, morningstarv2.getName());
 		assertEquals(VERSION_2, morningstarv2.getVersion());
-		List <StaffProjectAssignment>  morningstarv2StaffProjectAssignments = morningstarv2.getStaffProjectAssignments();
-		assertEquals(6, morningstarv2StaffProjectAssignments.size());
+		List <Assignment>  morningstarv2Assignments = morningstarv2.getAssignments();
+		assertEquals(6, morningstarv2Assignments.size());
 		
 		Project parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		assertNotNull(parcours);
 		assertEquals(PARCOURS, parcours.getName());
 		assertEquals(VERSION_1, parcours.getVersion());
-		List <StaffProjectAssignment>  parcoursStaffProjectAssignments = parcours.getStaffProjectAssignments();
-		assertEquals(6, parcoursStaffProjectAssignments.size());
+		List <Assignment>  parcoursAssignments = parcours.getAssignments();
+		assertEquals(6, parcoursAssignments.size());
 		
 		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
 		assertNotNull(selenium);
 		assertEquals(SELENIUM, selenium.getName());
 		assertEquals(VERSION_1, selenium.getVersion());
-		List <StaffProjectAssignment>  seleniumStaffProjectAssignments = selenium.getStaffProjectAssignments();
-		assertEquals(3, seleniumStaffProjectAssignments.size());
+		List <Assignment>  seleniumAssignments = selenium.getAssignments();
+		assertEquals(3, seleniumAssignments.size());
 		
 		Project sherpa = projectRepo.findByNameAndVersion(SHERPA, VERSION_1);
 		assertNotNull(sherpa);
 		assertEquals(SHERPA, sherpa.getName());
 		assertEquals(VERSION_1, sherpa.getVersion());
-		List <StaffProjectAssignment>  sherpaStaffProjectAssignments = sherpa.getStaffProjectAssignments();
-		assertEquals(6, sherpaStaffProjectAssignments.size());
+		List <Assignment>  sherpaAssignments = sherpa.getAssignments();
+		assertEquals(6, sherpaAssignments.size());
 	
 		Project ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
 		assertNotNull(ted);
 		assertEquals(TED, ted.getName());
 		assertEquals(VERSION_1, ted.getVersion());
-		List <StaffProjectAssignment>  tedStaffProjectAssignments = ted.getStaffProjectAssignments();
-		assertEquals(4, tedStaffProjectAssignments.size());
+		List <Assignment>  tedAssignments = ted.getAssignments();
+		assertEquals(4, tedAssignments.size());
 				
 		/**Prepare staff*/
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
@@ -303,192 +303,192 @@ public class StaffTest {
 		assertEquals(AMT_LASTNAME, amt.getLastName());
 		List <Project> amtProjects = amt.getProjects();
 		assertEquals(62, amtProjects.size());
-		List <StaffProjectAssignment> amtProjectAssignments = amt.getStaffProjectAssignments();
+		List <Assignment> amtProjectAssignments = amt.getAssignments();
 		assertEquals(62, amtProjectAssignments.size());
 		
 		/**Prepare assignments*/	
-		Assignment assignment1 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT1);
-		Assignment assignment2 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT2);
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
-		Assignment assignment4 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT4);
-		Assignment assignment5 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT5);
-		Assignment assignment6 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT6);
-		Assignment assignment7 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT7);
-		Assignment assignment8 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT8);
-		Assignment assignment9 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT9);		
-		Assignment assignment10 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT10);
-		Assignment assignment11 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT11);
-		Assignment assignment12 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT12);
-		Assignment assignment13 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT13);
-		Assignment assignment14 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT14);
-		Assignment assignment15 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT15);
-		Assignment assignment16 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT16);
-		Assignment assignment17 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT17);
-		Assignment assignment18 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT18);
-		Assignment assignment19 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT19);		
-		Assignment assignment20 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT20);
-		Assignment assignment21 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT21);
-		Assignment assignment22 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT22);
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
-		Assignment assignment24 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT24);
-		Assignment assignment25 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT25);
-		Assignment assignment26 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT26);
-		Assignment assignment27 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT27);
-		Assignment assignment28 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT28);
-		Assignment assignment29 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT29);		
-		Assignment assignment30 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT30);
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34);
-		Assignment assignment37 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT37);	
-		Assignment assignment39 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT39);		
-		Assignment assignment40 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT40);
-		Assignment assignment41 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT41);
-		Assignment assignment42 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT42);
-		Assignment assignment43 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT43);
-		Assignment assignment44 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT44);
-		Assignment assignment45 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT45);
-		Assignment assignment46 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT46);
-		Assignment assignment47 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT47);
-		Assignment assignment48 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT48);
-		Assignment assignment49 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT49);		
-		Assignment assignment50 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT50);
-		Assignment assignment51 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT51);
-		Assignment assignment52 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT52);
-		Assignment assignment53 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT53);
-		Assignment assignment54 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT54);
-		Assignment assignment55 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT55);
-		Assignment assignment56 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT56);
-		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);		
-		assertEquals(1, assignment1.getStaffProjectAssignments().size());
-		assertEquals(1, assignment2.getStaffProjectAssignments().size());
-		assertEquals(1, assignment3.getStaffProjectAssignments().size());
-		assertEquals(1, assignment4.getStaffProjectAssignments().size());
-		assertEquals(1, assignment5.getStaffProjectAssignments().size());
-		assertEquals(2, assignment6.getStaffProjectAssignments().size());
-		assertEquals(1, assignment7.getStaffProjectAssignments().size());
-		assertEquals(1, assignment8.getStaffProjectAssignments().size());
-		assertEquals(1, assignment9.getStaffProjectAssignments().size());
-		assertEquals(1, assignment10.getStaffProjectAssignments().size());
-		assertEquals(1, assignment11.getStaffProjectAssignments().size());
-		assertEquals(1, assignment12.getStaffProjectAssignments().size());
-		assertEquals(1, assignment13.getStaffProjectAssignments().size());
-		assertEquals(1, assignment14.getStaffProjectAssignments().size());
-		assertEquals(1, assignment15.getStaffProjectAssignments().size());
-		assertEquals(1, assignment16.getStaffProjectAssignments().size());
-		assertEquals(1, assignment17.getStaffProjectAssignments().size());
-		assertEquals(1, assignment18.getStaffProjectAssignments().size());
-		assertEquals(1, assignment19.getStaffProjectAssignments().size());
-		assertEquals(1, assignment20.getStaffProjectAssignments().size());
-		assertEquals(1, assignment21.getStaffProjectAssignments().size());		
-		assertEquals(2, assignment22.getStaffProjectAssignments().size());
-		assertEquals(3, assignment23.getStaffProjectAssignments().size());
-		assertEquals(2, assignment24.getStaffProjectAssignments().size());
-		assertEquals(1, assignment25.getStaffProjectAssignments().size());
-		assertEquals(1, assignment26.getStaffProjectAssignments().size());
-		assertEquals(2, assignment27.getStaffProjectAssignments().size());
-		assertEquals(1, assignment28.getStaffProjectAssignments().size());
-		assertEquals(1, assignment29.getStaffProjectAssignments().size());
-		assertEquals(1, assignment30.getStaffProjectAssignments().size());
-		assertEquals(3, assignment31.getStaffProjectAssignments().size());
-		assertEquals(1, assignment32.getStaffProjectAssignments().size());
-		assertEquals(1, assignment33.getStaffProjectAssignments().size());
-		assertEquals(1, assignment34.getStaffProjectAssignments().size());
-		assertEquals(1, assignment37.getStaffProjectAssignments().size());
-		assertEquals(1, assignment39.getStaffProjectAssignments().size());
-		assertEquals(1, assignment40.getStaffProjectAssignments().size());
-		assertEquals(1, assignment41.getStaffProjectAssignments().size());
-		assertEquals(1, assignment42.getStaffProjectAssignments().size());
-		assertEquals(1, assignment43.getStaffProjectAssignments().size());
-		assertEquals(1, assignment44.getStaffProjectAssignments().size());
-		assertEquals(1, assignment45.getStaffProjectAssignments().size());
-		assertEquals(1, assignment46.getStaffProjectAssignments().size());
-		assertEquals(1, assignment47.getStaffProjectAssignments().size());
-		assertEquals(1, assignment48.getStaffProjectAssignments().size());
-		assertEquals(1, assignment49.getStaffProjectAssignments().size());
-		assertEquals(1, assignment50.getStaffProjectAssignments().size());
-		assertEquals(1, assignment51.getStaffProjectAssignments().size());
-		assertEquals(1, assignment52.getStaffProjectAssignments().size());
-		assertEquals(1, assignment53.getStaffProjectAssignments().size());
-		assertEquals(1, assignment54.getStaffProjectAssignments().size());
-		assertEquals(1, assignment55.getStaffProjectAssignments().size());
-		assertEquals(1, assignment56.getStaffProjectAssignments().size());
-		assertEquals(2, assignment57.getStaffProjectAssignments().size());
+		Task task1 = taskRepo.getTaskByDesc(TASK1);
+		Task task2 = taskRepo.getTaskByDesc(TASK2);
+		Task task3 = taskRepo.getTaskByDesc(TASK3);
+		Task task4 = taskRepo.getTaskByDesc(TASK4);
+		Task task5 = taskRepo.getTaskByDesc(TASK5);
+		Task task6 = taskRepo.getTaskByDesc(TASK6);
+		Task task7 = taskRepo.getTaskByDesc(TASK7);
+		Task task8 = taskRepo.getTaskByDesc(TASK8);
+		Task task9 = taskRepo.getTaskByDesc(TASK9);		
+		Task task10 = taskRepo.getTaskByDesc(TASK10);
+		Task task11 = taskRepo.getTaskByDesc(TASK11);
+		Task task12 = taskRepo.getTaskByDesc(TASK12);
+		Task task13 = taskRepo.getTaskByDesc(TASK13);
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+		Task task15 = taskRepo.getTaskByDesc(TASK15);
+		Task task16 = taskRepo.getTaskByDesc(TASK16);
+		Task task17 = taskRepo.getTaskByDesc(TASK17);
+		Task task18 = taskRepo.getTaskByDesc(TASK18);
+		Task task19 = taskRepo.getTaskByDesc(TASK19);		
+		Task task20 = taskRepo.getTaskByDesc(TASK20);
+		Task task21 = taskRepo.getTaskByDesc(TASK21);
+		Task task22 = taskRepo.getTaskByDesc(TASK22);
+		Task task23 = taskRepo.getTaskByDesc(TASK23);
+		Task task24 = taskRepo.getTaskByDesc(TASK24);
+		Task task25 = taskRepo.getTaskByDesc(TASK25);
+		Task task26 = taskRepo.getTaskByDesc(TASK26);
+		Task task27 = taskRepo.getTaskByDesc(TASK27);
+		Task task28 = taskRepo.getTaskByDesc(TASK28);
+		Task task29 = taskRepo.getTaskByDesc(TASK29);		
+		Task task30 = taskRepo.getTaskByDesc(TASK30);
+		Task task31 = taskRepo.getTaskByDesc(TASK31);
+		Task task32 = taskRepo.getTaskByDesc(TASK32);
+		Task task33 = taskRepo.getTaskByDesc(TASK33);
+		Task task34 = taskRepo.getTaskByDesc(TASK34);
+		Task task37 = taskRepo.getTaskByDesc(TASK37);	
+		Task task39 = taskRepo.getTaskByDesc(TASK39);		
+		Task task40 = taskRepo.getTaskByDesc(TASK40);
+		Task task41 = taskRepo.getTaskByDesc(TASK41);
+		Task task42 = taskRepo.getTaskByDesc(TASK42);
+		Task task43 = taskRepo.getTaskByDesc(TASK43);
+		Task task44 = taskRepo.getTaskByDesc(TASK44);
+		Task task45 = taskRepo.getTaskByDesc(TASK45);
+		Task task46 = taskRepo.getTaskByDesc(TASK46);
+		Task task47 = taskRepo.getTaskByDesc(TASK47);
+		Task task48 = taskRepo.getTaskByDesc(TASK48);
+		Task task49 = taskRepo.getTaskByDesc(TASK49);		
+		Task task50 = taskRepo.getTaskByDesc(TASK50);
+		Task task51 = taskRepo.getTaskByDesc(TASK51);
+		Task task52 = taskRepo.getTaskByDesc(TASK52);
+		Task task53 = taskRepo.getTaskByDesc(TASK53);
+		Task task54 = taskRepo.getTaskByDesc(TASK54);
+		Task task55 = taskRepo.getTaskByDesc(TASK55);
+		Task task56 = taskRepo.getTaskByDesc(TASK56);
+		Task task57 = taskRepo.getTaskByDesc(TASK57);		
+		assertEquals(1, task1.getAssignments().size());
+		assertEquals(1, task2.getAssignments().size());
+		assertEquals(1, task3.getAssignments().size());
+		assertEquals(1, task4.getAssignments().size());
+		assertEquals(1, task5.getAssignments().size());
+		assertEquals(2, task6.getAssignments().size());
+		assertEquals(1, task7.getAssignments().size());
+		assertEquals(1, task8.getAssignments().size());
+		assertEquals(1, task9.getAssignments().size());
+		assertEquals(1, task10.getAssignments().size());
+		assertEquals(1, task11.getAssignments().size());
+		assertEquals(1, task12.getAssignments().size());
+		assertEquals(1, task13.getAssignments().size());
+		assertEquals(1, task14.getAssignments().size());
+		assertEquals(1, task15.getAssignments().size());
+		assertEquals(1, task16.getAssignments().size());
+		assertEquals(1, task17.getAssignments().size());
+		assertEquals(1, task18.getAssignments().size());
+		assertEquals(1, task19.getAssignments().size());
+		assertEquals(1, task20.getAssignments().size());
+		assertEquals(1, task21.getAssignments().size());		
+		assertEquals(2, task22.getAssignments().size());
+		assertEquals(3, task23.getAssignments().size());
+		assertEquals(2, task24.getAssignments().size());
+		assertEquals(1, task25.getAssignments().size());
+		assertEquals(1, task26.getAssignments().size());
+		assertEquals(2, task27.getAssignments().size());
+		assertEquals(1, task28.getAssignments().size());
+		assertEquals(1, task29.getAssignments().size());
+		assertEquals(1, task30.getAssignments().size());
+		assertEquals(3, task31.getAssignments().size());
+		assertEquals(1, task32.getAssignments().size());
+		assertEquals(1, task33.getAssignments().size());
+		assertEquals(1, task34.getAssignments().size());
+		assertEquals(1, task37.getAssignments().size());
+		assertEquals(1, task39.getAssignments().size());
+		assertEquals(1, task40.getAssignments().size());
+		assertEquals(1, task41.getAssignments().size());
+		assertEquals(1, task42.getAssignments().size());
+		assertEquals(1, task43.getAssignments().size());
+		assertEquals(1, task44.getAssignments().size());
+		assertEquals(1, task45.getAssignments().size());
+		assertEquals(1, task46.getAssignments().size());
+		assertEquals(1, task47.getAssignments().size());
+		assertEquals(1, task48.getAssignments().size());
+		assertEquals(1, task49.getAssignments().size());
+		assertEquals(1, task50.getAssignments().size());
+		assertEquals(1, task51.getAssignments().size());
+		assertEquals(1, task52.getAssignments().size());
+		assertEquals(1, task53.getAssignments().size());
+		assertEquals(1, task54.getAssignments().size());
+		assertEquals(1, task55.getAssignments().size());
+		assertEquals(1, task56.getAssignments().size());
+		assertEquals(2, task57.getAssignments().size());
 		
 		/**Prepare staff -> assignments*/
-		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment1.getId())).get();
-		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment2.getId())).get();
-		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment3.getId())).get();
-		StaffProjectAssignment staffProjectAssignment4 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment4.getId())).get();
-		StaffProjectAssignment staffProjectAssignment5 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment5.getId())).get();
-		StaffProjectAssignment staffProjectAssignment6a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(adir.getId(), 			amt.getId(), assignment6.getId())).get();
-		StaffProjectAssignment staffProjectAssignment6b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(fortis.getId(), 		amt.getId(), assignment6.getId())).get();
-		StaffProjectAssignment staffProjectAssignment7 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(fortis.getId(), 		amt.getId(), assignment7.getId())).get();
-		StaffProjectAssignment staffProjectAssignment8 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(fortis.getId(), 		amt.getId(), assignment8.getId())).get();
-		StaffProjectAssignment staffProjectAssignment9 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(dcsc.getId(), 			amt.getId(), assignment9.getId())).get();
-		StaffProjectAssignment staffProjectAssignment10 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(ted.getId(), 			amt.getId(), assignment10.getId())).get();
-		StaffProjectAssignment staffProjectAssignment11 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(ted.getId(), 			amt.getId(), assignment11.getId())).get();
-		StaffProjectAssignment staffProjectAssignment12 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(ted.getId(), 			amt.getId(), assignment12.getId())).get();
-		StaffProjectAssignment staffProjectAssignment13 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(ted.getId(), 			amt.getId(), assignment13.getId())).get();
-		StaffProjectAssignment staffProjectAssignment14 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment14.getId())).get();
-		StaffProjectAssignment staffProjectAssignment15 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment15.getId())).get();
-		StaffProjectAssignment staffProjectAssignment16 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment16.getId())).get();
-		StaffProjectAssignment staffProjectAssignment17 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment17.getId())).get();
-		StaffProjectAssignment staffProjectAssignment18 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment18.getId())).get();
-		StaffProjectAssignment staffProjectAssignment19 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(parcours.getId(), 		amt.getId(), assignment19.getId())).get();
-		StaffProjectAssignment staffProjectAssignment20 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(euroclear.getId(), 	amt.getId(), assignment20.getId())).get();
-		StaffProjectAssignment staffProjectAssignment21 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(euroclear.getId(), 	amt.getId(), assignment21.getId())).get();
-		StaffProjectAssignment staffProjectAssignment22a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment22.getId())).get();
-		StaffProjectAssignment staffProjectAssignment22b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment22.getId())).get();
-		StaffProjectAssignment staffProjectAssignment23a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(eolis.getId(), 		amt.getId(), assignment23.getId())).get();
-		StaffProjectAssignment staffProjectAssignment23b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment23.getId())).get();
-		StaffProjectAssignment staffProjectAssignment23c = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment23.getId())).get();
-		StaffProjectAssignment staffProjectAssignment24a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment24.getId())).get();
-		StaffProjectAssignment staffProjectAssignment24b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment24.getId())).get();
-		StaffProjectAssignment staffProjectAssignment25 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment25.getId())).get();
-		StaffProjectAssignment staffProjectAssignment26 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment26.getId())).get();
-		StaffProjectAssignment staffProjectAssignment27a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment27.getId())).get();
-		StaffProjectAssignment staffProjectAssignment27b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment27.getId())).get();
-		StaffProjectAssignment staffProjectAssignment28 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment28.getId())).get();
-		StaffProjectAssignment staffProjectAssignment29 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment29.getId())).get();
-		StaffProjectAssignment staffProjectAssignment30 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment30.getId())).get();
-		StaffProjectAssignment staffProjectAssignment31a = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv1.getId(), amt.getId(), assignment31.getId())).get();
-		StaffProjectAssignment staffProjectAssignment31b = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment31.getId())).get();
-		StaffProjectAssignment staffProjectAssignment31c = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(eolis.getId(), 		amt.getId(), assignment31.getId())).get();
-		StaffProjectAssignment staffProjectAssignment32 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(eolis.getId(), 		amt.getId(), assignment32.getId())).get();
-		StaffProjectAssignment staffProjectAssignment33 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(eolis.getId(), 		amt.getId(), assignment33.getId())).get();
-		StaffProjectAssignment staffProjectAssignment34 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(eolis.getId(), 		amt.getId(), assignment34.getId())).get();
-		StaffProjectAssignment staffProjectAssignment37 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(morningstarv2.getId(), amt.getId(), assignment37.getId())).get();		
-		StaffProjectAssignment staffProjectAssignment39 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(coc.getId(), 			amt.getId(), assignment39.getId())).get();		
-		StaffProjectAssignment staffProjectAssignment40 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(coc.getId(), 			amt.getId(), assignment40.getId())).get();
-		StaffProjectAssignment staffProjectAssignment41 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(coc.getId(), 			amt.getId(), assignment41.getId())).get();
-		StaffProjectAssignment staffProjectAssignment42 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(coc.getId(), 			amt.getId(), assignment42.getId())).get();
-		StaffProjectAssignment staffProjectAssignment43 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(coc.getId(), 			amt.getId(), assignment43.getId())).get();
-		StaffProjectAssignment staffProjectAssignment44 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment44.getId())).get();
-		StaffProjectAssignment staffProjectAssignment45 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment45.getId())).get();
-		StaffProjectAssignment staffProjectAssignment46 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment46.getId())).get();
-		StaffProjectAssignment staffProjectAssignment47 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment47.getId())).get();
-		StaffProjectAssignment staffProjectAssignment48 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment48.getId())).get();
-		StaffProjectAssignment staffProjectAssignment49 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(aos.getId(), 			amt.getId(), assignment49.getId())).get();		
-		StaffProjectAssignment staffProjectAssignment50 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(selenium.getId(), 		amt.getId(), assignment50.getId())).get();
-		StaffProjectAssignment staffProjectAssignment51 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(selenium.getId(), 		amt.getId(), assignment51.getId())).get();
-		StaffProjectAssignment staffProjectAssignment52 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(selenium.getId(), 		amt.getId(), assignment52.getId())).get();
-		StaffProjectAssignment staffProjectAssignment53 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(sherpa.getId(), 		amt.getId(), assignment53.getId())).get();
-		StaffProjectAssignment staffProjectAssignment54 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(sherpa.getId(), 		amt.getId(), assignment54.getId())).get();
-		StaffProjectAssignment staffProjectAssignment55 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(sherpa.getId(), 		amt.getId(), assignment55.getId())).get();
-		StaffProjectAssignment staffProjectAssignment56 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(sherpa.getId(), 		amt.getId(), assignment56.getId())).get();
-		StaffProjectAssignment staffProjectAssignment57 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId	(sherpa.getId(), 		amt.getId(), assignment57.getId())).get();
+		Assignment assignment1 = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task1.getId())).get();
+		Assignment assignment2 = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task2.getId())).get();
+		Assignment assignment3 = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task3.getId())).get();
+		Assignment assignment4 = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task4.getId())).get();
+		Assignment aAssignment5 = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task5.getId())).get();
+		Assignment assignment6a = assignmentRepo.findById(new AssignmentId	(adir.getId(), 			amt.getId(), task6.getId())).get();
+		Assignment assignment6b = assignmentRepo.findById(new AssignmentId	(fortis.getId(), 		amt.getId(), task6.getId())).get();
+		Assignment assignment7 = assignmentRepo.findById(new AssignmentId	(fortis.getId(), 		amt.getId(), task7.getId())).get();
+		Assignment assignment8 = assignmentRepo.findById(new AssignmentId	(fortis.getId(), 		amt.getId(), task8.getId())).get();
+		Assignment assignment9 = assignmentRepo.findById(new AssignmentId	(dcsc.getId(), 			amt.getId(), task9.getId())).get();
+		Assignment assignment10 = assignmentRepo.findById(new AssignmentId	(ted.getId(), 			amt.getId(), task10.getId())).get();
+		Assignment assignment11 = assignmentRepo.findById(new AssignmentId	(ted.getId(), 			amt.getId(), task11.getId())).get();
+		Assignment assignment12 = assignmentRepo.findById(new AssignmentId	(ted.getId(), 			amt.getId(), task12.getId())).get();
+		Assignment assignment13 = assignmentRepo.findById(new AssignmentId	(ted.getId(), 			amt.getId(), task13.getId())).get();
+		Assignment assignment14 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task14.getId())).get();
+		Assignment assignment15 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task15.getId())).get();
+		Assignment assignment16 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task16.getId())).get();
+		Assignment assignment17 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task17.getId())).get();
+		Assignment assignment18 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task18.getId())).get();
+		Assignment assignment19 = assignmentRepo.findById(new AssignmentId	(parcours.getId(), 		amt.getId(), task19.getId())).get();
+		Assignment assignment20 = assignmentRepo.findById(new AssignmentId	(euroclear.getId(), 	amt.getId(), task20.getId())).get();
+		Assignment assignment21 = assignmentRepo.findById(new AssignmentId	(euroclear.getId(), 	amt.getId(), task21.getId())).get();
+		Assignment assignment22a = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task22.getId())).get();
+		Assignment assignment22b = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task22.getId())).get();
+		Assignment assignment23a = assignmentRepo.findById(new AssignmentId	(eolis.getId(), 		amt.getId(), task23.getId())).get();
+		Assignment assignment23b = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task23.getId())).get();
+		Assignment assignment23c = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task23.getId())).get();
+		Assignment assignment24a = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task24.getId())).get();
+		Assignment assignment24b = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task24.getId())).get();
+		Assignment assignment25 = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task25.getId())).get();
+		Assignment assignment26 = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task26.getId())).get();
+		Assignment assignment27a = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task27.getId())).get();
+		Assignment assignment27b = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task27.getId())).get();
+		Assignment assignment28 = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task28.getId())).get();
+		Assignment assignment29 = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task29.getId())).get();
+		Assignment assignment30 = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task30.getId())).get();
+		Assignment assignment31a = assignmentRepo.findById(new AssignmentId	(morningstarv1.getId(), amt.getId(), task31.getId())).get();
+		Assignment assignment31b = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task31.getId())).get();
+		Assignment assignment31c = assignmentRepo.findById(new AssignmentId	(eolis.getId(), 		amt.getId(), task31.getId())).get();
+		Assignment assignment32 = assignmentRepo.findById(new AssignmentId	(eolis.getId(), 		amt.getId(), task32.getId())).get();
+		Assignment assignment33 = assignmentRepo.findById(new AssignmentId	(eolis.getId(), 		amt.getId(), task33.getId())).get();
+		Assignment assignment34 = assignmentRepo.findById(new AssignmentId	(eolis.getId(), 		amt.getId(), task34.getId())).get();
+		Assignment assignment37 = assignmentRepo.findById(new AssignmentId	(morningstarv2.getId(), amt.getId(), task37.getId())).get();		
+		Assignment assignment39 = assignmentRepo.findById(new AssignmentId	(coc.getId(), 			amt.getId(), task39.getId())).get();		
+		Assignment assignment40 = assignmentRepo.findById(new AssignmentId	(coc.getId(), 			amt.getId(), task40.getId())).get();
+		Assignment assignment41 = assignmentRepo.findById(new AssignmentId	(coc.getId(), 			amt.getId(), task41.getId())).get();
+		Assignment assignment42 = assignmentRepo.findById(new AssignmentId	(coc.getId(), 			amt.getId(), task42.getId())).get();
+		Assignment assignment43 = assignmentRepo.findById(new AssignmentId	(coc.getId(), 			amt.getId(), task43.getId())).get();
+		Assignment assignment44 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task44.getId())).get();
+		Assignment assignment45 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task45.getId())).get();
+		Assignment assignment46 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task46.getId())).get();
+		Assignment assignment47 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task47.getId())).get();
+		Assignment assignment48 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task48.getId())).get();
+		Assignment assignment49 = assignmentRepo.findById(new AssignmentId	(aos.getId(), 			amt.getId(), task49.getId())).get();		
+		Assignment assignment50 = assignmentRepo.findById(new AssignmentId	(selenium.getId(), 		amt.getId(), task50.getId())).get();
+		Assignment assignment51 = assignmentRepo.findById(new AssignmentId	(selenium.getId(), 		amt.getId(), task51.getId())).get();
+		Assignment assignment52 = assignmentRepo.findById(new AssignmentId	(selenium.getId(), 		amt.getId(), task52.getId())).get();
+		Assignment assignment53 = assignmentRepo.findById(new AssignmentId	(sherpa.getId(), 		amt.getId(), task53.getId())).get();
+		Assignment assignment54 = assignmentRepo.findById(new AssignmentId	(sherpa.getId(), 		amt.getId(), task54.getId())).get();
+		Assignment assignment55 = assignmentRepo.findById(new AssignmentId	(sherpa.getId(), 		amt.getId(), task55.getId())).get();
+		Assignment assignment56 = assignmentRepo.findById(new AssignmentId	(sherpa.getId(), 		amt.getId(), task56.getId())).get();
+		Assignment assignment57 = assignmentRepo.findById(new AssignmentId	(sherpa.getId(), 		amt.getId(), task57.getId())).get();
 		
 		
 		/**Validate staff's -> staff assignments*/
 		assertThat(amtProjectAssignments, 
 		Matchers.containsInAnyOrder(
-		staffProjectAssignment1, staffProjectAssignment2, staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5, staffProjectAssignment6a, staffProjectAssignment6b, staffProjectAssignment7,  staffProjectAssignment8, staffProjectAssignment9, 
-		staffProjectAssignment10, staffProjectAssignment11, staffProjectAssignment12, staffProjectAssignment13, staffProjectAssignment14, staffProjectAssignment15, staffProjectAssignment16, staffProjectAssignment17, staffProjectAssignment18, staffProjectAssignment19, 
-		staffProjectAssignment20, staffProjectAssignment21, staffProjectAssignment22a, staffProjectAssignment22b, staffProjectAssignment23a, staffProjectAssignment23b, staffProjectAssignment23c, staffProjectAssignment24a, staffProjectAssignment24b, staffProjectAssignment25, staffProjectAssignment26, staffProjectAssignment27a, staffProjectAssignment27b, staffProjectAssignment28,  staffProjectAssignment29,
-		staffProjectAssignment30, staffProjectAssignment31a, staffProjectAssignment31b, staffProjectAssignment31c, staffProjectAssignment32, staffProjectAssignment33, staffProjectAssignment34, staffProjectAssignment37, staffProjectAssignment39, staffProjectAssignment40, staffProjectAssignment41, staffProjectAssignment42, staffProjectAssignment43, staffProjectAssignment44, staffProjectAssignment45, staffProjectAssignment46, staffProjectAssignment47, staffProjectAssignment48, staffProjectAssignment49,
-		staffProjectAssignment50, staffProjectAssignment51, staffProjectAssignment52, staffProjectAssignment53, staffProjectAssignment54, staffProjectAssignment55, staffProjectAssignment56, staffProjectAssignment57	));
+		assignment1, assignment2, assignment3, assignment4, aAssignment5, assignment6a, assignment6b, assignment7,  assignment8, assignment9, 
+		assignment10, assignment11, assignment12, assignment13, assignment14, assignment15, assignment16, assignment17, assignment18, assignment19, 
+		assignment20, assignment21, assignment22a, assignment22b, assignment23a, assignment23b, assignment23c, assignment24a, assignment24b, assignment25, assignment26, assignment27a, assignment27b, assignment28,  assignment29,
+		assignment30, assignment31a, assignment31b, assignment31c, assignment32, assignment33, assignment34, assignment37, assignment39, assignment40, assignment41, assignment42, assignment43, assignment44, assignment45, assignment46, assignment47, assignment48, assignment49,
+		assignment50, assignment51, assignment52, assignment53, assignment54, assignment55, assignment56, assignment57	));
 		
 	}
 	
@@ -497,63 +497,63 @@ public class StaffTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void testAddStaffProjectAssignment() {		
-		/**Fetch Project and validate Project -> StaffProjectAssignments*/
+	public void testAddAssignment() {		
+		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
-		assertEquals(6, adir.getStaffProjectAssignments().size());
+		assertEquals(6, adir.getAssignments().size());
 		
-		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
-		Assignment assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);
-		assertEquals(2, assignment57.getStaffProjectAssignments().size());
+		/**Fetch Task and validate Task -> Assignments*/			
+		Task task57 = taskRepo.getTaskByDesc(TASK57);
+		assertEquals(2, task57.getAssignments().size());
 				
-		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
+		/**Fetch the Staff and validate Staff -> Assignments*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(1, john.getStaffProjectAssignments().size());
+		assertEquals(1, john.getAssignments().size());
 		
-		/**Create new StaffProjectAssignment */
-		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(adir, john, assignment57);
+		/**Create new Assignment */
+		Assignment assignment = new Assignment(adir, john, task57);
 		
-		/**Add the new StaffProjectAssignment*/
-		john.addStaffProjectAssignment(newStaffProjectAssignment);	
-		adir.addStaffProjectAssignment(newStaffProjectAssignment);
-		assignment57.addStaffProjectAssignment(newStaffProjectAssignment);
+		/**Add the new Assignment*/
+		john.addAssignment(assignment);	
+		adir.addAssignment(assignment);
+		task57.addAssignment(assignment);
 		
 		/**Validate table state pre-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 				
-		entityManager.persist(newStaffProjectAssignment);
+		entityManager.persist(assignment);
 		entityManager.merge(adir);
 		entityManager.merge(john);
-		entityManager.merge(assignment57);
+		entityManager.merge(task57);
 		entityManager.flush();
 		
 		/**Validate table state post-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(64, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		assertEquals(64, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		/**Validate Project -> StaffProjectAssignments*/
+		/**Validate Project -> Assignments*/
 		adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
-		assertEquals(7, adir.getStaffProjectAssignments().size());
+		assertEquals(7, adir.getAssignments().size());
 		
-		/**Validate Assignment -> StaffProjectAssignments*/			
-		assignment57 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT57);
-		assertEquals(3, assignment57.getStaffProjectAssignments().size());
+		/**Validate Task -> Assignments*/			
+		task57 = taskRepo.getTaskByDesc(TASK57);
+		assertEquals(3, task57.getAssignments().size());
 				
-		/**Validate Staff -> StaffProjectAssignments*/
+		/**Validate Staff -> Assignments*/
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		assertEquals(2, john.getStaffProjectAssignments().size());
+		assertEquals(2, john.getAssignments().size());
 	}
 	
 	@Test(expected=EntityExistsException.class)
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddExistingStaffProjectAssignment() {
+	public void testAddExistingAssignment() {
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
@@ -568,38 +568,38 @@ public class StaffTest {
 		assertEquals(AMT_NAME, amt.getFirstName());
 						
 		/**Find assignments*/		
-		Assignment assignment23 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT23);
-		Assignment assignment31 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT31);		
-		Assignment assignment32 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT32);
-		Assignment assignment33 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT33);		
-		Assignment assignment34 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT34); 
+		Task task23 = taskRepo.getTaskByDesc(TASK23);
+		Task task31 = taskRepo.getTaskByDesc(TASK31);		
+		Task task32 = taskRepo.getTaskByDesc(TASK32);
+		Task task33 = taskRepo.getTaskByDesc(TASK33);		
+		Task task34 = taskRepo.getTaskByDesc(TASK34); 
 		
 		
 		/**Validate Assignments to test**/
-		assertEquals(ASSIGNMENT23, assignment23.getDesc());
-		assertEquals(ASSIGNMENT31, assignment31.getDesc());
-		assertEquals(ASSIGNMENT32, assignment32.getDesc());
-		assertEquals(ASSIGNMENT33, assignment33.getDesc());
-		assertEquals(ASSIGNMENT34, assignment34.getDesc());
+		assertEquals(TASK23, task23.getDesc());
+		assertEquals(TASK31, task31.getDesc());
+		assertEquals(TASK32, task32.getDesc());
+		assertEquals(TASK33, task33.getDesc());
+		assertEquals(TASK34, task34.getDesc());
 		
 		
-		/**Find StaffProjectAssignments to test*/
-		StaffProjectAssignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment23.getId())).get();
-		StaffProjectAssignment staffProjectAssignment2 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment31.getId())).get();
-		StaffProjectAssignment staffProjectAssignment3 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment32.getId())).get();
-		StaffProjectAssignment staffProjectAssignment4 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment33.getId())).get();
-		StaffProjectAssignment staffProjectAssignment5 = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(eolis.getId(), amt.getId(), assignment34.getId())).get();
+		/**Find Assignments to test*/
+		Assignment assignment1 = assignmentRepo.findById(new AssignmentId(eolis.getId(), amt.getId(), task23.getId())).get();
+		Assignment assignment2 = assignmentRepo.findById(new AssignmentId(eolis.getId(), amt.getId(), task31.getId())).get();
+		Assignment assignment3 = assignmentRepo.findById(new AssignmentId(eolis.getId(), amt.getId(), task32.getId())).get();
+		Assignment assignment4 = assignmentRepo.findById(new AssignmentId(eolis.getId(), amt.getId(), task33.getId())).get();
+		Assignment assignment5 = assignmentRepo.findById(new AssignmentId(eolis.getId(), amt.getId(), task34.getId())).get();
 	
-		/**Validate StaffProjectAssignments already exist in Project*/
-		List <StaffProjectAssignment>  eolisStaffProjectAssignments = eolis.getStaffProjectAssignments();
-		assertEquals(5, eolisStaffProjectAssignments.size());		
-		assertThat(eolisStaffProjectAssignments,  Matchers.containsInAnyOrder(staffProjectAssignment1,  staffProjectAssignment2,  staffProjectAssignment3, staffProjectAssignment4, staffProjectAssignment5));
+		/**Validate Assignments already exist in Project*/
+		List <Assignment>  eolisAssignments = eolis.getAssignments();
+		assertEquals(5, eolisAssignments.size());		
+		assertThat(eolisAssignments,  Matchers.containsInAnyOrder(assignment1,  assignment2,  assignment3, assignment4, assignment5));
 		
-		/**Create new StaffProjectAssignment*/
-		StaffProjectAssignment newStaffProjectAssignment = new StaffProjectAssignment(eolis, amt, assignment23);
+		/**Create new Assignment*/
+		Assignment newAssignment = new Assignment(eolis, amt, task23);
 		
 		/**Add a duplicate Staff and Project association**/		
-		amt.addStaffProjectAssignment(newStaffProjectAssignment); /***  <==== Throws EntityExistsException */
+		amt.addAssignment(newAssignment); /***  <==== Throws EntityExistsException */
 	}
 	
 	
@@ -607,53 +607,53 @@ public class StaffTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void testRemoveStaffProjectAssignment() {		
-		/**Fetch Project and validate Project -> StaffProjectAssignments*/
+	public void testRemoveAssignment() {		
+		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
-		assertEquals(6, adir.getStaffProjectAssignments().size());
+		assertEquals(6, adir.getAssignments().size());
 		
-		/**Fetch Assignment and validate Assignment -> StaffProjectAssignments*/			
-		Assignment assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
-		assertEquals(1, assignment3.getStaffProjectAssignments().size());
+		/**Fetch Task and validate Task -> Assignments*/			
+		Task task3 = taskRepo.getTaskByDesc(TASK3);
+		assertEquals(1, task3.getAssignments().size());
 				
-		/**Fetch the Staff and validate Staff -> StaffProjectAssignments*/
+		/**Fetch the Staff and validate Staff -> Assignments*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(62, amt.getStaffProjectAssignments().size());
+		assertEquals(62, amt.getAssignments().size());
 		
-		/**Find the target StaffProjectAssignment*/
-		StaffProjectAssignment staleStaffProjectAssignment = staffProjectAssignmentRepo.findById(new StaffProjectAssignmentId(adir.getId(), amt.getId(), assignment3.getId())).get();
+		/**Find the target Assignment*/
+		Assignment staleAssignment = assignmentRepo.findById(new AssignmentId(adir.getId(), amt.getId(), task3.getId())).get();
 		
 		/**Validate table state pre-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		/**Remove the target StaffProjectAssignment*/
-		assertTrue(amt.removeStaffProjectAssignment(staleStaffProjectAssignment));	
-		assertTrue(adir.removeStaffProjectAssignment(staleStaffProjectAssignment));
-		assertTrue(assignment3.removeStaffProjectAssignment(staleStaffProjectAssignment));
+		/**Remove the target Assignment*/
+		assertTrue(amt.removeAssignment(staleAssignment));	
+		assertTrue(adir.removeAssignment(staleAssignment));
+		assertTrue(task3.removeAssignment(staleAssignment));
 				
-		entityManager.remove(staleStaffProjectAssignment);
+		entityManager.remove(staleAssignment);
 		entityManager.flush();
 		
 		/**Validate table state post-test*/
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		
-		/**Validate Project -> StaffProjectAssignments*/
+		/**Validate Project -> Assignments*/
 		adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
-		assertEquals(5, adir.getStaffProjectAssignments().size());
+		assertEquals(5, adir.getAssignments().size());
 		
-		/**Validate Assignment -> StaffProjectAssignments*/			
-		assignment3 = assignmentRepo.getAssignmentByDesc(ASSIGNMENT3);
-		assertEquals(0, assignment3.getStaffProjectAssignments().size());
+		/**Validate Task -> Assignments*/			
+		task3 = taskRepo.getTaskByDesc(TASK3);
+		assertEquals(0, task3.getAssignments().size());
 				
-		/**Validate Staff -> StaffProjectAssignments*/
+		/**Validate Staff -> Assignments*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertEquals(61, amt.getStaffProjectAssignments().size());		
+		assertEquals(61, amt.getAssignments().size());		
 		
 	}
 	
@@ -661,7 +661,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetStaffProjectAssignments() {
+	public void testSetAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -675,32 +675,32 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
-		/**Prepare assignment*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
-		Assignment assignment1 = Utils.insertAssignment(ASSIGNMENT1, entityManager);
+		/**Prepare Task*/
+		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		Task assignment1 = Utils.insertTask(TASK1, entityManager);
 		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
 		
 		/**Validate staff -> assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
-		StaffProjectAssignmentId id = new StaffProjectAssignmentId(adir.getId(), amt.getId(), assignment1.getId());
-		assertNull(entityManager.find(StaffProjectAssignment.class, id));
+		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		AssignmentId id = new AssignmentId(adir.getId(), amt.getId(), assignment1.getId());
+		assertNull(entityManager.find(Assignment.class, id));
 		
 		/**Prepare staff -> assignments*/		
-		StaffProjectAssignment amtStaffProjectAssignment = Utils.insertStaffProjectAssignment(adir, amt, assignment1, entityManager);		
-		List <StaffProjectAssignment> amtStaffProjectAssignments = new ArrayList <> ();		
-		amtStaffProjectAssignments.add(amtStaffProjectAssignment);
-		adir.setStaffProjectAssignment(amtStaffProjectAssignments);
-		assignment1.setStaffProjectAssignment(amtStaffProjectAssignments);
-		amt.setStaffProjectAssignment(amtStaffProjectAssignments);				
+		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
+		List <Assignment> amtAssignments = new ArrayList <> ();		
+		amtAssignments.add(amtAssignment);
+		adir.setAssignment(amtAssignments);
+		assignment1.setAssignment(amtAssignments);
+		amt.setAssignment(amtAssignments);				
 		entityManager.merge(adir);
 		entityManager.merge(amt);
 		entityManager.merge(assignment1);
 		entityManager.flush();
 		
 		/**Validate staff -> assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));	
-		assertNotNull(entityManager.find(StaffProjectAssignment.class, id));
+		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertNotNull(entityManager.find(Assignment.class, id));
 	}
 
 	@Test
@@ -756,7 +756,7 @@ public class StaffTest {
 		ENROLMENT_TABLE
 		EMPLOYMENT_CONTRACT_TABLE
 		SUPPLY_CONTRACT_TABLE
-		STAFF_PROJECT_ASSIGNMENT_TABLE
+		ASSIGNMENT_TABLE
 		/**Test other parents for control
 		SKILL_TABLE
 		SUPPLIER_TABLE
@@ -824,7 +824,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));		
+		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
@@ -846,7 +846,7 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(63, countRowsInTable(jdbcTemplate, STAFF_PROJECT_ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
 		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
@@ -1001,7 +1001,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
 		/**This sets new AMT's SupplyContracts and leaves orphans*/
 		amt.setSupplyContracts(newSupplyContracts);
 		entityManager.merge(amt); //New Contract was previously created otherwise this error generates: org.hibernate.HibernateException: Flush during cascade is dangerous
@@ -1018,7 +1018,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(2, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//13 orphans removed and 1 new child created in SUPPLY_CONTRACT table. 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1090,7 +1090,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		/**Amend the new SupplyContract*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		amt.addSupplyContract(newSupplyContract);		
@@ -1109,7 +1109,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(15, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 new child created.	
 		assertEquals(14, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new SupplyContract*/		
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1168,7 +1168,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		/**Remove the SupplyContract*/
 		amt.removeSupplyContract(staleSupplyContract);
 		entityManager.merge(amt);
@@ -1184,7 +1184,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 orphan child is removed.	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 		
 		/**Validate stale SupplyContract doesn't exist*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1247,7 +1247,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		
 		/**This sets current Staff with EmploymenContracts as orphans*/
 		amt.setEmploymentContracts(null);
@@ -1265,7 +1265,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));				
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		
 		
 		/**Test parent Staff has no EmploymentContracts*/
@@ -1320,7 +1320,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
 		/**Remove EmploymentContract*/
 		john.removeEmploymentContract(staleEmploymentcontract);
 		entityManager.merge(john);
@@ -1337,7 +1337,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 	}
 	
 	@Test
@@ -1383,7 +1383,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
 		/**Sets currents John's EmploymentContracts as orphans*/
 		john.setEmploymentContracts(null);
 		entityManager.merge(john);
@@ -1400,7 +1400,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 
 	}
 	
@@ -1451,7 +1451,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
 		/**This sets new AMT's SupplyContracts and leaves orphans*/
 		john.setEmploymentContracts(newEmploymentContracts);		
 		entityManager.merge(john);
@@ -1469,7 +1469,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 		
 		/**Validate parent Staff has new EmploymentContract*/		
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
@@ -1528,7 +1528,7 @@ public class StaffTest {
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	
 		/**Amend the new EmploymentContract*/
 		amt.addEmploymentContract(newEmploymentContract);
 		entityManager.merge(amt);
@@ -1544,7 +1544,7 @@ public class StaffTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		
 		amtAmesysEmploymentContracts = employmentContractRepo.findByStaffAndSupplier(amt, amesys);
 		assertEquals(2, amtAmesysEmploymentContracts.size());
@@ -1654,7 +1654,7 @@ public class StaffTest {
 		* WORKS IN
 	    * SUPPLY_CONTRACT_TABLE
 		* WORKS ON
-		* STAFF_PROJECT_ASSIGNMENT_TABLE 62 children with STAFF_ID=1 removed from  table. 
+		* ASSIGNMENT_TABLE 62 children with STAFF_ID=1 removed from  table. 
 		* ASSIGNMENT_TABLE
 		* PROJECT_TABLE
 		* Tests the initial state of the children table(s) from the Parent table

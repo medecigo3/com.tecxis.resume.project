@@ -8,7 +8,7 @@ import javax.persistence.Embeddable;
  * The primary key class for STAFF_ASSIGNMENT database table
  * */
 @Embeddable
-public class StaffProjectAssignmentId implements Serializable {
+public class AssignmentId implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private ProjectId projectId; // corresponds to PK type of Project
@@ -17,18 +17,18 @@ public class StaffProjectAssignmentId implements Serializable {
 	private long staffId; // corresponds to PK type of Staff
 	
 
-	private long assignmentId; // corresponds to PK of Assignment
+	private long taskId; // corresponds to PK of Task
 
 	
 	
-	public StaffProjectAssignmentId(ProjectId projectId, long staffId, long assignmentId) {
+	public AssignmentId(ProjectId projectId, long staffId, long taskId) {
 		this();
 		this.projectId = projectId;
 		this.staffId = staffId;
-		this.assignmentId = assignmentId;
+		this.taskId = taskId;
 	}
 
-	public StaffProjectAssignmentId() {
+	public AssignmentId() {
 		super();
 	}	
 
@@ -48,19 +48,19 @@ public class StaffProjectAssignmentId implements Serializable {
 		this.staffId = staffId;
 	}
 
-	public long getAssignmentId() {
-		return assignmentId;
+	public long getTaskId() {
+		return taskId;
 	}
 
-	public void setAssignmentId(long assignmentId) {
-		this.assignmentId = assignmentId;
+	public void setTaskId(long taskId) {
+		this.taskId = taskId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (assignmentId ^ (assignmentId >>> 32));
+		result = prime * result + (int) (taskId ^ (taskId >>> 32));
 		result = prime * result + ((projectId == null) ? 0 : projectId.hashCode());
 		result = prime * result + (int) (staffId ^ (staffId >>> 32));
 		return result;
@@ -74,8 +74,8 @@ public class StaffProjectAssignmentId implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StaffProjectAssignmentId other = (StaffProjectAssignmentId) obj;
-		if (assignmentId != other.assignmentId)
+		AssignmentId other = (AssignmentId) obj;
+		if (taskId != other.taskId)
 			return false;
 		if (projectId == null) {
 			if (other.projectId != null)
@@ -92,7 +92,7 @@ public class StaffProjectAssignmentId implements Serializable {
 		return this.getClass().getName()+ "@" + this.hashCode() + 
 				"[" + (this.getProjectId() != null ? this.getProjectId() : "projectId=null") + 
 				", staffId=" +  this.getStaffId()   +
-				", assignmentId=" + this.getAssignmentId() + "]" ; 
+				", taskId=" + this.getTaskId() + "]" ; 
 	}
 
 	

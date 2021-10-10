@@ -64,13 +64,13 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 
 
 	/**
-	 * bi-directional one-to-many association to StaffProjectAssignment.
-	 * In SQL terms, StaffProjectAssignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
+	 * bi-directional one-to-many association to Assignment.
+	 * In SQL terms, Assignment is the "owner" of this relationship with Project as it contains the relationship's foreign key
 	 * In OO terms, this Project "is composed of" StaffAssignments
 	 * 
 	 */	
 	@OneToMany( mappedBy = "project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	private List<StaffProjectAssignment> staffProjectAssignments;
+	private List<Assignment> assignments;
 
 	/**
 	 * bi-directional many-to-many association to City
@@ -98,9 +98,9 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	 * bi-directional one-to-many association to Project
 	 */
 	//To cascade operations to Enrolment entity efficiently "mappedBy" isn't allowed here.  
-	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Does not cascade REMOVE to Staff, nevertheless it still cascades REMOVE to STAFF_PROJECT_ASSIGNMENT
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Does not cascade REMOVE to Staff, nevertheless it still cascades REMOVE to ASSIGNMENT
 	@JoinTable(
-		name="STAFF_PROJECT_ASSIGNMENT", joinColumns= {
+		name="ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
 			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")			
 		}, inverseJoinColumns = {
@@ -118,7 +118,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 
 	public Project() {
 		this.cities = new ArrayList <> ();
-		this.staffProjectAssignments = new ArrayList<>();
+		this.assignments = new ArrayList<>();
 		this.locations = new ArrayList<>();
 		this.staff = new ArrayList<>();
 		this.id = new ProjectId();
@@ -155,28 +155,28 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 		return staff;
 	}
 
-	public List<StaffProjectAssignment> getStaffProjectAssignments() {
-		return this.staffProjectAssignments;
+	public List<Assignment> getAssignments() {
+		return this.assignments;
 	}
 
-	public void setStaffProjectAssignment(List<StaffProjectAssignment> staffProjectAssignment) {
-		this.staffProjectAssignments = staffProjectAssignment;
+	public void setAssignment(List<Assignment> assignment) {
+		this.assignments = assignment;
 	}
 
-	public StaffProjectAssignment addStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		/**check if 'staff' and 'assignment' aren't in staffProjectAgreements*/
-		if ( this.getStaffProjectAssignments().contains(staffProjectAssignment))			
-			throw new EntityExistsException("staffProjectAssignment already exist in this Project -> staffProjectAssignments: " + staffProjectAssignment.toString());
+	public Assignment addAssignment(Assignment assignment) {
+		/**check if 'staff' and 'task' aren't in Assignments*/
+		if ( this.getAssignments().contains(assignment))			
+			throw new EntityExistsException("Assignment already exists in this association: " + assignment.toString());
 				
-		getStaffProjectAssignments().add(staffProjectAssignment);
-		return staffProjectAssignment;
+		getAssignments().add(assignment);
+		return assignment;
 	}
 	
-	public boolean removeStaffProjectAssignment(StaffProjectAssignment staffProjectAssignment) {
-		boolean ret = this.getStaffProjectAssignments().remove(staffProjectAssignment);
-		staffProjectAssignment.setStaff(null);
-		staffProjectAssignment.setProject(null);
-		staffProjectAssignment.setAssignment(null);
+	public boolean removeAssignment(Assignment assignment) {
+		boolean ret = this.getAssignments().remove(assignment);
+		assignment.setStaff(null);
+		assignment.setProject(null);
+		assignment.setAssignment(null);
 		return ret;
 	}
 

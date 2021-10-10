@@ -202,7 +202,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Amend the new SupplyContract */
 		accenture.addSupplyContract(newSupplyContract);
 		entityManager.merge(accenture);
@@ -212,7 +212,7 @@ public class SupplierTest {
 		assertEquals(15, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); 	//New child created
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -265,7 +265,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Remove the SupplyContract */
 		accenture.removeSupplyContract(staleSupplyContract);
 		entityManager.merge(accenture);
@@ -275,7 +275,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); 	//child removed
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -317,7 +317,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Sets currents Accenture's SupplyContracts as orphans*/
 		accenture.setSupplyContracts(null);
 		entityManager.merge(accenture);
@@ -327,7 +327,7 @@ public class SupplierTest {
 		assertEquals(11, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); //3 orphans removed in SUPPLY_CONTRACT table. Other tables remain unchanged. 	
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -378,7 +378,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
 		accenture.setSupplyContracts(newSupplyContracts);
 		entityManager.merge(accenture);
@@ -388,7 +388,7 @@ public class SupplierTest {
 		assertEquals(12, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); //3 orphans removed and 1 new child created in SUPPLY_CONTRACT table.  Other tables remain unchanged. 	
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 	
@@ -451,7 +451,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Amend the new EmploymentContract */
 		accenture.addEmploymentContract(newEmploymentContract);
 		entityManager.merge(accenture);
@@ -461,7 +461,7 @@ public class SupplierTest {
 		assertEquals(7, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//New child created
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); 			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -518,7 +518,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
 		/**Remove the SupplyContract */
 		accenture.removeEmploymentContract(staleEmploymentContract);
 		entityManager.merge(accenture);
@@ -528,7 +528,7 @@ public class SupplierTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//child removed
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); 			
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
 	
@@ -570,7 +570,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		/**This sets current Accenture's EmploymenContracts as orphans*/
 		accenture.setEmploymentContracts(null);
 		entityManager.merge(accenture);
@@ -580,7 +580,7 @@ public class SupplierTest {
 		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 //1 orphan removed in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -629,7 +629,7 @@ public class SupplierTest {
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
 		/**This sets new Accenture's EmploymenContracts and leaves orphans*/
 		accenture.setEmploymentContracts(newEmploymentContracts);
 		entityManager.merge(accenture);
@@ -639,7 +639,7 @@ public class SupplierTest {
 		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 //1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));  		
+		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  		
 		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
 		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));  
 		
@@ -721,7 +721,7 @@ public class SupplierTest {
 		/**Test Contract children were cleared*/		
 		/**Can't really search anything here as all Contacts with target Supplier were cleared*/
 		
-		/**Test Contract_Service_Agreement children were cleared*/		
+		/**Test Agreement children were cleared*/		
 		/**Can't really search anything else here as all ContactServiceAgreements with target Supplier were cleared*/
 		
 	}
