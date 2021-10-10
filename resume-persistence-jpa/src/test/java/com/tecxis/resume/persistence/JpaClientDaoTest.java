@@ -56,7 +56,7 @@ import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
-		"classpath:test-context.xml" })
+		"classpath:spring-context/test-context.xml" })
 @Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSource")
 public class JpaClientDaoTest {
