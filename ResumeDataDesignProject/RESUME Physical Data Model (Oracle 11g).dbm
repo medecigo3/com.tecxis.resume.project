@@ -3026,6 +3026,7 @@
       <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="__C2qeCHTEeyPw_-qRFArbg" name="NUMBER" primitiveType="NUMERIC" precision="38"/>
     </columns>
     <constraints xsi:type="SQLConstraints:PrimaryKey" xmi:id="__C2qeSHTEeyPw_-qRFArbg" name="TASK_PK" description="" label="" members="__C2qcSHTEeyPw_-qRFArbg" ForeignKey="__C0OMCHTEeyPw_-qRFArbg"/>
+    <constraints xsi:type="SQLConstraints:UniqueConstraint" xmi:id="_zpQUsCnFEeyPucjmSLv2BA" name="TASK_AK" description="" label="" members="__C2qcyHTEeyPw_-qRFArbg"/>
   </OracleModel:OracleTable>
   <ecore:EStringToStringMapEntry xmi:id="__C2qeiHTEeyPw_-qRFArbg" key="LENGTH_SEMANTIC_TYPE" value=""/>
 </xmi:XMI>
