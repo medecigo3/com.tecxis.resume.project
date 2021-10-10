@@ -2854,7 +2854,7 @@
     <relationshipEnds xmi:id="_fVtSAps5EeubbOMtXs3wyg" deleteAction="CASCADE" cardinality="ONE" entity="_fVtR_Js5EeubbOMtXs3wyg" key="_fVtR_5s5EeubbOMtXs3wyg"/>
     <relationshipEnds xmi:id="_fVtSA5s5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVt5AJs5EeubbOMtXs3wyg" key="_fVt5Bps5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
-  <LogicalDataModel:Entity xmi:id="_fVtSBJs5EeubbOMtXs3wyg" name="ASSIGNMENT" description=" Table STAFF_PROJECT_ASSIGNMENT&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVtR-5s5EeubbOMtXs3wyg _fVrcx5s5EeubbOMtXs3wyg _fVsq7ps5EeubbOMtXs3wyg" relationships="_fVtR-Zs5EeubbOMtXs3wyg _fVrcxZs5EeubbOMtXs3wyg _fVsq7Js5EeubbOMtXs3wyg">
+  <LogicalDataModel:Entity xmi:id="_fVtSBJs5EeubbOMtXs3wyg" name="ASSIGNMENT" description=" Table ASSIGNMENT&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVtR-5s5EeubbOMtXs3wyg _fVrcx5s5EeubbOMtXs3wyg _fVsq7ps5EeubbOMtXs3wyg" relationships="_fVtR-Zs5EeubbOMtXs3wyg _fVrcxZs5EeubbOMtXs3wyg _fVsq7Js5EeubbOMtXs3wyg">
     <attributes xmi:id="_fVtSBZs5EeubbOMtXs3wyg" name="TASK ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVtSBps5EeubbOMtXs3wyg" name="PROJECT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVtSB5s5EeubbOMtXs3wyg" name="CLIENT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
