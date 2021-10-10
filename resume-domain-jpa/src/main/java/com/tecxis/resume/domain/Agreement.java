@@ -11,11 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.tecxis.resume.domain.id.ContractServiceAgreementId;
+import com.tecxis.resume.domain.id.AgreementId;
 
 /**
  * 
- * Persistence class for CONTRACT_SERVICE_AGREEMENT table. <br><br>
+ * Persistence class for AGREEMENT table. <br><br>
 *  Note about the order of associations are declared in this entity:<br>
 *  When Contract entity has @Column annotation declarations for column specifications, the Hibernate {@link org.hibernate.type.descriptor.sql.BasicExtractor BasicExtractor} returns component values in alphabetical order.<br>
 *  That allows the {@link org.hibernate.tuple.component.AbstractComponentTuplizer AbstractComponentTuplizer} to properly set the component's id property values in alphabetical order.<br><br>
@@ -26,18 +26,18 @@ import com.tecxis.resume.domain.id.ContractServiceAgreementId;
  * 
  * */
 @Entity
-@Table(name=ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE)
-public class ContractServiceAgreement implements Serializable{	
+@Table(name=Agreement.AGREEMENT_TABLE)
+public class Agreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
 	
-	final public static String CONTRACT_SERVICE_AGREEMENT_TABLE = "CONTRACT_SERVICE_AGREEMENT";
+	final public static String AGREEMENT_TABLE = "AGREEMENT";
 	
 	@EmbeddedId
-	private ContractServiceAgreementId id;
+	private AgreementId id;
 	/**
 	 * bi-directional many-to-one association to Contract.
-	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Contract as it contains the relationship's foreign key
-	 * In OO terms, this ContractServiceAgreement "engages" this Contract
+	 * In SQL terms, Agreement is the "owner" of the relationship with Contract as it contains the relationship's foreign key
+	 * In OO terms, this Agreement "engages" this Contract
 	 *
 	 */	
 	@MapsId("contractId")
@@ -49,21 +49,21 @@ public class ContractServiceAgreement implements Serializable{
 
 	/**
 	 * bi-directional many-to-one association to Service.
-	 * In SQL terms, ContractServiceAgreement is the "owner" of the relationship with Service as it contains the relationship's foreign key
-	 * In OO terms, this ContractServiceAgreement "provides" to this Contract
+	 * In SQL terms, Agreement is the "owner" of the relationship with Service as it contains the relationship's foreign key
+	 * In OO terms, this Agreement "provides" to this Contract
 	 */	
 	@MapsId("serviceId")
 	@ManyToOne(cascade =  {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name="SERVICE_ID", referencedColumnName="SERVICE_ID")
 	private Service service;
 	
-	public ContractServiceAgreement() {
+	public Agreement() {
 		super();
-		this.id = new ContractServiceAgreementId();
+		this.id = new AgreementId();
 	}
 	
 
-	public ContractServiceAgreement(Contract contract, Service service) {
+	public Agreement(Contract contract, Service service) {
 		this();
 		this.getId().setContractId(contract.getId());
 		this.getId().setServiceId(service.getId());
@@ -89,12 +89,12 @@ public class ContractServiceAgreement implements Serializable{
 		this.service = service;
 	}
 	
-	public ContractServiceAgreementId getId() {
+	public AgreementId getId() {
 		return id;
 	}
 
 
-	public void setId(ContractServiceAgreementId id) {
+	public void setId(AgreementId id) {
 		this.id = id;
 	}
 
@@ -114,7 +114,7 @@ public class ContractServiceAgreement implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContractServiceAgreement other = (ContractServiceAgreement) obj;
+		Agreement other = (Agreement) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.Project;
 
 
-@StaticMetamodel(Assignment.class)
+@StaticMetamodel(Task.class)
 public class Assignment_ {
-	public static volatile SingularAttribute<Assignment, Long> id;
-	public static volatile SingularAttribute<Assignment, String> desc;
-	public static volatile SingularAttribute<Assignment, BigDecimal> priority;
-	public static volatile SingularAttribute<Assignment, Project> project;
+	public static volatile SingularAttribute<Task, Long> id;
+	public static volatile SingularAttribute<Task, String> desc;
+	public static volatile SingularAttribute<Task, BigDecimal> priority;
+	public static volatile SingularAttribute<Task, Project> project;
 }

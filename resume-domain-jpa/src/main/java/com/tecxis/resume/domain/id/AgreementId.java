@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ContractServiceAgreementId implements Serializable{
+public class AgreementId implements Serializable{
 
 		private static final long serialVersionUID = 1L;
 			
@@ -13,13 +13,13 @@ public class ContractServiceAgreementId implements Serializable{
 				
 		private long serviceId; //Corresponds to the PK of Service
 
-		public ContractServiceAgreementId(ContractId contractId, long serviceId) {
+		public AgreementId(ContractId contractId, long serviceId) {
 			this();
 			this.contractId = contractId;
 			this.serviceId = serviceId;
 		}
 
-		public ContractServiceAgreementId() {
+		public AgreementId() {
 			super();
 			this.contractId = new ContractId();
 		}
@@ -57,7 +57,7 @@ public class ContractServiceAgreementId implements Serializable{
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ContractServiceAgreementId other = (ContractServiceAgreementId) obj;
+			AgreementId other = (AgreementId) obj;
 			if (contractId == null) {
 				if (other.contractId != null)
 					return false;
