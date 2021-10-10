@@ -1,7 +1,7 @@
 package com.tecxis.resume.persistence;
 
-import com.tecxis.resume.domain.Task;
+import com.tecxis.resume.domain.Assignment;
 
-public interface AssignmentDao extends Dao<Task> {
+public interface AssignmentDao extends Dao<Assignment> {
 
 }
