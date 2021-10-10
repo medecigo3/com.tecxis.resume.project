@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,25 +17,22 @@ public class JpaEmploymentContractDao implements EmploymentContractDao{
 
 	@Autowired
 	private EmploymentContractRepository employmentContractRepo;
-
-	@PersistenceContext
-	private EntityManager em;
 	
 	@Override
 	public void save(EmploymentContract employmentContract) {
-		em.merge(employmentContract);
+		employmentContractRepo.save(employmentContract);
 		
 	}
 
 	@Override
 	public void add(EmploymentContract employmentContract) {
-		em.persist(employmentContract);
+		employmentContractRepo.save(employmentContract);
 		
 	}
 
 	@Override
 	public void delete(EmploymentContract employmentContract) {
-		em.remove(employmentContract);
+		employmentContractRepo.delete(employmentContract);
 		
 	}
 
@@ -49,31 +43,27 @@ public class JpaEmploymentContractDao implements EmploymentContractDao{
 
 	@Override
 	public Page<EmploymentContract> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return employmentContractRepo.findAll(pageable);
 	}
 
 	@Override
 	public List<EmploymentContract> findByStaff(Staff staff) {
-		// TODO Auto-generated method stub
-		return null;
+		return employmentContractRepo.findByStaff(staff);
 	}
 
 	@Override
 	public List<EmploymentContract> findBySupplier(Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+		return employmentContractRepo.findBySupplier(supplier);
 	}
 
 	@Override
 	public List<EmploymentContract> findByStaffAndSupplier(Staff staff, Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+		return employmentContractRepo.findByStaffAndSupplier(staff, supplier);
 	}
 
 	@Override
 	public EmploymentContract findByIdAndStaffAndSupplier(int id, Staff staff, Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+		return employmentContractRepo.findByIdAndStaffAndSupplier(id, staff, supplier);
 	}
 
 }

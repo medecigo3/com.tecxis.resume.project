@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,23 @@ public class JpaLocationDao implements LocationDao {
 	
 	@Autowired
 	private LocationRepository locationRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
+
 
 	@Override
 	public void save(Location location) {
-		em.merge(location);
+		locationRepo.save(location);
 
 	}
 
 	@Override
 	public void add(Location location) {
-		em.persist(location);
+		locationRepo.save(location);
 
 	}
 
 	@Override
 	public void delete(Location location) {
-		em.remove(location);
+		locationRepo.delete(location);
 
 	}
 
@@ -47,7 +42,7 @@ public class JpaLocationDao implements LocationDao {
 
 	@Override
 	public Page<Location> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return locationRepo.findAll(pageable);
 	}
 
 }

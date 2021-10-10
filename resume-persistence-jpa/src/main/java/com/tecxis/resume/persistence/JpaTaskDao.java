@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,22 @@ public class JpaTaskDao implements TaskDao {
 	
 	@Autowired
 	private TaskRepository taskRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 
 	@Override
 	public void save(Task task) {
-		em.merge(task);
+		taskRepo.save(task);
 
 	}
 
 	@Override
 	public void add(Task task) {
-		em.persist(task);
+		taskRepo.save(task);
 
 	}
 
 	@Override
 	public void delete(Task task) {
-		em.remove(task);
+		taskRepo.delete(task);
 
 	}
 
@@ -47,7 +41,7 @@ public class JpaTaskDao implements TaskDao {
 
 	@Override
 	public Page<Task> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return taskRepo.findAll(pageable);
 	}
 
 	@Override

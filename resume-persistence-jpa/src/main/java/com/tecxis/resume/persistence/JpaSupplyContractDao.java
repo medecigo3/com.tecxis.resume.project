@@ -3,9 +3,6 @@ package com.tecxis.resume.persistence;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,24 +21,21 @@ public class JpaSupplyContractDao implements SupplyContractDao {
 	@Autowired 
 	private SupplyContractRepository supplyContractRepo;
 	
-	@PersistenceContext
-	private EntityManager em;
-
 	@Override
 	public void save(SupplyContract supplyContract) {
-		em.merge(supplyContract);
+		supplyContractRepo.save(supplyContract);
 
 	}
 
 	@Override
 	public void add(SupplyContract supplyContract) {
-		em.persist(supplyContract);
+		supplyContractRepo.save(supplyContract);
 
 	}
 
 	@Override
 	public void delete(SupplyContract supplyContract) {
-		em.remove(supplyContract);
+		supplyContractRepo.delete(supplyContract);
 
 	}
 
@@ -52,62 +46,52 @@ public class JpaSupplyContractDao implements SupplyContractDao {
 
 	@Override
 	public Page<SupplyContract> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return supplyContractRepo.findAll(pageable);
 	}
 
 	@Override
 	public List<SupplyContract> getSupplyContractByStartDate(Date startDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.getSupplyContractByStartDate(startDate);
 	}
 
 	@Override
 	public List<SupplyContract> getSupplyContractByEndDate(Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.getSupplyContractByEndDate(endDate);
 	}
 
 	@Override
-	public Date findBySupplierOrderByStartDateAsc(Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SupplyContract> findBySupplierOrderByStartDateAsc(Supplier supplier) {
+		return supplyContractRepo.findBySupplierOrderByStartDateAsc(supplier);
 	}
 
 	@Override
 	public List<SupplyContract> findByStaffOrderByStartDateAsc(Staff staff) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findByStaffOrderByStartDateAsc(staff);
 	}
 
 	@Override
 	public List<SupplyContract> findByContractOrderByStartDateAsc(Contract contract) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findByContractOrderByStartDateAsc(contract);
 	}
 
 	@Override
-	public List<SupplyContract> findBySupplierAndStartDateAndEndDateOrderByStartDateAsc(Supplier supplier,
-			Date startDate, Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SupplyContract> findBySupplierAndStartDateAndEndDateOrderByStartDateAsc(Supplier supplier,	Date startDate, Date endDate) {
+		return supplyContractRepo.findBySupplierAndStartDateAndEndDateOrderByStartDateAsc(supplier, startDate, endDate);
 	}
 
 	@Override
 	public List<SupplyContract> findByClientAndSupplierOrderByStartDateAsc(Client client, Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findByClientAndSupplierOrderByStartDateAsc(client, supplier) ;
 	}
 
 	@Override
 	public SupplyContract findByContractAndSupplierAndStaff(Contract contract, Supplier supplier, Staff staff) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findByContractAndSupplierAndStaff(contract, supplier, staff);
 	}
 
 	@Override
 	public List<SupplyContract> findByContractAndSupplierOrderByStartDateAsc(Contract contract, Supplier supplier) {
-		// TODO Auto-generated method stub
-		return null;
+		return supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(contract, supplier) ;
 	}
 
 }

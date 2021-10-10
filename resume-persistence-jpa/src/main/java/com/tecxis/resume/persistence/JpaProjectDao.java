@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,28 +14,23 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 public class JpaProjectDao implements ProjectDao {
 
 	@Autowired
-	private ProjectRepository projectRepo;
-
-	
-	@PersistenceContext
-	private EntityManager em;
-	
+	private ProjectRepository projectRepo;	
 	
 	@Override
 	public void save(Project project) {
-		em.merge(project);
+		projectRepo.save(project);
 
 	}
 
 	@Override
 	public void add(Project project) {
-		em.persist(project);
+		projectRepo.save(project);
 
 	}
 
 	@Override
 	public void delete(Project project) {
-		em.remove(project);
+		projectRepo.delete(project);
 
 	}
 
@@ -49,19 +41,17 @@ public class JpaProjectDao implements ProjectDao {
 
 	@Override
 	public Page<Project> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return projectRepo.findAll(pageable);
 	}
 
 	@Override
 	public List<Project> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return projectRepo.findByName(name);
 	}
 
 	@Override
 	public Project findByNameAndVersion(String name, String version) {
-		// TODO Auto-generated method stub
-		return null;
+		return projectRepo.findByNameAndVersion(name, version);
 	}
 
 }

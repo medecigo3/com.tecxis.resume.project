@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,22 @@ public class JpaSkillDao implements SkillDao {
 	
 	@Autowired
 	private SkillRepository skillRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 
 	@Override
 	public void save(Skill skill) {
-		em.merge(skill);
+		skillRepo.save(skill);
 
 	}
 
 	@Override
 	public void add(Skill skill) {
-		em.persist(skill);
+		skillRepo.save(skill);
 
 	}
 
 	@Override
 	public void delete(Skill skill) {
-		em.remove(skill);
+		skillRepo.delete(skill);
 
 	}
 
@@ -51,9 +45,8 @@ public class JpaSkillDao implements SkillDao {
 	}
 
 	@Override
-	public Skill getSkillByName(String tibco) {
-		// TODO Auto-generated method stub
-		return null;
+	public Skill getSkillByName(String skill) {
+		return skillRepo.getSkillByName(skill);
 	}
 
 }
