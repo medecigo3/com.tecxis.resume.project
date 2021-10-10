@@ -1,5 +1,6 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.domain.Agreement.AGREEMENT_TABLE;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
@@ -33,13 +34,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.ContractServiceAgreement;
 import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.id.ContractServiceAgreementId;
+import com.tecxis.resume.domain.id.AgreementId;
+import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.ContractServiceAgreementRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.util.Utils;
 
@@ -48,7 +49,7 @@ import com.tecxis.resume.domain.util.Utils;
 		"classpath:test-context.xml" })
 @Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSource")
-public class JpaContractServiceAgreementDaoTest {
+public class JpaAgreementDaoTest {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -57,7 +58,7 @@ public class JpaContractServiceAgreementDaoTest {
 	
 	
 	@Autowired
-	private ContractServiceAgreementRepository contractServiceAgreementRepo;
+	private AgreementRepository agreementRepo;
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
@@ -71,7 +72,7 @@ public class JpaContractServiceAgreementDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -80,10 +81,10 @@ public class JpaContractServiceAgreementDaoTest {
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
 		
-		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreement = Utils.insertContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
-		assertNotNull(contractServiceAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/**Insert Agreement */
+		Agreement Agreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		assertNotNull(Agreement);
+		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		
 	}
 	
@@ -92,7 +93,7 @@ public class JpaContractServiceAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedContractServiceAgreement() {
+	public void findInsertedAgreement() {
 		/**Insert service*/
 		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
 		
@@ -101,19 +102,19 @@ public class JpaContractServiceAgreementDaoTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
 		
-		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement contractServiceAgreementIn = Utils.insertContractServiceAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
-		assertNotNull(contractServiceAgreementIn);
-		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/**Insert Agreement */
+		Agreement AgreementIn = Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
+		assertNotNull(AgreementIn);
+		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		
-		/** Build ContraServiceAgreement Id*/
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContractId(accentureBarclaysContract.getId());
-		contractServiceAgreementId.setServiceId(muleEsbCons.getId());
+		/** Build Agreement Id*/
+		AgreementId AgreementId = new AgreementId();
+		AgreementId.setContractId(accentureBarclaysContract.getId());
+		AgreementId.setServiceId(muleEsbCons.getId());
 		
-		ContractServiceAgreement contractServiceAgreementOut =contractServiceAgreementRepo.findById(contractServiceAgreementId).get();		
-		assertNotNull(contractServiceAgreementOut);
-		assertEquals(contractServiceAgreementIn, contractServiceAgreementOut);		
+		Agreement AgreementOut =agreementRepo.findById(AgreementId).get();		
+		assertNotNull(AgreementOut);
+		assertEquals(AgreementIn, AgreementOut);		
 		
 	}
 	
@@ -121,28 +122,28 @@ public class JpaContractServiceAgreementDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindContractServiceAgreement() {
+	public void testFindAgreement() {
 		/**Get Service*/
 		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(J2EE_DEVELOPPER);		
 		assertEquals(1, j2eeDevelopperServices.size());
 		Service j2eeDevelopperService = j2eeDevelopperServices.get(0);	
 		
 		/**Get Contract*/
-		List <ContractServiceAgreement> j2eeDevelopperContractServiceAgreements = j2eeDevelopperService.getContractServiceAgreements();
-		assertNotNull(j2eeDevelopperContractServiceAgreements);
-		assertEquals(1, j2eeDevelopperContractServiceAgreements.size());
-		Contract j2eeDevelopperContract = j2eeDevelopperContractServiceAgreements.get(0).getContract();
+		List <Agreement> j2eeDevelopperAgreements = j2eeDevelopperService.getAgreements();
+		assertNotNull(j2eeDevelopperAgreements);
+		assertEquals(1, j2eeDevelopperAgreements.size());
+		Contract j2eeDevelopperContract = j2eeDevelopperAgreements.get(0).getContract();
 		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
 		
 		
-		/**Find ContractServiceAgreement*/
-		ContractServiceAgreementId contractServiceAgreementId = new ContractServiceAgreementId();
-		contractServiceAgreementId.setContractId(j2eeDevelopperContract.getId());
-		contractServiceAgreementId.setServiceId(j2eeDevelopperService.getId());
-		ContractServiceAgreement contractServiceAgreement = contractServiceAgreementRepo.findById(contractServiceAgreementId).get();
-		assertNotNull(contractServiceAgreement);
-		assertEquals(j2eeDevelopperContract, contractServiceAgreement.getContract());
-		assertEquals(j2eeDevelopperService, contractServiceAgreement.getService());
+		/**Find Agreement*/
+		AgreementId AgreementId = new AgreementId();
+		AgreementId.setContractId(j2eeDevelopperContract.getId());
+		AgreementId.setServiceId(j2eeDevelopperService.getId());
+		Agreement agreement = agreementRepo.findById(AgreementId).get();
+		assertNotNull(agreement);
+		assertEquals(j2eeDevelopperContract, agreement.getContract());
+		assertEquals(j2eeDevelopperService, agreement.getService());
 		
 				
 	}
@@ -158,7 +159,7 @@ public class JpaContractServiceAgreementDaoTest {
 		assertNotNull(bwService);
 		
 		/**Fetch the ConstractServiceAgreement*/
-		ContractServiceAgreement alphatressBelfiusBwService = contractServiceAgreementRepo.findByContractAndService(alphatressBelfiusContract, bwService);
+		Agreement alphatressBelfiusBwService = agreementRepo.findByContractAndService(alphatressBelfiusContract, bwService);
 		/**Validate the ConstractServiceAgreement*/
 		assertNotNull(alphatressBelfiusBwService);
 		/**Validate Contract  association*/
@@ -170,7 +171,7 @@ public class JpaContractServiceAgreementDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDeleteServiceContractAgreement() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -179,16 +180,16 @@ public class JpaContractServiceAgreementDaoTest {
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
 		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
 		
-		/**Insert ContraServiceAgreement */
-		ContractServiceAgreement tempContractServiceAgreement = Utils.insertContractServiceAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
-		assertNotNull(tempContractServiceAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		/**Insert Agreement */
+		Agreement tempAgreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		assertNotNull(tempAgreement);
+		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		
-		/**Delete ContraServiceAgreement and test*/
-		entityManager.remove(tempContractServiceAgreement);	
+		/**Delete Agreement and test*/
+		entityManager.remove(tempAgreement);	
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(0, countRowsInTable(jdbcTemplate, ContractServiceAgreement.CONTRACT_SERVICE_AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 	}
 	
 	@Test
@@ -196,9 +197,9 @@ public class JpaContractServiceAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){		
-		assertEquals(13, contractServiceAgreementRepo.count());
-		List <ContractServiceAgreement> contractServiceAgreements = contractServiceAgreementRepo.findAll();
-		assertEquals(13, contractServiceAgreements.size());
+		assertEquals(13, agreementRepo.count());
+		List <Agreement> Agreements = agreementRepo.findAll();
+		assertEquals(13, Agreements.size());
 	}
 	
 	@Test
@@ -206,7 +207,7 @@ public class JpaContractServiceAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAllPagable(){
-		Page <ContractServiceAgreement> pageableContractServiceAgreement = contractServiceAgreementRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableContractServiceAgreement.getSize());
+		Page <Agreement> pageableAgreement = agreementRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableAgreement.getSize());
 	}
 }
