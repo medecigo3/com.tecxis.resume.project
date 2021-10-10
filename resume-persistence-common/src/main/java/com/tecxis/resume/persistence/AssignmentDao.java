@@ -1,12 +1,7 @@
 package com.tecxis.resume.persistence;
 
-import java.util.List;
-import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.Task;
 
-public interface AssignmentDao extends Dao<Assignment> {
-
-	public List <Assignment> getAssignmentLikeDesc(String name);
-
-	public Assignment getAssignmentByDesc(String name);
+public interface AssignmentDao extends Dao<Task> {
 
 }
