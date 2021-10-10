@@ -40,7 +40,7 @@ public class RegexConstants {
 	/**Tests for string example:com.tecxis.resume.domain.id.CityId@961[cityId=0, countryId=0]*/
 	final public static String DEFAULT_ID_REGEX = START_OF_STRING + DEFAULT_ID + END_OF_STRING;
 	
-	/**Tests for string example: com.tecxis.resume.domain.id.ContractServiceAgreementId@30752[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0], serviceId=0]*/
+	/**Tests for string example: com.tecxis.resume.domain.id.AgreementId@30752[com.tecxis.resume.domain.id.ContractId@961[contractId=0, clientId=0], serviceId=0]*/
 	final public static String DEFAULT_NESTED_ID_REGEX = START_OF_STRING + DEFAULT_NESTED_ID + END_OF_STRING;
 	
 	/**Tests for string example:

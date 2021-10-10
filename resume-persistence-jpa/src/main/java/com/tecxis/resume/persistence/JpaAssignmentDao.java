@@ -15,13 +15,13 @@ import com.tecxis.resume.domain.repository.AssignmentRepository;
 
 @Repository("assignmentDao")
 public class JpaAssignmentDao implements AssignmentDao {
-	
+
 	@Autowired
 	private AssignmentRepository assignmentRepo;
 	
 	@PersistenceContext
 	private EntityManager em;
-
+		
 	@Override
 	public void save(Assignment assignment) {
 		em.merge(assignment);
@@ -48,16 +48,6 @@ public class JpaAssignmentDao implements AssignmentDao {
 	@Override
 	public Page<Assignment> findAll(Pageable pageable) {
 		return findAll(pageable);
-	}
-
-	@Override
-	public List<Assignment> getAssignmentLikeDesc(String desc) {		
-		return assignmentRepo.getAssignmentLikeDesc(desc);
-	}
-
-	@Override
-	public Assignment getAssignmentByDesc(String desc) {
-		return assignmentRepo.getAssignmentByDesc(desc);
 	}
 
 }

@@ -78,7 +78,7 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testInsertStaffProjectAssignment() {
+	public void testInsertAssignment() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -100,9 +100,9 @@ public class AssignmentTest {
 		
 		/**Prepare staff assignments*/	
 		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		Assignment amtStaffProjectAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
-		List <Assignment> amtStaffProjectAssignments = new ArrayList <> ();		
-		amtStaffProjectAssignments.add(amtStaffProjectAssignment);				
+		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
+		List <Assignment> amtAssignments = new ArrayList <> ();		
+		amtAssignments.add(amtAssignment);				
 		entityManager.merge(adir);
 		entityManager.flush();
 		
@@ -114,7 +114,7 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveStaffProjectAssignment() {
+	public void testRemoveAssignment() {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Task task14 = taskRepo.getTaskByDesc(TASK14);		
