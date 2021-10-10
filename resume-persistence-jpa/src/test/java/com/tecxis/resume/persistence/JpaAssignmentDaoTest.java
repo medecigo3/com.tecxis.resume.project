@@ -63,7 +63,7 @@ public class JpaAssignmentDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertStaffProjectAssignment() {
+	public void testInsertAssignment() {
 		Assert.fail("TODO");
 	}
 	
@@ -71,7 +71,7 @@ public class JpaAssignmentDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffProjectAssignmentById() {
+	public void testGetAssignmentById() {
 		Assert.fail("TODO");
 	}
 	
