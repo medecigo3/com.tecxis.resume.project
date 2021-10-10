@@ -71,7 +71,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertServiceWithContrastServiceAgreementsRowsAndSetIds() {
+	public void testInsertServiceWithAgreementsRowsAndSetIds() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
