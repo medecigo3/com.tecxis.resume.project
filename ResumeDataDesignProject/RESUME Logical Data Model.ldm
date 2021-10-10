@@ -451,9 +451,6 @@
             <styles xsi:type="datanotation:DataListCompartmentStyle" xmi:id="_uzkHE5s5EeubbOMtXs3wyg" sortingKeys="Natural:Ascending"/>
           </children>
           <children xmi:id="_uzkHFJs5EeubbOMtXs3wyg" type="entity.ie.nonkey.compartment">
-            <children xsi:type="notation:Shape" xmi:id="_8VKBACHGEeyas-OpGEmiYg" type="IEEntityNonKey" element="_7dIM0CHGEeyas-OpGEmiYg" fontName="Segoe UI">
-              <layoutConstraint xsi:type="notation:Bounds" xmi:id="_8VKBASHGEeyas-OpGEmiYg"/>
-            </children>
             <styles xsi:type="datanotation:DataListCompartmentStyle" xmi:id="_uzkHFZs5EeubbOMtXs3wyg" sortingKeys="Natural:Ascending"/>
           </children>
           <children xmi:id="_uzkuIJs5EeubbOMtXs3wyg" visible="false" type="entity.ie.description.compartment">
@@ -1773,9 +1770,6 @@
             <styles xsi:type="datanotation:DataListCompartmentStyle" xmi:id="_IdtEM5uhEeuL38wrrKyslg" sortingKeys="Natural:Ascending"/>
           </children>
           <children xmi:id="_IdtENJuhEeuL38wrrKyslg" visible="false" type="entity.ie.nonkey.compartment">
-            <children xsi:type="notation:Shape" xmi:id="_4TeCUCHIEeyas-OpGEmiYg" type="IEEntityNonKey" element="_7dIM0CHGEeyas-OpGEmiYg" fontName="Segoe UI">
-              <layoutConstraint xsi:type="notation:Bounds" xmi:id="_4TeCUSHIEeyas-OpGEmiYg"/>
-            </children>
             <styles xsi:type="datanotation:DataListCompartmentStyle" xmi:id="_IdtENZuhEeuL38wrrKyslg" sortingKeys="Natural:Ascending"/>
           </children>
           <children xmi:id="_IdtENpuhEeuL38wrrKyslg" visible="false" type="entity.ie.description.compartment">
@@ -2865,8 +2859,7 @@
     <attributes xmi:id="_fVtSBps5EeubbOMtXs3wyg" name="PROJECT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVtSB5s5EeubbOMtXs3wyg" name="CLIENT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVtSCJs5EeubbOMtXs3wyg" name="STAFF ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
-    <attributes xmi:id="_7dIM0CHGEeyas-OpGEmiYg" name="DESC" dataType="VARCHAR(255)" required="true"/>
-    <keys xsi:type="LogicalDataModel:PrimaryKey" xmi:id="_fVtSCZs5EeubbOMtXs3wyg" name="STAFF_ASSIGNMENTS_PK" description="" label="" attributes="_fVtSBZs5EeubbOMtXs3wyg _fVtSBps5EeubbOMtXs3wyg _fVtSCJs5EeubbOMtXs3wyg _fVtSB5s5EeubbOMtXs3wyg"/>
+    <keys xsi:type="LogicalDataModel:PrimaryKey" xmi:id="_fVtSCZs5EeubbOMtXs3wyg" name="ASSIGNMENT_PK" description="" label="" attributes="_fVtSBZs5EeubbOMtXs3wyg _fVtSBps5EeubbOMtXs3wyg _fVtSCJs5EeubbOMtXs3wyg _fVtSB5s5EeubbOMtXs3wyg"/>
     <keys xsi:type="LogicalDataModel:ForeignKey" xmi:id="_fVtSCps5EeubbOMtXs3wyg" name="ForeignKey" label="" attributes="_fVtSB5s5EeubbOMtXs3wyg _fVtSBps5EeubbOMtXs3wyg" relationshipEnds="_fVtR-5s5EeubbOMtXs3wyg"/>
     <keys xsi:type="LogicalDataModel:ForeignKey" xmi:id="_fVtSC5s5EeubbOMtXs3wyg" name="ForeignKey1" label="" attributes="_fVtSCJs5EeubbOMtXs3wyg" relationshipEnds="_fVrcx5s5EeubbOMtXs3wyg"/>
     <keys xsi:type="LogicalDataModel:ForeignKey" xmi:id="_fVtSDJs5EeubbOMtXs3wyg" name="ForeignKey2" label="" attributes="_fVtSBZs5EeubbOMtXs3wyg" relationshipEnds="_fVsq7ps5EeubbOMtXs3wyg"/>
