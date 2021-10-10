@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,22 @@ public class JpaEnrolmentDao implements EnrolmentDao {
 	
 	@Autowired 
 	private EnrolmentRepository enrolmentRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 
 	@Override
 	public void save(Enrolment enrolment) {
-		em.merge(enrolment);
+		enrolmentRepo.save(enrolment);
 		
 	}
 
 	@Override
 	public void add(Enrolment enrolment) {
-		em.persist(enrolment);
+		enrolmentRepo.save(enrolment);
 		
 	}
 
 	@Override
 	public void delete(Enrolment enrolment) {
-		em.remove(enrolment);
+		enrolmentRepo.delete(enrolment);
 		
 	}
 
@@ -47,7 +41,7 @@ public class JpaEnrolmentDao implements EnrolmentDao {
 
 	@Override
 	public Page<Enrolment> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return enrolmentRepo.findAll(pageable);
 	}
 
 }

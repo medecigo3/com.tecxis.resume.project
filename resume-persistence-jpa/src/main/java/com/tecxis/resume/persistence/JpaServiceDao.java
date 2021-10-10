@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +16,21 @@ public class JpaServiceDao implements ServiceDao {
 	@Autowired
 	private ServiceRepository serviceRepo;
 	
-	@PersistenceContext
-	private EntityManager em;
-
 	@Override
 	public void save(Service service) {
-		em.merge(service);
+		serviceRepo.save(service);
 
 	}
 
 	@Override
 	public void add(Service service) {
-		em.persist(service);
+		serviceRepo.save(service);
 
 	}
 
 	@Override
 	public void delete(Service service) {
-		em.remove(service);
+		serviceRepo.delete(service);
 
 	}
 
@@ -47,19 +41,17 @@ public class JpaServiceDao implements ServiceDao {
 
 	@Override
 	public Page<Service> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return serviceRepo.findAll(pageable);
 	}
 
 	@Override
-	public java.awt.List getServiceLikeName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Service> getServiceLikeName(String name) {
+		return serviceRepo.getServiceLikeName(name);
 	}
 
 	@Override
 	public Service getServiceByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return serviceRepo.getServiceByName(name);
 	}
 
 }

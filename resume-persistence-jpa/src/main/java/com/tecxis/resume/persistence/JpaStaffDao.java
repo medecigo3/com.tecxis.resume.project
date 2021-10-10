@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,25 +16,23 @@ public class JpaStaffDao implements StaffDao {
 
 	@Autowired
 	private StaffRepository staffRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
+
 
 	@Override
 	public void save(Staff staff) {
-		em.merge(staff);
+		staffRepo.save(staff);
 
 	}
 
 	@Override
 	public void add(Staff staff) {
-		em.persist(staff);
+		staffRepo.save(staff);
 
 	}
 
 	@Override
 	public void delete(Staff staff) {
-		em.remove(staff);
+		staffRepo.delete(staff);
 
 	}
 
@@ -53,26 +48,22 @@ public class JpaStaffDao implements StaffDao {
 
 	@Override
 	public Staff getStaffLikeFirstName(String firstName) {
-		// TODO Auto-generated method stub
-		return null;
+		return staffRepo.getStaffLikeFirstName(firstName);
 	}
 
 	@Override
 	public Staff getStaffLikeLastName(String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		return staffRepo.getStaffLikeLastName(lastName);
 	}
 
 	@Override
 	public Staff getStaffByFirstNameAndLastName(String firstName, String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		return staffRepo.getStaffByFirstNameAndLastName(firstName, lastName);
 	}
 
 	@Override
 	public List<Project> getStaffProjects(Staff staff) {
-		// TODO Auto-generated method stub
-		return null;
+		return staffRepo.getStaffProjects(staff);
 	}
 
 }

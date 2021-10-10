@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +16,21 @@ public class JpaCountryDao implements CountryDao {
 	@Autowired
 	private CountryRepository countryRepo;
 	
-	@PersistenceContext
-	private EntityManager em;	
-	
 	@Override
 	public void save(Country country) {
-		em.merge(country);
+		countryRepo.save(country);
 
 	}
 
 	@Override
 	public void add(Country country) {
-		em.persist(country);
+		countryRepo.save(country);
 
 	}
 
 	@Override
 	public void delete(Country country) {
-		em.remove(country);
+		countryRepo.delete(country);
 
 	}
 
@@ -52,14 +46,12 @@ public class JpaCountryDao implements CountryDao {
 
 	@Override
 	public Country getCountryById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return countryRepo.getCountryById(id);
 	}
 
 	@Override
 	public Country getCountryByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return countryRepo.getCountryByName(name);
 	}
 
 }

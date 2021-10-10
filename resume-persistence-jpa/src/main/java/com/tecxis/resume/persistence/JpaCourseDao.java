@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,22 @@ public class JpaCourseDao implements CourseDao{
 	
 	@Autowired 
 	private CourseRepository courseRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 
 	@Override
 	public void save(Course course) {
-		em.merge(course);
+		courseRepo.save(course);
 		
 	}
 
 	@Override
 	public void add(Course course) {
-		em.persist(course);
+		courseRepo.save(course);
 		
 	}
 
 	@Override
 	public void delete(Course course) {
-		em.remove(course);
+		courseRepo.delete(course);
 		
 	}
 
@@ -47,19 +41,17 @@ public class JpaCourseDao implements CourseDao{
 
 	@Override
 	public Page<Course> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return courseRepo.findAll(pageable);
 	}
 
 	@Override
 	public List<Course> getCourseLikeTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseRepo.getCourseLikeTitle(title);
 	}
 
 	@Override
 	public Course getCourseByTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseRepo.getCourseByTitle(title);
 	}
 
 }

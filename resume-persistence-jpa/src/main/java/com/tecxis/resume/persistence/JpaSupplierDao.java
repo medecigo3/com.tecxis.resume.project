@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,25 +15,22 @@ public class JpaSupplierDao implements SupplierDao {
 	
 	@Autowired
 	private SupplierRepository supplierRepo;
-	
-	@PersistenceContext
-	private EntityManager em;
 
 	@Override
 	public void save(Supplier supplier) {
-		em.merge(supplier);
+		supplierRepo.save(supplier);
 
 	}
 
 	@Override
 	public void add(Supplier supplier) {
-		em.persist(supplier);
+		supplierRepo.save(supplier);
 
 	}
 
 	@Override
 	public void delete(Supplier supplier) {
-		em.remove(supplier);
+		supplierRepo.delete(supplier);
 
 	}
 
@@ -47,13 +41,12 @@ public class JpaSupplierDao implements SupplierDao {
 
 	@Override
 	public Page<Supplier> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return supplierRepo.findAll(pageable);
 	}
 
 	@Override
-	public Supplier getSupplierByName(Supplier name) {
-		// TODO Auto-generated method stub
-		return null;
+	public Supplier getSupplierByName(String name) {
+		return supplierRepo.getSupplierByName(name);
 	}
 
 }

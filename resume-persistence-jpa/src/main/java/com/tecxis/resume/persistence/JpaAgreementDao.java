@@ -2,9 +2,6 @@ package com.tecxis.resume.persistence;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,25 +18,21 @@ public class JpaAgreementDao implements AgreementDao{
 	@Autowired
 	private AgreementRepository agreementRepo;
 	
-	@PersistenceContext
-	private EntityManager em;
-		
-	
 	@Override
 	public void save(Agreement agreement) {
-		em.merge(agreement);
+		agreementRepo.save(agreement);
 		
 	}
 
 	@Override
 	public void add(Agreement agreement) {
-		em.persist(agreement);
+		agreementRepo.save(agreement);
 		
 	}
 
 	@Override
 	public void delete(Agreement agreement) {
-		em.remove(agreement);
+		agreementRepo.delete(agreement);
 		
 	}
 
@@ -50,13 +43,12 @@ public class JpaAgreementDao implements AgreementDao{
 
 	@Override
 	public Page<Agreement> findAll(Pageable pageable) {
-		return findAll(pageable);
+		return agreementRepo.findAll(pageable);
 	}
 
 	@Override
-	public Agreement findByContractAndService(Contract contract, Service service) {
-		// TODO Auto-generated method stub
-		return null;
+	public Agreement findByContractAndService(Contract contract, Service service) {		
+		return agreementRepo.findByContractAndService(contract, service);
 	}
 
 }
