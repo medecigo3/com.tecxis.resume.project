@@ -14,7 +14,7 @@ public interface SupplyContractDao extends Dao<SupplyContract> {
 
 	public List<SupplyContract> getSupplyContractByEndDate(Date endDate);
 
-	public Date findBySupplierOrderByStartDateAsc(Supplier supplier);
+	public List<SupplyContract> findBySupplierOrderByStartDateAsc(Supplier supplier);
 
 	public List<SupplyContract> findByStaffOrderByStartDateAsc(Staff staff);
 
