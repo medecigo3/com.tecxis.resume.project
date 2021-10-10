@@ -88,7 +88,7 @@
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYGJJEeux4J3oIztS_A" type="AttributeCompartment"/>
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYWJJEeux4J3oIztS_A" type="OperationCompartment"/>
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_my3ZYmJJEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
-    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=TaskDao%5Bjcu%5Ename=TaskDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_myyg4WJJEeux4J3oIztS_A" x="47550" y="1902"/>
   </children>
   <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_vIluMGJJEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
@@ -102,7 +102,7 @@
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIp_pGJJEeux4J3oIztS_A" type="AttributeCompartment"/>
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIp_pWJJEeux4J3oIztS_A" type="OperationCompartment"/>
     <children xmi:type="notation:SemanticListCompartment" xmi:id="_vIqmsGJJEeux4J3oIztS_A" visible="false" type="SignalCompartment"/>
-    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
+    <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=TaskDao%5Bjcu%5Ename=TaskDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D$uml.Interface"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vIluMWJJEeux4J3oIztS_A" x="41210" y="1585"/>
   </children>
   <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_DU850GJKEeux4J3oIztS_A" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label" useClassifierShape="true">
@@ -338,7 +338,7 @@
       <children xmi:type="notation:BasicDecorationNode" xmi:id="_my_8QGJJEeux4J3oIztS_A" type="Name"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_my_VMWJJEeux4J3oIztS_A" y="-186"/>
     </children>
-    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=TaskDao%5Bjcu%5Ename=TaskDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_my-uIWJJEeux4J3oIztS_A" points="[39, 99, 6924, -5436]$[39, 3021, 6924, -2514]$[-6837, 3021, 48, -2514]$[-6837, 5137, 48, -398]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1njgQGJKEeux4J3oIztS_A" id="(0.5,0.9377962085308057)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkHUGJKEeux4J3oIztS_A" id="(0.6160566184663695,0.0)"/>
@@ -349,7 +349,7 @@
       <children xmi:type="notation:BasicDecorationNode" xmi:id="_vIzwoGJJEeux4J3oIztS_A" type="Name"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vIyig2JJEeux4J3oIztS_A" y="-186"/>
     </children>
-    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=AssignmentDao%5Bjcu%5Ename=AssignmentDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=TaskDao%5Bjcu%5Ename=TaskDao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Dao%5Bjcu%5Ename=Dao.java%5Bjpack%5Ename=com.tecxis.resume.persistence%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=resume-persistence-common%5D%5D%5D%5D%5D$uml.Generalization"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vIyigWJJEeux4J3oIztS_A" points="[40, 101, 610, -5158]$[40, 2216, 610, -3043]$[-529, 2216, 41, -3043]$[-529, 4861, 41, -398]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkHUWJKEeux4J3oIztS_A" id="(0.5,0.9532293986636969)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1nkuYGJKEeux4J3oIztS_A" id="(0.5133822300445705,0.0)"/>
