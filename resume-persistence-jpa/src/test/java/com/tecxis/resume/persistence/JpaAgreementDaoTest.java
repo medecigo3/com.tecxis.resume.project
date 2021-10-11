@@ -119,56 +119,6 @@ public class JpaAgreementDaoTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAgreement() {
-		/**Get Service*/
-		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(J2EE_DEVELOPPER);		
-		assertEquals(1, j2eeDevelopperServices.size());
-		Service j2eeDevelopperService = j2eeDevelopperServices.get(0);	
-		
-		/**Get Contract*/
-		List <Agreement> j2eeDevelopperAgreements = j2eeDevelopperService.getAgreements();
-		assertNotNull(j2eeDevelopperAgreements);
-		assertEquals(1, j2eeDevelopperAgreements.size());
-		Contract j2eeDevelopperContract = j2eeDevelopperAgreements.get(0).getContract();
-		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
-		
-		
-		/**Find Agreement*/
-		AgreementId AgreementId = new AgreementId();
-		AgreementId.setContractId(j2eeDevelopperContract.getId());
-		AgreementId.setServiceId(j2eeDevelopperService.getId());
-		Agreement agreement = agreementRepo.findById(AgreementId).get();
-		assertNotNull(agreement);
-		assertEquals(j2eeDevelopperContract, agreement.getContract());
-		assertEquals(j2eeDevelopperService, agreement.getService());
-		
-				
-	}
-	
-	@Test
-	public void testFindByContractAndService() {		
-		/**Fetch  Contract*/
-		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
-		assertNotNull(alphatressBelfiusContract); 
-		
-		/**Fetch Service*/
-		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
-		assertNotNull(bwService);
-		
-		/**Fetch the ConstractServiceAgreement*/
-		Agreement alphatressBelfiusBwService = agreementRepo.findByContractAndService(alphatressBelfiusContract, bwService);
-		/**Validate the ConstractServiceAgreement*/
-		assertNotNull(alphatressBelfiusBwService);
-		/**Validate Contract  association*/
-		assertEquals(alphatressBelfiusBwService.getContract(), alphatressBelfiusContract);
-		/**Validate the Service association*/
-		assertEquals(alphatressBelfiusBwService.getService(), bwService);
-	}
-	
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
@@ -209,5 +159,55 @@ public class JpaAgreementDaoTest {
 	public void testFindAllPagable(){
 		Page <Agreement> pageableAgreement = agreementRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableAgreement.getSize());
+	}
+	
+	@Test
+	public void testFindByContractAndService() {		
+		/**Fetch  Contract*/
+		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(alphatressBelfiusContract); 
+		
+		/**Fetch Service*/
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		assertNotNull(bwService);
+		
+		/**Fetch the ConstractServiceAgreement*/
+		Agreement alphatressBelfiusBwService = agreementRepo.findByContractAndService(alphatressBelfiusContract, bwService);
+		/**Validate the ConstractServiceAgreement*/
+		assertNotNull(alphatressBelfiusBwService);
+		/**Validate Contract  association*/
+		assertEquals(alphatressBelfiusBwService.getContract(), alphatressBelfiusContract);
+		/**Validate the Service association*/
+		assertEquals(alphatressBelfiusBwService.getService(), bwService);
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAgreement() {
+		/**Get Service*/
+		List <Service> j2eeDevelopperServices = serviceRepo.getServiceLikeName(J2EE_DEVELOPPER);		
+		assertEquals(1, j2eeDevelopperServices.size());
+		Service j2eeDevelopperService = j2eeDevelopperServices.get(0);	
+		
+		/**Get Contract*/
+		List <Agreement> j2eeDevelopperAgreements = j2eeDevelopperService.getAgreements();
+		assertNotNull(j2eeDevelopperAgreements);
+		assertEquals(1, j2eeDevelopperAgreements.size());
+		Contract j2eeDevelopperContract = j2eeDevelopperAgreements.get(0).getContract();
+		assertEquals(CONTRACT4_NAME, j2eeDevelopperContract.getName());
+		
+		
+		/**Find Agreement*/
+		AgreementId AgreementId = new AgreementId();
+		AgreementId.setContractId(j2eeDevelopperContract.getId());
+		AgreementId.setServiceId(j2eeDevelopperService.getId());
+		Agreement agreement = agreementRepo.findById(AgreementId).get();
+		assertNotNull(agreement);
+		assertEquals(j2eeDevelopperContract, agreement.getContract());
+		assertEquals(j2eeDevelopperService, agreement.getService());
+		
+				
 	}
 }

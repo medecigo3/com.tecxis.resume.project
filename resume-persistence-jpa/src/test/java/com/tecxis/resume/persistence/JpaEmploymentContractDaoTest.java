@@ -147,6 +147,15 @@ public class JpaEmploymentContractDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <EmploymentContract> pageableEmploymentContractRepository = employmentContractRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableEmploymentContractRepository.getSize());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindByStaff() {		
 		/**Test 1*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
@@ -200,12 +209,5 @@ public class JpaEmploymentContractDaoTest {
 	
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <EmploymentContract> pageableEmploymentContractRepository = employmentContractRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableEmploymentContractRepository.getSize());
-	}
+
 }

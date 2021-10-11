@@ -87,19 +87,6 @@ public class JpaSkillDaoTest {
 	}
 	
 	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSkillByName() {
-		Skill java = skillRepo.getSkillByName(JAVA);
-		assertNotNull(java);
-		assertEquals(JAVA, java.getName());
-		Skill git = skillRepo.getSkillByName(GIT);
-		assertNotNull(git);
-		assertEquals(GIT, git.getName());
-	}
-	
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -126,5 +113,18 @@ public class JpaSkillDaoTest {
 	public void testFindAllPagable(){
 		Page <Skill> pageableSkill =  skillRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableSkill.getSize());
+	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSkillByName() {
+		Skill java = skillRepo.getSkillByName(JAVA);
+		assertNotNull(java);
+		assertEquals(JAVA, java.getName());
+		Skill git = skillRepo.getSkillByName(GIT);
+		assertNotNull(git);
+		assertEquals(GIT, git.getName());
 	}
 }

@@ -55,6 +55,19 @@ public class JpaCityDaoTest {
 	private CityRepository cityRepo;
 	
 	@Sql(
+		    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	@Test
+	public void testSave() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
+		City cityIn = Utils.insertCity(BRUSSELS, belgium, entityManager);
+		City cityOut = cityRepo.getCityByName(BRUSSELS);		
+		assertEquals(cityIn, cityOut);
+	}
+	
+	@Sql(
 		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
@@ -80,35 +93,6 @@ public class JpaCityDaoTest {
 		assertEquals(3, brussels.getId().getCityId());
 	}
 	
-	@Sql(
-	    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
-	)
-	@Test
-	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
-		City cityIn = Utils.insertCity(BRUSSELS, belgium, entityManager);
-		City cityOut = cityRepo.getCityByName(BRUSSELS);		
-		assertEquals(cityIn, cityOut);
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCityByName() {
-		City london = cityRepo.getCityByName(LONDON);
-		assertNotNull(london);
-		assertEquals(LONDON, london.getName());
-		City paris = cityRepo.getCityByName(PARIS);
-		assertNotNull(paris);
-		assertEquals(PARIS, paris.getName());
-		City brussels = cityRepo.getCityByName(BRUSSELS);
-		assertNotNull(brussels);
-		assertEquals(BRUSSELS, brussels.getName());
-	}
-		
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
@@ -121,7 +105,7 @@ public class JpaCityDaoTest {
 		assertNull(cityRepo.getCityByName(LONDON));
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
 	}
-	
+
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -139,5 +123,21 @@ public class JpaCityDaoTest {
 	public void testFindAllPagable(){
 		Page <City> pageableCity = cityRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableCity.getSize());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCityByName() {
+		City london = cityRepo.getCityByName(LONDON);
+		assertNotNull(london);
+		assertEquals(LONDON, london.getName());
+		City paris = cityRepo.getCityByName(PARIS);
+		assertNotNull(paris);
+		assertEquals(PARIS, paris.getName());
+		City brussels = cityRepo.getCityByName(BRUSSELS);
+		assertNotNull(brussels);
+		assertEquals(BRUSSELS, brussels.getName());
 	}
 }

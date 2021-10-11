@@ -86,29 +86,6 @@ public class JpaClientDaoTest {
 	}
 	
 	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetClientByName() {
-		Client barclays = clientRepo.getClientByName(BARCLAYS);
-		assertNotNull(barclays);
-		assertEquals(BARCLAYS, barclays.getName());		
-		/**Tests query by name with LIKE expression*/
-		Client ageasShort = clientRepo.getClientByName(AGEAS_SHORT);
-		assertNotNull(ageasShort);
-		assertTrue(ageasShort.getName().startsWith("Ageas"));
-		Client ageas = clientRepo.getClientByName(AGEAS);
-		assertNotNull(ageas);
-		assertEquals(AGEAS, ageas.getName());
-		assertEquals(ageas, ageasShort);
-		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertNotNull(micropole);
-		assertEquals(MICROPOLE, micropole.getName());
-			
-	}
-	
-	
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
@@ -136,4 +113,26 @@ public class JpaClientDaoTest {
 		Page <Client> pageableClient = clientRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableClient.getSize());
 	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetClientByName() {
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		assertNotNull(barclays);
+		assertEquals(BARCLAYS, barclays.getName());		
+		/**Tests query by name with LIKE expression*/
+		Client ageasShort = clientRepo.getClientByName(AGEAS_SHORT);
+		assertNotNull(ageasShort);
+		assertTrue(ageasShort.getName().startsWith("Ageas"));
+		Client ageas = clientRepo.getClientByName(AGEAS);
+		assertNotNull(ageas);
+		assertEquals(AGEAS, ageas.getName());
+		assertEquals(ageas, ageasShort);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertNotNull(micropole);
+		assertEquals(MICROPOLE, micropole.getName());
+			
+	}	
 }
