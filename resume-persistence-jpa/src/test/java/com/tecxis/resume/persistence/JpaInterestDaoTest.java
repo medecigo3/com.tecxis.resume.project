@@ -82,6 +82,35 @@ public class JpaInterestDaoTest {
 	}
 	
 	@Test
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	public void testDelete() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		Interest tempInterest = Utils.insertInterest(HOBBY, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		interestRepo.delete(tempInterest);
+		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		List <Interest> interests = interestRepo.findAll();
+		assertEquals(2, interests.size());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Interest> pageableInterest = interestRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableInterest.getSize());
+	}
+	
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -128,33 +157,5 @@ public class JpaInterestDaoTest {
 		
 	}
 	
-	
-	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		Interest tempInterest = Utils.insertInterest(HOBBY, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		interestRepo.delete(tempInterest);
-		assertEquals(0, interestRepo.getInterestLikeDesc(HOBBY).size());
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){
-		List <Interest> interests = interestRepo.findAll();
-		assertEquals(2, interests.size());
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <Interest> pageableInterest = interestRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableInterest.getSize());
-	}
+
 }

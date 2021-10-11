@@ -40,6 +40,10 @@ public class JpaTaskDaoTest {
 	private TaskDao taskDao;
 
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
 	public void testSave() {
 		fail("Not yet implemented");
 	}

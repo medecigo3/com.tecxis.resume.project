@@ -126,6 +126,54 @@ public class JpaProjectDaoTest {
 	}
 	
 	@Test
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	public void testDelete() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
+		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		projectRepo.delete(tempProject);
+		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
+		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		List <Project> projects = projectRepo.findAll();
+		assertEquals(13, projects.size());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Project> pageableProject = projectRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableProject.getSize());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByName() {
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertNotNull(axeltis);
+		assertEquals(AXELTIS, axeltis.getName());
+		
+		List <Project> morningstarList = projectRepo.findByName(MORNINGSTAR);
+		assertNotNull(morningstarList);
+		assertEquals(2, morningstarList.size());
+		assertEquals(MORNINGSTAR, morningstarList.get(0).getName());
+		assertEquals(MORNINGSTAR, morningstarList.get(1).getName());
+	
+
+	}
+	
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
@@ -154,53 +202,5 @@ public class JpaProjectDaoTest {
 		assertEquals(VERSION_2, morningstarv2.getVersion());
 		assertNotEquals(morningstarv1.getId(), morningstarv2.getId());
 	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByName() {
-		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		assertNotNull(axeltis);
-		assertEquals(AXELTIS, axeltis.getName());
-		
-		List <Project> morningstarList = projectRepo.findByName(MORNINGSTAR);
-		assertNotNull(morningstarList);
-		assertEquals(2, morningstarList.size());
-		assertEquals(MORNINGSTAR, morningstarList.get(0).getName());
-		assertEquals(MORNINGSTAR, morningstarList.get(1).getName());
-	
 
-	}
-	
-	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
-		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		projectRepo.delete(tempProject);
-		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-	}
-	
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){
-		List <Project> projects = projectRepo.findAll();
-		assertEquals(13, projects.size());
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <Project> pageableProject = projectRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableProject.getSize());
-	}
 }

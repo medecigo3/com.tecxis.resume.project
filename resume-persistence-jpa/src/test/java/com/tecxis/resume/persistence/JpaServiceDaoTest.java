@@ -82,15 +82,34 @@ public class JpaServiceDaoTest {
 	}
 	
 	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetServiceByName() {		
-		Service serviceOut= serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
-		assertEquals(TIBCO_BW_CONSULTANT, serviceOut.getName());		
-		
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	public void testDelete() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
+		Service tempService = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		serviceRepo.delete(tempService);
+		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
+		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 	}
 	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){		
+		assertEquals(6, serviceRepo.count());
+		List <Service> services = serviceRepo.findAll();
+		assertEquals(6, services.size());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Service> pageableService = serviceRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableService.getSize());
+	}
 	
 	@Test
 	@Sql(
@@ -127,6 +146,16 @@ public class JpaServiceDaoTest {
 	
 	@Test
 	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetServiceByName() {		
+		Service serviceOut= serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
+		assertEquals(TIBCO_BW_CONSULTANT, serviceOut.getName());		
+		
+	}
+	
+	@Test
+	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFind() {		
@@ -138,33 +167,7 @@ public class JpaServiceDaoTest {
 	}
 		
 
-	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
-		Service tempService = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		serviceRepo.delete(tempService);
-		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-	}
+
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){		
-		assertEquals(6, serviceRepo.count());
-		List <Service> services = serviceRepo.findAll();
-		assertEquals(6, services.size());
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <Service> pageableService = serviceRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableService.getSize());
-	}
+
 }

@@ -72,31 +72,8 @@ public class JpaCourseDaoTest {
 	}
 	
 	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCourseLikeTitle() {
-		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
-		assertEquals(1, courses.size());
-		Course bwCourse = courses.get(0);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
-		
-	}
-		
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCourseByTitle() {
-		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
-		assertNotNull(bwCourse);
-		assertEquals(BW_6_COURSE, bwCourse.getTitle());
-	}
-	
-
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteCourse() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Course tempCourse = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -122,4 +99,28 @@ public class JpaCourseDaoTest {
 		Page <Course> pageableCourse = courseRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableCourse.getSize());
 	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCourseLikeTitle() {
+		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
+		assertEquals(1, courses.size());
+		Course bwCourse = courses.get(0);
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+		
+	}
+		
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCourseByTitle() {
+		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
+		assertNotNull(bwCourse);
+		assertEquals(BW_6_COURSE, bwCourse.getTitle());
+	}
+	
+
 }

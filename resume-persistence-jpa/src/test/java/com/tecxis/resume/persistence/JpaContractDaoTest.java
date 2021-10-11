@@ -90,7 +90,7 @@ public class JpaContractDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"})
-	public void testDeleteContract() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
 		Client eh = Utils.insertClient(EULER_HERMES, entityManager);	
 		Contract tempContract = Utils.insertContract(eh, CONTRACT1_NAME, entityManager);
@@ -105,26 +105,19 @@ public class JpaContractDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindById() {		
-		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(MICROPOLE, micropole.getName());					
-		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractId(5L, micropole.getId())).get();
-		assertNotNull(fastconnectMicropoleContract);
-		assertEquals(micropole, fastconnectMicropoleContract.getClient());		
-		assertEquals(5L, fastconnectMicropoleContract.getId().getContractId());
-		
+	public void testFindAll(){
+		List <Contract> contracts = contractRepo.findAll();
+		assertEquals(13, contracts.size());
 	}
-		
 	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetContractByName() {
-		Contract contract2 = contractRepo.getContractByName(CONTRACT2_NAME);
-		assertEquals(CONTRACT2_NAME, contract2.getName());
-		
-	}
+	public void testFindAllPagable(){
+		Page <Contract> pageableContract = contractRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableContract.getSize());
+	}	
 	
 	@Test
 	@Sql(
@@ -145,25 +138,30 @@ public class JpaContractDaoTest {
 		/**Test found Contract(s)*/
 		assertThat(axeltisContracts, Matchers.containsInRelativeOrder(fastconnectAxeltisContract1, fastconnectAxeltisContract2));
 			
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetContractByName() {
+		Contract contract2 = contractRepo.getContractByName(CONTRACT2_NAME);
+		assertEquals(CONTRACT2_NAME, contract2.getName());
 		
 	}
 	
-
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){
-		List <Contract> contracts = contractRepo.findAll();
-		assertEquals(13, contracts.size());
+	public void testFindById() {		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(MICROPOLE, micropole.getName());					
+		Contract fastconnectMicropoleContract = contractRepo.findById(new ContractId(5L, micropole.getId())).get();
+		assertNotNull(fastconnectMicropoleContract);
+		assertEquals(micropole, fastconnectMicropoleContract.getClient());		
+		assertEquals(5L, fastconnectMicropoleContract.getId().getContractId());
+		
 	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <Contract> pageableContract = contractRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableContract.getSize());
-	}
+		
 }

@@ -83,22 +83,6 @@ public class JpaCountryDaoTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCountryByName() {
-		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
-		assertNotNull(uk);
-		assertEquals(UNITED_KINGDOM, uk.getName());
-		Country france = countryRepo.getCountryByName(FRANCE);
-		assertNotNull(france);
-		assertEquals(FRANCE, france.getName());
-		Country belgium = countryRepo.getCountryByName(BELGIUM);
-		assertNotNull(belgium);
-		assertEquals(BELGIUM, belgium.getName());
-	}
-	
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
@@ -107,16 +91,6 @@ public class JpaCountryDaoTest {
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-	}
-	
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCountryById() {
-		Country country = countryRepo.getCountryById(1L);
-		assertEquals(1L, country.getId().longValue());
 	}
 	
 	@Test
@@ -136,4 +110,30 @@ public class JpaCountryDaoTest {
 		Page <Country> pageableCountry = countryRepo.findAll(PageRequest.of(1, 1)); 
 		assertEquals(1, pageableCountry.getSize());
 	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCountryById() {
+		Country country = countryRepo.getCountryById(1L);
+		assertEquals(1L, country.getId().longValue());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetCountryByName() {
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertNotNull(uk);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		Country france = countryRepo.getCountryByName(FRANCE);
+		assertNotNull(france);
+		assertEquals(FRANCE, france.getName());
+		Country belgium = countryRepo.getCountryByName(BELGIUM);
+		assertNotNull(belgium);
+		assertEquals(BELGIUM, belgium.getName());
+	}
+
 }

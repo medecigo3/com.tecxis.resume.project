@@ -91,26 +91,6 @@ public class JpaSupplierDaoTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSupplierByName() {
-		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
-		
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
-		
-		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
-		assertEquals(ALTERNA, alterna.getName());
-		
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
-		assertEquals(ALPHATRESS, alphatress.getName());
-		
-		
-	}
-	
-	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
@@ -120,7 +100,7 @@ public class JpaSupplierDaoTest {
 		assertNull(supplierRepo.getSupplierByName(AMESYS));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
 	}
-
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -137,5 +117,24 @@ public class JpaSupplierDaoTest {
 	public void testFindAllPagable(){
 		Page <Supplier> pageableSupplier = supplierRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableSupplier.getSize());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSupplierByName() {
+		Supplier accenture= supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());
+		
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());
+		
+		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
+		assertEquals(ALTERNA, alterna.getName());
+		
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
+		assertEquals(ALPHATRESS, alphatress.getName());	
+		
 	}
 }
