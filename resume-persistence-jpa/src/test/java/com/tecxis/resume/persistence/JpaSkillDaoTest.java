@@ -52,10 +52,10 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
-	public void testCreateRowsAndSetIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
@@ -80,7 +80,7 @@ public class JpaSkillDaoTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testFindInsertedSkill() {
+	public void testAdd() {
 		Skill skillIn = Utils.insertSkill(TIBCO, entityManager);
 		Skill skillOut = skillRepo.getSkillByName(TIBCO);
 		assertEquals(skillIn, skillOut);
@@ -101,7 +101,7 @@ public class JpaSkillDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteSkillByName() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
 		Skill tempSkill = Utils.insertSkill(ORACLE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));

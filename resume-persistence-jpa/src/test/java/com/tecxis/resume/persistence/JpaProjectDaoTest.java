@@ -84,11 +84,11 @@ public class JpaProjectDaoTest {
 
 	
 	@Sql(
-			scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+			scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 			)
 		@Test
-	public void testCreateRowsAndInsertIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
@@ -118,7 +118,7 @@ public class JpaProjectDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void shouldBeAbleToFindInsertedProject() {
+	public void testAdd() {
 		Client euler = Utils.insertClient(EULER_HERMES, entityManager);
 		Project eolisIn = Utils.insertProject(EOLIS, VERSION_1, euler, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
@@ -175,7 +175,7 @@ public class JpaProjectDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteProject() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
 		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
 		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);

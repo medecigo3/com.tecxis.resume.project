@@ -2,15 +2,11 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.LONDON;
-import static com.tecxis.resume.domain.Constants.MANCHESTER;
-import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -18,7 +14,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +28,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -59,10 +53,10 @@ public class JpaCountryDaoTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testShouldCreateRowsAndSetIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -82,7 +76,7 @@ public class JpaCountryDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void shouldBeAbleToFindInsertedCountry() {
+	public void testAdd() {
 		Country countryIn = Utils.insertCountry(FRANCE, entityManager);
 		Country countryOut = countryRepo.getCountryById(countryIn.getId());
 		assertEquals(countryIn, countryOut);
@@ -106,7 +100,7 @@ public class JpaCountryDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteCountryById() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
 		Country tempCountry = Utils.insertCountry("temp", entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
@@ -115,25 +109,6 @@ public class JpaCountryDaoTest {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetCountyCities() {
-		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
-		assertNotNull(uk);
-		assertEquals(UNITED_KINGDOM, uk.getName());
-		assertEquals(3, uk.getCities().size());
-		City city1 = uk.getCities().get(0);
-		assertNotNull(city1);
-		assertThat(city1.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
-		City city2 = uk.getCities().get(1);
-		assertThat(city2.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
-		City city3 = uk.getCities().get(2);
-		assertThat(city3.getName(), Matchers.oneOf(LONDON, MANCHESTER, SWINDON));
-		
-		
-	}
 	
 	@Test
 	@Sql(

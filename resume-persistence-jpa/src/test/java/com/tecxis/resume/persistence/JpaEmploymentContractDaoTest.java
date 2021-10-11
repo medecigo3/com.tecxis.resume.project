@@ -66,10 +66,10 @@ public class JpaEmploymentContractDaoTest {
 	
 	@Test
 	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
-	public void testCreateRowsAndSetIds() {
+	public void testSave() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -92,7 +92,7 @@ public class JpaEmploymentContractDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedEmploymentContract() {
+	public void testAdd() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
@@ -112,7 +112,7 @@ public class JpaEmploymentContractDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteSupplyContract() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));

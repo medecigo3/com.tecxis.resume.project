@@ -73,12 +73,12 @@ public class JpaTaskDaoTest {
 	}
 
 	@Test
-	public void testGetAssignmentLikeDesc() {
+	public void testGetTaskLikeDesc() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetAssignmentByDesc() {
+	public void testGetTaskByDesc() {
 		fail("Not yet implemented");
 	}
 

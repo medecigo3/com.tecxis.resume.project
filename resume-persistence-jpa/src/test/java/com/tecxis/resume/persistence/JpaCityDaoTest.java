@@ -81,11 +81,11 @@ public class JpaCityDaoTest {
 	}
 	
 	@Sql(
-	    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+	    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	@Test
-	public void shouldBeAbleToFindInsertedCity() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		City cityIn = Utils.insertCity(BRUSSELS, belgium, entityManager);
@@ -111,7 +111,7 @@ public class JpaCityDaoTest {
 		
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteCity() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));

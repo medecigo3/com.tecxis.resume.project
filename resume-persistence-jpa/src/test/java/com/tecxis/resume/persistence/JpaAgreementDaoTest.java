@@ -68,10 +68,10 @@ public class JpaAgreementDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertServiceWithAgreementsRowsAndSetIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
@@ -93,7 +93,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedAgreement() {
+	public void testAdd() {
 		/**Insert service*/
 		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
 		
@@ -170,7 +170,7 @@ public class JpaAgreementDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteServiceContractAgreement() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);

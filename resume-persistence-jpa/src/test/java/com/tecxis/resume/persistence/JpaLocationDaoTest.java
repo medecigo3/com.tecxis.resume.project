@@ -58,10 +58,10 @@ public class JpaLocationDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertLocationRowsAndSetId() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		
 		/**Insert Country*/
@@ -95,7 +95,7 @@ public class JpaLocationDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedLocation() {
+	public void testAdd() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		
 		/**Insert Country*/
@@ -129,7 +129,7 @@ public class JpaLocationDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteLocation() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		
 		/**Insert Country*/

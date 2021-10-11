@@ -1,6 +1,7 @@
 package com.tecxis.resume.persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -36,6 +37,31 @@ public class JpaEnrolmentDaoTest {
 	
 	@Autowired 
 	private EnrolmentRepository enrolmentRepo;
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	public void testSave() {
+		fail("TODO");
+		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	public void testAdd() {
+		fail("TODO");
+	}
+	
+	@Test
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	public void testDelete() {
+		fail("TODO");
+	}
 	
 	@Test
 	@Sql(
