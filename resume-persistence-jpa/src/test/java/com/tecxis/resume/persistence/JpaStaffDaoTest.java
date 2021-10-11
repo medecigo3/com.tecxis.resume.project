@@ -5,7 +5,6 @@ import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.AOS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
-import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
 import static com.tecxis.resume.domain.Constants.CENTRE_DES_COMPETENCES;
 import static com.tecxis.resume.domain.Constants.DCSC;
 import static com.tecxis.resume.domain.Constants.EOLIS;
@@ -19,8 +18,6 @@ import static com.tecxis.resume.domain.Constants.SHERPA;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
-import static com.tecxis.resume.domain.Course.COURSE_TABLE;
-import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
 import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,15 +25,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +46,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.repository.ProjectRepository;
@@ -83,7 +77,7 @@ public class JpaStaffDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
-	)public void testGetStaffByFirstNameAndLastName() {
+	)public void testSave() {
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getFirstName());
 		assertEquals(AMT_LASTNAME, amt.getLastName());		
@@ -94,7 +88,7 @@ public class JpaStaffDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertRowsAndSetIds() {
+	public void testAdd() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
@@ -102,16 +96,34 @@ public class JpaStaffDaoTest {
 	}
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
-	)
-	public void testFindInsertedStaff() {
-		Staff staffIn = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		Staff staffOut = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		assertEquals(staffIn, staffOut);		
-	}
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	public void testDelete() {
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		Staff tempStaff = Utils.insertStaff(AMT_LASTNAME, AMT_LASTNAME, BIRTHDATE, entityManager);
+		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		staffRepo.delete(tempStaff);
+		assertNull(staffRepo.getStaffLikeFirstName(AMT_NAME));
+		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		
+	}	
 	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAll(){
+		List <Staff> staffs = staffRepo.findAll();
+		assertEquals(2, staffs.size());
+	}
+
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <Staff> pageableStaff = staffRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableStaff.getSize());
+	}
 	
 	@Test
 	@Sql(
@@ -144,6 +156,15 @@ public class JpaStaffDaoTest {
 		assertEquals(AMT_NAME, amt.getFirstName());
 		assertEquals(AMT_LASTNAME , amt.getLastName());
 	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetStaffByFirstNameAndLastName() {
+		Assert.fail("TODO");
+	}
+	
 	
 	
 	@Test
@@ -194,99 +215,4 @@ public class JpaStaffDaoTest {
 		assertEquals(1, jhonProjects.size());
 	}
 	
-	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffCourses() {
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
-    	
-		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		assertNotNull(amt);
-		assertEquals(AMT_NAME, amt.getFirstName());
-		
-		List <Course> courseList = amt.getCourses();
-		assertNotNull(courseList);
-		assertEquals(1, courseList.size());
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
-		
-				
-		/**SQL test*/		
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(
-				"select c.course_id, c.title, c.credits from Staff s "+
-						" JOIN Enrolment e on s.staff_Id = e.staff_Id " +
-						" JOIN Course c on c.course_Id = e.course_Id where s.staff_id = ?", new Object[] { amt.getId() } );
-		
-		assertEquals(1, rows.size());
-		
-		courseList = null;
-		courseList = new ArrayList<>();
-		for (Map<String, Object> row : rows) {
-			Course tempCourse = new Course();
-			tempCourse.setId(Long.parseLong(String.valueOf(row.get("COURSE_ID"))));
-			tempCourse.setTitle(row.get("TITLE") != null ?  String.valueOf(row.get("TITLE")) : null );
-			tempCourse.setCredits(row.get("credits") != null ? Integer.parseInt(String.valueOf(row.get("credits"))) : null );            
-			courseList.add(tempCourse);
-		}
-		assertNotNull(courseList.get(0));
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
-		
-		/**JPQL test*/	
-//		TypedQuery<Staff> staffQuery = entityManager.createQuery("select s from Staff s", Staff.class);
-//		List<Staff> staffs = staffQuery.getResultList();
-//		Iterator <Staff> staffIt = staffs.iterator();
-		TypedQuery<Course> query = entityManager.createQuery
-				("select course from Staff staff  JOIN  staff.courses course where staff = :staff", Course.class);
-		query.setParameter("staff", amt);
-		courseList = null;
-		courseList = query.getResultList();
-		assertEquals(1, courseList.size());	
-		assertNotNull(courseList.get(0));
-		assertEquals(BW_6_COURSE, courseList.get(0).getTitle());
-	
-		
-		/**Criteria API test*/
-//		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-//		CriteriaQuery<Staff> q = cb.createQuery(Staff.class);
-//		Root<Staff> s = q.from(Staff.class);		
-//		s.fetch(Staff_.courses);				 
-//		q.select(s);
-//		TypedQuery<Staff> staffQuery = entityManager.createQuery(q);
-//		List<Staff> staffs = staffQuery.getResultList();
-
-
-
-	}
-	
-	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteStaff() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		Staff tempStaff = Utils.insertStaff(AMT_LASTNAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		staffRepo.delete(tempStaff);
-		assertNull(staffRepo.getStaffLikeFirstName(AMT_NAME));
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
-	}
-
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAll(){
-		List <Staff> staffs = staffRepo.findAll();
-		assertEquals(2, staffs.size());
-	}
-
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <Staff> pageableStaff = staffRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableStaff.getSize());
-	}
 }

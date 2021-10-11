@@ -58,10 +58,10 @@ public class JpaServiceDaoTest {
 		
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertServiceRowsAndSetIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
@@ -74,7 +74,7 @@ public class JpaServiceDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedService() {	
+	public void testAdd() {	
 		Service serviceIn = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
 		Service serviceOut= serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
 		assertEquals(serviceIn, serviceOut);		
@@ -129,7 +129,7 @@ public class JpaServiceDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindService() {		
+	public void testFind() {		
 		Service muleEsbService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);
 		assertNotNull(muleEsbService);
 		assertEquals(MULE_ESB_CONSULTANT, muleEsbService.getName());
@@ -140,7 +140,7 @@ public class JpaServiceDaoTest {
 
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteService() {
+	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
 		Service tempService = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));

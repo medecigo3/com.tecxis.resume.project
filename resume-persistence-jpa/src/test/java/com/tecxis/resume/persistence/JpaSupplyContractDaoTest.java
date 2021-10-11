@@ -99,10 +99,10 @@ public class JpaSupplyContractDaoTest {
 	
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertSupplyContractRowsAndSetIds() {
+	public void testSave() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -131,7 +131,7 @@ public class JpaSupplyContractDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void findInsertedSupplyContract() {
+	public void findAdd() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -159,7 +159,7 @@ public class JpaSupplyContractDaoTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
-	public void testDeleteSupplyContract() {
+	public void testDelete() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
 		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
@@ -194,6 +194,35 @@ public class JpaSupplyContractDaoTest {
 		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
 		List <SupplyContract> supplyContracts = supplyContractRepo.findAll();
 		assertEquals(14, supplyContracts.size());		
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindAllPagable(){
+		Page <SupplyContract> pageableSupplycontract = supplyContractRepo.findAll(PageRequest.of(1, 1));
+		assertEquals(1, pageableSupplycontract.getSize());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSupplyContractByStartDate() {
+		List <SupplyContract> supplyContracts = supplyContractRepo.getSupplyContractByStartDate(CONTRACT1_STARTDATE);
+		assertEquals(1, supplyContracts.size());
+		assertEquals(CONTRACT1_STARTDATE, supplyContracts.get(0).getStartDate());
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testGetSupplyContractByEndDate() {
+		List <SupplyContract> supplyContracts = supplyContractRepo.getSupplyContractByEndDate(CONTRACT9_ENDDATE);
+		assertEquals(CONTRACT9_ENDDATE, supplyContracts.get(0).getEndDate());
+		
 	}
 	
 	@Test
@@ -248,25 +277,6 @@ public class JpaSupplyContractDaoTest {
 	}
 	
 
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSupplyContractByStartDate() {
-		List <SupplyContract> supplyContracts = supplyContractRepo.getSupplyContractByStartDate(CONTRACT1_STARTDATE);
-		assertEquals(1, supplyContracts.size());
-		assertEquals(CONTRACT1_STARTDATE, supplyContracts.get(0).getStartDate());
-	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSupplyContractByEndDate() {
-		List <SupplyContract> supplyContracts = supplyContractRepo.getSupplyContractByEndDate(CONTRACT9_ENDDATE);
-		assertEquals(CONTRACT9_ENDDATE, supplyContracts.get(0).getEndDate());
-		
-	}
 	
 	@Test
 	@Sql(
@@ -299,6 +309,31 @@ public class JpaSupplyContractDaoTest {
 		
 	}
 	
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testFindByContractOrderByStartDateAsc() {
+		/**Find target Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(belfiusContract);
+		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
+		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractOrderByStartDateAsc(belfiusContract);
+		assertEquals(2, belfiusAlphatressSupplyContracts .size());
+		
+		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
+		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
+		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
+		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
+		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
+		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
+		
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -320,61 +355,6 @@ public class JpaSupplyContractDaoTest {
 		/**Validate SupplyContract -> Contract*/
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		assertEquals(belfiusContract, belfiusAmtSupplyContract.getContract()); 
-	}
-	
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindByContractAndSupplierOrderByStartDateAsc() {
-		/**Find target Contract*/
-		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
-		assertNotNull(belfiusContract);
-		
-		/**Find target Supplier*/
-		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
-		assertNotNull(alphatress);
-		
-		/**Test target SupplyContracts are ordered by StartDate asc.*/
-		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(belfiusContract, alphatress);
-		assertEquals(2, belfiusAlphatressSupplyContracts .size());
-		
-		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
-		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
-		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
-		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
-		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
-		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
-		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
-		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
-		
-		
-	}
-	
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void findByContractOrderByStartDateAsc() {
-		/**Find target Contract*/
-		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
-		assertNotNull(belfiusContract);
-		
-		/**Test target SupplyContracts are ordered by StartDate asc.*/
-		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractOrderByStartDateAsc(belfiusContract);
-		assertEquals(2, belfiusAlphatressSupplyContracts .size());
-		
-		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
-		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
-		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
-		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
-		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
-		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
-		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
-		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
-		
 	}
 	
 	@Test
@@ -437,12 +417,37 @@ public class JpaSupplyContractDaoTest {
 		
 	}
 	
+	
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testFindAllPagable(){
-		Page <SupplyContract> pageableSupplycontract = supplyContractRepo.findAll(PageRequest.of(1, 1));
-		assertEquals(1, pageableSupplycontract.getSize());
+	public void testFindByContractAndSupplierOrderByStartDateAsc() {
+		/**Find target Contract*/
+		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+		assertNotNull(belfiusContract);
+		
+		/**Find target Supplier*/
+		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);		
+		assertNotNull(alphatress);
+		
+		/**Test target SupplyContracts are ordered by StartDate asc.*/
+		List <SupplyContract> belfiusAlphatressSupplyContracts = supplyContractRepo.findByContractAndSupplierOrderByStartDateAsc(belfiusContract, alphatress);
+		assertEquals(2, belfiusAlphatressSupplyContracts .size());
+		
+		/**Validate first Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract0 = belfiusAlphatressSupplyContracts.get(0);
+		assertEquals(CONTRACT13_STARTDATE, belfiusAlphatressSupplyContract0.getStartDate());
+		assertEquals(CONTRACT13_ENDDATE, belfiusAlphatressSupplyContract0.getEndDate());
+		/**Validate second Belfius's first SupplyContract is ordered by StartDate*/
+		SupplyContract belfiusAlphatressSupplyContract1 = belfiusAlphatressSupplyContracts.get(1);
+		assertEquals(CONTRACT14_STARTDATE, belfiusAlphatressSupplyContract1.getStartDate());
+		assertEquals(CONTRACT14_ENDDATE, belfiusAlphatressSupplyContract1.getEndDate());
+		
+		
 	}
+	
+	
+
 }

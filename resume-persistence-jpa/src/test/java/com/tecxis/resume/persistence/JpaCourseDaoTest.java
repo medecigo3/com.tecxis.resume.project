@@ -48,11 +48,11 @@ public class JpaCourseDaoTest {
 	private CourseRepository courseRepo;
 	
 	@Sql(
-			scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+			scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 			)
 	@Test
-	public void testCreateAndInsertIds() {
+	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
 		Course bw6 = Utils.insertCourse(BW_6_COURSE, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
@@ -65,7 +65,7 @@ public class JpaCourseDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void shouldBeAbleToFindInsertedCourse() {
+	public void testAdd() {
 		Course courseIn = Utils.insertCourse(BW_6_COURSE, entityManager);
 		Course courseOut = courseRepo.getCourseByTitle(BW_6_COURSE);
 		assertEquals(courseIn, courseOut);

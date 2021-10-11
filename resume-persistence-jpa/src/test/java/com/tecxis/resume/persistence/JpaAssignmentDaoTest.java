@@ -47,11 +47,11 @@ public class JpaAssignmentDaoTest {
 	private TaskRepository taskRepo;
 
 	@Sql(
-		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testShouldCreateRowsAndSetIds() {
+	public void testSave() {
 		
 	Assert.fail("TODO");
 		
@@ -63,17 +63,10 @@ public class JpaAssignmentDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertAssignment() {
+	public void testAdd() {
 		Assert.fail("TODO");
 	}
 	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetAssignmentById() {
-		Assert.fail("TODO");
-	}
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
