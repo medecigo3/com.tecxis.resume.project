@@ -113,7 +113,7 @@ public class SkillTest {
 		assertEquals(tibco.getName(), TIBCO);
 		
 		/**Test Skill initial state*/
-		UtilsTest.testSchemaInitialState(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplate);		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
 		entityManager.flush();		

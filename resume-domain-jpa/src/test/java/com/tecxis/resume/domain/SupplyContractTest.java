@@ -188,7 +188,7 @@ public class SupplyContractTest {
 		/**Detach entities*/
 		entityManager.clear();		
 		
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();

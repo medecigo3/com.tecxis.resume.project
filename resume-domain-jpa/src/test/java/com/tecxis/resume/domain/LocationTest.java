@@ -121,7 +121,7 @@ public class LocationTest {
 		
 		
 		/**Remove location*/
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		entityManager.remove(morningstartV1ProjectLocation);
 		entityManager.flush();
 		entityManager.clear();

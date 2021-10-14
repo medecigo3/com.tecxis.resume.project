@@ -76,11 +76,20 @@
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>		    
 		</dependency>
-		<!-- Unit test framework -->				
+		<!--Spring libs -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<!-- Unit test frameworks -->				
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>  		
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

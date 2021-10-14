@@ -180,7 +180,7 @@ public class CourseTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);

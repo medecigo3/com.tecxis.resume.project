@@ -1077,7 +1077,7 @@ public class ProjectTest {
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());
 		
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		/**Remove Project*/
 		entityManager.remove(morningstartV1Project);
 		entityManager.flush();
