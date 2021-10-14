@@ -2713,7 +2713,7 @@
     <relationshipEnds xmi:id="_fVq1sZs5EeubbOMtXs3wyg" deleteAction="CASCADE" cardinality="ONE" entity="_fVqOsJs5EeubbOMtXs3wyg" key="_fVqOtJs5EeubbOMtXs3wyg"/>
     <relationshipEnds xmi:id="_fVq1sps5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVq1s5s5EeubbOMtXs3wyg" key="_fVq1uJs5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
-  <LogicalDataModel:Entity xmi:id="_fVq1s5s5EeubbOMtXs3wyg" name="AGREEMENT" description=" Table CONTRACT_SERVICE_AGREEMENT&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVq1sps5EeubbOMtXs3wyg _fVqOrJs5EeubbOMtXs3wyg" relationships="_fVq1sJs5EeubbOMtXs3wyg _fVqOqps5EeubbOMtXs3wyg">
+  <LogicalDataModel:Entity xmi:id="_fVq1s5s5EeubbOMtXs3wyg" name="AGREEMENT" description=" Table AGREEMENT&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVq1sps5EeubbOMtXs3wyg _fVqOrJs5EeubbOMtXs3wyg" relationships="_fVq1sJs5EeubbOMtXs3wyg _fVqOqps5EeubbOMtXs3wyg">
     <attributes xmi:id="_fVq1tJs5EeubbOMtXs3wyg" name="CLIENT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVq1tZs5EeubbOMtXs3wyg" name="CONTRACT ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVq1tps5EeubbOMtXs3wyg" name="SERVICE ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
@@ -2806,7 +2806,7 @@
     <keys xsi:type="LogicalDataModel:PrimaryKey" xmi:id="_fVsq5Js5EeubbOMtXs3wyg" name="INTEREST_PK" description="" label="" attributes="_fVsq4Zs5EeubbOMtXs3wyg"/>
     <keys xsi:type="LogicalDataModel:ForeignKey" xmi:id="_fVsq5Zs5EeubbOMtXs3wyg" name="ForeignKey" label="" attributes="_fVsq4ps5EeubbOMtXs3wyg" relationshipEnds="_fVrcxJs5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Entity>
-  <LogicalDataModel:Entity xmi:id="_fVsq5ps5EeubbOMtXs3wyg" name="TASK" description=" Table ASSIGNMENT&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVsq7Zs5EeubbOMtXs3wyg">
+  <LogicalDataModel:Entity xmi:id="_fVsq5ps5EeubbOMtXs3wyg" name="TASK" description=" Table TASK&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVsq7Zs5EeubbOMtXs3wyg">
     <attributes xmi:id="_fVsq55s5EeubbOMtXs3wyg" name="TASK ID" description="" label="" dataType="NUMERIC(38,0)" required="true"/>
     <attributes xmi:id="_fVsq6Js5EeubbOMtXs3wyg" name="DESC" description="" label="" dataType="VARCHAR(255)" required="true"/>
     <attributes xmi:id="_fVsq6Zs5EeubbOMtXs3wyg" name="PRIORITY" description="" label="" dataType="NUMERIC(38,0)"/>
