@@ -42,7 +42,6 @@ import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -253,7 +252,7 @@ public class ClientTest {
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(AXELTIS));
 
-		UtilsTest.testStateAfterAxeltisClientDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplate);		
 		
 	}
 	

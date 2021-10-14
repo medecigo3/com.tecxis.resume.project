@@ -42,7 +42,6 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -148,7 +147,7 @@ public class AssignmentTest {
 		entityManager.clear();
 		
 		/**Tests tables post state*/
-		UtilsTest.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplate);	
 		
 		/**Validate staff -> assignments*/		
 		assertNull(entityManager.find(Assignment.class, id));

@@ -30,7 +30,6 @@ import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -93,7 +92,7 @@ public class AgreementTest {
 		entityManager.remove(axeltisFastConnectAgreement);
 		entityManager.flush();
 		entityManager.clear();
-		UtilsTest.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplate);
 		
 		/**Test Agreement was removed */
 		/**Find Client*/
