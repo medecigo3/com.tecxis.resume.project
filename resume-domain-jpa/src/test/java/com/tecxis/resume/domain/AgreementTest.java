@@ -88,7 +88,7 @@ public class AgreementTest {
 		/**Do not detach and remove entity directly*/		
 				
 		/**Remove Agreement*/
-		UtilsTest.testSchemaInitialState(jdbcTemplate); 
+		SchemaUtils.testInitialState(jdbcTemplate); 
 		/**Remove the Agreement from the Service */
 		entityManager.remove(axeltisFastConnectAgreement);
 		entityManager.flush();

@@ -770,7 +770,7 @@ public class ContractTest {
 		*  EMPLOYMENT_CONTRACT_TABLE
 		*  Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.
 		*  STAFF_TABLE*/
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		/**Remove contract*/			
 		entityManager.remove(fastconnectMicropoleContract);
 		entityManager.flush();

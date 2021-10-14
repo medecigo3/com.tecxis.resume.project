@@ -196,7 +196,7 @@ public class EmploymentContractTest {
 		/**Verify target EmploymentContract*/
 		assertNotNull(johnAlhpatressEmploymentContract);
 				
-		UtilsTest.testSchemaInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplate);
 		entityManager.remove(johnAlhpatressEmploymentContract);
 		entityManager.flush();
 		entityManager.clear();
