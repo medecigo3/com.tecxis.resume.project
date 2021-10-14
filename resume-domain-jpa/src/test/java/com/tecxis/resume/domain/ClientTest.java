@@ -240,7 +240,7 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);		
+		UtilsTest.testSchemaInitialState(jdbcTemplate);		
 		
 		/**Remove client*/
 		entityManager.remove(axeltis);

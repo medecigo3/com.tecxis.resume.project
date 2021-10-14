@@ -145,7 +145,7 @@ public class AssignmentTest {
 		* SKILL_TABLE
 		* SUPPLIER_TABLE		
 		* CONTRACT_TABLE*/ 
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		UtilsTest.testSchemaInitialState(jdbcTemplate);
 		/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */		
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();

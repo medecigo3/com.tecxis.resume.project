@@ -762,7 +762,7 @@ public class StaffTest {
 		SUPPLIER_TABLE
 		CONTRACT_TABLE
 		*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		UtilsTest.testSchemaInitialState(jdbcTemplate);
 		/**Detach interest from Staff and remove staff*/
 		john.removeInterest(johnInterest);
 		entityManager.merge(johnInterest);
@@ -1663,7 +1663,7 @@ public class StaffTest {
 		* Tests the initial state of the children table(s) from previous Parent table(s)
 		*CONTRACT_SERVICE_AGREEMENT_TABLE
 		*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		UtilsTest.testSchemaInitialState(jdbcTemplate);
 		/**Remove the Staff*/		
 		entityManager.remove(amt);
 		entityManager.flush();

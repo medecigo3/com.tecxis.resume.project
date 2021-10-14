@@ -668,7 +668,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteTask() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		testSchemaInitialState(jdbcTemplate);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
 		Utils.removeTask(task12, entityManager);
 		/**Validate table state post-test*/
@@ -681,7 +681,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteTask_WithSpringJpaRepo() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		testSchemaInitialState(jdbcTemplate);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
 		Utils.removeTask(task12, taskRepo);		
 		/**Validate table state post-test*/
@@ -694,7 +694,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCity() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		testSchemaInitialState(jdbcTemplate);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
 		Utils.removeCity(london, entityManager);
@@ -708,7 +708,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCity_WithSpringJpaRepo() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		testSchemaInitialState(jdbcTemplate);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
 		Utils.removeCity(london, cityRepo);
@@ -724,7 +724,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteClient() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		Utils.removeClient(axeltis, entityManager);
@@ -739,7 +739,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteClient_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);		
+		testSchemaInitialState(jdbcTemplate);		
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		Utils.removeClient(axeltis, clientRepo);		
@@ -753,7 +753,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAgreement() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find Client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());		
@@ -776,7 +776,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAgreement_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find Client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());		
@@ -799,7 +799,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteContract() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find and validate Contract to test*/
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Utils.removeContract(fastconnectMicropoleContract, entityManager);
@@ -813,7 +813,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteContract_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Utils.removeContract(fastconnectMicropoleContract, contractRepo);
 		/**Test post state*/
@@ -827,7 +827,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCourse() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
@@ -842,7 +842,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCourse_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
@@ -857,7 +857,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCountry() {
 		/***Test inital state before City delete*/ 
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		Country france = countryRepo.getCountryByName(FRANCE);
 		List <City> franceCities = france.getCities();
@@ -895,7 +895,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCountry_WithSpringJpaRepo() {
 		/***Test inital state before City delete*/ 
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		Country france = countryRepo.getCountryByName(FRANCE);
 		List <City> franceCities = france.getCities();
@@ -934,7 +934,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEmploymentContract() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target EmploymentContract to delete*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
@@ -952,7 +952,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEmploymentContract_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target EmploymentContract to delete*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
@@ -968,7 +968,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteInterest() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, entityManager);	
 		testStateAfterHobbyDelete(jdbcTemplate);
@@ -979,7 +979,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteInterest_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, interestRepo);	
 		testStateAfterHobbyDelete(jdbcTemplate);
@@ -991,7 +991,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteLocation() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());			
@@ -1016,7 +1016,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteLocation_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());			
@@ -1041,7 +1041,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteProject() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		Utils.removeProject(morningstartV1Project, entityManager);
@@ -1057,7 +1057,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteProject_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		Utils.removeProject(morningstartV1Project, projectRepo);
@@ -1070,7 +1070,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteService() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, entityManager);
 		testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplate);
@@ -1081,7 +1081,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteService_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, serviceRepo);
 		testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplate);
@@ -1092,7 +1092,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSkill() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		Utils.removeSkill(tibco, entityManager);
@@ -1104,7 +1104,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSkill_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		Utils.removeSkill(tibco, skillRepo);
@@ -1117,7 +1117,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAssignment() {
 		/**Test initial state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Assignment*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
@@ -1135,7 +1135,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAssignment_WithSpringJpaRepo() {
 		/**Test initial state*/
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Assignment*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
@@ -1152,7 +1152,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaffSkill() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
@@ -1166,7 +1166,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaffSkill_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
@@ -1181,7 +1181,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaff() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, entityManager);		
 		testStateAfterJohnStaffDelete(jdbcTemplate);
@@ -1192,7 +1192,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaff_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, staffRepo);		
 		testStateAfterJohnStaffDelete(jdbcTemplate);
@@ -1203,7 +1203,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplier() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, entityManager);	
 		testStateAfterAccentureSupplierDelete(jdbcTemplate);
@@ -1214,7 +1214,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplier_WithSpringJpaRepo() {		
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, supplierRepo);	
 		testStateAfterAccentureSupplierDelete(jdbcTemplate);
@@ -1225,7 +1225,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplyContract() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
@@ -1240,7 +1240,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteASupplyContract_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
@@ -1255,7 +1255,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEnrolment() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Enrolment to remove*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);		
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);		
@@ -1271,7 +1271,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEnrolment_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		testSchemaInitialState(jdbcTemplate);
 		/**Find target Enrolment to remove*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);		
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);		
@@ -1282,7 +1282,7 @@ public class UtilsTest {
 		testStateAfterBwEnrolmentDelete(jdbcTemplate);
 	}
 	
-	public static void testStateBeforeDelete(JdbcTemplate jdbcTemplate) {			
+	public static void testSchemaInitialState(JdbcTemplate jdbcTemplate) {			
 		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));	
 		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));	
 		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
