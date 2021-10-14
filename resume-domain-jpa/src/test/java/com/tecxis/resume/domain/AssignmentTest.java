@@ -1,20 +1,16 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Task.TASK_TABLE;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.FORTIS;
 import static com.tecxis.resume.domain.Constants.PARCOURS;
+import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -41,10 +37,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.id.AssignmentId;
-import com.tecxis.resume.domain.repository.TaskRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
 import com.tecxis.resume.domain.util.UtilsTest;
 
@@ -80,26 +76,26 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAssignment() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
 		Task assignment1 = Utils.insertTask(TASK1, entityManager);
 		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
 		List <Assignment> amtAssignments = new ArrayList <> ();		
 		amtAssignments.add(amtAssignment);				
@@ -107,7 +103,7 @@ public class AssignmentTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 	}
 
 	@Test
@@ -127,7 +123,7 @@ public class AssignmentTest {
 		entityManager.clear();
 
 		/**Validate staff -> assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		Assignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
@@ -194,12 +190,12 @@ public class AssignmentTest {
 		assertNotNull(staffAssignment3);
 			
 		/**The the removed staff Task is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		entityManager.remove(staffAssignment2);
 		/**Entity deletion is un-scheduled when entity isn't detached from persistence context*/
 		entityManager.flush();		
 		/**Test entity was not removed*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(Assignment.class, id2));
 		
 		/**Detach entities from persistent context*/
@@ -210,7 +206,7 @@ public class AssignmentTest {
 		entityManager.flush();
 		assertNull(entityManager.find(Assignment.class, id2));
 		/**Test entity was removed*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 				
 
 	}

@@ -27,8 +27,6 @@ import com.tecxis.resume.domain.id.Identifiable;
 @Entity
 public class Country implements Serializable, Identifiable  <Long>{
 	private static final String UNSUPPORTED_COUNTRY_CITY_OPERATION = "Country -> City association managed by association owner City.";
-	public static final String COUNTRY_TABLE = "COUNTRY";
-
 	private static final long serialVersionUID = 1L;
 
 	@Id

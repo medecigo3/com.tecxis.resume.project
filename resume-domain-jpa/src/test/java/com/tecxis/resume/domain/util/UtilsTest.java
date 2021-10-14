@@ -1,16 +1,11 @@
 package com.tecxis.resume.domain.util;
 
-import static com.tecxis.resume.domain.Task.TASK_TABLE;
-import static com.tecxis.resume.domain.City.CITY_TABLE;
-import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
 import static com.tecxis.resume.domain.Constants.ALTERNA;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.TASK12;
-import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
@@ -33,27 +28,13 @@ import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.TASK12;
+import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
-import static com.tecxis.resume.domain.Agreement.AGREEMENT_TABLE;
-import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
-import static com.tecxis.resume.domain.Course.COURSE_TABLE;
-import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
-import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
-import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
-import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
-import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.domain.StaffSkill.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
-import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -74,11 +55,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Task;
+import com.tecxis.resume.domain.Agreement;
+import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.EmploymentContract;
@@ -86,24 +67,25 @@ import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.id.AgreementId;
+import com.tecxis.resume.domain.id.AssignmentId;
+import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.EnrolmentId;
 import com.tecxis.resume.domain.id.LocationId;
-import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.StaffSkillId;
-import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.repository.AgreementRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
@@ -113,11 +95,11 @@ import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SkillRepository;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -175,9 +157,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
 		Utils.insertTask(TASK12, entityManager);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 				
 	}
 	
@@ -186,9 +168,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
 		Utils.insertTask(TASK12, taskRepo);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 				
 	}
 
@@ -200,9 +182,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 		Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 	}
 	
 	@Test
@@ -212,9 +194,9 @@ public class UtilsTest {
 	public void testInsertCity_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, countryRepo);		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 		Utils.insertCity(LONDON, uk, cityRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 	}
 
 	@Test
@@ -222,9 +204,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertClient() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		Utils.insertClient(SAGEMCOM, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 	}
 	
 	@Test
@@ -232,9 +214,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertClient_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		Utils.insertClient(SAGEMCOM, clientRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 	}
 
 	@Test
@@ -247,9 +229,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 		Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));		
 	}
 
 	@Test
@@ -262,9 +244,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 		Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, agreementRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));		
 	}
 	
 	@Test
@@ -275,9 +257,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
 		Utils.insertContract(axeltis, CONTRACT9_NAME, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
 	
 	}
 	
@@ -289,9 +271,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Client axeltis = Utils.insertClient(AXELTIS, clientRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
 		Utils.insertContract(axeltis, CONTRACT9_NAME, contractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
 	
 	}
 
@@ -300,9 +282,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCountry() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 	}
 	
 	@Test
@@ -310,9 +292,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCountry_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		Utils.insertCountry(UNITED_KINGDOM, countryRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 	}
 
 	@Test
@@ -320,9 +302,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCourse() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 	}
 	
 	@Test
@@ -330,9 +312,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCourse_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		Utils.insertCourse(BW_6_COURSE, courseRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 	}
 
 
@@ -345,9 +327,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Utils.insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -359,9 +341,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  supplierRepo);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Utils.insertEmploymentContract(alterna, amt, employmentContractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 
 	@Test
@@ -369,9 +351,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertInterest() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
 		Utils.insertInterest(HOBBY, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
 	}
 	
 	@Test
@@ -379,9 +361,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertInterest_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
 		Utils.insertInterest(HOBBY, interestRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
 	}
 
 	@Test
@@ -395,9 +377,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));		
 
 	}
 	
@@ -412,9 +394,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, locationRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));		
 
 	}
 
@@ -427,9 +409,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));		
 	}
 	
 
@@ -443,9 +425,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
 		
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));		
 	}
 
 	@Test
@@ -453,9 +435,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertService() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 	}
 	
 	@Test
@@ -463,9 +445,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertService_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		Utils.insertService(MULE_ESB_CONSULTANT, serviceRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 	}
 
 	@Test
@@ -473,9 +455,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSkill() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 	}
 	
 	@Test
@@ -483,9 +465,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSkill_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Utils.insertSkill(TIBCO, skillRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 	}
 
 	@Test
@@ -499,9 +481,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Task assignment12 = Utils.insertTask(TASK12, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, assignment12, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
 	}
 	
 	@Test
@@ -515,9 +497,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Task task12 = Utils.insertTask(TASK12, taskRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, task12, assignmentRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
 	}
 
 	@Test
@@ -529,9 +511,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		
 	}
 	
@@ -544,9 +526,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Skill tibco = Utils.insertSkill(TIBCO, skillRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, staffSkillRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		
 	}
 
@@ -555,9 +537,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertStaff() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 	}
 	
 	@Test
@@ -565,9 +547,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertStaff_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 	}
 
 	@Test
@@ -575,9 +557,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSupplier() {		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
 		Utils.insertSupplier(ALPHATRESS, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
 	}
 	
 	@Test
@@ -585,9 +567,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplier_WithSpringJpaRepo() {		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
 		Utils.insertSupplier(ALPHATRESS, supplierRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
 	}
 
 	@Test
@@ -601,9 +583,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);		
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -617,9 +599,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  supplierRepo);		
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, supplyContractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -627,9 +609,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEnrolment() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
 		/**Insert a Staff*/
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		/**Insert a Course*/
@@ -637,9 +619,9 @@ public class UtilsTest {
 		/**Insert Enrolment*/
 		Utils.insertEnrolment(amt, bw6, entityManager);
 		/**Validate*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
 	}
 	
 	@Test
@@ -647,9 +629,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEnrolment_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
 		/**Insert a Staff*/
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		/**Insert a Course*/
@@ -657,9 +639,9 @@ public class UtilsTest {
 		/**Insert Enrolment*/
 		Utils.insertEnrolment(amt, bw6, enrolmentRepo);
 		/**Validate*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
 	}
 	
 	@Test
@@ -1283,62 +1265,62 @@ public class UtilsTest {
 	}
 	
 	public static void testSchemaInitialState(JdbcTemplate jdbcTemplate) {			
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));	
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));	
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));			
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));				
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));			
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));	
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));			
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));				
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 		
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));			
 	}
 	
 	public static void testStateAfterAxeltisClientDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); // 2 Client orphans removed
-		assertEquals(47, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE)); // 16 Client orphans removed
-		assertEquals(11, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); // 2 Client orphans removed 
-		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 2 Client orphans removed
-		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); // 2 Client orphans removed
-		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE)); // 1 Client parent removed
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); // 2 Client orphans removed
+		assertEquals(47, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE)); // 16 Client orphans removed
+		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); // 2 Client orphans removed 
+		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); // 2 Client orphans removed
+		assertEquals(11	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE)); // 2 Client orphans removed
+		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE)); // 1 Client parent removed
 		
 	}
 	
 	public static void testStateAfterLondonCityDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE)); // 1 City parent removed
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));  
-		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 2 child City entities being removed 
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); 
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE)); // 1 City parent removed
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));  
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); //Cascaded 2 child City entities being removed 
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE)); 
 	}
 	
 	
 	public static void testStateAfterTask12Delete(JdbcTemplate jdbcTemplate) {
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));  // Cascaded to 1 child Assignmentremoved
-		assertEquals(53, countRowsInTable(jdbcTemplate, TASK_TABLE));	//1 Task parent entity removed 
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));  // Cascaded to 1 child Assignmentremoved
+		assertEquals(53, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));	//1 Task parent entity removed 
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 	}
 	
 	public static void testStateAfterAxeltisFastconnectAgreementDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //1 parent entity removed
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); //1 parent entity removed
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
 		
 	}
 
@@ -1355,154 +1337,154 @@ public class UtilsTest {
 		/** AGREEMENT (c)       */
 		
 		/**Tests the cascaded parent of the OneToMany association between Contract -> SupplyContract*/		
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); //Parent is removed
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); //Parent is removed
 		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 child with CONTRACT_ID='5' removed from the SUPPLY_CONTRACT table.
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));	//1 child with CONTRACT_ID='5' removed from the SUPPLY_CONTRACT table.
 		/**Tests the cascaded children of the OneToMany association between Contract -> Agreement */
-		assertEquals(12, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the AGREEMENT table. 		
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the AGREEMENT table. 		
 		/**Tests post state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));  //1 child with CONTRACT_ID='5' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the SUPPLIER table. 
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));  //1 child with CONTRACT_ID='5' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the SUPPLIER table. 
 		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//0 children previously removed from SUPPLIER table. That cascades to 0 children being removed from the EMPLOYMENT_CONTRACT table.		
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	//0 children previously removed from SUPPLIER table. That cascades to 0 children being removed from the EMPLOYMENT_CONTRACT table.		
 		/**Tests the cascaded parent of the OneToMany association between  Staff -> EmploymentContract */
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //0 children previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.		
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); //0 children previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.		
 	}
 	
 	public static void testStateAfterBw6CourseDelete(JdbcTemplate jdbcTemplate) {
 		/**Test course was removed*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE)); //1 parent entity removed
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); //Cascaded 1 child Course entity being removed
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE)); //1 parent entity removed
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE)); //Cascaded 1 child Course entity being removed
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		
 	}
 	
 	public static void testStateAfterFranceDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE)); //1 City removed in previous remove transaction, 1 new City inserted = same no. of Cities
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE)); // 1 Country parent entity removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed in previous remove transaction 
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); //No changes
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE)); //1 City removed in previous remove transaction, 1 new City inserted = same no. of Cities
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE)); // 1 Country parent entity removed
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); //Cascaded 9 child City entities being removed in previous remove transaction 
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE)); //No changes
 	}
 
 	public static void testStateAfterParisDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE)); //1 parent entity removed
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed (13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE)); //1 parent entity removed
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); //Cascaded 9 child City entities being removed (13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 	}
 
 	public static void testStateAfterFranceCountryWithDetachedChildrenDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); //Cascaded 9 child City entities being removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 	}
 	
 	public static void testStateAfterjohnAlhpatressEmploymentContractDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//1 entity removed				
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE)); 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	//1 entity removed				
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 	}
 	
 	public static void testStateAfterHobbyDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); //1 parent entity removed
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE)); //1 parent entity removed
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
 		
 	}
 	
 	public static void testStateAfterMorningstartV1ProjectLocationDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //1 entity removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); //1 entity removed
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 	}
 	
 	public static void testStateAfterMorningstartV1ProjectDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(53, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));  //Cascaded 10 child Project entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); 
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); //1 parent entity removed
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(53, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));  //Cascaded 10 child Project entities being removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); 
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE)); //1 parent entity removed
 		
 	}
 	
 	public static void testStateAfterTibcoBwConsultantServiceDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	//Cascaded 8 child Service entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));					
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));	//Cascaded 8 child Service entities being removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));					
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		
 	}	
 	
 	public static void testStateAfterTibcoSkillDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));  //1 parent entity removed
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));  //1 parent entity removed
 		/***Test Skill DELETE many-to-many cascadings*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); //Cascaded 1 child Skill entity being removed
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE)); //Cascaded 1 child Skill entity being removed
 		/**Test Staff hasn't changed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		
 	}
 	
 	public static void testStateAfterAmtParcoursAssignment14AssignmentDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		/**Tests initial state children tables*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));//1 entity removed
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));//1 entity removed
 		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));			
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));			
 	}
 	
 	public static void testStateAfterAmtTibcoStaffSkillDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); //1 entity removed
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE)); //1 entity removed
 	}
 	
 	public static void testStateAfterJohnStaffDelete(JdbcTemplate jdbcTemplate) {		
 		/**Tests initial state parent table*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //1 parent entity removed
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); //1 parent entity removed
 		/**Tests initial state children tables*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); // Cascaded to 1 child Staff being removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));				
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));  // Cascaded to 1 child Staff being removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	// Cascaded to 1 child Employment being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));  //Cascaded to 1 Child SupplyContract being removed
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	//Cascaded to 1 Child Assignment being removed
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE)); // Cascaded to 1 child Staff being removed
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));				
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));  // Cascaded to 1 child Staff being removed
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	// Cascaded to 1 child Employment being removed
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));  //Cascaded to 1 Child SupplyContract being removed
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	//Cascaded to 1 Child Assignment being removed
 		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));			
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		
 	}
 	
 	public static void testStateAfterJohnStaffWithDetachedChildrenDelete(JdbcTemplate jdbcTemplate) {		
 		/**Test Staff is removed**/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
 		/**Test non-identifying Staff-> Interest children table didn't change*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
 		/**Tests state of children tables*/		
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));  /**O children for John Staff removed here*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); 	 /**O children for John Staff removed here*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));  /**O children for John Staff removed here*/
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE)); 	 /**O children for John Staff removed here*/
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));	
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 
 		
 	}
 	
@@ -1532,30 +1514,30 @@ public class UtilsTest {
 		 */
 		
 		/**HAS*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); // 1 child with STAFF_ID=1 removed from INTEREST table.
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE)); // 1 child with STAFF_ID=1 removed from INTEREST table.
 		/**Tests the initial state of the children table(s) from the Parent table*/
 		/**USES*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));	
 		/**ENROLS*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		/**IS EMPLOYED*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE)); // 5 children with STAFF_ID=1 removed from EMPLOYMENT_CONTRACT table.  
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE)); // 5 children with STAFF_ID=1 removed from EMPLOYMENT_CONTRACT table.  
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
 		/**WORKS IN*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
 		/**WORKS ON*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));		
 		/**Tests the initial state of the children table(s) from the Parent table*/		
 		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));		
 		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));  
 		/**Finally the state of Staff table (the parent)*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //1 Parent removed
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));  //1 Parent removed
 		
 	}
 	
@@ -1573,33 +1555,33 @@ public class UtilsTest {
 		/** EMPLOYMENT_CONTRACT (c)              */
 		
 		/**Tests post state of Suppliers table (the parent)*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //Parent is removed
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE)); //Parent is removed
 		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
-		assertEquals(11, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//3 children with SUPPLIER_ID = '1' removed from the SUPPLY_CONTRACT table.
+		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));	//3 children with SUPPLIER_ID = '1' removed from the SUPPLY_CONTRACT table.
 		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//1 child with SUPPLIER_ID = '1' removed from the EMPLOYMENT_CONTRACT table. 
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	//1 child with SUPPLIER_ID = '1' removed from the EMPLOYMENT_CONTRACT table. 
 		/**Tests the cascaded parent of the OneToMany association between Contract -> SupplyContract*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); //3 children with SUPPLIER_ID = '1' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the CONTRACT table. 
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); //3 children with SUPPLIER_ID = '1' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the CONTRACT table. 
 		/**Tests the cascaded parent of the OneToMany association between  Staff -> EmploymentContract */
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //1 child with with SUPPLIER_ID = '1' previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); //1 child with with SUPPLIER_ID = '1' previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.
 		/**Tests the cascaded children of the OneToMany association between Contract -> Agreement */
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //0 parents previously removed from CONTRACT table. That cascades to 0 children removed from the AGREEMENT table.
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); //0 parents previously removed from CONTRACT table. That cascades to 0 children removed from the AGREEMENT table.
 		
 	}
 	
 	public static void testStateAfterFastconnectMicropoleSupplyContractDelete(JdbcTemplate jdbcTemplate) {	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));//1 parent entity removed	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE)); 
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));//1 parent entity removed	
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));					
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));			
 	}
 	
 	public static void testStateAfterBwEnrolmentDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));  //1 parent entity removed	
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //No Cascade REMOVE
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));	//No cascade REMOVE
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));  //1 parent entity removed	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); //No Cascade REMOVE
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));	//No cascade REMOVE
 		
 	}
 	

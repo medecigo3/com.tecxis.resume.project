@@ -32,8 +32,6 @@ import com.tecxis.resume.domain.id.Identifiable;
 public class Skill implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
-	public static final String SKILL_TABLE = "SKILL";
-
 	private static final String UNSUPPORTED_STAFF_SKILL_OPERATION = "Skill -> Staff association managed by association owner StaffSkill.";
 	
 	@Id

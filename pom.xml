@@ -48,7 +48,6 @@
 			<dependency>		
 				<groupId>com.tecxis.resume.project</groupId>
 				<artifactId>resume-test-utils</artifactId>
-				<scope>test</scope>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>		

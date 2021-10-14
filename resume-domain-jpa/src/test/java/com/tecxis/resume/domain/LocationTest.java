@@ -1,15 +1,11 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.City.CITY_TABLE;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
-import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -67,31 +63,31 @@ public class LocationTest {
 			)
 	@Test
 	public void testInsertLocation() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		
 		/**Insert Country*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		assertEquals(1L, france.getId().longValue());
 		
 		/**Insert City*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 		City paris = Utils.insertCity(PARIS, france, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 		assertEquals(1L, paris.getId().getCityId());
 		
 		/**Insert Project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Insert Location*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 	}
 	
 	

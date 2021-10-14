@@ -2,7 +2,6 @@ package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -108,7 +107,7 @@ public class SkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(tibco.getName(), TIBCO);

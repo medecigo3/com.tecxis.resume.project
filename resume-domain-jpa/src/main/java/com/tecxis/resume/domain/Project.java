@@ -38,8 +38,6 @@ import com.tecxis.resume.domain.id.ProjectId;
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "VERSION" , "NAME" }))
 public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	private static final long serialVersionUID = 1L;
-	public static final String PROJECT_TABLE = "PROJECT";
-
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="PROJECT_SEQ"	 
 	, parameters = {

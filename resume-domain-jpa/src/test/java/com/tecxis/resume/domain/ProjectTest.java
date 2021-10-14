@@ -1,30 +1,10 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Task.TASK_TABLE;
-import static com.tecxis.resume.domain.City.CITY_TABLE;
-import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.AOS;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK14;
-import static com.tecxis.resume.domain.Constants.TASK22;
-import static com.tecxis.resume.domain.Constants.TASK23;
-import static com.tecxis.resume.domain.Constants.TASK24;
-import static com.tecxis.resume.domain.Constants.TASK25;
-import static com.tecxis.resume.domain.Constants.TASK26;
-import static com.tecxis.resume.domain.Constants.TASK27;
-import static com.tecxis.resume.domain.Constants.TASK28;
-import static com.tecxis.resume.domain.Constants.TASK29;
-import static com.tecxis.resume.domain.Constants.TASK30;
-import static com.tecxis.resume.domain.Constants.TASK31;
-import static com.tecxis.resume.domain.Constants.TASK32;
-import static com.tecxis.resume.domain.Constants.TASK33;
-import static com.tecxis.resume.domain.Constants.TASK34;
-import static com.tecxis.resume.domain.Constants.TASK37;
-import static com.tecxis.resume.domain.Constants.TASK57;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
@@ -47,16 +27,28 @@ import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SELENIUM;
 import static com.tecxis.resume.domain.Constants.SHERPA;
 import static com.tecxis.resume.domain.Constants.SWINDON;
+import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK14;
+import static com.tecxis.resume.domain.Constants.TASK22;
+import static com.tecxis.resume.domain.Constants.TASK23;
+import static com.tecxis.resume.domain.Constants.TASK24;
+import static com.tecxis.resume.domain.Constants.TASK25;
+import static com.tecxis.resume.domain.Constants.TASK26;
+import static com.tecxis.resume.domain.Constants.TASK27;
+import static com.tecxis.resume.domain.Constants.TASK28;
+import static com.tecxis.resume.domain.Constants.TASK29;
+import static com.tecxis.resume.domain.Constants.TASK30;
+import static com.tecxis.resume.domain.Constants.TASK31;
+import static com.tecxis.resume.domain.Constants.TASK32;
+import static com.tecxis.resume.domain.Constants.TASK33;
+import static com.tecxis.resume.domain.Constants.TASK34;
+import static com.tecxis.resume.domain.Constants.TASK37;
+import static com.tecxis.resume.domain.Constants.TASK57;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Constants.VERSION_3;
-import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
-import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -90,16 +82,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.LocationId;
 import com.tecxis.resume.domain.id.ProjectId;
-import com.tecxis.resume.domain.id.AssignmentId;
-import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
 import com.tecxis.resume.domain.util.UtilsTest;
 
@@ -255,13 +247,13 @@ public class ProjectTest {
 		newAxeltisProject.setClient(eh);  //sets new Client
 		newAxeltisProject.setCities(morningstartV1Project.getCities());
 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		entityManager.remove(morningstartV1Project);
 		entityManager.persist(newAxeltisProject);
 		entityManager.merge(eh);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Validate project was updated */
 		Project morningstartV3Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_3);
@@ -284,26 +276,26 @@ public class ProjectTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetAssignments() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 		Task assignment1 = Utils.insertTask(TASK1, entityManager);
 		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff assignments*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
 		AssignmentId id = new AssignmentId(adir.getId(), amt.getId(), assignment1.getId());		
 		assertNull(entityManager.find(Assignment.class, id));
 		
@@ -320,7 +312,7 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(Assignment.class, id));
 	}
 
@@ -330,23 +322,23 @@ public class ProjectTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddAssignmentFromScratch() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 		Task assignment1 = Utils.insertTask(TASK1, entityManager);
 		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff assignments*/		
 		assertEquals(0, amt.getAssignments().size());		
@@ -357,7 +349,7 @@ public class ProjectTest {
 		Assignment newAssignment = new Assignment(adir, amt, assignment1);
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));		
 		adir.addAssignment(newAssignment);
 		amt.addAssignment(newAssignment);
 		assignment1.addAssignment(newAssignment);
@@ -369,7 +361,7 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getAssignments().size());		
 		assertEquals(1, adir.getAssignments().size());
 		assertEquals(1, assignment1.getAssignments().size());
@@ -401,10 +393,10 @@ public class ProjectTest {
 		task57.addAssignment(newAssignment);
 		
 		/**Validate table state pre-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 				
 		entityManager.persist(newAssignment);
 		entityManager.merge(adir);
@@ -413,10 +405,10 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate table state post-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(64, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(64, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Validate Project -> Assignments*/
 		adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
@@ -501,10 +493,10 @@ public class ProjectTest {
 		entityManager.clear();
 		
 		/**Validate table state pre-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		Assignment assignment1 = assignmentRepo.findById(id).get();
 		assertNotNull(assignment1);
@@ -516,10 +508,10 @@ public class ProjectTest {
 		entityManager.clear();
 		
 		/**Validate table state post-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 				
 		assertNull(entityManager.find(Assignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
@@ -652,31 +644,31 @@ public class ProjectTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetCities() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
 		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 				
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
 		
 		List <City> sherpaProjectCities = new ArrayList <> ();
 		sherpaProjectCities.add(brussels);
 		sherpaProjectCities.add(paris);
 		sherpaProject.setCities(sherpaProjectCities);
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));		
 		entityManager.merge(sherpaProject);
 		entityManager.flush();
 		
-		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
 		
 	}
 
@@ -685,41 +677,41 @@ public class ProjectTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddCity() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry("United Kingdom", entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));		
 		City london = Utils.insertCity(LONDON, uk, entityManager);
 		City swindon = Utils.insertCity(SWINDON, uk, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		Client ageas = Utils.insertClient(AGEAS, entityManager);		
 		Project fortisProject = Utils.insertProject(FORTIS, VERSION_1, ageas, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
 		assertTrue(adirProject.addCity(london));		
 		entityManager.merge(london);
 		entityManager.flush();
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		
 		assertTrue(adirProject.addCity(paris));
 		entityManager.merge(swindon);
 		entityManager.flush();
-		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 				
 		assertTrue(fortisProject.addCity(swindon));
 		entityManager.merge(swindon);
 		entityManager.flush();
-		assertEquals(3, countRowsInTable(jdbcTemplate, LOCATION_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));				
 	}
 
 	@Test
@@ -728,28 +720,28 @@ public class ProjectTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveCity() {
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));		
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
 		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);			
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
 		List <City> sherpaProjectCities = new ArrayList <> ();
 		sherpaProjectCities.add(brussels);
 		sherpaProjectCities.add(paris);
 		sherpaProject.setCities(sherpaProjectCities);
 		entityManager.merge(sherpaProject);
 		entityManager.flush();		
-		assertEquals(2, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
 		
 		
 
@@ -759,11 +751,11 @@ public class ProjectTest {
 		entityManager.merge(sherpaProject);							
 		entityManager.flush();
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));	
 		
 
 		assertTrue(sherpaProject.removeCity(paris));
@@ -773,11 +765,11 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));	
 
 	}
 	
@@ -801,12 +793,12 @@ public class ProjectTest {
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		
 		/**Test initial state*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
 		/**Create new Locations*/
 		Location newLocation = new Location(manchester, selenium);
@@ -819,12 +811,12 @@ public class ProjectTest {
 		entityManager.merge(manchester);
 		entityManager.flush();
 		
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(15, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 						
 		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);		
 		assertEquals(SELENIUM, selenium.getName());
@@ -851,12 +843,12 @@ public class ProjectTest {
 		assertEquals(paris,  selenium.getLocations().get(0).getCity());	
 		
 		/**Test initial state*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
 		/**Create new Location*/
 		Location newLocation = new Location (paris, selenium);
@@ -885,12 +877,12 @@ public class ProjectTest {
 		entityManager.clear();
 		
 		/**Validate initial state*/		
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
 		/**Remove location*/
 		/**Location has to be removed as it is the relation owner between Project <-> Location*/
@@ -899,12 +891,12 @@ public class ProjectTest {
 		entityManager.flush();
 		
 		/**Validate Location was removed*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));				
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));				
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
 		
 		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);	
 		assertEquals(0, selenium.getLocations().size());		
@@ -955,12 +947,12 @@ public class ProjectTest {
 		selenium.setLocations(newLocations);
 		
 		/**Set new cities*/
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));		
 		selenium.setLocations(newLocations);
 		entityManager.merge(selenium);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(15, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(15, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
 		
 		/**Test & validate the new Locations*/
 		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);	
@@ -1093,10 +1085,10 @@ public class ProjectTest {
 		UtilsTest.testStateAfterMorningstartV1ProjectDelete(jdbcTemplate);
 		
 		/**Test Project was removed*/
-		assertEquals(12, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		/**Test orphans */
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
-		assertEquals(53, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE));
+		assertEquals(53, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
 		assertNull(projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1));		
 		assertNull(locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get());
 	}
