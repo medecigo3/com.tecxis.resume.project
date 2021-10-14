@@ -33,8 +33,6 @@ import com.tecxis.resume.domain.id.Identifiable;
  */
 @Entity
 public class Staff implements Serializable, Identifiable <Long>{
-	public static final String STAFF_TABLE = "STAFF";
-	
 	private static final String UNSUPPORTED_STAFF_INTEREST_OPERATION = "Staff -> Interest association managed by association owner Interest.";
 
 	private static final String UNSUPPORTED_STAFF_SKILLS_OPERATION = "Staff -> Skills association managed by association owner StaffSkill.";

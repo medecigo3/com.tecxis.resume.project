@@ -7,9 +7,7 @@ import static com.tecxis.resume.domain.Constants.INTEREST_DESC;
 import static com.tecxis.resume.domain.Constants.JOHN_INTEREST;
 import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
 import static com.tecxis.resume.domain.Constants.JOHN_NAME;
-import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -141,14 +139,14 @@ public class InterestTest {
 		
 		/** Set new Staff*/		
 		hobby.setStaff(john);
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));		
 		entityManager.merge(hobby);
 		entityManager.merge(john);
 		entityManager.flush();		
 		entityManager.clear();
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		
 		/**Validate Interest -> Staff association*/
 		/**Find Interest*/

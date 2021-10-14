@@ -17,11 +17,9 @@ import com.tecxis.resume.domain.id.StaffSkillId;
  * 
  */
 @Entity
-@Table(name=StaffSkill.STAFF_SKILL_TABLE)
+@Table(name=SchemaConstants.STAFF_SKILL_TABLE)
 public class StaffSkill implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
-	final public static String STAFF_SKILL_TABLE = "STAFF_SKILL";
 	
 	@EmbeddedId
 	private StaffSkillId id;

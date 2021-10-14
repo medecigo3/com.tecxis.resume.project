@@ -19,12 +19,10 @@ import com.tecxis.resume.domain.id.LocationId;
  * 
  * */
 @Entity
-@Table(name=Location.LOCATION_TABLE)
+@Table(name=SchemaConstants.LOCATION_TABLE)
 public class Location implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	final public static String LOCATION_TABLE = "LOCATION";	
 	
 	@EmbeddedId
 	private LocationId id;

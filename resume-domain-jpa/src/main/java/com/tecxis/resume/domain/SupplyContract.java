@@ -23,12 +23,10 @@ import com.tecxis.resume.domain.id.SupplyContractId;
  * 
  */
 @Entity
-@Table(name=SupplyContract.SUPPLY_CONTRACT_TABLE)
+@Table(name=SchemaConstants.SUPPLY_CONTRACT_TABLE)
 public class SupplyContract implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	final public static String SUPPLY_CONTRACT_TABLE ="SUPPLY_CONTRACT";
-	
 	@EmbeddedId
 	private SupplyContractId id;
 
