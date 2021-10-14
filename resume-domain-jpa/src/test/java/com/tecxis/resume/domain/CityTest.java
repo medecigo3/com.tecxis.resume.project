@@ -500,7 +500,7 @@ public class CityTest {
 		london = cityRepo.getCityByName(LONDON);		
 		
 		/**Remove city*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		UtilsTest.testSchemaInitialState(jdbcTemplate);
 		entityManager.remove(london);
 		entityManager.flush();
 		entityManager.clear();

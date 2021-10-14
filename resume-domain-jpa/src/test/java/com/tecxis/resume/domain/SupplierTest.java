@@ -694,7 +694,7 @@ public class SupplierTest {
 		* Tests the initial state of the children table(s) from previous Parent table(s)
 		* CONTRACT_SERVICE_AGREEMENT_TABLE
 		*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		UtilsTest.testSchemaInitialState(jdbcTemplate);
 		entityManager.remove(accenture);
 		entityManager.flush();
 		entityManager.clear();
