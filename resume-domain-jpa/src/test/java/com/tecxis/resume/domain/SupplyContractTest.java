@@ -36,7 +36,6 @@ import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -193,7 +192,7 @@ public class SupplyContractTest {
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
-		UtilsTest.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplate);	
 
 	}
 	

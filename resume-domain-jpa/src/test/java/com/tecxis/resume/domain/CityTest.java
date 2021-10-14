@@ -66,7 +66,6 @@ import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -501,7 +500,7 @@ public class CityTest {
 		entityManager.clear();
 		
 		/**Test city was removed*/
-		UtilsTest.testStateAfterLondonCityDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplate);
 		assertNull(cityRepo.getCityByName(LONDON));
 		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertEquals(UNITED_KINGDOM, uk.getName());

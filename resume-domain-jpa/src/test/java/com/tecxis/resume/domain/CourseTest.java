@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -187,7 +186,7 @@ public class CourseTest {
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		UtilsTest.testStateAfterBw6CourseDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplate);		
 	}
 	
 	@Test

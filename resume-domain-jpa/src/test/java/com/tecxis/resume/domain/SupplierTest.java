@@ -49,7 +49,6 @@ import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -694,7 +693,7 @@ public class SupplierTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		UtilsTest.testStateAfterAccentureSupplierDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplate);
 			
 		/**Test Suppliers*/
 		assertEquals(4, supplierRepo.findAll().size());

@@ -32,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -118,7 +117,7 @@ public class SkillTest {
 		entityManager.remove(tibco);
 		entityManager.flush();		
 		/**Test Skill was removed*/
-		UtilsTest.testStateAfterTibcoSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplate);
 		
 	}
 	

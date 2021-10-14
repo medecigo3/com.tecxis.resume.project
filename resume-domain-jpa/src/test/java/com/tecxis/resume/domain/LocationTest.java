@@ -31,7 +31,6 @@ import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -127,7 +126,7 @@ public class LocationTest {
 		entityManager.clear();
 		
 		/**Test */		
-		UtilsTest.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplate);
 		
 	}
 	

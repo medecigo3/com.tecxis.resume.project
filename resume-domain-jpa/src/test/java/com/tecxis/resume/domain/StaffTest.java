@@ -124,7 +124,6 @@ import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -758,7 +757,7 @@ public class StaffTest {
 		entityManager.flush();
 		entityManager.clear();		
 		/**Test state after remove*/
-		UtilsTest.testStateAfterJohnStaffWithDetachedChildrenDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterJohnStaffWithDetachedChildrenDelete(jdbcTemplate);		
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
 		johnInterest = interestRepo.getInterestByDesc(JOHN_INTEREST);
@@ -1658,7 +1657,7 @@ public class StaffTest {
 		entityManager.clear();
 		
 		/**Test Staff delete DB post state*/
-		UtilsTest.testStateAfterAMtStaffDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterAMtStaffDelete(jdbcTemplate);	
 	
 	}
 	

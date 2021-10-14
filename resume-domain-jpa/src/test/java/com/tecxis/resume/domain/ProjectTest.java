@@ -93,7 +93,6 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -1082,7 +1081,7 @@ public class ProjectTest {
 		entityManager.remove(morningstartV1Project);
 		entityManager.flush();
 		entityManager.clear();
-		UtilsTest.testStateAfterMorningstartV1ProjectDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplate);
 		
 		/**Test Project was removed*/
 		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
