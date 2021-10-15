@@ -50,14 +50,14 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"})
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class EmploymentContractTest {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	public final static String PK_UPDATE_WARN = "Cannot update the inverse side (the owning) in a PK. Remove then create a new instance. See EnrolmentTest.testSetStaff, EnrolmentTest.testSetCourse, StaffSkillTest.testSetStaff, StaffSkillTest.testSetSkill";
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired

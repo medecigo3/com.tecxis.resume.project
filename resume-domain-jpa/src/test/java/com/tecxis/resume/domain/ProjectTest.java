@@ -97,11 +97,11 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"})
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class ProjectTest {
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
