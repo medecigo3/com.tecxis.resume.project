@@ -24,7 +24,7 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	caught and re-thrown as one of Spring's unchecked data access exceptions -->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-	<!-- BeanPostProcessor that processes PersistenceUnit and PersistenceContext annotations, 
+	<!-- BeanPostProcessor that processes @PersistenceUnit and @PersistenceContext annotations, 
 	for injection of the corresponding JPA resources EntityManagerFactory and EntityManager.
 	 Any such annotated fields or methods in any Spring-managed object will automatically be injected. -->
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
@@ -33,7 +33,8 @@ http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	<!-- Component annotation scan -->
 	<context:component-scan base-package="com.tecxis.resume.domain" />
 	<context:component-scan base-package="com.tecxis.resume.persistence" />
-	<jpa:repositories base-package="com.tecxis.resume.domain.repository" transaction-manager-ref="txManagerProxy"/>
+	<!-- Spring Repositories configuration -->
+	<jpa:repositories base-package="com.tecxis.resume.domain.repository" transaction-manager-ref="txManagerProxy" entity-manager-factory-ref="entityManagerFactoryProxy"/>
 	
 	
 </beans>
