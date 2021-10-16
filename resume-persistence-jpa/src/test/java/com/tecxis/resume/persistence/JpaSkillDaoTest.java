@@ -45,7 +45,7 @@ public class JpaSkillDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private SkillRepository skillRepo;
@@ -56,21 +56,21 @@ public class JpaSkillDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		assertEquals(1, tibco.getId().longValue());
 		
 		Skill oracle = Utils.insertSkill(ORACLE, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		assertEquals(2, oracle.getId().longValue());
 		
 		Skill java = Utils.insertSkill(JAVA, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		assertEquals(3, java.getId().longValue());
 		
 		Skill spring = Utils.insertSkill(SPRING, entityManager);
-		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		assertEquals(4, spring.getId().longValue());
 	
 	}
@@ -89,12 +89,12 @@ public class JpaSkillDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		Skill tempSkill = Utils.insertSkill(ORACLE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		skillRepo.delete(tempSkill);
 		assertNull(skillRepo.getSkillByName(ORACLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 	}
 	
 	@Test
