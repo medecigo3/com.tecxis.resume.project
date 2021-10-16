@@ -32,7 +32,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Agreement;
@@ -53,7 +52,7 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(propagation = Propagation.NESTED, transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSourceHelper")
 public class JpaAgreementDaoTest {
 
