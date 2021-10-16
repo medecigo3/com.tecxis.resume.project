@@ -9,7 +9,6 @@ import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -35,6 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -43,11 +43,11 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaServiceDaoTest {
 
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -62,9 +62,9 @@ public class JpaServiceDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId().longValue());		
 	}
 
@@ -84,12 +84,12 @@ public class JpaServiceDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));		
 		Service tempService = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		serviceRepo.delete(tempService);
 		assertEquals(0, serviceRepo.getServiceLikeName(SCM_ASSOCIATE_DEVELOPPER).size());
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 	}
 	
 	@Test

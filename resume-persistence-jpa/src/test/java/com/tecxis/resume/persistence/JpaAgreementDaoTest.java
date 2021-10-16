@@ -1,18 +1,21 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Agreement.AGREEMENT_TABLE;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
+import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.J2EE_DEVELOPPER;
+import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -37,34 +40,40 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.SchemaConstants;
+import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.id.AgreementId;
 import com.tecxis.resume.domain.repository.AgreementRepository;
+import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaAgreementDaoTest {
-	@PersistenceContext
-	private EntityManager entityManager;
-	
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
+	private EntityManager entityManager;	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	
+	private JdbcTemplate jdbcTemplate;		
 	@Autowired
-	private AgreementRepository agreementRepo;
-	
+	private AgreementRepository agreementRepo;	
 	@Autowired
-	private ServiceRepository serviceRepo;
-	
+	private ServiceRepository serviceRepo;	
 	@Autowired
-	private  ContractRepository contractRepo;
+	private  ContractRepository contractRepo;	
+	@Autowired
+	private SupplierRepository supplierRepo;	
+	@Autowired 
+	private ClientRepository clientRepo;
+	@Autowired
+	private AgreementDao agreementDao;
 	
 	@Test
 	@Sql(
@@ -72,19 +81,29 @@ public class JpaAgreementDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
-		/**Insert service*/
-		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getId().longValue());
-		/**Insert Contract*/
-		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
-		
-		/**Insert Agreement */
-		Agreement Agreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
-		assertNotNull(Agreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
+		/**Find Client*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());		
+		/**Find supplier*/
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());				
+		/**Find Contract*/
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
+		/**Find Service*/
+		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		/**Find Agreement to remove*/
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();		
+		/**Set new service to existing agreement*/		
+		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
+		axeltisFastConnectAgreement.setService(liferayDev);
+		/**Save changes*/
+		SchemaUtils.testInitialState(jdbcTemplate);
+		agreementDao.save(axeltisFastConnectAgreement);
+		agreementRepo.flush();
+		SchemaUtils.testInitialState(jdbcTemplate);
+		/**Test changes*/
+		assertNotNull(agreementDao.findByContractAndService(axeltisFastConnectcontract, liferayDev));
+		assertNull(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get());	
 		
 	}
 	
@@ -105,7 +124,7 @@ public class JpaAgreementDaoTest {
 		/**Insert Agreement */
 		Agreement AgreementIn = Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
 		assertNotNull(AgreementIn);
-		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 		
 		/** Build Agreement Id*/
 		AgreementId AgreementId = new AgreementId();
@@ -121,10 +140,10 @@ public class JpaAgreementDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 		/**Insert service*/
 		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId().longValue());
 		/**Insert Contract*/
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
@@ -133,13 +152,13 @@ public class JpaAgreementDaoTest {
 		/**Insert Agreement */
 		Agreement tempAgreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
 		assertNotNull(tempAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 		
 		/**Delete Agreement and test*/
 		entityManager.remove(tempAgreement);	
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(0, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
 	}
 	
 	@Test

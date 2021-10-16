@@ -4,8 +4,6 @@ import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.TIBCO;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -30,6 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.StaffSkill;
@@ -40,11 +39,11 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaStaffSkillDaoTest {
 	
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -60,21 +59,21 @@ public class JpaStaffSkillDaoTest {
 	)
 	public void testSave() {
 		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		assertEquals(1, amt.getId().longValue());
 		
 		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(1, tibco.getId().longValue());
 		
 		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		
 		StaffSkill amtTibco =  staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		assertNotNull(amtTibco);
@@ -95,28 +94,28 @@ public class JpaStaffSkillDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"})
 	public void testDelete() {
 		/**Insert Staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 		assertEquals(1, amt.getId().longValue());
 		
 		/**Insert Skill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(1, tibco.getId().longValue());
 		
 		/**Insert StaffSkill*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		StaffSkill amtTibco =  Utils.insertStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		
 		/**Delete StaffSkill*/
 		entityManager.remove(amtTibco);
 		entityManager.flush();
 		/**Verify*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
 	}
 	
 	@Test
@@ -124,7 +123,7 @@ public class JpaStaffSkillDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll() {
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));
 		List <StaffSkill> staffSkills = staffSkillRepo.findAll();
 		assertEquals(5, staffSkills.size());
 	}
