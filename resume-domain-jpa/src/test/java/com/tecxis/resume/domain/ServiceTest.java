@@ -63,7 +63,7 @@ public class ServiceTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
@@ -153,7 +153,7 @@ public class ServiceTest {
 		
 		
 		/**Validate  table pre test state*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		AgreementId agreementId = new AgreementId();
 		agreementId.setContractId(fastconnectMicropoleContract.getId());
 		agreementId.setServiceId(scmDevService.getId());
@@ -174,9 +174,9 @@ public class ServiceTest {
 		Agreement newAgreement = new Agreement(fastconnectMicropoleContract, scmDevService);	
 		
 		/**Test  table pre test state*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 	
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 	
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));	
 		
 		/**Add new  to contract*/
 		scmDevService.addAgreement(newAgreement);		
@@ -188,9 +188,9 @@ public class ServiceTest {
 		entityManager.flush();
 		
 		/**Test tables post test state*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 	
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 	
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));	
 	
 		/**Validate Service -> s*/
 		scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		 
@@ -214,7 +214,7 @@ public class ServiceTest {
 		assertEquals(TIBCO_BW_CONSULTANT, tibcoEsbConsultant.getName());
 		
 		/**Validate contracts of the service to test*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		List <Agreement> tibcoEsbAgreements = tibcoEsbConsultant.getAgreements();
 		assertEquals(8, tibcoEsbAgreements.size());		
 		
@@ -270,25 +270,25 @@ public class ServiceTest {
 		entityManager.clear();			
 		bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));	
 		/**Remove the Agreement from the Service */
 		assertTrue(bwService.removeAgreement(alphatressBwAgreement));
 		assertEquals(7, bwService.getAgreements().size());
 		entityManager.merge(bwService);		
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); //1 orphan child is removed	
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));			
+		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE)); //1 orphan child is removed	
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));			
 		
 		/**validate Contract -> Agreements*/
 		alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
@@ -322,26 +322,26 @@ public class ServiceTest {
 		assertEquals(8, bwService.getAgreements().size());	
 
 				
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));	
 		/**Remove Agreement*/
 		assertTrue(alternaArvalContract.removeAgreement(bwService));
 		assertTrue(bwService.removeAgreement(alternaArvalContract));		
 		entityManager.merge(alternaArvalContract);
 		entityManager.merge(bwService);
 		entityManager.flush();	
-		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));	//1 orphan child is removed.
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
+		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	//1 orphan child is removed.
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
+		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE)); 
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));	
 		
 		/**Validate the Agreement was removed*/
 		AgreementId agreementId = new AgreementId();

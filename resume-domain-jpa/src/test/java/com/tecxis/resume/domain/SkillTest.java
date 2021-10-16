@@ -44,7 +44,7 @@ public class SkillTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private SkillRepository skillRepo;
@@ -106,18 +106,18 @@ public class SkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(tibco.getName(), TIBCO);
 		
 		/**Test Skill initial state*/
-		SchemaUtils.testInitialState(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
 		entityManager.flush();		
 		/**Test Skill was removed*/
-		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 		
 	}
 	

@@ -48,7 +48,7 @@ public class EnrolmentTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private StaffRepository staffRepo;
@@ -91,9 +91,9 @@ public class EnrolmentTest {
 		Enrolment newEnrolment = new Enrolment(john, bwCourse);
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Staff*/		
 		entityManager.remove(bwEnrolment);
@@ -101,9 +101,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).isPresent());
@@ -142,9 +142,9 @@ public class EnrolmentTest {
 		Enrolment newEnrolment = new Enrolment(amt, javaWsCourse);
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Remove old and create Enrolment with new Course*/
 		entityManager.remove(bwEnrolment);
@@ -152,9 +152,9 @@ public class EnrolmentTest {
 		entityManager.flush();
 		entityManager.clear();		
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Find old Enrolment*/
 		assertFalse(enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).isPresent());
@@ -185,19 +185,19 @@ public class EnrolmentTest {
 		
 		
 		/**Verify initial state*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Remove enrolment*/
 		entityManager.remove(bwEnrolment);
 		entityManager.flush();
 		
 		/**Verify initial state*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
 		/**Verify cascading*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		
 	}

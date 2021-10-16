@@ -61,7 +61,7 @@ public class EmploymentContractTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private StaffRepository staffRepo;
@@ -195,11 +195,11 @@ public class EmploymentContractTest {
 		/**Verify target EmploymentContract*/
 		assertNotNull(johnAlhpatressEmploymentContract);
 				
-		SchemaUtils.testInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		entityManager.remove(johnAlhpatressEmploymentContract);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
 	}
 	
 	@Test

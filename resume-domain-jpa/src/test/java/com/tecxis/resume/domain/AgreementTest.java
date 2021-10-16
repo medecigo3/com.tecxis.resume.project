@@ -3,11 +3,13 @@ package com.tecxis.resume.domain;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
 import static com.tecxis.resume.domain.Constants.FASTCONNECT;
+import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,9 +27,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.id.AgreementId;
+import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 
@@ -42,7 +44,7 @@ public class AgreementTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
@@ -59,7 +61,57 @@ public class AgreementTest {
 	@Autowired
 	private AgreementRepository agreementRepo;
 	
-	
+	@Test()
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testSetService() {
+		/**Find Client*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());		
+		
+		/**Find supplier*/
+		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
+		assertEquals(FASTCONNECT, fastconnect.getName());	
+		
+		/**Find Contract*/
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		
+		/**Find Service*/
+		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		
+		/**Find target Agreement to remove*/
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
+				
+		/**Find new service to set in Agreement*/
+		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
+		
+		/***Create new Agreement*/
+		AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
+		newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
+		newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId());
+		Agreement newAxeltisFastConnectAgreement = new Agreement();
+		newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
+		newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
+		newAxeltisFastConnectAgreement.setService(liferayDev);
+		
+		/**Verify initial state*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
+		
+		/**Remove old and create new Agreement*/
+		entityManager.remove(axeltisFastConnectAgreement);
+		entityManager.persist(newAxeltisFastConnectAgreement);
+		entityManager.flush();
+		entityManager.clear();	
+		
+		/**Verify post state*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
+		/**Test changes*/
+		/**Find old Agreement*/
+		assertNotNull(agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev));
+		/**Find new Enrolment*/
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());	
+	}
 	
 	@Test()
 	@Sql(
@@ -87,12 +139,12 @@ public class AgreementTest {
 		/**Do not detach and remove entity directly*/		
 				
 		/**Remove Agreement*/
-		SchemaUtils.testInitialState(jdbcTemplate); 
+		SchemaUtils.testInitialState(jdbcTemplateProxy); 
 		/**Remove the Agreement from the Service */
 		entityManager.remove(axeltisFastConnectAgreement);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 		
 		/**Test Agreement was removed */
 		/**Find Client*/

@@ -54,7 +54,7 @@ public class AssignmentTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 		
 	@Autowired
 	private ProjectRepository projectRepo;
@@ -75,26 +75,26 @@ public class AssignmentTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAssignment() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adir.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
 		Task assignment1 = Utils.insertTask(TASK1, entityManager);
 		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
 		List <Assignment> amtAssignments = new ArrayList <> ();		
 		amtAssignments.add(amtAssignment);				
@@ -102,7 +102,7 @@ public class AssignmentTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 	}
 
 	@Test
@@ -122,7 +122,7 @@ public class AssignmentTest {
 		entityManager.clear();
 
 		/**Validate staff -> assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Assignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);
 		
@@ -140,14 +140,14 @@ public class AssignmentTest {
 		* SKILL_TABLE
 		* SUPPLIER_TABLE		
 		* CONTRACT_TABLE*/ 
-		SchemaUtils.testInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */		
 		entityManager.remove(staffProjectAssignment1);
 		entityManager.flush();
 		entityManager.clear();
 		
 		/**Tests tables post state*/
-		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);	
 		
 		/**Validate staff -> assignments*/		
 		assertNull(entityManager.find(Assignment.class, id));
@@ -189,12 +189,12 @@ public class AssignmentTest {
 		assertNotNull(staffAssignment3);
 			
 		/**The the removed staff Task is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		entityManager.remove(staffAssignment2);
 		/**Entity deletion is un-scheduled when entity isn't detached from persistence context*/
 		entityManager.flush();		
 		/**Test entity was not removed*/
-		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		assertNotNull(entityManager.find(Assignment.class, id2));
 		
 		/**Detach entities from persistent context*/
@@ -205,7 +205,7 @@ public class AssignmentTest {
 		entityManager.flush();
 		assertNull(entityManager.find(Assignment.class, id2));
 		/**Test entity was removed*/
-		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 				
 
 	}
