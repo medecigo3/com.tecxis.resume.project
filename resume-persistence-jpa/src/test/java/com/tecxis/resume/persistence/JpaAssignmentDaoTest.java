@@ -32,7 +32,7 @@ public class JpaAssignmentDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private AssignmentRepository staffProjectAssignmentRepo;

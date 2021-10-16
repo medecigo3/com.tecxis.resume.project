@@ -51,7 +51,7 @@ public class JpaEmploymentContractDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private EmploymentContractRepository employmentContractRepo;
@@ -69,15 +69,15 @@ public class JpaEmploymentContractDaoTest {
 		)
 	public void testSave() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		
 		/**Verify the EmploymentContract*/
 		assertEquals(amt.getId(), alternaAmtEmploymentContract.getStaff().getId());	
@@ -91,15 +91,15 @@ public class JpaEmploymentContractDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testAdd() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
 		
 		alternaAmtEmploymentContract = employmentContractRepo.findByIdAndStaffAndSupplier(AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID, amt, alterna);
 		
@@ -111,24 +111,24 @@ public class JpaEmploymentContractDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		EmploymentContract alternaAmtEmploymentContract = Utils.insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		
 		/***Delete SupplyContract */
 		entityManager.remove(alternaAmtEmploymentContract);
 		entityManager.flush();
 		
 		/**Verify*/		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -136,7 +136,7 @@ public class JpaEmploymentContractDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll() {
-		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));		
+		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));		
 		List <EmploymentContract> employmentContracts = employmentContractRepo.findAll();
 		assertEquals(6, employmentContracts.size());	
 	}

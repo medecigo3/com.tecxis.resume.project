@@ -47,7 +47,7 @@ public class JpaSupplierDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 		
 	@Autowired
 	private SupplierRepository supplierRepo;
@@ -67,12 +67,12 @@ public class JpaSupplierDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 		
 		Supplier accenture = Utils.insertSupplier(ACCENTURE_SUPPLIER,  entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		assertEquals(1, accenture.getId().longValue());
 		
 	}
@@ -92,12 +92,12 @@ public class JpaSupplierDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));		
 		Supplier tempSupplier = Utils.insertSupplier(AMESYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 		supplierRepo.delete(tempSupplier);
 		assertNull(supplierRepo.getSupplierByName(AMESYS));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 	}
 	
 	@Test

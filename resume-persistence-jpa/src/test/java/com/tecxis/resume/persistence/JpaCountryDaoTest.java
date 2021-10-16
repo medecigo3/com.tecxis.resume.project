@@ -44,7 +44,7 @@ public class JpaCountryDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private CountryRepository countryRepo;
@@ -57,17 +57,17 @@ public class JpaCountryDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		assertEquals(1, france.getId().longValue());
 		
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		assertEquals(2, uk.getId().longValue());
 		
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		assertEquals(3, belgium.getId().longValue());
 	}
 	
@@ -85,12 +85,12 @@ public class JpaCountryDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));	
 		Country tempCountry = Utils.insertCountry("temp", entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		countryRepo.delete(tempCountry);
 		assertNull(countryRepo.getCountryByName("temp"));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 	}
 	
 	@Test

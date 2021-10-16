@@ -77,7 +77,7 @@ public class JpaSupplyContractDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired 
 	private SupplyContractRepository supplyContractRepo;
@@ -101,19 +101,19 @@ public class JpaSupplyContractDaoTest {
 	)
 	public void testSave() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);		
 		Contract accentureContract = Utils.insertContract(axeltis, CONTRACT1_NAME, entityManager);
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);	
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		SupplyContract alternaAccentureContract = Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		
 		/** Verify SupplyContract*/ 
 		assertEquals(accentureContract.getId(), alternaAccentureContract.getContract().getId());
@@ -130,19 +130,19 @@ public class JpaSupplyContractDaoTest {
 	)
 	public void findAdd() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);		
 		Contract accentureContract = Utils.insertContract(axeltis, CONTRACT1_NAME, entityManager);
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);		
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		
 		alternaAccentureContract = supplyContractRepo.findById(new SupplyContractId (alterna.getId(), accentureContract.getId(), amt.getId())).get();
 		
@@ -158,29 +158,29 @@ public class JpaSupplyContractDaoTest {
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
 		/**Insert Client, Supplier, Contract, SupplyContract*/		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Client alextis = Utils.insertClient(AXELTIS, entityManager);		
 		Contract accentureContract = Utils.insertContract(alextis, CONTRACT9_NAME, entityManager);
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);	
 		SupplyContract alternaAccentureContract = Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		
 		/***Delete SupplyContract */
 		entityManager.remove(alternaAccentureContract);
 		entityManager.flush();
 		
 		/**Verify*/		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -188,7 +188,7 @@ public class JpaSupplyContractDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll() {
-		assertEquals(14, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
 		List <SupplyContract> supplyContracts = supplyContractRepo.findAll();
 		assertEquals(14, supplyContracts.size());		
 	}

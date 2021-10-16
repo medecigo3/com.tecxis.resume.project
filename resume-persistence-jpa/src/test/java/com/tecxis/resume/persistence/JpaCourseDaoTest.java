@@ -42,7 +42,7 @@ public class JpaCourseDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired 
 	private CourseRepository courseRepo;
@@ -53,9 +53,9 @@ public class JpaCourseDaoTest {
 			)
 	@Test
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		Course bw6 = Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		assertEquals(1, bw6.getId().longValue());
 		
 	}
@@ -74,12 +74,12 @@ public class JpaCourseDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		Course tempCourse = Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		courseRepo.delete(tempCourse);
 		assertNull(courseRepo.getCourseByTitle(BW_6_COURSE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 	}
 	
 	@Test

@@ -48,7 +48,7 @@ public class JpaCityDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private CityRepository cityRepo;
@@ -59,7 +59,7 @@ public class JpaCityDaoTest {
 		)
 	@Test
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		City cityIn = Utils.insertCity(BRUSSELS, belgium, entityManager);
 		City cityOut = cityRepo.getCityByName(BRUSSELS);		
@@ -72,37 +72,37 @@ public class JpaCityDaoTest {
 		)
 	@Test
 	public void testAdd() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		City london = Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		assertEquals(1, london.getId().getCityId());
 		
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		assertEquals(2, paris.getId().getCityId());
 		
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);		
 		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		assertEquals(3, brussels.getId().getCityId());
 	}
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		City tempCity = Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		cityRepo.delete(tempCity);
 		assertNull(cityRepo.getCityByName(LONDON));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 	}
 
 	@Test

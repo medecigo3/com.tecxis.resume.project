@@ -14,14 +14,11 @@ import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +32,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Agreement;
@@ -55,13 +53,12 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@Transactional(propagation = Propagation.NESTED, transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSourceHelper")
 public class JpaAgreementDaoTest {
-	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
-	private EntityManager entityManager;	
+
 	@Autowired
-	private JdbcTemplate jdbcTemplate;		
+	private JdbcTemplate jdbcTemplateProxy;		
 	@Autowired
 	private AgreementRepository agreementRepo;	
 	@Autowired
@@ -80,30 +77,51 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testSave() {
+	public void testSave_UpdateService() {
 		/**Find Client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());		
+		
 		/**Find supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());				
+		assertEquals(FASTCONNECT, fastconnect.getName());	
+		
 		/**Find Contract*/
-		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		
 		/**Find Service*/
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
-		/**Find Agreement to remove*/
-		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();		
-		/**Set new service to existing agreement*/		
+		
+		/**Find target Agreement to remove*/
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
+				
+		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		axeltisFastConnectAgreement.setService(liferayDev);
-		/**Save changes*/
-		SchemaUtils.testInitialState(jdbcTemplate);
-		agreementDao.save(axeltisFastConnectAgreement);
+		
+		/***Create new Agreement*/
+		AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
+		newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
+		newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId());
+		Agreement newAxeltisFastConnectAgreement = new Agreement();
+		newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
+		newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
+		newAxeltisFastConnectAgreement.setService(liferayDev);
+		
+		/**Verify initial state*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
+		
+		/**Remove old and create new Agreement*/
+		agreementDao.delete(axeltisFastConnectAgreement);
+		agreementDao.save(newAxeltisFastConnectAgreement);
 		agreementRepo.flush();
-		SchemaUtils.testInitialState(jdbcTemplate);
+		
+		/**Verify post state*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Test changes*/
-		assertNotNull(agreementDao.findByContractAndService(axeltisFastConnectcontract, liferayDev));
-		assertNull(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get());	
+		/**Find old Agreement*/
+		assertNotNull(agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev));
+		/**Find new Enrolment*/
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());	
 		
 	}
 	
@@ -114,17 +132,19 @@ public class JpaAgreementDaoTest {
 	)
 	public void testAdd() {
 		/**Insert service*/
-		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
+		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, serviceRepo);
 		
 		
 		/**Insert Contract*/
-		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
+		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
+		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);
 		
 		/**Insert Agreement */
-		Agreement AgreementIn = Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
+		Agreement AgreementIn = Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, agreementRepo);
+		agreementDao.add(AgreementIn);
+		agreementRepo.flush();
 		assertNotNull(AgreementIn);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		
 		/** Build Agreement Id*/
 		AgreementId AgreementId = new AgreementId();
@@ -140,25 +160,24 @@ public class JpaAgreementDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		/**Insert service*/
-		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
+		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo);
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
 		assertEquals(1, scmAssoc.getId().longValue());
 		/**Insert Contract*/
-		Client belfius = Utils.insertClient(BELFIUS, entityManager);			
-		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, entityManager);
+		Client belfius = Utils.insertClient(BELFIUS, clientRepo);			
+		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, contractRepo);
 		
 		/**Insert Agreement */
-		Agreement tempAgreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, entityManager);
+		Agreement tempAgreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, agreementRepo);
 		assertNotNull(tempAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		
 		/**Delete Agreement and test*/
-		entityManager.remove(tempAgreement);	
-		entityManager.flush();
-		entityManager.clear();
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));
+		agreementDao.delete(tempAgreement);	
+		agreementRepo.flush();
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 	}
 	
 	@Test

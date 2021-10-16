@@ -34,7 +34,7 @@ public class JpaTaskDaoTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private TaskDao taskDao;
@@ -53,12 +53,12 @@ public class JpaTaskDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAdd() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Task task = new Task();
 		task.setDesc(TASK12);		
 		taskDao.add(task);
 		entityManager.flush();
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 	}
 
 	@Test
