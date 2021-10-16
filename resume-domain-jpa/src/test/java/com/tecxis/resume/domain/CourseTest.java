@@ -48,7 +48,7 @@ public class CourseTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired 
 	private CourseRepository courseRepo;
@@ -179,14 +179,14 @@ public class CourseTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		SchemaUtils.testInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);		
 	}
 	
 	@Test

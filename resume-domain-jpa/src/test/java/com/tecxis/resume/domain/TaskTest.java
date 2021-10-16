@@ -68,7 +68,7 @@ public class TaskTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private StaffRepository staffRepo;
@@ -100,23 +100,23 @@ public class TaskTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddAssignment1() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		Task assignment12 = Utils.insertTask(TASK12, entityManager);
 		assertEquals(1L, assignment12.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff assignments*/		
 		assertEquals(0, amt.getAssignments().size());		
@@ -128,7 +128,7 @@ public class TaskTest {
 	
 		
 		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));		
 		ted.addAssignment(newAssignment);
 		amt.addAssignment(newAssignment);
 		assignment12.addAssignment(newAssignment);
@@ -140,7 +140,7 @@ public class TaskTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getAssignments().size());		
 		assertEquals(1, ted.getAssignments().size());
 		assertEquals(1, assignment12.getAssignments().size());
@@ -152,23 +152,23 @@ public class TaskTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAddAssignment2() {
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client arval = Utils.insertClient(ARVAL, entityManager);		
 		Project aos = Utils.insertProject(AOS, VERSION_1, arval, entityManager);
 		assertEquals(1, aos.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
 		Task assignment47 = Utils.insertTask(TASK47, entityManager);
 		assertEquals(1L, assignment47.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff -> assignments*/		
 		assertEquals(0, amt.getAssignments().size());		
@@ -179,7 +179,7 @@ public class TaskTest {
 		Assignment newAssignment = new Assignment(aos, amt, assignment47);
 		
 		/**Prepare staff -> assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		aos.addAssignment(newAssignment);
 		amt.addAssignment(newAssignment);
 		assignment47.addAssignment(newAssignment);
@@ -191,7 +191,7 @@ public class TaskTest {
 		entityManager.flush();
 		
 		/**Validate staff -> assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		assertEquals(1, amt.getAssignments().size());		
 		assertEquals(1, aos.getAssignments().size());
 		assertEquals(1, assignment47.getAssignments().size());
@@ -270,10 +270,10 @@ public class TaskTest {
 		entityManager.clear();
 		
 		/**Validate table state pre-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		Assignment assignment1 = assignmentRepo.findById(id).get();
 		assertNotNull(assignment1);
@@ -286,10 +286,10 @@ public class TaskTest {
 	
 		
 		/**Validate table state post-test*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
-		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
-		assertEquals(13	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(62, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(54, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
+		assertEquals(13	, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 				
 		assertNull(entityManager.find(Assignment.class, id));
 		ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
@@ -306,26 +306,26 @@ public class TaskTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetAssignments() {		
 		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		assertEquals(1L, amt.getId().longValue());
 		
 		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
 		Task assignment12 = Utils.insertTask(TASK12, entityManager);
 		assertEquals(1L, assignment12.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		AssignmentId id = new AssignmentId(ted.getId(), amt.getId(), assignment12.getId());
 		assertNull(entityManager.find(Assignment.class, id));
 		
@@ -342,7 +342,7 @@ public class TaskTest {
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(Assignment.class, id));
 	}
 	

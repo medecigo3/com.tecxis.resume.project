@@ -49,7 +49,7 @@ public class SupplyContractTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private SupplierRepository supplierRepo;
@@ -187,12 +187,12 @@ public class SupplyContractTest {
 		/**Detach entities*/
 		entityManager.clear();		
 		
-		SchemaUtils.testInitialState(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplateProxy);	
 
 	}
 	

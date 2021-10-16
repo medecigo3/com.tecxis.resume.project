@@ -46,7 +46,7 @@ public class InterestTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private InterestRepository interestRepo;
@@ -139,14 +139,14 @@ public class InterestTest {
 		
 		/** Set new Staff*/		
 		hobby.setStaff(john);
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));		
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));		
 		entityManager.merge(hobby);
 		entityManager.merge(john);
 		entityManager.flush();		
 		entityManager.clear();
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		
 		/**Validate Interest -> Staff association*/
 		/**Find Interest*/

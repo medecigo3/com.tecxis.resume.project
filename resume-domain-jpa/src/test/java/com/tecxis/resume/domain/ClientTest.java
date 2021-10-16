@@ -54,7 +54,7 @@ public class ClientTest {
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private ClientRepository clientRepo;
@@ -239,7 +239,7 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		SchemaUtils.testInitialState(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		
 		/**Remove client*/
 		entityManager.remove(axeltis);
@@ -252,7 +252,7 @@ public class ClientTest {
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(AXELTIS));
 
-		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);		
 		
 	}
 	
