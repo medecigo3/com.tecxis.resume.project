@@ -2,7 +2,6 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
-import static com.tecxis.resume.domain.Course.COURSE_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -28,17 +27,18 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Course;
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaCourseDaoTest {
 
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -53,9 +53,9 @@ public class JpaCourseDaoTest {
 			)
 	@Test
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		Course bw6 = Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		assertEquals(1, bw6.getId().longValue());
 		
 	}
@@ -74,12 +74,12 @@ public class JpaCourseDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		Course tempCourse = Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 		courseRepo.delete(tempCourse);
 		assertNull(courseRepo.getCourseByTitle(BW_6_COURSE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));
 	}
 	
 	@Test

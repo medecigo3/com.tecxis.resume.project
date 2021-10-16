@@ -1,6 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_CLIENT;
 import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
@@ -33,17 +32,18 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaClientDaoTest {
 	
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -58,17 +58,17 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		assertEquals(1, barclays.getId().longValue());
 		
 		Client ageas = Utils.insertClient(AGEAS, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		assertEquals(2, ageas.getId().longValue());
 		
 		Client accenture = Utils.insertClient(ACCENTURE_CLIENT, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		assertEquals(3, accenture.getId().longValue());
 		
 	}
@@ -88,12 +88,12 @@ public class JpaClientDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		Client tempClient = Utils.insertClient(BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 		clientRepo.delete(tempClient);
 		assertNull(clientRepo.getClientByName(SAGEMCOM));
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
 	}
 	
 	@Test

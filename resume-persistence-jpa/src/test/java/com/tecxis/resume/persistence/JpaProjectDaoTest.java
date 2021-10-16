@@ -13,7 +13,6 @@ import static com.tecxis.resume.domain.Constants.SHERPA;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -43,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -50,15 +50,15 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaProjectDaoTest {
 	
     /** For Log4j2 dependencies >= 2.10 set this system property to configure ANSI Styling for Windows 
      * Unix-based operating systems such as Linux and Mac OS X support ANSI color codes by default. 
      * See https://logging.apache.org/log4j/2.x/manual/layouts.html#enable-jansi*/
 	private static final String LOG4J_SKIP_JANSI = "log4j.skipJansi";
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -89,26 +89,26 @@ public class JpaProjectDaoTest {
 			)
 		@Test
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		assertEquals(1, adirProject.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 			
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
 		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
 		assertEquals(2, sherpaProject.getId().getProjectId());
-		assertEquals(2, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 				
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
 		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
 		assertEquals(3, morningStarV1Project.getId().getProjectId());
-		assertEquals(3, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
 		Project monringstarV2Project = Utils.insertProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
 		assertEquals(4, monringstarV2Project.getId().getProjectId());
-		assertEquals(4, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 
 	}
 	
@@ -128,13 +128,13 @@ public class JpaProjectDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
 		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 		projectRepo.delete(tempProject);
 		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE));
 	}
 	
 	@Test

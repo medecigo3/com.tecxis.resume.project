@@ -5,7 +5,6 @@ import static com.tecxis.resume.domain.Constants.JAVA;
 import static com.tecxis.resume.domain.Constants.ORACLE;
 import static com.tecxis.resume.domain.Constants.SPRING;
 import static com.tecxis.resume.domain.Constants.TIBCO;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -30,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -37,11 +37,11 @@ import com.tecxis.resume.domain.util.Utils;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaSkillDaoTest {
 	
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
@@ -56,21 +56,21 @@ public class JpaSkillDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(1, tibco.getId().longValue());
 		
 		Skill oracle = Utils.insertSkill(ORACLE, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(2, oracle.getId().longValue());
 		
 		Skill java = Utils.insertSkill(JAVA, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(3, java.getId().longValue());
 		
 		Skill spring = Utils.insertSkill(SPRING, entityManager);
-		assertEquals(4, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(4, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		assertEquals(4, spring.getId().longValue());
 	
 	}
@@ -89,12 +89,12 @@ public class JpaSkillDaoTest {
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		Skill tempSkill = Utils.insertSkill(ORACLE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 		skillRepo.delete(tempSkill);
 		assertNull(skillRepo.getSkillByName(ORACLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 	}
 	
 	@Test
