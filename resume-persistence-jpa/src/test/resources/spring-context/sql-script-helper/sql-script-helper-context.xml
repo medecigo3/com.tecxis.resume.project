@@ -47,6 +47,6 @@
 		<property name="entityManagerFactory"	ref="entityManagerFactoryHelper" />
 		<property name="dataSource" ref="dataSourceHelper" />
 	</bean>
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="txManagerHelper" />
 						
 </beans>
