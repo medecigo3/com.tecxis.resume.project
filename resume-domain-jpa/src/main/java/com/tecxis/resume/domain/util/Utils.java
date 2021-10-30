@@ -1,14 +1,20 @@
 package com.tecxis.resume.domain.util;
 
+import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
+import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
+import static com.tecxis.resume.domain.util.function.AgreementValidator.AgreementValidationResult.SUCCESS;
+
 import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import com.tecxis.resume.domain.Task;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.tecxis.resume.domain.Agreement;
+import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.EmploymentContract;
@@ -19,15 +25,15 @@ import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.Task;
+import com.tecxis.resume.domain.repository.AgreementRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
@@ -37,11 +43,12 @@ import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SkillRepository;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 
 public class Utils {
 
@@ -551,4 +558,29 @@ public class Utils {
 		enrolmentRepo.delete(enrolment);
 		enrolmentRepo.flush();
 	}
+
+	public static void doInJpa(SetContractAgreementFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
+	
+	public static void doInJpaRepository(SetContractAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(repository);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
+
+	public static boolean isAgreementValid(Agreement agreement, String contractName, String serviceName) {
+		if(	isContractValid(contractName).
+			and(isServiceValid(serviceName)).
+			apply(agreement).equals(SUCCESS)) {
+			return true;
+		}	else {
+			return false;
+		}
+	}				
+
 }
