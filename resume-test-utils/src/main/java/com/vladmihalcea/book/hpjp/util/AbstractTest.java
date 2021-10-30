@@ -508,7 +508,7 @@ public abstract class AbstractTest {
         return result;
     }
 
-    protected void doInJPA(JPATransactionVoidFunction function) throws Throwable {
+    protected void doInJPA(JPATransactionVoidFunction <EntityManager> function) throws Throwable {
         EntityManager entityManager = null;
         EntityTransaction txn = null;
         try {
