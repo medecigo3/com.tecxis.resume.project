@@ -1,13 +1,11 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
-import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.J2EE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
@@ -42,7 +40,6 @@ import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
-import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.id.AgreementId;
 import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
@@ -78,15 +75,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testSave_UpdateService() {
-		/**Find Client*/
-		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		assertEquals(AXELTIS, axeltis.getName());		
-		
-		/**Find supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());	
-		
+	public void testSave_UpdateService() {		
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		
@@ -98,31 +87,30 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
+		Utils.doInJpaRepository(setContractAgreementFunction-> {
+			/***Create new Agreement*/
+			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
+			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
+			newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId());
+			Agreement newAxeltisFastConnectAgreement = new Agreement();
+			newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
+			newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
+			newAxeltisFastConnectAgreement.setService(liferayDev);
+			
+			/**Verify initial state*/
+			SchemaUtils.testInitialState(jdbcTemplateProxy);
+			
+			/**Remove old and create new Agreement*/
+			agreementDao.delete(axeltisFastConnectAgreement);
+			agreementDao.save(newAxeltisFastConnectAgreement);
+			agreementRepo.flush();
+		}, agreementRepo, jdbcTemplateProxy);
 		
-		/***Create new Agreement*/
-		AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
-		newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
-		newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId());
-		Agreement newAxeltisFastConnectAgreement = new Agreement();
-		newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
-		newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
-		newAxeltisFastConnectAgreement.setService(liferayDev);
-		
-		/**Verify initial state*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		
-		/**Remove old and create new Agreement*/
-		agreementDao.delete(axeltisFastConnectAgreement);
-		agreementDao.save(newAxeltisFastConnectAgreement);
-		agreementRepo.flush();
-		
-		/**Verify post state*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		/**Test changes*/
 		/**Find old Agreement*/
-		assertNotNull(agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev));
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());
 		/**Find new Enrolment*/
-		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());	
+		Agreement newLiferayAgreement = agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev);
+		assertTrue(isAgreementValid(newLiferayAgreement, CONTRACT7_NAME, LIFERAY_DEVELOPPER));	
 		
 	}
 	
