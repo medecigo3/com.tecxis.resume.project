@@ -11,7 +11,8 @@ import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.util.Utils.doInJpaRepository;
+import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
+import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -88,7 +89,7 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		doInJpaRepository(setContractAgreementFunction-> {
+		setContractAgreementInJpa(setContractAgreementFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId()); // set new service id
@@ -133,7 +134,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		doInJpaRepository(setContractAgreementFunction-> {
+		setContractAgreementInJpa(setContractAgreementFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
@@ -166,29 +167,27 @@ public class JpaAgreementDaoTest {
 	)
 	public void testAdd() {
 		/**Insert service*/
-		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, serviceRepo);
-		
+		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, serviceRepo);	
 		
 		/**Insert Contract*/
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
-		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);
+		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);		
 		
-		/**Insert Agreement */
-		Agreement AgreementIn = Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, agreementRepo);
-		agreementDao.add(AgreementIn);
-		agreementRepo.flush();
-		assertNotNull(AgreementIn);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
+		/**Insert Agreement*/		
+		insertAgreementInJpa(setContractAgreementFunction-> {			
+			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
+			agreementDao.add(agreementIn);
+			agreementRepo.flush();
+			
+		}, agreementRepo, jdbcTemplateProxy);
 		
-		/** Build Agreement Id*/
+		/** Find new Agreement*/
 		AgreementId AgreementId = new AgreementId();
 		AgreementId.setContractId(accentureBarclaysContract.getId());
 		AgreementId.setServiceId(muleEsbCons.getId());
-		
+		/**Validate new Agreement*/
 		Agreement AgreementOut =agreementRepo.findById(AgreementId).get();		
-		assertNotNull(AgreementOut);
-		assertEquals(AgreementIn, AgreementOut);		
-		
+		assertTrue(isAgreementValid(AgreementOut, CONTRACT1_NAME, MULE_ESB_CONSULTANT));		
 	}
 	
 	@Test

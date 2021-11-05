@@ -1,14 +1,16 @@
 package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.Constants.AXELTIS;
+import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
 import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
+import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.doInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
+import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -35,6 +37,7 @@ import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.util.Utils;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,7 +85,7 @@ public class AgreementTest {
 								
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		doInJpa(setServiceAgreementFunction ->{
+		setContractAgreementInJpa(setServiceAgreementFunction ->{
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
@@ -125,7 +128,7 @@ public class AgreementTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		doInJpa(setContractAgreementFunction-> {
+		setContractAgreementInJpa(setContractAgreementFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
@@ -192,10 +195,38 @@ public class AgreementTest {
 		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 
 		/**Find Agreement to remove*/
-		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());
-			
-		
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());		
 	}
+		
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	public void testInsertAgreement() {
+		/**Insert service*/
+		Service muleEsbCons = Utils.insertService(MULE_ESB_CONSULTANT, entityManager);	
+		
+		/**Insert Contract*/
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);		
+		
+		/**Insert Agreement */		
+		Utils.insertAgreementInJpa(setContractAgreementFunction-> {
+			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
+			entityManager.persist(agreementIn);
+			entityManager.flush();
+			
+		}, entityManager, jdbcTemplateProxy);
+		
+		/** Find new Agreement*/
+		AgreementId AgreementId = new AgreementId();
+		AgreementId.setContractId(accentureBarclaysContract.getId());
+		AgreementId.setServiceId(muleEsbCons.getId());
+		/**Validate new Agreement*/
+		Agreement AgreementOut =agreementRepo.findById(AgreementId).get();		
+		assertTrue(isAgreementValid(AgreementOut, CONTRACT1_NAME, MULE_ESB_CONSULTANT));		
+	}	
 
 	@Test
 	public void testToString() {
