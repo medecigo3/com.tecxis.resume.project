@@ -12,7 +12,6 @@ import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import javax.persistence.EntityManager;
@@ -71,51 +70,42 @@ public class AgreementTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testSetService() {
-		/**Find Client*/
-		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		assertEquals(AXELTIS, axeltis.getName());		
-		
-		/**Find supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());	
-		
 		/**Find Contract*/
-		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
-		
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
 		/**Find Service*/
-		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
-		
+		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		/**Find target Agreement to remove*/
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
-				
+		
+		/**Validates Agreement to test*/		
+		assertTrue(isAgreementValid(axeltisFastConnectAgreement, CONTRACT7_NAME, TIBCO_BW_CONSULTANT));
+								
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
+		doInJpa(setServiceAgreementFunction ->{
+			/***Create new Agreement*/
+			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
+			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
+			newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId()); // set new service id
+			Agreement newAxeltisFastConnectAgreement = new Agreement();
+			newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
+			newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
+			newAxeltisFastConnectAgreement.setService(liferayDev); // set new service
+			
+			/**Remove old and create new Agreement*/
+			entityManager.remove(axeltisFastConnectAgreement);
+			entityManager.persist(newAxeltisFastConnectAgreement);
+			entityManager.flush();
+			entityManager.clear();	
+		}, entityManager, jdbcTemplateProxy);
 		
-		/***Create new Agreement*/
-		AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
-		newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
-		newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId()); // set new service id
-		Agreement newAxeltisFastConnectAgreement = new Agreement();
-		newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
-		newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
-		newAxeltisFastConnectAgreement.setService(liferayDev); // set new service
-		
-		/**Verify initial state*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		
-		/**Remove old and create new Agreement*/
-		entityManager.remove(axeltisFastConnectAgreement);
-		entityManager.persist(newAxeltisFastConnectAgreement);
-		entityManager.flush();
-		entityManager.clear();	
-		
-		/**Verify post state*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		/**Test changes*/
-		/**Find new Agreement*/
-		assertNotNull(agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev));
 		/**Find old Enrolment*/
-		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());	
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());		
+		/**Find new Agreement*/
+		Agreement newLiferayAgreement = agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev);
+		/**Validates new Agreement*/		
+		assertTrue(isAgreementValid(newLiferayAgreement, CONTRACT7_NAME, LIFERAY_DEVELOPPER));
+			
 	}
 	
 	@Test()
