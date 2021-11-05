@@ -11,6 +11,7 @@ import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
+import static com.tecxis.resume.domain.util.Utils.doInJpaRepository;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -87,15 +88,15 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		Utils.doInJpaRepository(setContractAgreementFunction-> {
+		doInJpaRepository(setContractAgreementFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
-			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
+			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId()); // set new service id
 			newAxeltisFastConnectAgreementId.setServiceId(liferayDev.getId());
 			Agreement newAxeltisFastConnectAgreement = new Agreement();
 			newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
 			newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
-			newAxeltisFastConnectAgreement.setService(liferayDev);
+			newAxeltisFastConnectAgreement.setService(liferayDev);  // set new service
 			
 			/**Verify initial state*/
 			SchemaUtils.testInitialState(jdbcTemplateProxy);
@@ -132,7 +133,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		Utils.doInJpaRepository(setContractAgreementFunction-> {
+		doInJpaRepository(setContractAgreementFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
