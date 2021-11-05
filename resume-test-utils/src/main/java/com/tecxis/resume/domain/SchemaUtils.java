@@ -324,10 +324,15 @@ public final class SchemaUtils {
 	public static void testStateAfterBwEnrolmentDelete(JdbcTemplate jdbcTemplate) {
 		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));  //1 parent entity removed	
 		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE)); //No Cascade REMOVE
-		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));	//No cascade REMOVE
-		
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));	//No cascade REMOVE		
 	}
 
+	public static void testInsertAgreementInitialState(JdbcTemplate jdbcTemplate) {
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));						
+	}
 	
-
+	public static void testStateAfterAgreementInsert(JdbcTemplate jdbcTemplate) {		
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE));				
+	}
+	
 }

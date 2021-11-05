@@ -48,6 +48,7 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 
 public class Utils {
@@ -559,14 +560,14 @@ public class Utils {
 		enrolmentRepo.flush();
 	}
 
-	public static void doInJpa(SetContractAgreementFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void setContractAgreementInJpa(SetContractAgreementFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(entityManager);
 		function.afterTransactionCompletion(jdbcTemplate);
 	
 	}
 	
-	public static void doInJpaRepository(SetContractAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
+	public static void setContractAgreementInJpa(SetContractAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(repository);
 		function.afterTransactionCompletion(jdbcTemplate);
@@ -581,6 +582,20 @@ public class Utils {
 		}	else {
 			return false;
 		}
-	}				
+	}
+	
+	public static void insertAgreementInJpa(InsertAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(repository);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
+	
+	public static void insertAgreementInJpa(InsertAgreementFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
 
 }
