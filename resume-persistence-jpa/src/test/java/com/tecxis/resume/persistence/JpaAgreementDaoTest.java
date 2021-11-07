@@ -1,7 +1,6 @@
 package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
@@ -9,16 +8,15 @@ import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
 import static com.tecxis.resume.domain.Constants.J2EE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
-import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
+import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
+import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 
@@ -39,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.id.AgreementId;
@@ -191,26 +188,30 @@ public class JpaAgreementDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
-		/**Insert service*/
-		Service scmAssoc = Utils.insertService(SCM_ASSOCIATE_DEVELOPPER, serviceRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
-		assertEquals(1, scmAssoc.getId().longValue());
-		/**Insert Contract*/
-		Client belfius = Utils.insertClient(BELFIUS, clientRepo);			
-		Contract alphatressBarclaysContract = Utils.insertContract(belfius, CONTRACT13_NAME, contractRepo);
+		/**Find Contract*/
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
+		/**Find Service*/
+		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		
-		/**Insert Agreement */
-		Agreement tempAgreement = Utils.insertAgreement(alphatressBarclaysContract, scmAssoc, agreementRepo);
-		assertNotNull(tempAgreement);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
+		/**Find Agreement to remove*/
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();			
+		deleteAgreementInJpa(deleteAgreementFunction -> {
+			
+			/**Do not detach and remove entity directly*/
+			/**Remove the Agreement from the Service */
+			agreementRepo.delete(axeltisFastConnectAgreement);
+			agreementRepo.flush();
+			
+		}, agreementRepo, jdbcTemplateProxy);
 		
-		/**Delete Agreement and test*/
-		agreementDao.delete(tempAgreement);	
-		agreementRepo.flush();
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
+		/**Test Agreement was removed */		
+		axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
+		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		/**Find Agreement to remove*/
+		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());
 	}
 	
 	@Test
