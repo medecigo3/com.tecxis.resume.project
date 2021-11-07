@@ -44,7 +44,6 @@ import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,8 +61,6 @@ public class JpaAgreementDaoTest {
 	private ServiceRepository serviceRepo;	
 	@Autowired
 	private  ContractRepository contractRepo;	
-	@Autowired
-	private SupplierRepository supplierRepo;	
 	@Autowired 
 	private ClientRepository clientRepo;
 	@Autowired
@@ -234,6 +231,9 @@ public class JpaAgreementDaoTest {
 	}
 	
 	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testFindByContractAndService() {		
 		/**Fetch  Contract*/
 		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
