@@ -48,6 +48,7 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 
@@ -596,6 +597,18 @@ public class Utils {
 		function.accept(entityManager);
 		function.afterTransactionCompletion(jdbcTemplate);
 	
+	}
+	
+	public static void deleteAgreementInJpa(DeleteAgreementFunction <EntityManager> function,EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void deleteAgreementInJpa(DeleteAgreementFunction <AgreementRepository> function, AgreementRepository agreementRepository, JdbcTemplate jdbcTemplate){
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(agreementRepository);
+		function.afterTransactionCompletion(jdbcTemplate);
 	}
 
 }

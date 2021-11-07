@@ -1,18 +1,16 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
-import static com.tecxis.resume.domain.Constants.FASTCONNECT;
 import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -33,10 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.id.AgreementId;
 import com.tecxis.resume.domain.repository.AgreementRepository;
-import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 
@@ -55,12 +51,6 @@ public class AgreementTest {
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
-	
-	@Autowired 
-	private ClientRepository clientRepo;
-	
-	@Autowired
-	private SupplierRepository supplierRepo;
 	
 	@Autowired
 	private ContractRepository contractRepo;
@@ -159,45 +149,31 @@ public class AgreementTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveAgreement() {
-		/**Find Client*/
-		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		assertEquals(AXELTIS, axeltis.getName());
-		
-		/**Find supplier*/
-		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
-		assertEquals(FASTCONNECT, fastconnect.getName());
-				
 		/**Find Contract*/
-		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
-		
-		
+		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
 		/**Find Service*/
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
-
-		/**Find Agreement to remove*/
-		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
-				
-		/**Do not detach and remove entity directly*/		
-				
-		/**Remove Agreement*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy); 
-		/**Remove the Agreement from the Service */
-		entityManager.remove(axeltisFastConnectAgreement);
-		entityManager.flush();
-		entityManager.clear();
-		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 		
-		/**Test Agreement was removed */
-		/**Find Client*/
-		axeltis = clientRepo.getClientByName(AXELTIS);
-		fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);		
+		/**Find Agreement to remove*/
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();			
+		deleteAgreementInJpa(deleteAgreementFunction -> {
+			
+			/**Do not detach and remove entity directly*/
+			/**Remove the Agreement from the Service */
+			entityManager.remove(axeltisFastConnectAgreement);
+			entityManager.flush();
+			entityManager.clear();
+			
+		}, entityManager, jdbcTemplateProxy);
+		
+		/**Test Agreement was removed */		
 		axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
-
 		/**Find Agreement to remove*/
 		assertFalse(agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).isPresent());		
 	}
-		
+	
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
@@ -226,7 +202,9 @@ public class AgreementTest {
 		/**Validate new Agreement*/
 		Agreement AgreementOut =agreementRepo.findById(AgreementId).get();		
 		assertTrue(isAgreementValid(AgreementOut, CONTRACT1_NAME, MULE_ESB_CONSULTANT));		
-	}	
+	}
+	
+	
 
 	@Test
 	public void testToString() {
