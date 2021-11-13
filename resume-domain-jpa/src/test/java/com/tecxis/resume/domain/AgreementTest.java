@@ -8,6 +8,7 @@ import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
+import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -188,7 +189,7 @@ public class AgreementTest {
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);		
 		
 		/**Insert Agreement */		
-		Utils.insertAgreementInJpa(setContractAgreementFunction-> {
+		insertAgreementInJpa(setContractAgreementFunction-> {
 			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
 			entityManager.persist(agreementIn);
 			entityManager.flush();
