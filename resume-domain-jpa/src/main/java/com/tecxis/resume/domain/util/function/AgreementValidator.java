@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.util.function.AgreementValidator.AgreementValidationResult;
 
+@FunctionalInterface
 public interface AgreementValidator extends Function <Agreement, AgreementValidationResult> {
 	
 
