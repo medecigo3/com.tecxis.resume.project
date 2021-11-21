@@ -105,11 +105,10 @@ public class AssignmentTest {
 		insertAssignmentInJpa(insertAssignmentFunction->{
 			Assignment amtAssignment  = new Assignment(adir, amt, task1);
 			entityManager.persist(amtAssignment);
-			entityManager.flush();	
-		}, entityManager, jdbcTemplateProxy);		
-	
-		/**Clean EM before tests*/
-		entityManager.clear();
+			entityManager.flush();	//manually commit the transaction	
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+		}, entityManager, jdbcTemplateProxy);	
+		
 		
 		/**Validate Assignment is inserted*/
 		AssignmentId newAssignmentId = new AssignmentId();

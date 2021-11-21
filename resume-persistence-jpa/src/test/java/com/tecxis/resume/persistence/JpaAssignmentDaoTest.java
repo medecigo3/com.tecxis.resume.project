@@ -119,11 +119,9 @@ public class JpaAssignmentDaoTest {
 		insertAssignmentInJpa(insertAssignmentFunction->{
 			Assignment amtAssignment  = new Assignment(adir, amt, task1);
 			assignmentDao.add(amtAssignment);
-			assignmentRepo.flush();	 //manually commit transaction
-		}, assignmentRepo, jdbcTemplateProxy);		
-	
-		/**Detach managed entities from persistence context*/
-		entityManager.clear();
+			assignmentRepo.flush();	 //manually commit the transaction			
+			entityManager.clear();   //Detach managed entities from persistence context to reload new changes
+		}, assignmentRepo, jdbcTemplateProxy);
 		
 		/**Validate Assignment is inserted*/
 		AssignmentId newAssignmentId = new AssignmentId();

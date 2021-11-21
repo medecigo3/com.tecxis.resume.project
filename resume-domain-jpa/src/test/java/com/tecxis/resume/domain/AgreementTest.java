@@ -89,8 +89,8 @@ public class AgreementTest {
 			/**Remove old and create new Agreement*/
 			entityManager.remove(axeltisFastConnectAgreement);
 			entityManager.persist(newAxeltisFastConnectAgreement);
-			entityManager.flush();
-			entityManager.clear();	
+			entityManager.flush();  //Manually commit the transaction
+			entityManager.clear();	//Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);
 		
 		/**Find old Enrolment*/
@@ -132,8 +132,8 @@ public class AgreementTest {
 			/**Remove old and create new Agreement*/
 			entityManager.remove(axeltisFastConnectAgreement);
 			entityManager.persist(newAxeltisFastConnectAgreement);
-			entityManager.flush();
-			entityManager.clear();	
+			entityManager.flush(); //Manually commit the transaction			
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -162,8 +162,8 @@ public class AgreementTest {
 			/**Do not detach and remove entity directly*/
 			/**Remove the Agreement from the Service */
 			entityManager.remove(axeltisFastConnectAgreement);
-			entityManager.flush();
-			entityManager.clear();
+			entityManager.flush(); //Manually commit the transaction			
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -192,7 +192,7 @@ public class AgreementTest {
 		insertAgreementInJpa(setContractAgreementFunction-> {
 			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
 			entityManager.persist(agreementIn);
-			entityManager.flush();
+			entityManager.flush(); //Manually commit the transaction
 			
 		}, entityManager, jdbcTemplateProxy);
 		

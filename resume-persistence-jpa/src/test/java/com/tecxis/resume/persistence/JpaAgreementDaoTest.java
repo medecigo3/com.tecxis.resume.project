@@ -99,7 +99,7 @@ public class JpaAgreementDaoTest {
 			/**Remove old and create new Agreement*/
 			agreementDao.delete(axeltisFastConnectAgreement);
 			agreementDao.save(newAxeltisFastConnectAgreement);
-			agreementRepo.flush();
+			agreementRepo.flush(); //Manually commit the transaction
 		}, agreementRepo, jdbcTemplateProxy);
 		
 		/**Find old Agreement*/
@@ -141,7 +141,7 @@ public class JpaAgreementDaoTest {
 			/**Remove old and create new Agreement*/
 			agreementRepo.delete(axeltisFastConnectAgreement);
 			agreementRepo.save(newAxeltisFastConnectAgreement);
-			agreementRepo.flush();	
+			agreementRepo.flush();	//Manually commit the transaction
 			
 		}, agreementRepo, jdbcTemplateProxy);
 		
@@ -171,7 +171,7 @@ public class JpaAgreementDaoTest {
 		insertAgreementInJpa(setContractAgreementFunction-> {			
 			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
 			agreementDao.add(agreementIn);
-			agreementRepo.flush();
+			agreementRepo.flush(); //Manually commit the transaction
 			
 		}, agreementRepo, jdbcTemplateProxy);
 		
@@ -200,7 +200,7 @@ public class JpaAgreementDaoTest {
 			/**Do not detach and remove entity directly*/
 			/**Remove the Agreement from the Service */
 			agreementRepo.delete(axeltisFastConnectAgreement);
-			agreementRepo.flush();
+			agreementRepo.flush(); //Manually commit the transaction
 			
 		}, agreementRepo, jdbcTemplateProxy);
 		
