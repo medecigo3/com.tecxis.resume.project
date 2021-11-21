@@ -91,6 +91,14 @@ public class Assignment implements Serializable {
 		this.task = task;
 	}
 
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
