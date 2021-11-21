@@ -3,6 +3,9 @@ package com.tecxis.resume.domain.util;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.AgreementValidationResult.SUCCESS;
+import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectValid;
+import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffValid;
+import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 
 import java.util.Date;
 
@@ -50,7 +53,9 @@ import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
+import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.ValidationResult;
 
 public class Utils {
 
@@ -609,6 +614,28 @@ public class Utils {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(agreementRepository);
 		function.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void insertAssignmentInJpa(InsertAssignmentFunction <AssignmentRepository> function, AssignmentRepository  assignmentRepo, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(assignmentRepo);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
+	
+	public static void insertAssignmentInJpa(InsertAssignmentFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	
+	}
+	
+	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String firstName, String lastName, String taskDesc) {
+		ValidationResult result = isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject());
+		result = isStaffValid(firstName, lastName).apply(assignment.getStaff());
+		result = isTaskValid(taskDesc).apply(assignment.getTask());
+		return result;
+		
 	}
 
 }

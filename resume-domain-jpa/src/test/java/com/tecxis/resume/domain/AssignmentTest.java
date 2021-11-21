@@ -11,6 +11,9 @@ import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
+import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,7 +21,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -37,6 +39,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.id.AssignmentId;
+import com.tecxis.resume.domain.id.ProjectId;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
@@ -67,6 +70,9 @@ public class AssignmentTest {
 	
 	@Autowired
 	private TaskRepository taskRepo;
+	
+	@Autowired
+	private AssignmentRepository assignmentRepo;
 		
 
 	@Test
@@ -74,35 +80,55 @@ public class AssignmentTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertAssignment() {
-		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
+		final long clientId = 1L;
+		final long projectId = 1L;
+		final long staffId = 1L;
+		final long taskId = 1L;
+		
+		/**Insert Client*/
+		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
+		assertEquals(clientId, barclays.getId().longValue());	
+		
+		/**Insert project*/
 		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, adir.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
+		assertEquals(projectId, adir.getId().getProjectId());	
 		
-		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		assertEquals(1L, amt.getId().longValue());
+		/**Insert staff*/		
+		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);		
+		assertEquals(staffId, amt.getId().longValue());
 		
-		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
-		Task assignment1 = Utils.insertTask(TASK1, entityManager);
-		assertEquals(1L, assignment1.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
+		/**Insert Task*/				
+		Task task1 = Utils.insertTask(TASK1, entityManager);
+		assertEquals(taskId, task1.getId().longValue());		
 		
-		/**Prepare staff assignments*/	
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
-		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
-		List <Assignment> amtAssignments = new ArrayList <> ();		
-		amtAssignments.add(amtAssignment);				
-		entityManager.merge(adir);
-		entityManager.flush();
+		/**Insert Assignment*/
+		insertAssignmentInJpa(insertAssignmentFunction->{
+			Assignment amtAssignment  = new Assignment(adir, amt, task1);
+			entityManager.persist(amtAssignment);
+			entityManager.flush();	
+		}, entityManager, jdbcTemplateProxy);		
+	
+		/**Clean EM before tests*/
+		entityManager.clear();
 		
-		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
+		/**Validate Assignment is inserted*/
+		AssignmentId newAssignmentId = new AssignmentId();
+		newAssignmentId.setProjectId(new ProjectId(projectId, clientId));
+		newAssignmentId.setStaffId(staffId);
+		newAssignmentId.setTaskId(taskId);
+		Assignment newAssignment = assignmentRepo.findById(newAssignmentId).get();
+		assertEquals(SUCCESS, isAssignmentValid(newAssignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		
+		/**Validate Project has new Assignment*/
+		List <Assignment> newProjectAssignments = projectRepo.findByNameAndVersion(ADIR, VERSION_1).getAssignments();
+		assertThat(newProjectAssignments).contains(newAssignment);
+		/**Validate Staff has new Assignment*/
+		List <Assignment> newStaffAssignemnts = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME).getAssignments();
+		assertThat(newStaffAssignemnts).contains(newAssignment);
+		/**Validate Task has new Assignment*/
+		List <Assignment> newTaskAssignments = taskRepo.getTaskByDesc(TASK1).getAssignments();
+		assertThat(newTaskAssignments).contains(newAssignment);
+		
 	}
 
 	@Test
