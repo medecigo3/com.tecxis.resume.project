@@ -12,8 +12,8 @@ import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,6 +35,7 @@ import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.function.ValidationResult;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -72,7 +73,7 @@ public class AgreementTest {
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
 		
 		/**Validates Agreement to test*/		
-		assertTrue(isAgreementValid(axeltisFastConnectAgreement, CONTRACT7_NAME, TIBCO_BW_CONSULTANT));
+		assertEquals(ValidationResult.SUCCESS, isAgreementValid(axeltisFastConnectAgreement, CONTRACT7_NAME, TIBCO_BW_CONSULTANT));
 								
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
@@ -98,7 +99,7 @@ public class AgreementTest {
 		/**Find new Agreement*/
 		Agreement newLiferayAgreement = agreementRepo.findByContractAndService(axeltisFastConnectcontract, liferayDev);
 		/**Validates new Agreement*/		
-		assertTrue(isAgreementValid(newLiferayAgreement, CONTRACT7_NAME, LIFERAY_DEVELOPPER));
+		assertEquals(ValidationResult.SUCCESS, isAgreementValid(newLiferayAgreement, CONTRACT7_NAME, LIFERAY_DEVELOPPER));
 			
 	}
 	
@@ -115,7 +116,7 @@ public class AgreementTest {
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
 		
 		/**Validates Agreement to test*/		
-		assertTrue(isAgreementValid(axeltisFastConnectAgreement, CONTRACT7_NAME, TIBCO_BW_CONSULTANT));
+		assertEquals(ValidationResult.SUCCESS, isAgreementValid(axeltisFastConnectAgreement, CONTRACT7_NAME, TIBCO_BW_CONSULTANT));
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
@@ -142,7 +143,7 @@ public class AgreementTest {
 		/**Test new Agreement changes*/
 		Agreement newAxeltisFastConnectAgreement = agreementRepo.findByContractAndService(accentureBarclaysContract, tibcoCons);				
 		/**Validates new Agreement*/		
-		assertTrue(isAgreementValid(newAxeltisFastConnectAgreement, CONTRACT1_NAME, TIBCO_BW_CONSULTANT));
+		assertEquals(ValidationResult.SUCCESS, isAgreementValid(newAxeltisFastConnectAgreement, CONTRACT1_NAME, TIBCO_BW_CONSULTANT));
 	}
 	
 	@Test()
@@ -202,7 +203,7 @@ public class AgreementTest {
 		AgreementId.setServiceId(muleEsbCons.getId());
 		/**Validate new Agreement*/
 		Agreement AgreementOut =agreementRepo.findById(AgreementId).get();		
-		assertTrue(isAgreementValid(AgreementOut, CONTRACT1_NAME, MULE_ESB_CONSULTANT));		
+		assertEquals(ValidationResult.SUCCESS, isAgreementValid(AgreementOut, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
 	}
 	
 	

@@ -28,6 +28,7 @@ import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK12;
 import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.TED;
@@ -35,6 +36,22 @@ import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
+import static com.tecxis.resume.domain.util.Utils.buildAgreement;
+import static com.tecxis.resume.domain.util.Utils.buildAssignment;
+import static com.tecxis.resume.domain.util.Utils.buildClient;
+import static com.tecxis.resume.domain.util.Utils.buildContract;
+import static com.tecxis.resume.domain.util.Utils.buildProject;
+import static com.tecxis.resume.domain.util.Utils.buildService;
+import static com.tecxis.resume.domain.util.Utils.buildStaff;
+import static com.tecxis.resume.domain.util.Utils.buildTask;
+import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
+import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_IS_NOT_VALID;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -1265,5 +1282,35 @@ public class UtilsTest {
 		SchemaUtils.testStateAfterBwEnrolmentDelete(jdbcTemplateProxy);
 	}
 	
+	@Test
+	public void testIsAgreementValid() {			
+		Contract contract = buildContract(buildClient(BARCLAYS), CONTRACT1_NAME);
+		Service service = buildService(MULE_ESB_CONSULTANT);
+		Agreement agreement = buildAgreement(contract, service);
+		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
+		/**Test Contract name is not valid*/					
+		assertEquals(CONTRACT_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
+		/**Test Service name is not valid*/
+		assertEquals(SERVICE_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
+	}
+	
+	@Test
+	public void testIsAssignmentValid() {
+		Client client = buildClient(BARCLAYS);		
+		Project project = buildProject(ADIR, VERSION_1, client);
+		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
+		Task task = buildTask(TASK1);
+		Assignment assignment = buildAssignment(project, staff, task);
+		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		/**Test Project is not valid*/
+		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, "Test", BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		/**Test Staff is not valid*/
+		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, "Test", AMT_LASTNAME, TASK1));
+		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, "Test", TASK1));
+		/**Test Task isn't valid*/
+		assertEquals(TASK_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, "Test"));
+		
+	}
 	
 }
