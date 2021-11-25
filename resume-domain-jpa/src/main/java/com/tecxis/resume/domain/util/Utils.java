@@ -2,10 +2,15 @@ package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
-import static com.tecxis.resume.domain.util.function.AgreementValidator.AgreementValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_IS_NOT_VALID;
 
 import java.util.Date;
 
@@ -64,17 +69,21 @@ public class Utils {
 	}
 
 	public static Task insertTask(String desc, EntityManager entityManager) {
-		Task task = new Task();
-		task.setDesc(desc);		
+		Task task = buildTask(desc);
 		entityManager.persist(task);
 		entityManager.flush();
 		return task;
 	}
 	
 	public static Task insertTask(String desc, TaskRepository taskRepo) {
-		Task task = new Task();
-		task.setDesc(desc);		
+		Task task = buildTask(desc);		
 		taskRepo.saveAndFlush(task);
+		return task;
+	}
+	
+	public static Task buildTask(String desc) {
+		Task task = new Task();
+		task.setDesc(desc);
 		return task;
 	}
 	
@@ -118,8 +127,7 @@ public class Utils {
 	}
 
 	public static Client insertClient(String name, EntityManager entityManager) {
-		Client client = new Client();
-		client.setName(name);	
+		Client client = buildClient(name);
 		entityManager.persist(client);		
 		entityManager.flush();
 		return client;
@@ -127,11 +135,16 @@ public class Utils {
 	}
 	
 	public static Client insertClient(String name, ClientRepository clientRepo) {
-		Client client = new Client();
-		client.setName(name);	
+		Client client = buildClient(name);
 		clientRepo.saveAndFlush(client);		
 		return client;
 		
+	}	
+	
+	public static Client buildClient(String name) {
+		Client client = new Client();
+		client.setName(name);	
+		return client;		
 	}
 	
 	public static void removeClient(Client client, EntityManager entityManager) {		
@@ -145,16 +158,20 @@ public class Utils {
 	}
 
 	public static Agreement insertAgreement(Contract contract, Service service, EntityManager entityManager) {
-		Agreement agreement = new Agreement(contract, service);		
+		Agreement agreement = buildAgreement(contract, service);		
 		entityManager.persist(agreement);
 		entityManager.flush();
 		return agreement;
 	}
 	
 	public static Agreement insertAgreement(Contract contract, Service service, AgreementRepository contractServiceAgreementRepo) {
-		Agreement agreement = new Agreement(contract, service);		
+		Agreement agreement = buildAgreement(contract, service);		
 		contractServiceAgreementRepo.saveAndFlush(agreement);
 		return agreement;
+	}
+	
+	public static Agreement buildAgreement(Contract contract, Service service) {
+		return new Agreement(contract, service);	
 	}
 	
 	public static void removeAgreement(Agreement agreement, EntityManager entityManager) {		
@@ -168,9 +185,7 @@ public class Utils {
 	}
 
 	public static Contract insertContract(Client client, String name, EntityManager entityManager) {
-		Contract contract  = new Contract();
-		contract.setName(name);
-		contract.setClient(client);
+		Contract contract = buildContract(client, name);
 		entityManager.persist(contract);
 		entityManager.flush();
 		return contract;
@@ -178,12 +193,17 @@ public class Utils {
 	}
 	
 	public static Contract insertContract(Client client, String name, ContractRepository contractRepo) {
-		Contract contract  = new Contract();
-		contract.setName(name);
-		contract.setClient(client);		
+		Contract contract  = buildContract(client, name);
 		contractRepo.saveAndFlush(contract);
 		return contract;
 		
+	}
+	
+	public static Contract buildContract(Client client, String name) {
+		Contract contract  = new Contract();
+		contract.setName(name);
+		contract.setClient(client);	
+		return contract;
 	}
 	
 	public static void removeContract(Contract contract, EntityManager entityManager) {		
@@ -328,24 +348,24 @@ public class Utils {
 	}	
 
 	public static Project insertProject(String name, String version, Client client, EntityManager entityManager) {
+		Project project = buildProject(name, version, client);
+		entityManager.persist(project);
+		entityManager.flush();
+		return project;
+	}
+	
+	public static Project insertProject(String name, String version, Client client, ProjectRepository projectRepo) {
+		Project project = buildProject(name, version, client);		
+		projectRepo.saveAndFlush(project);
+		return project;	
+	}
+	
+	public static Project buildProject(String name, String version, Client client) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
-		entityManager.persist(project);
-		entityManager.flush();
 		return project;
-	
-	}
-	
-	public static Project insertProject(String name, String version, Client client, ProjectRepository projectRepo) {
-		Project project = new Project();
-		project.setClient(client);		
-		project.setName(name);
-		project.setVersion(version);		
-		projectRepo.saveAndFlush(project);
-		return project;
-	
 	}
 	
 	public static void removeProject(Project project, EntityManager entityManager) {		
@@ -359,17 +379,21 @@ public class Utils {
 	}	
 
 	public static Service insertService(String name, EntityManager entityManager) {
-		Service service = new Service();
-		service.setName(name);			
+		Service service = buildService(name);
 		entityManager.persist(service);
 		entityManager.flush();
 		return service;
 	}
 	
 	public static Service insertService(String name, ServiceRepository serviceRepo) {
-		Service service = new Service();
-		service.setName(name);					
+		Service service = buildService(name);					
 		serviceRepo.saveAndFlush(service);
+		return service;
+	}
+	
+	public static Service buildService(String name) {
+		Service service = new Service();
+		service.setName(name);
 		return service;
 	}
 	
@@ -409,7 +433,7 @@ public class Utils {
 	}
 
 	public static Assignment insertAssignment(Project project, Staff staff,  Task task, EntityManager entityManager) {
-		Assignment assignment = new Assignment(project, staff, task);
+		Assignment assignment =  buildAssignment(project, staff, task);
 		entityManager.persist(assignment);
 		entityManager.flush();
 		return assignment;
@@ -417,10 +441,14 @@ public class Utils {
 	}
 
 	public static Assignment insertAssignment(Project project, Staff staff,  Task task, AssignmentRepository assignmentRepo) {
-		Assignment assignment = new Assignment(project, staff, task);		
+		Assignment assignment = buildAssignment(project, staff, task);		
 		assignmentRepo.saveAndFlush(assignment);
 		return assignment;
 		
+	}
+	
+	public static Assignment buildAssignment(Project project, Staff staff,  Task task) {
+		return new Assignment(project, staff, task);	
 	}
 	
 	public static void removeAssignment(Assignment assignment, EntityManager entityManager) {		
@@ -459,10 +487,7 @@ public class Utils {
 	}
 	
 	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
-		Staff staff = new Staff();
-		staff.setFirstName(firstName);
-		staff.setLastName(lastName);
-		staff.setBirthDate(birthDate);
+		Staff staff = buildStaff(firstName, lastName, birthDate);
 		entityManager.persist(staff);
 		entityManager.flush();
 		return staff;
@@ -480,13 +505,18 @@ public class Utils {
 	}
 	
 	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  StaffRepository staffRepo) {
-		Staff staff = new Staff();
-		staff.setFirstName(firstName);
-		staff.setLastName(lastName);
-		staff.setBirthDate(birthDate);		
+		Staff staff = buildStaff(firstName, lastName, birthDate);			
 		staffRepo.saveAndFlush(staff);
 		return staff;
 		
+	}
+	
+	public static Staff buildStaff(String firstName, String lastName, Date birthDate) {
+		Staff staff = new Staff();
+		staff.setFirstName(firstName);
+		staff.setLastName(lastName);
+		staff.setBirthDate(birthDate);
+		return staff;
 	}
 
 	public static Supplier insertSupplier(String name, EntityManager entityManager) {
@@ -580,14 +610,12 @@ public class Utils {
 	
 	}
 
-	public static boolean isAgreementValid(Agreement agreement, String contractName, String serviceName) {
-		if(	isContractValid(contractName).
-			and(isServiceValid(serviceName)).
-			apply(agreement).equals(SUCCESS)) {
-			return true;
-		}	else {
-			return false;
-		}
+	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
+		if(CONTRACT_IS_NOT_VALID.equals((isContractValid(contractName).apply(agreement))))
+			return CONTRACT_IS_NOT_VALID;
+		if(SERVICE_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
+			return SERVICE_IS_NOT_VALID;
+		return SUCCESS;
 	}
 	
 	public static void insertAgreementInJpa(InsertAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
@@ -630,12 +658,15 @@ public class Utils {
 	
 	}
 	
+	
 	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String firstName, String lastName, String taskDesc) {
-		ValidationResult result = isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject());
-		result = isStaffValid(firstName, lastName).apply(assignment.getStaff());
-		result = isTaskValid(taskDesc).apply(assignment.getTask());
-		return result;
-		
+		if (PROJECT_IS_NOT_VALID.equals(isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject())))
+			return PROJECT_IS_NOT_VALID;
+		if (STAFF_IS_NOT_VALID.equals(isStaffValid(firstName, lastName).apply(assignment.getStaff())))
+			return STAFF_IS_NOT_VALID;
+		if (TASK_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
+			return TASK_IS_NOT_VALID;
+		return SUCCESS;		
 	}
 
 }
