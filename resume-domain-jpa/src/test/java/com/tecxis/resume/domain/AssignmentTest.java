@@ -108,7 +108,7 @@ public class AssignmentTest {
 		}, entityManager, jdbcTemplateProxy);	
 		
 		
-		/**Validate Assignment is inserted*/
+		/**Validate target Assignment was inserted*/
 		AssignmentId newAssignmentId = new AssignmentId();
 		newAssignmentId.setProjectId(new ProjectId(projectId, clientId));
 		newAssignmentId.setStaffId(staffId);
@@ -156,8 +156,7 @@ public class AssignmentTest {
 			entityManager.flush(); //manually commit the transaction
 			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);		
-
-
+		
 		/**Validate target Assignment does not exist*/
 		assertNull(entityManager.find(Assignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
@@ -178,7 +177,7 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testCascadedDeletion() {
+	public void testCascadedDelete() {
 		/**Retrieve staff*/
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
