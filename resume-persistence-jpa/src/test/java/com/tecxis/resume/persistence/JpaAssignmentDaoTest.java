@@ -5,13 +5,18 @@ import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
+import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
+import static com.tecxis.resume.domain.util.Utils.deleteAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -144,9 +149,44 @@ public class JpaAssignmentDaoTest {
 	
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"})
 	public void testDelete() {
-		Assert.fail("TODO");
+		/**Find Project*/
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		/**Find Task*/
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+		
+		/**Validate target Assignment*/
+		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());		
+		assertEquals(62, amt.getAssignments().size());		
+		assertEquals(6, parcours.getAssignments().size());
+		assertEquals(1, task14.getAssignments().size());		
+		entityManager.clear(); //Detach entities
+		/**Find target Assignment*/
+		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);		
+	
+		deleteAssignmentInJpa(deleteAssignmentFunction->{
+			/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */	
+			entityManager.remove(staffProjectAssignment1);
+			entityManager.flush(); //manually commit the transaction
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+		}, assignmentRepo, jdbcTemplateProxy);		
+
+		/**Validate target Assignment does not exist*/
+		assertNull(entityManager.find(Assignment.class, id));
+		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		/**Validate target Assignment associations*/
+		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		task14 = taskRepo.getTaskByDesc(TASK14);
+		/**Validate target Staff -> Assignment(s)*/		
+		assertEquals(61, amt.getAssignments().size());
+		/**Validate target Project -> Assignment(s)*/
+		assertEquals(5, parcours.getAssignments().size());
+		/**Validate target Task -> Assignment(s)*/
+		assertEquals(0, task14.getAssignments().size());
 	}
 	
 	@Test
