@@ -11,6 +11,7 @@ import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.deleteAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -61,9 +62,6 @@ public class AssignmentTest {
 		
 	@Autowired
 	private ProjectRepository projectRepo;
-	
-	@Autowired
-	private AssignmentRepository staffProjectAssignmentRepo;
 		
 	@Autowired 
 	private StaffRepository staffRepo;
@@ -135,52 +133,42 @@ public class AssignmentTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveAssignment() {
+		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		Task task14 = taskRepo.getTaskByDesc(TASK14);		
-		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());	
+		/**Find Task*/
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+		
+		/**Validate target Assignment*/
+		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());		
 		assertEquals(62, amt.getAssignments().size());		
 		assertEquals(6, parcours.getAssignments().size());
-		assertEquals(1, task14.getAssignments().size());
-		
-		/**Detach entities*/
-		entityManager.clear();
-
-		/**Validate staff -> assignments*/
-		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
-		Assignment staffProjectAssignment1 = staffProjectAssignmentRepo.findById(id).get();
-		assertNotNull(staffProjectAssignment1);
-		
+		assertEquals(1, task14.getAssignments().size());		
+		entityManager.clear(); //Detach entities
+		/**Find target Assignment*/
+		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);		
 	
-		/**Tests initial state parent table
-		* STAFF_TABLE
-		* Tests initial state children tables
-		* INTEREST_TABLE)
-		* StaffSkill.STAFF_SKILL_TABLE
-		* ENROLMENT_TABLE
-		* EMPLOYMENT_CONTRACT_TABLE	
-		* SUPPLY_CONTRACT_TABLE
-		* ASSIGNMENT_TABLE
-		* Test other parents for control
-		* SKILL_TABLE
-		* SUPPLIER_TABLE		
-		* CONTRACT_TABLE*/ 
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */		
-		entityManager.remove(staffProjectAssignment1);
-		entityManager.flush();
-		entityManager.clear();
-		
-		/**Tests tables post state*/
-		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);	
-		
-		/**Validate staff -> assignments*/		
+		deleteAssignmentInJpa(deleteAssignmentFunction->{
+			/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */	
+			entityManager.remove(staffProjectAssignment1);
+			entityManager.flush(); //manually commit the transaction
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+		}, entityManager, jdbcTemplateProxy);		
+
+
+		/**Validate target Assignment does not exist*/
 		assertNull(entityManager.find(Assignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+		/**Validate target Assignment associations*/
 		amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
-		task14 = taskRepo.getTaskByDesc(TASK14);	
-		assertEquals(61, amt.getAssignments().size());		
+		task14 = taskRepo.getTaskByDesc(TASK14);
+		/**Validate target Staff -> Assignment(s)*/		
+		assertEquals(61, amt.getAssignments().size());
+		/**Validate target Project -> Assignment(s)*/
 		assertEquals(5, parcours.getAssignments().size());
+		/**Validate target Task -> Assignment(s)*/
 		assertEquals(0, task14.getAssignments().size());
 		
 	}
@@ -209,7 +197,7 @@ public class AssignmentTest {
 
 		AssignmentId id2 = new AssignmentId(fortis.getId(), amt.getId(), entityManager.find(Task.class, 6L).getId());	
 		Assignment staffAssignment2 =	entityManager.find(Assignment.class, id2);
-		Assignment staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
+		Assignment staffAssignment3 = assignmentRepo.findById(id2).get();
 		assertTrue(staffAssignment2.equals(staffAssignment3));
 		assertNotNull(staffAssignment3);
 			
@@ -224,7 +212,7 @@ public class AssignmentTest {
 		
 		/**Detach entities from persistent context*/
 		entityManager.clear();
-		staffAssignment3 = staffProjectAssignmentRepo.findById(id2).get();
+		staffAssignment3 = assignmentRepo.findById(id2).get();
 		assertNotNull(staffAssignment3);
 		entityManager.remove(staffAssignment3);
 		entityManager.flush();

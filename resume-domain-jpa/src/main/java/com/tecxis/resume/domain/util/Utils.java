@@ -57,6 +57,7 @@ import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
+import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
@@ -658,6 +659,17 @@ public class Utils {
 	
 	}
 	
+	public static void deleteAssignmentInJpa(DeleteAssignmentFunction <EntityManager> function,EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void deleteAssignmentInJpa(DeleteAssignmentFunction <AssignmentRepository> function, AssignmentRepository agreementRepository, JdbcTemplate jdbcTemplate){
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(agreementRepository);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}
 	
 	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String firstName, String lastName, String taskDesc) {
 		if (PROJECT_IS_NOT_VALID.equals(isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject())))
