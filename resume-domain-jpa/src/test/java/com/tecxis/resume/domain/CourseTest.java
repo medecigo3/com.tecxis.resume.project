@@ -36,20 +36,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"} )
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class CourseTest {
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired 
 	private CourseRepository courseRepo;
@@ -180,14 +179,14 @@ public class CourseTest {
 		assertEquals(BW_6_COURSE, bwCourse.getTitle());
 		
 		/**Test initial state*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		
 		/**Remove course*/
 		entityManager.remove(bwCourse);
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		UtilsTest.testStateAfterBw6CourseDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);		
 	}
 	
 	@Test

@@ -32,8 +32,6 @@ import com.tecxis.resume.domain.id.Identifiable;
 public class Service implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
-	public static final String SERVICE_TABLE = "SERVICE";
-
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="SERVICE_SEQ", 
 	 parameters = {

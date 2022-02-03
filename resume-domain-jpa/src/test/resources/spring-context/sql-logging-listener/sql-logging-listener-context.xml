@@ -11,17 +11,21 @@
 	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- DataSource context with SQL query logging listener to debug unit test SQL statements.  -->
+
   	<!-- 
 	<jdbc:embedded-database id="dataSource" type="H2">
 		<jdbc:script location="classpath:schema.sql"/>
 	</jdbc:embedded-database>
 	 -->
+ 	<!-- DataSource context with SQL query logging listener to debug unit test SQL statements.  -->
+	<bean id="jdbcTemplateProxy"  class="org.springframework.jdbc.core.JdbcTemplate">
+	   <constructor-arg ref="dataSourceProxy" />
+	</bean>
 		
       <!-- load H2 jdbc properties -->
     <context:property-placeholder location="classpath:jdbc-h2.properties"/>
     
-     <bean id="dataSourceHelper" class="org.h2.jdbcx.JdbcDataSource">
+     <bean id="coreDataSource" class="org.h2.jdbcx.JdbcDataSource">
        <property name="URL" value="${jdbc.url}"/>
        <property name="user" value="${jdbc.user}"/>
        <property name="password" value="${jdbc.password}"/>
@@ -29,7 +33,7 @@
    
    	<util:constant id="dataSourceFactory" static-field="com.vladmihalcea.book.hpjp.util.DataSourceProxyType.DATA_SOURCE_PROXY" />
    	<bean id="dataSourceProxy" factory-bean="dataSourceFactory" factory-method="dataSource">
-   		<constructor-arg ref="dataSourceHelper"/>
+   		<constructor-arg ref="coreDataSource"/>
    	</bean>        	
 	
 	<!--     
@@ -39,8 +43,12 @@
 
 
     <!-- EntityMananger factory with hibernate statistics logging capabilities for debugging purposes. -->
-    <!-- FactoryBean that creates a JPA EntityManagerFactory. -->
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <!-- FactoryBean that creates a JPA EntityManagerFactory.-->
+    <!-- Bean is setup as primary so that it can be wired in by type by the PersistenceAnnotationBeanPostProcessor to the fields or methods annotated with @PersistenceContext-->
+    <!-- As documented in the PersistenceAnnotationBeanPostProcessor javadoc, this post-processor can either obtain EntityManagerFactory beans defined in the Spring application context (the default), 
+    or obtain EntityManagerFactory references from JNDI ("persistence unit references"), but cannot be wired-in, therefore setting this bean as primary removes the error:
+    NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.persistence.EntityManagerFactory' available: expected single matching bean but found 2: entityManagerFactoryProxy,entityManagerFactoryHelper -->
+	<bean id="entityManagerFactoryProxy" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" primary="true">
 		<property name="dataSource" ref="dataSourceProxy" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<property name="jpaProperties">
@@ -58,7 +66,7 @@
 	
 	<!-- Spring's JPA transaction context to coordinate trans. for DataSource with SQL query logging listener.--> 
 	<bean id="txManagerProxy" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="entityManagerFactory" ref="entityManagerFactoryProxy" />
 		<property name="dataSource" ref="dataSourceProxy" />
 	</bean>
 

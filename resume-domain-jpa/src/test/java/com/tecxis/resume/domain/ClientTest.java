@@ -42,20 +42,19 @@ import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"} )
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class ClientTest {
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private ClientRepository clientRepo;
@@ -240,7 +239,7 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		
 		/**Remove client*/
 		entityManager.remove(axeltis);
@@ -253,7 +252,7 @@ public class ClientTest {
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(AXELTIS));
 
-		UtilsTest.testStateAfterAxeltisClientDelete(jdbcTemplate);		
+		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);		
 		
 	}
 	

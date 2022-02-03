@@ -33,9 +33,6 @@ import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 @Entity
 public class City implements Serializable, CompositeIdentifiable <CityId>{
 	private static final long serialVersionUID = 1L;
-	public static final String CITY_TABLE = "CITY";
-	
-	
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CITY_SEQ", 
 	 parameters = {

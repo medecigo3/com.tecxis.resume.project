@@ -1,5 +1,7 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.SchemaConstants.ASSIGNMENT_TABLE;
+
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -17,11 +19,9 @@ import com.tecxis.resume.domain.id.AssignmentId;
  * 
  */
 @Entity
-@Table(name=Assignment.ASSIGNMENT_TABLE)
+@Table(name=ASSIGNMENT_TABLE)
 public class Assignment implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	public static final String ASSIGNMENT_TABLE = "ASSIGNMENT";
 	
 	@EmbeddedId
 	private AssignmentId id; 
@@ -88,6 +88,14 @@ public class Assignment implements Serializable {
 	}
 
 	public void setAssignment(Task task) {
+		this.task = task;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
 		this.task = task;
 	}
 

@@ -35,16 +35,35 @@
     
 	<logger name="com.tecxis" level="debug"/>
 	<!-- No appender accumulation. Only appender springLog will be used. See additivity setting: http://logback.qos.ch/manual/architecture.html-->
-    <logger name="org.springframework" level="info" additivity="false">
+     <logger name="org.springframework.transaction" level="debug" additivity="true">
     	<appender-ref ref="springLog"/>
     </logger>
+    <!-- Logs SQL queries for debugging purposes -->
+    <logger name="org.springframework.jdbc" level="info" additivity="false">
+    	<appender-ref ref="springLog"/>
+    </logger>
+    <logger name="org.springframework.test" level="info" additivity="false">
+    	<appender-ref ref="springLog"/>
+    </logger>
+      <!-- Logs Spring repositories init.-->
+    <logger name="org.springframework.data" level="debug" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger> 
+    <!-- Logs creation of EntityManager and  init. of JpaQueryFactory and NamedQuery for Spring repositories -->
+    <logger name="org.springframework.orm.jpa" level="debug" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger>  
+    <logger name="org.springframework" level="info" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger>
+  
 
-    <logger name="net.ttddyy.dsproxy.listener" level="debug"/>
+    <logger name="net.ttddyy.dsproxy.listener.logging" level="debug"/>
 
     <logger name="bitronix.tm" level="warn"/>
 	
 	<logger name="net.sf.ehcache" level="info"/>
-<!--     <logger name="com.vladmihalcea" level="debug"/> -->
+    <logger name="com.vladmihalcea" level="debug"/>
 	
 	<logger name="org.hibernate" level="info"/>
     <logger name="org.hibernate.hql" level="info"/>

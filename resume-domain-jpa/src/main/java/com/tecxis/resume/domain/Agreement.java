@@ -1,5 +1,7 @@
 package com.tecxis.resume.domain;
 
+import static com.tecxis.resume.domain.SchemaConstants.AGREEMENT_TABLE;
+
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -26,11 +28,9 @@ import com.tecxis.resume.domain.id.AgreementId;
  * 
  * */
 @Entity
-@Table(name=Agreement.AGREEMENT_TABLE)
+@Table(name=AGREEMENT_TABLE)
 public class Agreement implements Serializable{	
 	private static final long serialVersionUID = 1L;
-	
-	final public static String AGREEMENT_TABLE = "AGREEMENT";
 	
 	@EmbeddedId
 	private AgreementId id;

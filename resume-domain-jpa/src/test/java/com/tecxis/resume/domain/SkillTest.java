@@ -2,7 +2,6 @@ package com.tecxis.resume.domain;
 
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,20 +32,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.repository.SkillRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.UtilsTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"})
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
+@SqlConfig(dataSource="dataSourceHelper")
 public class SkillTest {
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private SkillRepository skillRepo;
@@ -108,18 +106,18 @@ public class SkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testRemoveSkill() {
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		/**Find Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		assertEquals(tibco.getName(), TIBCO);
 		
 		/**Test Skill initial state*/
-		UtilsTest.testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Remove Skill*/
 		entityManager.remove(tibco);
 		entityManager.flush();		
 		/**Test Skill was removed*/
-		UtilsTest.testStateAfterTibcoSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 		
 	}
 	
