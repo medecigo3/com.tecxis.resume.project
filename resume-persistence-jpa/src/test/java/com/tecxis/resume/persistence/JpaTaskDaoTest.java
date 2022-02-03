@@ -1,6 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
 import static com.tecxis.resume.domain.Constants.TASK12;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -21,20 +20,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.Task;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml" })
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED) //this test suite is @Transactional but flushes changes manually (see the blog: https://www.marcobehler.com/2014/06/25/should-my-tests-be-transactional)
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED) //this test suite is @Transactional but flushes changes manually (see the blog: https://www.marcobehler.com/2014/06/25/should-my-tests-be-transactional)
+@SqlConfig(dataSource="dataSourceHelper")
 public class JpaTaskDaoTest {
 	
-	@PersistenceContext
+	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Autowired
 	private TaskDao taskDao;
@@ -53,12 +53,12 @@ public class JpaTaskDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testAdd() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Task task = new Task();
 		task.setDesc(TASK12);		
 		taskDao.add(task);
 		entityManager.flush();
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 	}
 
 	@Test

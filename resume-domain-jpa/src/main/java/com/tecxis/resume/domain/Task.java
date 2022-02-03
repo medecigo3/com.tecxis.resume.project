@@ -32,8 +32,6 @@ import com.tecxis.resume.domain.id.Identifiable;
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= { "\"DESC\"" }))
 public class Task implements Serializable, Identifiable <Long> {	
 	private static final long serialVersionUID = 1L;
-	public static final String TASK_TABLE = "TASK";
-
 	@NotNull
 	@Column(name="\"DESC\"")
 	private String desc;

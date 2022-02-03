@@ -1,16 +1,11 @@
 package com.tecxis.resume.domain.util;
 
-import static com.tecxis.resume.domain.Task.TASK_TABLE;
-import static com.tecxis.resume.domain.City.CITY_TABLE;
-import static com.tecxis.resume.domain.Client.CLIENT_TABLE;
 import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
 import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.ALPHATRESS;
 import static com.tecxis.resume.domain.Constants.ALTERNA;
 import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.TASK12;
-import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
@@ -33,27 +28,30 @@ import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK12;
+import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.TIBCO;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Contract.CONTRACT_TABLE;
-import static com.tecxis.resume.domain.Agreement.AGREEMENT_TABLE;
-import static com.tecxis.resume.domain.Country.COUNTRY_TABLE;
-import static com.tecxis.resume.domain.Course.COURSE_TABLE;
-import static com.tecxis.resume.domain.EmploymentContract.EMPLOYMENT_CONTRACT_TABLE;
-import static com.tecxis.resume.domain.Enrolment.ENROLMENT_TABLE;
-import static com.tecxis.resume.domain.Interest.INTEREST_TABLE;
-import static com.tecxis.resume.domain.Location.LOCATION_TABLE;
-import static com.tecxis.resume.domain.Project.PROJECT_TABLE;
-import static com.tecxis.resume.domain.Service.SERVICE_TABLE;
-import static com.tecxis.resume.domain.Skill.SKILL_TABLE;
-import static com.tecxis.resume.domain.Staff.STAFF_TABLE;
-import static com.tecxis.resume.domain.Assignment.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.domain.StaffSkill.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.domain.Supplier.SUPPLIER_TABLE;
-import static com.tecxis.resume.domain.SupplyContract.SUPPLY_CONTRACT_TABLE;
+import static com.tecxis.resume.domain.util.Utils.buildAgreement;
+import static com.tecxis.resume.domain.util.Utils.buildAssignment;
+import static com.tecxis.resume.domain.util.Utils.buildClient;
+import static com.tecxis.resume.domain.util.Utils.buildContract;
+import static com.tecxis.resume.domain.util.Utils.buildProject;
+import static com.tecxis.resume.domain.util.Utils.buildService;
+import static com.tecxis.resume.domain.util.Utils.buildStaff;
+import static com.tecxis.resume.domain.util.Utils.buildTask;
+import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
+import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_IS_NOT_VALID;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
@@ -74,11 +72,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Task;
+import com.tecxis.resume.domain.Agreement;
+import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Course;
 import com.tecxis.resume.domain.EmploymentContract;
@@ -86,24 +84,26 @@ import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.SchemaConstants;
+import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
-import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.id.AgreementId;
+import com.tecxis.resume.domain.id.AssignmentId;
+import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.EnrolmentId;
 import com.tecxis.resume.domain.id.LocationId;
-import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.StaffSkillId;
-import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.repository.AgreementRepository;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.CourseRepository;
 import com.tecxis.resume.domain.repository.EmploymentContractRepository;
@@ -113,24 +113,24 @@ import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.ServiceRepository;
 import com.tecxis.resume.domain.repository.SkillRepository;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
 		"classpath:spring-context/test-context.xml"})
-@Transactional(transactionManager = "txManager", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually (see the blog: https://www.marcobehler.com/2014/06/25/should-my-tests-be-transactional)
-@SqlConfig(dataSource="dataSource")
+@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually (see the blog: https://www.marcobehler.com/2014/06/25/should-my-tests-be-transactional)
+@SqlConfig(dataSource="dataSourceHelper")
 public class UtilsTest {
 	
-	@PersistenceContext
+	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;	
+	private JdbcTemplate jdbcTemplateProxy;	
 	@Autowired
 	private CountryRepository countryRepo;
 	@Autowired
@@ -175,9 +175,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
 		Utils.insertTask(TASK12, entityManager);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 				
 	}
 	
@@ -186,9 +186,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, TASK_TABLE));		
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
 		Utils.insertTask(TASK12, taskRepo);		
-		assertEquals(1, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 				
 	}
 
@@ -200,9 +200,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 	}
 	
 	@Test
@@ -212,9 +212,9 @@ public class UtilsTest {
 	public void testInsertCity_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, countryRepo);		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 		Utils.insertCity(LONDON, uk, cityRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
 	}
 
 	@Test
@@ -222,9 +222,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertClient() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		Utils.insertClient(SAGEMCOM, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 	}
 	
 	@Test
@@ -232,9 +232,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertClient_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		Utils.insertClient(SAGEMCOM, clientRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 	}
 
 	@Test
@@ -247,9 +247,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
 	}
 
 	@Test
@@ -262,9 +262,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
 		Utils.insertAgreement(accentureBarclaysContract, muleEsbCons, agreementRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
 	}
 	
 	@Test
@@ -275,9 +275,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
 		Utils.insertContract(axeltis, CONTRACT9_NAME, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
 	
 	}
 	
@@ -289,9 +289,9 @@ public class UtilsTest {
 		/**Prepare test*/
 		Client axeltis = Utils.insertClient(AXELTIS, clientRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
 		Utils.insertContract(axeltis, CONTRACT9_NAME, contractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
 	
 	}
 
@@ -300,9 +300,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCountry() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 	}
 	
 	@Test
@@ -310,9 +310,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCountry_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Utils.insertCountry(UNITED_KINGDOM, countryRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 	}
 
 	@Test
@@ -320,9 +320,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCourse() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		Utils.insertCourse(BW_6_COURSE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 	}
 	
 	@Test
@@ -330,9 +330,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertCourse_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 		Utils.insertCourse(BW_6_COURSE, courseRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
 	}
 
 
@@ -345,9 +345,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Utils.insertEmploymentContract(alterna, amt, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -359,9 +359,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  supplierRepo);			
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 		Utils.insertEmploymentContract(alterna, amt, employmentContractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));
 	}
 
 	@Test
@@ -369,9 +369,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertInterest() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
 		Utils.insertInterest(HOBBY, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
 	}
 	
 	@Test
@@ -379,9 +379,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertInterest_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
 		Utils.insertInterest(HOBBY, interestRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.INTEREST_TABLE));
 	}
 
 	@Test
@@ -395,9 +395,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));		
 
 	}
 	
@@ -412,9 +412,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
 		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, locationRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, LOCATION_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));		
 
 	}
 
@@ -427,9 +427,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
 		
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));		
 	}
 	
 
@@ -443,9 +443,9 @@ public class UtilsTest {
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
 		
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));		
 	}
 
 	@Test
@@ -453,9 +453,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertService() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
 		Utils.insertService(MULE_ESB_CONSULTANT, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
 	}
 	
 	@Test
@@ -463,9 +463,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertService_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
 		Utils.insertService(MULE_ESB_CONSULTANT, serviceRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SERVICE_TABLE));
 	}
 
 	@Test
@@ -473,9 +473,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSkill() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		Utils.insertSkill(TIBCO, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 	}
 	
 	@Test
@@ -483,9 +483,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSkill_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 		Utils.insertSkill(TIBCO, skillRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
 	}
 
 	@Test
@@ -499,9 +499,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Task assignment12 = Utils.insertTask(TASK12, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, assignment12, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
 	}
 	
 	@Test
@@ -515,9 +515,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Task task12 = Utils.insertTask(TASK12, taskRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, task12, assignmentRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
 	}
 
 	@Test
@@ -529,9 +529,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Skill tibco = Utils.insertSkill(TIBCO, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
 		
 	}
 	
@@ -544,9 +544,9 @@ public class UtilsTest {
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Skill tibco = Utils.insertSkill(TIBCO, skillRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
 		Utils.insertStaffSkill(amt, tibco, staffSkillRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
 		
 	}
 
@@ -555,9 +555,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertStaff() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 	}
 	
 	@Test
@@ -565,9 +565,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertStaff_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 	}
 
 	@Test
@@ -575,9 +575,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertSupplier() {		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 		Utils.insertSupplier(ALPHATRESS, entityManager);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 	}
 	
 	@Test
@@ -585,9 +585,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertASupplier_WithSpringJpaRepo() {		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 		Utils.insertSupplier(ALPHATRESS, supplierRepo);	
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
 	}
 
 	@Test
@@ -601,9 +601,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  entityManager);		
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -617,9 +617,9 @@ public class UtilsTest {
 		Supplier alterna = Utils.insertSupplier(ALTERNA,  supplierRepo);		
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		
-		assertEquals(0, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 		Utils.insertSupplyContract(alterna, accentureContract, amt, CONTRACT1_STARTDATE, CONTRACT1_ENDDATE, supplyContractRepo);
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
 	}
 	
 	@Test
@@ -627,9 +627,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEnrolment() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
 		/**Insert a Staff*/
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		/**Insert a Course*/
@@ -637,9 +637,9 @@ public class UtilsTest {
 		/**Insert Enrolment*/
 		Utils.insertEnrolment(amt, bw6, entityManager);
 		/**Validate*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
 	}
 	
 	@Test
@@ -647,9 +647,9 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertEnrolment_WithSpringJpaRepo() {
-		assertEquals(0, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
 		/**Insert a Staff*/
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		/**Insert a Course*/
@@ -657,9 +657,9 @@ public class UtilsTest {
 		/**Insert Enrolment*/
 		Utils.insertEnrolment(amt, bw6, enrolmentRepo);
 		/**Validate*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
 	}
 	
 	@Test
@@ -668,11 +668,11 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteTask() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
 		Utils.removeTask(task12, entityManager);
 		/**Validate table state post-test*/
-		testStateAfterTask12Delete(jdbcTemplate);	
+		SchemaUtils.testStateAfterTask12Delete(jdbcTemplateProxy);	
 	}
 	
 	@Test
@@ -681,11 +681,11 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteTask_WithSpringJpaRepo() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
 		Utils.removeTask(task12, taskRepo);		
 		/**Validate table state post-test*/
-		testStateAfterTask12Delete(jdbcTemplate);		
+		SchemaUtils.testStateAfterTask12Delete(jdbcTemplateProxy);		
 	}
 	
 	@Test
@@ -694,12 +694,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCity() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
 		Utils.removeCity(london, entityManager);
 		/**Test post state tables*/
-		testStateAfterLondonCityDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -708,12 +708,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCity_WithSpringJpaRepo() {
 		/**Test init state tables*/
-		testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
 		Utils.removeCity(london, cityRepo);
 		/**Test post state tables*/
-		testStateAfterLondonCityDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplateProxy);
 
 	}
 	
@@ -724,12 +724,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteClient() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		Utils.removeClient(axeltis, entityManager);
 		/**Test Post state*/
-		testStateAfterAxeltisClientDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);
 		
 	}
 	
@@ -739,12 +739,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteClient_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		Utils.removeClient(axeltis, clientRepo);		
 		/**Test Post state*/
-		testStateAfterAxeltisClientDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -753,7 +753,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAgreement() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find Client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());		
@@ -767,7 +767,7 @@ public class UtilsTest {
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
 		Utils.removeAgreement(axeltisFastConnectAgreement, entityManager);
 		/**Test post state*/
-		testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -776,7 +776,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAgreement_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find Client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());		
@@ -790,7 +790,7 @@ public class UtilsTest {
 		Agreement axeltisFastconnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
 		Utils.removeAgreement(axeltisFastconnectAgreement, agreementRepo);
 		/**Test post state*/
-		testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -799,12 +799,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteContract() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find and validate Contract to test*/
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Utils.removeContract(fastconnectMicropoleContract, entityManager);
 		/**Test post state*/
-		testStateAfterContract5Delete(jdbcTemplate);
+		SchemaUtils.testStateAfterContract5Delete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -813,11 +813,11 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteContract_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Utils.removeContract(fastconnectMicropoleContract, contractRepo);
 		/**Test post state*/
-		testStateAfterContract5Delete(jdbcTemplate);
+		SchemaUtils.testStateAfterContract5Delete(jdbcTemplateProxy);
 	
 	}
 	
@@ -827,13 +827,13 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCourse() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
 		Utils.removeCourse(courses.get(0), entityManager);
 		/**Test post state*/
-		testStateAfterBw6CourseDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -842,13 +842,13 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCourse_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
 		Utils.removeCourse(courses.get(0), courseRepo);
 		/**Test post state*/
-		testStateAfterBw6CourseDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);
 	}
 
 	@Test
@@ -857,7 +857,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCountry() {
 		/***Test inital state before City delete*/ 
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		Country france = countryRepo.getCountryByName(FRANCE);
 		List <City> franceCities = france.getCities();
@@ -878,7 +878,7 @@ public class UtilsTest {
 		});
 		
 		/***Test inital state before City delete*/ 			
-		testStateAfterFranceCountryWithDetachedChildrenDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterFranceCountryWithDetachedChildrenDelete(jdbcTemplateProxy);	
 		/**Find target Country to remove*/
 		entityManager.clear();
 		france = countryRepo.getCountryByName(FRANCE);
@@ -886,7 +886,7 @@ public class UtilsTest {
 		assertEquals(0, france.getCities().size());
 		Utils.removeCountry(france, entityManager);
 		/***Test post state after Country delete*/ 
-		testStateAfterFranceDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterFranceDelete(jdbcTemplateProxy);
 	}
 
 	@Test
@@ -895,7 +895,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteCountry_WithSpringJpaRepo() {
 		/***Test inital state before City delete*/ 
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		Country france = countryRepo.getCountryByName(FRANCE);
 		List <City> franceCities = france.getCities();
@@ -916,7 +916,7 @@ public class UtilsTest {
 		});
 		
 		/***Test inital state before City delete*/ 			
-		testStateAfterFranceCountryWithDetachedChildrenDelete(jdbcTemplate);	
+		SchemaUtils.testStateAfterFranceCountryWithDetachedChildrenDelete(jdbcTemplateProxy);	
 		/**Find target Country to remove*/
 		entityManager.clear();
 		france = countryRepo.getCountryByName(FRANCE);
@@ -924,7 +924,7 @@ public class UtilsTest {
 		assertEquals(0, france.getCities().size());
 		Utils.removeCountry(france, countryRepo);
 		/***Test post state after Country delete*/ 
-		testStateAfterFranceDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterFranceDelete(jdbcTemplateProxy);
 
 	}
 
@@ -934,7 +934,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEmploymentContract() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target EmploymentContract to delete*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
@@ -943,7 +943,7 @@ public class UtilsTest {
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
 		Utils.removeEmploymentContract(johnAlhpatressEmploymentContract, entityManager);
 		/**Test post state*/
-		testStateAfterjohnAlhpatressEmploymentContractDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
 
 	}
 	
@@ -952,7 +952,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEmploymentContract_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target EmploymentContract to delete*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
@@ -960,7 +960,7 @@ public class UtilsTest {
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
 		Utils.removeEmploymentContract(johnAlhpatressEmploymentContract, employmentContractRepo);
-		testStateAfterjohnAlhpatressEmploymentContractDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -968,10 +968,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteInterest() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, entityManager);	
-		testStateAfterHobbyDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterHobbyDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -979,10 +979,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteInterest_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
 		Utils.removeInterest(hobby, interestRepo);	
-		testStateAfterHobbyDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterHobbyDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -991,7 +991,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteLocation() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());			
@@ -1006,7 +1006,7 @@ public class UtilsTest {
 		/**Remove location*/
 		Utils.removeLocation(morningstartV1ProjectLocation, entityManager);
 		/**Test post state after delete Location*/
-		testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
 
 	}
 	
@@ -1016,7 +1016,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteLocation_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
 		assertEquals(VERSION_1, morningstartV1Project.getVersion());			
@@ -1031,7 +1031,7 @@ public class UtilsTest {
 		/**Remove location*/
 		Utils.removeLocation(morningstartV1ProjectLocation, locationRepo);
 		/**Test post state after delete Location*/
-		testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
 
 	}
 	
@@ -1041,12 +1041,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteProject() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		Utils.removeProject(morningstartV1Project, entityManager);
 		/**Test post state after Project*/
-		testStateAfterMorningstartV1ProjectDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplateProxy);
 	}
 	
 
@@ -1057,12 +1057,12 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteProject_WithSpringJpaRepo() {
 		/**Test init state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		Utils.removeProject(morningstartV1Project, projectRepo);
 		/**Test post state after Project*/
-		testStateAfterMorningstartV1ProjectDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1070,10 +1070,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteService() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, entityManager);
-		testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1081,10 +1081,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteService_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
 		Utils.removeService(bwService, serviceRepo);
-		testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1092,11 +1092,11 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSkill() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		Utils.removeSkill(tibco, entityManager);
-		testStateAfterTibcoSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1104,11 +1104,11 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSkill_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		Utils.removeSkill(tibco, skillRepo);
-		testStateAfterTibcoSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1117,7 +1117,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAssignment() {
 		/**Test initial state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Assignment*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
@@ -1126,7 +1126,7 @@ public class UtilsTest {
 		Assignment amtParcoursAssignment14 = assignmentRepo.findById(id).get();
 		Utils.removeAssignment(amtParcoursAssignment14, entityManager);
 		/**Test post state after Assignment*/
-		testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1135,7 +1135,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteAssignment_WithSpringJpaRepo() {
 		/**Test initial state*/
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Assignment*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
@@ -1144,7 +1144,7 @@ public class UtilsTest {
 		Assignment amtParcoursAssignment14 = assignmentRepo.findById(id).get();
 		Utils.removeAssignment(amtParcoursAssignment14, assignmentRepo);
 		/**Test post state after Assignment*/
-		testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1152,13 +1152,13 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaffSkill() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		Utils.removeStaffSkill(amtTibco, entityManager);
-		testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1166,13 +1166,13 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaffSkill_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target StaffSkill*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
 		Utils.removeStaffSkill(amtTibco, staffSkillRepo);
-		testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplateProxy);
 		
 	}
 	
@@ -1181,10 +1181,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaff() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, entityManager);		
-		testStateAfterJohnStaffDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterJohnStaffDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1192,10 +1192,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteStaff_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Utils.removeStaff(john, staffRepo);		
-		testStateAfterJohnStaffDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterJohnStaffDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1203,10 +1203,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplier() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, entityManager);	
-		testStateAfterAccentureSupplierDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1214,10 +1214,10 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplier_WithSpringJpaRepo() {		
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Utils.removeSupplier(accenture, supplierRepo);	
-		testStateAfterAccentureSupplierDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1225,14 +1225,14 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteSupplyContract() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		Utils.removeSupplyContract(fastconnectMicropoleSupplyContract, entityManager);
-		testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1240,14 +1240,14 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteASupplyContract_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
 		Utils.removeSupplyContract(fastconnectMicropoleSupplyContract, supplyContractRepo);
-		testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1255,7 +1255,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEnrolment() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Enrolment to remove*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);		
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);		
@@ -1263,7 +1263,7 @@ public class UtilsTest {
 		/**Remove Enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
 		Utils.removeEnrolment(bwEnrolment, entityManager);
-		testStateAfterBwEnrolmentDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterBwEnrolmentDelete(jdbcTemplateProxy);
 	}
 	
 	@Test
@@ -1271,7 +1271,7 @@ public class UtilsTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testDeleteEnrolment_WithSpringJpaRepo() {
-		testStateBeforeDelete(jdbcTemplate);
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Enrolment to remove*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);		
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);		
@@ -1279,329 +1279,38 @@ public class UtilsTest {
 		/**Remove Enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
 		Utils.removeEnrolment(bwEnrolment, enrolmentRepo);
-		testStateAfterBwEnrolmentDelete(jdbcTemplate);
+		SchemaUtils.testStateAfterBwEnrolmentDelete(jdbcTemplateProxy);
 	}
 	
-	public static void testStateBeforeDelete(JdbcTemplate jdbcTemplate) {			
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));	
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));	
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));			
-		assertEquals(14, countRowsInTable(jdbcTemplate, LOCATION_TABLE));				
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));	
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
-		assertEquals(63, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));			
+	@Test
+	public void testIsAgreementValid() {			
+		Contract contract = buildContract(buildClient(BARCLAYS), CONTRACT1_NAME);
+		Service service = buildService(MULE_ESB_CONSULTANT);
+		Agreement agreement = buildAgreement(contract, service);
+		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
+		/**Test Contract name is not valid*/					
+		assertEquals(CONTRACT_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
+		/**Test Service name is not valid*/
+		assertEquals(SERVICE_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
 	}
 	
-	public static void testStateAfterAxeltisClientDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); // 2 Client orphans removed
-		assertEquals(47, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE)); // 16 Client orphans removed
-		assertEquals(11, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); // 2 Client orphans removed 
-		assertEquals(11, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); // 2 Client orphans removed
-		assertEquals(11	, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); // 2 Client orphans removed
-		assertEquals(11, countRowsInTable(jdbcTemplate, CLIENT_TABLE)); // 1 Client parent removed
+	@Test
+	public void testIsAssignmentValid() {
+		Client client = buildClient(BARCLAYS);		
+		Project project = buildProject(ADIR, VERSION_1, client);
+		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
+		Task task = buildTask(TASK1);
+		Assignment assignment = buildAssignment(project, staff, task);
+		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		/**Test Project is not valid*/
+		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, "Test", BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		/**Test Staff is not valid*/
+		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, "Test", AMT_LASTNAME, TASK1));
+		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, "Test", TASK1));
+		/**Test Task isn't valid*/
+		assertEquals(TASK_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, "Test"));
 		
 	}
-	
-	public static void testStateAfterLondonCityDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE)); // 1 City parent removed
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));  
-		assertEquals(12, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 2 child City entities being removed 
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); 
-	}
-	
-	
-	public static void testStateAfterTask12Delete(JdbcTemplate jdbcTemplate) {
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));  // Cascaded to 1 child Assignmentremoved
-		assertEquals(53, countRowsInTable(jdbcTemplate, TASK_TABLE));	//1 Task parent entity removed 
-		assertEquals(13	, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		
-	}
-	
-	public static void testStateAfterAxeltisFastconnectAgreementDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //1 parent entity removed
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
-		
-	}
-
-	public static void testStateAfterContract5Delete(JdbcTemplate jdbcTemplate) {
-		/**See SQL cascadings applied to one-to-many relations*/
-		/**CONTRACT 	-> 		SUPPLY_CONTRACT					CascadeType.ALL*/
-		/**CONTRACT 	-> 		AGREEMENT		CascadeType.ALL*/
-		
-		/*** Cascadings in this sequence*/
-		/**  CONTRACT (P) -> SUPPLY_CONTRACT (c) */	
-		/**      |                               */
-		/**      |                      		 */
-		/**      v                               */
-		/** AGREEMENT (c)       */
-		
-		/**Tests the cascaded parent of the OneToMany association between Contract -> SupplyContract*/		
-		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); //Parent is removed
-		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//1 child with CONTRACT_ID='5' removed from the SUPPLY_CONTRACT table.
-		/**Tests the cascaded children of the OneToMany association between Contract -> Agreement */
-		assertEquals(12, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //1 child with CONTRACT_ID='5' removed from the AGREEMENT table. 		
-		/**Tests post state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));  //1 child with CONTRACT_ID='5' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the SUPPLIER table. 
-		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//0 children previously removed from SUPPLIER table. That cascades to 0 children being removed from the EMPLOYMENT_CONTRACT table.		
-		/**Tests the cascaded parent of the OneToMany association between  Staff -> EmploymentContract */
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //0 children previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.		
-	}
-	
-	public static void testStateAfterBw6CourseDelete(JdbcTemplate jdbcTemplate) {
-		/**Test course was removed*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, COURSE_TABLE)); //1 parent entity removed
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); //Cascaded 1 child Course entity being removed
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
-	}
-	
-	public static void testStateAfterFranceDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE)); //1 City removed in previous remove transaction, 1 new City inserted = same no. of Cities
-		assertEquals(2, countRowsInTable(jdbcTemplate, COUNTRY_TABLE)); // 1 Country parent entity removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed in previous remove transaction 
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); //No changes
-	}
-
-	public static void testStateAfterParisDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(4, countRowsInTable(jdbcTemplate, CITY_TABLE)); //1 parent entity removed
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed (13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-	}
-
-	public static void testStateAfterFranceCountryWithDetachedChildrenDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(3, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //Cascaded 9 child City entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		
-	}
-	
-	public static void testStateAfterjohnAlhpatressEmploymentContractDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//1 entity removed				
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));
-	}
-	
-	public static void testStateAfterHobbyDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); //1 parent entity removed
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		
-	}
-	
-	public static void testStateAfterMorningstartV1ProjectLocationDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); //1 entity removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		
-	}
-	
-	public static void testStateAfterMorningstartV1ProjectDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(12, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
-		assertEquals(53, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));  //Cascaded 10 child Project entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, LOCATION_TABLE)); 
-		assertEquals(5, countRowsInTable(jdbcTemplate, CITY_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplate, PROJECT_TABLE)); //1 parent entity removed
-		
-	}
-	
-	public static void testStateAfterTibcoBwConsultantServiceDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(5, countRowsInTable(jdbcTemplate, SERVICE_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));	//Cascaded 8 child Service entities being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));					
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
-	}	
-	
-	public static void testStateAfterTibcoSkillDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(6, countRowsInTable(jdbcTemplate, SKILL_TABLE));  //1 parent entity removed
-		/***Test Skill DELETE many-to-many cascadings*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); //Cascaded 1 child Skill entity being removed
-		/**Test Staff hasn't changed*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		
-	}
-	
-	public static void testStateAfterAmtParcoursAssignment14AssignmentDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		/**Tests initial state children tables*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(14, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));//1 entity removed
-		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));			
-	}
-	
-	public static void testStateAfterAmtTibcoStaffSkillDelete(JdbcTemplate jdbcTemplate) {		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(4, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); //1 entity removed
-	}
-	
-	public static void testStateAfterJohnStaffDelete(JdbcTemplate jdbcTemplate) {		
-		/**Tests initial state parent table*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //1 parent entity removed
-		/**Tests initial state children tables*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); // Cascaded to 1 child Staff being removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));				
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));  // Cascaded to 1 child Staff being removed
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	// Cascaded to 1 child Employment being removed
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));  //Cascaded to 1 Child SupplyContract being removed
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));	//Cascaded to 1 Child Assignment being removed
-		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));			
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		
-	}
-	
-	public static void testStateAfterJohnStaffWithDetachedChildrenDelete(JdbcTemplate jdbcTemplate) {		
-		/**Test Staff is removed**/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		/**Test non-identifying Staff-> Interest children table didn't change*/
-		assertEquals(2, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
-		/**Tests state of children tables*/		
-		assertEquals(5, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE));  /**O children for John Staff removed here*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); 	 /**O children for John Staff removed here*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	
-		assertEquals(62, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
-		/**Test other parents for control*/ 
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); 
-		
-	}
-	
-	public static void testStateAfterAMtStaffDelete(JdbcTemplate jdbcTemplate) {		
-		/**See SQL cascadings applied to one-to-many relations*/
-		/**STAFF 	-> 	ENROLMENT_CONTRACT 			CascadeType.ALL*/
-		/**STAFF 	-> 	SUPPLY_CONTRACT 			CascadeType.ALL*/
-		/**STAFF 	->	INTEREST (Non-Identifying)  CascadeType.ALL*/
-		
-		/**See SQL cascadings applied to many-to-many relations*/
-		/**STAFF 	-> ENROLEMENT 	-> COURSE*/
-		/**STAFF	-> STAFF_SKILL	-> SKILL */
-		
-		/**Cascadings in this sequence*/
-		/**STAFF (P)  ------>  INTEREST (c)
-		 *    ¦
-		 *    --------------> STAFF_SKILL (c)
-		 *    ¦
-		 *    --------------> ENROLMENT (c)
-		 *    ¦
-		 *    --------------> EMPLOYMENT_CONTRACT (c) 
-		 *    ¦
-		 *    --------------> SUPPLY_CONTRACT (c)
-		 *    ¦
-		 *    --------------> ASSIGNMENT (c)
-		 *    
-		 */
-		
-		/**HAS*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, INTEREST_TABLE)); // 1 child with STAFF_ID=1 removed from INTEREST table.
-		/**Tests the initial state of the children table(s) from the Parent table*/
-		/**USES*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, StaffSkill.STAFF_SKILL_TABLE)); // 5 children with STAFF_ID=1 removed from STAFF_SKILL table.
-		assertEquals(7, countRowsInTable(jdbcTemplate, SKILL_TABLE));	
-		/**ENROLS*/
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE)); // 1 child with STAFF_ID=1 removed from ENROLMENT table. 
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));
-		/**IS EMPLOYED*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE)); // 5 children with STAFF_ID=1 removed from EMPLOYMENT_CONTRACT table.  
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
-		/**WORKS IN*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); // 13 children with STAFF_ID=1 removed from SUPPLY_CONTRACT table. 
-		/**WORKS ON*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE)); // 62 children with STAFF_ID=1 removed from  table. 
-		assertEquals(54, countRowsInTable(jdbcTemplate, TASK_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplate, PROJECT_TABLE));		
-		/**Tests the initial state of the children table(s) from the Parent table*/		
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));  
-		/**Finally the state of Staff table (the parent)*/
-		assertEquals(1, countRowsInTable(jdbcTemplate, STAFF_TABLE));  //1 Parent removed
-		
-	}
-	
-	public static void testStateAfterAccentureSupplierDelete(JdbcTemplate jdbcTemplate) {	
-		/**See SQL cascadings applied to one-to-many relations*/
-		/**SUPPLIER 	-> SUPPLY_CONTRACT 				Cascade.REMOVE*/
-		/**SUPPLIER 	-> EMPLOYMENT_CONTRACT 			Cascade.REMOVE*/
-
-			
-		/**Cascadings in this sequence*/
-		/**  SUPPLIER (P) -> SUPPLY_CONTRACT (c) */	
-		/**      |                               */
-		/**      |                      		 */
-		/**      v                               */
-		/** EMPLOYMENT_CONTRACT (c)              */
-		
-		/**Tests post state of Suppliers table (the parent)*/
-		assertEquals(4, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); //Parent is removed
-		/**Tests the cascaded children of the OneToMany association between Supplier -> SupplyContract*/
-		assertEquals(11, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));	//3 children with SUPPLIER_ID = '1' removed from the SUPPLY_CONTRACT table.
-		/**Tests the cascaded children of the OneToMany association between Supplier -> EmploymentContract*/
-		assertEquals(5, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));	//1 child with SUPPLIER_ID = '1' removed from the EMPLOYMENT_CONTRACT table. 
-		/**Tests the cascaded parent of the OneToMany association between Contract -> SupplyContract*/		
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE)); //3 children with SUPPLIER_ID = '1' previously removed from SUPPLY_CONTRACT table. That cascades to 0 parent being removed from the CONTRACT table. 
-		/**Tests the cascaded parent of the OneToMany association between  Staff -> EmploymentContract */
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //1 child with with SUPPLIER_ID = '1' previously removed from EMPLOYMENT_CONTRACT table. That cascades to 0 parent being removed from the STAFF table.
-		/**Tests the cascaded children of the OneToMany association between Contract -> Agreement */
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE)); //0 parents previously removed from CONTRACT table. That cascades to 0 children removed from the AGREEMENT table.
-		
-	}
-	
-	public static void testStateAfterFastconnectMicropoleSupplyContractDelete(JdbcTemplate jdbcTemplate) {	
-		assertEquals(5, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE));//1 parent entity removed	
-		assertEquals(6, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));					
-		assertEquals(13, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplate, Agreement.AGREEMENT_TABLE));			
-	}
-	
-	public static void testStateAfterBwEnrolmentDelete(JdbcTemplate jdbcTemplate) {
-		assertEquals(0, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));  //1 parent entity removed	
-		assertEquals(2, countRowsInTable(jdbcTemplate, STAFF_TABLE)); //No Cascade REMOVE
-		assertEquals(2, countRowsInTable(jdbcTemplate, COURSE_TABLE));	//No cascade REMOVE
-		
-	}
-	
 	
 }

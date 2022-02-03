@@ -17,11 +17,9 @@ import com.tecxis.resume.domain.id.EnrolmentId;
  * 
  */
 @Entity
-@Table(name=Enrolment.ENROLMENT_TABLE)
+@Table(name=SchemaConstants.ENROLMENT_TABLE)
 public class Enrolment implements Serializable{
 	private static final long serialVersionUID = 1L;	
-	
-	final public static String ENROLMENT_TABLE = "ENROLMENT";
 	
 	@EmbeddedId
 	private EnrolmentId id;

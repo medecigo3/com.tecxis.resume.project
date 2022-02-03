@@ -27,10 +27,8 @@ import com.tecxis.resume.domain.id.Identifiable;
  * 
  */
 @Entity
-@Table(name=EmploymentContract.EMPLOYMENT_CONTRACT_TABLE)
+@Table(name=SchemaConstants.EMPLOYMENT_CONTRACT_TABLE)
 public class EmploymentContract implements Serializable, Identifiable  <Long>  {
-	public final static String EMPLOYMENT_CONTRACT_TABLE = "EMPLOYMENT_CONTRACT";
-	
 	private static final long serialVersionUID = 1L;
 	
 	@Id

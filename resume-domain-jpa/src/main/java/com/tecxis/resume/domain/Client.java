@@ -30,8 +30,6 @@ public class Client implements Serializable, Identifiable <Long>{
 	
 	private static final String UNSUPPORTED_CLIENT_PROJECT_OPERATION = "Client -> Project association managed through by association owner Project.";
 	
-	public static final String CLIENT_TABLE =	"CLIENT";
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id

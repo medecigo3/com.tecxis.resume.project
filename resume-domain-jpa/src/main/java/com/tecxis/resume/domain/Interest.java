@@ -25,8 +25,6 @@ import com.tecxis.resume.domain.id.Identifiable;
 public class Interest implements Serializable, Identifiable <Long>{
 	private static final long serialVersionUID = 1L;
 	
-	public static final String INTEREST_TABLE = "Interest";
-
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="INTEREST_SEQ", 
 	 parameters = {

@@ -36,8 +36,6 @@ import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 @Table( uniqueConstraints = @UniqueConstraint( columnNames= {  "NAME" }))
 public class Contract implements Serializable, CompositeIdentifiable <ContractId>{
 	private static final long serialVersionUID = 1L;
-	public static final String CONTRACT_TABLE = "CONTRACT";
-	
 	@EmbeddedId
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceCompositeKeyGenerator", name="CONTRACT_SEQ", 
 			 parameters = {
