@@ -2742,7 +2742,7 @@
     <relationshipEnds xmi:id="_fVrcxJs5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVsq4Js5EeubbOMtXs3wyg" key="_fVsq5Zs5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
   <LogicalDataModel:Relationship xmi:id="_fVrcxZs5EeubbOMtXs3wyg" name="WORKS ON" description="" label="" owningEntity="_fVtSBJs5EeubbOMtXs3wyg">
-    <relationshipEnds xmi:id="_fVrcxps5EeubbOMtXs3wyg" deleteAction="CASCADE" cardinality="ONE" entity="_fVq1ups5EeubbOMtXs3wyg" key="_fVq1v5s5EeubbOMtXs3wyg"/>
+    <relationshipEnds xmi:id="_fVrcxps5EeubbOMtXs3wyg" cardinality="ONE" entity="_fVq1ups5EeubbOMtXs3wyg" key="_fVq1v5s5EeubbOMtXs3wyg"/>
     <relationshipEnds xmi:id="_fVrcx5s5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVtSBJs5EeubbOMtXs3wyg" key="_fVtSC5s5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
   <LogicalDataModel:Relationship xmi:id="_fVrcyJs5EeubbOMtXs3wyg" name="USES" description="" label="" owningEntity="_fVt5AJs5EeubbOMtXs3wyg">
@@ -2814,7 +2814,7 @@
     <keys xsi:type="LogicalDataModel:AlternateKey" xmi:id="_fVsq65s5EeubbOMtXs3wyg" name="TASK_AK" description="" label="" attributes="_fVsq6Js5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Entity>
   <LogicalDataModel:Relationship xmi:id="_fVsq7Js5EeubbOMtXs3wyg" name="EXECUTES" description="" label="" owningEntity="_fVtSBJs5EeubbOMtXs3wyg">
-    <relationshipEnds xmi:id="_fVsq7Zs5EeubbOMtXs3wyg" deleteAction="CASCADE" cardinality="ONE" entity="_fVsq5ps5EeubbOMtXs3wyg" key="_fVsq6ps5EeubbOMtXs3wyg"/>
+    <relationshipEnds xmi:id="_fVsq7Zs5EeubbOMtXs3wyg" cardinality="ONE" entity="_fVsq5ps5EeubbOMtXs3wyg" key="_fVsq6ps5EeubbOMtXs3wyg"/>
     <relationshipEnds xmi:id="_fVsq7ps5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVtSBJs5EeubbOMtXs3wyg" key="_fVtSDJs5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
   <LogicalDataModel:Entity xmi:id="_fVsq75s5EeubbOMtXs3wyg" name="LOCATION" description=" Table LOCATION&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVpnmZs5EeubbOMtXs3wyg _fVsq-Zs5EeubbOMtXs3wyg" relationships="_fVpnl5s5EeubbOMtXs3wyg _fVsq95s5EeubbOMtXs3wyg">
@@ -2841,7 +2841,7 @@
     <keys xsi:type="LogicalDataModel:ForeignKey" xmi:id="_fVtR-Js5EeubbOMtXs3wyg" name="ForeignKey" label="" attributes="_fVtR9Js5EeubbOMtXs3wyg" relationshipEnds="_fVqOops5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Entity>
   <LogicalDataModel:Relationship xmi:id="_fVtR-Zs5EeubbOMtXs3wyg" name="IS COMPOSED OF" description="" label="" owningEntity="_fVtSBJs5EeubbOMtXs3wyg">
-    <relationshipEnds xmi:id="_fVtR-ps5EeubbOMtXs3wyg" deleteAction="CASCADE" cardinality="ONE" entity="_fVtR8Js5EeubbOMtXs3wyg" key="_fVtR95s5EeubbOMtXs3wyg"/>
+    <relationshipEnds xmi:id="_fVtR-ps5EeubbOMtXs3wyg" cardinality="ONE" entity="_fVtR8Js5EeubbOMtXs3wyg" key="_fVtR95s5EeubbOMtXs3wyg"/>
     <relationshipEnds xmi:id="_fVtR-5s5EeubbOMtXs3wyg" cardinality="ZERO_TO_MANY" entity="_fVtSBJs5EeubbOMtXs3wyg" key="_fVtSCps5EeubbOMtXs3wyg"/>
   </LogicalDataModel:Relationship>
   <LogicalDataModel:Entity xmi:id="_fVtR_Js5EeubbOMtXs3wyg" name="SKILL" description=" Table SKILL&#xD;" label="" package="_fSBr0Js5EeubbOMtXs3wyg" relationshipEnds="_fVtSAps5EeubbOMtXs3wyg">
