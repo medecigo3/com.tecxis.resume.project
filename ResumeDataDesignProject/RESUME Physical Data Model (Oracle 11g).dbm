@@ -2653,7 +2653,7 @@
       <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="__CzAESHTEeyPw_-qRFArbg" name="NUMBER" primitiveType="NUMERIC" precision="38"/>
     </columns>
     <constraints xsi:type="SQLConstraints:PrimaryKey" xmi:id="_QP2SbZyHEeut8JKFAekvOQ" name="ASSIGNMENT_PK" description="" label="" members="__CfeECHTEeyPw_-qRFArbg __Cxx8CHTEeyPw_-qRFArbg __CzAECHTEeyPw_-qRFArbg __CyZACHTEeyPw_-qRFArbg"/>
-    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C0OMCHTEeyPw_-qRFArbg" name="EXECUTES" description="" label="" members="__CfeECHTEeyPw_-qRFArbg" onDelete="CASCADE" uniqueConstraint="__C2qeSHTEeyPw_-qRFArbg" referencedTable="__C2qcCHTEeyPw_-qRFArbg">
+    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C0OMCHTEeyPw_-qRFArbg" name="EXECUTES" description="" label="" members="__CfeECHTEeyPw_-qRFArbg" uniqueConstraint="__C2qeSHTEeyPw_-qRFArbg" referencedTable="__C2qcCHTEeyPw_-qRFArbg">
       <eAnnotations xmi:id="__C0OMSHTEeyPw_-qRFArbg" source="FK_MODELING_RELATIONSHIP">
         <details xmi:id="__C0OMiHTEeyPw_-qRFArbg" key="FK_IS_IDENTIFYING_RELATIONSHIP" value="true"/>
         <details xmi:id="__C0OMyHTEeyPw_-qRFArbg" key="FK_PARENT_MULTIPLICITY" value="1"/>
@@ -2662,7 +2662,7 @@
         <details xmi:id="__C0ONiHTEeyPw_-qRFArbg" key="FK_CHILD_ROLE_NAME" value=""/>
       </eAnnotations>
     </constraints>
-    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C3RgCHTEeyPw_-qRFArbg" name="IS COMPOSED OF" description="" label="" members="__CyZACHTEeyPw_-qRFArbg __Cxx8CHTEeyPw_-qRFArbg" onDelete="CASCADE" uniqueConstraint="_QPz2a5yHEeut8JKFAekvOQ" referencedTable="_QPz2WZyHEeut8JKFAekvOQ">
+    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C3RgCHTEeyPw_-qRFArbg" name="IS COMPOSED OF" description="" label="" members="__CyZACHTEeyPw_-qRFArbg __Cxx8CHTEeyPw_-qRFArbg" uniqueConstraint="_QPz2a5yHEeut8JKFAekvOQ" referencedTable="_QPz2WZyHEeut8JKFAekvOQ">
       <eAnnotations xmi:id="__C3RgSHTEeyPw_-qRFArbg" source="FK_MODELING_RELATIONSHIP">
         <details xmi:id="__C3RgiHTEeyPw_-qRFArbg" key="FK_IS_IDENTIFYING_RELATIONSHIP" value="true"/>
         <details xmi:id="__C3RgyHTEeyPw_-qRFArbg" key="FK_PARENT_MULTIPLICITY" value="1"/>
@@ -2671,7 +2671,7 @@
         <details xmi:id="__C3RhiHTEeyPw_-qRFArbg" key="FK_CHILD_ROLE_NAME" value=""/>
       </eAnnotations>
     </constraints>
-    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C4foCHTEeyPw_-qRFArbg" name="WORKS ON" description="" label="" members="__CzAECHTEeyPw_-qRFArbg" onDelete="CASCADE" uniqueConstraint="_QP1ESpyHEeut8JKFAekvOQ" referencedTable="_QP1EPZyHEeut8JKFAekvOQ">
+    <constraints xsi:type="SQLConstraints:ForeignKey" xmi:id="__C4foCHTEeyPw_-qRFArbg" name="WORKS ON" description="" label="" members="__CzAECHTEeyPw_-qRFArbg" uniqueConstraint="_QP1ESpyHEeut8JKFAekvOQ" referencedTable="_QP1EPZyHEeut8JKFAekvOQ">
       <eAnnotations xmi:id="__C4foSHTEeyPw_-qRFArbg" source="FK_MODELING_RELATIONSHIP">
         <details xmi:id="__C4foiHTEeyPw_-qRFArbg" key="FK_IS_IDENTIFYING_RELATIONSHIP" value="true"/>
         <details xmi:id="__C4foyHTEeyPw_-qRFArbg" key="FK_PARENT_MULTIPLICITY" value="1"/>
