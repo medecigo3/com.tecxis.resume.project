@@ -34,25 +34,56 @@
     </appender>
     
 	<logger name="com.tecxis" level="info"/>
-	<!-- No appender accumulation. Only appender springLog will be used. See additivity setting: http://logback.qos.ch/manual/architecture.html-->
-    <logger name="org.springframework" level="info" additivity="false">
+	<!-- Logs Spring's transaction unit test context (currently not logging to 'consoleLog' and 'resumeLog' appenders)-->
+     <logger name="org.springframework.transaction" level="info" additivity="false">
     	<appender-ref ref="springLog"/>
     </logger>
+    <!-- No additivity means log to 'springLog' appender only. See additivity setting: http://logback.qos.ch/manual/architecture.html-->
+    <!-- Logs SQL queries for debugging purposes -->
+    <logger name="org.springframework.jdbc" level="info" additivity="false">
+    	<appender-ref ref="springLog"/>
+    </logger>
+    <logger name="org.springframework.test" level="info" additivity="false">
+    	<appender-ref ref="springLog"/>
+    </logger>
+      <!-- Logs Spring repository initialization (all appenders)-->
+    <logger name="org.springframework.data" level="info" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger> 
+    <!-- Logs creation of EntityManager and  init. of JpaQueryFactory and NamedQuery for Spring repositories (all appenders)-->
+    <logger name="org.springframework.orm.jpa" level="info" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger> 
+    <!-- Remaining Spring logs at INFO level -->
+    <logger name="org.springframework" level="info" additivity="true">
+    	<appender-ref ref="springLog"/>
+    </logger>
+  
+	<!-- Logs un-formatted SQL statements with parameter values -->
+    <logger name="net.ttddyy.dsproxy.listener.logging" level="info"/>
 
-    <logger name="net.ttddyy.dsproxy.listener" level="debug"/>
-	<logger name="org.hibernate" level="info"/>
+    <logger name="bitronix.tm" level="warn"/>
+	
+	<logger name="net.sf.ehcache" level="info"/>
+    <logger name="com.vladmihalcea" level="info"/>
+	
+	<!-- To isolate hibernate logs create a separate appender. Use 'springLog' appender as example-->
     <logger name="org.hibernate.hql" level="info"/>
     <logger name="org.hibernate.event.internal" level="info"/>
     <logger name="org.hibernate.engine.transaction.internal" level="info"/>
     <logger name="org.hibernate.cache" level="info"/>
     <logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="info"/>
-    <!-- Logs SQL statements -->
-<!--     <logger name="org.hibernate.SQL" level="debug"/> -->
+    <!-- Logs formatted SQL statements in DEBUG level. Normally SQL logs (non-formatted) from n.t.d.l.l.SLF4JQueryLoggingListener are enough. -->
+    <logger name="org.hibernate.SQL" level="debug"/>
     <!-- Logs JDBC bind parameters -->
-<!--     <logger name="org.hibernate.type.descriptor.sql" level="trace"/> -->
-    <logger name="org.hibernate.SQL_SLOW" level="info"/>    
+    <logger name="org.hibernate.type.descriptor.sql" level="warn"/>
+    <logger name="org.hibernate.SQL_SLOW" level="warn"/>
+    <!-- Remaining hibernate logs at INFO level. Use it judiciously: too many logs affect performance.-->
+	<!-- To avoid duplicate logs, disable all the hibernate loggers above when this logger is set to trace or debug level -->	
+	<logger name="org.hibernate" level="info"/>
     
 	<root>
+		<!-- To isolate Spring Logs do not add springLog at the root level. -->
 		<appender-ref ref="resumeLog"/>
 		<appender-ref ref="console"/>
 	</root>
