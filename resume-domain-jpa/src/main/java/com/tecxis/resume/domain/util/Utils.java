@@ -61,6 +61,7 @@ import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
 public class Utils {
@@ -668,6 +669,12 @@ public class Utils {
 	public static void deleteAssignmentInJpa(DeleteAssignmentFunction <AssignmentRepository> function, AssignmentRepository agreementRepository, JdbcTemplate jdbcTemplate){
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(agreementRepository);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void unscheduleDeleteAssignmentInJpa(UnDeleteAssignmentFunction <EntityManager> function,EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
 		function.afterTransactionCompletion(jdbcTemplate);
 	}
 	

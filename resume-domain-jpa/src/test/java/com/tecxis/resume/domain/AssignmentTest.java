@@ -14,13 +14,12 @@ import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED
 import static com.tecxis.resume.domain.util.Utils.deleteAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.util.Utils.unscheduleDeleteAssignmentInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 
@@ -177,48 +176,71 @@ public class AssignmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testCascadedDelete() {
-		/**Retrieve staff*/
+	public void testPersistCascadeOnDelete() {
+		/**Retrieve Staff*/
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		
-		/**Retrieve from project*/
+		/**Retrieve Project*/
 		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
 		assertNotNull(fortis);
 		assertEquals(FORTIS, fortis.getName());
 		assertEquals(VERSION_1, fortis.getVersion());
 		
-		/**Here persist operation will be cascaded from fortis (parent) to StaffAssignments (child) 
-		 * When we delete the staff Task instance referenced by fortis which is also loaded in the persistence context 
-		 * the staff association will not be removed from DB
-		 * Comment out these two lines above to prove otherwise*/		
-		List <Assignment>  fortisStaffAssignments = fortis.getAssignments();
-		assertEquals(3, fortisStaffAssignments.size());
+		/**Forces the loading and referencing of 'targetAssignment' Assignment from 'fortis' Project. For more info visit: https://www.baeldung.com/delete-with-hibernate
+		 * This line of code cascades the CascadeType.PERSIST operation from 'fortis' (parent) to 'targetAssignment' (child) 
+		 * In case of delete of the staff's Task entity referenced by this Project 'fortis' (which is also loaded in the persistence context),   
+		 * the staff association will not be removed from the DB.
+		 * ---- START Hibernate logs: ----
+		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
+		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=7}]
+		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=8}]
+		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 * Loading entity: [com.tecxis.resume.domain.Task#6]
+		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 * Loading entity: [com.tecxis.resume.domain.Task#7]
+		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 * Loading entity: [com.tecxis.resume.domain.Task#8]
+		 * Collection initialized
+		 * Loading entity: [com.tecxis.resume.domain.Task#6]
+		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
+		 * ---- END Hibernate logs: ---- 
+		 * Comment out the line below to prove otherwise or detach entities*/	
+		 assertEquals(3, fortis.getAssignments().size());				
+		// entityManager.clear(); un-comment and detach entities to make the test fail. 
 
 		AssignmentId id2 = new AssignmentId(fortis.getId(), amt.getId(), entityManager.find(Task.class, 6L).getId());	
-		Assignment staffAssignment2 =	entityManager.find(Assignment.class, id2);
-		Assignment staffAssignment3 = assignmentRepo.findById(id2).get();
-		assertTrue(staffAssignment2.equals(staffAssignment3));
-		assertNotNull(staffAssignment3);
-			
-		/**The the removed staff Task is referenced by fortis hence the deletion is unscheduled --> see in hibernate trace level logs*/
-		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
-		entityManager.remove(staffAssignment2);
-		/**Entity deletion is un-scheduled when entity isn't detached from persistence context*/
-		entityManager.flush();		
-		/**Test entity was not removed*/
-		assertEquals(63, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
+		Assignment targetAssignment =	entityManager.find(Assignment.class, id2);
+
+	
+	 		
+		/**The removed 'targetAssignment' entity is referenced by a Project ('fortis'), the persist operation is cascaded from Project to Assignment because the association is marked as CascadeType.PERSIST  
+		 * hence the delete is un-scheduled (or do not delete) --> see in hibernate trace level logs
+		 * ---- START Hibernate logs: ----
+		 * un-scheduling entity deletion [[com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]]
+		 *  ---- END Hibernate logs: ---- 
+		 **/
+		unscheduleDeleteAssignmentInJpa(unDeleteAssignmentFunction->{			
+			entityManager.remove(targetAssignment);
+			/**Proves entity deletion is unscheduled (do not delete) when the entity isn't detached from the persistence context*/
+			entityManager.flush();	//manually commit the transaction	
+		}, entityManager, jdbcTemplateProxy);		
 		assertNotNull(entityManager.find(Assignment.class, id2));
 		
 		/**Detach entities from persistent context*/
-		entityManager.clear();
-		staffAssignment3 = assignmentRepo.findById(id2).get();
-		assertNotNull(staffAssignment3);
-		entityManager.remove(staffAssignment3);
-		entityManager.flush();
-		assertNull(entityManager.find(Assignment.class, id2));
-		/**Test entity was removed*/
-		assertEquals(62, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
-				
+		entityManager.clear();	
+		/**Assignment entity fetched via Spring Repo is has no parent entities attached.*/
+		final Assignment targetAssignmentDuplicate = entityManager.find(Assignment.class, id2);
+		assertNotNull(targetAssignmentDuplicate);
+		
+		deleteAssignmentInJpa(deleteAssignmentFunction->{
+			entityManager.remove(targetAssignmentDuplicate);
+			entityManager.flush(); //manually commit the transaction & deletes 1 row in Assignment table
+		}, entityManager, jdbcTemplateProxy);		
+		
+		assertNull(entityManager.find(Assignment.class, id2));				
 
 	}
 	
