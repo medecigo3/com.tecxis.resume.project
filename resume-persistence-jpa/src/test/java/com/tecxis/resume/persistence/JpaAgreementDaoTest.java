@@ -217,8 +217,8 @@ public class JpaAgreementDaoTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testFindAll(){		
 		assertEquals(13, agreementRepo.count());
-		List <Agreement> Agreements = agreementRepo.findAll();
-		assertEquals(13, Agreements.size());
+		List <Agreement> agreements = agreementRepo.findAll();
+		assertEquals(13, agreements.size());
 	}
 	
 	@Test
