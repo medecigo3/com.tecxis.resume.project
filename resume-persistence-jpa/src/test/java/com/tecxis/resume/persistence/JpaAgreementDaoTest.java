@@ -92,10 +92,7 @@ public class JpaAgreementDaoTest {
 			newAxeltisFastConnectAgreement.setId(newAxeltisFastConnectAgreementId);
 			newAxeltisFastConnectAgreement.setContract(axeltisFastConnectcontract);
 			newAxeltisFastConnectAgreement.setService(liferayDev);  // set new service
-			
-			/**Verify initial state*/
-			SchemaUtils.testInitialState(jdbcTemplateProxy);
-			
+		
 			/**Remove old and create new Agreement*/
 			agreementDao.delete(axeltisFastConnectAgreement);
 			agreementDao.save(newAxeltisFastConnectAgreement);
