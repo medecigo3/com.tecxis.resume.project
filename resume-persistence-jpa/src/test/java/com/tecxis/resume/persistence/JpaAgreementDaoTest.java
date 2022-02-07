@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.id.AgreementId;
 import com.tecxis.resume.domain.repository.AgreementRepository;
