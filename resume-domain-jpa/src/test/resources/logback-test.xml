@@ -72,7 +72,21 @@
     <logger name="org.hibernate.event.internal" level="info"/>
     <logger name="org.hibernate.engine.transaction.internal" level="info"/>
     <logger name="org.hibernate.cache" level="debug"/>
+    <!-- Logs cascading actions -->
+    <logger name="org.hibernate.engine.internal.Cascade" level="trace"/>
+    <!-- Logs init. of non-lazy collections (in trace level)-->
+    <logger name="org.hibernate.engine.internal.StatefulPersistenceContext" level="info"/>
+    <!-- Logs session metrics -->
     <logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="info"/>
+    <!--  "A session action that may be cascaded from parent entity to its children" from class Hibernate JavaDoc (5.5.9.Final)-->
+    <logger name="org.hibernate.engine.spi.CascadingAction" level="trace"/>
+    <!-- Logs entity persist, merge, delete, etc. events -->
+    <logger name="org.hibernate.event.internal.DefaultPersistEventListener" level="trace" />
+    <logger name="org.hibernate.event.internal.DefaultMergeEventListener" level="trace" />
+    <logger name="org.hibernate.event.internal.DefaultRefreshEventListener" level="trace" />            
+    <logger name="org.hibernate.event.internal.DefaultLoadEventListener" level="trace"/>
+        <!-- Logs flush executions -->
+    <logger name="org.hibernate.event.internal.AbstractFlushingEventListener" level="trace"/>    
     <!-- Logs formatted SQL statements in DEBUG level. Normally SQL logs (non-formatted) from n.t.d.l.l.SLF4JQueryLoggingListener are enough. -->
     <logger name="org.hibernate.SQL" level="info"/>
     <!-- Logs JDBC bind parameters -->

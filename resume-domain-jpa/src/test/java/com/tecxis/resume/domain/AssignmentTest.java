@@ -190,23 +190,23 @@ public class AssignmentTest {
 		 * This line of code cascades the CascadeType.PERSIST operation from 'fortis' (parent) to 'targetAssignment' (child) 
 		 * In case of delete of the staff's Task entity referenced by this Project 'fortis' (which is also loaded in the persistence context),   
 		 * the staff association will not be removed from the DB.
-		 * ---- START Hibernate logs: ----
-		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
-		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=7}]
-		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=8}]
-		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
-		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
-		 * Loading entity: [com.tecxis.resume.domain.Task#6]
-		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
-		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
-		 * Loading entity: [com.tecxis.resume.domain.Task#7]
-		 * Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
-		 * Loading entity: [com.tecxis.resume.domain.Staff#1]
-		 * Loading entity: [com.tecxis.resume.domain.Task#8]
-		 * Collection initialized
-		 * Loading entity: [com.tecxis.resume.domain.Task#6]
-		 * Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
-		 * ---- END Hibernate logs: ---- 
+		 * ---- START Hibernate logs ----
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=7}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=8}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Task#6]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Task#7]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Project#component[clientId,projectId]{clientId=2, projectId=2}]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Staff#1]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Task#8]
+		 *  TRACE [main]: o.h.e.i.StatefulPersistenceContext - Initializing non-lazy collections
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Task#6]
+		 *  TRACE [main]: o.h.e.i.DefaultLoadEventListener - Loading entity: [com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]
+		 * ---- END Hibernate logs ---- 
 		 * Comment out the line below to prove otherwise or detach entities*/	
 		 assertEquals(3, fortis.getAssignments().size());				
 		// entityManager.clear(); un-comment and detach entities to make the test fail. 
@@ -218,9 +218,26 @@ public class AssignmentTest {
 	 		
 		/**The removed 'targetAssignment' entity is referenced by a Project ('fortis'), the persist operation is cascaded from Project to Assignment because the association is marked as CascadeType.PERSIST  
 		 * hence the delete is un-scheduled (or do not delete) --> see in hibernate trace level logs
-		 * ---- START Hibernate logs: ----
-		 * un-scheduling entity deletion [[com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]]
-		 *  ---- END Hibernate logs: ---- 
+		 * ---- START Hibernate logs ----
+		 *  TRACE [main]: o.h.e.i.Cascade - Done processing cascade ACTION_DELETE for: com.tecxis.resume.domain.Assignment
+		 *  TRACE [main]: o.h.e.i.AbstractFlushingEventListener - Flushing session
+		 *  DEBUG [main]: o.h.e.i.AbstractFlushingEventListener - Processing flush-time cascades
+		 *  TRACE [main]: o.h.e.i.Cascade - Processing cascade ACTION_PERSIST_ON_FLUSH for: com.tecxis.resume.domain.Staff		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.assignments		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.courses		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.employmentContracts		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done deleting orphans for collection: com.tecxis.resume.domain.Staff.employmentContracts		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.interests		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.projects		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.skills		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Staff.supplyContracts		 
+		 *  TRACE [main]: o.h.e.i.Cascade - Done deleting orphans for collection: com.tecxis.resume.domain.Staff.supplyContracts
+		 *  TRACE [main]: o.h.e.i.Cascade - Done processing cascade ACTION_PERSIST_ON_FLUSH for: com.tecxis.resume.domain.Staff
+		 *  TRACE [main]: o.h.e.i.Cascade - Processing cascade ACTION_PERSIST_ON_FLUSH for: com.tecxis.resume.domain.Project
+		 *  TRACE [main]: o.h.e.i.Cascade - Cascade ACTION_PERSIST_ON_FLUSH for collection: com.tecxis.resume.domain.Project.assignments
+		 *  TRACE [main]: o.h.e.s.CascadingAction - Cascading to persist on flush: com.tecxis.resume.domain.Assignment
+		 *  TRACE [main]: o.h.e.i.DefaultPersistEventListener - un-scheduling entity deletion [[com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]]
+		 *  ---- END Hibernate logs ---- 
 		 **/
 		unscheduleDeleteAssignmentInJpa(unDeleteAssignmentFunction->{			
 			entityManager.remove(targetAssignment);
