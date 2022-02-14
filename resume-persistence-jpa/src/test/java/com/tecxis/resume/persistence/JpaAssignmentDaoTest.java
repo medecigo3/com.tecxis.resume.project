@@ -5,6 +5,9 @@ import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
 import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
+import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
+import static com.tecxis.resume.domain.Constants.JOHN_NAME;
+import static com.tecxis.resume.domain.Constants.MICROPOLE;
 import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK14;
@@ -15,6 +18,7 @@ import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -51,6 +55,7 @@ import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.repository.StaffRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
+import com.tecxis.resume.domain.util.function.ValidationResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -88,11 +93,77 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave() {
+	public void testSave_UpdateStaff() {
+		/**Find Project*/
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+//		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+//		assertEquals(62, amt.getAssignments().size());	//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Task*/
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+//		assertEquals(1, task14.getAssignments().size());//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find new Staff to set*/
+		Staff john = staffRepo.getStaffLikeFirstName(JOHN_NAME);
+//		assertEquals(1, john.getAssignments().size());	//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+							
+		/**Find target Assignment*/
+		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());		
+		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);		
 		
-	Assert.fail("TODO");
+		/**Create new Assignment ID*/
+		AssignmentId newAssignmentId = new AssignmentId();
+		newAssignmentId.setProjectId(parcours.getId());
+		newAssignmentId.setTaskId(task14.getId());
+		newAssignmentId.setStaffId(john.getId()); // set new Staff id.
+		
+		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+			/**Create new Assignment*/
+			Assignment newAssignment = new Assignment();
+			newAssignment.setId(newAssignmentId);
+			newAssignment.setStaff(john);
+			newAssignment.setProject(parcours);
+			newAssignment.setTask(task14);		
+
+			/**Remove old and create new Agreement*/
+			assignmentRepo.delete(staffProjectAssignment1);
+			assignmentRepo.save(newAssignment);
+			assignmentRepo.flush();
+			entityManager.clear();			
+			
+		}, assignmentRepo, jdbcTemplateProxy);
+		
+		/**Find old Assignment*/
+		assertFalse(assignmentRepo.findById(id).isPresent());
+		/**Find new Assignment*/
+		Assignment newParcoursTask14JohnAssignment = assignmentRepo.findById(newAssignmentId).get();		
+		/**Validates new Agreement*/		
+		assertEquals(ValidationResult.SUCCESS, isAssignmentValid(newParcoursTask14JohnAssignment, PARCOURS, VERSION_1, MICROPOLE, JOHN_NAME, JOHN_LASTNAME, TASK14));	
 		
 	}
+
+	@Sql(
+		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	@Test
+	public void testSave_UpdateProject() {
+		//TODO  Create SetAssignmentAssociationFunction, see example JpaAgreementTest.testSave_UpdateService()
+		Assert.fail("TODO");
+		
+	}
+	
+	@Sql(
+		scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
+		)
+	@Test
+	public void testSave_UpdateTask() {
+		//TODO Create SetTaskAssignmentFunction, see example JpaAgreementTest.testSave_UpdateService()
+		Assert.fail("TODO");
+		
+	}	
 	
 	
 	@Test

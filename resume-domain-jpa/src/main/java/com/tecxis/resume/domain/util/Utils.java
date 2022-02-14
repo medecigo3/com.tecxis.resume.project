@@ -61,6 +61,7 @@ import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
@@ -678,10 +679,22 @@ public class Utils {
 		function.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String firstName, String lastName, String taskDesc) {
+	public static void setAssignmentAssociationInJpa(SetAssignmentAssociationFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void setAssignmentAssociationInJpa(SetAssignmentAssociationFunction <AssignmentRepository> function, AssignmentRepository assignmentRepo, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(assignmentRepo);
+		function.afterTransactionCompletion(jdbcTemplate);
+	}	
+	
+	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String staffFirstName, String staffLastName, String taskDesc) {
 		if (PROJECT_IS_NOT_VALID.equals(isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject())))
 			return PROJECT_IS_NOT_VALID;
-		if (STAFF_IS_NOT_VALID.equals(isStaffValid(firstName, lastName).apply(assignment.getStaff())))
+		if (STAFF_IS_NOT_VALID.equals(isStaffValid(staffFirstName, staffLastName).apply(assignment.getStaff())))
 			return STAFF_IS_NOT_VALID;
 		if (TASK_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
 			return TASK_IS_NOT_VALID;
