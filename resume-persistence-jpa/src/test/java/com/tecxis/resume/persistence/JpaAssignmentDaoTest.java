@@ -27,7 +27,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Assignment;
 import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.Constants;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Task;
@@ -203,8 +203,51 @@ public class JpaAssignmentDaoTest {
 		)
 	@Test
 	public void testSave_UpdateTask() {
-		//TODO Create SetTaskAssignmentFunction, see example JpaAgreementTest.testSave_UpdateService()
-		Assert.fail("TODO");
+		/**Find Project*/
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+//		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+//		assertEquals(62, amt.getAssignments().size());	//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Task*/
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+//		assertEquals(1, task14.getAssignments().size());//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find new Task to set*/
+		Task task1 = taskRepo.getTaskByDesc(Constants.TASK1);
+							
+		/**Find target Assignment*/
+		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());		
+		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);		
+		
+		/**Create new Assignment ID*/
+		AssignmentId newAssignmentId = new AssignmentId();
+		newAssignmentId.setProjectId(parcours.getId()); 
+		newAssignmentId.setTaskId(task14.getId());
+		newAssignmentId.setStaffId(amt.getId()); 
+		
+		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+			/**Create new Assignment*/
+			Assignment newAssignment = new Assignment();
+			newAssignment.setId(newAssignmentId);
+			newAssignment.setStaff(amt);
+			newAssignment.setProject(parcours);
+			newAssignment.setTask(task1);		// set new Project id.
+
+			/**Remove old and create new Agreement*/
+			assignmentRepo.delete(staffProjectAssignment1);
+			assignmentRepo.save(newAssignment);
+			assignmentRepo.flush();
+			entityManager.clear();
+			
+		}, assignmentRepo, jdbcTemplateProxy);
+		
+		/**Find old Assignment*/
+		assertFalse(assignmentRepo.findById(id).isPresent());
+		/**Find new Assignment*/
+		Assignment newParcoursTask1AmtAssignment = assignmentRepo.findById(newAssignmentId).get();		
+		/**Validates new Agreement*/		
+		assertEquals(ValidationResult.SUCCESS, isAssignmentValid(newParcoursTask1AmtAssignment, PARCOURS, VERSION_1, MICROPOLE, AMT_NAME, AMT_LASTNAME, TASK1));
 		
 	}	
 	
