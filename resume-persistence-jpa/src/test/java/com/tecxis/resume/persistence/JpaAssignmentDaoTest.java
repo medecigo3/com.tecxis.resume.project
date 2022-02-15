@@ -149,9 +149,52 @@ public class JpaAssignmentDaoTest {
 		)
 	@Test
 	public void testSave_UpdateProject() {
-		//TODO  Create SetAssignmentAssociationFunction, see example JpaAgreementTest.testSave_UpdateService()
-		Assert.fail("TODO");
+		/**Find Project*/
+		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
+//		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+//		assertEquals(62, amt.getAssignments().size());	//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find Task*/
+		Task task14 = taskRepo.getTaskByDesc(TASK14);
+//		assertEquals(1, task14.getAssignments().size());//test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+		/**Find new Project to set*/
+		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
+//		assertEquals(6, adir.getAssignments().size()); //test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
+							
+		/**Find target Assignment*/
+		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());		
+		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
+		assertNotNull(staffProjectAssignment1);		
 		
+		/**Create new Assignment ID*/
+		AssignmentId newAssignmentId = new AssignmentId();
+		newAssignmentId.setProjectId(adir.getId()); // set new Project id.
+		newAssignmentId.setTaskId(task14.getId());
+		newAssignmentId.setStaffId(amt.getId()); 
+		
+		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+			/**Create new Assignment*/
+			Assignment newAssignment = new Assignment();
+			newAssignment.setId(newAssignmentId);
+			newAssignment.setStaff(amt);
+			newAssignment.setProject(adir);
+			newAssignment.setTask(task14);		
+
+			/**Remove old and create new Agreement*/
+			assignmentRepo.delete(staffProjectAssignment1);
+			assignmentRepo.save(newAssignment);
+			assignmentRepo.flush();
+			entityManager.clear();		
+			
+		}, assignmentRepo, jdbcTemplateProxy);
+		
+		/**Find old Assignment*/
+		assertFalse(assignmentRepo.findById(id).isPresent());
+		/**Find new Assignment*/
+		Assignment newAdirTask14AmtAssignment = assignmentRepo.findById(newAssignmentId).get();		
+		/**Validates new Agreement*/		
+		assertEquals(ValidationResult.SUCCESS, isAssignmentValid(newAdirTask14AmtAssignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK14));
 	}
 	
 	@Sql(
