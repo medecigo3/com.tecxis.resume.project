@@ -2,10 +2,11 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.BRUSSELS;
-import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.LONDON;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -72,24 +73,23 @@ public class JpaCityDaoTest {
 		)
 	@Test
 	public void testAdd() {
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		City london = Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		assertEquals(1, london.getId().getCityId());
+		/**Insert Country*/
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		Country france = Utils.insertCountry(FRANCE, entityManager);
-		City paris = Utils.insertCity(PARIS, france, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		assertEquals(2, paris.getId().getCityId());
-		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		Country belgium = Utils.insertCountry(BELGIUM, entityManager);		
-		City brussels = Utils.insertCity(BRUSSELS, belgium, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		assertEquals(3, brussels.getId().getCityId());
+		insertCityInJpa(insertCityFunction->{
+			/**Insert City*/
+			City brussels = new City();
+			brussels.setName(BRUSSELS);				
+			brussels.setCountry(belgium);
+			cityRepo.save(brussels);
+			cityRepo.flush();	//manually commit the transaction	
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+		}, cityRepo, jdbcTemplateProxy);
+	
+		/**Validate City was inserted*/
+		City brussels = cityRepo.getCityByName(BRUSSELS);
+		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM));
+	
 	}
 	
 	@Test

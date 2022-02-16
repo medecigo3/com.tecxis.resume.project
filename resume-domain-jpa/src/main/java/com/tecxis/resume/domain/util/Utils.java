@@ -2,9 +2,12 @@ package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
+import static com.tecxis.resume.domain.util.function.CityValidator.isCountryValid;
+import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
@@ -60,8 +63,9 @@ import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
-import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
+import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
@@ -698,6 +702,26 @@ public class Utils {
 			return STAFF_IS_NOT_VALID;
 		if (TASK_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
 			return TASK_IS_NOT_VALID;
+		return SUCCESS;		
+	}
+	
+	public static void insertCityInJpa(InsertCityFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);		
+	}
+	
+	public static void insertCityInJpa(InsertCityFunction <CityRepository> function, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(cityRepo);
+		function.afterTransactionCompletion(jdbcTemplate);		
+	}
+	
+	public static ValidationResult isCityValid(City city, String cityName, String countryName) {
+		if (CITY_IS_NOT_VALID.equals(isCountryValid(countryName).apply(city)))
+			return CITY_IS_NOT_VALID;
+		if (CITY_IS_NOT_VALID.equals(isNameValid(cityName).apply(city)))
+			return CITY_IS_NOT_VALID;
 		return SUCCESS;		
 	}
 
