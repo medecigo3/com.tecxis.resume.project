@@ -26,6 +26,8 @@ import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -98,6 +100,29 @@ public class CityTest {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testInsertCity() {
+		/**Insert Country*/
+		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
+		
+		insertCityInJpa(insertCityFunction->{
+			/**Insert City*/
+			City brussels = new City();
+			brussels.setName(BRUSSELS);				
+			brussels.setCountry(belgium);
+			entityManager.persist(brussels);
+			entityManager.flush();	//manually commit the transaction	
+			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+		}, entityManager, jdbcTemplateProxy);
+	
+		/**Validate City was inserted*/
+		City brussels = cityRepo.getCityByName(BRUSSELS);
+		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM));
+	}
 	
 	@Test
 	@Sql(

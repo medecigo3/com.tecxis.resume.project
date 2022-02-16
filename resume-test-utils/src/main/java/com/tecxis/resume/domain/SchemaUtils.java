@@ -375,5 +375,17 @@ public final class SchemaUtils {
 		assertEquals(62, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	//One Assignment deleted
 		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));
 	}
+
+	public static void testInsertCityInitialState(JdbcTemplate jdbcTemplateProxy) {
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));	
+		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));	
+		
+	}
+
+	public static void testStateAfterCityInsert(JdbcTemplate jdbcTemplateProxy) {
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));	
+		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));	
+		
+	}
 	
 }
