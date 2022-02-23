@@ -15,6 +15,7 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.util.Utils.deleteAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.util.Utils.setAssignmentAssociationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -118,7 +119,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(john.getId()); // set new Staff id.
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(setStaffAssignment ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -173,7 +174,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(setStaffAssignment ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -226,7 +227,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(setStaffAssignment ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
