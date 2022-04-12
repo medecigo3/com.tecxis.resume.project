@@ -2,13 +2,14 @@ package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
-import static com.tecxis.resume.domain.util.function.CityValidator.isCountryValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
@@ -59,13 +60,17 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.CityValidator;
+import com.tecxis.resume.domain.util.function.CountryValidator;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
+import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
@@ -718,10 +723,32 @@ public class Utils {
 	}
 	
 	public static ValidationResult isCityValid(City city, String cityName, String countryName) {
-		if (CITY_IS_NOT_VALID.equals(isCountryValid(countryName).apply(city)))
+		if (CITY_IS_NOT_VALID.equals(CityValidator.isCountryValid(countryName).apply(city)))
 			return CITY_IS_NOT_VALID;
 		if (CITY_IS_NOT_VALID.equals(isNameValid(cityName).apply(city)))
 			return CITY_IS_NOT_VALID;
+		return SUCCESS;		
+	}
+	
+	public static void setLondonToFranceInJpa(SetLondonInFranceFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
+		function.beforeTransactionCompletion(jdbcTemplateProxy);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplateProxy);
+		
+	}
+	
+	public static void setBrusslesToFranceInJpa(SetBrusselsInFranceFunction <CityRepository> function, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
+		function.beforeTransactionCompletion(jdbcTemplateProxy);
+		function.accept(cityRepo);
+		function.afterTransactionCompletion(jdbcTemplateProxy);
+		
+	}
+	
+	public static ValidationResult isCountryValid(Country country, String countryName, City... cities) {
+		if (COUNTRY_CITIES_ARE_NOT_VALID.equals(CountryValidator.areCitiesValid(cities).apply(country)))
+			return COUNTRY_CITIES_ARE_NOT_VALID;
+		if (COUNTRY_NAME_IS_NOT_VALID.equals(CountryValidator.isNameValid(countryName).apply(country)))
+			return COUNTRY_NAME_IS_NOT_VALID;
 		return SUCCESS;		
 	}
 

@@ -27,6 +27,9 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
+import static com.tecxis.resume.domain.util.Utils.isCityValid;
+import static com.tecxis.resume.domain.util.Utils.isCountryValid;
+import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -186,54 +189,53 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetCountryWithOrmOrhpanRemoval() {
-		/**Find City*/
-		City currentLondon = cityRepo.getCityByName(LONDON);		
-		
-		/**Validate City -> Country*/
-		assertEquals(UNITED_KINGDOM, currentLondon.getCountry().getName());
-				
+	public void testSetCountryWithOrmOrhpanRemoval() {		
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
-		assertEquals(FRANCE, france.getName());
-		assertEquals(1, france.getCities().size());
+		assertEquals(FRANCE, france.getName()); 
+//		assertEquals(1, france.getCities().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
 		
-		/**Create new City with new host Country*/
-		City newLondon =  new City();
-		CityId id = newLondon.getId();
-		id.setCityId(currentLondon.getId().getCityId()); //sets old id to the new City
-		newLondon.setCountry(france);		
-		newLondon.setName(currentLondon.getName());
-				
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		entityManager.remove(currentLondon); //Probably not the best approach here to delete, then insert new city. //TODO try generate SQL UPDATE City statement
-		entityManager.flush();		
-		assertEquals(4, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE)); //2 orphans removed
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));					
-		entityManager.persist(newLondon);	
-		entityManager.flush();			
-		entityManager.clear();
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE)); // 1 new child inserted
-		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
-		/**Validate the new City*/		
-		newLondon = null;
-		newLondon = cityRepo.getCityByName(LONDON);		
-		assertEquals(currentLondon.getId().getCityId(), newLondon.getId().getCityId());
+		/**Find target City*/
+		City oldLondon = cityRepo.getCityByName(LONDON);
+		assertNotNull(oldLondon);
+		assertEquals(UNITED_KINGDOM, oldLondon.getCountry().getName());		
+		
+		CityId newCityId = new CityId();
+		newCityId.setCityId(oldLondon.getId().getCityId()); //sets old id to the new City
+		newCityId.setCountryId(france.getId());
+		
+		setLondonToFranceInJpa(setCountryInCity -> {
+			/**Create new City with new host Country*/
+			City newLondon =  new City();		
+			newLondon.setId(newCityId);		
+			newLondon.setName(oldLondon.getName());           
+//			newLondon.setLocations(currentLondon.getLocations()); //Cannot set locations for the new City. Setting the new City with references to old Locations generates redundant SQL insert of "oldLondon" City.			
+		
+			/**Remove old and create new City*/
+			entityManager.remove(oldLondon);
+			entityManager.flush();           //DELETE statements are executed right at the end of the flush while the INSERT statements are executed towards the beginning. We need to manually flush the delete transaction. In this functional case this isn't a code smell. because we're changing the City's foreign key (not an attribute). For more info about Hibernate flush operation order read this article: https://vladmihalcea.com/hibernate-facts-knowing-flush-operations-order-matters/   
+			entityManager.persist(newLondon);	
+			entityManager.flush();			//Manually commit the transaction
+			entityManager.clear();
+			
+			
+		}, entityManager, jdbcTemplateProxy);		
+	
+			
+		/**Find old city*/
+		CityId oldCityId = oldLondon.getId();
+		assertFalse(cityRepo.findById(oldCityId).isPresent());
+		/**Find new City*/
+		City londonFrance = cityRepo.findById(newCityId).get();
+		assertNotNull(londonFrance);
+		/**Test new City is valid */
+		assertEquals(SUCCESS, isCityValid(londonFrance, LONDON, FRANCE));
+		/**Test Country is valid*/
 		france = countryRepo.getCountryByName(FRANCE);
-		assertEquals(france, newLondon.getCountry());
-		
-		/**Validate the new Country -> City*/		
 		assertEquals(2, france.getCities().size());
-		assertThat(france.getCities(), Matchers.hasItem(newLondon));		
-		
+		City paris = cityRepo.getCityByName(PARIS);
+		assertEquals(SUCCESS, isCountryValid(france, FRANCE, londonFrance, paris));
 	}
 
 	@Test
