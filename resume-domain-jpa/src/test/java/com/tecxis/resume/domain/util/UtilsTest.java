@@ -47,7 +47,7 @@ import static com.tecxis.resume.domain.util.Utils.buildTask;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
 import static org.junit.Assert.assertEquals;
@@ -1290,7 +1290,7 @@ public class UtilsTest {
 		/**Test Contract name is not valid*/					
 		assertEquals(CONTRACT_NAME_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
 		/**Test Service name is not valid*/
-		assertEquals(SERVICE_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
+		assertEquals(SERVICE_NAME_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
 	}
 	
 	@Test
