@@ -20,7 +20,7 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_FIRSTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_LASTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
 
 import java.util.Date;
 
@@ -717,8 +717,8 @@ public class Utils {
 			return STAFF_FIRSTNAME_IS_NOT_VALID;
 		if (STAFF_LASTNAME_IS_NOT_VALID.equals(isStaffLastNameValid(staffLastName).apply(assignment.getStaff())))
 			return STAFF_LASTNAME_IS_NOT_VALID;
-		if (TASK_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
-			return TASK_IS_NOT_VALID;
+		if (TASK_DESC_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
+			return TASK_DESC_IS_NOT_VALID;
 		return SUCCESS;		
 	}
 	
