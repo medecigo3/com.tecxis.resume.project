@@ -10,7 +10,7 @@ import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffFirst
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastNameValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
@@ -629,8 +629,8 @@ public class Utils {
 	}
 
 	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
-		if(CONTRACT_IS_NOT_VALID.equals((isContractValid(contractName).apply(agreement))))
-			return CONTRACT_IS_NOT_VALID;
+		if(CONTRACT_NAME_IS_NOT_VALID.equals((isContractValid(contractName).apply(agreement))))
+			return CONTRACT_NAME_IS_NOT_VALID;
 		if(SERVICE_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
 			return SERVICE_IS_NOT_VALID;
 		return SUCCESS;

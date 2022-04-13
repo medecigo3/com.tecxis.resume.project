@@ -46,7 +46,7 @@ import static com.tecxis.resume.domain.util.Utils.buildStaff;
 import static com.tecxis.resume.domain.util.Utils.buildTask;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
@@ -1288,7 +1288,7 @@ public class UtilsTest {
 		Agreement agreement = buildAgreement(contract, service);
 		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
 		/**Test Contract name is not valid*/					
-		assertEquals(CONTRACT_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
+		assertEquals(CONTRACT_NAME_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
 		/**Test Service name is not valid*/
 		assertEquals(SERVICE_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
 	}
