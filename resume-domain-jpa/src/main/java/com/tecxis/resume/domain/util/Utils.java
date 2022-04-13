@@ -16,7 +16,7 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NA
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_VERSION_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_FIRSTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_LASTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -631,8 +631,8 @@ public class Utils {
 	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
 		if(CONTRACT_NAME_IS_NOT_VALID.equals((isContractValid(contractName).apply(agreement))))
 			return CONTRACT_NAME_IS_NOT_VALID;
-		if(SERVICE_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
-			return SERVICE_IS_NOT_VALID;
+		if(SERVICE_NAME_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
+			return SERVICE_NAME_IS_NOT_VALID;
 		return SUCCESS;
 	}
 	
