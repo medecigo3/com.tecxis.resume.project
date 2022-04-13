@@ -3,14 +3,18 @@ package com.tecxis.resume.domain.util;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
-import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectValid;
+import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectClientValid;
+import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectNameValid;
+import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectVersionValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_NAME_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_VERSION_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -701,8 +705,12 @@ public class Utils {
 	}	
 	
 	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String staffFirstName, String staffLastName, String taskDesc) {
-		if (PROJECT_IS_NOT_VALID.equals(isProjectValid(projectName, projectVersion, clientName).apply(assignment.getProject())))
-			return PROJECT_IS_NOT_VALID;
+		if (PROJECT_NAME_IS_NOT_VALID.equals(isProjectNameValid(projectName).apply(assignment.getProject())))
+			return PROJECT_NAME_IS_NOT_VALID;
+		if (PROJECT_VERSION_IS_NOT_VALID.equals(isProjectVersionValid(projectVersion).apply(assignment.getProject())))
+			return PROJECT_VERSION_IS_NOT_VALID;
+		if (PROJECT_CLIENT_IS_NOT_VALID.equals(isProjectClientValid(clientName).apply(assignment.getProject())))
+			return PROJECT_CLIENT_IS_NOT_VALID;
 		if (STAFF_IS_NOT_VALID.equals(isStaffValid(staffFirstName, staffLastName).apply(assignment.getStaff())))
 			return STAFF_IS_NOT_VALID;
 		if (TASK_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))

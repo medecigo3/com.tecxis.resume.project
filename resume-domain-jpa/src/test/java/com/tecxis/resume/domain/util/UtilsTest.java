@@ -47,12 +47,12 @@ import static com.tecxis.resume.domain.util.Utils.buildTask;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
 import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_IS_NOT_VALID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -1303,8 +1303,8 @@ public class UtilsTest {
 		Assignment assignment = buildAssignment(project, staff, task);
 		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
 		/**Test Project is not valid*/
-		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
-		assertEquals(PROJECT_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, "Test", BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		assertNotEquals(SUCCESS, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
+		assertNotEquals(SUCCESS, isAssignmentValid(assignment, ADIR, "Test", BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
 		/**Test Staff is not valid*/
 		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, "Test", AMT_LASTNAME, TASK1));
 		assertEquals(STAFF_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, "Test", TASK1));
