@@ -10,6 +10,7 @@ import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffFirst
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastNameValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
@@ -23,6 +24,7 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -75,6 +77,7 @@ import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
+import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
@@ -734,11 +737,13 @@ public class Utils {
 		function.afterTransactionCompletion(jdbcTemplate);		
 	}
 	
-	public static ValidationResult isCityValid(City city, String cityName, String countryName) {
+	public static ValidationResult isCityValid(City city, String cityName, String countryName, final List<Location> locations) {
 		if (CITY_IS_NOT_VALID.equals(CityValidator.isCountryValid(countryName).apply(city)))
 			return CITY_IS_NOT_VALID;
 		if (CITY_IS_NOT_VALID.equals(isNameValid(cityName).apply(city)))
 			return CITY_IS_NOT_VALID;
+		if(CITY_LOCATIONS_ARE_NOT_VALID.equals(CityValidator.areLocationsValid(locations).apply(city)))
+			return CITY_LOCATIONS_ARE_NOT_VALID;
 		return SUCCESS;		
 	}
 	
@@ -756,12 +761,26 @@ public class Utils {
 		
 	}
 	
-	public static ValidationResult isCountryValid(Country country, String countryName, City... cities) {
+	public static ValidationResult isCountryValid(Country country, String countryName, final List<City> cities) {
 		if (COUNTRY_CITIES_ARE_NOT_VALID.equals(CountryValidator.areCitiesValid(cities).apply(country)))
 			return COUNTRY_CITIES_ARE_NOT_VALID;
 		if (COUNTRY_NAME_IS_NOT_VALID.equals(CountryValidator.isNameValid(countryName).apply(country)))
 			return COUNTRY_NAME_IS_NOT_VALID;
 		return SUCCESS;		
+	}
+ 
+	public static void setCityLocationsInJpa(SetCityLocationsFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
+		function.beforeTransactionCompletion(jdbcTemplateProxy);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplateProxy);
+		
+	}
+
+	public static void setCityLocationsInJpa(SetCityLocationsFunction <CityRepository> function, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
+		function.beforeTransactionCompletion(jdbcTemplateProxy);
+		function.accept(cityRepo);
+		function.afterTransactionCompletion(jdbcTemplateProxy);
+		
 	}
 
 }

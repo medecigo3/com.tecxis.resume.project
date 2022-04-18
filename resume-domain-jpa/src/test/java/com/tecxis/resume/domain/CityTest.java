@@ -29,6 +29,7 @@ import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOS
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
+import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -124,7 +125,7 @@ public class CityTest {
 	
 		/**Validate City was inserted*/
 		City brussels = cityRepo.getCityByName(BRUSSELS);
-		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM));
+		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM, new ArrayList<Location> ()));
 	}
 	
 	@Test
@@ -229,13 +230,16 @@ public class CityTest {
 		/**Find new City*/
 		City londonFrance = cityRepo.findById(newCityId).get();
 		assertNotNull(londonFrance);
-		/**Test new City is valid */
-		assertEquals(SUCCESS, isCityValid(londonFrance, LONDON, FRANCE));
-		/**Test Country is valid*/
+		/**Test new City has 0 locations */
+		assertEquals(SUCCESS, isCityValid(londonFrance, LONDON, FRANCE, new ArrayList<Location> () ));
+		/**Test Country has now Paris and London*/
 		france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(2, france.getCities().size());
 		City paris = cityRepo.getCityByName(PARIS);
-		assertEquals(SUCCESS, isCountryValid(france, FRANCE, londonFrance, paris));
+		List <City> cities = new ArrayList <City>();
+		cities.add(paris);
+		cities.add(londonFrance);
+		assertEquals(SUCCESS, isCountryValid(france, FRANCE, cities));
 	}
 
 	@Test
@@ -394,7 +398,7 @@ public class CityTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testSetLocations() {
 		/**Find & validate City to test*/
-		City london = cityRepo.getCityByName(LONDON);
+		final City london = cityRepo.getCityByName(LONDON);
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
 		List <Location> londonLocations = london.getLocations();
 		assertEquals(2, londonLocations.size());
@@ -448,52 +452,37 @@ public class CityTest {
 		newLocations.add(londonMorningstarv2Location);
 				
 		/**Set new Locations*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));		
-		london.setLocations(newLocations);
-		assertEquals(3, london.getLocations().size());
-		entityManager.merge(london);
-		entityManager.flush();
-		entityManager.clear();
-		assertEquals(15, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));		
+		setCityLocationsInJpa( setCityLocations->{
+			london.setLocations(newLocations);
+			assertEquals(3, london.getLocations().size());
+			entityManager.merge(london);
+			entityManager.flush();
+			entityManager.clear();
+		}, entityManager, jdbcTemplateProxy);
 		
-		/**Validate test*/
-		london = cityRepo.getCityByName(LONDON);
-		assertEquals(3, london.getLocations().size());
-		location1 = london.getLocations().get(0);
-		location2 = london.getLocations().get(1);
-		Location location3 = london.getLocations().get(2);
-		assertEquals(london, location1.getCity());
-		assertEquals(london, location2.getCity());
-		assertEquals(london, location3.getCity());
-		
-		assertThat(location1.getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
-		assertThat(location2.getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
-		assertThat(location3.getProject().getName(), Matchers.oneOf(SELENIUM, AOS, MORNINGSTAR));
-		
-		assertThat(location1.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
-		assertThat(location2.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
-		assertThat(location3.getProject(), Matchers.oneOf(selenium, aos, morningstarv2));
+		/**Validate new City*/
+		City newLondon = cityRepo.getCityByName(LONDON);
+		assertEquals(SUCCESS, isCityValid(newLondon, LONDON, UNITED_KINGDOM, newLocations));
 		
 		/**Test the opposite association*/
 		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
 		aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
 		morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
-		/**Test selenium Project has all Cities*/
+		/**Test selenium Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
 		assertEquals(2, selenium.getLocations().size());
 		paris = cityRepo.getCityByName(PARIS);
-		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, london));
-		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, london));
-		/**Test aos Project has all Cities*/
+		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
+		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
+		/**Test aos Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
 		assertEquals(3, aos.getLocations().size());
 		swindon = cityRepo.getCityByName(SWINDON);
-		assertThat(aos.getLocations().get(0).getCity(), Matchers.oneOf(paris, london, swindon));
-		assertThat(aos.getLocations().get(1).getCity(), Matchers.oneOf(paris, london, swindon));
-		assertThat(aos.getLocations().get(2).getCity(), Matchers.oneOf(paris, london, swindon));
-		/**Test morningstar v2 Project has all Cities*/		
+		assertThat(aos.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		assertThat(aos.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		assertThat(aos.getLocations().get(2).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		/**Test morningstar v2 Project has all Cities*/		//Don't use ProjectValidator. We only want to test City -> Project assoc. 
 		assertEquals(2, morningstarv2.getLocations().size());
-		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, london));
-		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, london));
-		
+		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
+		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
 	}	
 	
 	@Test

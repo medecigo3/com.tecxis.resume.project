@@ -1,24 +1,38 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.domain.Constants.AOS;
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.BRUSSELS;
+import static com.tecxis.resume.domain.Constants.DCSC;
+import static com.tecxis.resume.domain.Constants.FORTIS;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.LONDON;
+import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
+import static com.tecxis.resume.domain.Constants.PARIS;
+import static com.tecxis.resume.domain.Constants.SELENIUM;
+import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.Constants.VERSION_1;
+import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
+import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.setBrusslesToFranceInJpa;
+import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +49,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.Location;
+import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 
@@ -60,6 +77,9 @@ public class JpaCityDaoTest {
 	
 	@Autowired
 	private CountryRepository countryRepo;
+	
+	@Autowired
+	private ProjectRepository projectRepo;
 	
 	@Sql(
 		    scripts = {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -103,10 +123,10 @@ public class JpaCityDaoTest {
 		/**Find old City*/
 		CityId oldCityId = brussels.getId();		
 		assertFalse(cityRepo.findById(oldCityId).isPresent());			
-		/**Find new city*/
+		/**Find new city with 0 locations*/
 		City brusselsFrance = cityRepo.findById(newCityId).get();
 		assertNotNull(brusselsFrance);
-		assertEquals(SUCCESS, Utils.isCityValid(brusselsFrance, BRUSSELS, FRANCE));		
+		assertEquals(SUCCESS, Utils.isCityValid(brusselsFrance, BRUSSELS, FRANCE, new ArrayList <Location> ()));		
 	}
 	
 	@Sql(
@@ -115,7 +135,92 @@ public class JpaCityDaoTest {
 		)
 	@Test
 	public void testSave_UpdateLocation() {
-		//TODO
+		/**Find & validate City to test*/
+		final City london = cityRepo.getCityByName(LONDON);
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		List <Location> londonLocations = london.getLocations();
+		assertEquals(2, londonLocations.size());
+		/**Validate opposite associations*/
+		Location location1 = london.getLocations().get(0);
+		Location location2 = london.getLocations().get(1);		
+		assertEquals(london, location1.getCity());
+		assertEquals(london, location2.getCity());		
+		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);		
+		assertThat(location1.getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(location2.getProject(), Matchers.oneOf(fortis, dcsc));		
+		
+	
+		/**Find & validate Projects to test*/
+		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		assertEquals(SELENIUM, selenium.getName());
+		assertEquals(VERSION_1, selenium.getVersion());		
+		assertEquals(AOS, aos.getName());
+		assertEquals(VERSION_1, aos.getVersion());		
+		assertEquals(MORNINGSTAR, morningstarv2.getName());
+		assertEquals(VERSION_2, morningstarv2.getVersion());
+		/**Validate opposite association*/
+		City paris = cityRepo.getCityByName(PARIS);
+		City swindon = cityRepo.getCityByName(SWINDON);		
+		List <Location> seleniumLocations = selenium.getLocations();
+		List <Location> aosLocations = aos.getLocations();
+		assertEquals(1, seleniumLocations.size());
+		assertEquals(2, aosLocations.size());
+		Location seleniumLocation = seleniumLocations.get(0);
+		assertEquals(paris, seleniumLocation.getCity());
+		assertThat(aosLocations.get(0).getCity(), Matchers.oneOf(paris, swindon));
+		assertThat(aosLocations.get(1).getCity(), Matchers.oneOf(paris, swindon));
+				
+		/**Validate current Locations*/		
+		assertEquals(london, londonLocations.get(0).getCity());
+		fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
+		dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
+		assertThat(londonLocations.get(0).getProject(), Matchers.oneOf(fortis, dcsc));
+		assertThat(londonLocations.get(1).getProject(), Matchers.oneOf(fortis, dcsc));	
+		
+		/**Prepare new Locations*/
+		Location londonSeleniumLocation =  new Location (london, selenium);
+		Location londonAosLocation = new Location(london, aos);
+		Location londonMorningstarv2Location = new Location(london, morningstarv2);
+		List <Location>  newLocations = new  ArrayList<>();
+		newLocations.add(londonSeleniumLocation);		
+		newLocations.add(londonAosLocation);
+		newLocations.add(londonMorningstarv2Location);
+				
+		/**Set new Locations*/
+		setCityLocationsInJpa( setCityLocations->{
+			london.setLocations(newLocations);
+			assertEquals(3, london.getLocations().size());
+			entityManager.merge(london);
+			entityManager.flush();
+			entityManager.clear();
+		}, cityRepo, jdbcTemplateProxy);
+		
+		/**Validate new City*/
+		City newLondon = cityRepo.getCityByName(LONDON);
+		assertEquals(SUCCESS, isCityValid(newLondon, LONDON, UNITED_KINGDOM, newLocations));
+		
+		/**Test the opposite association*/
+		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
+		aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
+		morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
+		/**Test selenium Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
+		assertEquals(2, selenium.getLocations().size());
+		paris = cityRepo.getCityByName(PARIS);
+		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
+		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
+		/**Test aos Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
+		assertEquals(3, aos.getLocations().size());
+		swindon = cityRepo.getCityByName(SWINDON);
+		assertThat(aos.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		assertThat(aos.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		assertThat(aos.getLocations().get(2).getCity(), Matchers.oneOf(paris, newLondon, swindon));
+		/**Test morningstar v2 Project has all Cities*/		//Don't use ProjectValidator. We only want to test City -> Project assoc. 
+		assertEquals(2, morningstarv2.getLocations().size());
+		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
+		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
 	}
 	
 	@Sql(
@@ -137,9 +242,9 @@ public class JpaCityDaoTest {
 			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 		}, cityRepo, jdbcTemplateProxy);
 	
-		/**Validate City was inserted*/
+		/**Validate City was inserted with no locations*/
 		City brussels = cityRepo.getCityByName(BRUSSELS);
-		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM));
+		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM, new ArrayList<Location> ()));
 	
 	}
 	
