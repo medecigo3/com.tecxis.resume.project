@@ -1,6 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.ACCENTURE_CLIENT;
 import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
@@ -19,6 +18,8 @@ import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,7 @@ import com.tecxis.resume.domain.util.Utils;
 @Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSourceHelper")
 public class JpaClientDaoTest {
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
 	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
@@ -53,23 +55,14 @@ public class JpaClientDaoTest {
 	private ClientRepository clientRepo;
 
 	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
-		)
-	public void testSave() {
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		Client barclays = Utils.insertClient(BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		assertEquals(1, barclays.getId().longValue());
+	public void testSave_OneToMany_UpdateContract() {
+		LOGGER.debug("Not implemented");
 		
-		Client ageas = Utils.insertClient(AGEAS, entityManager);
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		assertEquals(2, ageas.getId().longValue());
-		
-		Client accenture = Utils.insertClient(ACCENTURE_CLIENT, entityManager);
-		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		assertEquals(3, accenture.getId().longValue());
+	}
+	
+	@Test
+	public void testSave_OneToMany_UpdateProject() {
+		LOGGER.debug("Not implemented");
 		
 	}
 	

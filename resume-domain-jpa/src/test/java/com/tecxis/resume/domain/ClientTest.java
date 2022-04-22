@@ -147,7 +147,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetContracts() {		
+	public void test_OneToMany_SetContracts() {		
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setContracts(new ArrayList<Contract> ());
 		//To update a Contract's Client see ContractTest.testSetClient()
@@ -157,7 +157,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddContract() {
+	public void test_OneToMany_AddContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addContract(new Contract());	
 		//To update a Contract's Client see ContractTest.testSetClient()
@@ -167,7 +167,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveContract() {
+	public void test_OneToMany_RemoveContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeContract(new Contract());		
 		//To remove a Contract's Client see ContractTest.testSetClient()		
@@ -196,7 +196,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetProjects() {
+	public void test_OneToMany_SetProjects() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setProjects(new ArrayList<Project> ());
 		//To set a Client's Project see ProjectTest.testSetClient()		
@@ -207,7 +207,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddProject() {
+	public void test_OneToMany_AddProject() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addProject(new Project());
 		//To add a Client's Project see ProjectTest.testSetClient()		
@@ -217,7 +217,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveProject() {
+	public void test_OneToMany_RemoveProject() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeProject(new Project());
 		//To remove a Client's Project see ProjectTest.testSetClient()		
