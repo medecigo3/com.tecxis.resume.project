@@ -134,7 +134,7 @@ public class JpaCityDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_UpdateLocation() {
+	public void testSave_OneToMany_UpdateLocation() {
 		/**Find & validate City to test*/
 		final City london = cityRepo.getCityByName(LONDON);
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());

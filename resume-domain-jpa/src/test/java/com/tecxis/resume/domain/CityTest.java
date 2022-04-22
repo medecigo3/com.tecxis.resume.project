@@ -396,7 +396,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetLocations() {
+	public void test_OneToMany_SetLocations() {
 		/**Find & validate City to test*/
 		final City london = cityRepo.getCityByName(LONDON);
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
