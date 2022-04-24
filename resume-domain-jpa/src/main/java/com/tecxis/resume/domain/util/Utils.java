@@ -3,6 +3,7 @@ package com.tecxis.resume.domain.util;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
+import static com.tecxis.resume.domain.util.function.ClientValidator.isClientNameValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectClientValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectNameValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectVersionValid;
@@ -11,6 +12,7 @@ import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastN
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CLIENT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
@@ -75,6 +77,7 @@ import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
+import com.tecxis.resume.domain.util.function.InsertClientFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
@@ -781,6 +784,26 @@ public class Utils {
 		function.accept(cityRepo);
 		function.afterTransactionCompletion(jdbcTemplateProxy);
 		
+	}
+	
+	public static long insertClientInJpa(InsertClientFunction <EntityManager, Long> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		Long clientId = function.apply(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);
+		return clientId;
+	}
+	
+	public static long insertClientInJpa(InsertClientFunction <ClientRepository, Long> function, ClientRepository clientRepo, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		Long clientId = function.apply(clientRepo);
+		function.afterTransactionCompletion(jdbcTemplate);
+		return clientId;
+	}
+	
+	public static ValidationResult isClientValid(Client client, String clientName) {
+		if (CLIENT_NAME_IS_NOT_VALID.equals(isClientNameValid(clientName).apply(client)))
+			return CLIENT_NAME_IS_NOT_VALID;
+		return SUCCESS;		
 	}
 
 }

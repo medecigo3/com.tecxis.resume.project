@@ -455,5 +455,13 @@ public final class SchemaUtils {
 		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));	
 		assertEquals(63, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE));	
 		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));			
-	}	
+	}
+	
+	public static void testStateBeforeClientInsert(JdbcTemplate jdbcTemplate) {
+		assertEquals(0, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+	}
+	
+	public static void testStateAfterClientInsert(JdbcTemplate jdbcTemplate) {
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE));
+	}
 }

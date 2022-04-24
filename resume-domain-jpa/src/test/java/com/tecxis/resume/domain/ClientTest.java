@@ -4,10 +4,13 @@ import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
 import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
+import static com.tecxis.resume.domain.Constants.MICROPOLE;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -70,6 +73,26 @@ public class ClientTest {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void testInsertClient() {		
+		Long id =  insertClientInJpa(insertClientFunction ->{
+			Client micropole = new Client();
+			micropole.setName(MICROPOLE);
+			entityManager.persist(micropole);
+			entityManager.flush();
+			return micropole.getId();
+		}, 				
+		entityManager, jdbcTemplateProxy);		
+		assertThat(id).isGreaterThan(0L);
+		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE));
+		
+	}
 	
 	@Test
 	@Sql(

@@ -5,6 +5,9 @@ import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.MICROPOLE;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -72,10 +75,18 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testAdd() {
-		Client clientIn = Utils.insertClient(BARCLAYS, entityManager);
-		Client clientOut = clientRepo.getClientByName(clientIn.getName());
-		assertEquals(clientIn, clientOut);
+		Long id =  insertClientInJpa(insertClientFunction ->{
+			Client micropole = new Client();
+			micropole.setName(MICROPOLE);
+			entityManager.persist(micropole);
+			entityManager.flush();
+			return micropole.getId();
+		}, 				
+		clientRepo, jdbcTemplateProxy);		
+		assertThat(id).isGreaterThan(0L);
 		
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE));
 	}
 	
 	@Test
