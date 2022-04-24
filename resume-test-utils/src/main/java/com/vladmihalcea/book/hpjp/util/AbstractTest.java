@@ -468,7 +468,7 @@ public abstract class AbstractTest {
         }
     }
 
-    protected <T> T doInJPA(JPATransactionFunction<T> function) {
+    protected <T> T doInJPA(JPATransactionFunction<EntityManager, T> function) {
         T result = null;
         EntityManager entityManager = null;
         EntityTransaction txn = null;
