@@ -14,6 +14,7 @@ import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
+import static com.tecxis.resume.domain.SchemaUtils.testInitialState;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.setBrusslesToFranceInJpa;
@@ -24,7 +25,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,6 @@ import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.Country;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.CountryRepository;
@@ -249,16 +248,40 @@ public class JpaCityDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" })
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
-		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		City tempCity = Utils.insertCity(LONDON, uk, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
-		cityRepo.delete(tempCity);
+		/**Find City to remove*/
+		City london = cityRepo.getCityByName(LONDON);		
+		
+		/**Validate association City -> Country */
+		assertEquals(LONDON,  london.getName());
+		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
+		
+		 /**Validate association Country -> City*/
+		Country uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(3, uk.getCities().size());
+		assertThat(uk.getCities(), Matchers.hasItems(london));		
+		
+		/**Remove city*/
+		testInitialState(jdbcTemplateProxy);
+		Utils.deleteCityInJpa(deleteCityFunction-> {
+			/**Detach entities*/
+			entityManager.clear();
+			
+			/**Find City to remove*/
+			City londonOld = cityRepo.getCityByName(LONDON);
+			
+			entityManager.remove(londonOld);
+			entityManager.flush();
+			entityManager.clear();	
+		}, cityRepo, jdbcTemplateProxy);
+		
+		/**Test city was removed*/
 		assertNull(cityRepo.getCityByName(LONDON));
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));
+		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
+		assertEquals(UNITED_KINGDOM, uk.getName());
+		assertEquals(2, uk.getCities().size());
 	}
 
 	@Test

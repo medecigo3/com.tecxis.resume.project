@@ -26,6 +26,7 @@ import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.deleteCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
@@ -502,21 +503,22 @@ public class CityTest {
 		assertEquals(UNITED_KINGDOM, uk.getName());
 		assertEquals(3, uk.getCities().size());
 		assertThat(uk.getCities(), Matchers.hasItems(london));
-				
-		/**Detach entities*/
-		entityManager.clear();
 		
-		/**Find City to remove*/
-		london = cityRepo.getCityByName(LONDON);		
+		/**Remove city*/	
+		deleteCityInJpa(deleteCityFunction-> {
+			/**Detach entities*/
+			entityManager.clear();
+			
+			/**Find City to remove*/
+			City londonOld = cityRepo.getCityByName(LONDON);
+			
+			entityManager.remove(londonOld);
+			entityManager.flush();
+			entityManager.clear();	
+		}, entityManager, jdbcTemplateProxy);
 		
-		/**Remove city*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		entityManager.remove(london);
-		entityManager.flush();
-		entityManager.clear();
 		
 		/**Test city was removed*/
-		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplateProxy);
 		assertNull(cityRepo.getCityByName(LONDON));
 		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
 		assertEquals(UNITED_KINGDOM, uk.getName());
