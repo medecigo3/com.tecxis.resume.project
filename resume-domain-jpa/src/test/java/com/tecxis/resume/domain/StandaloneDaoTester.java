@@ -6,32 +6,46 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.tecxis.resume.domain.repository.ClientRepository;
 
-public class StandaloneTester {
+@Component
+public class StandaloneDaoTester {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneTester.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneDaoTester.class);
+	
+	@PersistenceContext
+	private EntityManager em;
+	@Autowired
+	private ClientRepository clientRepo; //TODO maybe this repo bean isn't constructed with entityManagerFactoryProxy bean. Do research and use the correct spring way to commit this transaction tather than manually commit.
+	
+	@Autowired
+	@Qualifier("jdbcTemplateProxy")	
+	private JdbcTemplate jdbcTemplateProxy;
 
 	public static void main(String[] args) {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:spring-context/test-context.xml");
-		EntityManagerFactory entityManagerFactory = appContext.getBean("entityManagerFactoryProxy", EntityManagerFactory.class);
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		ClientRepository clientRepo = appContext.getBean(ClientRepository.class); //TODO maybe this repo bean isn't constructed with entityManagerFactoryProxy bean. Do research and use the correct spring way to commit this transaction tather than manually commit. 
-		JdbcTemplate jdbcTemplateProxy = appContext.getBean("jdbcTemplateProxy", JdbcTemplate.class);
+		StandaloneDaoTester tester = appContext.getBean(StandaloneDaoTester.class);
+		tester.start(args);
+	}
+	
+	private void start (String[] args) {	
 		EntityTransaction txn = null;
 		try {
 
 			/** Init transaction */
-			txn = entityManager.getTransaction();
+			txn = em.getTransaction();
 			txn.begin();
 			LOGGER.info("************************ Transaction started!");
 			/** Execute transaction */
@@ -46,12 +60,12 @@ public class StandaloneTester {
 				/** Validate client doesn't exist */
 				assertNotNull(axeltis);
 				/** Remove client */
-				LOGGER.info("************************ Managed 'axeltis' enity: " + entityManager.contains(axeltis));				
-				entityManager.remove(axeltis);
+				LOGGER.info("************************ Managed 'axeltis' enity: " + em.contains(axeltis));				
+				em.remove(axeltis);
 				/** Will remove the Client's orphans -> Project, Contract, etc */
 							
 
-			}, entityManager, jdbcTemplateProxy);
+			}, em, jdbcTemplateProxy);
 			
 			/** Commit transaction */	
 			LOGGER.info("************************ Committing transaction");
@@ -69,8 +83,8 @@ public class StandaloneTester {
 				}
 			}
 		} finally {
-			if (entityManager != null)
-				entityManager.close();
+			if (em != null)
+				em.close();
 		}
 		/** Validate client doesn't exist */
 		assertNull(clientRepo.getClientByName(AXELTIS));
