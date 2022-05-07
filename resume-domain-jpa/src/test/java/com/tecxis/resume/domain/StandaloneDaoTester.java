@@ -5,18 +5,25 @@ import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.repository.ClientRepository;
 
@@ -25,28 +32,53 @@ public class StandaloneDaoTester {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneDaoTester.class);
 	
-	@PersistenceContext
+	@PersistenceContext()
 	private EntityManager em;
 	@Autowired
-	private ClientRepository clientRepo; //TODO maybe this repo bean isn't constructed with entityManagerFactoryProxy bean. Do research and use the correct spring way to commit this transaction tather than manually commit.
+	private ClientRepository clientRepo;
 	
 	@Autowired
 	@Qualifier("jdbcTemplateProxy")	
 	private JdbcTemplate jdbcTemplateProxy;
+	
+	@Autowired
+	@Qualifier("jdbcTemplateHelper")	
+	private JdbcTemplate jdbcTemplateHelper;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext("classpath:spring-context/test-context.xml");
 		StandaloneDaoTester tester = appContext.getBean(StandaloneDaoTester.class);
+		tester.init();
 		tester.start(args);
+		/** Validate client doesn't exist */
+		ClientRepository clientRepo = appContext.getBean(ClientRepository.class); 
+		assertNull(clientRepo.getClientByName(AXELTIS));
+		LOGGER.debug("########## Completed!");
 	}
 	
-	private void start (String[] args) {	
-		EntityTransaction txn = null;
-		try {
-
-			/** Init transaction */
-			txn = em.getTransaction();
-			txn.begin();
+	@Transactional(transactionManager = "txManagerHelper", isolation = Isolation.READ_COMMITTED)
+	public void init() throws IOException {
+		File dropSchemaFile = new ClassPathResource("SQL/H2/DropResumeSchema.sql").getFile();	    
+	    String dropSchemaScript = FileUtils.readFileToString(dropSchemaFile, "UTF-8");
+	    jdbcTemplateHelper.execute(dropSchemaScript);
+	    
+	    File createSchemaFile = new ClassPathResource("SQL/H2/CreateResumeSchema.sql").getFile();
+	    String createSchemaScript = FileUtils.readFileToString(createSchemaFile, "UTF-8");
+	    jdbcTemplateHelper.execute(createSchemaScript);
+	    
+	    File insertSchemaFile = new ClassPathResource("SQL/InsertResumeData.sql").getFile();
+	    String insertSchemaScript = FileUtils.readFileToString(insertSchemaFile, "UTF-8");
+	    jdbcTemplateHelper.execute(insertSchemaScript);
+	    
+	}
+	
+	@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)
+	public void start (String[] args) {//Method should be public otherwise the following error occurs: Exception in thread "main" javax.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call
+		
+			assertNotNull(jdbcTemplateProxy);
+			assertNotNull(jdbcTemplateHelper);
+			assertNotNull(em);
+			assertNotNull(clientRepo);
 			LOGGER.info("************************ Transaction started!");
 			/** Execute transaction */
 			deleteClientInJpa(deleteClientFunction -> {
@@ -62,32 +94,14 @@ public class StandaloneDaoTester {
 				/** Remove client */
 				LOGGER.info("************************ Managed 'axeltis' enity: " + em.contains(axeltis));				
 				em.remove(axeltis);
-				/** Will remove the Client's orphans -> Project, Contract, etc */
+				em.flush();	//manually commit the transaction	
+				em.clear(); //Detach managed entities from persistence context to reload new change
 							
 
 			}, em, jdbcTemplateProxy);
 			
 			/** Commit transaction */	
-			LOGGER.info("************************ Committing transaction");
-			txn.commit();
-			LOGGER.info("************************ Transaction commited!");
-		
-
-		} catch (Throwable t) {
-			if (txn != null && txn.isActive()) {
-				try {
-					txn.rollback();
-					LOGGER.warn("!!!!!!!!!!!!!! Transaction rollbacked!", t);
-				} catch (Exception e) {
-					LOGGER.error("!!!!!!!!!!!!! Rollback failure", e);
-				}
-			}
-		} finally {
-			if (em != null)
-				em.close();
-		}
-		/** Validate client doesn't exist */
-		assertNull(clientRepo.getClientByName(AXELTIS));
-		LOGGER.debug("########## Completed!");
+			LOGGER.info("************************ Committing transaction");		
+	
 	}
 }
