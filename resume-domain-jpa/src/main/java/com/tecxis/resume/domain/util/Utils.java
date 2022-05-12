@@ -75,6 +75,7 @@ import com.tecxis.resume.domain.util.function.CountryValidator;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.DeleteCityFunction;
+import com.tecxis.resume.domain.util.function.DeleteClientFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
@@ -817,6 +818,18 @@ public class Utils {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(cityRepo);
 		function.afterTransactionCompletion(jdbcTemplate);
+	}
+
+	public static void deleteClientInJpa(DeleteClientFunction<EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(entityManager);
+		function.afterTransactionCompletion(jdbcTemplate);		
+	}
+	
+	public static void deleteClientInJpa(DeleteClientFunction<ClientRepository> function, ClientRepository clientRepo, JdbcTemplate jdbcTemplate) {
+		function.beforeTransactionCompletion(jdbcTemplate);
+		function.accept(clientRepo);
+		function.afterTransactionCompletion(jdbcTemplate);		
 	}
 
 }

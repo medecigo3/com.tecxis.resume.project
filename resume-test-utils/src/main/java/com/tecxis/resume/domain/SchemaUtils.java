@@ -31,12 +31,25 @@ public final class SchemaUtils {
 	}
 
 	public static void testStateAfterAxeltisClientDelete(JdbcTemplate jdbcTemplate) {
+		assertEquals(1, countRowsInTable(jdbcTemplate, SchemaConstants.ENROLMENT_TABLE));
 		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.LOCATION_TABLE)); // 2 Client orphans removed
 		assertEquals(47, countRowsInTable(jdbcTemplate, SchemaConstants.ASSIGNMENT_TABLE)); // 16 Client orphans removed
 		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.AGREEMENT_TABLE)); // 2 Client orphans removed 
 		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.CONTRACT_TABLE)); // 2 Client orphans removed
 		assertEquals(11	, countRowsInTable(jdbcTemplate, SchemaConstants.PROJECT_TABLE)); // 2 Client orphans removed
-		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE)); // 1 Client parent removed
+		assertEquals(11, countRowsInTable(jdbcTemplate, SchemaConstants.CLIENT_TABLE)); // 1 Client parent removed				
+		assertEquals(12, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLY_CONTRACT_TABLE));	//2 Contracts removed -> cascades to 2 SupplyContracts removed
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.COURSE_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.INTEREST_TABLE));	
+		assertEquals(2, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_TABLE));	
+		assertEquals(3, countRowsInTable(jdbcTemplate, SchemaConstants.COUNTRY_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.CITY_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.STAFF_SKILL_TABLE));	
+		assertEquals(5, countRowsInTable(jdbcTemplate, SchemaConstants.SUPPLIER_TABLE));				
+		assertEquals(54, countRowsInTable(jdbcTemplate, SchemaConstants.TASK_TABLE));	
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 		
+		assertEquals(6, countRowsInTable(jdbcTemplate, SchemaConstants.SERVICE_TABLE));
+		assertEquals(7, countRowsInTable(jdbcTemplate, SchemaConstants.SKILL_TABLE));	
 		
 	}
 
