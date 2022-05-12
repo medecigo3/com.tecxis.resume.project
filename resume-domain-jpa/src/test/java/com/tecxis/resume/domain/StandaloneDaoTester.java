@@ -4,6 +4,7 @@ import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.repository.ClientRepository;
@@ -32,7 +32,7 @@ public class StandaloneDaoTester {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneDaoTester.class);
 	
-	@PersistenceContext()
+	@PersistenceContext
 	private EntityManager em;
 	@Autowired
 	private ClientRepository clientRepo;
@@ -50,6 +50,7 @@ public class StandaloneDaoTester {
 		StandaloneDaoTester tester = appContext.getBean(StandaloneDaoTester.class);
 		tester.init();
 		tester.start(args);
+		LOGGER.info("************************ Transaction committed!");
 		/** Validate client doesn't exist */
 		ClientRepository clientRepo = appContext.getBean(ClientRepository.class); 
 		assertNull(clientRepo.getClientByName(AXELTIS));
@@ -74,11 +75,6 @@ public class StandaloneDaoTester {
 	
 	@Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)
 	public void start (String[] args) {//Method should be public otherwise the following error occurs: Exception in thread "main" javax.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call
-		
-			assertNotNull(jdbcTemplateProxy);
-			assertNotNull(jdbcTemplateHelper);
-			assertNotNull(em);
-			assertNotNull(clientRepo);
 			LOGGER.info("************************ Transaction started!");
 			/** Execute transaction */
 			deleteClientInJpa(deleteClientFunction -> {
@@ -90,18 +86,12 @@ public class StandaloneDaoTester {
 //				.setParameter("clientName", AXELTIS)
 //				.getSingleResult();
 				/** Validate client doesn't exist */
-				assertNotNull(axeltis);
+				assertNotNull(axeltis);				
+				assertTrue(em.contains(axeltis));
 				/** Remove client */
-				LOGGER.info("************************ Managed 'axeltis' enity: " + em.contains(axeltis));				
 				em.remove(axeltis);
-				em.flush();	//manually commit the transaction	
-				em.clear(); //Detach managed entities from persistence context to reload new change
-							
+				em.flush();	//manually commit transaction					n
 
 			}, em, jdbcTemplateProxy);
-			
-			/** Commit transaction */	
-			LOGGER.info("************************ Committing transaction");		
-	
 	}
 }
