@@ -9,6 +9,7 @@ import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -251,7 +252,6 @@ public class ClientTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
 	public void testRemoveClient() {
-	
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());
@@ -262,21 +262,17 @@ public class ClientTest {
 		/**Test Client -> Contract*/
 		assertEquals(2, axeltis.getContracts().size());
 		
-		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		
-		/**Remove client*/
-		entityManager.remove(axeltis);
-		/**Will remove the Client's orphans -> Project, Contract, etc*/
-		entityManager.flush();
+		deleteClientInJpa(deleteClientFunction-> {
+			/**Remove client*/
+			entityManager.remove(axeltis);
+			entityManager.flush();	//manually commit the transaction	
+			entityManager.clear(); //Detach managed entities from persistence context to reload new change
 			
-		/**Detach entities*/		
-		entityManager.clear();
+		}, entityManager, jdbcTemplateProxy);	
 		
 		/**Validate client doesn't exist*/
-		assertNull(clientRepo.getClientByName(AXELTIS));
-
-		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);		
-		
+		assertNull(clientRepo.getClientByName(AXELTIS));	
 	}
 	
 	@Test

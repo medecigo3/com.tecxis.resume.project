@@ -2,9 +2,10 @@ package com.tecxis.resume.persistence;
 
 import static com.tecxis.resume.domain.Constants.AGEAS;
 import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
+import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.MICROPOLE;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
 
@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.util.Utils;
 
@@ -90,14 +89,29 @@ public class JpaClientDaoTest {
 	}
 	
 	@Test
-	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"})
+	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"})
 	public void testDelete() {
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		Client tempClient = Utils.insertClient(BARCLAYS, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
-		clientRepo.delete(tempClient);
-		assertNull(clientRepo.getClientByName(SAGEMCOM));
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
+		/**Find a Client to remove*/
+		Client axeltis = clientRepo.getClientByName(AXELTIS);
+		assertEquals(AXELTIS, axeltis.getName());
+		
+		/**Test Client -> Project*/
+		assertEquals(2, axeltis.getProjects().size());
+		
+		/**Test Client -> Contract*/
+		assertEquals(2, axeltis.getContracts().size());
+		
+		
+		deleteClientInJpa(deleteClientFunction-> {
+			/**Remove client*/
+			entityManager.remove(axeltis);
+			entityManager.flush();	//manually commit the transaction	
+			entityManager.clear(); //Detach managed entities from persistence context to reload new change
+			
+		}, clientRepo, jdbcTemplateProxy);	
+		
+		/**Validate client doesn't exist*/
+		assertNull(clientRepo.getClientByName(AXELTIS));	
 	}
 	
 	@Test
