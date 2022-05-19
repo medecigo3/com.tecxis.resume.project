@@ -20,7 +20,27 @@ public class SchemaConstants {
 	public static final String SUPPLIER_TABLE = "SUPPLIER";
 	final public static String SUPPLY_CONTRACT_TABLE ="SUPPLY_CONTRACT";
 	public static final String TASK_TABLE = "TASK";
-
+	
+	public static final int TOTAL_ENROLMENT = 1;	
+	public static final int TOTAL_AGREEMENT = 13;	
+	public static final int TOTAL_LOCATION = 14;	
+	public static final int TOTAL_STAFF_SKILL = 5;
+	public static final int TOTAL_ASSIGNMENT = 63;	
+	public static final int TOTAL_TASK = 54;
+	public static final int TOTAL_CITY = 5;
+	public static final int TOTAL_COUNTRY = 3;
+	public static final int TOTAL_CLIENT = 12;
+	public static final int TOTAL_COURSE = 2;
+	public static final int TOTAL_INTEREST = 2;
+	public static final int TOTAL_PROJECT = 13;
+	public static final int TOTAL_SERVICE = 6;
+	public static final int TOTAL_SKILL = 7;
+	public static final int TOTAL_STAFF = 2;
+	public static final int TOTAL_CONTRACT = 13;
+	public static final int TOTAL_SUPPLIER = 5;
+	public static final int TOTAL_SUPPLY_CONTRACT = 14;
+	public static final int TOTAL_EMPLOYMENT_CONTRACT = 6;
+	
 	private SchemaConstants() {}
 
 }
