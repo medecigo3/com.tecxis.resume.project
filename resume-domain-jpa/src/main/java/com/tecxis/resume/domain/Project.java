@@ -96,7 +96,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	 * bi-directional one-to-many association to Project
 	 */
 	//To cascade operations to Enrolment entity efficiently "mappedBy" isn't allowed here.  
-	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Does not cascade REMOVE to Staff, nevertheless it still cascades REMOVE to ASSIGNMENT
+	@ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) //Do not cascade REMOVE to Staff, nevertheless it cascades REMOVE to ASSIGNMENT due to identifying relationship
 	@JoinTable(
 		name="ASSIGNMENT", joinColumns= {
 			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
@@ -111,7 +111,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	* bi-directional one-to-many association to Location.
 	* In OO terms, this Project "is based" in these Locations
 	*/	
-	@OneToMany(mappedBy = "project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=false)
+	@OneToMany(mappedBy = "project", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=false)//Do not cascade remove to CITY, nevertheless it cascades REMOVE to LOCATION due to identifying relationship
 	private List <Location> locations;
 
 	public Project() {

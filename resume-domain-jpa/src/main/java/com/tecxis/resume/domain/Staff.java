@@ -84,7 +84,7 @@ public class Staff implements Serializable, Identifiable <Long>{
 	 * In SQL terms, Interest is the "owner" of this relationship as it contains the relationship's foreign key
 	 * In OO terms, this Staff "has" Interest(s)
 	 */
-	@OneToMany(mappedBy="staff",  cascade = {CascadeType.ALL})	
+	@OneToMany(mappedBy="staff",  cascade = {CascadeType.ALL})	//Although REMOVE cascade type is set, this is non-identifying relationship hence REMOVE won't cascade. 
 	private List<Interest> interests;
 
 	/**
