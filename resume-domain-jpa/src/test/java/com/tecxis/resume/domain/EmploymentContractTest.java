@@ -145,7 +145,7 @@ public class EmploymentContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaff() {		
+	public void test_ManyToOne_GetStaff() {		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
@@ -160,7 +160,7 @@ public class EmploymentContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSupplier() {
+	public void test_ManyToOne_GetSupplier() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Supplier alphatress = supplierRepo.getSupplierByName(ALPHATRESS);
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
@@ -172,12 +172,12 @@ public class EmploymentContractTest {
 	}
 	
 	@Test
-	public void testSetStaff() {	
+	public void test_ManyToOne_SetStaff() {	
 		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
-	public void testSetSupplier() {
+	public void test_ManyToOne_SetSupplier() {
 		LOG.info(PK_UPDATE_WARN);		
 	}
 	

@@ -271,7 +271,7 @@ public class AssignmentTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSetStaff() {		
+	public void test_ManyToOne_SetStaff() {		
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -326,7 +326,7 @@ public class AssignmentTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSetProject() {
+	public void test_ManyToOne_SetProject() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -380,7 +380,7 @@ public class AssignmentTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSetTask() {
+	public void test_ManyToOne_SetTask() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)

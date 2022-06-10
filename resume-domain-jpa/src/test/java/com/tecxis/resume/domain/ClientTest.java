@@ -150,7 +150,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetContracts() {		
+	public void test_OneToMany_GetContracts() {		
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		assertEquals(AGEAS, ageas.getName());
 		
@@ -201,7 +201,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetProjects() {
+	public void test_OneToMany_GetProjects() {
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());
 				

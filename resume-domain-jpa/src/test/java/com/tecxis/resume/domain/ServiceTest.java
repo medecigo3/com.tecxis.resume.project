@@ -130,7 +130,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddAgreement() throws EntityExistsException {		
+	public void test_OneToMany_AddAgreement() throws EntityExistsException {		
 		/**Find a Service*/
 		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
 		
@@ -206,7 +206,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddExistingAgreementToService() throws EntityExistsException {				
+	public void test_OneToMany_AddExistingAgreementToService() throws EntityExistsException {				
 		/**Find a Service to test*/
 		Service tibcoEsbConsultant = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		
@@ -244,7 +244,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveAgreementViaServiceWithOrmOrphanRemove() {
+	public void test_OneToMany_RemoveAgreementViaServiceWithOrmOrphanRemove() {
 		/**Find a contract*/				
 		Contract alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertEquals(Constants.BELFIUS, alphatressContract.getClient().getName());
@@ -308,7 +308,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveAgreementViaContractWithOrmOrhpanRemove() {
+	public void test_OneToMany_RemoveAgreementViaContractWithOrmOrhpanRemove() {
 		/**Find a contract*/		
 		Contract alternaArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		

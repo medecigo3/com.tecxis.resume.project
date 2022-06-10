@@ -94,7 +94,7 @@ public class InterestTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaff() {
+	public void test_ManyToOne_GetStaff() {
 		/**Find Interest to test*/
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);
 		assertNotNull(hobby);
@@ -114,7 +114,7 @@ public class InterestTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetStaff() {		
+	public void test_ManyToOne_SetStaff() {		
 		/**Find Interest to test*/
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);		
 		assertNotNull(hobby);
@@ -168,7 +168,7 @@ public class InterestTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveStaff() {
+	public void test_ManyToOne_RemoveStaff() {
 		/**Find Interest to test*/
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);
 		assertNotNull(hobby);

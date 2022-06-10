@@ -197,7 +197,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetClient() {
+	public void test_ManyToOne_GetClient() {
 		/**Find project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
@@ -217,7 +217,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetClient() {
+	public void test_ManyToOne_SetClient() {
 		/**Find project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		ProjectId morningstartV1ProjectId = morningstartV1Project.getId();
@@ -273,7 +273,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetAssignments() {
+	public void test_OneToMany_SetAssignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -319,7 +319,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddAssignmentFromScratch() {
+	public void test_OneToMany_AddAssignmentFromScratch() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -370,7 +370,7 @@ public class ProjectTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void testAddAssignment() {		
+	public void test_OneToMany_AddAssignment() {		
 		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getAssignments().size());
@@ -426,7 +426,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddExistingAssignment() {
+	public void test_OneToMany_AddExistingAssignment() {
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
@@ -479,7 +479,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveAssignment() {
+	public void test_OneToMany_RemoveAssignment() {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Task task14 = taskRepo.getTaskByDesc(TASK14);		
@@ -526,7 +526,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetAssignments() {
+	public void test_OneToMany_GetAssignments() {
 		/**Prepare project*/
 		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);		
 		assertEquals(MORNINGSTAR, morningstarv1.getName());
@@ -621,7 +621,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetCities() {
+	public void test_ManyToMany_GetCities() {
 		City swindon = cityRepo.getCityByName(SWINDON);
 		assertEquals(SWINDON, swindon.getName());
 		City paris = cityRepo.getCityByName(PARIS);
@@ -642,7 +642,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetCities() {
+	public void test_ManyToMany_SetCities() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
@@ -675,7 +675,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddCity() {
+	public void test_ManyToMany_AddCity() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry("United Kingdom", entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
@@ -717,7 +717,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveCity() {
+	public void test_ManyToMany_RemoveCity() {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
@@ -776,7 +776,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddLocation() {		
+	public void test_OneToMany_AddLocation() {		
 		/**Find City*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());
@@ -829,7 +829,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddExistingLocation() {
+	public void test_OneToMany_AddExistingLocation() {
 		/**Find City*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());
@@ -861,7 +861,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveLocation() {
+	public void test_OneToMany_RemoveLocation() {
 		/**Find City location*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());		
@@ -906,7 +906,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testSetLocations() {
+	public void test_OneToMany_SetLocations() {
 		
 		/**Find & validate Project to test*/
 		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
@@ -978,7 +978,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetLocations() {
+	public void test_OneToMany_GetLocations() {
 		/**Find & validate Project to test*/
 		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
 		assertEquals(1, selenium.getLocations().size());

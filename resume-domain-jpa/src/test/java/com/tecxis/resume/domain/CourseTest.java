@@ -119,7 +119,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetStaffs() {
+	public void test_ManyToMany_GetStaffs() {
 		/**Find Course */
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
@@ -140,7 +140,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetStaffs() {
+	public void test_ManyToMany_SetStaffs() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.setStaffs(new ArrayList<Staff>());
 		//To update a Staff in a Course see EnrolmentTest.testSetStaff()
@@ -150,7 +150,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddStaff() {
+	public void test_ManyToMany_AddStaff() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.addStaff(new Staff());
 		//To add a staff in a Course see EnrolmentTest.testSetStaff()
@@ -160,7 +160,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testRemoveStaff() {
+	public void test_ManyToMany_RemoveStaff() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.removeStaff(new Staff());
 		//To remove a staff from a Course see EnrolmentTest.testSetStaff()

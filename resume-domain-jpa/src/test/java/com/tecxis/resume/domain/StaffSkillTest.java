@@ -60,7 +60,7 @@ public class StaffSkillTest {
 	private StaffSkillRepository staffSkillRepo;
 	
 	@Test
-	public void testSetStaff() {
+	public void test_ManyToOne_SetStaff() {
 		/**Find Staff*/
 		
 		/**Find Skill*/
@@ -83,7 +83,7 @@ public class StaffSkillTest {
 	}
 	
 	@Test
-	public void testSetSkill() {
+	public void test_ManyToOne_SetSkill() {
 		/**Find Staff*/
 		/**Find Skill*/
 		/**Find StaffSkill to update*/

@@ -94,12 +94,12 @@ public class SupplyContractTest {
 	}
 
 	@Test
-	public void testSetStaff() {
+	public void test_ManyToOne_SetStaff() {
 		LOG.info(PK_UPDATE_WARN);
 	}
 	
 	@Test
-	public void testSetSupplier() {
+	public void test_ManyToOne_SetSupplier() {
 		LOG.info(PK_UPDATE_WARN);
 	}
 	
@@ -107,7 +107,7 @@ public class SupplyContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetSupplier() {
+	public void test_ManyToOne_GetSupplier() {
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		assertEquals(FASTCONNECT, fastconnect.getName());
@@ -130,7 +130,7 @@ public class SupplyContractTest {
 	}
 	
 	@Test
-	public void testSetContract() {
+	public void test_ManyToOne_SetContract() {
 		LOG.info(PK_UPDATE_WARN);
 	}
 	
@@ -138,7 +138,7 @@ public class SupplyContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetContract() {
+	public void test_ManyToOne_GetContract() {
 		/**Find target Supplier*/
 		Supplier fastconnect = supplierRepo.getSupplierByName(FASTCONNECT);
 		assertEquals(FASTCONNECT, fastconnect.getName());
