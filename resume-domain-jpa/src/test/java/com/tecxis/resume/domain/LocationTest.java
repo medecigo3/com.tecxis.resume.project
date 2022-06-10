@@ -135,5 +135,12 @@ public class LocationTest {
 		Location location = new Location();
 		assertThat(location.toString()).matches(DEFAULT_ENTITY_WITH_NESTED_ID_REGEX);
 	}
-
+	
+	public void test_ManyToOne_SetCity() {
+		//TODO
+	}
+	
+	public void test_ManyToOne_SetProject() {
+		//TODO
+	}
 }

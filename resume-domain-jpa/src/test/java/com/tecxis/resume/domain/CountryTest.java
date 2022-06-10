@@ -97,7 +97,7 @@ public class CountryTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testGetCities() {
+	public void test_OneToMany_GetCities() {
 		/**Find Cities to test*/		
 		City london = cityRepo.getCityByName(LONDON);
 		City manchester = cityRepo.getCityByName(MANCHESTER);
@@ -134,7 +134,7 @@ public class CountryTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testAddCity() {		
+	public void test_OneToMany_AddCity() {		
 		Country france = countryRepo.getCountryByName(FRANCE);
 		france.addCity(new City());	
 		//To update a City in a Country see CityTest.testSetCountry()
@@ -144,7 +144,7 @@ public class CountryTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testRemoveCity() {
+	public void test_OneToMany_RemoveCity() {
 		Country france = countryRepo.getCountryByName(FRANCE);
 		france.removeCity(new City());	
 		//To remove or update a City in a Country see CityTest.testSetCountry()

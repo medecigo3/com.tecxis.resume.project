@@ -125,7 +125,7 @@ public class SupplierTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testGetSupplyContracts() {
+	public void test_OneToMany_GetSupplyContracts() {
 		/**Find a Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		
@@ -159,7 +159,7 @@ public class SupplierTest {
 		
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddSupplyContract() {
+	public void test_OneToMany_AddSupplyContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -222,7 +222,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveSupplyContract() {
+	public void test_OneToMany_RemoveSupplyContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -277,7 +277,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testRemoveSupplyContractsWithNullSet() {					
+	public void test_OneToMany_RemoveSupplyContractsWithNullSet() {					
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -334,7 +334,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetSupplyContractsWithOrmOrphanRemove() {	
+	public void test_OneToMany_SetSupplyContractsWithOrmOrphanRemove() {	
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -389,7 +389,7 @@ public class SupplierTest {
 	}
 	
 	@Test
-	public void testGetEmploymentContracts() {
+	public void test_OneToMany_GetEmploymentContracts() {
 		/**Find target Supplier to test*/
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
@@ -410,7 +410,7 @@ public class SupplierTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testAddEmploymentContract() {
+	public void test_OneToMany_AddEmploymentContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -475,7 +475,7 @@ public class SupplierTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveEmploymentContract() {
+	public void test_OneToMany_RemoveEmploymentContract() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -530,7 +530,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testRemoveEmploymentContractsWithNullSet() {
+	public void test_OneToMany_RemoveEmploymentContractsWithNullSet() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -586,7 +586,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetEmploymentContractsWithOrmOrphanRemove() {		
+	public void test_OneToMany_SetEmploymentContractsWithOrmOrphanRemove() {		
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
