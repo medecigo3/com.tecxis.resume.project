@@ -584,7 +584,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddProject() {
+	public void test_ManyToMany_AddProject() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
