@@ -136,4 +136,14 @@ public class JpaStaffSkillDaoTest {
 		Page <StaffSkill> pageableStaffSkill =  staffSkillRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableStaffSkill.getSize());
 	}
+	
+	@Test
+	public void test_ManyToOne_SaveSkill() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_ManyToOne_SaveStaff() {
+		org.junit.Assert.fail("TODO");
+	}
 }

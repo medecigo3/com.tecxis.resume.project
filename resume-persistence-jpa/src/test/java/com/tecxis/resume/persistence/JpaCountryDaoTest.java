@@ -136,4 +136,8 @@ public class JpaCountryDaoTest {
 		assertEquals(BELGIUM, belgium.getName());
 	}
 
+	@Test
+	public void test_OneToMany_SaveCities() {
+		org.junit.Assert.fail("TODO");
+	}
 }

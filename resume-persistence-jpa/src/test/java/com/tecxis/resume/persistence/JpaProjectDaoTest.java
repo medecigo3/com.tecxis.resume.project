@@ -202,5 +202,19 @@ public class JpaProjectDaoTest {
 		assertEquals(VERSION_2, morningstarv2.getVersion());
 		assertNotEquals(morningstarv1.getId(), morningstarv2.getId());
 	}
-
+	
+	@Test
+	public void test_ManyToOne_SaveClient() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveAssignments() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveLocations() {
+		org.junit.Assert.fail("TODO");
+	}
 }

@@ -156,6 +156,10 @@ public class JpaInterestDaoTest {
 		assertEquals(SWIMMING, hobby.getDesc());
 		
 	}
-	
+
+	@Test
+	public void test_ManyToOne_SaveStaff() {
+		org.junit.Assert.fail("TODO");
+	}
 
 }

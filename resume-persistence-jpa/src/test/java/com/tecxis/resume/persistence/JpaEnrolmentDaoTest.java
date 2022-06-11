@@ -81,4 +81,14 @@ public class JpaEnrolmentDaoTest {
 		Page <Enrolment> pageableEmploymentRepository = enrolmentRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableEmploymentRepository.getSize());
 	}
+	
+	@Test
+	public void test_ManyToOne_SaveCourse() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_ManyToOne_SaveStaff() {
+		org.junit.Assert.fail("TODO");
+	}
 }

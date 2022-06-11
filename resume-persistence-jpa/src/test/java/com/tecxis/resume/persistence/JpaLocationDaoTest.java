@@ -178,4 +178,14 @@ public class JpaLocationDaoTest {
 		Page <Location> pageableLocation = locationRepo.findAll(PageRequest.of(1, 1));
 		assertEquals(1, pageableLocation.getSize());
 	}
+	
+	@Test
+	public void test_ManyToOne_SaveCity() {
+		org.junit.Assert.fail("TODO");
+	}	
+	
+	@Test
+	public void test_ManyToOne_SaveProject() {
+		org.junit.Assert.fail("TODO");
+	}
 }

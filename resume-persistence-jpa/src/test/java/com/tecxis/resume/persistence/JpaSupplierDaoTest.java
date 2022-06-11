@@ -136,4 +136,14 @@ public class JpaSupplierDaoTest {
 		assertEquals(ALPHATRESS, alphatress.getName());	
 		
 	}
+	
+	@Test
+	public void test_OneToMany_SaveEmploymentContracts() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveSupplyContracts() {
+		org.junit.Assert.fail("TODO");
+	}
 }

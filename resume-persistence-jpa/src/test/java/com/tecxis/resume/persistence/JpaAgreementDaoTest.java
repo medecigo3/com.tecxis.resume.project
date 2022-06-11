@@ -70,7 +70,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testSave_UpdateService() {		
+	public void test_ManyToOne_SaveService() {		
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		
@@ -111,7 +111,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testSave_UpdateContract() {
+	public void test_ManyToOne_SaveContract() {
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
 		/**Find Service*/

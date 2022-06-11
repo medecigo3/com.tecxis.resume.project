@@ -85,7 +85,7 @@ public class JpaCityDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_UpdateCountry_WithOrmOrhpanRemoval() {		
+	public void test_ManyToOne_SaveCountry_WithOrmOrhpanRemoval() {		
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertNotNull(france);
@@ -133,7 +133,7 @@ public class JpaCityDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_OneToMany_UpdateLocation() {
+	public void test_OneToMany_SaveLocations() {
 		/**Find & validate City to test*/
 		final City london = cityRepo.getCityByName(LONDON);
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
