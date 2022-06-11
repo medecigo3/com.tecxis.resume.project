@@ -207,5 +207,13 @@ public class JpaEmploymentContractDaoTest {
 	
 	}
 	
-
+	@Test
+	public void test_ManyToOne_SaveStaff() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_ManyToOne_SaveSupplier() {
+		org.junit.Assert.fail("TODO");
+	}	
 }

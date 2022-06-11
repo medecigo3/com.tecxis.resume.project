@@ -94,7 +94,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_UpdateStaff() {
+	public void tes_ManyToOne_SaveStaff() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -149,7 +149,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_UpdateProject() {
+	public void test_ManyToOne_SaveProject() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -203,7 +203,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void testSave_UpdateTask() {
+	public void test_ManyToOne_SaveTask() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)

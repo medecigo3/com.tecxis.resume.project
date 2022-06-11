@@ -57,13 +57,13 @@ public class JpaClientDaoTest {
 	private ClientRepository clientRepo;
 
 	@Test
-	public void testSave_OneToMany_UpdateContract() {
+	public void test_OneToMany_SaveContracts() {
 		LOGGER.debug("Not implemented");
 		
 	}
 	
 	@Test
-	public void testSave_OneToMany_UpdateProject() {
+	public void test_OneToMany_SaveProjects() {
 		LOGGER.debug("Not implemented");
 		
 	}

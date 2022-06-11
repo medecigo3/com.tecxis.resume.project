@@ -215,4 +215,23 @@ public class JpaStaffDaoTest {
 		assertEquals(1, jhonProjects.size());
 	}
 	
+	@Test
+	public void test_OneToMany_SaveAssignments() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveInterests() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveSupplyContracts() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_OneToMany_SaveStaffSkills() {
+		org.junit.Assert.fail("TODO");
+	}
 }

@@ -163,5 +163,20 @@ public class JpaContractDaoTest {
 		assertEquals(5L, fastconnectMicropoleContract.getId().getContractId());
 		
 	}
+	
+	@Test
+	public void test_ManyToOne_SaveClient() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_ManyToOne_SaveAgreement() {
+		org.junit.Assert.fail("TODO");
+	}
+	
+	@Test
+	public void test_ManyToOne_SupplyContract() {
+		org.junit.Assert.fail("TODO");
+	}
 		
 }

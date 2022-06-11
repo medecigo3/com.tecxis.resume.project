@@ -85,5 +85,9 @@ public class JpaTaskDaoTest {
 	public void testGetTaskByDesc() {
 		fail("Not yet implemented");
 	}
-
+	
+	@Test
+	public void test_OneToMany_SaveAssignments() {
+		org.junit.Assert.fail("TODO");
+	}
 }
