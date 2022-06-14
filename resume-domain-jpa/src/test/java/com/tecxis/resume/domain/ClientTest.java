@@ -188,7 +188,7 @@ public class ClientTest {
 	public void test_OneToMany_AddContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addContract(new Contract());	
-		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
+		logger.warn("To add a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
