@@ -47,6 +47,8 @@ import com.tecxis.resume.domain.util.Utils;
 public class JpaClientDaoTest {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
 	
@@ -58,7 +60,7 @@ public class JpaClientDaoTest {
 
 	@Test
 	public void test_OneToMany_SaveContracts() {
-		LOGGER.debug("Not implemented");
+		logger.warn("To update a Contract's Client see JpaContractDaoTest.test_ManyToOne_SaveClient()");
 		
 	}
 	
