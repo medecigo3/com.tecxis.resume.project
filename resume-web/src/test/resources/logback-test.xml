@@ -28,7 +28,7 @@
         </filter>
 <!--         <withJansi>true</withJansi>  --> <!-- Coloring doesn't work in windows 10 with logback. -->
         <encoder>
-            <pattern>%d %highlight(%-5level) [%t]:%X{txId} %c{1} - %m%n</pattern>
+            <pattern>%d %-5level [%t]:%X{txId} %c{1} - %m%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
