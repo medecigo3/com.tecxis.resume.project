@@ -45,8 +45,7 @@ import com.tecxis.resume.domain.util.Utils;
 @Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSourceHelper")
 public class JpaClientDaoTest {
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	
+		
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@PersistenceContext //Wires in EntityManagerFactoryProxy primary bean
@@ -66,7 +65,7 @@ public class JpaClientDaoTest {
 	
 	@Test
 	public void test_OneToMany_SaveProjects() {
-		LOGGER.debug("Not implemented");
+		logger.warn("To update a Projects's Client see JpaProjectDaoTest.test_ManyToOne_SaveClient()");
 		
 	}
 	

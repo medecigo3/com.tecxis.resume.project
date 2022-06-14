@@ -227,7 +227,7 @@ public class ClientTest {
 	public void test_OneToMany_SetProjects() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setProjects(new ArrayList<Project> ());
-		//To set a Client's Project see ProjectTest.testSetClient()		
+		logger.warn("To set a Client's Project see ProjectTest.test_ManyToOne_SetClient()");			
 			
 	}
 
@@ -238,7 +238,7 @@ public class ClientTest {
 	public void test_OneToMany_AddProject() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addProject(new Project());
-		//To add a Client's Project see ProjectTest.testSetClient()		
+		logger.warn("To add a Client's Project see ProjectTest.test_ManyToOne_SetClient()");		
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -248,7 +248,7 @@ public class ClientTest {
 	public void test_OneToMany_RemoveProject() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeProject(new Project());
-		//To remove a Client's Project see ProjectTest.testSetClient()		
+		logger.warn("To remove a Client's Project see ProjectTest.test_ManyToOne_SetClient()");		
 	}
 	
 	@Test
