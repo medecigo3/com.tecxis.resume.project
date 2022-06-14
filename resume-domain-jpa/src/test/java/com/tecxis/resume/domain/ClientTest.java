@@ -31,6 +31,8 @@ import javax.validation.Validator;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
@@ -53,6 +55,8 @@ import com.tecxis.resume.domain.util.Utils;
 @Transactional(transactionManager = "txManagerProxy", isolation = Isolation.READ_COMMITTED)//this test suite is @Transactional but flushes changes manually
 @SqlConfig(dataSource="dataSourceHelper")
 public class ClientTest {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@PersistenceContext  //Wires in EntityManagerFactoryProxy primary bean
 	private EntityManager entityManager;
@@ -174,7 +178,7 @@ public class ClientTest {
 	public void test_OneToMany_SetContracts() {		
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setContracts(new ArrayList<Contract> ());
-		//To update a Contract's Client see ContractTest.testSetClient()
+		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
@@ -184,7 +188,7 @@ public class ClientTest {
 	public void test_OneToMany_AddContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addContract(new Contract());	
-		//To update a Contract's Client see ContractTest.testSetClient()
+		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -194,7 +198,7 @@ public class ClientTest {
 	public void test_OneToMany_RemoveContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeContract(new Contract());		
-		//To remove a Contract's Client see ContractTest.testSetClient()		
+		logger.warn("To remove a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");		
 	}
 
 	@Test
