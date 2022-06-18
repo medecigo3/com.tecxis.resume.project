@@ -1,19 +1,29 @@
 package com.tecxis.resume.persistence;
 
+import static com.tecxis.resume.domain.Constants.AMESYS;
+import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_ENDDATE;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
+import static com.tecxis.resume.domain.Constants.CONTRACT4_STARTDATE;
 import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT9_NAME;
 import static com.tecxis.resume.domain.Constants.EULER_HERMES;
 import static com.tecxis.resume.domain.Constants.MICROPOLE;
+import static com.tecxis.resume.domain.Constants.SAGEMCOM;
+import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -37,9 +47,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
 import com.tecxis.resume.domain.SchemaConstants;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,6 +77,14 @@ public class JpaContractDaoTest {
 	@Autowired
 	private ClientRepository clientRepo;
 	
+	@Autowired
+	private StaffRepository staffRepo;
+	
+	@Autowired
+	private SupplierRepository supplierRepo;
+	
+	@Autowired
+	private SupplyContractRepository supplyContractRepo;
 	
 	@Test
 	@Sql(
@@ -166,6 +190,60 @@ public class JpaContractDaoTest {
 	
 	@Test
 	public void test_ManyToOne_SaveClient() {
+		/**Find target Contract*/			
+		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
+		final long sagemContractId = currentSagemContract.getId().getContractId();
+				
+		/**Validate Contract-> Client */
+		Client sagem = currentSagemContract.getClient();
+		assertEquals(SAGEMCOM, sagem.getName());				
+		
+		/**Validate Contract -> SupplyContract*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertNotNull(amt);		
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
+		assertEquals(1, currentSagemContract.getSupplyContracts().size());
+		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
+		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
+		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
+		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
+		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+		
+		/**Validate Supplier -> SupplyContract -> Contract*/		
+		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
+		
+						
+		/**Create new Contract with new Client*/		
+		setSagemContractWithMicropoleClient(
+			DeleteContractFunction -> {	
+				/**These steps will update the Parent (non-owner of this relation)*/		
+				entityManager.remove(currentSagemContract);//Firstly remove the Child (Owner)
+				entityManager.flush();
+				
+			},
+			SetContractClientFunction -> {
+				/**Find new Client to set*/
+				Client micropole = clientRepo.getClientByName(MICROPOLE);
+				assertEquals(1, micropole.getContracts().size());				
+				Contract newMicropoleContract = new Contract();
+				ContractId newMicropoleContractId = newMicropoleContract.getId();
+				newMicropoleContractId.setContractId(sagemContractId);
+				newMicropoleContract.setClient(micropole);
+				newMicropoleContract.setName(CONTRACT4_NAME);
+				/**Set the new Contract with the SupplyContract (with new Client)*/	
+				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
+				amesysMicropoleSupplyContract.setStartDate(new Date());
+				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
+				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
+				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
+				
+				entityManager.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
+				entityManager.flush();
+				entityManager.clear();				
+			
+			}, contractRepo, jdbcTemplateProxy);
+		
+		//TODO continue refactoring Validator code here	
 		org.junit.Assert.fail("TODO");
 	}
 	

@@ -27,7 +27,10 @@ import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.sdf;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.isContractValid;
+import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -157,89 +160,86 @@ public class ContractTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_ManyToOne_SetClientWithOrmOrhpanRemoval() {
-		/**Find a Contract*/			
+		/**Find target Contract*/			
 		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = currentSagemContract.getId().getContractId();
-				
-		/**Validate Contract-> Client */
-		Client sagem = currentSagemContract.getClient();
-		assertEquals(SAGEMCOM, sagem.getName());				
 		
-		/**Validate Contract -> SupplyContract*/
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertNotNull(amt);		
+//		assertNotNull(amt);		
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
-		assertEquals(1, currentSagemContract.getSupplyContracts().size());
-		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
-		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
-		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
-		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
-		
-		/**Validate Supplier -> SupplyContract -> Contract*/		
-		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
-		
-		/**Find new Client to set*/
-		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(1, micropole.getContracts().size());
+//		assertEquals(totalCurrentSagemContractSupplyContracts , currentSagemContract.getSupplyContracts().size());
+//		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
+//		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
+//		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
+//		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
+//		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+		/**Validate current Contract ->  Client*/
+		/**Validate Contract-> Client */
+		/**Validate Contract ->  agreements has 1 */
+		/**Validate Contract ->  SupplyContract has 1 */
+		final int totalCurrentSagemContractAgreements = 1;
+		final int totalCurrentSagemContractSupplyContracts = 1;		
+		Client sagem = currentSagemContract.getClient();
+		assertEquals(SAGEMCOM, sagem.getName());
+		assertEquals(SUCCESS, isContractValid(currentSagemContract, sagemContractId, sagem, totalCurrentSagemContractAgreements, totalCurrentSagemContractSupplyContracts));
 				
-		/**Create new Contract with new Client*/
-		Contract newMicropoleContract = new Contract();
-		ContractId newMicropoleContractId = newMicropoleContract.getId();
-		newMicropoleContractId.setContractId(sagemContractId);
-		newMicropoleContract.setClient(micropole);
-		newMicropoleContract.setName(CONTRACT4_NAME);
-		/**Set the new Contract with the SupplyContract (with new Client)*/	
-		SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
-		amesysMicropoleSupplyContract.setStartDate(new Date());
-		List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
-		amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
-		newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
-
-		/**These steps will update the Parent (non-owner of this relation)*/ 
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
-		/**Firstly remove the Child (Owner)*/
-		entityManager.remove(currentSagemContract);
-		entityManager.flush();
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));//1 orphan removed
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE)); //1 orphan removed
-		/**Finally insert Child with new Parent (non-owner)*/
-		entityManager.persist(newMicropoleContract);
-		entityManager.flush();
-		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
-		
-		
-		/**Validate new Contract*/
-		newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);					
-		assertEquals(sagemContractId, newMicropoleContract.getId().getContractId());
-		
-		/**Validate new Contract ->  Client*/
-		micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(micropole, newMicropoleContract.getClient());	
+		/**Validate Supplier -> SupplyContract -> Contract*/		
+//		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
+				
+		/**Create new Contract with new Client*/		
+		setSagemContractWithMicropoleClient(
+			DeleteContractFunction -> {	
+				/**These steps will update the Parent (non-owner of this relation)*/		
+				entityManager.remove(currentSagemContract);//Firstly remove the Child (Owner)
+				entityManager.flush();
+				
+			},
+			SetContractClientFunction -> {
+				/**Find new Client to set*/
+				Client micropole = clientRepo.getClientByName(MICROPOLE);
+				assertEquals(1, micropole.getContracts().size());				
+				Contract newMicropoleContract = new Contract();
+				ContractId newMicropoleContractId = newMicropoleContract.getId();
+				newMicropoleContractId.setContractId(sagemContractId); //Set existing Contract Id
+				newMicropoleContract.setClient(micropole); //Set new Client
+				newMicropoleContract.setName(CONTRACT4_NAME);
+				/**Set the new Contract with the SupplyContract (with new Client)*/	
+				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
+				amesysMicropoleSupplyContract.setStartDate(new Date());
+				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
+				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
+				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
+				
+				entityManager.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
+				entityManager.flush();
+				entityManager.clear();				
+			
+			}, entityManager, jdbcTemplateProxy);
 		
 		/**Validate old Contract -> Client*/
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		Contract fcMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(micropole, fcMicropoleContract.getClient());
 		
-		/**Now Client -> Contracts has 2 */
-		assertEquals(2, micropole.getContracts().size());
-		org.assertj.core.api.Assertions.assertThat(micropole.getContracts()).contains(newMicropoleContract, fcMicropoleContract);
 		
+		/**Validate new Contract*/
+		final int totalNewMicropoleContractAgreements = 0;
+		final int totalNewMicropoleContractSupplyContracts = 1;
+		
+		Contract newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);		
+		assertEquals(sagemContractId, newMicropoleContract.getId().getContractId());
+		
+		/**Validate new Contract ->  Client*/
 		/**New Contract ->  agreements has 0 */
-		assertEquals(0, newMicropoleContract.getAgreements().size());
-		
 		/**New Contract ->  SupplyContract has 1 */
-		assertEquals(1, newMicropoleContract.getSupplyContracts().size());
+		assertEquals(SUCCESS, isContractValid(newMicropoleContract, sagemContractId, micropole, totalNewMicropoleContractAgreements, totalNewMicropoleContractSupplyContracts));
 		
 		/**New SupplyContract -> Contract*/
 		assertNotNull(supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, amesys, amt));
 		
+		/**Now Client -> Contracts has 2 */ //TODO user ClientValidator to validate "micropole" here 
+		assertEquals(2, micropole.getContracts().size());
+		org.assertj.core.api.Assertions.assertThat(micropole.getContracts()).contains(newMicropoleContract, fcMicropoleContract);
 	}
 
 	@Test
