@@ -1,9 +1,10 @@
 package com.tecxis.resume.domain.util;
 
-import static com.tecxis.resume.domain.util.function.AgreementValidator.isContractValid;
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
 import static com.tecxis.resume.domain.util.function.ClientValidator.isClientNameValid;
+import static com.tecxis.resume.domain.util.function.ContractValidator.areSupplyContractsValid;
+import static com.tecxis.resume.domain.util.function.ContractValidator.isContractIdValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectClientValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectNameValid;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectVersionValid;
@@ -13,7 +14,11 @@ import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CLIENT_NAME_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_AGREEMENTS_ARE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_CLIENT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_ID_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
@@ -27,6 +32,7 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 
@@ -70,12 +76,15 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.AgreementValidator;
 import com.tecxis.resume.domain.util.function.CityValidator;
+import com.tecxis.resume.domain.util.function.ContractValidator;
 import com.tecxis.resume.domain.util.function.CountryValidator;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
 import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.DeleteCityFunction;
 import com.tecxis.resume.domain.util.function.DeleteClientFunction;
+import com.tecxis.resume.domain.util.function.DeleteContractFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
@@ -84,6 +93,7 @@ import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.SetContractClientFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
@@ -637,7 +647,7 @@ public class Utils {
 	}
 
 	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
-		if(CONTRACT_NAME_IS_NOT_VALID.equals((isContractValid(contractName).apply(agreement))))
+		if(CONTRACT_NAME_IS_NOT_VALID.equals((AgreementValidator.isContractValid(contractName).apply(agreement))))
 			return CONTRACT_NAME_IS_NOT_VALID;
 		if(SERVICE_NAME_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
 			return SERVICE_NAME_IS_NOT_VALID;
@@ -831,5 +841,30 @@ public class Utils {
 		function.accept(clientRepo);
 		function.afterTransactionCompletion(jdbcTemplate);		
 	}
-
+	
+	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <EntityManager> deleteFunction, SetContractClientFunction <EntityManager> setFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+		deleteFunction.beforeTransactionCompletion();
+		Consumer <EntityManager> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
+		deleteAndSetFunction.accept(entityManager);
+		setFunction.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <ContractRepository> deleteFunction, SetContractClientFunction <ContractRepository> setFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		deleteFunction.beforeTransactionCompletion();
+		Consumer <ContractRepository> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
+		deleteAndSetFunction.accept(contractRepo);			
+		setFunction.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static ValidationResult isContractValid(Contract contract, long contractId, Client client, int totalAgreements, int totalSypplyContracts) {
+		if(CONTRACT_ID_IS_NOT_VALID.equals(isContractIdValid(contractId).apply(contract)))
+			return CONTRACT_ID_IS_NOT_VALID;
+		if(CONTRACT_CLIENT_IS_NOT_VALID.equals(ContractValidator.isClientValid(client).apply(contract)))
+			return CONTRACT_CLIENT_IS_NOT_VALID;
+		if(CONTRACT_AGREEMENTS_ARE_NOT_VALID.equals(ContractValidator.areAgreementsValid(totalAgreements).apply(contract)))
+			return CONTRACT_AGREEMENTS_ARE_NOT_VALID;
+		if(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID.equals(areSupplyContractsValid(totalSypplyContracts).apply(contract)))
+			return CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
+		return SUCCESS;
+	}
 }
