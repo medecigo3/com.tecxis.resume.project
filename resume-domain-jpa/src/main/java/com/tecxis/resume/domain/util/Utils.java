@@ -2,6 +2,7 @@ package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
+import static com.tecxis.resume.domain.util.function.ClientValidator.areContractsValid;
 import static com.tecxis.resume.domain.util.function.ClientValidator.isClientNameValid;
 import static com.tecxis.resume.domain.util.function.ContractValidator.areSupplyContractsValid;
 import static com.tecxis.resume.domain.util.function.ContractValidator.isContractIdValid;
@@ -13,6 +14,7 @@ import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastN
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.CLIENT_CONTRACTS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CLIENT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_AGREEMENTS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_CLIENT_IS_NOT_VALID;
@@ -78,6 +80,7 @@ import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.function.AgreementValidator;
 import com.tecxis.resume.domain.util.function.CityValidator;
+import com.tecxis.resume.domain.util.function.ClientValidator;
 import com.tecxis.resume.domain.util.function.ContractValidator;
 import com.tecxis.resume.domain.util.function.CountryValidator;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
@@ -812,9 +815,11 @@ public class Utils {
 		return clientId;
 	}
 	
-	public static ValidationResult isClientValid(Client client, String clientName) {
+	public static ValidationResult isClientValid(Client client, String clientName, List <Contract> contracts) {
 		if (CLIENT_NAME_IS_NOT_VALID.equals(isClientNameValid(clientName).apply(client)))
 			return CLIENT_NAME_IS_NOT_VALID;
+		if (CLIENT_CONTRACTS_ARE_NOT_VALID.equals(areContractsValid(contracts).apply(client)))
+			return CLIENT_CONTRACTS_ARE_NOT_VALID;
 		return SUCCESS;		
 	}
 	

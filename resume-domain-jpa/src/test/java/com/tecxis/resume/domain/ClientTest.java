@@ -95,7 +95,7 @@ public class ClientTest {
 		assertThat(id).isGreaterThan(0L);
 		
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE));
+		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE, new ArrayList<Contract> ()));
 		
 	}
 	
