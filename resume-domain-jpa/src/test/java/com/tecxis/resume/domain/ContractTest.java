@@ -30,6 +30,7 @@ import static com.tecxis.resume.domain.Constants.sdf;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.isClientValid;
 import static com.tecxis.resume.domain.util.Utils.isContractValid;
+import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
 import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClient;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -164,18 +165,8 @@ public class ContractTest {
 		/**Find target Contract*/			
 		Contract targetSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = targetSagemContract.getId().getContractId();
-		
-//		Staff targetAmt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-//		assertNotNull(amt);		
-//		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
-//		assertEquals(totalCurrentSagemContractSupplyContracts , currentSagemContract.getSupplyContracts().size());
-//		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
-//		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
-//		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
-//		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-//		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
+
 		/**Validate current Contract ->  Client*/
-		/**Validate Contract-> Client */
 		/**Validate Contract ->  agreements has 1 */
 		/**Validate Contract ->  SupplyContract has 1 */
 		final int totalCurrentSagemContractAgreements = 1;
@@ -183,10 +174,11 @@ public class ContractTest {
 		Client sagemcom = clientRepo.getClientByName(SAGEMCOM);
 		assertEquals(SUCCESS, isContractValid(targetSagemContract, sagemContractId, sagemcom, totalCurrentSagemContractAgreements, totalCurrentSagemContractSupplyContracts));
 				
-		/**Validate Supplier -> SupplyContract -> Contract*/		
-//		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
+		/**Validate Supplier -> SupplyContract -> Contract*/
+		Supplier targetAmesys = supplierRepo.getSupplierByName(AMESYS);
+		assertEquals(SUCCESS, isSupplyContractValid(targetSagemContract.getSupplyContracts().get(0), targetAmesys, targetSagemContract, CONTRACT4_STARTDATE, CONTRACT4_ENDDATE));
 		
-		/**Now Client -> Contracts*/
+		/**Validate Client -> Contracts*/
 		List <Contract> currentSagemcomContracts = new ArrayList<>();
 		currentSagemcomContracts.add(targetSagemContract);
 		assertEquals(SUCCESS, isClientValid(sagemcom, SAGEMCOM, currentSagemcomContracts));
@@ -215,7 +207,7 @@ public class ContractTest {
 				Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 				Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
-				amesysMicropoleSupplyContract.setStartDate(new Date());
+				amesysMicropoleSupplyContract.setStartDate(CONTRACT4_STARTDATE); //Set mandatory StartDate
 				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
 				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
@@ -240,17 +232,17 @@ public class ContractTest {
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
 		assertEquals(SUCCESS, isContractValid(newMicropoleContract, sagemContractId, micropole, totalNewMicropoleContractAgreements, totalNewMicropoleContractSupplyContracts));
 		
-		/**New SupplyContract -> Contract*/
+		/**Validate Supplier -> new SupplyContract -> Contract*/
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 		Staff currentAmt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertNotNull(supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, amesys, currentAmt));
+		SupplyContract micropoleAmesysSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, amesys, currentAmt);
+		assertEquals(SUCCESS, isSupplyContractValid(micropoleAmesysSupplyContract, amesys, newMicropoleContract, CONTRACT4_STARTDATE, null));
 		
-		/**Now Client -> Contracts has 2 */
+		/**Now Client -> has 2 Contracts*/
 		List <Contract> newMicropoleContracts = new ArrayList<>();
 		newMicropoleContracts.add(newMicropoleContract);
 		newMicropoleContracts.add(fcMicropoleContract);		
 		assertEquals(SUCCESS, isClientValid(micropole, MICROPOLE, newMicropoleContracts));
-		
 	}
 
 	@Test

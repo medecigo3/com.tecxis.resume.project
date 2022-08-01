@@ -11,6 +11,8 @@ import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectN
 import static com.tecxis.resume.domain.util.function.ProjectValidator.isProjectVersionValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffFirstNameValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastNameValid;
+import static com.tecxis.resume.domain.util.function.SupplyContractValidator.isEndDateValid;
+import static com.tecxis.resume.domain.util.function.SupplyContractValidator.isStartDateValid;
 import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
@@ -30,6 +32,9 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NA
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_FIRSTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.STAFF_LASTNAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_ENDDATE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_STARTDATE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
 
 import java.util.Date;
@@ -80,7 +85,6 @@ import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.function.AgreementValidator;
 import com.tecxis.resume.domain.util.function.CityValidator;
-import com.tecxis.resume.domain.util.function.ClientValidator;
 import com.tecxis.resume.domain.util.function.ContractValidator;
 import com.tecxis.resume.domain.util.function.CountryValidator;
 import com.tecxis.resume.domain.util.function.DeleteAgreementFunction;
@@ -98,6 +102,7 @@ import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 import com.tecxis.resume.domain.util.function.SetContractClientFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
+import com.tecxis.resume.domain.util.function.SupplyContractValidator;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
@@ -870,6 +875,16 @@ public class Utils {
 			return CONTRACT_AGREEMENTS_ARE_NOT_VALID;
 		if(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID.equals(areSupplyContractsValid(totalSypplyContracts).apply(contract)))
 			return CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
+		return SUCCESS;
+	}
+	
+	public static ValidationResult isSupplyContractValid(SupplyContract supplyContract, Supplier supplier, Contract contract, Date startDate, Date endDate) {
+		if(SUPPLYCONTRACT_IS_NOT_VALID.equals(SupplyContractValidator.isSupplyContractValid(supplier, contract).apply(supplyContract)))
+			return SUPPLYCONTRACT_IS_NOT_VALID;
+		if (SUPPLYCONTRACT_STARTDATE_NOT_VALID.equals(isStartDateValid(startDate).apply(supplyContract)))
+			return SUPPLYCONTRACT_STARTDATE_NOT_VALID;
+		if (SUPPLYCONTRACT_ENDDATE_NOT_VALID.equals(isEndDateValid(endDate).apply(supplyContract)))
+			return SUPPLYCONTRACT_ENDDATE_NOT_VALID;
 		return SUCCESS;
 	}
 }
