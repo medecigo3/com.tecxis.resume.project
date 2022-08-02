@@ -28,10 +28,11 @@ public interface SupplyContractValidator extends Function<SupplyContract, Valida
 	
 	static SupplyContractValidator isStartDateValid(@NotNull final Date startDate) {
 		SupplyContractValidator ret = supplyContract -> {
-			logger.debug("Comparing SupplyContract startDate: '" +  supplyContract.getStartDate() + "' vs. param: '" + startDate + "'");
+			final Date supplyContractStartDate = supplyContract.getStartDate();
+			logger.debug("Comparing SupplyContract startDate: '" +  supplyContractStartDate + "' vs. param: '" + startDate + "'");
 			
-			if (supplyContract.getStartDate() != null && startDate != null )
-				return supplyContract.getStartDate().compareTo(startDate) == 0 ? SUCCESS : SUPPLYCONTRACT_STARTDATE_NOT_VALID;
+			if (supplyContractStartDate != null && startDate != null )
+				return supplyContractStartDate.compareTo(startDate) == 0 ? SUCCESS : SUPPLYCONTRACT_STARTDATE_NOT_VALID;
 			
 			else
 				
