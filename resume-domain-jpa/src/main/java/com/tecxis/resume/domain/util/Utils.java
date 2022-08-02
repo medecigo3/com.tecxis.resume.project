@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -879,7 +880,7 @@ public class Utils {
 		return SUCCESS;
 	}
 	
-	public static ValidationResult isSupplyContractValid(SupplyContract supplyContract, Supplier supplier, Contract contract, Date startDate, Date endDate) {
+	public static ValidationResult isSupplyContractValid(SupplyContract supplyContract, Supplier supplier, Contract contract,@NotNull Date startDate,@Null Date endDate) {
 		if(SUPPLYCONTRACT_IS_NOT_VALID.equals(SupplyContractValidator.isSupplyContractValid(supplier, contract).apply(supplyContract)))
 			return SUPPLYCONTRACT_IS_NOT_VALID;
 		if (SUPPLYCONTRACT_STARTDATE_NOT_VALID.equals(isStartDateValid(startDate).apply(supplyContract)))
