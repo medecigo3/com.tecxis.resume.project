@@ -47,7 +47,10 @@ public interface SupplyContractValidator extends Function<SupplyContract, Valida
 			logger.debug("Comparing SupplyContract endDate: '" +  supplyContractEndDate + "' vs. param: '" + endDate + "'");
 			
 			if (supplyContractEndDate == null && endDate == null )			
-				return SUCCESS;			
+				return SUCCESS;
+			
+			if (supplyContractEndDate != null && endDate == null || supplyContractEndDate == null && endDate != null)
+				return SUPPLYCONTRACT_ENDDATE_NOT_VALID;
 			
 			if (supplyContractEndDate != null && endDate != null )				
 				return supplyContractEndDate.compareTo(endDate) == 0 ? SUCCESS : SUPPLYCONTRACT_ENDDATE_NOT_VALID;			
