@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.Null;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -820,7 +821,7 @@ public class Utils {
 		return clientId;
 	}
 	
-	public static ValidationResult isClientValid(Client client, String clientName, List <Contract> contracts) {
+	public static ValidationResult isClientValid(Client client, String clientName,@Null List <Contract> contracts) {
 		if (CLIENT_NAME_IS_NOT_VALID.equals(isClientNameValid(clientName).apply(client)))
 			return CLIENT_NAME_IS_NOT_VALID;
 		if (CLIENT_CONTRACTS_ARE_NOT_VALID.equals(areContractsValid(contracts).apply(client)))

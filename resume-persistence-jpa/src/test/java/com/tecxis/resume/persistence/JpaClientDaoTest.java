@@ -14,6 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -86,7 +87,7 @@ public class JpaClientDaoTest {
 		assertThat(id).isGreaterThan(0L);
 		
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE));
+		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE, new ArrayList<>()));
 	}
 	
 	@Test
