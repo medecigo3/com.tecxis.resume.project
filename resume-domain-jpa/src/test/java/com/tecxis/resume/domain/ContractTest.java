@@ -45,7 +45,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -179,8 +178,7 @@ public class ContractTest {
 		assertEquals(SUCCESS, isSupplyContractValid(targetSagemContract.getSupplyContracts().get(0), targetAmesys, targetSagemContract, CONTRACT4_STARTDATE, CONTRACT4_ENDDATE));
 		
 		/**Validate Client -> Contracts*/
-		List <Contract> currentSagemcomContracts = new ArrayList<>();
-		currentSagemcomContracts.add(targetSagemContract);
+		List <Contract> currentSagemcomContracts = List.of(targetSagemContract);		
 		assertEquals(SUCCESS, isClientValid(sagemcom, SAGEMCOM, currentSagemcomContracts));
 		
 		entityManager.clear();
@@ -208,8 +206,7 @@ public class ContractTest {
 				Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
 				amesysMicropoleSupplyContract.setStartDate(CONTRACT4_STARTDATE); //Set mandatory StartDate
-				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
-				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
+				List <SupplyContract> amesysMicropoleSupplyContracts = List.of(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
 				
 				entityManager.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
@@ -239,9 +236,7 @@ public class ContractTest {
 		assertEquals(SUCCESS, isSupplyContractValid(micropoleAmesysSupplyContract, amesys, newMicropoleContract, CONTRACT4_STARTDATE, null));
 		
 		/**Now Client -> has 2 Contracts*/
-		List <Contract> newMicropoleContracts = new ArrayList<>();
-		newMicropoleContracts.add(newMicropoleContract);
-		newMicropoleContracts.add(fcMicropoleContract);		
+		List <Contract> newMicropoleContracts = List.of(newMicropoleContract, fcMicropoleContract);		
 		assertEquals(SUCCESS, isClientValid(micropole, MICROPOLE, newMicropoleContracts));
 	}
 
@@ -307,8 +302,7 @@ public class ContractTest {
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
 		
 		/**Set Contract -> new SupplyContract*/
-		List <SupplyContract> newAmesysSagemSupplyContracts = new ArrayList <>();
-		newAmesysSagemSupplyContracts.add(newAmesysSagemSupplyContract);
+		List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 		currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 		entityManager.merge(currentAmesysSagemContract);
 		entityManager.flush();
@@ -572,9 +566,7 @@ public class ContractTest {
 		/**Build new Agreements*/		
 		Agreement alternaMuleAgreement = new Agreement(arvalContract, muleService);
 		Agreement alternaScmAgreement = new Agreement(arvalContract, scmService);
-		List <Agreement> newAgreements = new ArrayList <> ();
-		newAgreements.add(alternaMuleAgreement);
-		newAgreements.add(alternaScmAgreement);
+		List <Agreement> newAgreements = List.of(alternaMuleAgreement, alternaScmAgreement);
 			
 		/**Set Agreements*/	
 		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
@@ -646,7 +638,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreementByService() {
+	public void test_OneToMany_RemoveAgreement_by_Service() {
 		/**Find  Contract*/		
 		Contract barclaysAccentureContract = contractRepo.getContractByName(CONTRACT1_NAME);		
 		

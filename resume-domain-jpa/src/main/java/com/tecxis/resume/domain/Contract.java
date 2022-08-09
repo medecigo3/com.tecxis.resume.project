@@ -2,7 +2,6 @@ package com.tecxis.resume.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -123,18 +122,12 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	
 	}
 	
-	public boolean removeAgreement(Service service) {		
-		Iterator <Agreement> agreementIt =  this.getAgreements().iterator();
-	
-		while(agreementIt.hasNext()) {			
-			Agreement tempAgreement = agreementIt.next();
-			Service tempService = tempAgreement.getService();
-			if (service.equals(tempService)) {
-				return this.getAgreements().remove(tempAgreement);
-				
-			}
-		}
-		return false;
+	public boolean removeAgreement(Service service) {
+		return this.getAgreements().remove(this.getAgreements()
+				.stream()
+				.findFirst()
+				.filter(agreement -> agreement.getService().equals(service))
+				.orElse(null));
 	}
 		
 	public List<Agreement> getAgreements() {
@@ -144,7 +137,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	public void setAgreements(List<Agreement> agreements) {
 		if (agreements != null) {
 			this.agreements.clear();
-			for (Agreement agreement : agreements) {
+			for (Agreement agreement : agreements) { //TODO refactor using streams
 				this.agreements.add(agreement);
 			}
 		} else {
@@ -160,7 +153,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
 		if (supplyContracts != null ) {
 			this.supplyContracts.clear();
-			for(SupplyContract supplyContract : supplyContracts) {
+			for(SupplyContract supplyContract : supplyContracts) { //TODO refactor using streams
 				this.supplyContracts.add(supplyContract);
 			}			
 		} else {
