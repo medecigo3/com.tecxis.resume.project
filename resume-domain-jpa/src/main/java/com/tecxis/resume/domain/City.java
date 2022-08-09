@@ -124,7 +124,7 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 		return this.getLocations().remove(getLocations()
 				.stream()
 				.filter(location ->	location.getProject().equals(project))
-				.findFirst()				
+				.findFirst()
 				.orElse(null));
 	}
 	
