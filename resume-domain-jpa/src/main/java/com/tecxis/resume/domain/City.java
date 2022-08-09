@@ -124,14 +124,8 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	}
 	
 	public void setLocations(List<Location> locations) {
-		if (locations != null) {
 			this.locations.clear();
-			for(Location location : locations) {  //TODO refactor this looping.
-				this.locations.add(location);
-			}		
-		} else {
-			this.locations.clear();
-		}
+			this.locations.addAll(locations);
 	}
 
 	public List<Location> getLocations() {
