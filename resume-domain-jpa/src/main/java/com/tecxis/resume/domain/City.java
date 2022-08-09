@@ -2,7 +2,6 @@ package com.tecxis.resume.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -117,22 +116,17 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	}
 	
 	public boolean removeLocation(Project project) {
-		Iterator <Location> locationIt = this.getLocations().iterator();
-		
-		while(locationIt.hasNext()) {
-			Location tempLocation = locationIt.next();
-			Project tempProject = tempLocation.getProject();
-			if (tempProject.equals(project))
-				return this.getLocations().remove(tempLocation);
-		}
-		
-		return false;
+		return this.getLocations().remove(getLocations()
+				.stream()
+				.findFirst()
+				.filter(location -> location.getProject().equals(project))				
+				.orElse(null));
 	}
 	
 	public void setLocations(List<Location> locations) {
 		if (locations != null) {
 			this.locations.clear();
-			for(Location location : locations) {
+			for(Location location : locations) {  //TODO refactor this looping.
 				this.locations.add(location);
 			}		
 		} else {
