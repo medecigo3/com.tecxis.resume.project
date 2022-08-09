@@ -26,6 +26,8 @@ import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
+import static com.tecxis.resume.domain.SchemaConstants.LOCATION_TABLE;
+import static com.tecxis.resume.domain.SchemaConstants.TOTAL_LOCATION;
 import static com.tecxis.resume.domain.util.Utils.deleteCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
@@ -237,10 +239,7 @@ public class CityTest {
 		france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(2, france.getCities().size());
 		City paris = cityRepo.getCityByName(PARIS);
-		List <City> cities = new ArrayList <City>();
-		cities.add(paris);
-		cities.add(londonFrance);
-		assertEquals(SUCCESS, isCountryValid(france, FRANCE, cities));
+		assertEquals(SUCCESS, isCountryValid(france, FRANCE, List.of(paris, londonFrance)));
 	}
 
 	@Test
@@ -376,6 +375,75 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_RemoveLocation_via_Project() {
+		/**Find & validate city to test*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
+		List <Location> manchesterLocations = manchester.getLocations();
+		assertEquals(1, manchesterLocations.size());
+		
+		/**Validate projects of the city to test*/
+		assertEquals(1, manchesterLocations.size());
+		Project currentAdir = manchesterLocations.get(0).getProject();
+		assertNotNull(currentAdir);
+		assertEquals(ADIR, currentAdir.getName());
+		assertEquals(1, currentAdir.getLocations().size());
+		
+		/**Remove the Location*/
+		Location manchesterLocation = manchester.getLocations().get(0);
+		assertTrue(manchester.removeLocation(currentAdir));
+		assertTrue(currentAdir.removeLocation(manchesterLocation));
+		
+		/**Find the Location*/
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		entityManager.merge(manchester);
+		entityManager.merge(currentAdir);			
+		entityManager.flush();
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		assertEquals(0, manchester.getLocations().size());
+		assertEquals(0, currentAdir.getLocations().size());
+		LocationId locaitonId = new LocationId(manchester.getId(), currentAdir.getId());
+		assertFalse(locationRepo.findById(locaitonId).isPresent());	
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_RemoveLocation_via_Unrelated_Project() {
+		/**Find & validate city to test*/
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
+		List <Location> manchesterLocations = manchester.getLocations();
+		assertEquals(1, manchesterLocations.size());
+		
+		/**Validate projects of the city to test*/
+		assertEquals(1, manchesterLocations.size());
+		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1); //query a non-related project		
+		assertNotNull(eolis);
+		assertEquals(EOLIS, eolis.getName());
+		assertEquals(1, eolis.getLocations().size());
+		
+		/**Remove the Location*/
+		Location manchesterLocation = manchester.getLocations().get(0);
+		assertFalse(manchester.removeLocation(eolis));
+		assertFalse(eolis.removeLocation(manchesterLocation));
+		
+		/**Location was not removed*/
+		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplateProxy, LOCATION_TABLE));
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		entityManager.merge(manchester);
+		entityManager.merge(eolis);			
+		entityManager.flush();
+		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplateProxy, LOCATION_TABLE));
+			
+	}
+	
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_GetLocations() {
 		/**Find & validate city to test*/
 		City london = cityRepo.getCityByName(LONDON);
@@ -447,10 +515,9 @@ public class CityTest {
 		Location londonSeleniumLocation =  new Location (london, selenium);
 		Location londonAosLocation = new Location(london, aos);
 		Location londonMorningstarv2Location = new Location(london, morningstarv2);
-		List <Location>  newLocations = new  ArrayList<>();
-		newLocations.add(londonSeleniumLocation);		
-		newLocations.add(londonAosLocation);
-		newLocations.add(londonMorningstarv2Location);
+		List <Location>  newLocations = List.of(londonSeleniumLocation,		
+												londonAosLocation,
+												londonMorningstarv2Location);
 				
 		/**Set new Locations*/
 		setCityLocationsInJpa( setCityLocations->{
@@ -664,18 +731,17 @@ public class CityTest {
 		sherpaProject.addCity(london);
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
 		/**Set London city to Adir project*/
-		List <City> adirCityList = new ArrayList<> ();
-		adirCityList.add(london);		
+		List <City> adirCityList = List.of (london);		
 		adirProject.setCities(adirCityList);
 		/**Set London & Paris cities to Morningstar project*/
-		List <City> morningStarV1CityList = new ArrayList<> ();
-		morningStarV1CityList.add(london);		
-		morningStarV1CityList.add(paris);
+		List <City> morningStarV1CityList = List.of(
+											london, 		
+											paris);
 		morningStarV1Project.setCities(morningStarV1CityList);
 		/**Set London & Paris cities to Sherpa project*/
-		List <City> sherpaCityList = new ArrayList<> ();
-		sherpaCityList.add(london);	
-		sherpaCityList.add(paris);	
+		List <City> sherpaCityList = List.of(
+										london,	
+										paris);	
 		sherpaProject.setCities(sherpaCityList);		
 		entityManager.merge(adirProject);	
 		entityManager.merge(morningStarV1Project);
