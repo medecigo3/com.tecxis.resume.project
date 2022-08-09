@@ -375,7 +375,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation_via_Project() {
+	public void test_OneToMany_RemoveLocation_by_Project() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
@@ -410,7 +410,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation_via_Unrelated_Project() {
+	public void test_OneToMany_RemoveLocation_by_Unrelated_Project() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
