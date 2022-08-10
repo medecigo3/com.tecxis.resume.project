@@ -135,15 +135,8 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	}
 
 	public void setAgreements(List<Agreement> agreements) {
-		if (agreements != null) {
-			this.agreements.clear();
-			for (Agreement agreement : agreements) { //TODO refactor using streams
-				this.agreements.add(agreement);
-			}
-		} else {
-			this.agreements = null;
-		}
-		
+		this.agreements.clear();
+		this.agreements.addAll(agreements);		
 	}
 
 	public List<SupplyContract> getSupplyContracts() {
