@@ -157,8 +157,9 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 		return this.assignments;
 	}
 
-	public void setAssignment(List<Assignment> assignment) {
-		this.assignments = assignment;
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments.clear();
+		this.assignments.addAll(assignments);
 	}
 
 	public Assignment addAssignment(Assignment assignment) {
@@ -183,14 +184,8 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	}
 
 	public void setCities(List<City> cities) {
-		if (cities != null) {
-			this.cities.clear();
-			for (City city : cities) {
-				this.getCities().add(city);			
-			}
-		} else {
-			this.cities.clear();
-		}		
+		this.cities.clear();
+		this.cities.addAll(cities);
 	}
 
 	public boolean addCity(City city) {
@@ -235,7 +230,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	public boolean removeLocation(City city) {
 		Iterator <Location> locationIt = this.getLocations().iterator();
 		
-		while(locationIt.hasNext()) {
+		while(locationIt.hasNext()) {//TODO refactor this code using declarative approach
 			Location tempLocation = locationIt.next();
 			City tempCity = tempLocation.getCity();
 			if (tempCity.equals(city))
@@ -246,7 +241,8 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	}
 	
 	public void setLocations(List<Location> locations) {
-		this.locations = locations;
+		this.locations.clear();
+		this.locations.addAll(locations);
 	}
 	
 	public List<Location> getLocations() {

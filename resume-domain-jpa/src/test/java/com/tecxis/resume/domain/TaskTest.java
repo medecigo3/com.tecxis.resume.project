@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -331,11 +330,10 @@ public class TaskTest {
 		
 		/**Prepare staff assignments*/		
 		Assignment amtAssignment = Utils.insertAssignment(ted, amt, assignment12, entityManager);		
-		List <Assignment> amtStaffAssignments = new ArrayList <> ();		
-		amtStaffAssignments.add(amtAssignment);
-		ted.setAssignment(amtStaffAssignments);
-		assignment12.setAssignment(amtStaffAssignments);
-		amt.setAssignment(amtStaffAssignments);				
+		List <Assignment> amtStaffAssignments = List.of(amtAssignment);		
+		ted.setAssignments(amtStaffAssignments);
+		assignment12.setAssignments(amtStaffAssignments);
+		amt.setAssignments(amtStaffAssignments);				
 		entityManager.merge(ted);
 		entityManager.merge(amt);
 		entityManager.merge(assignment12);

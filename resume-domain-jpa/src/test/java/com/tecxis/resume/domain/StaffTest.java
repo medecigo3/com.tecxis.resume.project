@@ -675,11 +675,10 @@ public class StaffTest {
 		
 		/**Prepare staff -> assignments*/		
 		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
-		List <Assignment> amtAssignments = new ArrayList <> ();		
-		amtAssignments.add(amtAssignment);
-		adir.setAssignment(amtAssignments);
-		assignment1.setAssignment(amtAssignments);
-		amt.setAssignment(amtAssignments);				
+		List <Assignment> amtAssignments = List.of(amtAssignment);		
+		adir.setAssignments(amtAssignments);
+		assignment1.setAssignments(amtAssignments);
+		amt.setAssignments(amtAssignments);				
 		entityManager.merge(adir);
 		entityManager.merge(amt);
 		entityManager.merge(assignment1);
@@ -967,8 +966,7 @@ public class StaffTest {
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		SupplyContract newSupplyContract = new SupplyContract (accenture, newContract, amt);
 		newSupplyContract.setStartDate(new Date());
-		List <SupplyContract> newSupplyContracts = new ArrayList <>();
-		newSupplyContracts.add(newSupplyContract);		
+		List <SupplyContract> newSupplyContracts = List.of(newSupplyContract);		
 				
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //AMT STAFF_ID='1'
@@ -1417,8 +1415,7 @@ public class StaffTest {
 		/**New SupplyContract*/
 		EmploymentContract newEmploymentContract = new EmploymentContract (john, accenture);
 		newEmploymentContract.setStartDate(new Date());
-		List <EmploymentContract> newEmploymentContracts = new ArrayList <>();
-		newEmploymentContracts.add(newEmploymentContract);		
+		List <EmploymentContract> newEmploymentContracts = List.of(newEmploymentContract);		
 				
 		/**Test initial state of Staff table (the parent)*/
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //John STAFF_ID='1'

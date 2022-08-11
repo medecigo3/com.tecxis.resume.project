@@ -23,8 +23,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 
 
 /**
@@ -219,8 +219,9 @@ public class Staff implements Serializable, Identifiable <Long>{
 		return this.assignments;
 	}
 
-	public void setAssignment(List<Assignment> assignments) {
-		this.assignments = assignments;
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments.clear();		
+		this.assignments.addAll(assignments);
 	}
 	
 	public boolean removeAssignment(Assignment assignment) {
@@ -267,7 +268,7 @@ public class Staff implements Serializable, Identifiable <Long>{
 	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {
 		if (employmentContracts != null) {
 			this.getEmploymentContracts().clear();
-			for (EmploymentContract employmentContract : employmentContracts){
+			for (EmploymentContract employmentContract : employmentContracts){ //TODO refactor declarative approach
 				this.getEmploymentContracts().add(employmentContract);
 			}
 		} else {
