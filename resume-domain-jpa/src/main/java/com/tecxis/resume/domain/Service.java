@@ -99,7 +99,7 @@ public class Service implements Serializable, Identifiable <Long>{
 	public boolean removeAgreement(Contract contract) {		
 		Iterator <Agreement> agreementIt =  this.getAgreements().iterator();
 		
-		while(agreementIt.hasNext()) {			
+		while(agreementIt.hasNext()) {		//TODO refactor use declarative approach	
 			Agreement tempAgreement = agreementIt.next();
 			Contract tempContract = tempAgreement.getContract();
 			if (contract.equals(tempContract)) {

@@ -90,8 +90,9 @@ public class Task implements Serializable, Identifiable <Long> {
 		return this.assignments;
 	}
 
-	public void setAssignment(List<Assignment> assignment) {
-		this.assignments = assignment;
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments.clear();		
+		this.assignments.addAll(assignments);
 	}
 
 	public Assignment addAssignment(Assignment assignment) {

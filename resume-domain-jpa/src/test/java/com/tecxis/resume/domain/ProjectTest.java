@@ -58,7 +58,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -289,25 +288,24 @@ public class ProjectTest {
 		
 		/**Prepare Task*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
-		Task assignment1 = Utils.insertTask(TASK1, entityManager);
-		assertEquals(1L, assignment1.getId().longValue());
+		Task task1 = Utils.insertTask(TASK1, entityManager);
+		assertEquals(1L, task1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
 		/**Validate staff assignments*/		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
-		AssignmentId id = new AssignmentId(adir.getId(), amt.getId(), assignment1.getId());		
+		AssignmentId id = new AssignmentId(adir.getId(), amt.getId(), task1.getId());		
 		assertNull(entityManager.find(Assignment.class, id));
 		
 		/**Prepare staff assignments*/			
-		Assignment amtAssignment = Utils.insertAssignment(adir, amt, assignment1, entityManager);		
-		List <Assignment> amtAssignments = new ArrayList <> ();		
-		amtAssignments.add(amtAssignment);
-		adir.setAssignment(amtAssignments);
-		assignment1.setAssignment(amtAssignments);
-		amt.setAssignment(amtAssignments);				
+		Assignment amtAssignment = Utils.insertAssignment(adir, amt, task1, entityManager);		
+		List <Assignment> amtAssignments = List.of(amtAssignment);		
+		adir.setAssignments(amtAssignments);
+		task1.setAssignments(amtAssignments);
+		amt.setAssignments(amtAssignments);				
 		entityManager.merge(adir);
 		entityManager.merge(amt);
-		entityManager.merge(assignment1);
+		entityManager.merge(task1);
 		entityManager.flush();
 		
 		/**Validate staff assignments*/
@@ -659,9 +657,7 @@ public class ProjectTest {
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		
 		
-		List <City> sherpaProjectCities = new ArrayList <> ();
-		sherpaProjectCities.add(brussels);
-		sherpaProjectCities.add(paris);
+		List <City> sherpaProjectCities = List.of(brussels, paris);
 		sherpaProject.setCities(sherpaProjectCities);
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));		
 		entityManager.merge(sherpaProject);
@@ -734,9 +730,7 @@ public class ProjectTest {
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));	
-		List <City> sherpaProjectCities = new ArrayList <> ();
-		sherpaProjectCities.add(brussels);
-		sherpaProjectCities.add(paris);
+		List <City> sherpaProjectCities = List.of(brussels, paris);		
 		sherpaProject.setCities(sherpaProjectCities);
 		entityManager.merge(sherpaProject);
 		entityManager.flush();		
@@ -937,10 +931,9 @@ public class ProjectTest {
 		Location seleniumLocation = locationRepo.findById(new LocationId(paris.getId(), selenium.getId())).get();		
 		assertEquals(seleniumLocation, selenium.getLocations().get(0));
 				
-		/**Prepare new Locations*/
-		List <Location> newLocations = new ArrayList<>();
-		Location manchesterSeleniumLoc = new Location(manchester, selenium);		
-		newLocations.add(manchesterSeleniumLoc);
+		/**Prepare new Locations*/		
+		Location manchesterSeleniumLoc = new Location(manchester, selenium);
+		List <Location> newLocations = List.of(manchesterSeleniumLoc);		
 				
 		/**Set new Locations*/
 		selenium.setLocations(newLocations);
