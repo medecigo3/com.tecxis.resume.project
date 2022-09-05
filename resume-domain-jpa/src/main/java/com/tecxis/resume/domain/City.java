@@ -70,7 +70,12 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 		this.id = new CityId();
 		this.locations = new ArrayList <> ();
 	}
-	
+		
+	public City(CityId id) {
+		super();
+		this.id = id;
+	}
+
 	@Override
 	public CityId getId() {
 		return this.id;
@@ -118,8 +123,8 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	public boolean removeLocation(Project project) {
 		return this.getLocations().remove(getLocations()
 				.stream()
-				.findFirst()
-				.filter(location -> location.getProject().equals(project))				
+				.filter(location ->	location.getProject().equals(project))
+				.findFirst()				
 				.orElse(null));
 	}
 	

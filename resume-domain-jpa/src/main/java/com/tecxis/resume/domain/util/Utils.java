@@ -25,7 +25,9 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_N
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_CITIES_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.COUNTRY_NAME_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_ASSIGNMENTS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_LOCATIONS_ARE_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_VERSION_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NAME_IS_NOT_VALID;
@@ -66,6 +68,9 @@ import com.tecxis.resume.domain.StaffSkill;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.Task;
+import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.id.LocationId;
+import com.tecxis.resume.domain.id.ProjectId;
 import com.tecxis.resume.domain.repository.AgreementRepository;
 import com.tecxis.resume.domain.repository.AssignmentRepository;
 import com.tecxis.resume.domain.repository.CityRepository;
@@ -94,10 +99,12 @@ import com.tecxis.resume.domain.util.function.DeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.DeleteCityFunction;
 import com.tecxis.resume.domain.util.function.DeleteClientFunction;
 import com.tecxis.resume.domain.util.function.DeleteContractFunction;
+import com.tecxis.resume.domain.util.function.DeleteLocationFunction;
 import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.InsertClientFunction;
+import com.tecxis.resume.domain.util.function.ProjectValidator;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
@@ -853,16 +860,16 @@ public class Utils {
 		function.accept(clientRepo);
 		function.afterTransactionCompletion(jdbcTemplate);		
 	}
-	
+	//TODO rename method with ..InJpa
 	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <EntityManager> deleteFunction, SetContractClientFunction <EntityManager> setFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
-		deleteFunction.beforeTransactionCompletion();
+		deleteFunction.beforeTransactionCompletion();//TODO missing jdbcTemplate
 		Consumer <EntityManager> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(entityManager);
 		setFunction.afterTransactionCompletion(jdbcTemplate);
 	}
-	
+	//TODO rename method with ..InJpa
 	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <ContractRepository> deleteFunction, SetContractClientFunction <ContractRepository> setFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
-		deleteFunction.beforeTransactionCompletion();
+		deleteFunction.beforeTransactionCompletion();//TODO missing jdbcTemplate
 		Consumer <ContractRepository> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(contractRepo);			
 		setFunction.afterTransactionCompletion(jdbcTemplate);
@@ -888,5 +895,52 @@ public class Utils {
 		if (SUPPLYCONTRACT_ENDDATE_NOT_VALID.equals(isEndDateValid(endDate).apply(supplyContract)))
 			return SUPPLYCONTRACT_ENDDATE_NOT_VALID;
 		return SUCCESS;
+	}
+	
+	public static ValidationResult isProjectValid(Project project, String name, String version, List<Location> locations, Client client, List <Assignment> assignments) {
+		if (PROJECT_NAME_IS_NOT_VALID.equals(ProjectValidator.isProjectNameValid(name).apply(project)))
+			return PROJECT_NAME_IS_NOT_VALID;
+		if (PROJECT_NAME_IS_NOT_VALID.equals(ProjectValidator.isProjectVersionValid(version).apply(project)))
+			return PROJECT_NAME_IS_NOT_VALID;
+		if (PROJECT_CLIENT_IS_NOT_VALID.equals(ProjectValidator.isProjectClientValid(client).apply(project)))
+			return PROJECT_CLIENT_IS_NOT_VALID;
+		if (PROJECT_ASSIGNMENTS_ARE_NOT_VALID.equals(ProjectValidator.areProjectAssignmentsValid(assignments).apply(project)))
+			return PROJECT_ASSIGNMENTS_ARE_NOT_VALID;
+		if (PROJECT_LOCATIONS_ARE_NOT_VALID.equals(ProjectValidator.areProjectLocationsValid(locations).apply(project)))
+			return PROJECT_LOCATIONS_ARE_NOT_VALID;
+		return SUCCESS;
+		
+	}
+	
+	public static CityId buildCityId(long cityId, long countryId) {
+		return new CityId(cityId, countryId);	
+	}
+	
+	public static ProjectId buildProjectId(long clientId, long projectId) {
+		return  new ProjectId(clientId, projectId);	
+	}
+	
+	public static LocationId buildLocationId(CityId cityId, ProjectId projectId) {
+		return new LocationId(cityId, projectId);
+	}
+	
+	public static Location buildLocation(City city, Project project) {
+		return new Location (city, project);
+	}
+	
+	public static City buildCity(CityId cityId) {
+		return new City (cityId);
+	}
+	
+	public static void removeParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<EntityManager> deleteLocationFunction, EntityManager em, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(em);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	}
+	
+	public static void removeParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(locationRepo);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 }
