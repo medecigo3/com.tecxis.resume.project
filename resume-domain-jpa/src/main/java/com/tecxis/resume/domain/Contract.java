@@ -124,9 +124,9 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	
 	public boolean removeAgreement(Service service) {
 		return this.getAgreements().remove(this.getAgreements()
-				.stream()
-				.findFirst()
+				.stream()				
 				.filter(agreement -> agreement.getService().equals(service))
+				.findFirst()
 				.orElse(null));
 	}
 		
