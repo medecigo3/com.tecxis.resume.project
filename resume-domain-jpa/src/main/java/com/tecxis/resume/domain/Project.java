@@ -2,7 +2,6 @@ package com.tecxis.resume.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,8 +25,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.tecxis.resume.domain.id.CompositeIdentifiable;
-import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.ProjectId;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 
 
 /**
@@ -228,16 +227,11 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	}
 	
 	public boolean removeLocation(City city) {
-		Iterator <Location> locationIt = this.getLocations().iterator();
-		
-		while(locationIt.hasNext()) {//TODO refactor this code using declarative approach
-			Location tempLocation = locationIt.next();
-			City tempCity = tempLocation.getCity();
-			if (tempCity.equals(city))
-				return this.getLocations().remove(tempLocation);
-		}
-		
-		return false;
+		return this.getLocations().remove(getLocations()
+				.stream()
+				.findFirst()
+				.filter(location -> location.getCity().equals(city))
+				.orElse(null));
 	}
 	
 	public void setLocations(List<Location> locations) {

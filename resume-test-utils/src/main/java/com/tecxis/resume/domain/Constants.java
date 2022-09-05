@@ -63,18 +63,32 @@ public class Constants {
 	public static final String TASK56 = "Development of flows involving, proposal, policies quotes, claims documents.";
 	public static final String TASK57 = "Improvements in the TIBCO maven framework to generate code with new standards and improvement of unit testing tool.";
 	public static final String DEV_TASK_WILDCARD = "Development%";
+	public static long TASK22_ID = 22L;
+	public static long TASK23_ID = 23L;
+	public static long TASK24_ID = 24L;
+	public static long TASK25_ID = 25L;
+	public static long TASK26_ID = 26L;
+	public static long TASK27_ID = 27L;
+	public static long TASK28_ID = 28L;
+	public static long TASK29_ID = 29L;
+	public static long TASK30_ID = 30L;
+	public static long TASK31_ID = 31L;
 	/**END TASK*/
 	/**CITY*/	
 	public static final String BRUSSELS = "Brussels";
-	public static final String PARIS = "Paris";
+	public static final String PARIS = "Paris";	
 	public static final String LONDON = "London";
 	public static final String MANCHESTER = "Manchester";
 	public static final String SWINDON = "Swindon";
+	public static final long PARIS_ID = 4L;
+	public static final long LONDON_ID = 1L;
 	/**END CITY*/
 	/**COUNTRY*/		
 	public static final String BELGIUM = "Belgium";
 	public static final String FRANCE = "France";
 	public static final String UNITED_KINGDOM = "United Kingdom";
+	public static final long FRANCE_ID = 1L;
+	public static final long UNITED_KINGDOM_ID = 2L;
 	/**END COUNTRY*/	
 	/**CLIENT*/		
 	public static final String BARCLAYS = "Barclays";
@@ -90,6 +104,14 @@ public class Constants {
 	public static final String LA_BANQUE_POSTALE = "La Banque Postale";
 	public static final String SG = "Societe Generale Investment Banking";
 	public static final String SG_WEBSITE = "www.sg.fr";
+	public static final long CLIENT_SAGEMCOM_ID = 4L;	
+	public static final long CLIENT_MICROPOLE_ID = 5L;
+	public static final long CLIENT_LA_BANQUE_POSTALE_ID = 6L;
+	public static final long CLIENT_AXELTIS_ID = 7L;
+	public static final long CLIENT_EULER_HERMES_ID = 8L;
+	public static final long CLIENT_SG_ID = 9L;
+	public static final long CLIENT_ARVAL_ID = 10L;
+	public static final long CLIENT_HERMES_ID = 11L;	
 	/**END CLIENT*/		
 	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
 	public static final String SHORT_BW_6_COURSE = "BW618%";
@@ -131,6 +153,15 @@ public class Constants {
 	public static final String VERSION_2 = "2.0";
 	public static final String VERSION_3 = "3.0";
 	public static final String PROJECT_DESC = "project desc.";
+	public static long PROJECT_TED_V1_ID = 4L;
+	public static long PROJECT_PARCOURS_V1_ID = 5L;
+	public static long PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID = 6L;
+	public static long PROJECT_MORNINGSTAR_V1_ID = 7L;
+	public static long PROJECT_EOLIS_V1_ID = 8L;
+	public static long PROJECT_MORNINGSTAR_V2_ID = 9L;
+	public static long PROJECT_CENTRE_DES_COMPETENCES_V1_ID = 10L;
+	public static long PROJECT_AOS_V1_ID =11L;
+	public static long PROJECT_SELENIUM_V1_ID = 12L;
 	/**END PROJECT*/
 	/**SERVICE*/	
 	public static final String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";
@@ -158,6 +189,7 @@ public class Constants {
 	public static final String JOHN_NAME = "John";
 	public static final String JOHN_LASTNAME = "Smith";
 	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
+	public static long STAFF_AMT_ID = 1L;
 	/**STAFF*/
 	/**SUPPLY_CONTRACT*/	
 	public static  Date CONTRACT1_STARTDATE;
@@ -205,7 +237,7 @@ public class Constants {
 	public static final String CONTRACT11_NAME = "ArvalContract";
 	public static final String CONTRACT12_NAME = "HermesContract";
 	public static final String CONTRACT13_NAME = "BelfiusContract";
-	public static final int CONTRACT2_ID = 2;
+	public static final long CONTRACT2_ID = 2L;
 	/**END CONTRACT*/
 	
 	/**SUPPLIER*/	
@@ -215,6 +247,10 @@ public class Constants {
 	public static final String ALTERNA = "ALTERNA";
 	public static final String ALPHATRESS = "ALPHATRESS";
 	/**END SUPPLIER*/
+	
+	/**LOCATION*/
+	public static final long CITY_PARIS_TOTAL_LOCATIONS = 9;
+	/**END LOCATION*/
 	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	public static final SimpleDateFormat ddMMMyyyy = new   SimpleDateFormat("dd-MMM-yy");

@@ -4,12 +4,14 @@ import static com.tecxis.resume.domain.Constants.ADIR;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.PARIS;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -142,5 +144,41 @@ public class LocationTest {
 	
 	public void test_ManyToOne_SetProject() {
 		//TODO
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
+	public void testEquals() {
+		{
+			/**Test same Location instances*/	
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City test = paris;
+			assertTrue(paris.equals(test));
+		}
+		{	/**Tests different Location instances with same ids*/	
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			assertTrue(paris.equals(paris2));
+		}
+		{	
+			/**Tests Location instances with different CityId*/
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City london = Utils.buildCity(Utils.buildCityId(LONDON_ID, UNITED_KINGDOM_ID));
+			assertFalse(london.equals(paris));
+		}
+		{	
+			/**Tests Location instances with different city id*/
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City paris2 = Utils.buildCity(Utils.buildCityId(LONDON_ID, FRANCE_ID));
+			assertFalse(paris.equals(paris2));
+		}
+		{	
+			/**Tests Location instances with different country id*/
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, UNITED_KINGDOM_ID));
+			assertFalse(paris.equals(paris2));
+		}
 	}
 }
