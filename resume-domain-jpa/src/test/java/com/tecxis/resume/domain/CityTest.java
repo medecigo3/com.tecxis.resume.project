@@ -395,11 +395,11 @@ public class CityTest {
 		assertTrue(currentAdir.removeLocation(manchesterLocation));
 		
 		/**Find the Location*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE)); //TODO refactor test using SchemaUtils
 		entityManager.merge(manchester);
 		entityManager.merge(currentAdir);			
 		entityManager.flush();
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE)); //TODO refactor test using SchemaUtils
 		assertEquals(0, manchester.getLocations().size());
 		assertEquals(0, currentAdir.getLocations().size());
 		LocationId locaitonId = new LocationId(manchester.getId(), currentAdir.getId());
