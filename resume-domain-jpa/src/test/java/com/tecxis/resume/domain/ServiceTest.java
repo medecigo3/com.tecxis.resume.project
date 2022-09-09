@@ -244,7 +244,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreementViaServiceWithOrmOrphanRemove() {
+	public void test_OneToMany_RemoveAgreement_by_Service_WithOrmOrphanRemove() {
 		/**Find a contract*/				
 		Contract alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertEquals(Constants.BELFIUS, alphatressContract.getClient().getName());
@@ -308,7 +308,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreementViaContractWithOrmOrhpanRemove() {
+	public void test_OneToMany_RemoveAgreement_by_Contract_WithOrmOrhpanRemove() {
 		/**Find a contract*/		
 		Contract alternaArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		

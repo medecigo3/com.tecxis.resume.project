@@ -704,7 +704,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_DetachInterestAndDbRemoveStaffWithCascadings() {
+	public void test_OneToMany_DetachInterest_And_DbRemove_Staff_WithCascadings() {
 		/**Find Staff to test*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertEquals(JOHN_NAME, john.getFirstName());
@@ -929,7 +929,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetSupplyContractsWithOrmOrphanRemove() {	
+	public void test_OneToMany_Set_SupplyContracts_WithOrmOrphanRemove() {	
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1111,7 +1111,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveSupplyContractWithOrmOrphanRemove() {
+	public void test_OneToMany_Remove_SupplyContract_WithOrmOrphanRemove() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1193,7 +1193,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveEmploymentContractsWithNullSet() {
+	public void test_OneToMany_Remove_Employment_Contracts_WithNullSet() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1263,7 +1263,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveEmploymentContractWithCascadings() {				
+	public void test_OneToMany_Remove_EmploymentContract_WithCascadings() {				
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
@@ -1329,7 +1329,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveEmploymentContractWithNullSet() {
+	public void test_OneToMany_Remove_EmploymentContract_WithNullSet() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
@@ -1393,7 +1393,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetEmploymentContractsWithOrmOrphanRemove() {
+	public void test_OneToMany_Set_EmploymentContracts_WithOrmOrphanRemove() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
@@ -1600,7 +1600,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDbRemoveStaffWithCascadings() {
+	public void test_DbRemove_Staff_WithCascadings() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());

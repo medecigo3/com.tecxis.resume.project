@@ -277,7 +277,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_RemoveSupplyContractsWithNullSet() {					
+	public void test_OneToMany_Remove_SupplyContracts_WithNullSet() {					
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -334,7 +334,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_SetSupplyContractsWithOrmOrphanRemove() {	
+	public void test_OneToMany_Set_SupplyContracts_WithOrmOrphanRemove() {	
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -360,7 +360,7 @@ public class SupplierTest {
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
-		List <SupplyContract> newSupplyContracts = new ArrayList<>();
+		List <SupplyContract> newSupplyContracts = new ArrayList<>();//TODO refactor use declarative approach
 		newSupplyContracts.add(newSupplyContract);
 					
 		/**Tests initial state of Suppliers table (the parent)*/
@@ -530,7 +530,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_RemoveEmploymentContractsWithNullSet() {
+	public void test_OneToMany_Remove_EmploymentContracts_WithNullSet() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -586,7 +586,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_SetEmploymentContractsWithOrmOrphanRemove() {		
+	public void test_OneToMany_Set_EmploymentContracts_WithOrmOrphanRemove() {		
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -611,7 +611,7 @@ public class SupplierTest {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 		newEmploymentContract.setStartDate(new Date());
-		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();
+		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();//TODO refactor use declarative approach
 		newEmploymentContracts.add(newEmploymentContract);
 		
 		/**Tests initial state of Suppliers table (the parent)*/
@@ -651,7 +651,7 @@ public class SupplierTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testDbRemoveSupplierWithCascadings() {
+	public void test_DbRemove_Supplier_WithCascadings() {
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
