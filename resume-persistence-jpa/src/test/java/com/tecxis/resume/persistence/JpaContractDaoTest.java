@@ -233,7 +233,7 @@ public class JpaContractDaoTest {
 				/**Set the new Contract with the SupplyContract (with new Client)*/	
 				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
 				amesysMicropoleSupplyContract.setStartDate(new Date());
-				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();
+				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();//TODO refactor use declarative approach
 				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
 				

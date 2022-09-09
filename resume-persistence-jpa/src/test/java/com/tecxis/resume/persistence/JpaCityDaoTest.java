@@ -183,7 +183,7 @@ public class JpaCityDaoTest {
 		Location londonSeleniumLocation =  new Location (london, selenium);
 		Location londonAosLocation = new Location(london, aos);
 		Location londonMorningstarv2Location = new Location(london, morningstarv2);
-		List <Location>  newLocations = new  ArrayList<>();
+		List <Location>  newLocations = new  ArrayList<>();//TODO refactor use declarative approach
 		newLocations.add(londonSeleniumLocation);		
 		newLocations.add(londonAosLocation);
 		newLocations.add(londonMorningstarv2Location);
