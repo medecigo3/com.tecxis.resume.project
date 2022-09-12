@@ -31,7 +31,7 @@ import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED
 import static com.tecxis.resume.domain.util.Utils.isClientValid;
 import static com.tecxis.resume.domain.util.Utils.isContractValid;
 import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
-import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClient;
+import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -184,7 +184,7 @@ public class ContractTest {
 		entityManager.clear();
 				
 		/**Create new Contract with new Client*/		
-		setSagemContractWithMicropoleClient(
+		setSagemContractWithMicropoleClientInJpa(
 			DeleteContractFunction -> {	
 				/**These steps will update the Parent (non-owner of this relation)*/
 				Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
