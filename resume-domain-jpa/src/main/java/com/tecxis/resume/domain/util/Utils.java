@@ -860,15 +860,15 @@ public class Utils {
 		function.accept(clientRepo);
 		function.afterTransactionCompletion(jdbcTemplate);		
 	}
-	//TODO rename method with ..InJpa
-	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <EntityManager> deleteFunction, SetContractClientFunction <EntityManager> setFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+
+	public static void setSagemContractWithMicropoleClientInJpa(DeleteContractFunction <EntityManager> deleteFunction, SetContractClientFunction <EntityManager> setFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
 		deleteFunction.beforeTransactionCompletion(jdbcTemplate);
 		Consumer <EntityManager> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(entityManager);
 		setFunction.afterTransactionCompletion(jdbcTemplate);
 	}
-	//TODO rename method with ..InJpa
-	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <ContractRepository> deleteFunction, SetContractClientFunction <ContractRepository> setFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+
+	public static void setSagemContractWithMicropoleClientInJpa(DeleteContractFunction <ContractRepository> deleteFunction, SetContractClientFunction <ContractRepository> setFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		deleteFunction.beforeTransactionCompletion(jdbcTemplate);
 		Consumer <ContractRepository> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(contractRepo);			

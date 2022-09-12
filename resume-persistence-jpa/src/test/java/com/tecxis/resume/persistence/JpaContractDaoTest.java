@@ -15,7 +15,7 @@ import static com.tecxis.resume.domain.Constants.CONTRACT9_NAME;
 import static com.tecxis.resume.domain.Constants.EULER_HERMES;
 import static com.tecxis.resume.domain.Constants.MICROPOLE;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClient;
+import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -214,7 +214,7 @@ public class JpaContractDaoTest {
 		
 						
 		/**Create new Contract with new Client*/		
-		setSagemContractWithMicropoleClient(
+		setSagemContractWithMicropoleClientInJpa(
 			DeleteContractFunction -> {	
 				/**These steps will update the Parent (non-owner of this relation)*/		
 				entityManager.remove(currentSagemContract);//Firstly remove the Child (Owner)
