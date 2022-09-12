@@ -862,14 +862,14 @@ public class Utils {
 	}
 	//TODO rename method with ..InJpa
 	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <EntityManager> deleteFunction, SetContractClientFunction <EntityManager> setFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
-		deleteFunction.beforeTransactionCompletion();//TODO missing jdbcTemplate
+		deleteFunction.beforeTransactionCompletion(jdbcTemplate);
 		Consumer <EntityManager> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(entityManager);
 		setFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	//TODO rename method with ..InJpa
 	public static void setSagemContractWithMicropoleClient(DeleteContractFunction <ContractRepository> deleteFunction, SetContractClientFunction <ContractRepository> setFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
-		deleteFunction.beforeTransactionCompletion();//TODO missing jdbcTemplate
+		deleteFunction.beforeTransactionCompletion(jdbcTemplate);
 		Consumer <ContractRepository> deleteAndSetFunction = deleteFunction.andThen(setFunction);		
 		deleteAndSetFunction.accept(contractRepo);			
 		setFunction.afterTransactionCompletion(jdbcTemplate);
