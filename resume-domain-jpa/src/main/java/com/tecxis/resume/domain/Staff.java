@@ -265,14 +265,13 @@ public class Staff implements Serializable, Identifiable <Long>{
 		return employmentContracts;
 	}
 	
+	/**
+	 * @param employmentContracts removes employmentContract orphans when set to null.
+	 * */
 	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {
+		this.getEmploymentContracts().clear();
 		if (employmentContracts != null) {
-			this.getEmploymentContracts().clear();
-			for (EmploymentContract employmentContract : employmentContracts){ //TODO refactor declarative approach
-				this.getEmploymentContracts().add(employmentContract);
-			}
-		} else {
-			this.employmentContracts.clear();
+			this.employmentContracts.addAll(employmentContracts);
 		}
 	}
 
