@@ -198,7 +198,7 @@ public class ClientTest {
 	public void test_OneToMany_RemoveContract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeContract(new Contract());		
-		logger.warn("To remove a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");		
+		logger.warn("To remove a Contract's Client see ContractTest.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");		
 	}
 
 	@Test
@@ -248,7 +248,7 @@ public class ClientTest {
 	public void test_OneToMany_RemoveProject() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeProject(new Project());
-		logger.warn("To remove a Client's Project see ProjectTest.test_ManyToOne_SetClient()");		
+		logger.warn("To remove a Client's Project see ProjectTest.test_ManyToOne_Update_Client_And_CascadeDelete()");
 	}
 	
 	@Test
