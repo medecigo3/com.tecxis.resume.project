@@ -250,7 +250,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToOne_SetClient() {
+	public void test_ManyToOne_Update_Client_And_CascadeDelete() {
 		/**Find project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		ProjectId morningstartV1ProjectId = morningstartV1Project.getId();
@@ -279,13 +279,14 @@ public class ProjectTest {
 		newAxeltisProject.setClient(eh);  //sets new Client
 		newAxeltisProject.setCities(morningstartV1Project.getCities());
 		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		entityManager.remove(morningstartV1Project);
 		entityManager.persist(newAxeltisProject);
 		entityManager.merge(eh);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
+		SchemaUtils.testStateAfterUpdateMorningstartV1ProjectClientUpdate(jdbcTemplateProxy);
+		
 		
 		/**Validate project was updated */
 		Project morningstartV3Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_3);
