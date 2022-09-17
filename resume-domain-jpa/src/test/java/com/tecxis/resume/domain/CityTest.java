@@ -26,8 +26,6 @@ import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
-import static com.tecxis.resume.domain.SchemaConstants.LOCATION_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_LOCATION;
 import static com.tecxis.resume.domain.util.Utils.deleteCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
@@ -193,7 +191,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_SetCountryWithOrmOrhpanRemoval() {		
+	public void test_ManyToOne_Update_Country_And_RemoveOrhpansWithOrm() {		
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(FRANCE, france.getName()); 
@@ -395,11 +393,12 @@ public class CityTest {
 		assertTrue(currentAdir.removeLocation(manchesterLocation));
 		
 		/**Find the Location*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE)); //TODO refactor test using SchemaUtils
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		entityManager.merge(manchester);
 		entityManager.merge(currentAdir);			
 		entityManager.flush();
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE)); //TODO refactor test using SchemaUtils
+		SchemaUtils.testStateAfterManchesterCityDeleteAdirProject(jdbcTemplateProxy);
+		
 		assertEquals(0, manchester.getLocations().size());
 		assertEquals(0, currentAdir.getLocations().size());
 		LocationId locaitonId = new LocationId(manchester.getId(), currentAdir.getId());
@@ -430,12 +429,11 @@ public class CityTest {
 		assertFalse(eolis.removeLocation(manchesterLocation));
 		
 		/**Location was not removed*/
-		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplateProxy, LOCATION_TABLE));
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		entityManager.merge(manchester);
 		entityManager.merge(eolis);			
 		entityManager.flush();
-		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplateProxy, LOCATION_TABLE));
+		SchemaUtils.testStateAfterManchesterByUnrelatedProject(jdbcTemplateProxy);
 			
 	}
 	
