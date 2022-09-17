@@ -160,7 +160,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_SetClientWithOrmOrhpanRemoval() {
+	public void test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm() {
 		/**Find target Contract*/			
 		Contract targetSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = targetSagemContract.getId().getContractId();
@@ -265,7 +265,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetSuppyContractWithNewStaffWithOrmOrphanRemoval() throws ParseException {
+	public void test_OneToMany_Update_SuppyContract_And_RemoveOrphansWithOrm() throws ParseException {
 		final Date startDate = sdf.parse("12/30/2019");
 		final Date endDate = sdf.parse("13/30/2019");
 		
@@ -294,25 +294,14 @@ public class ContractTest {
 		newAmesysSagemSupplyContract.setStartDate(startDate);
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
-		
 		/**Set Contract -> new SupplyContract*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 		currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 		entityManager.merge(currentAmesysSagemContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));				//1 orphan removed and 1 new child created in SUPPLY_CONTRACT table. Other tables remain unchanged.
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 						
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
+		SchemaUtils.testStateAfterAmesysSegemContractUpdateSupplyContract(jdbcTemplateProxy);
 		
 		/**Validate the new Contract*/		
 		currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
@@ -527,7 +516,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetAgreementsWithOrmOrphanRemove() {
+	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm() {
 		/**Find a Contract*/		
 		Contract arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		
@@ -555,7 +544,7 @@ public class ContractTest {
 		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
 		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmService.getName());
 		
-		/***Validate the state of the current ContractServiceAgreeements*/		
+		/***Validate the state of the current Agreements*/		
 		assertEquals(1, arvalContract.getAgreements().size());
 		Agreement  alternaArvalAgreement = arvalContract.getAgreements().get(0);
 		assertEquals(arvalContract, alternaArvalAgreement.getContract());
@@ -568,25 +557,16 @@ public class ContractTest {
 		Agreement alternaScmAgreement = new Agreement(arvalContract, scmService);
 		List <Agreement> newAgreements = List.of(alternaMuleAgreement, alternaScmAgreement);
 			
+		
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Set Agreements*/	
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
 		/**This sets new Arval's Agreements and leaves orphans */
 		arvalContract.setAgreements(newAgreements);			
 		assertEquals(2, arvalContract.getAgreements().size());
 		entityManager.merge(arvalContract);
 		entityManager.flush();
 		entityManager.clear();
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE)); //1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 			
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
+		SchemaUtils.testStateAfterArvalContractUpdateAgreements(jdbcTemplateProxy);
 		
 		/**Validate test*/			
 		arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
@@ -735,7 +715,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testDbRemoveContractwithCascadings() {
+	public void test_Remove_Contract_With_Db_Cascadings() {
 		/**Find and validate Contract to test*/
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertNotNull(fastconnectMicropoleContract);

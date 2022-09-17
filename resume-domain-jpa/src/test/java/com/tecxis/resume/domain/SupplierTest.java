@@ -364,27 +364,20 @@ public class SupplierTest {
 		newSupplyContracts.add(newSupplyContract);
 					
 		/**Tests initial state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
+		/**SUPPLIER_TABLE -> ACCENTURE SUPPLIER_ID='1'*/
 		/**Tests the initial state of the children table(s) from the Parent table*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));	// Target orphan in SUPPLY_CONTRACT table
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));			
+		/**EMPLOYMENT_CONTRACT_TABLE*/
+		/**SUPPLY_CONTRACT_TABLE -> Target orphan in SUPPLY_CONTRACT table
+		/**CONTRACT_TABLE, STAFF_TABLE->Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/
+		/**AGREEMENT_TABLE-> Tests the initial state of the children table(s) from previous Parent table(s)*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
 		accenture.setSupplyContracts(newSupplyContracts);
 		entityManager.merge(accenture);
 		entityManager.flush();
 		entityManager.clear();	
+		SchemaUtils.testStateAfterAccentureSupplierUpdateSupplyContracts(jdbcTemplateProxy);
 		
-		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE)); //3 orphans removed and 1 new child created in SUPPLY_CONTRACT table.  Other tables remain unchanged. 	
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));  		
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
 	
 	}
 	
@@ -589,7 +582,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_Set_EmploymentContracts_WithOrmOrphanRemove() {		
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWithOrm() {		
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -618,28 +611,20 @@ public class SupplierTest {
 		newEmploymentContracts.add(newEmploymentContract);
 		
 		/**Tests initial state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
+		/**SUPPLIER_TABLE -> ACCENTURE SUPPLIER_ID='1'*/
 		/**Tests the initial state of the children table(s) from the Parent table*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	// Target orphan in  EMPLOYMENT_CONTRACT table
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
+		/**EMPLOYMENT_CONTRACT_TABLE*/
+		/**SUPPLY_CONTRACT_TABLE -> Target orphan in SUPPLY_CONTRACT table
+		/**CONTRACT_TABLE, STAFF_TABLE->Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/
+		/**AGREEMENT_TABLE-> Tests the initial state of the children table(s) from previous Parent table(s)*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**This sets new Accenture's EmploymenContracts and leaves orphans*/
 		accenture.setEmploymentContracts(newEmploymentContracts);
 		entityManager.merge(accenture);
 		entityManager.flush();
-		entityManager.clear();		
-		
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	 //1 orphan removed and 1 new child created in EMPLOYMENT_CONTRACT table. Other tables remain unchanged. 	
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));  		
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
-		
+		entityManager.clear();
+		SchemaUtils.testStateAfterAccentureEmploymentContractUpdateEmploymentContract(jdbcTemplateProxy);
+	
 		/**Validate parent Supplier has new EmploymentContract(s)*/
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
