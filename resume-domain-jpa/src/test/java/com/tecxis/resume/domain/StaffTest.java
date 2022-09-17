@@ -1111,7 +1111,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Remove_SupplyContract_WithOrmOrphanRemove() {
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1136,40 +1136,22 @@ public class StaffTest {
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
 		/**Test initial state of Staff table (the parent)*/
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //AMT STAFF_ID='1'
+		/**STAFF_TABLE ->  //AMT STAFF_ID='1'*/
 		/**Tests the initial state of the children table(s) from the Parent table*/
-		/**USES*/
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
-		/**ENROLS*/
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
-		/**IS EMPLOYED*/
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));			
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
-		/**WORKS IN*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		/**Tests the initial state of the children table(s) from the Parent table*/		
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
+		/**USES* -> SKILL_TABLE, STAFF_SKILL_TABLE*/
+		/**ENROLS-> ENROLMENT_TABLE, COURSE_TABLE*/
+		/**IS EMPLOYED-> EMPLOYMENT_CONTRACT_TABLE, SUPPLIER_TABLE*/
+		/**WORKS IN-> SUPPLY_CONTRACT_TABLE*/
+		/**CONTRACT_TABLE -> Tests the initial state of the children table(s) from the Parent table*/		
+		/**CONTRACT_TABLE -> Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
+		/**AGREEMENT_TABLE -> Tests the initial state of the children table(s) from previous Parent table(s)*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Remove the SupplyContract*/
 		amt.removeSupplyContract(staleSupplyContract);
 		entityManager.merge(amt);
 		entityManager.flush();
 		entityManager.clear();
-		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE)); 
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));		
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));	//1 orphan child is removed.	
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	
+		SchemaUtils.testStateAfterAmtStaffSupplyContractsRemove(jdbcTemplateProxy);
 		
 		/**Validate stale SupplyContract doesn't exist*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1193,7 +1175,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Remove_Employment_Contracts_WithNullSet() {
+	public void test_OneToMany_Remove_EmploymentContracts_Orphans_WithNullSet() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1393,7 +1375,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Set_EmploymentContracts_WithOrmOrphanRemove() {
+	public void test_OneToMany_Update_EmploymentContracts__And_RemoveOrphansWithOrm() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
