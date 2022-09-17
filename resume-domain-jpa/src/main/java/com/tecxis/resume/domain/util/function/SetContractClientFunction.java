@@ -13,6 +13,7 @@ public interface SetContractClientFunction <K> extends JPATransactionVoidFunctio
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
+		//TODO update this test case to update a Client which leaves an orphan Contract which will later be removed by ORM. 
 		SchemaUtils.testStateAfterSagemContractWithMicropoleClientUpdate(jdbcTemplateProxy);
 	}
 }
