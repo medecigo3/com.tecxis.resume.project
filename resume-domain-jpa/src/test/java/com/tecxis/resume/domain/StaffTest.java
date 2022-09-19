@@ -1196,45 +1196,27 @@ public class StaffTest {
 		entityManager.clear();		
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
-		/**Test initial state of Staff table (the parent)*/
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //AMT STAFF_ID='1'
-		/**Tests the initial state of the children table(s) from the Parent table*/
-		/**USES*/
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
-		/**ENROLS*/
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
-		/**IS EMPLOYED*/
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	//Target orphan table is EMPLOYMENT_CONTRACT table
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
-		/**WORKS IN*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));
-		/**Tests the initial state of the children table(s) from the Parent table*/		
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
-		
+		/** STAFF_TABLE -> 
+		 * 		Test initial state of Staff table (the parent) AMT STAFF_ID='1'  
+		 *  USES 		-> SKILL_TABLE, STAFF_SKILL_TABLE 
+		 * 					Tests the initial state of the children table(s) from the Parent table
+		 *  ENROLS 		-> ENROLMENT_TABLE, COURSE_TABLE
+		 * 	IS EMPLOYED -> EMPLOYMENT_CONTRACT_TABLE -> //Target orphan table is EMPLOYMENT_CONTRACT table
+		 * 				-> SUPPLIER_TABLE
+		 *	WORKS IN 	-> SUPPLY_CONTRACT_TABLE
+		 * 	CONTRACT_TABLE ->
+		 * 		Tests the initial state of the children table(s) from the Parent table		
+		 * 		Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.
+		 *  AGREEMENT_TABLE ->		
+		 * 		Tests the initial state of the children table(s) from previous Parent table(s)*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**This sets current Staff with EmploymenContracts as orphans*/
 		amt.setEmploymentContracts(null);
 		entityManager.merge(amt);
 		entityManager.flush();
-		entityManager.clear();				
-		
-		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //AMT STAFF_ID='1'	
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));		
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	// 5 orphans removed in EMPLOYMENT_CONTRACT table. Other tables ramain unchanged.
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));				
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));
-		
-		
+		entityManager.clear();
+		SchemaUtils.testStateAfterAmtStaffUpdateEmplymentContractsNull(jdbcTemplateProxy);
+				
 		/**Test parent Staff has no EmploymentContracts*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(0, amt.getEmploymentContracts().size());
