@@ -334,7 +334,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_Set_SupplyContracts_WithOrmOrphanRemove() {	
+	public void test_OneToMany_Update_SupplyContracts_Amd_RemoveOrphansWithOrm() {	
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -379,6 +379,10 @@ public class SupplierTest {
 		SchemaUtils.testStateAfterAccentureSupplierUpdateSupplyContracts(jdbcTemplateProxy);
 		
 	
+	}
+	
+	public void test_OneToMany_Update_SupplyContracts_Amd_RemoveOrphansWithOrm_NullSet() {
+		//TODO
 	}
 	
 	@Test
@@ -633,6 +637,10 @@ public class SupplierTest {
 		newEmploymentContract = newEmploymentContracts.get(0);
 		assertEquals(newEmploymentContract, accenture.getEmploymentContracts().get(0));		
 		assertEquals(1, accenture.getEmploymentContracts().size());		
+	}
+	
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWithOrm_NullSet() {
+		//TODO
 	}
 	
 	@Test
