@@ -338,5 +338,12 @@ public class ServiceTest {
 		Service service = new Service();
 		assertThat(service.toString()).matches(DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX);
 	}
-
+		
+	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm() { 
+		//TODO
+	}
+	
+	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm_NullSet() { 
+		//TODO
+	}
 }
