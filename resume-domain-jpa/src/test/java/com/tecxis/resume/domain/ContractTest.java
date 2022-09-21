@@ -265,7 +265,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_SuppyContract_And_RemoveOrphansWithOrm() throws ParseException {
+	public void test_OneToMany_Update_SuppyContracts_And_RemoveOrphansWithOrm() throws ParseException {
 		final Date startDate = sdf.parse("12/30/2019");
 		final Date endDate = sdf.parse("13/30/2019");
 		
@@ -332,6 +332,11 @@ public class ContractTest {
 		assertEquals(john,  amesysSagemJohnSupplyContract.getStaff());
 		assertEquals(currentAmesysSagemContract, amesysSagemJohnSupplyContract.getContract());
 		
+	}
+	
+	@Test
+	public void test_OneToMany_Update_SuppyContracts_And_RemoveOrphansWithOrm_NullSet() {
+		//TODO
 	}
 	
 	@Test
@@ -612,6 +617,11 @@ public class ContractTest {
 		assertThat(scmService.getAgreements().get(0).getContract(), Matchers.oneOf(arvalContract, barclaysContract));
 		assertThat(scmService.getAgreements().get(1).getContract(), Matchers.oneOf(arvalContract,  barclaysContract));
 				
+	}
+	
+	@Test
+	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm_NullSet() {
+		//TODO
 	}
 	
 	@Test
