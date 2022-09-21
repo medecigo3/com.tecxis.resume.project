@@ -239,7 +239,7 @@ public class CityTest {
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(SUCCESS, isCountryValid(france, FRANCE, List.of(paris, londonFrance)));
 	}
-
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -550,6 +550,14 @@ public class CityTest {
 		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
 		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
 	}	
+	
+	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm() {
+		//TODO  see example StaffTest.test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm()
+	}
+	
+	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm_NullSet() {
+		//TODO see example see StaffTest.test_OneToMany_Remove_EmploymentContracts_Orphans_WithNullSet
+	}
 	
 	@Test
 	@Sql(

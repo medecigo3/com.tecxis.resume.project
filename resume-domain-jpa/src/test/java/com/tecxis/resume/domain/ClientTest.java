@@ -175,10 +175,16 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetContracts() {		
+	public void test_OneToMany_Update_Contract_And_RemoveOrphansWithOrm() {		
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setContracts(new ArrayList<Contract> ());
-		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
+		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");
+	}
+	
+	@Test
+	public void test_OneToMany_Update_Contract_And_RemoveOrphansWithOrm_NullSet() {
+		logger.warn("To update a Contract's Client see Contract.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");
+		logger.warn("To remove orphans with null set see example StaffTest.test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_WithNullSet");
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
@@ -190,7 +196,7 @@ public class ClientTest {
 		ageas.addContract(new Contract());	
 		logger.warn("To add a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
 	}
-
+	
 	@Test(expected = UnsupportedOperationException.class)
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -224,11 +230,21 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetProjects() {
+	public void test_OneToMany_UpdateProjects() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.setProjects(new ArrayList<Project> ());
 		logger.warn("To set a Client's Project see ProjectTest.test_ManyToOne_SetClient()");			
 			
+	}
+	
+	@Test
+	public void test_OneToMany_Update_Projects_And_RemoveOrphansWithOrm() {
+		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
+	}
+	
+	@Test
+	public void test_OneToMany_Update_Projects_And_RemoveOrphansWithOrm_NullSet() {
+		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
