@@ -1160,6 +1160,10 @@ public class StaffTest {
 		
 	}
 	
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_NullSet() {
+		//TODO
+	}
+	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -1175,7 +1179,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Remove_EmploymentContracts_Orphans_WithNullSet() {
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOprhansWithOrm_NullSetJohn() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1196,8 +1200,8 @@ public class StaffTest {
 		entityManager.clear();		
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
-		/** STAFF_TABLE -> 
-		 * 		Test initial state of Staff table (the parent) AMT STAFF_ID='1'  
+		/** STAFF_TABLE ->  //AMT STAFF_ID='1' 
+		 * 		Test initial state of Staff table (the parent) 
 		 *  USES 		-> SKILL_TABLE, STAFF_SKILL_TABLE 
 		 * 					Tests the initial state of the children table(s) from the Parent table
 		 *  ENROLS 		-> ENROLMENT_TABLE, COURSE_TABLE
@@ -1215,7 +1219,7 @@ public class StaffTest {
 		entityManager.merge(amt);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterAmtStaffUpdateEmplymentContractsNull(jdbcTemplateProxy);
+		SchemaUtils.testStateAfterAmtStaffUpdateEmploymentContractsNull(jdbcTemplateProxy);
 				
 		/**Test parent Staff has no EmploymentContracts*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1293,7 +1297,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Remove_EmploymentContract_WithNullSet() {
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWtihOrm_NullSetAmt() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
@@ -1314,42 +1318,30 @@ public class StaffTest {
 		entityManager.clear();
 		john =  staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		
-		/**Test initial state of Staff table (the parent)*/
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  //John STAFF_ID='1'
-		/**Tests the initial state of the children table(s) from the Parent table*/
-		/**USES*/
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));
-		/**ENROLS*/
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
-		/**IS EMPLOYED*/
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));
-		/**WORKS IN*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));	
-		/**Tests the initial state of the children table(s) from the Parent table*/		
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));		
+		/**
+		 * STAFF_TABLE 	-> //John STAFF_ID='2'
+		 *		Test initial state of Staff table (the parent)
+		 *
+		 * USES			-> SKILL_TABLE, STAFF_SKILL_TABLE
+		 *		Tests the initial state of the children table(s) from the Parent table
+		 * ENROLS		-> ENROLMENT_TABLE, COURSE_TABLE		
+		 * EMPLOYED		-> EMPLOYMENT_CONTRACT_TABLE, SUPPLIER_TABLE
+		 * WORKS IN 	-> SUPPLY_CONTRACT_TABLE
+		 * CONTRACT_TABLE-> 
+		 * 		Tests the initial state of the children table(s) from the Parent table
+		 *  	Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.		
+		 * AGREEMENT_TABLE->		
+		 * 		Tests the initial state of the children table(s) from previous Parent table(s)
+		 */		
 		/**Sets currents John's EmploymentContracts as orphans*/
+		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		john.setEmploymentContracts(null);
 		entityManager.merge(john);
 		entityManager.flush();
 		entityManager.clear();
 		
 		/**Test post update state of Staff table*/
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE)); 
-		assertEquals(7, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SKILL_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_SKILL_TABLE));	
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ENROLMENT_TABLE));
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COURSE_TABLE));
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE)); 
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));	
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));	
+		SchemaUtils.testStateAfterJohnStaffUpdateEmplymentContractsNull(jdbcTemplateProxy);		
 
 	}
 	
@@ -1357,7 +1349,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_EmploymentContracts__And_RemoveOrphansWithOrm() {
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWithOrm() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
