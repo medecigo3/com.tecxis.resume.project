@@ -192,11 +192,11 @@ public class JpaCityDaoTest {
 		setCityLocationsInJpa( setCityLocations->{
 			london.setLocations(newLocations);
 			assertEquals(3, london.getLocations().size());
-			entityManager.merge(london);
-			entityManager.flush();
-			entityManager.clear();
+			cityRepo.save(london);
+			cityRepo.flush();			
 		}, cityRepo, jdbcTemplateProxy);
 		
+		entityManager.clear();
 		/**Validate new City*/
 		City newLondon = cityRepo.getCityByName(LONDON);
 		assertEquals(SUCCESS, isCityValid(newLondon, LONDON, UNITED_KINGDOM, newLocations));
