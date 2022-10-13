@@ -929,7 +929,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Set_SupplyContracts_WithOrmOrphanRemove() {	
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphanWithOrm() {	
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1111,7 +1111,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm() {
+	public void test_OneToMany_Remove_SupplyContracts_And_RemoveOrphansWithOrm() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
