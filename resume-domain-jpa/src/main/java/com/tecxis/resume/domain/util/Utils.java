@@ -1,5 +1,6 @@
 package com.tecxis.resume.domain.util;
 
+
 import static com.tecxis.resume.domain.util.function.AgreementValidator.isServiceValid;
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
 import static com.tecxis.resume.domain.util.function.ClientValidator.areContractsValid;
@@ -110,10 +111,12 @@ import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
 import com.tecxis.resume.domain.util.function.SetContractClientFunction;
+import com.tecxis.resume.domain.util.function.SetLocationFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.SupplyContractValidator;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
+import com.tecxis.resume.domain.util.function.SetNullLocationFunction;
 
 public class Utils {
 
@@ -942,5 +945,33 @@ public class Utils {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
 		deleteLocationFunction.accept(locationRepo);
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	}
+
+	public static void updateParisLocationInJpa(SetLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(entityManager);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateParisLocationInJpa(SetLocationFunction <LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(locationRepo);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateParisLocationAndRemoveOphansInJpa(SetNullLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(entityManager);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateParisLocationAndRemoveOphansInJpa(SetNullLocationFunction <LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(locationRepo);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
 	}
 }

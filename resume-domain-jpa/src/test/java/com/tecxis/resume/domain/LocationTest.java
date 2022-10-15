@@ -29,7 +29,7 @@ import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.updateLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -247,7 +247,7 @@ public class LocationTest {
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
-		updateLocationInJpa( setLocationFunction -> {				
+		updateParisLocationInJpa( setLocationFunction -> {				
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));
 				entityManager.merge(morningstartV1ProjectLocation);				

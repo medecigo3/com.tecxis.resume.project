@@ -128,9 +128,14 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 				.orElse(null));
 	}
 	
+	/**
+	 * @param locations orphans removed when set to null. 
+	 * */
 	public void setLocations(List<Location> locations) {
 			this.locations.clear();
-			this.locations.addAll(locations);
+			if (locations != null) {
+				this.locations.addAll(locations);
+			}
 	}
 
 	public List<Location> getLocations() {
