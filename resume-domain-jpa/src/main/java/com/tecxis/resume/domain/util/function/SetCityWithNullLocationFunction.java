@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.tecxis.resume.domain.SchemaUtils;
 import com.vladmihalcea.book.hpjp.util.transaction.JPATransactionVoidFunction;
 
-public interface SetNullLocationFunction <K> extends JPATransactionVoidFunction<K> {
+public interface SetCityWithNullLocationFunction <K> extends JPATransactionVoidFunction<K> {
 	
 	default void beforeTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
