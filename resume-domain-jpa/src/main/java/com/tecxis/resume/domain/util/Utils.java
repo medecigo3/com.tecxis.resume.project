@@ -110,13 +110,14 @@ import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
+import com.tecxis.resume.domain.util.function.SetArvalContractAgreementsFunction;
 import com.tecxis.resume.domain.util.function.SetContractClientFunction;
 import com.tecxis.resume.domain.util.function.SetLocationFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
+import com.tecxis.resume.domain.util.function.SetCityWithNullLocationFunction;
 import com.tecxis.resume.domain.util.function.SupplyContractValidator;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
-import com.tecxis.resume.domain.util.function.SetNullLocationFunction;
 
 public class Utils {
 
@@ -954,6 +955,13 @@ public class Utils {
 		
 	}
 	
+	public static void updateParisLocationInJpa(SetLocationFunction <CityRepository> deleteLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
+		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		deleteLocationFunction.accept(cityRepo);
+		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
 	public static void updateParisLocationInJpa(SetLocationFunction <LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
 		deleteLocationFunction.accept(locationRepo);
@@ -961,17 +969,45 @@ public class Utils {
 		
 	}
 	
-	public static void updateParisLocationAndRemoveOphansInJpa(SetNullLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void updateParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
 		deleteLocationFunction.accept(entityManager);
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateParisLocationAndRemoveOphansInJpa(SetNullLocationFunction <LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+	public static void updateParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <CityRepository> deleteLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(locationRepo);
+		deleteLocationFunction.accept(cityRepo);
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+
+	public static void updateArvalContractAgreements(SetArvalContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementFunction.accept(entityManager);
+		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateArvalContractAgreements(SetArvalContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementFunction.accept(contractRepo);
+		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetArvalContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementFunction.accept(entityManager);
+		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetArvalContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementFunction.accept(contractRepo);
+		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 }
