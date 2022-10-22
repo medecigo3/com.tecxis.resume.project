@@ -12,7 +12,6 @@ import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
 import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
-import static com.tecxis.resume.domain.util.Utils.setContractAgreementInJpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -82,7 +81,7 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		setContractAgreementInJpa(setContractAgreementFunction-> {
+		Utils.updateAgreementServiceInJpa(updateAgreementService-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId()); // set new service id
@@ -124,7 +123,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		setContractAgreementInJpa(setContractAgreementFunction-> {
+		Utils.updateAgreementContractInJpa(UpdateAgreementContractFunction-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
