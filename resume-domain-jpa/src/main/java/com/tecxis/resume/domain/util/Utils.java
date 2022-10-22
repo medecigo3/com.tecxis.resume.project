@@ -109,8 +109,8 @@ import com.tecxis.resume.domain.util.function.ProjectValidator;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
-import com.tecxis.resume.domain.util.function.SetContractAgreementFunction;
-import com.tecxis.resume.domain.util.function.SetArvalContractAgreementsFunction;
+import com.tecxis.resume.domain.util.function.SetContractAgreementsWithNullFunction;
+import com.tecxis.resume.domain.util.function.SetContractAgreementsFunction;
 import com.tecxis.resume.domain.util.function.SetContractClientFunction;
 import com.tecxis.resume.domain.util.function.SetLocationFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
@@ -653,14 +653,14 @@ public class Utils {
 		enrolmentRepo.flush();
 	}
 
-	public static void setContractAgreementInJpa(SetContractAgreementFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void setContractAgreementInJpa(SetContractAgreementsFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(entityManager);
 		function.afterTransactionCompletion(jdbcTemplate);
 	
 	}
 	
-	public static void setContractAgreementInJpa(SetContractAgreementFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
+	public static void setContractAgreementInJpa(SetContractAgreementsFunction <AgreementRepository> function, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
 		function.beforeTransactionCompletion(jdbcTemplate);
 		function.accept(repository);
 		function.afterTransactionCompletion(jdbcTemplate);
@@ -983,28 +983,28 @@ public class Utils {
 		
 	}
 
-	public static void updateArvalContractAgreements(SetArvalContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void updateArvalContractAgreements(SetContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(entityManager);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateArvalContractAgreements(SetArvalContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void updateArvalContractAgreements(SetContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(contractRepo);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetArvalContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(entityManager);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetArvalContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(contractRepo);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
