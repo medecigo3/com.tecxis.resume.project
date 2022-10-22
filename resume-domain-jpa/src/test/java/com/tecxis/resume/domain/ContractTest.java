@@ -32,6 +32,8 @@ import static com.tecxis.resume.domain.util.Utils.isClientValid;
 import static com.tecxis.resume.domain.util.Utils.isContractValid;
 import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
 import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
+import static com.tecxis.resume.domain.util.Utils.updateArvalContractAgreementsInJpa;
+import static com.tecxis.resume.domain.util.Utils.updateArvalContractAgreementsAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -523,7 +525,7 @@ public class ContractTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm() {
 		/**Find a Contract*/		
-		Contract arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
+		final Contract arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		
 		/**Validate contract to test*/
 		Client arval= clientRepo.getClientByName(ARVAL);
@@ -560,25 +562,25 @@ public class ContractTest {
 		/**Build new Agreements*/		
 		Agreement alternaMuleAgreement = new Agreement(arvalContract, muleService);
 		Agreement alternaScmAgreement = new Agreement(arvalContract, scmService);
-		List <Agreement> newAgreements = List.of(alternaMuleAgreement, alternaScmAgreement);
+		List <Agreement> newAgreements = List.of(alternaMuleAgreement, alternaScmAgreement);		
 			
-		
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Set Agreements*/	
-		/**This sets new Arval's Agreements and leaves orphans */
-		arvalContract.setAgreements(newAgreements);			
-		assertEquals(2, arvalContract.getAgreements().size());
-		entityManager.merge(arvalContract);
-		entityManager.flush();
-		entityManager.clear();
-		SchemaUtils.testStateAfterArvalContractUpdateAgreements(jdbcTemplateProxy);
+		/**This sets new Arval's Agreements and leaves orphans */ 
+		updateArvalContractAgreementsInJpa( SetContractAgreementsFunction -> {
+			arvalContract.setAgreements(newAgreements);			
+			entityManager.merge(arvalContract);
+			entityManager.flush();
+			entityManager.clear();
+		},
+		entityManager, jdbcTemplateProxy);		
+		
 		
 		/**Validate test*/			
-		arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
-		assertEquals(2, arvalContract.getAgreements().size());
+		Contract newArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
+		assertEquals(2, newArvalContract.getAgreements().size());
 		
-		Agreement alternaAgreement1 = arvalContract.getAgreements().get(0);
-		Agreement alternaAgreement2 = arvalContract.getAgreements().get(1);
+		Agreement alternaAgreement1 = newArvalContract.getAgreements().get(0);
+		Agreement alternaAgreement2 = newArvalContract.getAgreements().get(1);
 		
 		/**Prepare & test that SupplyContracts have same dates*/
 		List <SupplyContract> alternaSupplyContracts1 = alternaAgreement1.getContract().getSupplyContracts();
@@ -607,21 +609,64 @@ public class ContractTest {
 		/**Test mule Service has all contracts*/
 		assertEquals(2, muleService.getAgreements().size());				
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);		
-		assertThat(muleService.getAgreements().get(0).getContract(), Matchers.oneOf(arvalContract,  micropoleContract));
-		assertThat(muleService.getAgreements().get(1).getContract(), Matchers.oneOf(arvalContract,  micropoleContract));		
+		assertThat(muleService.getAgreements().get(0).getContract(), Matchers.oneOf(newArvalContract,  micropoleContract));
+		assertThat(muleService.getAgreements().get(1).getContract(), Matchers.oneOf(newArvalContract,  micropoleContract));		
 		/**Now test scm Service */
 		assertEquals(2, scmService.getAgreements().size());
 		Contract barclaysContract =  contractRepo.getContractByName(CONTRACT1_NAME);	
 		assertNotNull(barclaysContract);
 		/**Retreive 2nd scm Contract & test*/		
-		assertThat(scmService.getAgreements().get(0).getContract(), Matchers.oneOf(arvalContract, barclaysContract));
-		assertThat(scmService.getAgreements().get(1).getContract(), Matchers.oneOf(arvalContract,  barclaysContract));
+		assertThat(scmService.getAgreements().get(0).getContract(), Matchers.oneOf(newArvalContract, barclaysContract));
+		assertThat(scmService.getAgreements().get(1).getContract(), Matchers.oneOf(newArvalContract,  barclaysContract));
 				
 	}
 	
 	@Test
 	public void test_OneToMany_Update_Agreements_And_RemoveOrphansWithOrm_NullSet() {
-		//TODO
+		/**Find a Contract*/		
+		final Contract arvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
+		
+		/**Validate contract to test*/
+		Client arval= clientRepo.getClientByName(ARVAL);
+		assertEquals(arval, arvalContract.getClient());		
+		
+		
+		/*** Validate Contract -> SupplyContract */
+		List <SupplyContract> alternaArvalContracts = arvalContract.getSupplyContracts();
+		assertEquals(1, alternaArvalContracts.size());			
+		SupplyContract alternaArvalSupplyContract =  alternaArvalContracts.get(0);
+		assertEquals(CONTRACT11_STARTDATE, alternaArvalSupplyContract.getStartDate());
+		assertEquals(CONTRACT11_ENDDATE, alternaArvalSupplyContract.getEndDate());
+		Supplier alterna = supplierRepo.getSupplierByName(ALTERNA);
+		assertEquals(alterna, alternaArvalSupplyContract.getSupplier());
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		assertEquals(amt, alternaArvalSupplyContract.getStaff());
+		
+		
+           
+		/**Find & validate Services to test */		
+		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
+		Service scmService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER); 
+		assertEquals(MULE_ESB_CONSULTANT, muleService.getName());
+		assertEquals(SCM_ASSOCIATE_DEVELOPPER, scmService.getName());
+		
+		/***Validate the state of the current Agreements*/		
+		assertEquals(1, arvalContract.getAgreements().size());
+		Agreement  alternaArvalAgreement = arvalContract.getAgreements().get(0);
+		assertEquals(arvalContract, alternaArvalAgreement.getContract());
+		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
+		/**Validate opposite associations - Arval Contract has BW Service*/
+		assertEquals(bwService, alternaArvalAgreement.getService());
+				
+		/**Set Agreements*/	
+		/**This sets new Arval's Agreements and leaves orphans */ 
+		updateArvalContractAgreementsAndRemoveOphansInJpa( SetContractAgreementsWithNullFunction -> {
+			arvalContract.setAgreements(null);					
+			entityManager.merge(arvalContract);
+			entityManager.flush();
+			entityManager.clear();
+		},
+		entityManager, jdbcTemplateProxy);	
 	}
 	
 	@Test
