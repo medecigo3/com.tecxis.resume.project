@@ -935,10 +935,9 @@ public class ProjectTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_RemoveLocation_by_City() {
-		//See example in City.test_OneToMany_RemoveLocation_by_Project
 		/**Find and validate Project to test*/
-		Project morningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		assertNotNull(morningstarV1);
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertNotNull(morningstartV1Project);
 		/**Fetch target Project -> locations*/
 		ProjectId morningstarv1ProjectId = new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID);		
 		/**Fetch target Project -> assignments*/
@@ -989,14 +988,14 @@ public class ProjectTest {
 		/**Fetch target Project -> client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		/**Validate target project before test*/
-		assertEquals(SUCCESS, Utils.isProjectValid(morningstarV1,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
+		assertEquals(SUCCESS, Utils.isProjectValid(morningstartV1Project,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
 		
 		/**Remove Project location by city*/	
 		removeParisMorningstarV1AxeltisLocationInJpa(deleteLocationFuntion -> {			
-			assertTrue(paris.removeLocation(morningstarV1));
-			assertTrue(morningstarV1.removeLocation(paris));		
+			assertTrue(paris.removeLocation(morningstartV1Project));
+			assertTrue(morningstartV1Project.removeLocation(paris));		
 			SchemaUtils.testInitialState(jdbcTemplateProxy);
-			entityManager.merge(morningstarV1);
+			entityManager.merge(morningstartV1Project);
 			entityManager.merge(paris);
 			entityManager.flush();
 			entityManager.clear();
