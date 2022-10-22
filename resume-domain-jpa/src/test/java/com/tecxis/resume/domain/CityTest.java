@@ -47,13 +47,13 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.deleteCityInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
 import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
 import static com.tecxis.resume.domain.util.Utils.updateParisLocationAndRemoveOphansInJpa;
+import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -96,7 +96,6 @@ import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.function.SetCityWithNullLocationFunction;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
