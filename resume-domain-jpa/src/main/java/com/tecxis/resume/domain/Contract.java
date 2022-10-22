@@ -134,9 +134,13 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 		return agreements;
 	}
 
+	/**
+	 * @param agreements orphans removed when set to null. 
+	 * */
 	public void setAgreements(List<Agreement> agreements) {
 		this.agreements.clear();
-		this.agreements.addAll(agreements);		
+		if (agreements != null)
+			this.agreements.addAll(agreements);
 	}
 
 	public List<SupplyContract> getSupplyContracts() {
@@ -145,7 +149,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	
 	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
 		this.supplyContracts.clear();
-		this.supplyContracts.addAll(supplyContracts);
+		this.supplyContracts.addAll(supplyContracts);//TODO add null check
 	}
 	
 	@Override
