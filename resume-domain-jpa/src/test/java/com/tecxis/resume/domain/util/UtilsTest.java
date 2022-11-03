@@ -669,7 +669,7 @@ public class UtilsTest {
 		/**Test init state tables*/
 		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
-		Utils.removeTask(task12, entityManager);
+		Utils.deleteTask(task12, entityManager);
 		/**Validate table state post-test*/
 		SchemaUtils.testStateAfterTask12Delete(jdbcTemplateProxy);	
 	}
@@ -682,7 +682,7 @@ public class UtilsTest {
 		/**Test init state tables*/
 		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
-		Utils.removeTask(task12, taskRepo);		
+		Utils.deleteTask(task12, taskRepo);		
 		/**Validate table state post-test*/
 		SchemaUtils.testStateAfterTask12Delete(jdbcTemplateProxy);		
 	}
@@ -696,7 +696,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
-		Utils.removeCity(london, entityManager);
+		Utils.deleteCity(london, entityManager);
 		/**Test post state tables*/
 		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplateProxy);
 	}
@@ -710,7 +710,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find City to remove*/
 		City london = cityRepo.getCityByName(LONDON);
-		Utils.removeCity(london, cityRepo);
+		Utils.deleteCity(london, cityRepo);
 		/**Test post state tables*/
 		SchemaUtils.testStateAfterLondonCityDelete(jdbcTemplateProxy);
 
@@ -726,7 +726,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		Utils.removeClient(axeltis, entityManager);
+		Utils.deleteClient(axeltis, entityManager);
 		/**Test Post state*/
 		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);
 		
@@ -741,7 +741,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);		
 		/**Find a Client to remove*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
-		Utils.removeClient(axeltis, clientRepo);		
+		Utils.deleteClient(axeltis, clientRepo);		
 		/**Test Post state*/
 		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);
 	}
@@ -764,7 +764,7 @@ public class UtilsTest {
 		/**Find Service*/
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
-		Utils.removeAgreement(axeltisFastConnectAgreement, entityManager);
+		Utils.deleteAgreement(axeltisFastConnectAgreement, entityManager);
 		/**Test post state*/
 		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 	}
@@ -787,7 +787,7 @@ public class UtilsTest {
 		/**Find Service*/
 		Service tibcoCons = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		Agreement axeltisFastconnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();
-		Utils.removeAgreement(axeltisFastconnectAgreement, agreementRepo);
+		Utils.deleteAgreement(axeltisFastconnectAgreement, agreementRepo);
 		/**Test post state*/
 		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
 	}
@@ -801,7 +801,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find and validate Contract to test*/
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
-		Utils.removeContract(fastconnectMicropoleContract, entityManager);
+		Utils.deleteContract(fastconnectMicropoleContract, entityManager);
 		/**Test post state*/
 		SchemaUtils.testStateAfterContract5Delete(jdbcTemplateProxy);
 	}
@@ -814,7 +814,7 @@ public class UtilsTest {
 		/**Test init state*/
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Contract fastconnectMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
-		Utils.removeContract(fastconnectMicropoleContract, contractRepo);
+		Utils.deleteContract(fastconnectMicropoleContract, contractRepo);
 		/**Test post state*/
 		SchemaUtils.testStateAfterContract5Delete(jdbcTemplateProxy);
 	
@@ -830,7 +830,7 @@ public class UtilsTest {
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
-		Utils.removeCourse(courses.get(0), entityManager);
+		Utils.deleteCourse(courses.get(0), entityManager);
 		/**Test post state*/
 		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);
 	}
@@ -845,7 +845,7 @@ public class UtilsTest {
 		/**Find course to remove*/
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		/**Remove course*/
-		Utils.removeCourse(courses.get(0), courseRepo);
+		Utils.deleteCourse(courses.get(0), courseRepo);
 		/**Test post state*/
 		SchemaUtils.testStateAfterBw6CourseDelete(jdbcTemplateProxy);
 	}
@@ -864,7 +864,7 @@ public class UtilsTest {
 		/** Detaches child references from target parent entity.*/
 		franceCities.forEach(city -> {
 			/**Remove stale City*/
-			Utils.removeCity(city, entityManager); //Probably not the best approach here to delete, then insert new city. //TODO try generate SQL UPDATE City statement for instance with: city.setCountry(uk); uk.addCity(city)
+			Utils.deleteCity(city, entityManager); //Probably not the best approach here to delete, then insert new city. //TODO try generate SQL UPDATE City statement for instance with: city.setCountry(uk); uk.addCity(city)
 			/**Creates new City with new host Country */
 			City newCity = new City();
 			CityId id = newCity.getId();
@@ -883,7 +883,7 @@ public class UtilsTest {
 		france = countryRepo.getCountryByName(FRANCE);
 		/**Test target Country has no Country -> City associations*/
 		assertEquals(0, france.getCities().size());
-		Utils.removeCountry(france, entityManager);
+		Utils.deleteCountry(france, entityManager);
 		/***Test post state after Country delete*/ 
 		SchemaUtils.testStateAfterFranceDelete(jdbcTemplateProxy);
 	}
@@ -902,7 +902,7 @@ public class UtilsTest {
 		/** Detaches child references from the target parent entity.*/
 		franceCities.forEach(city -> {
 			/**Remove stale City*/
-			Utils.removeCity(city, cityRepo); //Probably not the best approach to delete, then insert new city. //TODO try generate SQL UPDATE City statement for instance with: city.setCountry(uk); uk.addCity(city)  or see testRemoveStaff() example
+			Utils.deleteCity(city, cityRepo); //Probably not the best approach to delete, then insert new city. //TODO try generate SQL UPDATE City statement for instance with: city.setCountry(uk); uk.addCity(city)  or see testRemoveStaff() example
 			/**Creates new City with new host Country */
 			City newCity = new City();
 			CityId id = newCity.getId();
@@ -921,7 +921,7 @@ public class UtilsTest {
 		france = countryRepo.getCountryByName(FRANCE);
 		/**Test target Country has no Country -> City associations*/
 		assertEquals(0, france.getCities().size());
-		Utils.removeCountry(france, countryRepo);
+		Utils.deleteCountry(france, countryRepo);
 		/***Test post state after Country delete*/ 
 		SchemaUtils.testStateAfterFranceDelete(jdbcTemplateProxy);
 
@@ -940,7 +940,7 @@ public class UtilsTest {
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
-		Utils.removeEmploymentContract(johnAlhpatressEmploymentContract, entityManager);
+		Utils.deleteEmploymentContract(johnAlhpatressEmploymentContract, entityManager);
 		/**Test post state*/
 		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
 
@@ -958,7 +958,7 @@ public class UtilsTest {
 		List <EmploymentContract> johnAlhpatressEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(john, alphatress);
 		assertEquals(1, johnAlhpatressEmploymentContracts.size());
 		EmploymentContract johnAlhpatressEmploymentContract = johnAlhpatressEmploymentContracts.get(0);
-		Utils.removeEmploymentContract(johnAlhpatressEmploymentContract, employmentContractRepo);
+		Utils.deleteEmploymentContract(johnAlhpatressEmploymentContract, employmentContractRepo);
 		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
 	}
 	
@@ -969,7 +969,7 @@ public class UtilsTest {
 	public void testDeleteInterest() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
-		Utils.removeInterest(hobby, entityManager);	
+		Utils.deleteInterest(hobby, entityManager);	
 		SchemaUtils.testStateAfterHobbyDelete(jdbcTemplateProxy);
 	}
 	
@@ -980,7 +980,7 @@ public class UtilsTest {
 	public void testDeleteInterest_WithSpringJpaRepo() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Interest hobby = interestRepo.getInterestByDesc(HOBBY);	
-		Utils.removeInterest(hobby, interestRepo);	
+		Utils.deleteInterest(hobby, interestRepo);	
 		SchemaUtils.testStateAfterHobbyDelete(jdbcTemplateProxy);
 	}
 	
@@ -1003,7 +1003,7 @@ public class UtilsTest {
 		paris = cityRepo.getCityByName(PARIS);
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		/**Remove location*/
-		Utils.removeLocation(morningstartV1ProjectLocation, entityManager);
+		Utils.deleteLocation(morningstartV1ProjectLocation, entityManager);
 		/**Test post state after delete Location*/
 		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
 
@@ -1028,7 +1028,7 @@ public class UtilsTest {
 		paris = cityRepo.getCityByName(PARIS);
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		/**Remove location*/
-		Utils.removeLocation(morningstartV1ProjectLocation, locationRepo);
+		Utils.deleteLocation(morningstartV1ProjectLocation, locationRepo);
 		/**Test post state after delete Location*/
 		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
 
@@ -1043,7 +1043,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		Utils.removeProject(morningstartV1Project, entityManager);
+		Utils.deleteProject(morningstartV1Project, entityManager);
 		/**Test post state after Project*/
 		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplateProxy);
 	}
@@ -1059,7 +1059,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find a Project to remove*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		Utils.removeProject(morningstartV1Project, projectRepo);
+		Utils.deleteProject(morningstartV1Project, projectRepo);
 		/**Test post state after Project*/
 		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplateProxy);
 	}
@@ -1071,7 +1071,7 @@ public class UtilsTest {
 	public void testDeleteService() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
-		Utils.removeService(bwService, entityManager);
+		Utils.deleteService(bwService, entityManager);
 		SchemaUtils.testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplateProxy);
 	}
 	
@@ -1082,7 +1082,7 @@ public class UtilsTest {
 	public void testDeleteService_WithSpringJpaRepo() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Service bwService = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);		
-		Utils.removeService(bwService, serviceRepo);
+		Utils.deleteService(bwService, serviceRepo);
 		SchemaUtils.testStateAfterTibcoBwConsultantServiceDelete(jdbcTemplateProxy);
 	}
 	
@@ -1094,7 +1094,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
-		Utils.removeSkill(tibco, entityManager);
+		Utils.deleteSkill(tibco, entityManager);
 		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 	}
 	
@@ -1106,7 +1106,7 @@ public class UtilsTest {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		/**Find target Skill*/
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
-		Utils.removeSkill(tibco, skillRepo);
+		Utils.deleteSkill(tibco, skillRepo);
 		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
 	}
 	
@@ -1123,7 +1123,7 @@ public class UtilsTest {
 		Task task14 = taskRepo.getTaskByDesc(TASK14);		
 		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());
 		Assignment amtParcoursAssignment14 = assignmentRepo.findById(id).get();
-		Utils.removeAssignment(amtParcoursAssignment14, entityManager);
+		Utils.deleteAssignment(amtParcoursAssignment14, entityManager);
 		/**Test post state after Assignment*/
 		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);
 	}
@@ -1141,7 +1141,7 @@ public class UtilsTest {
 		Task task14 = taskRepo.getTaskByDesc(TASK14);		
 		AssignmentId id = new AssignmentId(parcours.getId(), amt.getId(), task14.getId());
 		Assignment amtParcoursAssignment14 = assignmentRepo.findById(id).get();
-		Utils.removeAssignment(amtParcoursAssignment14, assignmentRepo);
+		Utils.deleteAssignment(amtParcoursAssignment14, assignmentRepo);
 		/**Test post state after Assignment*/
 		SchemaUtils.testStateAfterAmtParcoursAssignment14AssignmentDelete(jdbcTemplateProxy);
 	}
@@ -1156,7 +1156,7 @@ public class UtilsTest {
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
-		Utils.removeStaffSkill(amtTibco, entityManager);
+		Utils.deleteStaffSkill(amtTibco, entityManager);
 		SchemaUtils.testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplateProxy);
 	}
 	
@@ -1170,7 +1170,7 @@ public class UtilsTest {
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		Skill tibco = skillRepo.getSkillByName(TIBCO);
 		StaffSkill amtTibco = staffSkillRepo.findById(new StaffSkillId(amt.getId(), tibco.getId())).get();
-		Utils.removeStaffSkill(amtTibco, staffSkillRepo);
+		Utils.deleteStaffSkill(amtTibco, staffSkillRepo);
 		SchemaUtils.testStateAfterAmtTibcoStaffSkillDelete(jdbcTemplateProxy);
 		
 	}
@@ -1182,7 +1182,7 @@ public class UtilsTest {
 	public void testDeleteStaff() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		Utils.removeStaff(john, entityManager);		
+		Utils.deleteStaff(john, entityManager);		
 		SchemaUtils.testStateAfterJohnStaffDelete(jdbcTemplateProxy);
 	}
 	
@@ -1193,7 +1193,7 @@ public class UtilsTest {
 	public void testDeleteStaff_WithSpringJpaRepo() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
-		Utils.removeStaff(john, staffRepo);		
+		Utils.deleteStaff(john, staffRepo);		
 		SchemaUtils.testStateAfterJohnStaffDelete(jdbcTemplateProxy);
 	}
 	
@@ -1204,7 +1204,7 @@ public class UtilsTest {
 	public void testDeleteSupplier() {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		Utils.removeSupplier(accenture, entityManager);	
+		Utils.deleteSupplier(accenture, entityManager);	
 		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplateProxy);
 	}
 	
@@ -1215,7 +1215,7 @@ public class UtilsTest {
 	public void testDeleteSupplier_WithSpringJpaRepo() {		
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		Utils.removeSupplier(accenture, supplierRepo);	
+		Utils.deleteSupplier(accenture, supplierRepo);	
 		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplateProxy);
 	}
 	
@@ -1230,7 +1230,7 @@ public class UtilsTest {
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
-		Utils.removeSupplyContract(fastconnectMicropoleSupplyContract, entityManager);
+		Utils.deleteSupplyContract(fastconnectMicropoleSupplyContract, entityManager);
 		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplateProxy);
 	}
 	
@@ -1245,7 +1245,7 @@ public class UtilsTest {
 		Contract micropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		SupplyContract fastconnectMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(micropoleContract, fastconnect, amt);
-		Utils.removeSupplyContract(fastconnectMicropoleSupplyContract, supplyContractRepo);
+		Utils.deleteSupplyContract(fastconnectMicropoleSupplyContract, supplyContractRepo);
 		SchemaUtils.testStateAfterFastconnectMicropoleSupplyContractDelete(jdbcTemplateProxy);
 	}
 	
@@ -1261,7 +1261,7 @@ public class UtilsTest {
 		Course bwCourse = courses.get(0);
 		/**Remove Enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
-		Utils.removeEnrolment(bwEnrolment, entityManager);
+		Utils.deleteEnrolment(bwEnrolment, entityManager);
 		SchemaUtils.testStateAfterBwEnrolmentDelete(jdbcTemplateProxy);
 	}
 	
@@ -1277,7 +1277,7 @@ public class UtilsTest {
 		Course bwCourse = courses.get(0);
 		/**Remove Enrolment*/
 		Enrolment bwEnrolment = enrolmentRepo.findById(new EnrolmentId(amt.getId(), bwCourse.getId())).get();
-		Utils.removeEnrolment(bwEnrolment, enrolmentRepo);
+		Utils.deleteEnrolment(bwEnrolment, enrolmentRepo);
 		SchemaUtils.testStateAfterBwEnrolmentDelete(jdbcTemplateProxy);
 	}
 	
