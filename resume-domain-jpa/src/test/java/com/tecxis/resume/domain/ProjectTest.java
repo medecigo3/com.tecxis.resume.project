@@ -80,7 +80,7 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Constants.VERSION_3;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.removeParisMorningstarV1AxeltisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.deleteParisMorningstarV1AxeltisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -934,7 +934,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation_by_City() {
+	public void test_OneToMany_DeleteLocation_by_City() {
 		/**Find and validate Project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstartV1Project);
@@ -991,7 +991,7 @@ public class ProjectTest {
 		assertEquals(SUCCESS, Utils.isProjectValid(morningstartV1Project,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
 		
 		/**Remove Project location by city*/	
-		removeParisMorningstarV1AxeltisLocationInJpa(deleteLocationFuntion -> {			
+		deleteParisMorningstarV1AxeltisLocationInJpa(deleteLocationFuntion -> {			
 			assertTrue(paris.removeLocation(morningstartV1Project));
 			assertTrue(morningstartV1Project.removeLocation(paris));		
 			SchemaUtils.testInitialState(jdbcTemplateProxy);
