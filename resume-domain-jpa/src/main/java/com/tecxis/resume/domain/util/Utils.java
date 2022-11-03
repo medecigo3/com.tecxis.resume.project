@@ -145,12 +145,12 @@ public class Utils {
 		return task;
 	}
 	
-	public static void removeTask(Task task, EntityManager entityManager) {		
+	public static void deleteTask(Task task, EntityManager entityManager) {		
 		entityManager.remove(task);
 		entityManager.flush();
 	}
 	
-	public static void removeTask(Task task, TaskRepository taskRepo) {
+	public static void deleteTask(Task task, TaskRepository taskRepo) {
 		taskRepo.delete(task);
 		taskRepo.flush();
 	}
@@ -174,12 +174,12 @@ public class Utils {
 		
 	}
 	
-	public static void removeCity(City city, EntityManager entityManager) {		
+	public static void deleteCity(City city, EntityManager entityManager) {		
 		entityManager.remove(city);
 		entityManager.flush();
 	}
 	
-	public static void removeCity(City city, CityRepository assignmentRepo) {
+	public static void deleteCity(City city, CityRepository assignmentRepo) {
 		assignmentRepo.delete(city);
 		assignmentRepo.flush();
 	}
@@ -205,12 +205,12 @@ public class Utils {
 		return client;		
 	}
 	
-	public static void removeClient(Client client, EntityManager entityManager) {		
+	public static void deleteClient(Client client, EntityManager entityManager) {		
 		entityManager.remove(client);
 		entityManager.flush();
 	}
 	
-	public static void removeClient(Client client, ClientRepository clientRepo) {
+	public static void deleteClient(Client client, ClientRepository clientRepo) {
 		clientRepo.delete(client);
 		clientRepo.flush();
 	}
@@ -232,12 +232,12 @@ public class Utils {
 		return new Agreement(contract, service);	
 	}
 	
-	public static void removeAgreement(Agreement agreement, EntityManager entityManager) {		
+	public static void deleteAgreement(Agreement agreement, EntityManager entityManager) {		
 		entityManager.remove(agreement);
 		entityManager.flush();
 	}
 	
-	public static void removeAgreement(Agreement agreement, AgreementRepository contractServiceAgreementRepo) {
+	public static void deleteAgreement(Agreement agreement, AgreementRepository contractServiceAgreementRepo) {
 		contractServiceAgreementRepo.delete(agreement);
 		contractServiceAgreementRepo.flush();
 	}
@@ -264,12 +264,12 @@ public class Utils {
 		return contract;
 	}
 	
-	public static void removeContract(Contract contract, EntityManager entityManager) {		
+	public static void deleteContract(Contract contract, EntityManager entityManager) {		
 		entityManager.remove(contract);
 		entityManager.flush();
 	}
 	
-	public static void removeContract(Contract contract, ContractRepository contractRepo) {
+	public static void deleteContract(Contract contract, ContractRepository contractRepo) {
 		contractRepo.delete(contract);
 		contractRepo.flush();
 	}
@@ -289,12 +289,12 @@ public class Utils {
 		return country;
 	}
 	
-	public static void removeCountry(Country country, EntityManager entityManager) {		
+	public static void deleteCountry(Country country, EntityManager entityManager) {		
 		entityManager.remove(country);
 		entityManager.flush();
 	}
 	
-	public static void removeCountry(Country country, CountryRepository countryRepo) {
+	public static void deleteCountry(Country country, CountryRepository countryRepo) {
 		countryRepo.delete(country);
 		countryRepo.flush();
 	}
@@ -307,12 +307,12 @@ public class Utils {
 		return course;
 	}
 	
-	public static void removeCourse(Course course, EntityManager entityManager) {		
+	public static void deleteCourse(Course course, EntityManager entityManager) {		
 		entityManager.remove(course);
 		entityManager.flush();
 	}
 	
-	public static void removeCourse(Course course, CourseRepository courseRepo) {
+	public static void deleteCourse(Course course, CourseRepository courseRepo) {
 		courseRepo.delete(course);
 		courseRepo.flush();
 	}
@@ -341,12 +341,12 @@ public class Utils {
 		
 	}
 	
-	public static void removeEmploymentContract(EmploymentContract employmentContract, EntityManager entityManager) {		
+	public static void deleteEmploymentContract(EmploymentContract employmentContract, EntityManager entityManager) {		
 		entityManager.remove(employmentContract);
 		entityManager.flush();
 	}
 	
-	public static void removeEmploymentContract(EmploymentContract employmentContract, EmploymentContractRepository employmentContractRepo) {
+	public static void deleteEmploymentContract(EmploymentContract employmentContract, EmploymentContractRepository employmentContractRepo) {
 		employmentContractRepo.delete(employmentContract);
 		employmentContractRepo.flush();
 	}
@@ -366,12 +366,12 @@ public class Utils {
 		return interest;
 	}
 	
-	public static void removeInterest(Interest interest, EntityManager entityManager) {		
+	public static void deleteInterest(Interest interest, EntityManager entityManager) {		
 		entityManager.remove(interest);
 		entityManager.flush();
 	}
 	
-	public static void removeInterest(Interest interest, InterestRepository interestRepo) {
+	public static void deleteInterest(Interest interest, InterestRepository interestRepo) {
 		interestRepo.delete(interest);
 		interestRepo.flush();
 	}
@@ -395,12 +395,12 @@ public class Utils {
 				
 	}
 	
-	public static void removeLocation(Location location, EntityManager entityManager) {		
+	public static void deleteLocation(Location location, EntityManager entityManager) {		
 		entityManager.remove(location);
 		entityManager.flush();
 	}
 	
-	public static void removeLocation(Location location, LocationRepository locationRepo) {
+	public static void deleteLocation(Location location, LocationRepository locationRepo) {
 		locationRepo.delete(location);
 		locationRepo.flush();
 	}	
@@ -426,12 +426,12 @@ public class Utils {
 		return project;
 	}
 	
-	public static void removeProject(Project project, EntityManager entityManager) {		
+	public static void deleteProject(Project project, EntityManager entityManager) {		
 		entityManager.remove(project);
 		entityManager.flush();
 	}
 	
-	public static void removeProject(Project project, ProjectRepository projectRepo) {
+	public static void deleteProject(Project project, ProjectRepository projectRepo) {
 		projectRepo.delete(project);
 		projectRepo.flush();
 	}	
@@ -455,12 +455,12 @@ public class Utils {
 		return service;
 	}
 	
-	public static void removeService(Service service, EntityManager entityManager) {		
+	public static void deleteService(Service service, EntityManager entityManager) {		
 		entityManager.remove(service);
 		entityManager.flush();
 	}
 	
-	public static void removeService(Service service, ServiceRepository serviceRepo) {
+	public static void deleteService(Service service, ServiceRepository serviceRepo) {
 		serviceRepo.delete(service);
 		serviceRepo.flush();
 	}	
@@ -473,12 +473,12 @@ public class Utils {
 		return skill;
 	}
 	
-	public static void removeSkill(Skill skill, EntityManager entityManager) {		
+	public static void deleteSkill(Skill skill, EntityManager entityManager) {		
 		entityManager.remove(skill);
 		entityManager.flush();
 	}
 	
-	public static void removeSkill(Skill skill, SkillRepository skillRepo) {
+	public static void deleteSkill(Skill skill, SkillRepository skillRepo) {
 		skillRepo.delete(skill);
 		skillRepo.flush();
 	}	
@@ -509,12 +509,12 @@ public class Utils {
 		return new Assignment(project, staff, task);	
 	}
 	
-	public static void removeAssignment(Assignment assignment, EntityManager entityManager) {		
+	public static void deleteAssignment(Assignment assignment, EntityManager entityManager) {		
 		entityManager.remove(assignment);
 		entityManager.flush();
 	}
 	
-	public static void removeAssignment(Assignment assignment, AssignmentRepository assignmentRepo) {
+	public static void deleteAssignment(Assignment assignment, AssignmentRepository assignmentRepo) {
 		assignmentRepo.delete(assignment);
 		assignmentRepo.flush();
 	}	
@@ -534,12 +534,12 @@ public class Utils {
 		
 	}
 	
-	public static void removeStaffSkill(StaffSkill staffSkill, EntityManager entityManager) {		
+	public static void deleteStaffSkill(StaffSkill staffSkill, EntityManager entityManager) {		
 		entityManager.remove(staffSkill);
 		entityManager.flush();
 	}
 	
-	public static void removeStaffSkill(StaffSkill StaffSkill, StaffSkillRepository StaffSkillRepo) {
+	public static void deleteStaffSkill(StaffSkill StaffSkill, StaffSkillRepository StaffSkillRepo) {
 		StaffSkillRepo.delete(StaffSkill);
 		StaffSkillRepo.flush();
 	}
@@ -552,12 +552,12 @@ public class Utils {
 		
 	}
 	
-	public static void removeStaff(Staff staff, EntityManager entityManager) {		
+	public static void deleteStaff(Staff staff, EntityManager entityManager) {		
 		entityManager.remove(staff);
 		entityManager.flush();
 	}
 	
-	public static void removeStaff(Staff StaffSkill, StaffRepository StaffRepo) {
+	public static void deleteStaff(Staff StaffSkill, StaffRepository StaffRepo) {
 		StaffRepo.delete(StaffSkill);
 		StaffRepo.flush();
 	}
@@ -592,12 +592,12 @@ public class Utils {
 		return supplier;
 	}
 	
-	public static void removeSupplier(Supplier supplier, EntityManager entityManager) {		
+	public static void deleteSupplier(Supplier supplier, EntityManager entityManager) {		
 		entityManager.remove(supplier);
 		entityManager.flush();
 	}
 	
-	public static void removeSupplier(Supplier supplier, SupplierRepository supplierRepo) {
+	public static void deleteSupplier(Supplier supplier, SupplierRepository supplierRepo) {
 		supplierRepo.delete(supplier);
 		supplierRepo.flush();
 	}
@@ -621,12 +621,12 @@ public class Utils {
 		
 	}
 	
-	public static void removeSupplyContract(SupplyContract supplyContract, EntityManager entityManager) {		
+	public static void deleteSupplyContract(SupplyContract supplyContract, EntityManager entityManager) {		
 		entityManager.remove(supplyContract);
 		entityManager.flush();
 	}
 	
-	public static void removeSupplyContract(SupplyContract supplyContract, SupplyContractRepository supplierContractRepo) {
+	public static void deleteSupplyContract(SupplyContract supplyContract, SupplyContractRepository supplierContractRepo) {
 		supplierContractRepo.delete(supplyContract);
 		supplierContractRepo.flush();
 	}
@@ -644,12 +644,12 @@ public class Utils {
 		return enrolment;		
 	}
 	
-	public static void removeEnrolment(Enrolment enrolment, EntityManager entityManager) {		
+	public static void deleteEnrolment(Enrolment enrolment, EntityManager entityManager) {		
 		entityManager.remove(enrolment);
 		entityManager.flush();
 	}
 	
-	public static void removeEnrolment(Enrolment enrolment, EnrolmentRepository enrolmentRepo) {
+	public static void deleteEnrolment(Enrolment enrolment, EnrolmentRepository enrolmentRepo) {
 		enrolmentRepo.delete(enrolment);
 		enrolmentRepo.flush();
 	}
@@ -937,15 +937,15 @@ public class Utils {
 		return new City (cityId);
 	}
 	
-	public static void removeParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<EntityManager> deleteLocationFunction, EntityManager em, JdbcTemplate jdbcTemplate) {
+	public static void deleteParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<EntityManager> deleteLocationFunction, EntityManager em, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
 		deleteLocationFunction.accept(em);
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void removeParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+	public static void deleteParisMorningstarV1AxeltisLocationInJpa(DeleteLocationFunction<ProjectRepository> deleteLocationFunction, ProjectRepository projectRepo, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(locationRepo);
+		deleteLocationFunction.accept(projectRepo);
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 
