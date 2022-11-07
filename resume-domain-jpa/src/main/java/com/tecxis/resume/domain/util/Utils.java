@@ -117,7 +117,7 @@ import com.tecxis.resume.domain.util.function.SetLocationFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.SupplyContractValidator;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
-import com.tecxis.resume.domain.util.function.UpdateAgreementServiceFunction;
+import com.tecxis.resume.domain.util.function.SetAgreementServiceFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
 public class Utils {
@@ -1012,27 +1012,27 @@ public class Utils {
 		
 	}
 	
-	public static void updateAgreementServiceInJpa(UpdateAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void updateAgreementServiceInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
 		updateAgreementServiceFunction.accept(entityManager);
 		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void updateAgreementServiceInJpa(UpdateAgreementServiceFunction <AgreementRepository> updateAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
+	public static void updateAgreementServiceInJpa(SetAgreementServiceFunction <AgreementRepository> updateAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
 		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
 		updateAgreementServiceFunction.accept(agreementRepo);
 		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void updateAgreementContractInJpa(UpdateAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void updateAgreementContractInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
 		updateAgreementServiceFunction.accept(entityManager);
 		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void updateAgreementContractInJpa(UpdateAgreementServiceFunction <AgreementRepository> updateAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
-		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
-		updateAgreementServiceFunction.accept(agreementRepo);
-		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setAgreementContractInJpa(SetAgreementServiceFunction <AgreementRepository> setAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
+		setAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
+		setAgreementServiceFunction.accept(agreementRepo);
+		setAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 }
