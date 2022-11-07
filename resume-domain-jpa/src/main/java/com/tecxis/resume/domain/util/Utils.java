@@ -1024,7 +1024,7 @@ public class Utils {
 		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void updateAgreementContractInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void setAgreementContractInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
 		updateAgreementServiceFunction.accept(entityManager);
 		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
