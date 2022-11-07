@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.tecxis.resume.domain.SchemaUtils;
 import com.vladmihalcea.book.hpjp.util.transaction.JPATransactionVoidFunction;
 
-public interface UpdateAgreementServiceFunction <K> extends JPATransactionVoidFunction<K> {
+public interface SetAgreementServiceFunction <K> extends JPATransactionVoidFunction<K> {
 	
 	default void beforeTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
 		SchemaUtils.testInitialState(jdbcTemplateProxy);
