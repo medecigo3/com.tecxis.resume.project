@@ -40,7 +40,7 @@ import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.setBrusslesToFranceInJpa;
 import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setParisLocationAndRemoveOphansInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -364,7 +364,7 @@ public class JpaCityDaoTest {
 		
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
-		updateParisLocationInJpa( setLocationFunction -> {				
+		setParisLocationInJpa( setLocationFunction -> {				
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation)); //Update and remove 1 location 
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));				
 				entityManager.merge(morningstartV1Project);
