@@ -52,7 +52,7 @@ import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
 import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -608,7 +608,7 @@ public class CityTest {
 		
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
-		updateParisLocationInJpa( setLocationFunction -> {				
+		setParisLocationInJpa( setLocationFunction -> {				
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation)); //Update and remove 1 location 
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));				
 				entityManager.merge(morningstartV1Project);
