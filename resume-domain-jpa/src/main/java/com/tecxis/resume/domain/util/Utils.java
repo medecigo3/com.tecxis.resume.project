@@ -970,17 +970,17 @@ public class Utils {
 		
 	}
 	
-	public static void updateParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(entityManager);
-		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <EntityManager> setCityWithNullLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setCityWithNullLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		setCityWithNullLocationFunction.accept(entityManager);
+		setCityWithNullLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <CityRepository> deleteLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
-		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(cityRepo);
-		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setParisLocationAndRemoveOphansInJpa(SetCityWithNullLocationFunction <CityRepository> setCityWithNullLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
+		setCityWithNullLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		setCityWithNullLocationFunction.accept(cityRepo);
+		setCityWithNullLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 

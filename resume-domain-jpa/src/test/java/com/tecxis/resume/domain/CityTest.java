@@ -52,7 +52,6 @@ import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
 import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -665,7 +664,7 @@ public class CityTest {
 				parisAosv1ArvalLocation,
 				parisSeleniumV1HermesLocation );
 		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		updateParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
+		Utils.setParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
 				paris.setLocations(null);
 				entityManager.merge(paris);
 				entityManager.flush();
