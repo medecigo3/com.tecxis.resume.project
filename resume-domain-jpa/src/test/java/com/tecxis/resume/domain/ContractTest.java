@@ -31,9 +31,9 @@ import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED
 import static com.tecxis.resume.domain.util.Utils.isClientValid;
 import static com.tecxis.resume.domain.util.Utils.isContractValid;
 import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
+import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
 import static com.tecxis.resume.domain.util.Utils.updateArvalContractAgreementsInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateArvalContractAgreementsAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -660,7 +660,7 @@ public class ContractTest {
 				
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		updateArvalContractAgreementsAndRemoveOphansInJpa( SetContractAgreementsWithNullFunction -> {
+		setArvalContractAgreementsAndRemoveOphansInJpa( SetContractAgreementsWithNullFunction -> {
 			arvalContract.setAgreements(null);					
 			entityManager.merge(arvalContract);
 			entityManager.flush();
