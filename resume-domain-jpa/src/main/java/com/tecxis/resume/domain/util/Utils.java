@@ -949,24 +949,24 @@ public class Utils {
 		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 
-	public static void updateParisLocationInJpa(SetLocationFunction <EntityManager> deleteLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(entityManager);
-		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setParisLocationInJpa(SetLocationFunction <EntityManager> setLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		setLocationFunction.accept(entityManager);
+		setLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateParisLocationInJpa(SetLocationFunction <CityRepository> deleteLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
-		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(cityRepo);
-		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setParisLocationInJpa(SetLocationFunction <CityRepository> setLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
+		setLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		setLocationFunction.accept(cityRepo);
+		setLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateParisLocationInJpa(SetLocationFunction <LocationRepository> deleteLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
-		deleteLocationFunction.beforeTransactionCompletion(jdbcTemplate);
-		deleteLocationFunction.accept(locationRepo);
-		deleteLocationFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setParisLocationInJpa(SetLocationFunction <LocationRepository> setLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+		setLocationFunction.beforeTransactionCompletion(jdbcTemplate);
+		setLocationFunction.accept(locationRepo);
+		setLocationFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
