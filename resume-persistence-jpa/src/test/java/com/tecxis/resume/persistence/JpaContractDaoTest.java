@@ -26,7 +26,7 @@ import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
 import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsAndRemoveOphansInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateArvalContractAgreementsInJpa;
+import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsInJpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -318,7 +318,7 @@ public class JpaContractDaoTest {
 			
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		updateArvalContractAgreementsInJpa( SetContractAgreementsFunction -> {
+		setArvalContractAgreementsInJpa( SetContractAgreementsFunction -> {
 			arvalContract.setAgreements(newAgreements);			
 			assertEquals(2, arvalContract.getAgreements().size());
 			contractRepo.save(arvalContract);
