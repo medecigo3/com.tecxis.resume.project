@@ -998,17 +998,17 @@ public class Utils {
 		
 	}
 	
-	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
-		setContractAgreementFunction.accept(entityManager);
-		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<EntityManager> setContractAgreementsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setContractAgreementsWithNullFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementsWithNullFunction.accept(entityManager);
+		setContractAgreementsWithNullFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
-		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
-		setContractAgreementFunction.accept(contractRepo);
-		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setArvalContractAgreementsAndRemoveOphansInJpa(SetContractAgreementsWithNullFunction<ContractRepository> setContractAgreementsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		setContractAgreementsWithNullFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractAgreementsWithNullFunction.accept(contractRepo);
+		setContractAgreementsWithNullFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
