@@ -26,7 +26,7 @@ import static com.tecxis.resume.domain.Constants.PROJECT_PARCOURS_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -125,7 +125,7 @@ public class JpaLocationDaoTest {
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
-		updateParisLocationInJpa( setLocationFunction -> {
+		setParisLocationInJpa( setLocationFunction -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));		
 				SchemaUtils.testInitialState(jdbcTemplateProxy);
