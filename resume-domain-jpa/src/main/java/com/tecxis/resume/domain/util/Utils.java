@@ -984,14 +984,14 @@ public class Utils {
 		
 	}
 
-	public static void updateArvalContractAgreementsInJpa(SetContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void setArvalContractAgreementsInJpa(SetContractAgreementsFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(entityManager);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
 		
 	}
 	
-	public static void updateArvalContractAgreementsInJpa(SetContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void setArvalContractAgreementsInJpa(SetContractAgreementsFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractAgreementFunction.accept(contractRepo);
 		setContractAgreementFunction.afterTransactionCompletion(jdbcTemplate);
