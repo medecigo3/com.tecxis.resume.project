@@ -1012,16 +1012,16 @@ public class Utils {
 		
 	}
 	
-	public static void updateAgreementServiceInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
-		updateAgreementServiceFunction.accept(entityManager);
-		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setAgreementServiceInJpa(SetAgreementServiceFunction <EntityManager> setAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
+		setAgreementServiceFunction.accept(entityManager);
+		setAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
-	public static void updateAgreementServiceInJpa(SetAgreementServiceFunction <AgreementRepository> updateAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
-		updateAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
-		updateAgreementServiceFunction.accept(agreementRepo);
-		updateAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
+	public static void setAgreementServiceInJpa(SetAgreementServiceFunction <AgreementRepository> setAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
+		setAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
+		setAgreementServiceFunction.accept(agreementRepo);
+		setAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
 	}
 	
 	public static void setAgreementContractInJpa(SetAgreementServiceFunction <EntityManager> updateAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
