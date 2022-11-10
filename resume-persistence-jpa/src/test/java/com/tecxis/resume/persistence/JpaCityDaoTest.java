@@ -39,7 +39,7 @@ import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.setBrusslesToFranceInJpa;
 import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
-import static com.tecxis.resume.domain.util.Utils.updateParisLocationAndRemoveOphansInJpa;
+import static com.tecxis.resume.domain.util.Utils.setParisLocationAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.Utils.updateParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
@@ -82,7 +82,6 @@ import com.tecxis.resume.domain.repository.CountryRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
 import com.tecxis.resume.domain.util.Utils;
-import com.tecxis.resume.domain.util.function.SetCityWithNullLocationFunction;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -418,7 +417,7 @@ public class JpaCityDaoTest {
 				parisAosv1ArvalLocation,
 				parisSeleniumV1HermesLocation );
 		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		updateParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
+		setParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
 				paris.setLocations(null);
 				cityRepo.save(paris);
 				cityRepo.flush();				
