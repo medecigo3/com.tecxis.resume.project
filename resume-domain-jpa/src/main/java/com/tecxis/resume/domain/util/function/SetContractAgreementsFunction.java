@@ -12,6 +12,6 @@ public interface SetContractAgreementsFunction <K> extends JPATransactionVoidFun
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterArvalContractUpdateAgreements(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ArvalContract_Agreements_Update(jdbcTemplateProxy);
 	}
 }

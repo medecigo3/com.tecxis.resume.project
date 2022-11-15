@@ -15,7 +15,7 @@ public interface SetContractAgreementsWithNullFunction <K> extends JPATransactio
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterArvalContractUpdateAgreementsNull(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ArvalContract_Agreements_NullUpdate(jdbcTemplateProxy);
 	}
 
 }

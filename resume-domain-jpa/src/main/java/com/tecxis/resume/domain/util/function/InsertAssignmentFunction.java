@@ -12,6 +12,6 @@ public interface InsertAssignmentFunction <K> extends JPATransactionVoidFunction
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterAssignmentInsert(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_Assignment_Insert(jdbcTemplateProxy);
 	}
 }

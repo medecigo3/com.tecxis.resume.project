@@ -376,7 +376,7 @@ public class SupplierTest {
 		entityManager.merge(accenture);
 		entityManager.flush();
 		entityManager.clear();	
-		SchemaUtils.testStateAfterAccentureSupplierUpdateSupplyContracts(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AccentureSupplier_SupplyContracts_Update(jdbcTemplateProxy);
 		
 	
 	}
@@ -627,7 +627,7 @@ public class SupplierTest {
 		entityManager.merge(accenture);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterAccentureEmploymentContractUpdateEmploymentContract(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AccentureSupplier_EmploymentContracts_Update(jdbcTemplateProxy);
 	
 		/**Validate parent Supplier has new EmploymentContract(s)*/
 		john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
@@ -686,7 +686,7 @@ public class SupplierTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		SchemaUtils.testStateAfterAccentureSupplierDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AccentureSupplier_Delete(jdbcTemplateProxy);
 			
 		/**Test Suppliers*/
 		assertEquals(4, supplierRepo.findAll().size());
