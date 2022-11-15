@@ -199,7 +199,7 @@ public class EmploymentContractTest {
 		entityManager.remove(johnAlhpatressEmploymentContract);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterJohnAlhpatressEmploymentContractDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_JohnAlhpatressEmploymentContract_Delete(jdbcTemplateProxy);
 	}
 	
 	@Test

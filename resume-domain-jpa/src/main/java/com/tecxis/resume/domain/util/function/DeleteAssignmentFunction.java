@@ -13,7 +13,7 @@ public interface DeleteAssignmentFunction <K> extends JPATransactionVoidFunction
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterAssignmentDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_Assignment_Delete(jdbcTemplateProxy);
 	}
 
 }
