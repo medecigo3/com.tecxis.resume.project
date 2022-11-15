@@ -12,7 +12,7 @@ public interface SetCityWithNullLocationFunction <K> extends JPATransactionVoidF
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterParisCityLocationsUpdateNull(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ParisCity_Locations_NullUpdate(jdbcTemplateProxy);
 	}
 
 }

@@ -11,7 +11,7 @@ public interface DeleteLocationFunction <K> extends JPATransactionVoidFunction<K
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterMorningStartV1ProjectRemoveLocationByCityParis(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_MorningstarV1Project_Location_Delete_ByParisCity(jdbcTemplateProxy);
 	}
 
 }
