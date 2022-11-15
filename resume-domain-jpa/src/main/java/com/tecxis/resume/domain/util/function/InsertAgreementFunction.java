@@ -13,7 +13,7 @@ public interface InsertAgreementFunction <K> extends JPATransactionVoidFunction<
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterAgreementInsert(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_Agreement_Insert(jdbcTemplateProxy);
 	}
 
 

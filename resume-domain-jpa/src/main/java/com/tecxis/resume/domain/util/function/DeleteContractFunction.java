@@ -12,6 +12,6 @@ public interface DeleteContractFunction <K> extends JPATransactionVoidFunction<K
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterSagemContractDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_SagemContract_Delete(jdbcTemplateProxy);
 	}
 }

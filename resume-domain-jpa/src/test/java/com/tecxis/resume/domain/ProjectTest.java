@@ -285,7 +285,7 @@ public class ProjectTest {
 		entityManager.merge(eh);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterUpdateMorningstartV1ProjectClientUpdate(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_MorningstarV1Project_Client_Update(jdbcTemplateProxy);
 		
 		
 		/**Validate project was updated */
@@ -1199,7 +1199,7 @@ public class ProjectTest {
 		entityManager.remove(morningstartV1Project);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterMorningstartV1ProjectDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_MorningstarV1Project_Delete(jdbcTemplateProxy);
 		
 		/**Test Project was removed*/
 		assertEquals(12, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
