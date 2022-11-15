@@ -419,7 +419,7 @@ public class CityTest {
 		entityManager.merge(manchester);
 		entityManager.merge(currentAdir);			
 		entityManager.flush();
-		SchemaUtils.testStateAfterManchesterCityDeleteAdirProject(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AdirProject_Locations_Delete(jdbcTemplateProxy);
 		
 		assertEquals(0, manchester.getLocations().size());
 		assertEquals(0, currentAdir.getLocations().size());
@@ -455,7 +455,7 @@ public class CityTest {
 		entityManager.merge(manchester);
 		entityManager.merge(eolis);			
 		entityManager.flush();
-		SchemaUtils.testStateAfterManchesterByUnrelatedProject(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_UnrelatedProject_Location_Delete(jdbcTemplateProxy);
 			
 	}
 	

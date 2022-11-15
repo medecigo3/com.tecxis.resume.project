@@ -12,7 +12,7 @@ public interface SetLocationFunction <K> extends JPATransactionVoidFunction<K> {
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_MorningstarV1Project_Locations_Delete(jdbcTemplateProxy);
 	}
 
 }
