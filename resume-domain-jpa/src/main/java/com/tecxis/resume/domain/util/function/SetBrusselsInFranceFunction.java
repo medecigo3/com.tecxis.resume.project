@@ -13,7 +13,7 @@ public interface SetBrusselsInFranceFunction <K> extends JPATransactionVoidFunct
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) { 
-		SchemaUtils.testStateAfterCityBrusslesUpdate(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_BrusslesCity_Update(jdbcTemplateProxy);
 	}
 
 }

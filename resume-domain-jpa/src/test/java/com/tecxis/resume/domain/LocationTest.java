@@ -156,7 +156,7 @@ public class LocationTest {
 		entityManager.clear();
 		
 		/**Test */		
-		SchemaUtils.testStateAfterMorningstartV1ProjectLocationDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_MorningstarV1Project_Locations_Delete(jdbcTemplateProxy);
 		
 	}
 	

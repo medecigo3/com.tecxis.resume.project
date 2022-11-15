@@ -303,7 +303,7 @@ public class ContractTest {
 		entityManager.merge(currentAmesysSagemContract);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfterAmesysSegemContractUpdateSupplyContract(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AmesysSagemContract_SupplyContracts_Update(jdbcTemplateProxy);
 		
 		/**Validate the new Contract*/		
 		currentAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
@@ -805,7 +805,7 @@ public class ContractTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		SchemaUtils.testStateAfterContract5Delete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_Contract_Delete(jdbcTemplateProxy);
 		
 	}
 	

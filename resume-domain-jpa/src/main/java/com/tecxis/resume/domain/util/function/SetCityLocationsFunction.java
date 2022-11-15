@@ -12,6 +12,6 @@ public interface SetCityLocationsFunction <K> extends JPATransactionVoidFunction
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterLondonCityLocationsUpdate(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_LondonCity_Locations_Update(jdbcTemplateProxy);
 	}
 }
