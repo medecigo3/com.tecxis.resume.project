@@ -9,12 +9,12 @@ import com.vladmihalcea.book.hpjp.util.transaction.JPATransactionFunction;
 public interface InsertClientFunction <K, T> extends JPATransactionFunction<K, T> {
 
 	default void beforeTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateBeforeClientInsert(jdbcTemplateProxy);
+		SchemaUtils.testStateBefore_Client_Insert(jdbcTemplateProxy);
 		
 	}
 
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterClientInsert(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_Client_Insert(jdbcTemplateProxy);
 	}
 	
 

@@ -13,7 +13,7 @@ public interface DeleteCityFunction <K> extends JPATransactionVoidFunction<K> {
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterCityLondonDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_LondonCity_Delete(jdbcTemplateProxy);
 	}
 
 }

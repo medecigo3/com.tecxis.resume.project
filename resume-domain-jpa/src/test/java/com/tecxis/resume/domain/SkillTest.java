@@ -117,7 +117,7 @@ public class SkillTest {
 		entityManager.remove(tibco);
 		entityManager.flush();		
 		/**Test Skill was removed*/
-		SchemaUtils.testStateAfterTibcoSkillDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_TibcoSkill_Delete(jdbcTemplateProxy);
 		
 	}
 	

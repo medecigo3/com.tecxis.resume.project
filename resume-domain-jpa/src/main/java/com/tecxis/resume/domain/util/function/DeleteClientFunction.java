@@ -12,7 +12,7 @@ public interface DeleteClientFunction <K> extends JPATransactionVoidFunction<K> 
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterAxeltisClientDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AxeltisClient_Delete(jdbcTemplateProxy);
 	}
 
 }

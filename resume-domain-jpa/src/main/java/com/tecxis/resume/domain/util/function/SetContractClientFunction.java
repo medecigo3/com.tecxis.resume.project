@@ -9,10 +9,10 @@ import com.vladmihalcea.book.hpjp.util.transaction.JPATransactionVoidFunction;
 public interface SetContractClientFunction <K> extends JPATransactionVoidFunction<K> {
 
 	default void beforeTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterSagemContractDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_SagemContract_Delete(jdbcTemplateProxy);
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {		 
-		SchemaUtils.testStateAfterSagemContractWithMicropoleClientUpdate(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_SagemContract_Client_Update(jdbcTemplateProxy);
 	}
 }

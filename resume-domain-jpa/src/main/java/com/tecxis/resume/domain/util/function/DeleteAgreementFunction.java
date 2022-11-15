@@ -13,7 +13,7 @@ public interface DeleteAgreementFunction <K> extends JPATransactionVoidFunction<
 	}
 	
 	default void afterTransactionCompletion(JdbcTemplate jdbcTemplateProxy) {
-		SchemaUtils.testStateAfterAxeltisFastconnectAgreementDelete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_AxeltisFastconnectAgreement_Delete(jdbcTemplateProxy);
 	}
 
 }
