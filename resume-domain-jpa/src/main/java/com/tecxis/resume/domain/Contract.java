@@ -135,7 +135,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	}
 
 	/**
-	 * @param agreements orphans removed when set to null. 
+	 * @param agreements orphans are removed when set to null. 
 	 * */
 	public void setAgreements(List<Agreement> agreements) {
 		this.agreements.clear();
