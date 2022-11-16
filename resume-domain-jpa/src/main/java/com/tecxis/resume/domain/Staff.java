@@ -266,7 +266,7 @@ public class Staff implements Serializable, Identifiable <Long>{
 	}
 	
 	/**
-	 * @param employmentContracts when set to null, orphans will be removed.
+	 * @param employmentContracts orphans are removed when set to null.
 	 * */
 	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {
 		this.getEmploymentContracts().clear();
