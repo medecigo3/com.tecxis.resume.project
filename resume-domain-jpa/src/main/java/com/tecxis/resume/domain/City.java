@@ -129,7 +129,7 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	}
 	
 	/**
-	 * @param locations orphans removed when set to null. 
+	 * @param locations orphans are removed when set to null. 
 	 * */
 	public void setLocations(List<Location> locations) {
 			this.locations.clear();
