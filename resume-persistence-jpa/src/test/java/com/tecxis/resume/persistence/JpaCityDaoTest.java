@@ -333,7 +333,6 @@ public class JpaCityDaoTest {
 	}
 	
 	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm() {
-		//TODO continue here 
 		/**Find Project */
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
@@ -389,7 +388,6 @@ public class JpaCityDaoTest {
 		
 	}
 	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm_NullSet() {
-		//TODO continue here 
 		/**Find Project */
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
