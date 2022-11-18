@@ -106,6 +106,7 @@ import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.InsertClientFunction;
 import com.tecxis.resume.domain.util.function.ProjectValidator;
+import com.tecxis.resume.domain.util.function.SetAgreementServiceFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
 import com.tecxis.resume.domain.util.function.SetBrusselsInFranceFunction;
 import com.tecxis.resume.domain.util.function.SetCityLocationsFunction;
@@ -113,11 +114,12 @@ import com.tecxis.resume.domain.util.function.SetCityWithNullLocationFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementsFunction;
 import com.tecxis.resume.domain.util.function.SetContractAgreementsWithNullFunction;
 import com.tecxis.resume.domain.util.function.SetContractClientFunction;
+import com.tecxis.resume.domain.util.function.SetContractSupplyContractsFunction;
+import com.tecxis.resume.domain.util.function.SetContractSupplyContractsWithNullFunction;
 import com.tecxis.resume.domain.util.function.SetLocationFunction;
 import com.tecxis.resume.domain.util.function.SetLondonInFranceFunction;
 import com.tecxis.resume.domain.util.function.SupplyContractValidator;
 import com.tecxis.resume.domain.util.function.UnDeleteAssignmentFunction;
-import com.tecxis.resume.domain.util.function.SetAgreementServiceFunction;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
 public class Utils {
@@ -1034,5 +1036,33 @@ public class Utils {
 		setAgreementServiceFunction.beforeTransactionCompletion(jdbcTemplate);
 		setAgreementServiceFunction.accept(agreementRepo);
 		setAgreementServiceFunction.afterTransactionCompletion(jdbcTemplate);
+	}
+
+	public static void setContractSupplyContractsInJpa(SetContractSupplyContractsFunction <EntityManager> setContractSupplyContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setContractSupplyContractsFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractSupplyContractsFunction.accept(entityManager);
+		setContractSupplyContractsFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void setContractSupplyContractsInJpa(SetContractSupplyContractsFunction <ContractRepository> setContractSupplyContractsFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		setContractSupplyContractsFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractSupplyContractsFunction.accept(contractRepo);
+		setContractSupplyContractsFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void setContractSupplyContractsAndRemoveOphansInJpa(SetContractSupplyContractsWithNullFunction <EntityManager> setContractSupplyContractsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractSupplyContractsWithNullFunction.accept(entityManager);
+		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void setContractSupplyContractsAndRemoveOphansInJpa(SetContractSupplyContractsWithNullFunction <ContractRepository> setContractSupplyContractsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(jdbcTemplate);
+		setContractSupplyContractsWithNullFunction.accept(contractRepo);
+		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(jdbcTemplate);
+		
 	}
 }
