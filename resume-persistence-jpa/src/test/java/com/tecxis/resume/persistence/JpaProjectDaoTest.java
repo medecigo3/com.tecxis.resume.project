@@ -2,6 +2,7 @@ package com.tecxis.resume.persistence;
 
 
 import static com.tecxis.resume.domain.Constants.ADIR;
+import static com.tecxis.resume.domain.Constants.AMT_NAME;
 import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BELFIUS;
@@ -18,6 +19,7 @@ import static com.tecxis.resume.domain.Constants.EOLIS;
 import static com.tecxis.resume.domain.Constants.EULER_HERMES;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.FRANCE_ID;
+import static com.tecxis.resume.domain.Constants.MANCHESTER_ID;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.PARIS_ID;
@@ -33,6 +35,8 @@ import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
 import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SHERPA;
 import static com.tecxis.resume.domain.Constants.STAFF_AMT_ID;
+import static com.tecxis.resume.domain.Constants.TASK1;
+import static com.tecxis.resume.domain.Constants.TASK2;
 import static com.tecxis.resume.domain.Constants.TASK22_ID;
 import static com.tecxis.resume.domain.Constants.TASK23_ID;
 import static com.tecxis.resume.domain.Constants.TASK24_ID;
@@ -41,12 +45,18 @@ import static com.tecxis.resume.domain.Constants.TASK26_ID;
 import static com.tecxis.resume.domain.Constants.TASK27_ID;
 import static com.tecxis.resume.domain.Constants.TASK28_ID;
 import static com.tecxis.resume.domain.Constants.TASK29_ID;
+import static com.tecxis.resume.domain.Constants.TASK3;
 import static com.tecxis.resume.domain.Constants.TASK30_ID;
 import static com.tecxis.resume.domain.Constants.TASK31_ID;
+import static com.tecxis.resume.domain.Constants.TASK4;
+import static com.tecxis.resume.domain.Constants.TASK5;
+import static com.tecxis.resume.domain.Constants.TASK6;
 import static com.tecxis.resume.domain.Constants.TED;
+import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.util.Utils.deleteParisMorningstarV1AxeltisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -83,6 +93,8 @@ import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
 import com.tecxis.resume.domain.SchemaConstants;
 import com.tecxis.resume.domain.SchemaUtils;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.LocationId;
@@ -92,6 +104,8 @@ import com.tecxis.resume.domain.repository.CityRepository;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.LocationRepository;
 import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
 import com.tecxis.resume.domain.util.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -125,6 +139,12 @@ public class JpaProjectDaoTest {
 	
 	@Autowired
 	private CityRepository cityRepo;
+	
+	@Autowired
+	private StaffRepository staffRepo;
+	
+	@Autowired
+	private TaskRepository taskRepo;
 
     @AfterClass
     public static void afterClass() {
@@ -147,22 +167,22 @@ public class JpaProjectDaoTest {
 	public void testSave() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		assertEquals(1, adirProject.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 			
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, null, entityManager);
 		assertEquals(2, sherpaProject.getId().getProjectId());
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 				
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, null, entityManager);
 		assertEquals(3, morningStarV1Project.getId().getProjectId());
 		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
 		/**Test insert version 2 of project MORNINGSTAR*/
-		Project monringstarV2Project = Utils.insertProject(MORNINGSTAR, VERSION_2, axeltis, entityManager);
+		Project monringstarV2Project = Utils.insertProject(MORNINGSTAR, VERSION_2, axeltis, null, entityManager);
 		assertEquals(4, monringstarV2Project.getId().getProjectId());
 		assertEquals(4, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 
@@ -176,7 +196,7 @@ public class JpaProjectDaoTest {
 	@Test
 	public void testAdd() {
 		Client euler = Utils.insertClient(EULER_HERMES, entityManager);
-		Project eolisIn = Utils.insertProject(EOLIS, VERSION_1, euler, entityManager);
+		Project eolisIn = Utils.insertProject(EOLIS, VERSION_1, euler, null, entityManager);
 		Project eolisOut = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(eolisIn, eolisOut);
 	}
@@ -186,7 +206,7 @@ public class JpaProjectDaoTest {
 	public void testDelete() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(SAGEMCOM, entityManager);
-		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, entityManager);
+		Project tempProject = Utils.insertProject(TED, VERSION_1, barclays, null, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		projectRepo.delete(tempProject);
 		assertNull(projectRepo.findByNameAndVersion(TED, VERSION_1));
@@ -265,8 +285,194 @@ public class JpaProjectDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveAssignments() {
-		org.junit.Assert.fail("TODO");
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm() {		
+		/**Find project to test*/
+		Project adirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
+		assertEquals(ADIR, adirV1.getName());
+		assertEquals(VERSION_1, adirV1.getVersion());
+				
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);		
+			
+		/**Find task*/
+		Task task1 = taskRepo.getTaskByDesc(TASK1);
+		Task task2 = taskRepo.getTaskByDesc(TASK2);
+		Task task3 = taskRepo.getTaskByDesc(TASK3);
+		Task task4 = taskRepo.getTaskByDesc(TASK4);
+		Task task5 = taskRepo.getTaskByDesc(TASK5);
+		Task task6 = taskRepo.getTaskByDesc(TASK6);
+		
+		/**Find Project Client*/
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		
+		/**Find Project Assignments*/
+		AssignmentId assignmentId1 = new AssignmentId(adirV1.getId(), amt.getId(), task1.getId());
+		Assignment assignment1 = assignmentRepo.findById(assignmentId1).get();		
+		assertNotNull(assignment1);
+		AssignmentId assignmentId2 = new AssignmentId(adirV1.getId(), amt.getId(), task2.getId());
+		Assignment assignment2 = assignmentRepo.findById(assignmentId2).get();
+		assertNotNull(assignment2);
+		
+		AssignmentId assignmentId3 = new AssignmentId(adirV1.getId(), amt.getId(), task3.getId());
+		Assignment assignment3 = assignmentRepo.findById(assignmentId3).get();
+		assertNotNull(assignment3);
+		
+		AssignmentId assignmentId4 = new AssignmentId(adirV1.getId(), amt.getId(), task4.getId());
+		Assignment assignment4 = assignmentRepo.findById(assignmentId4).get();
+		assertNotNull(assignment4);
+		
+		AssignmentId assignmentId5 = new AssignmentId(adirV1.getId(), amt.getId(), task5.getId());
+		Assignment assignment5 = assignmentRepo.findById(assignmentId5).get();
+		assertNotNull(assignment5);
+		
+		AssignmentId assignmentId6 = new AssignmentId(adirV1.getId(), amt.getId(), task6.getId());
+		Assignment assignment6 = assignmentRepo.findById(assignmentId6).get();
+		assertNotNull(assignment6);	
+		List <Assignment> adirV1Assignments = List.of(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6);
+
+		/**Validate Project assignments*/
+		List <Assignment> amtAssignments = List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6);
+		Utils.isProjectValid(adirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);	
+
+		/**Build new Assignments*/
+		Assignment newAssignment = new Assignment(adirV1, amt, task1);
+		List <Assignment> newAmtAssignments = List.of(newAssignment);
+		
+		/**Project-> assignments assoc does not cascade on REMOVE*/
+		setProjectAssignmentsInJpa(
+				//TODO continue here. Execute in 4 steps, 
+				//Delete ADIR v1 locations 
+				//Delete ADIR v1 assignments
+				//Delete ADIR v1 project
+				//Create new ADIR Project
+				//See test_ManyToOne_SaveClient.test_ManyToOne_SaveClient
+			locationRepo-> {
+				LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), adirV1.getId()); 
+				Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
+				locationRepo.delete(adirV1Location);	
+				locationRepo.flush();
+			},
+			assignmentRepo -> {
+				adirV1Assignments.forEach(assignment -> {
+					assignmentRepo.delete(assignment);
+				});
+				assignmentRepo.flush();
+				
+			},
+			projectRepo -> {				
+				projectRepo.save(adirV1);
+				projectRepo.flush();
+			},		
+			(projectRepo, assignmentRepo) -> {
+				adirV1.setAssignments(newAmtAssignments);			
+				assignment1.setProject(adirV1);		
+				projectRepo.save(adirV1);
+				assignmentRepo.save(assignment1);
+				projectRepo.flush();
+			
+		},projectRepo, locationRepo, assignmentRepo, jdbcTemplateProxy);
+		
+		entityManager.clear();
+		/**Validate Project hasn't changed*/
+		Project newAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		Utils.isProjectValid(newAdirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);
+
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm_NullSet(){
+		/**Find project to test*/
+		Project adirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
+		assertEquals(ADIR, adirV1.getName());
+		assertEquals(VERSION_1, adirV1.getVersion());
+				
+		/**Find Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);		
+			
+		/**Find task*/
+		Task task1 = taskRepo.getTaskByDesc(TASK1);
+		Task task2 = taskRepo.getTaskByDesc(TASK2);
+		Task task3 = taskRepo.getTaskByDesc(TASK3);
+		Task task4 = taskRepo.getTaskByDesc(TASK4);
+		Task task5 = taskRepo.getTaskByDesc(TASK5);
+		Task task6 = taskRepo.getTaskByDesc(TASK6);
+		
+		/**Find Project Client*/
+		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		
+		/**Find Project Assignments*/
+		AssignmentId assignmentId1 = new AssignmentId(adirV1.getId(), amt.getId(), task1.getId());
+		Assignment assignment1 = assignmentRepo.findById(assignmentId1).get();		
+		assertNotNull(assignment1);
+		AssignmentId assignmentId2 = new AssignmentId(adirV1.getId(), amt.getId(), task2.getId());
+		Assignment assignment2 = assignmentRepo.findById(assignmentId2).get();
+		assertNotNull(assignment2);
+		
+		AssignmentId assignmentId3 = new AssignmentId(adirV1.getId(), amt.getId(), task3.getId());
+		Assignment assignment3 = assignmentRepo.findById(assignmentId3).get();
+		assertNotNull(assignment3);
+		
+		AssignmentId assignmentId4 = new AssignmentId(adirV1.getId(), amt.getId(), task4.getId());
+		Assignment assignment4 = assignmentRepo.findById(assignmentId4).get();
+		assertNotNull(assignment4);
+		
+		AssignmentId assignmentId5 = new AssignmentId(adirV1.getId(), amt.getId(), task5.getId());
+		Assignment assignment5 = assignmentRepo.findById(assignmentId5).get();
+		assertNotNull(assignment5);
+		
+		AssignmentId assignmentId6 = new AssignmentId(adirV1.getId(), amt.getId(), task6.getId());
+		Assignment assignment6 = assignmentRepo.findById(assignmentId6).get();
+		assertNotNull(assignment6);	
+		List <Assignment> adirV1Assignments = List.of(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6);
+
+		/**Validate Project assignments*/
+		List <Assignment> amtAssignments = List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6);
+		Utils.isProjectValid(adirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);	
+		
+		/**Project-> assignments assoc does not cascade on REMOVE*/
+		Utils.setProjectAssignmentsAndRemoveOphansInJpa(
+				//TODO continue here. Execure in 4 steps, 
+				//Delete ADIR v1 locations 
+				//Delete ADIR v1 assignments
+				//Delete ADIR v1 project
+				//Create new ADIR Project 
+				//See test_ManyToOne_SaveClient.test_ManyToOne_SaveClient
+			locationRepo-> {
+				LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), adirV1.getId()); 
+				Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
+				locationRepo.delete(adirV1Location);	
+				locationRepo.flush();
+			},
+			assignmentRepo -> {
+				adirV1Assignments.forEach(assignment -> {
+					assignmentRepo.delete(assignment);
+				});
+				assignmentRepo.flush();
+				
+			},
+			projectRepo -> {
+				projectRepo.save(adirV1);
+				projectRepo.flush();
+			},
+			(projectRepo, assignmentRepo)  -> {	
+				adirV1.setAssignments(null);			
+				assignment1.setProject(null);		
+				projectRepo.save(adirV1);
+				assignmentRepo.save(assignment1);
+				projectRepo.flush();
+			
+		},projectRepo, locationRepo, assignmentRepo, jdbcTemplateProxy);
+		
+		entityManager.clear();
+		/**Validate Project hasn't changed*/
+		Project newAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+		Utils.isProjectValid(newAdirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);
 	}
 	
 	@Test

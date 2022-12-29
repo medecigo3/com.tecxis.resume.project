@@ -156,9 +156,14 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 		return this.assignments;
 	}
 
+	/**
+	 * 
+	 * @param assignments orphans are removed when set to null.
+	 */
 	public void setAssignments(List<Assignment> assignments) {
 		this.assignments.clear();
-		this.assignments.addAll(assignments);
+		if (assignments != null)
+			this.assignments.addAll(assignments);
 	}
 
 	public Assignment addAssignment(Assignment assignment) {
@@ -184,7 +189,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 
 	public void setCities(List<City> cities) {
 		this.cities.clear();
-		this.cities.addAll(cities);
+		this.cities.addAll(cities); //TODO add null check
 	}
 
 	public boolean addCity(City city) {
@@ -236,7 +241,7 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	
 	public void setLocations(List<Location> locations) {
 		this.locations.clear();
-		this.locations.addAll(locations);
+		this.locations.addAll(locations); //TODO add null check
 	}
 	
 	public List<Location> getLocations() {

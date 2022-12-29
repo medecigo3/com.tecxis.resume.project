@@ -269,7 +269,7 @@ public class JpaAssignmentDaoTest {
 		assertEquals(clientId, barclays.getId().longValue());	
 		
 		/**Insert project*/
-		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
+		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, null, projectRepo);
 		assertEquals(projectId, adir.getId().getProjectId());	
 		
 		/**Insert staff*/		

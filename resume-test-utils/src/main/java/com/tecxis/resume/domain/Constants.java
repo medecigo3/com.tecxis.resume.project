@@ -82,6 +82,7 @@ public class Constants {
 	public static final String SWINDON = "Swindon";
 	public static final long PARIS_ID = 4L;
 	public static final long LONDON_ID = 1L;
+	public static final long MANCHESTER_ID = 1L;
 	/**END CITY*/
 	/**COUNTRY*/		
 	public static final String BELGIUM = "Belgium";

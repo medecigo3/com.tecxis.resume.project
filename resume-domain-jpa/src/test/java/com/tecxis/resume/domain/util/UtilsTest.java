@@ -392,7 +392,7 @@ public class UtilsTest {
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		City paris = Utils.insertCity(PARIS, france, entityManager);		
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, entityManager);
@@ -409,7 +409,7 @@ public class UtilsTest {
 		Country france = Utils.insertCountry(FRANCE, countryRepo);
 		City paris = Utils.insertCity(PARIS, france, cityRepo);		
 		Client barclays = Utils.insertClient(BARCLAYS, clientRepo);		
-		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, null, projectRepo);
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.LOCATION_TABLE));
 		Utils.insertLocation(paris, adirProject, locationRepo);
@@ -427,7 +427,7 @@ public class UtilsTest {
 		
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));		
 	}
 	
@@ -443,7 +443,7 @@ public class UtilsTest {
 		
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		Utils.insertProject(ADIR, VERSION_1, barclays, projectRepo);
+		Utils.insertProject(ADIR, VERSION_1, barclays, null, projectRepo);
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));		
 	}
 
@@ -494,7 +494,7 @@ public class UtilsTest {
 	public void testInsertAssignment() {
 		/**Prepare test*/
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, entityManager);
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
 		Task assignment12 = Utils.insertTask(TASK12, entityManager);
 		
@@ -510,7 +510,7 @@ public class UtilsTest {
 	public void testInsertAssignment_WithSpringJpaRepo() {
 		/**Prepare test*/
 		Client sagemcom = Utils.insertClient(SAGEMCOM, clientRepo);		
-		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, projectRepo);
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, projectRepo);
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
 		Task task12 = Utils.insertTask(TASK12, taskRepo);
 		
@@ -1296,7 +1296,7 @@ public class UtilsTest {
 	@Test
 	public void testIsAssignmentValid() {
 		Client client = buildClient(BARCLAYS);		
-		Project project = buildProject(ADIR, VERSION_1, client);
+		Project project = buildProject(ADIR, VERSION_1, client, null);
 		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
 		Task task = buildTask(TASK1);
 		Assignment assignment = buildAssignment(project, staff, task);

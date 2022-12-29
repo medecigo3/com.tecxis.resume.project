@@ -62,6 +62,7 @@ import com.tecxis.resume.domain.Enrolment;
 import com.tecxis.resume.domain.Interest;
 import com.tecxis.resume.domain.Location;
 import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.Service;
 import com.tecxis.resume.domain.Skill;
 import com.tecxis.resume.domain.Staff;
@@ -105,6 +106,8 @@ import com.tecxis.resume.domain.util.function.InsertAgreementFunction;
 import com.tecxis.resume.domain.util.function.InsertAssignmentFunction;
 import com.tecxis.resume.domain.util.function.InsertCityFunction;
 import com.tecxis.resume.domain.util.function.InsertClientFunction;
+import com.tecxis.resume.domain.util.function.JPATransactionVoidBiFunction;
+import com.tecxis.resume.domain.util.function.JPATransactionVoidFunction;
 import com.tecxis.resume.domain.util.function.ProjectValidator;
 import com.tecxis.resume.domain.util.function.SetAgreementServiceFunction;
 import com.tecxis.resume.domain.util.function.SetAssignmentAssociationFunction;
@@ -407,24 +410,26 @@ public class Utils {
 		locationRepo.flush();
 	}	
 
-	public static Project insertProject(String name, String version, Client client, EntityManager entityManager) {
-		Project project = buildProject(name, version, client);
+	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, EntityManager entityManager) {
+		Project project = buildProject(name, version, client, assignments);
 		entityManager.persist(project);
 		entityManager.flush();
 		return project;
 	}
 	
-	public static Project insertProject(String name, String version, Client client, ProjectRepository projectRepo) {
-		Project project = buildProject(name, version, client);		
+	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, ProjectRepository projectRepo) {
+		Project project = buildProject(name, version, client, assignments);		
 		projectRepo.saveAndFlush(project);
 		return project;	
 	}
 	
-	public static Project buildProject(String name, String version, Client client) {
+	public static Project buildProject(String name, String version, Client client, List <Assignment> assignments) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
+		if (assignments != null)
+			project.setAssignments(assignments);
 		return project;
 	}
 	
@@ -1063,6 +1068,82 @@ public class Utils {
 		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(jdbcTemplate);
 		setContractSupplyContractsWithNullFunction.accept(contractRepo);
 		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsInJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction,  JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(entityManager);
+		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Locations_Delete, jdbcTemplate);
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(entityManager);
+		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**delete Project*/
+		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteProjectFunction.accept(entityManager);		
+		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
+		/**New Project with previous Project ID with new assignments */
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(entityManager);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsInJpa(JPATransactionVoidFunction <LocationRepository>  deleteLocationsFunction, JPATransactionVoidFunction <AssignmentRepository>  deleteAssignmentsFunction, JPATransactionVoidFunction <ProjectRepository>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo,JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(locationRepo);
+		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(assignmentRepo);
+		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**delete Project*/
+		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteProjectFunction.accept(projectRepo);
+		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
+		/**New Project with previous Project ID with new assignments */
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction, JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(entityManager);
+		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Locations_Delete, jdbcTemplate);
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(entityManager);
+		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**delete Project*/
+		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteProjectFunction.accept(entityManager);
+		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
+		/**New Project with previous Project ID with new assignments */
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(entityManager);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <LocationRepository>  deleteLocationsFunction, JPATransactionVoidFunction <AssignmentRepository>  deleteAssignmentsFunction, JPATransactionVoidFunction <ProjectRepository>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo,  LocationRepository locationRepo, AssignmentRepository assignmentRepo, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(locationRepo);
+		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(assignmentRepo);
+		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**delete Project*/
+		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteProjectFunction.accept(projectRepo);
+		/**New Project with previous Project ID with new assignments */
+		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		
 	}
 }
