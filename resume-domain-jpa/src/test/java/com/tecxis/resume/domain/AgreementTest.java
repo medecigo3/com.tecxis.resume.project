@@ -77,7 +77,7 @@ public class AgreementTest {
 								
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		setAgreementServiceInJpa(SetAgreementServiceFunction ->{
+		setAgreementServiceInJpa(em ->{
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
@@ -88,10 +88,10 @@ public class AgreementTest {
 			newAxeltisFastConnectAgreement.setService(liferayDev); // set new service
 			
 			/**Remove old and create new Agreement*/
-			entityManager.remove(axeltisFastConnectAgreement);
-			entityManager.persist(newAxeltisFastConnectAgreement);
-			entityManager.flush();  //Manually commit the transaction
-			entityManager.clear();	//Detach managed entities from persistence context to reload new changes
+			em.remove(axeltisFastConnectAgreement);
+			em.persist(newAxeltisFastConnectAgreement);
+			em.flush();  //Manually commit the transaction
+			em.clear();	//Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);
 		
 		/**Find old Enrolment*/
@@ -120,7 +120,7 @@ public class AgreementTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		Utils.setAgreementContractInJpa(SetAgreementServiceFunction-> {
+		Utils.setAgreementContractInJpa(em-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
@@ -131,10 +131,10 @@ public class AgreementTest {
 			newAxeltisFastConnectAgreement.setService(tibcoCons);
 						
 			/**Remove old and create new Agreement*/
-			entityManager.remove(axeltisFastConnectAgreement);
-			entityManager.persist(newAxeltisFastConnectAgreement);
-			entityManager.flush(); //Manually commit the transaction			
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+			em.remove(axeltisFastConnectAgreement);
+			em.persist(newAxeltisFastConnectAgreement);
+			em.flush(); //Manually commit the transaction			
+			em.clear(); //Detach managed entities from persistence context to reload new changes
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -158,13 +158,13 @@ public class AgreementTest {
 		
 		/**Find Agreement to remove*/
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();			
-		deleteAgreementInJpa(deleteAgreementFunction -> {
+		deleteAgreementInJpa(em -> {
 			
 			/**Do not detach and remove entity directly*/
 			/**Remove the Agreement from the Service */
-			entityManager.remove(axeltisFastConnectAgreement);
-			entityManager.flush(); //Manually commit the transaction			
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+			em.remove(axeltisFastConnectAgreement);
+			em.flush(); //Manually commit the transaction			
+			em.clear(); //Detach managed entities from persistence context to reload new changes
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -190,10 +190,10 @@ public class AgreementTest {
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, entityManager);		
 		
 		/**Insert Agreement */		
-		insertAgreementInJpa(setContractAgreementFunction-> {
+		insertAgreementInJpa(em-> {
 			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
-			entityManager.persist(agreementIn);
-			entityManager.flush(); //Manually commit the transaction
+			em.persist(agreementIn);
+			em.flush(); //Manually commit the transaction
 			
 		}, entityManager, jdbcTemplateProxy);
 		

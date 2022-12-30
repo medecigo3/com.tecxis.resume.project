@@ -76,11 +76,11 @@ public class JpaClientDaoTest {
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	public void testAdd() {
-		Long id =  insertClientInJpa(insertClientFunction ->{
+		Long id =  insertClientInJpa(clientRepo ->{
 			Client micropole = new Client();
 			micropole.setName(MICROPOLE);
-			entityManager.persist(micropole);
-			entityManager.flush();
+			clientRepo.save(micropole);
+			clientRepo.flush();
 			return micropole.getId();
 		}, 				
 		clientRepo, jdbcTemplateProxy);		
@@ -104,14 +104,13 @@ public class JpaClientDaoTest {
 		assertEquals(2, axeltis.getContracts().size());
 		
 		
-		deleteClientInJpa(deleteClientFunction-> {
+		deleteClientInJpa(clientRepo-> {
 			/**Remove client*/
-			entityManager.remove(axeltis);
-			entityManager.flush();	//manually commit the transaction	
-			entityManager.clear(); //Detach managed entities from persistence context to reload new change
-			
-		}, clientRepo, jdbcTemplateProxy);	
-		
+			clientRepo.delete(axeltis);
+			clientRepo.flush();	//manually commit the transaction
+		}, clientRepo, jdbcTemplateProxy);
+
+		entityManager.clear(); //Detach managed entities from persistence context to reload new change
 		/**Validate client doesn't exist*/
 		assertNull(clientRepo.getClientByName(AXELTIS));	
 	}

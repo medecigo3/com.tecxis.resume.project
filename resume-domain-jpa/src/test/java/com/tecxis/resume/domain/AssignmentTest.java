@@ -104,11 +104,11 @@ public class AssignmentTest {
 		assertEquals(taskId, task1.getId().longValue());		
 		
 		/**Insert Assignment*/
-		insertAssignmentInJpa(insertAssignmentFunction->{
+		insertAssignmentInJpa(em->{
 			Assignment amtAssignment  = new Assignment(adir, amt, task1);
-			entityManager.persist(amtAssignment);
-			entityManager.flush();	//manually commit the transaction	
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+			em.persist(amtAssignment);
+			em.flush();	//manually commit the transaction	
+			em.clear(); //Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);	
 		
 		
@@ -154,11 +154,11 @@ public class AssignmentTest {
 		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);		
 	
-		deleteAssignmentInJpa(deleteAssignmentFunction->{
+		deleteAssignmentInJpa(em->{
 			/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */	
-			entityManager.remove(staffProjectAssignment1);
-			entityManager.flush(); //manually commit the transaction
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+			em.remove(staffProjectAssignment1);
+			em.flush(); //manually commit the transaction
+			em.clear(); //Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);		
 		
 		/**Validate target Assignment does not exist*/
@@ -244,10 +244,10 @@ public class AssignmentTest {
 		 *  TRACE [main]: o.h.e.i.DefaultPersistEventListener - un-scheduling entity deletion [[com.tecxis.resume.domain.Assignment#component[projectId,staffId,taskId]{projectId=component[clientId,projectId]{clientId=2, projectId=2}, staffId=1, taskId=6}]]
 		 *  ---- END Hibernate logs ---- 
 		 **/
-		unscheduleDeleteAssignmentInJpa(unDeleteAssignmentFunction->{			
+		unscheduleDeleteAssignmentInJpa(em->{
 			entityManager.remove(targetAssignment);
 			/**Proves entity deletion is unscheduled (do not delete) when the entity isn't detached from the persistence context*/
-			entityManager.flush();	//manually commit the transaction	
+			em.flush();	//manually commit the transaction
 		}, entityManager, jdbcTemplateProxy);		
 		assertNotNull(entityManager.find(Assignment.class, id2));
 		
@@ -257,9 +257,9 @@ public class AssignmentTest {
 		final Assignment targetAssignmentDuplicate = entityManager.find(Assignment.class, id2);
 		assertNotNull(targetAssignmentDuplicate);
 		
-		deleteAssignmentInJpa(deleteAssignmentFunction->{
-			entityManager.remove(targetAssignmentDuplicate);
-			entityManager.flush(); //manually commit the transaction & deletes 1 row in Assignment table
+		deleteAssignmentInJpa(em->{
+			em.remove(targetAssignmentDuplicate);
+			em.flush(); //manually commit the transaction & deletes 1 row in Assignment table
 		}, entityManager, jdbcTemplateProxy);		
 		
 		assertNull(entityManager.find(Assignment.class, id2));				
@@ -296,7 +296,7 @@ public class AssignmentTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(john.getId()); // set new Staff id.
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		Utils.setAssignmentAssociationInJpa(em ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -305,10 +305,10 @@ public class AssignmentTest {
 			newAssignment.setTask(task14);		
 
 			/**Remove old and create new Agreement*/
-			entityManager.remove(staffProjectAssignment1);
-			entityManager.persist(newAssignment);
-			entityManager.flush();
-			entityManager.clear();			
+			em.remove(staffProjectAssignment1);
+			em.persist(newAssignment);
+			em.flush();
+			em.clear();
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -351,19 +351,19 @@ public class AssignmentTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		Utils.setAssignmentAssociationInJpa(em ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
 			newAssignment.setStaff(amt);
 			newAssignment.setProject(adir);
-			newAssignment.setTask(task14);		
+			newAssignment.setTask(task14);
 
 			/**Remove old and create new Agreement*/
-			entityManager.remove(staffProjectAssignment1);
-			entityManager.persist(newAssignment);
-			entityManager.flush();
-			entityManager.clear();			
+			em.remove(staffProjectAssignment1);
+			em.persist(newAssignment);
+			em.flush();
+			em.clear();
 			
 		}, entityManager, jdbcTemplateProxy);
 		
@@ -404,7 +404,7 @@ public class AssignmentTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		Utils.setAssignmentAssociationInJpa(setStaffAssignment ->{
+		Utils.setAssignmentAssociationInJpa(em ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -413,10 +413,10 @@ public class AssignmentTest {
 			newAssignment.setTask(task1);		// set new Project id.
 
 			/**Remove old and create new Agreement*/
-			entityManager.remove(staffProjectAssignment1);
-			entityManager.persist(newAssignment);
-			entityManager.flush();
-			entityManager.clear();			
+			em.remove(staffProjectAssignment1);
+			em.persist(newAssignment);
+			em.flush();
+			em.clear();
 			
 		}, entityManager, jdbcTemplateProxy);
 		

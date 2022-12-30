@@ -125,7 +125,7 @@ public class JpaLocationDaoTest {
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
-		setParisLocationInJpa( setLocationFunction -> {
+		setParisLocationInJpa( locationRepo -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));		
 				SchemaUtils.testInitialState(jdbcTemplateProxy);

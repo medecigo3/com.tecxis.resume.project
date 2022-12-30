@@ -82,7 +82,7 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		setAgreementServiceInJpa(SetAgreementServiceFunction-> {
+		setAgreementServiceInJpa(agreementRepo-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId()); // set new service id
@@ -124,7 +124,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		Utils.setAgreementContractInJpa(SetAgreementServiceFunction-> {
+		Utils.setAgreementContractInJpa(agreementRepo-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
@@ -164,7 +164,7 @@ public class JpaAgreementDaoTest {
 		Contract accentureBarclaysContract = Utils.insertContract(barclays, CONTRACT1_NAME, contractRepo);		
 		
 		/**Insert Agreement*/		
-		insertAgreementInJpa(setContractAgreementFunction-> {			
+		insertAgreementInJpa(agreementRepo-> {
 			Agreement agreementIn = new Agreement(accentureBarclaysContract, muleEsbCons);
 			agreementDao.add(agreementIn);
 			agreementRepo.flush(); //Manually commit the transaction
@@ -191,7 +191,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find Agreement to remove*/
 		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(axeltisFastConnectcontract.getId(), tibcoCons.getId())).get();			
-		deleteAgreementInJpa(deleteAgreementFunction -> {
+		deleteAgreementInJpa(agreementRepo -> {
 			
 			/**Do not detach and remove entity directly*/
 			/**Remove the Agreement from the Service */

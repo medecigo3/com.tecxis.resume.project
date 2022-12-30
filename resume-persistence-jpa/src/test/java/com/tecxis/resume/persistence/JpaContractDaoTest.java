@@ -239,13 +239,13 @@ public class JpaContractDaoTest {
 						
 		/**Create new Contract with new Client*/		
 		setSagemContractWithMicropoleClientInJpa(
-			DeleteContractFunction -> {	
+			contractRepo -> {
 				/**These steps will update the Parent (non-owner of this relation)*/		
-				entityManager.remove(currentSagemContract);//Firstly remove the Child (Owner)
-				entityManager.flush();
+				contractRepo.delete(currentSagemContract);//Firstly remove the Child (Owner)
+				contractRepo.flush();
 				
 			},
-			SetContractClientFunction -> {
+			contractRepo -> {
 				/**Find new Client to set*/
 				Client micropole = clientRepo.getClientByName(MICROPOLE);
 				assertEquals(1, micropole.getContracts().size());				
@@ -261,12 +261,11 @@ public class JpaContractDaoTest {
 				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
 				
-				entityManager.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
-				entityManager.flush();
-				entityManager.clear();				
-			
+				contractRepo.save(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
+				contractRepo.flush();
 			}, contractRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();
 		//TODO continue refactoring Validator code here	
 		org.junit.Assert.fail("TODO");
 	}
@@ -325,7 +324,7 @@ public class JpaContractDaoTest {
 			
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsInJpa( SetContractAgreementsFunction -> {
+		setArvalContractAgreementsInJpa( contractRepo -> {
 			arvalContract.setAgreements(newAgreements);			
 			assertEquals(2, arvalContract.getAgreements().size());
 			contractRepo.save(arvalContract);
@@ -419,13 +418,13 @@ public class JpaContractDaoTest {
 				
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsAndRemoveOphansInJpa( SetContractAgreementsWithNullFunction -> {
+		setArvalContractAgreementsAndRemoveOphansInJpa(contractRepo -> {
 			arvalContract.setAgreements(null);					
-			entityManager.merge(arvalContract);
-			entityManager.flush();
-			entityManager.clear();
+			contractRepo.save(arvalContract);
+			contractRepo.flush();
 		},
-		contractRepo, jdbcTemplateProxy);	
+		contractRepo, jdbcTemplateProxy);
+		entityManager.clear();
 	}
 
 	@Test
@@ -462,7 +461,7 @@ public class JpaContractDaoTest {
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
 		/**Set Contract -> new SupplyContract*/		
-		setContractSupplyContractsInJpa( SetContractSupplyContractsFunction -> {
+		setContractSupplyContractsInJpa( contractRepo -> {
 			List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 			currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 			contractRepo.save(currentAmesysSagemContract);
@@ -523,7 +522,7 @@ public class JpaContractDaoTest {
 
 		
 		/**Set Contract -> null SupplyContracts*/
-		setContractSupplyContractsAndRemoveOphansInJpa( SetContractSupplyContractsWithNullFunction -> {
+		setContractSupplyContractsAndRemoveOphansInJpa( contractRepo -> {
 			currentAmesysSagemContract.setSupplyContracts(null);
 			contractRepo.save(currentAmesysSagemContract);
 			contractRepo.flush();			

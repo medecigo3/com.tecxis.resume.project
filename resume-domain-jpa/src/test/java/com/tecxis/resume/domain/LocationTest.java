@@ -247,11 +247,11 @@ public class LocationTest {
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
-		setParisLocationInJpa( setLocationFunction -> {				
+		setParisLocationInJpa( em -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));
-				entityManager.merge(morningstartV1ProjectLocation);				
-				entityManager.flush();			
+				em.merge(morningstartV1ProjectLocation);
+				em.flush();
 			},entityManager, jdbcTemplateProxy);
 		
 		entityManager.clear();

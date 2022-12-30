@@ -190,14 +190,14 @@ public class ContractTest {
 				
 		/**Create new Contract with new Client*/		
 		setSagemContractWithMicropoleClientInJpa(
-			DeleteContractFunction -> {	
+			em -> {
 				/**These steps will update the Parent (non-owner of this relation)*/
 				Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
-				entityManager.remove(currentSagemContract);//Firstly remove the Child (Owner)
-				entityManager.flush();
+				em.remove(currentSagemContract);//Firstly remove the Child (Owner)
+				em.flush();
 				
 			},
-			SetContractClientFunction -> {
+			em -> {
 				/**Find new Client to set*/
 				Client micropole = clientRepo.getClientByName(MICROPOLE);
 				assertEquals(1, micropole.getContracts().size());				
@@ -214,9 +214,9 @@ public class ContractTest {
 				List <SupplyContract> amesysMicropoleSupplyContracts = List.of(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
 				
-				entityManager.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
-				entityManager.flush();
-				entityManager.clear();				
+				em.persist(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
+				em.flush();
+				em.clear();
 			
 			}, entityManager, jdbcTemplateProxy);
 		
@@ -300,13 +300,13 @@ public class ContractTest {
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
 		/**Set Contract -> new SupplyContract*/		
-		setContractSupplyContractsInJpa( SetContractSupplyContractsFunction -> {
+		setContractSupplyContractsInJpa( em -> {
 			List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 			currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
-			entityManager.merge(currentAmesysSagemContract);
-			entityManager.flush();
-			entityManager.clear();
-		}, entityManager, jdbcTemplateProxy); 
+			em.merge(currentAmesysSagemContract);
+			em.flush();
+			em.clear();
+		}, entityManager, jdbcTemplateProxy);
 		
 		/**Validate the new Contract*/		
 		Contract newAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
@@ -359,11 +359,11 @@ public class ContractTest {
 
 		
 		/**Set Contract -> null SupplyContracts*/
-		setContractSupplyContractsAndRemoveOphansInJpa( SetContractSupplyContractsWithNullFunction -> {
+		setContractSupplyContractsAndRemoveOphansInJpa( em -> {
 			currentAmesysSagemContract.setSupplyContracts(null);
-			entityManager.merge(currentAmesysSagemContract);
-			entityManager.flush();
-			entityManager.clear();
+			em.merge(currentAmesysSagemContract);
+			em.flush();
+			em.clear();
 		}, entityManager, jdbcTemplateProxy); 
 		
 		/**Validate the new Contract*/		
@@ -597,11 +597,11 @@ public class ContractTest {
 			
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsInJpa( SetContractAgreementsFunction -> {
+		setArvalContractAgreementsInJpa( em -> {
 			arvalContract.setAgreements(newAgreements);			
-			entityManager.merge(arvalContract);
-			entityManager.flush();
-			entityManager.clear();
+			em.merge(arvalContract);
+			em.flush();
+			em.clear();
 		},
 		entityManager, jdbcTemplateProxy);		
 		
@@ -691,11 +691,11 @@ public class ContractTest {
 				
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsAndRemoveOphansInJpa( SetContractAgreementsWithNullFunction -> {
+		setArvalContractAgreementsAndRemoveOphansInJpa( em -> {
 			arvalContract.setAgreements(null);					
-			entityManager.merge(arvalContract);
-			entityManager.flush();
-			entityManager.clear();
+			em.merge(arvalContract);
+			em.flush();
+			em.clear();
 		},
 		entityManager, jdbcTemplateProxy);	
 	}

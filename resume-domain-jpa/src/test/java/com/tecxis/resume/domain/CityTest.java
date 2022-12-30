@@ -136,14 +136,14 @@ public class CityTest {
 		/**Insert Country*/
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		
-		insertCityInJpa(insertCityFunction->{
+		insertCityInJpa(em->{
 			/**Insert City*/
 			City brussels = new City();
 			brussels.setName(BRUSSELS);				
 			brussels.setCountry(belgium);
-			entityManager.persist(brussels);
-			entityManager.flush();	//manually commit the transaction	
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+			em.persist(brussels);
+			em.flush();	//manually commit the transaction
+			em.clear(); //Detach managed entities from persistence context to reload new changes
 		}, entityManager, jdbcTemplateProxy);
 	
 		/**Validate City was inserted*/
@@ -229,7 +229,7 @@ public class CityTest {
 		newCityId.setCityId(oldLondon.getId().getCityId()); //sets old id to the new City
 		newCityId.setCountryId(france.getId());
 		
-		setLondonToFranceInJpa(setCountryInCity -> {
+		setLondonToFranceInJpa(em -> {
 			/**Create new City with new host Country*/
 			City newLondon =  new City();		
 			newLondon.setId(newCityId);		
@@ -237,11 +237,11 @@ public class CityTest {
 //			newLondon.setLocations(currentLondon.getLocations()); //Cannot set locations for the new City. Setting the new City with references to old Locations generates redundant SQL insert of "oldLondon" City.			
 		
 			/**Remove old and create new City*/
-			entityManager.remove(oldLondon);
-			entityManager.flush();           //DELETE statements are executed right at the end of the flush while the INSERT statements are executed towards the beginning. We need to manually flush the delete transaction. In this functional case this isn't a code smell. because we're changing the City's foreign key (not an attribute). For more info about Hibernate flush operation order read this article: https://vladmihalcea.com/hibernate-facts-knowing-flush-operations-order-matters/   
-			entityManager.persist(newLondon);	
-			entityManager.flush();			//Manually commit the transaction
-			entityManager.clear();
+			em.remove(oldLondon);
+			em.flush();           //DELETE statements are executed right at the end of the flush while the INSERT statements are executed towards the beginning. We need to manually flush the delete transaction. In this functional case this isn't a code smell. because we're changing the City's foreign key (not an attribute). For more info about Hibernate flush operation order read this article: https://vladmihalcea.com/hibernate-facts-knowing-flush-operations-order-matters/
+			em.persist(newLondon);
+			em.flush();			//Manually commit the transaction
+			em.clear();
 			
 			
 		}, entityManager, jdbcTemplateProxy);		
@@ -540,12 +540,12 @@ public class CityTest {
 												londonMorningstarv2Location);
 				
 		/**Set new Locations*/
-		setCityLocationsInJpa( setCityLocations->{
+		setCityLocationsInJpa(em->{
 			london.setLocations(newLocations);
 			assertEquals(3, london.getLocations().size());
-			entityManager.merge(london);
-			entityManager.flush();
-			entityManager.clear();
+			em.merge(london);
+			em.flush();
+			em.clear();
 		}, entityManager, jdbcTemplateProxy);
 		
 		/**Validate new City*/
@@ -608,13 +608,13 @@ public class CityTest {
 		
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
-		setParisLocationInJpa( setLocationFunction -> {				
+		setParisLocationInJpa( em -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation)); //Update and remove 1 location 
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));				
-				entityManager.merge(morningstartV1Project);
-				entityManager.merge(paris);
-				entityManager.flush();
-				entityManager.clear();
+				em.merge(morningstartV1Project);
+				em.merge(paris);
+				em.flush();
+				em.clear();
 			},entityManager, jdbcTemplateProxy);
 		
 		/**Validate City after test*/
@@ -664,11 +664,11 @@ public class CityTest {
 				parisAosv1ArvalLocation,
 				parisSeleniumV1HermesLocation );
 		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		Utils.setParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
+		Utils.setParisLocationAndRemoveOphansInJpa( em -> {
 				paris.setLocations(null);
-				entityManager.merge(paris);
-				entityManager.flush();
-				entityManager.clear();
+				em.merge(paris);
+				em.flush();
+				em.clear();
 			},entityManager, jdbcTemplateProxy);
 		
 		/**Validate City after test*/		
@@ -696,16 +696,16 @@ public class CityTest {
 		assertThat(uk.getCities(), Matchers.hasItems(london));
 		
 		/**Remove city*/	
-		deleteCityInJpa(deleteCityFunction-> {
+		deleteCityInJpa(em-> {
 			/**Detach entities*/
 			entityManager.clear();
 			
 			/**Find City to remove*/
 			City londonOld = cityRepo.getCityByName(LONDON);
 			
-			entityManager.remove(londonOld);
-			entityManager.flush();
-			entityManager.clear();	
+			em.remove(londonOld);
+			em.flush();
+			em.clear();
 		}, entityManager, jdbcTemplateProxy);
 		
 		

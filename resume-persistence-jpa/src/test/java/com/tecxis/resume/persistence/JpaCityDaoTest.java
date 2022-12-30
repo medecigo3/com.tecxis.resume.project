@@ -132,7 +132,7 @@ public class JpaCityDaoTest {
 		newCityId.setCityId(brussels.getId().getCityId());
 		newCityId.setCountryId(france.getId());
 		
-		setBrusslesToFranceInJpa(setCountryInCity -> {
+		setBrusslesToFranceInJpa(cityRepo-> {
 			City newCity = new City();
 			newCity.setId(newCityId);
 //			newCity.setLocations(brussels.getLocations()); //Cannot set locations for the new City. Setting the new City with references to old Locations generates redundant SQL insert of "old brussels" City. 
@@ -143,11 +143,9 @@ public class JpaCityDaoTest {
 			cityRepo.flush();           //DELETE statements are executed right at the end of the flush while the INSERT statements are executed towards the beginning. We need to manually flush the delete transaction. In this functional case this isn't a code smell. because we're changing the City's foreign key (not an attribute). For more info about Hibernate flush operation order read this article: https://vladmihalcea.com/hibernate-facts-knowing-flush-operations-order-matters/   
 			cityRepo.save(newCity);	
 			cityRepo.flush();			//Manually commit the transaction
-			entityManager.clear();
-			
-			
 		}, cityRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();
 		/**Find old City*/
 		CityId oldCityId = brussels.getId();		
 		assertFalse(cityRepo.findById(oldCityId).isPresent());			
@@ -218,7 +216,7 @@ public class JpaCityDaoTest {
 		newLocations.add(londonMorningstarv2Location);
 				
 		/**Set new Locations*/
-		setCityLocationsInJpa( setCityLocations->{
+		setCityLocationsInJpa( cityRepo->{
 			london.setLocations(newLocations);
 			assertEquals(3, london.getLocations().size());
 			cityRepo.save(london);
@@ -260,16 +258,17 @@ public class JpaCityDaoTest {
 		/**Insert Country*/
 		Country belgium = Utils.insertCountry(BELGIUM, entityManager);
 		
-		insertCityInJpa(insertCityFunction->{
+		insertCityInJpa(cityRepo ->{
 			/**Insert City*/
 			City brussels = new City();
 			brussels.setName(BRUSSELS);				
 			brussels.setCountry(belgium);
 			cityRepo.save(brussels);
 			cityRepo.flush();	//manually commit the transaction	
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
+
 		}, cityRepo, jdbcTemplateProxy);
-	
+
+		entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 		/**Validate City was inserted with no locations*/
 		City brussels = cityRepo.getCityByName(BRUSSELS);
 		assertEquals(SUCCESS, Utils.isCityValid(brussels, BRUSSELS, BELGIUM, new ArrayList<Location> ()));
@@ -294,18 +293,18 @@ public class JpaCityDaoTest {
 		
 		/**Remove city*/
 		testInitialState(jdbcTemplateProxy);
-		Utils.deleteCityInJpa(deleteCityFunction-> {
+		Utils.deleteCityInJpa(cityRepo-> {
 			/**Detach entities*/
 			entityManager.clear();
 			
 			/**Find City to remove*/
 			City londonOld = cityRepo.getCityByName(LONDON);
 			
-			entityManager.remove(londonOld);
-			entityManager.flush();
-			entityManager.clear();	
+			cityRepo.delete(londonOld);
+			cityRepo.flush();
 		}, cityRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();
 		/**Test city was removed*/
 		assertNull(cityRepo.getCityByName(LONDON));
 		uk = countryRepo.getCountryByName(UNITED_KINGDOM);
@@ -363,15 +362,16 @@ public class JpaCityDaoTest {
 		
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
-		setParisLocationInJpa( setLocationFunction -> {				
+		setParisLocationInJpa( (cityRepo, projectRepo) -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation)); //Update and remove 1 location 
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));				
-				entityManager.merge(morningstartV1Project);
-				entityManager.merge(paris);
-				entityManager.flush();
-				entityManager.clear();
-			},cityRepo, jdbcTemplateProxy);
-		
+				projectRepo.save(morningstartV1Project);
+				cityRepo.save(paris);
+				cityRepo.flush();
+
+			},cityRepo, projectRepo, jdbcTemplateProxy);
+
+		entityManager.clear();
 		/**Validate City after test*/
 		morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location, 
 				parisParcoursV1MicropoleLocation, 	
@@ -415,7 +415,7 @@ public class JpaCityDaoTest {
 				parisAosv1ArvalLocation,
 				parisSeleniumV1HermesLocation );
 		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		setParisLocationAndRemoveOphansInJpa( SetCityWithNullLocationFunction -> {				
+		setParisLocationAndRemoveOphansInJpa( cityRepo -> {
 				paris.setLocations(null);
 				cityRepo.save(paris);
 				cityRepo.flush();				

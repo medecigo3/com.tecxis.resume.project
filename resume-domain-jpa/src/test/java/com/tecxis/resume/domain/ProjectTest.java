@@ -991,14 +991,14 @@ public class ProjectTest {
 		assertEquals(SUCCESS, Utils.isProjectValid(morningstartV1Project,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
 		
 		/**Remove Project location by city*/	
-		deleteParisMorningstarV1AxeltisLocationInJpa(deleteLocationFuntion -> {			
+		deleteParisMorningstarV1AxeltisLocationInJpa(em -> {
 			assertTrue(paris.removeLocation(morningstartV1Project));
 			assertTrue(morningstartV1Project.removeLocation(paris));		
 			SchemaUtils.testInitialState(jdbcTemplateProxy);
-			entityManager.merge(morningstartV1Project);
-			entityManager.merge(paris);
-			entityManager.flush();
-			entityManager.clear();
+			em.merge(morningstartV1Project);
+			em.merge(paris);
+			em.flush();
+			em.clear();
 			
 		}, entityManager, jdbcTemplateProxy);
 		

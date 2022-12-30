@@ -119,7 +119,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(john.getId()); // set new Staff id.
 		
-		setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(assignmentRepo->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -131,10 +131,10 @@ public class JpaAssignmentDaoTest {
 			assignmentRepo.delete(staffProjectAssignment1);
 			assignmentRepo.save(newAssignment);
 			assignmentRepo.flush();
-			entityManager.clear();			
 			
-		}, assignmentRepo, jdbcTemplateProxy);
-		
+		}, assignmentRepo,  jdbcTemplateProxy);
+
+		entityManager.clear();
 		/**Find old Assignment*/
 		assertFalse(assignmentRepo.findById(id).isPresent());
 		/**Find new Assignment*/
@@ -174,7 +174,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(assignmentRepo ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -186,10 +186,9 @@ public class JpaAssignmentDaoTest {
 			assignmentRepo.delete(staffProjectAssignment1);
 			assignmentRepo.save(newAssignment);
 			assignmentRepo.flush();
-			entityManager.clear();		
-			
 		}, assignmentRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();
 		/**Find old Assignment*/
 		assertFalse(assignmentRepo.findById(id).isPresent());
 		/**Find new Assignment*/
@@ -227,7 +226,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		setAssignmentAssociationInJpa(setStaffAssignment ->{
+		setAssignmentAssociationInJpa(assignmentRepo ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -239,10 +238,9 @@ public class JpaAssignmentDaoTest {
 			assignmentRepo.delete(staffProjectAssignment1);
 			assignmentRepo.save(newAssignment);
 			assignmentRepo.flush();
-			entityManager.clear();
-			
 		}, assignmentRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();
 		/**Find old Assignment*/
 		assertFalse(assignmentRepo.findById(id).isPresent());
 		/**Find new Assignment*/
@@ -281,13 +279,14 @@ public class JpaAssignmentDaoTest {
 		assertEquals(taskId, task1.getId().longValue());		
 		
 		/**Insert Assignment*/
-		insertAssignmentInJpa(insertAssignmentFunction->{
+		insertAssignmentInJpa(assignmentRepo->{
 			Assignment amtAssignment  = new Assignment(adir, amt, task1);
 			assignmentDao.add(amtAssignment);
 			assignmentRepo.flush();	 //manually commit the transaction			
-			entityManager.clear();   //Detach managed entities from persistence context to reload new changes
+
 		}, assignmentRepo, jdbcTemplateProxy);
-		
+
+		entityManager.clear();   //Detach managed entities from persistence context to reload new changes
 		/**Validate Assignment is inserted*/
 		AssignmentId newAssignmentId = new AssignmentId();
 		newAssignmentId.setProjectId(new ProjectId(projectId, clientId));
@@ -328,13 +327,14 @@ public class JpaAssignmentDaoTest {
 		Assignment staffProjectAssignment1 = assignmentRepo.findById(id).get();
 		assertNotNull(staffProjectAssignment1);		
 	
-		deleteAssignmentInJpa(deleteAssignmentFunction->{
-			/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */	
-			entityManager.remove(staffProjectAssignment1);
-			entityManager.flush(); //manually commit the transaction
-			entityManager.clear(); //Detach managed entities from persistence context to reload new changes
-		}, assignmentRepo, jdbcTemplateProxy);		
+		deleteAssignmentInJpa(assignmentRepo->{
+			/**Assignment has to be removed as it is the owner of the ternary relationship between Staff <-> Project <-> Task */
+			assignmentRepo.delete(staffProjectAssignment1);
+			assignmentRepo.flush(); //manually commit the transaction
 
+		}, assignmentRepo, jdbcTemplateProxy);
+
+		entityManager.clear(); //Detach managed entities from persistence context to reload new changes
 		/**Validate target Assignment does not exist*/
 		assertNull(entityManager.find(Assignment.class, id));
 		parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);

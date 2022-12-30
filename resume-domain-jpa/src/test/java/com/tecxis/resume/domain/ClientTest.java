@@ -84,11 +84,11 @@ public class ClientTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertClient() {		
-		Long id =  insertClientInJpa(insertClientFunction ->{
+		Long id =  insertClientInJpa(em ->{
 			Client micropole = new Client();
 			micropole.setName(MICROPOLE);
-			entityManager.persist(micropole);
-			entityManager.flush();
+			em.persist(micropole);
+			em.flush();
 			return micropole.getId();
 		}, 				
 		entityManager, jdbcTemplateProxy);		
@@ -283,11 +283,11 @@ public class ClientTest {
 		assertEquals(2, axeltis.getContracts().size());
 		
 		
-		deleteClientInJpa(deleteClientFunction-> {
+		deleteClientInJpa(em-> {
 			/**Remove client*/
-			entityManager.remove(axeltis);
-			entityManager.flush();	//manually commit the transaction	
-			entityManager.clear(); //Detach managed entities from persistence context to reload new change
+			em.remove(axeltis);
+			em.flush();	//manually commit the transaction
+			em.clear(); //Detach managed entities from persistence context to reload new change
 			
 		}, entityManager, jdbcTemplateProxy);	
 		
