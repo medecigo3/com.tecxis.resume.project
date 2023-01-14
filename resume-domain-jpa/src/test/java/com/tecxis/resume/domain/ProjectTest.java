@@ -14,6 +14,7 @@ import static com.tecxis.resume.domain.Constants.BRUSSELS;
 import static com.tecxis.resume.domain.Constants.CITY_PARIS_TOTAL_LOCATIONS;
 import static com.tecxis.resume.domain.Constants.CLIENT_ARVAL_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_AXELTIS_ID;
+import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_EULER_HERMES_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_HERMES_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_LA_BANQUE_POSTALE_ID;
@@ -29,10 +30,12 @@ import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
 import static com.tecxis.resume.domain.Constants.JOHN_NAME;
 import static com.tecxis.resume.domain.Constants.LONDON;
 import static com.tecxis.resume.domain.Constants.MANCHESTER;
+import static com.tecxis.resume.domain.Constants.MANCHESTER_ID;
 import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
 import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.PARIS;
 import static com.tecxis.resume.domain.Constants.PARIS_ID;
+import static com.tecxis.resume.domain.Constants.PROJECT_ADIR_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_AOS_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_CENTRE_DES_COMPETENCES_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_DESC;
@@ -51,7 +54,7 @@ import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.TASK2;
-import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.Constants.TASK22;
 import static com.tecxis.resume.domain.Constants.TASK22_ID;
 import static com.tecxis.resume.domain.Constants.TASK23;
 import static com.tecxis.resume.domain.Constants.TASK23_ID;
@@ -81,12 +84,15 @@ import static com.tecxis.resume.domain.Constants.TASK5;
 import static com.tecxis.resume.domain.Constants.TASK57;
 import static com.tecxis.resume.domain.Constants.TASK6;
 import static com.tecxis.resume.domain.Constants.TED;
+import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Constants.VERSION_3;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.deleteParisMorningstarV1AxeltisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.isProjectValid;
 import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsAndRemoveOphansInJpa;
+import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -383,6 +389,12 @@ public class ProjectTest {
 		/**Find Project Client*/
 		Client barclays = clientRepo.getClientByName(BARCLAYS);
 		
+		
+		/**Find Project locations*/
+		LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), new ProjectId(PROJECT_ADIR_V1_ID, CLIENT_BARCLAYS_ID));
+		Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
+		List <Location> adirV1Locations = List.of(adirV1Location);
+		
 		/**Find Project Assignments*/
 		AssignmentId assignmentId1 = new AssignmentId(adirV1.getId(), amt.getId(), task1.getId());
 		Assignment assignment1 = assignmentRepo.findById(assignmentId1).get();		
@@ -406,53 +418,61 @@ public class ProjectTest {
 		AssignmentId assignmentId6 = new AssignmentId(adirV1.getId(), amt.getId(), task6.getId());
 		Assignment assignment6 = assignmentRepo.findById(assignmentId6).get();
 		assertNotNull(assignment6);	
-		List <Assignment> adirV1Assignments = List.of(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6);
-
+		
 		/**Validate Project assignments*/
 		List <Assignment> amtAssignments = List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6);
-		Utils.isProjectValid(adirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);	
-
-		/**Build new Assignments*/
-		Assignment newAssignment = new Assignment(adirV1, amt, task1);
-		List <Assignment> newAmtAssignments = List.of(newAssignment);
+		assertEquals(SUCCESS, isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, amtAssignments));	
 		
-		/**Project-> assignments assoc does not cascade on REMOVE*/
-		Utils.setProjectAssignmentsInJpa(
-				//TODO continue here. Execute in 4 steps, 
-				//Delete ADIR v1 locations 
-				//Delete ADIR v1 assignments
-				//Delete ADIR v1 project
-				//Create new ADIR Project
-				//See ContractTest. test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm
+		/**Project-> assignments assocs. does not cascade on REMOVE*/
+		setProjectAssignmentsInJpa(
 			em -> {
-				LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), adirV1.getId()); 
-				Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
-				em.remove(adirV1Location);	
-				em.flush();
+				/**Deletes ADIR v1 locations*/
+				em.clear();
+				Location currentAdirV1Location = locationRepo.findById(adirV1LocationId).get();
+				em.remove(currentAdirV1Location);
 			}, 
 			em -> {
-				adirV1Assignments.forEach(assignment -> {
-					em.remove(assignment);
-				});
-				em.flush();
+				/**Deletes ADIR v1 assignments**/
+				em.clear();				
+				Project oldAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
+				oldAdirV1.getAssignments().forEach(assignment -> {
+					em.remove(assignment);}
+				);
 				
 			},
 			em -> {
-				em.remove(adirV1);
-				em.flush();
+				/**Delete ADIR v1 project*/
+				em.clear();				
+				Project oldAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
+				em.remove(oldAdirV1);
 			},
 			em -> {
-			adirV1.setAssignments(newAmtAssignments);			
-			assignment1.setProject(adirV1);		
-			em.merge(adirV1);
-			em.merge(assignment1);
-			em.flush();
-			em.clear();
+				/**Creates new ADIR Project*/
+				Project newAdirV1 = new Project();				
+				newAdirV1.setId( new ProjectId(PROJECT_ADIR_V1_ID, CLIENT_BARCLAYS_ID));
+				newAdirV1.setName(ADIR);
+				newAdirV1.setVersion(VERSION_1);
+				/**Build new Assignments*/
+				Staff recentAmt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+				Task recentTask1 = taskRepo.getTaskByDesc(TASK1);
+				Assignment newAssignment = new Assignment(newAdirV1, recentAmt, recentTask1);
+				List <Assignment> newAmtAssignments = List.of(newAssignment);	
+				/**Set new Assignments*/
+				newAdirV1.setAssignments(newAmtAssignments);			
+				assignment1.setProject(newAdirV1);				
+				em.persist(newAdirV1);				
+				em.merge(assignment1);
+				em.flush();
+				em.clear();
 		},entityManager, jdbcTemplateProxy);
 		
-		/**Validate Project hasn't changed*/
-		Project newAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
-		Utils.isProjectValid(newAdirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);
+		/**Validate Project has new assignments changed*/
+		Project newAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
+		Staff recentAmt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		Task recentTask1 = taskRepo.getTaskByDesc(TASK1);
+		Assignment newAssignment = new Assignment(newAdirV1, recentAmt, recentTask1);
+		List <Assignment> newAmtAssignments = List.of(newAssignment);		
+		assertEquals(SUCCESS, isProjectValid(newAdirV1, ADIR, VERSION_1, List.of(), barclays, newAmtAssignments));
 
 	}
 	
@@ -460,12 +480,11 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm_NullSet(){
+	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm_NullSet(){		
 		/**Find project to test*/
 		Project adirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
 		assertEquals(ADIR, adirV1.getName());
 		assertEquals(VERSION_1, adirV1.getVersion());
-
 				
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);		
@@ -480,6 +499,11 @@ public class ProjectTest {
 		
 		/**Find Project Client*/
 		Client barclays = clientRepo.getClientByName(BARCLAYS);
+		
+		/**Find Project locations*/
+		LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), new ProjectId(PROJECT_ADIR_V1_ID, CLIENT_BARCLAYS_ID));
+		Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
+		List <Location> adirV1Locations = List.of(adirV1Location);
 		
 		/**Find Project Assignments*/
 		AssignmentId assignmentId1 = new AssignmentId(adirV1.getId(), amt.getId(), task1.getId());
@@ -506,52 +530,33 @@ public class ProjectTest {
 		assertNotNull(assignment6);
 		List <Assignment> adirV1Assignments = List.of(assignment1, assignment2, assignment3, assignment4, assignment5, assignment6);
 		
-		/**Validate Project assignments*/
-		List <Assignment> amtAssignments = List.of(assignment1,assignment2,assignment3,assignment4,assignment5,assignment6);
-		Utils.isProjectValid(adirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);
+		/**Validate Project assignments*/		
+		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
-		/**Find Project locations*/
-		entityManager.clear(); 
-
-		
-		
-		/**Project-> assignments assoc does not cascade on REMOVE*/
+		/**Project-> assignments assoc. set to: orphanRemoval=false*/
 		setProjectAssignmentsAndRemoveOphansInJpa(
-			//TODO continue here. TODO in 4 steps, 
-			//Delete ADIR v1 locations 
-			//Delete ADIR v1 assignments
-			//Delete ADIR v1 project
-			//Create new ADIR Project
-			//See ContractTest. test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm
 			em -> {
-				LocationId adirV1LocationId = new LocationId(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), adirV1.getId()); 
-				Location adirV1Location = locationRepo.findById(adirV1LocationId).get();
-				em.remove(adirV1Location);	
+				em.clear();				
+				Project currentAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);						
+				currentAdirV1.setAssignments(null);			
+				/**Set orphans ADIR v1 assignment associations**/						
+				currentAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
+				currentAdirV1.getAssignments().forEach(assignment -> {
+						assignment.setProject(null);
+					}
+				);		
+				em.merge(currentAdirV1);
+				currentAdirV1.getAssignments().forEach(assignment -> {
+						em.merge(assignment);
+					}
+				);	
 				em.flush();
-			}, 
-			em -> {
-				adirV1Assignments.forEach(assignment -> {
-					em.remove(assignment);
-				});
-				em.flush();
-				
-			},
-			em -> {						
-				em.remove(projectRepo.findByNameAndVersion(ADIR, VERSION_1));
-				em.flush();
-			},	
-			em -> {
-				adirV1.setAssignments(null);			
-				assignment1.setProject(null);		
-				em.merge(adirV1);
-				em.merge(assignment1);
-				em.flush();
-				em.clear();
+				em.clear();				
 		},entityManager, jdbcTemplateProxy);
 		
 		/**Validate Project hasn't changed*/
 		Project newAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
-		Utils.isProjectValid(newAdirV1, ADIR, VERSION_1, adirV1.getLocations(), barclays, amtAssignments);
+		isProjectValid(newAdirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 	}
 
 	@Test

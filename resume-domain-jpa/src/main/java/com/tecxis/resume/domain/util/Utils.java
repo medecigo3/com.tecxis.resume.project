@@ -1075,75 +1075,47 @@ public class Utils {
 		/**Delete locations*/
 		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteLocationsFunction.accept(entityManager);
-		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Locations_Delete, jdbcTemplate);
 		/**Delete assignments*/		
 		deleteAssignmentsFunction.accept(entityManager);
-		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**delete Project*/
-		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteProjectFunction.accept(entityManager);		
-		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
-		/**New Project with previous Project ID with new assignments */
-		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		setProjectAssignmentsFunction.accept(entityManager);
-		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		
-	}
-	
-	public static void setProjectAssignmentsInJpa(JPATransactionVoidFunction <LocationRepository>  deleteLocationsFunction, JPATransactionVoidFunction <AssignmentRepository>  deleteAssignmentsFunction, JPATransactionVoidFunction <ProjectRepository>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo,JdbcTemplate jdbcTemplate) {
-		/**Delete locations*/
-		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteLocationsFunction.accept(locationRepo);
-		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Delete assignments*/		
-		deleteAssignmentsFunction.accept(assignmentRepo);
-		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**delete Project*/
-		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteProjectFunction.accept(projectRepo);
-		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
-		/**New Project with previous Project ID with new assignments */
-		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
-		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		
-	}
-	
-	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction, JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		/**Delete locations*/
-		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteLocationsFunction.accept(entityManager);
-		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Locations_Delete, jdbcTemplate);
-		/**Delete assignments*/		
-		deleteAssignmentsFunction.accept(entityManager);
-		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**delete Project*/
-		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteProjectFunction.accept(entityManager);
-		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
 		/**New Project with previous Project ID with new assignments */
+		setProjectAssignmentsFunction.accept(entityManager);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsInJpa(JPATransactionVoidBiFunction <LocationRepository, EntityManager>  deleteLocationsFunction, JPATransactionVoidBiFunction <AssignmentRepository, EntityManager>  deleteAssignmentsFunction, JPATransactionVoidBiFunction <ProjectRepository, EntityManager>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(locationRepo,em);		
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(assignmentRepo, em);		
+		/**delete Project*/		
+		deleteProjectFunction.accept(projectRepo, em);		
+		/**New Project with previous Project ID with new assignments */		
+		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/
 		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setProjectAssignmentsFunction.accept(entityManager);
 		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		
 	}
 	
-	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <LocationRepository>  deleteLocationsFunction, JPATransactionVoidFunction <AssignmentRepository>  deleteAssignmentsFunction, JPATransactionVoidFunction <ProjectRepository>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo,  LocationRepository locationRepo, AssignmentRepository assignmentRepo, JdbcTemplate jdbcTemplate) {
-		/**Delete locations*/
-		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteLocationsFunction.accept(locationRepo);
-		deleteLocationsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Delete assignments*/		
-		deleteAssignmentsFunction.accept(assignmentRepo);
-		deleteAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**delete Project*/
-		deleteProjectFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		deleteProjectFunction.accept(projectRepo);
-		/**New Project with previous Project ID with new assignments */
-		deleteProjectFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Delete, jdbcTemplate);
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction,  ProjectRepository projectRepo,  AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+		/**Clear EM*/
+		clearEMFunction.accept(em);
+		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/		
 		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
 		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Flush EM*/
+		flushEMFunction.accept(em);
 		
 	}
 }
