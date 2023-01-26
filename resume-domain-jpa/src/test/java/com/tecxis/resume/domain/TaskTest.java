@@ -101,7 +101,7 @@ public class TaskTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
@@ -153,7 +153,7 @@ public class TaskTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client arval = Utils.insertClient(ARVAL, entityManager);		
-		Project aos = Utils.insertProject(AOS, VERSION_1, arval, entityManager);
+		Project aos = Utils.insertProject(AOS, VERSION_1, arval, null, entityManager);
 		assertEquals(1, aos.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		
@@ -307,7 +307,7 @@ public class TaskTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, entityManager);
+		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, entityManager);
 		assertEquals(1, ted.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		

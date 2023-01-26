@@ -82,6 +82,7 @@ public class Constants {
 	public static final String SWINDON = "Swindon";
 	public static final long PARIS_ID = 4L;
 	public static final long LONDON_ID = 1L;
+	public static final long MANCHESTER_ID = 1L;
 	/**END CITY*/
 	/**COUNTRY*/		
 	public static final String BELGIUM = "Belgium";
@@ -104,6 +105,7 @@ public class Constants {
 	public static final String LA_BANQUE_POSTALE = "La Banque Postale";
 	public static final String SG = "Societe Generale Investment Banking";
 	public static final String SG_WEBSITE = "www.sg.fr";
+	public static final long CLIENT_BARCLAYS_ID = 1L;
 	public static final long CLIENT_SAGEMCOM_ID = 4L;	
 	public static final long CLIENT_MICROPOLE_ID = 5L;
 	public static final long CLIENT_LA_BANQUE_POSTALE_ID = 6L;
@@ -153,6 +155,7 @@ public class Constants {
 	public static final String VERSION_2 = "2.0";
 	public static final String VERSION_3 = "3.0";
 	public static final String PROJECT_DESC = "project desc.";
+	public static long PROJECT_ADIR_V1_ID = 1L; 
 	public static long PROJECT_TED_V1_ID = 4L;
 	public static long PROJECT_PARCOURS_V1_ID = 5L;
 	public static long PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID = 6L;

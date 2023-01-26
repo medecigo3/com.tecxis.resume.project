@@ -784,11 +784,11 @@ public class CityTest {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, null, entityManager);
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, null, entityManager);
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(3, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 								
@@ -838,11 +838,11 @@ public class CityTest {
 		Country UK = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
-		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, entityManager);
+		Project sherpaProject = Utils.insertProject(SHERPA, VERSION_1, belfius, null, entityManager);
 		Client axeltis = Utils.insertClient(AXELTIS, entityManager);
-		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, entityManager);
+		Project morningStarV1Project = Utils.insertProject(MORNINGSTAR, VERSION_1, axeltis, null, entityManager);
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);			
+		Project adirProject = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);			
 		City london = Utils.insertCity(LONDON, UK, entityManager);		
 		City paris = Utils.insertCity(PARIS, france, entityManager);
 		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));

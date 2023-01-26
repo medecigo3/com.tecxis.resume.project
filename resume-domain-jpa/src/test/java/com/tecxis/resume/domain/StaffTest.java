@@ -652,7 +652,7 @@ public class StaffTest {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
-		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		assertEquals(1, adir.getId().getProjectId());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		

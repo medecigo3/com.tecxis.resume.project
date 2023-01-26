@@ -92,7 +92,7 @@ public class AssignmentTest {
 		assertEquals(clientId, barclays.getId().longValue());	
 		
 		/**Insert project*/
-		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, entityManager);
+		Project adir = Utils.insertProject(ADIR, VERSION_1, barclays, null, entityManager);
 		assertEquals(projectId, adir.getId().getProjectId());	
 		
 		/**Insert staff*/		

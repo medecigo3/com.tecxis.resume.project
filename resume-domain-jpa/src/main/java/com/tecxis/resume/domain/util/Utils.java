@@ -48,10 +48,28 @@ import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import com.tecxis.resume.domain.*;
-import com.tecxis.resume.domain.util.function.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.tecxis.resume.domain.Agreement;
+import com.tecxis.resume.domain.Assignment;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.Country;
+import com.tecxis.resume.domain.Course;
+import com.tecxis.resume.domain.EmploymentContract;
+import com.tecxis.resume.domain.Enrolment;
+import com.tecxis.resume.domain.Interest;
+import com.tecxis.resume.domain.Location;
+import com.tecxis.resume.domain.Project;
+import com.tecxis.resume.domain.SchemaUtils;
+import com.tecxis.resume.domain.Service;
+import com.tecxis.resume.domain.Skill;
+import com.tecxis.resume.domain.Staff;
+import com.tecxis.resume.domain.StaffSkill;
+import com.tecxis.resume.domain.Supplier;
+import com.tecxis.resume.domain.SupplyContract;
+import com.tecxis.resume.domain.Task;
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.LocationId;
 import com.tecxis.resume.domain.id.ProjectId;
@@ -74,6 +92,16 @@ import com.tecxis.resume.domain.repository.StaffSkillRepository;
 import com.tecxis.resume.domain.repository.SupplierRepository;
 import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.function.AgreementValidator;
+import com.tecxis.resume.domain.util.function.CityValidator;
+import com.tecxis.resume.domain.util.function.ContractValidator;
+import com.tecxis.resume.domain.util.function.CountryValidator;
+import com.tecxis.resume.domain.util.function.JPATransactionFunction;
+import com.tecxis.resume.domain.util.function.JPATransactionVoidBiFunction;
+import com.tecxis.resume.domain.util.function.JPATransactionVoidFunction;
+import com.tecxis.resume.domain.util.function.ProjectValidator;
+import com.tecxis.resume.domain.util.function.SupplyContractValidator;
+import com.tecxis.resume.domain.util.function.ValidationResult;
 
 public class Utils {
 
@@ -360,24 +388,26 @@ public class Utils {
 		locationRepo.flush();
 	}	
 
-	public static Project insertProject(String name, String version, Client client, EntityManager entityManager) {
-		Project project = buildProject(name, version, client);
+	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, EntityManager entityManager) {
+		Project project = buildProject(name, version, client, assignments);
 		entityManager.persist(project);
 		entityManager.flush();
 		return project;
 	}
 	
-	public static Project insertProject(String name, String version, Client client, ProjectRepository projectRepo) {
-		Project project = buildProject(name, version, client);		
+	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, ProjectRepository projectRepo) {
+		Project project = buildProject(name, version, client, assignments);		
 		projectRepo.saveAndFlush(project);
 		return project;	
 	}
 	
-	public static Project buildProject(String name, String version, Client client) {
+	public static Project buildProject(String name, String version, Client client, List <Assignment> assignments) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
+		if (assignments != null)
+			project.setAssignments(assignments);
 		return project;
 	}
 	
@@ -1010,6 +1040,54 @@ public class Utils {
 		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractSupplyContractsWithNullFunction.accept(contractRepo);
 		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AmesysSagemContract_SupplyContracts_NullUpdate, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsInJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction,  JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(entityManager);
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(entityManager);
+		/**delete Project*/
+		deleteProjectFunction.accept(entityManager);
+		/**New Project with previous Project ID with new assignments */
+		setProjectAssignmentsFunction.accept(entityManager);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsInJpa(JPATransactionVoidBiFunction <LocationRepository, EntityManager>  deleteLocationsFunction, JPATransactionVoidBiFunction <AssignmentRepository, EntityManager>  deleteAssignmentsFunction, JPATransactionVoidBiFunction <ProjectRepository, EntityManager>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+		/**Delete locations*/
+		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationsFunction.accept(locationRepo,em);		
+		/**Delete assignments*/		
+		deleteAssignmentsFunction.accept(assignmentRepo, em);		
+		/**delete Project*/		
+		deleteProjectFunction.accept(projectRepo, em);		
+		/**New Project with previous Project ID with new assignments */		
+		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(entityManager);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		
+	}
+	
+	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction,  ProjectRepository projectRepo,  AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+		/**Clear EM*/
+		clearEMFunction.accept(em);
+		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/		
+		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Flush EM*/
+		flushEMFunction.accept(em);
 		
 	}
 }
