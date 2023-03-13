@@ -241,7 +241,8 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 	
 	public void setLocations(List<Location> locations) {
 		this.locations.clear();
-		this.locations.addAll(locations); //TODO add null check
+		if (locations != null)//fixes RES-17, consequently fixes RES-16 
+			this.locations.addAll(locations); 
 	}
 	
 	public List<Location> getLocations() {
