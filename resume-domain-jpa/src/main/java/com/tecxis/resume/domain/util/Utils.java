@@ -168,7 +168,7 @@ public class Utils {
 	}
 
 	public static Client insertClient(String name, EntityManager entityManager) {
-		Client client = buildClient(name);
+		Client client = buildClient(name, 0L); //RESB-9 fix
 		entityManager.persist(client);		
 		entityManager.flush();
 		return client;
@@ -176,15 +176,16 @@ public class Utils {
 	}
 	
 	public static Client insertClient(String name, ClientRepository clientRepo) {
-		Client client = buildClient(name);
+		Client client = buildClient(name, 0L);//RESB-9 fix
 		clientRepo.saveAndFlush(client);		
 		return client;
 		
 	}	
 	
-	public static Client buildClient(String name) {
+	public static Client buildClient(String name, long id) {//RESB-9 fix
 		Client client = new Client();
-		client.setName(name);	
+		client.setName(name);
+		client.setId(id);
 		return client;		
 	}
 	
@@ -389,25 +390,27 @@ public class Utils {
 	}	
 
 	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, EntityManager entityManager) {
-		Project project = buildProject(name, version, client, assignments);
+		Project project = buildProject(name, version, client, assignments, null);
 		entityManager.persist(project);
 		entityManager.flush();
 		return project;
 	}
 	
 	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, ProjectRepository projectRepo) {
-		Project project = buildProject(name, version, client, assignments);		
+		Project project = buildProject(name, version, client, assignments, null);		
 		projectRepo.saveAndFlush(project);
 		return project;	
 	}
 	
-	public static Project buildProject(String name, String version, Client client, List <Assignment> assignments) {
+	public static Project buildProject(String name, String version, Client client, List <Assignment> assignments, List <Location> locations) {
 		Project project = new Project();
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
 		if (assignments != null)
 			project.setAssignments(assignments);
+		if (locations != null)//RES-16 fix
+			project.setLocations(locations); 
 		return project;
 	}
 	

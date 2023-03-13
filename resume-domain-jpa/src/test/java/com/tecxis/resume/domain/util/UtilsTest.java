@@ -10,6 +10,7 @@ import static com.tecxis.resume.domain.Constants.AXELTIS;
 import static com.tecxis.resume.domain.Constants.BARCLAYS;
 import static com.tecxis.resume.domain.Constants.BIRTHDATE;
 import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
+import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_ENDDATE;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
 import static com.tecxis.resume.domain.Constants.CONTRACT1_STARTDATE;
@@ -1283,7 +1284,7 @@ public class UtilsTest {
 	
 	@Test
 	public void testIsAgreementValid() {			
-		Contract contract = buildContract(buildClient(BARCLAYS), CONTRACT1_NAME);
+		Contract contract = buildContract(buildClient(BARCLAYS, CLIENT_BARCLAYS_ID), CONTRACT1_NAME);
 		Service service = buildService(MULE_ESB_CONSULTANT);
 		Agreement agreement = buildAgreement(contract, service);
 		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
@@ -1295,8 +1296,8 @@ public class UtilsTest {
 	
 	@Test
 	public void testIsAssignmentValid() {
-		Client client = buildClient(BARCLAYS);		
-		Project project = buildProject(ADIR, VERSION_1, client, null);
+		Client client = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);		
+		Project project = buildProject(ADIR, VERSION_1, client, null, null);
 		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
 		Task task = buildTask(TASK1);
 		Assignment assignment = buildAssignment(project, staff, task);
