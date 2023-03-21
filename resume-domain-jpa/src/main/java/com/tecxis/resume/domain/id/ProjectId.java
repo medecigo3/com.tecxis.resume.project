@@ -24,7 +24,6 @@ public class ProjectId implements Serializable, Sequence <Long, Long> {
 
 	/**Hibernate default constructor*/
 	public ProjectId() {
-		super();
 	}
 	
 	
