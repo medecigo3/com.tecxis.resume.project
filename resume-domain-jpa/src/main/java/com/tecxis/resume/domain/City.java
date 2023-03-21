@@ -1,28 +1,16 @@
 package com.tecxis.resume.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EntityExistsException;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 import com.tecxis.resume.domain.id.CityId;
 import com.tecxis.resume.domain.id.CompositeIdentifiable;
 import com.tecxis.resume.domain.id.SequenceKeyGenerator;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -72,7 +60,7 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	}
 		
 	public City(CityId id) {
-		super();
+		this();
 		this.id = id;
 	}
 
