@@ -42,7 +42,6 @@ public class Location implements Serializable {
 	private Project project;
 	
 	public Location() {
-		super();
 		this.id = new LocationId();
 	}		
 
