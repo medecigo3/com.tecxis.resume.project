@@ -72,8 +72,7 @@ public class SupplyContract implements Serializable {
 	private Date startDate;
 
 	
-	public SupplyContract() {
-		super();	
+	public SupplyContract() {	
 		this.id = new SupplyContractId();
 	}
 
