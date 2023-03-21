@@ -60,11 +60,10 @@ public class EmploymentContract implements Serializable, Identifiable  <Long>  {
 
 
 	public EmploymentContract() {
-		super();
 	}
 	
 	public EmploymentContract(Staff staff, Supplier supplier) {
-		super();
+		this();
 		this.staff = staff;
 		this.supplier = supplier;
 	}
