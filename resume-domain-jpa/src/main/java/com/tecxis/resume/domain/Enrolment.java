@@ -37,7 +37,6 @@ public class Enrolment implements Serializable{
 	private Course course;
 	
 	public Enrolment() {
-		super();
 		this.id = new EnrolmentId();
 
 	}		
