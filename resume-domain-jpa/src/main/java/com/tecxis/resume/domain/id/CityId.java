@@ -24,7 +24,6 @@ public class CityId implements Serializable, Sequence <Long, Long> {
 	}
 	
 	public CityId() {
-		super();
 	}
 	
 	public long getCityId() {
