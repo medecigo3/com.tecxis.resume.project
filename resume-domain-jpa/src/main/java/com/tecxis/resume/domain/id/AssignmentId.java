@@ -29,7 +29,6 @@ public class AssignmentId implements Serializable {
 	}
 
 	public AssignmentId() {
-		super();
 	}	
 
 	public ProjectId getProjectId() {
