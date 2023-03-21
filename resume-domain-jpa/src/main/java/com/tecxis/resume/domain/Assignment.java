@@ -45,7 +45,6 @@ public class Assignment implements Serializable {
 	
 	
 	public Assignment() {
-		super();
 		this.id = new AssignmentId();
 	}
 
