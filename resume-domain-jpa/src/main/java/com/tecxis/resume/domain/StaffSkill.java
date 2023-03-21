@@ -38,7 +38,6 @@ public class StaffSkill implements Serializable{
 		
 
 	public StaffSkill() {
-		super();
 		this.id = new StaffSkillId();
 
 	}
