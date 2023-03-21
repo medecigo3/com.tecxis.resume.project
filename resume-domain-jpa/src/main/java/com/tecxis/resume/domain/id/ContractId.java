@@ -17,11 +17,10 @@ public class ContractId implements Serializable, Sequence <Long, Long> {
 	private long clientId;
 	
 	public ContractId() {
-		super();
 	}
 
 	public ContractId(long contractId, long clientId) {
-		super();
+		this();
 		this.contractId = contractId;
 		this.clientId = clientId;
 	}
