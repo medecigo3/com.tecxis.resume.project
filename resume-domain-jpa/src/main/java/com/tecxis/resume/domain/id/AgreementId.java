@@ -20,7 +20,6 @@ public class AgreementId implements Serializable{
 		}
 
 		public AgreementId() {
-			super();
 			this.contractId = new ContractId();
 		}
 
