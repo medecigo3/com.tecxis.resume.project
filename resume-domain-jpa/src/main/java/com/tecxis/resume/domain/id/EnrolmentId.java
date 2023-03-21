@@ -15,13 +15,11 @@ public class EnrolmentId implements Serializable{
 	private long courseId;//corresponds to PK type of Course
 	
 	
-	public EnrolmentId() {
-		super();
-		
+	public EnrolmentId() {		
 	}
 
 	public EnrolmentId(long staffId, long courseId) {
-		super();
+		this();
 		this.staffId = staffId;
 		this.courseId = courseId;
 	}
