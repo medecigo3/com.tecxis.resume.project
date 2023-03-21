@@ -15,11 +15,10 @@ public class StaffSkillId implements Serializable {
 	private long staffId; //Corresponds to PK type of Staff
 
 	public StaffSkillId() {
-		super();
 	}
 	
 	public StaffSkillId(long staffId, long skillId) {
-		super();
+		this();
 		this.skillId = skillId;
 		this.staffId = staffId;
 	}
