@@ -312,7 +312,6 @@ public class Constants {
 	public static final long AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID = 1L; 
 	
 	private Constants() {
-		super();
 	}
 	
 
