@@ -58,7 +58,6 @@ public class Agreement implements Serializable{
 	private Service service;
 	
 	public Agreement() {
-		super();
 		this.id = new AgreementId();
 	}
 	
