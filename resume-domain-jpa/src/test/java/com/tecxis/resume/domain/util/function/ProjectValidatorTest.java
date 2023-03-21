@@ -1,54 +1,17 @@
 package com.tecxis.resume.domain.util.function;
 
-import static com.tecxis.resume.domain.Constants.ADIR;
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BIRTHDATE;
-import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SAGEMCOM_ID;
-import static com.tecxis.resume.domain.Constants.FRANCE_ID;
-import static com.tecxis.resume.domain.Constants.MANCHESTER_ID;
-import static com.tecxis.resume.domain.Constants.PARIS_ID;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK2;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.util.Utils.buildAssignment;
-import static com.tecxis.resume.domain.util.Utils.buildCity;
-import static com.tecxis.resume.domain.util.Utils.buildClient;
-import static com.tecxis.resume.domain.util.Utils.buildLocation;
-import static com.tecxis.resume.domain.util.Utils.buildProject;
-import static com.tecxis.resume.domain.util.Utils.buildStaff;
-import static com.tecxis.resume.domain.util.Utils.buildTask;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_ASSIGNMENTS_ARE_NULL;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_CLIENT_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_LOCATIONS_ARE_NULL;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_NAME_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_SIZE_ASSIGNMENTS_ARE_DIFFERENT;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_SIZE_LOCATIONS_ARE_DIFFERENT;
-import static com.tecxis.resume.domain.util.function.ValidationResult.PROJECT_VERSION_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-import java.util.List;
-
+import com.tecxis.resume.domain.*;
+import com.tecxis.resume.domain.id.CityId;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tecxis.resume.domain.Assignment;
-import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.Location;
-import com.tecxis.resume.domain.Project;
-import com.tecxis.resume.domain.Staff;
-import com.tecxis.resume.domain.Task;
-import com.tecxis.resume.domain.id.CityId;
+import java.util.List;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.*;
+import static org.junit.Assert.*;
 
 public class ProjectValidatorTest {
 	
@@ -60,7 +23,7 @@ public class ProjectValidatorTest {
 	private Assignment assignment1; 
 	private Assignment assignment2;
 	private Location manchesterLocation;	
-	private City paris = buildCity(new CityId(PARIS_ID, FRANCE_ID));
+	private City paris = buildCity(new CityId(PARIS_ID, FRANCE_ID), PARIS);
 	private Location parisLocation;
 	
 	@Before
@@ -73,7 +36,7 @@ public class ProjectValidatorTest {
 		assignment1 = buildAssignment(adir, amt, task1);
 		assignment2 = buildAssignment(adir, amt, task2);
 		adir.setAssignments(List.of(assignment1, assignment2));	
-		City manchester = buildCity(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID));
+		City manchester = buildCity(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), MANCHESTER);
 		manchesterLocation = buildLocation(manchester, adir);		
 		adir.setLocations(List.of(manchesterLocation));
 		parisLocation = buildLocation(paris, adir);
@@ -131,8 +94,11 @@ public class ProjectValidatorTest {
 	@Test
 	public void testAreProjectLocationsValid() { //TODO continue testing RESB-17 here
 		//Test Project -> Locations assoc. are equal
-		assertEquals(SUCCESS, ProjectValidator.areProjectLocationsValid(List.of(manchesterLocation)).apply(adir));		
-	
+		assertEquals(SUCCESS, ProjectValidator.areProjectLocationsValid(List.of(manchesterLocation)).apply(adir));
+
+		//Tests Project -> Locations assoc. not not valid
+		assertEquals(PROJECT_LOCATIONS_ARE_NOT_VALID, ProjectValidator.areProjectLocationsValid(List.of(parisLocation)).apply(adir));
+
 		//Tests Project -> Locations assoc. is null	
 		assertThat(adir.getLocations(), Matchers.not(Matchers.empty()));
 		assertEquals(PROJECT_LOCATIONS_ARE_NULL, ProjectValidator.areProjectLocationsValid(null).apply(adir));
@@ -146,6 +112,7 @@ public class ProjectValidatorTest {
 		adir.setLocations(null);
 		assertThat(adir.getLocations(), Matchers.empty());
 		assertEquals(PROJECT_SIZE_LOCATIONS_ARE_DIFFERENT, ProjectValidator.areProjectLocationsValid(List.of(manchesterLocation)).apply(adir));
+
 	}
 
 }
