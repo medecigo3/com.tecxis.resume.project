@@ -14,13 +14,12 @@ public class LocationId implements Serializable {
 	private ProjectId projectId; // corresponds to PK type of Project
 
 	public LocationId(CityId cityId, ProjectId projectId) {
-		super();
+		this();
 		this.cityId = cityId;
 		this.projectId = projectId;
 	}
 	
 	public LocationId() {
-		super();
 	}
 
 	public CityId getCityId() {
