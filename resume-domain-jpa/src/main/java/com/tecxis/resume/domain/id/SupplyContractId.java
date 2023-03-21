@@ -19,11 +19,10 @@ public class SupplyContractId implements Serializable {
 	private long staffId;			
 						
 	public SupplyContractId() {
-		super();
 	}
 	
 	public SupplyContractId(long supplierId, ContractId contractId, long staffId) {
-		super();
+		this();
 		this.supplierId = supplierId;
 		this.contractId = contractId;
 		this.staffId = staffId;
