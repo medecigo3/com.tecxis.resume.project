@@ -1,14 +1,13 @@
 package com.tecxis.resume.domain.util.function;
 
-import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CITY_LOCATIONS_ARE_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.Location;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.function.Function;
 
-import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.Location;
+import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 
 @FunctionalInterface
 public interface CityValidator extends Function<City, ValidationResult>  {
@@ -21,7 +20,15 @@ public interface CityValidator extends Function<City, ValidationResult>  {
 		return city -> city.getCountry().getName().equals(countryName)? SUCCESS : CITY_IS_NOT_VALID;
 	}
 
-	static CityValidator areLocationsValid(List <Location> locations) {
-		return city -> locations.containsAll(city.getLocations()) ? SUCCESS : CITY_LOCATIONS_ARE_NOT_VALID;
+	static CityValidator areLocationsValid(@Null List <Location> locations) {//TODO RESB-18 fix test validation can handle when both assignments equals null		
+		return city -> {
+			if(locations == null || city.getLocations() == null)
+				return CITY_LOCATIONS_ARE_NULL;
+			else
+			if (locations.size() != city.getLocations().size())
+				return CITY_SIZE_LOCATIONS_ARE_DIFFERENT;
+			else
+				return locations.containsAll(city.getLocations()) ? SUCCESS : CITY_LOCATIONS_ARE_NOT_VALID;
+		};
 	}
 }
