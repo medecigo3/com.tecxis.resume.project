@@ -1,47 +1,12 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.ADIR;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.CITY_PARIS_TOTAL_LOCATIONS;
-import static com.tecxis.resume.domain.Constants.CLIENT_ARVAL_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_AXELTIS_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_EULER_HERMES_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_HERMES_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_LA_BANQUE_POSTALE_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_MICROPOLE_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SAGEMCOM_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SG_ID;
-import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.FRANCE_ID;
-import static com.tecxis.resume.domain.Constants.LONDON_ID;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.PARIS;
-import static com.tecxis.resume.domain.Constants.PARIS_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_AOS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_CENTRE_DES_COMPETENCES_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_EOLIS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_MORNINGSTAR_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_MORNINGSTAR_V2_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_PARCOURS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.id.LocationId;
+import com.tecxis.resume.domain.id.ProjectId;
+import com.tecxis.resume.domain.repository.CityRepository;
+import com.tecxis.resume.domain.repository.LocationRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.util.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +19,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.id.CityId;
-import com.tecxis.resume.domain.id.LocationId;
-import com.tecxis.resume.domain.id.ProjectId;
-import com.tecxis.resume.domain.repository.CityRepository;
-import com.tecxis.resume.domain.repository.LocationRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.util.Utils;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -181,31 +150,31 @@ public class LocationTest {
 	public void testEquals() {
 		{
 			/**Test same Location instances*/	
-			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
 			City test = paris;
 			assertTrue(paris.equals(test));
 		}
 		{	/**Tests different Location instances with same ids*/	
-			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
-			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
 			assertTrue(paris.equals(paris2));
 		}
 		{	
 			/**Tests Location instances with different CityId*/
-			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
-			City london = Utils.buildCity(Utils.buildCityId(LONDON_ID, UNITED_KINGDOM_ID));
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+			City london = Utils.buildCity(Utils.buildCityId(LONDON_ID, UNITED_KINGDOM_ID), PARIS);
 			assertFalse(london.equals(paris));
 		}
 		{	
 			/**Tests Location instances with different city id*/
-			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
-			City paris2 = Utils.buildCity(Utils.buildCityId(LONDON_ID, FRANCE_ID));
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+			City paris2 = Utils.buildCity(Utils.buildCityId(LONDON_ID, FRANCE_ID), PARIS);
 			assertFalse(paris.equals(paris2));
 		}
 		{	
 			/**Tests Location instances with different country id*/
-			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID));
-			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, UNITED_KINGDOM_ID));
+			City paris = Utils.buildCity(Utils.buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+			City paris2 = Utils.buildCity(Utils.buildCityId(PARIS_ID, UNITED_KINGDOM_ID), PARIS);
 			assertFalse(paris.equals(paris2));
 		}
 	}

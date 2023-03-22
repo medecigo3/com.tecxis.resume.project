@@ -1,40 +1,11 @@
 package com.tecxis.resume.domain;
-import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.domain.Constants.AGEAS;
-import static com.tecxis.resume.domain.Constants.AXELTIS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BELFIUS;
-import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SAGEMCOM_ID;
-import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
-import static com.tecxis.resume.domain.Constants.FRANCE_ID;
-import static com.tecxis.resume.domain.Constants.MICROPOLE;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.PARIS_ID;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.SG_WEBSITE;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.buildClient;
-import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
-import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
+import com.tecxis.resume.domain.id.CityId;
+import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,12 +21,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.id.CityId;
-import com.tecxis.resume.domain.repository.ClientRepository;
-import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
-import com.tecxis.resume.domain.util.Utils;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -321,7 +305,7 @@ public class ClientTest {
 	public void testEquals() {
 		Client sagemcom = buildClient(SAGEMCOM, CLIENT_SAGEMCOM_ID);
 		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
-		City paris = Utils.buildCity(new CityId(PARIS_ID, FRANCE_ID));
+		City paris = Utils.buildCity(new CityId(PARIS_ID, FRANCE_ID), PARIS);
 			
 		assertEquals(sagemcom, sagemcom);
 		assertNotEquals(sagemcom,paris);
