@@ -20,7 +20,7 @@ public interface CityValidator extends Function<City, ValidationResult>  {
 		return city -> city.getCountry().getName().equals(countryName)? SUCCESS : CITY_IS_NOT_VALID;
 	}
 
-	static CityValidator areLocationsValid(@Null List <Location> locations) {//TODO RESB-18 fix test validation can handle when both assignments equals null		
+	static CityValidator areLocationsValid(@Null List <Location> locations) {//RESB-18 fix
 		return city -> {
 			if(locations == null || city.getLocations() == null)
 				return CITY_LOCATIONS_ARE_NULL;
