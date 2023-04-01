@@ -1,25 +1,11 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.AGEAS;
-import static com.tecxis.resume.domain.Constants.AGEAS_SHORT;
-import static com.tecxis.resume.domain.Constants.AXELTIS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.MICROPOLE;
-import static com.tecxis.resume.domain.util.Utils.deleteClientInJpa;
-import static com.tecxis.resume.domain.util.Utils.insertClientInJpa;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.tecxis.resume.domain.Client;
+import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.repository.ClientRepository;
+import com.tecxis.resume.domain.repository.ContractRepository;
+import com.tecxis.resume.domain.util.Utils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,9 +22,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.Client;
-import com.tecxis.resume.domain.repository.ClientRepository;
-import com.tecxis.resume.domain.util.Utils;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -58,10 +51,51 @@ public class JpaClientDaoTest {
 	@Autowired
 	private ClientRepository clientRepo;
 
+	@Autowired
+	private ContractRepository contractRepo;
+
 	@Test
-	public void test_OneToMany_SaveContracts() {
-		logger.warn("To update a Contract's Client see JpaContractDaoTest.test_ManyToOne_SaveClient()");
-		
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Contracts_And_RemoveOrhpansWithOrm(){//In the scope of RES-19, impl. RES-42
+		/***Find and validate AGEAS Client to test*/
+		final Client ageas = clientRepo.getClientByName(AGEAS);
+		/**Find AGEAS Client contracts*/
+		Contract ageasContract2 = contractRepo.getContractByName(CONTRACT2_NAME);
+		/**Validate current Client -> Contract*/
+		isClientValid(ageas, AGEAS, List.of(ageasContract2));
+
+
+		/**Create new Client with new contract*/
+		setAgeasContractInJpa(
+				contractRepo -> {
+					/**Build new AGEAS contract*/
+					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
+					contractRepo.save(newAgeasContract);
+					contractRepo.flush();
+				} ,
+				(clientRepo, contractRepo) -> {
+					Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+					ageas.setContracts(List.of(newAgeasContract));
+					clientRepo.save(ageas);
+					clientRepo.flush();
+
+
+				}, clientRepo, contractRepo, jdbcTemplateProxy);
+		entityManager.clear();
+		/**Validate Client with new contract*/
+		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+		isClientValid(ageas, AGEAS, List.of(newAgeasContract));
+	}
+	
+	@Test
+	@Sql(
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Contracts_And_RemoveOrhpansWithOrm_NullSet(){//In the scope of RES-19, impl. RES-42
+		//TODO In the scope of RES-19, impl. RES-42
+		Assert.fail("TODO");
 	}
 	
 	@Test

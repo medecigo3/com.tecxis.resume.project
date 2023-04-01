@@ -1,47 +1,10 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.SchemaConstants.AGREEMENT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.ASSIGNMENT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.CITY_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.CLIENT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.CONTRACT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.COUNTRY_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.COURSE_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.EMPLOYMENT_CONTRACT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.ENROLMENT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.INTEREST_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.LOCATION_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.PROJECT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.SERVICE_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.SKILL_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.STAFF_SKILL_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.STAFF_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.SUPPLIER_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.SUPPLY_CONTRACT_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.TASK_TABLE;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_AGREEMENT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_ASSIGNMENT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_CITY;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_CLIENT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_CONTRACT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_COURSE;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_EMPLOYMENT_CONTRACT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_ENROLMENT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_INTEREST;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_LOCATION;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_PROJECT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_SERVICE;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_COUNTRY;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_SKILL;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_STAFF;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_STAFF_SKILL;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_SUPPLIER;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_SUPPLY_CONTRACT;
-import static com.tecxis.resume.domain.SchemaConstants.TOTAL_TASK;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import static com.tecxis.resume.domain.SchemaConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public final class SchemaUtils {
 	private SchemaUtils() {}
@@ -1375,4 +1338,25 @@ public final class SchemaUtils {
 		assertEquals(TOTAL_SKILL, countRowsInTable(jdbcTemplate, SKILL_TABLE));		
 	}
 
+	public static void testStateAfter_AgeasClient_Contract_Update(JdbcTemplate jdbcTemplate){
+		assertEquals(TOTAL_ENROLMENT, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
+		assertEquals(TOTAL_CLIENT, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
+		assertEquals(TOTAL_PROJECT, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
+		assertEquals(TOTAL_CONTRACT, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));  //1 orphan removed in CONTRACT table, 1 new contract inserted
+		assertEquals(12, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE)); // 1 orphan removed in AGREEMENT table
+		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
+		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); //1 orphan removed in SUPPLY_CONTRACT table
+		assertEquals(TOTAL_COURSE, countRowsInTable(jdbcTemplate, COURSE_TABLE));
+		assertEquals(TOTAL_INTEREST, countRowsInTable(jdbcTemplate, INTEREST_TABLE));
+		assertEquals(TOTAL_STAFF, countRowsInTable(jdbcTemplate, STAFF_TABLE));
+		assertEquals(TOTAL_COUNTRY, countRowsInTable(jdbcTemplate, COUNTRY_TABLE));
+		assertEquals(TOTAL_CITY, countRowsInTable(jdbcTemplate, CITY_TABLE));
+		assertEquals(TOTAL_STAFF_SKILL, countRowsInTable(jdbcTemplate, STAFF_SKILL_TABLE));
+		assertEquals(TOTAL_SUPPLIER, countRowsInTable(jdbcTemplate, SUPPLIER_TABLE));
+		assertEquals(TOTAL_TASK, countRowsInTable(jdbcTemplate, TASK_TABLE));
+		assertEquals(TOTAL_EMPLOYMENT_CONTRACT, countRowsInTable(jdbcTemplate, EMPLOYMENT_CONTRACT_TABLE));
+		assertEquals(TOTAL_SERVICE, countRowsInTable(jdbcTemplate, SERVICE_TABLE));
+		assertEquals(TOTAL_ASSIGNMENT, countRowsInTable(jdbcTemplate, ASSIGNMENT_TABLE));
+		assertEquals(TOTAL_SKILL, countRowsInTable(jdbcTemplate, SKILL_TABLE));
+	}
 }

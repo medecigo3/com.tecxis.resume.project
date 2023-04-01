@@ -240,6 +240,8 @@ public class Constants {
 	public static final String CONTRACT11_NAME = "ArvalContract";
 	public static final String CONTRACT12_NAME = "HermesContract";
 	public static final String CONTRACT13_NAME = "BelfiusContract";
+	public static final String NEW_AGEAS_CONTRACT_NAME = "NewAgeasContract";
+	public static final long CONTRACT13_ID = 13L;
 	public static final long CONTRACT2_ID = 2L;
 	/**END CONTRACT*/
 	

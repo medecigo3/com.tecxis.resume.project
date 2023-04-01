@@ -1,23 +1,15 @@
 package com.tecxis.resume.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
+import com.tecxis.resume.domain.id.Identifiable;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SequenceKeyGenerator;
-import com.tecxis.resume.domain.id.Identifiable;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -100,8 +92,11 @@ public class Client implements Serializable, Identifiable <Long>{
 		return this.contracts;
 	}
 	
-	public void setContracts(List <Contract> contracts) {
-		throw new UnsupportedOperationException(UNSUPPORTED_CLIENT_CONTRACT_OPERATION);
+	public void setContracts(List <Contract> contracts) {//In context of RES-19, impl. RES-42
+		this.contracts.clear();
+		if (contracts != null) {
+			this.contracts.addAll(contracts);
+		}
 	}
 	
 	public void addContract(Contract contract) {

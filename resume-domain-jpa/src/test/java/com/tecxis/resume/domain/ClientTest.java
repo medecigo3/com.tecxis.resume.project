@@ -1,12 +1,10 @@
 package com.tecxis.resume.domain;
 
 import com.tecxis.resume.domain.id.CityId;
-import com.tecxis.resume.domain.repository.ClientRepository;
-import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
+import com.tecxis.resume.domain.repository.*;
 import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -34,12 +32,7 @@ import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE
 import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -87,7 +80,7 @@ public class ClientTest {
 		assertThat(id).isGreaterThan(0L);
 		
 		Client micropole = clientRepo.getClientByName(MICROPOLE);
-		assertEquals(SUCCESS, Utils.isClientValid(micropole, MICROPOLE, new ArrayList<Contract> ()));
+		assertEquals(SUCCESS, isClientValid(micropole, MICROPOLE, new ArrayList<Contract> ()));
 		
 	}
 	
@@ -97,7 +90,7 @@ public class ClientTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {			
 		Client client = Utils.insertClient(SAGEMCOM, entityManager);
-		assertThat(client.getId(), Matchers.greaterThan((long)0));		
+		Assert.assertThat(client.getId(), Matchers.greaterThan((long)0));
 	}
 	
 	@Test
@@ -163,30 +156,53 @@ public class ClientTest {
 		assertEquals(ageasContract, ageasContracts.get(0));
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Contract_And_RemoveOrphansWithOrm() {		
-		Client ageas = clientRepo.getClientByName(AGEAS);
-		ageas.setContracts(new ArrayList<Contract> ());
-		logger.warn("To update a Contract's Client see ContractTest.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");
+	public void test_OneToMany_Update_Contracts_And_RemoveOrphansWithOrm() {//In the scope of RES-19, impl. RES-42
+
+		/***Find and validate AGEAS Client to test*/
+		final Client ageas = clientRepo.getClientByName(AGEAS);
+		/**Find AGEAS Client contracts*/
+		Contract ageasContract2 = contractRepo.getContractByName(CONTRACT2_NAME);
+		/**Validate current Client -> Contract*/
+		isClientValid(ageas, AGEAS, List.of(ageasContract2));
+
+
+		/**Create new Client with new contract*/
+		setAgeasContractInJpa(
+				em -> {
+					/**Build new AGEAS contract*/
+					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
+					em.persist(newAgeasContract);
+					em.flush();
+				} ,
+				em -> {
+					Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+					ageas.setContracts(List.of(newAgeasContract));
+					em.merge(ageas);
+					em.flush();
+					em.clear();
+
+				}, entityManager, jdbcTemplateProxy);
+
+		/**Validate Client with new contract*/
+		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+		isClientValid(ageas, AGEAS, List.of(newAgeasContract));
 	}
 	
 	@Test
-	public void test_OneToMany_Update_Contract_And_RemoveOrphansWithOrm_NullSet() {
-		logger.warn("To update a Contract's Client see Contract.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");
-		logger.warn("To remove orphans with null set see example StaffTest.test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_WithNullSet");
+	public void test_OneToMany_Update_Contracts_And_RemoveOrphansWithOrm_NullSet() {//In the scope of RES-19, impl. RES-42
+//		fail("TODO in the scope of RES-19");//TODO See CityTest.test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm_NullSet
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddContract() {
-		Client ageas = clientRepo.getClientByName(AGEAS);
-		ageas.addContract(new Contract());	
-		logger.warn("To add a Contract's Client see ContractTest.test_ManyToOne_SetClientWithOrmOrhpanRemoval");
+	public void test_OneToMany_SetContracts() {//In the scope of RES-19, impl. RES-42
+//		fail("TODO in the scope of RES-19"); //TODO See CityTest.test_OneToMany_SetLocations()
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
@@ -213,8 +229,8 @@ public class ClientTest {
 		/**Retrieve projects to test axeltis projects*/
 		List <Project> morningstartProjects = projectRepo.findByName(MORNINGSTAR);
 		assertEquals(2, morningstartProjects.size());
-		assertThat(axeltisProjects.get(0), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
-		assertThat(axeltisProjects.get(1), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
+		Assert.assertThat(axeltisProjects.get(0), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
+		Assert.assertThat(axeltisProjects.get(1), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
 		
 	}
 
