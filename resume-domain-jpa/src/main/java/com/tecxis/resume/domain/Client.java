@@ -91,7 +91,10 @@ public class Client implements Serializable, Identifiable <Long>{
 	public List<Contract> getContracts() {
 		return this.contracts;
 	}
-	
+
+	/**
+	 * @param contracts orphans are removed when set to null.
+	 * */
 	public void setContracts(List <Contract> contracts) {//In context of RES-19, impl. RES-42
 		this.contracts.clear();
 		if (contracts != null) {

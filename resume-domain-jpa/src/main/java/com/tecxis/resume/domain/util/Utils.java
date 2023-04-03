@@ -1029,21 +1029,21 @@ public class Utils {
 		return country;
 	}
 
-	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate, SchemaValidator schemaValidator){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(entityManager);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(entityManager);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(schemaValidator, jdbcTemplate);
 	}
 
-	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
+	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate, SchemaValidator schemaValidator){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(contractRepo);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(clientRepo, contractRepo);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(schemaValidator, jdbcTemplate);
 	}
 }
