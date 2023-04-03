@@ -171,7 +171,7 @@ public class ClientTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractInJpa(
+		setAgeasContractAndRemoveOphansInJpa(
 				em -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);

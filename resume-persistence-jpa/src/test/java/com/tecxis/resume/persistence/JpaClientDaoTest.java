@@ -68,7 +68,7 @@ public class JpaClientDaoTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractInJpa(
+		setAgeasContractAndRemoveOphansInJpa(
 				contractRepo -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);

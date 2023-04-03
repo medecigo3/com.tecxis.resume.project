@@ -1029,7 +1029,7 @@ public class Utils {
 		return country;
 	}
 
-	public static void setAgeasContractInJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(entityManager);
@@ -1038,7 +1038,7 @@ public class Utils {
 		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
 	}
 
-	public static void setAgeasContractInJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
+	public static void setAgeasContractAndRemoveOphansInJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(contractRepo);
