@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/resume-service-common/resume-service-common.iml" filepath="$PROJECT_DIR$/resume-service-common/resume-service-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resume-service-declarative-tx/resume-service-declarative-tx.iml" filepath="$PROJECT_DIR$/resume-service-declarative-tx/resume-service-declarative-tx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resume-test-utils/resume-test-utils.iml" filepath="$PROJECT_DIR$/resume-test-utils/resume-test-utils.iml" />
+    </modules>
+  </component>
+</project>

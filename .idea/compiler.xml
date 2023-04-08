@@ -10,8 +10,8 @@
         <module name="resume-persistence-jpa" />
         <module name="resume-service-declarative-tx" />
         <module name="resume-persistence-common" />
-        <module name="resume-web" />
         <module name="resume-domain-jpa" />
+        <module name="resume-web" />
         <module name="resume-service-common" />
       </profile>
     </annotationProcessing>
