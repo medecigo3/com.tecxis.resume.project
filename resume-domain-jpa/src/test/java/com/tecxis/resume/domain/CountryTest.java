@@ -1,20 +1,15 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.BELGIUM;
-import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.LONDON;
-import static com.tecxis.resume.domain.Constants.MANCHESTER;
-import static com.tecxis.resume.domain.Constants.PARIS;
-import static com.tecxis.resume.domain.Constants.SWINDON;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -26,6 +21,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -56,6 +52,8 @@ public class CountryTest {
 	
 	@Autowired
 	private Validator validator;
+	@Autowired
+	private JdbcTemplate jdbcTemplateProxy;
 	
 	@Test
 	@Sql(
@@ -120,14 +118,43 @@ public class CountryTest {
 		
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testSetCities() {
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_SetCities(){//Impl RES-44
+		/**Fetch country to test*/
 		Country france = countryRepo.getCountryByName(FRANCE);
-		france.setCities(new ArrayList<City> ());		
-		//To update the Cities in a Country see CityTest.testSetCountry()			
+		/**Fetch cities to test*/
+		City paris = cityRepo.getCityByName(PARIS);
+
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(paris));
+
+		setCountryCitiesAndRemoveOrphansInJpa( em -> {
+					/**Build and create new Cities*/
+					City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
+					City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
+					em.persist(bordeaux);
+					em.persist(lyon);
+					em.flush();
+				},
+				em -> {
+					City bordeaux = cityRepo.getCityByName(BORDEAUX);
+					City lyon = cityRepo.getCityByName(LYON);
+					List <City> newCities = List.of(bordeaux, lyon);
+					france.setCities(newCities);
+					em.merge(france);
+					em.flush();
+					em.clear();
+			}, entityManager, jdbcTemplateProxy, SchemaUtils::testInitialState, SchemaUtils::testStateAfter_FranceCountry_Cities_Update);
+
+		/**Test Country with new locations*/
+		paris = cityRepo.getCityByName(PARIS);
+		City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
+		City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(bordeaux, lyon));
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -166,6 +193,21 @@ public class CountryTest {
 	public void testToString() {
 		Country country = new Country();		
 		assertThat(country.toString()).matches(DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX);
+	}
+	
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){
+		//TODO RES-44
+	}
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
+		//TODO RES-44
 	}
 
 }

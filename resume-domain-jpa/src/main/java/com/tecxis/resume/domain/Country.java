@@ -75,9 +75,15 @@ public class Country implements Serializable, Identifiable  <Long>{
 	public List<City> getCities() {
 		return this.cities;
 	}
-	
-	public void setCities(List <City> cities) {
-		throw new UnsupportedOperationException(UNSUPPORTED_COUNTRY_CITY_OPERATION);
+
+	/**
+	 * @param cities orphans are removed when set to null.
+	 * */
+	public void setCities(List <City> cities) {//In the context of RES-20, impl. RES-44
+		this.cities.clear();
+		if (cities != null) {
+			this.cities.addAll(cities);
+		}
 	}
 
 	public City addCity(City city) {

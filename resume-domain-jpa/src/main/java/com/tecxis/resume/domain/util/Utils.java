@@ -1046,4 +1046,22 @@ public class Utils {
 		setContractsFunction.accept(clientRepo, contractRepo);
 		setContractsFunction.afterTransactionCompletion(schemaValidator, jdbcTemplate);
 	}
+
+	public static void setCountryCitiesAndRemoveOrphansInJpa(JPATransactionVoidFunction <EntityManager> createNewCitiesFunction, JPATransactionVoidFunction <EntityManager> setCountryCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy, SchemaValidator beforeTransactionSchemaValidator, SchemaValidator afterTransactionSchemaValidator) {
+		setCountryCitiesFunction.beforeTransactionCompletion(beforeTransactionSchemaValidator, jdbcTemplateProxy);
+		/**Create new Cities*/
+		createNewCitiesFunction.accept(entityManager);
+		/**Set Country with new Cities*/
+		setCountryCitiesFunction.accept(entityManager);
+		setCountryCitiesFunction.afterTransactionCompletion(afterTransactionSchemaValidator, jdbcTemplateProxy);
+	}
+
+	public static void setCountryCitiesAndRemoveOrphansInJpa(JPATransactionVoidFunction <CityRepository> createNewCitiesFunction, JPATransactionVoidFunction <CountryRepository> setCountryCitiesFunction, CityRepository cityRepo, CountryRepository countryRepo, JdbcTemplate jdbcTemplateProxy, SchemaValidator beforeTransactionSchemaValidator, SchemaValidator afterTransactionSchemaValidator) {
+		setCountryCitiesFunction.beforeTransactionCompletion(beforeTransactionSchemaValidator, jdbcTemplateProxy);
+		/**Create new Cities*/
+		createNewCitiesFunction.accept(cityRepo);
+		/**Set Country with new Cities*/
+		setCountryCitiesFunction.accept(countryRepo);
+		setCountryCitiesFunction.afterTransactionCompletion(afterTransactionSchemaValidator, jdbcTemplateProxy);
+	}
 }

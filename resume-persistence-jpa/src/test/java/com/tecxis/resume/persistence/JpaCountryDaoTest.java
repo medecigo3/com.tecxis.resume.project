@@ -1,8 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.BELGIUM;
-import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.Constants.LYON;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -13,6 +13,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.tecxis.resume.domain.City;
+import com.tecxis.resume.domain.SchemaUtils;
+import com.tecxis.resume.domain.repository.CityRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +52,9 @@ public class JpaCountryDaoTest {
 	
 	@Autowired
 	private CountryRepository countryRepo;
+
+	@Autowired
+	private CityRepository cityRepo;
 	
 	
 
@@ -137,7 +144,61 @@ public class JpaCountryDaoTest {
 	}
 
 	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public  void test_OneToMany_SetCities(){//Impl RES-44
+		/**Fetch country to test*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		/**Fetch cities to test*/
+		City paris = cityRepo.getCityByName(PARIS);
+
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(paris));
+
+		setCountryCitiesAndRemoveOrphansInJpa( cityRepo -> {
+					/**Build and create new Cities*/
+					City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
+					City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
+					cityRepo.save(bordeaux);
+					cityRepo.save(lyon);
+					cityRepo.flush();
+				},
+				countryRepo -> {
+					City bordeaux = cityRepo.getCityByName(BORDEAUX);
+					City lyon = cityRepo.getCityByName(LYON);
+					List <City> newCities = List.of(bordeaux, lyon);
+					france.setCities(newCities);
+					countryRepo.save(france);
+					countryRepo.flush();
+
+				}, cityRepo, countryRepo,  jdbcTemplateProxy, SchemaUtils::testInitialState, SchemaUtils::testStateAfter_FranceCountry_Cities_Update);
+
+		entityManager.clear();
+		/**Test Country with new locations*/
+		paris = cityRepo.getCityByName(PARIS);
+		City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
+		City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(bordeaux, lyon));
+	}
+
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_SaveCities() {
 		org.junit.Assert.fail("TODO");
+	}	
+	
+	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){
+		Assert.fail("TODO");
+	}
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
+		Assert.fail("TODO");
 	}
 }
