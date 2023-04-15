@@ -171,7 +171,7 @@ public class ClientTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOphansInJpa(
+		setAgeasContractAndRemoveOrphansInJpa(
 				em -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
@@ -206,7 +206,7 @@ public class ClientTest {
 		isClientValid(ageas, AGEAS, List.of(ageasContract2));
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOphansInJpa(
+		setAgeasContractAndRemoveOrphansInJpa(
 				em -> {
 					/**Nothing to do here*/
 				} ,
