@@ -4,19 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="293361db-9bbe-4b5b-ad15-973e4491dc35" name="Changes" comment="">
+    <list default="true" id="293361db-9bbe-4b5b-ad15-973e4491dc35" name="Changes" comment="Update .idea metadata project files with IntelliJ v. 2023.1">
       <change afterPath="$PROJECT_DIR$/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/util/function/CountryValidatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-domain-jpa/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/function/CountryValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/function/CountryValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/function/ValidationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/main/java/com/tecxis/resume/domain/util/function/ValidationResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/CountryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/CountryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/util/function/CityValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/util/function/CityValidatorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-persistence-common/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/resume-persistence-common/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-persistence-jpa/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/resume-persistence-jpa/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resume-test-utils/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/resume-test-utils/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-test-utils/src/main/java/com/tecxis/resume/domain/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-test-utils/src/main/java/com/tecxis/resume/domain/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resume-test-utils/src/main/java/com/tecxis/resume/domain/SchemaUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/resume-test-utils/src/main/java/com/tecxis/resume/domain/SchemaUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +31,18 @@
       <list>
         <option value="JUnit3 Test Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -54,7 +64,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Dropbox/devArturo/repos/tst/com.tecxis.resume.project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Dropbox/devArturo/repos/tst/com.tecxis.resume.project/resume-domain-jpa/src/test/java/com/tecxis/resume/domain/util/function&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -62,12 +72,16 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.36551723&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.intentionPowerPack&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;6ea9dad5de88851d2913e4d3f8794187&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
+    &quot;zielu.gittoolbox.prj.config.selected.tab.id&quot;: &quot;zielu.gittoolbox.config.prj.diagnostic&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Dropbox\devArturo\repos\tst\com.tecxis.resume.project\resume-domain-jpa\src\test\java\com\tecxis\resume\domain\util\function" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
       <recent name="junit.framework.TestCase" />
@@ -76,7 +90,31 @@
       <recent name="com.tecxis.resume.domain.util.function" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.All in resume-parent">
+    <configuration name="All in resume-parent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="resume-parent" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CountryTest.test_OneToMany_SetCities" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="resume-domain-jpa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tecxis.resume.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.tecxis.resume.domain" />
+      <option name="MAIN_CLASS_NAME" value="com.tecxis.resume.domain.CountryTest" />
+      <option name="METHOD_NAME" value="test_OneToMany_SetCities" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CountryValidatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="resume-domain-jpa" />
       <extension name="coverage">
@@ -88,6 +126,22 @@
       <option name="PACKAGE_NAME" value="com.tecxis.resume.domain.util.function" />
       <option name="MAIN_CLASS_NAME" value="com.tecxis.resume.domain.util.function.CountryValidatorTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CountryValidatorTest.testAreCitiesValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="resume-domain-jpa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tecxis.resume.domain.util.function.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.tecxis.resume.domain.util.function" />
+      <option name="MAIN_CLASS_NAME" value="com.tecxis.resume.domain.util.function.CountryValidatorTest" />
+      <option name="METHOD_NAME" value="testAreCitiesValid" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -107,7 +161,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in resume-parent" />
+        <item itemvalue="JUnit.CountryTest.test_OneToMany_SetCities" />
         <item itemvalue="JUnit.CountryValidatorTest" />
+        <item itemvalue="JUnit.CountryValidatorTest.testAreCitiesValid" />
       </list>
     </recent_temporary>
   </component>
@@ -123,14 +180,37 @@
       <workItem from="1680879089722" duration="2857000" />
       <workItem from="1680891820481" duration="129000" />
       <workItem from="1680940189516" duration="781000" />
-      <workItem from="1680943139713" duration="237000" />
+      <workItem from="1680943139713" duration="4026000" />
+      <workItem from="1681136205710" duration="251000" />
+      <workItem from="1681196155325" duration="1159000" />
+      <workItem from="1681217077868" duration="189000" />
+      <workItem from="1681217301007" duration="489000" />
+      <workItem from="1681287861743" duration="8652000" />
+      <workItem from="1681388196326" duration="88000" />
+      <workItem from="1681394915061" duration="166000" />
+      <workItem from="1681465493810" duration="3407000" />
+      <workItem from="1681475621609" duration="97000" />
+      <workItem from="1681475753884" duration="34000" />
     </task>
+    <task id="LOCAL-00001" summary="Update .idea metadata project files with IntelliJ v. 2023.1">
+      <created>1680944216200</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680944216200</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="e40b0eb6-afdf-4e0a-9211-33b6b0e81ad8" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -138,7 +218,36 @@
             <State />
           </value>
         </entry>
+        <entry key="e40b0eb6-afdf-4e0a-9211-33b6b0e81ad8">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update .idea metadata project files with IntelliJ v. 2023.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .idea metadata project files with IntelliJ v. 2023.1" />
   </component>
 </project>
