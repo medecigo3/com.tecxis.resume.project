@@ -33,7 +33,7 @@ public class CityValidatorTest {
 
 		/**Build Paris city*/
 		paris = buildCity(buildCityId(PARIS_ID, FRANCE_ID), PARIS);
-		Country france = Utils.buildCountry(FRANCE_ID, FRANCE);
+		Country france = buildCountry(FRANCE_ID, FRANCE);
 		paris.setCountry(france);
 		parisLocation = buildLocation(paris, adir);
 		paris.setLocations(List.of(parisLocation));
@@ -48,12 +48,12 @@ public class CityValidatorTest {
 
 	@Test
 	public void testIsNameValid() {
-		Assert.assertEquals(SUCCESS, CityValidator.isNameValid(PARIS).apply(paris));
+		assertEquals(SUCCESS, CityValidator.isNameValid(PARIS).apply(paris));
 	}
 
 	@Test
 	public void testIsCountryValid() {
-		Assert.assertEquals(SUCCESS, CityValidator.isCountryValid(FRANCE).apply(paris));
+		assertEquals(SUCCESS, CityValidator.isCountryValid(FRANCE).apply(paris));
 	}
 
 	@Test
