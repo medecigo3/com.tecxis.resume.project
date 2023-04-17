@@ -1029,23 +1029,42 @@ public class Utils {
 		return country;
 	}
 
-	public static void setAgeasContractAndRemoveOrphansInJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate, SchemaValidator schemaValidator){
+	public static void set_ClientAgeas_With_NewContracts_InJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(entityManager);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(entityManager);
-		setContractsFunction.afterTransactionCompletion(schemaValidator, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
+	}
+	
+	public static void set_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Create new Contracts*/
+		createNewContractsFunction.accept(entityManager);
+		/**Set client with new contracts*/
+		setContractsFunction.accept(entityManager);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate, jdbcTemplate);
 	}
 
-	public static void setAgeasContractAndRemoveOrphansInJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate, SchemaValidator schemaValidator){
+	public static void set_ClientAgeas_With_NewContracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		/**Create new Contracts*/
 		createNewContractsFunction.accept(contractRepo);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(clientRepo, contractRepo);
-		setContractsFunction.afterTransactionCompletion(schemaValidator, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
 	}
+	
+	public static void set_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
+		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		/**Create new Contracts*/
+		createNewContractsFunction.accept(contractRepo);
+		/**Set client with new contracts*/
+		setContractsFunction.accept(clientRepo, contractRepo);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate, jdbcTemplate);
+	}
+
 
 	public static void setCountryCitiesAndRemoveOrphansInJpa(JPATransactionVoidFunction <EntityManager> createNewCitiesFunction, JPATransactionVoidFunction <EntityManager> setCountryCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy, SchemaValidator beforeTransactionSchemaValidator, SchemaValidator afterTransactionSchemaValidator) {
 		setCountryCitiesFunction.beforeTransactionCompletion(beforeTransactionSchemaValidator, jdbcTemplateProxy);

@@ -2,7 +2,6 @@ package com.tecxis.resume.persistence;
 
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
-import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.repository.ClientRepository;
 import com.tecxis.resume.domain.repository.ContractRepository;
 import com.tecxis.resume.domain.util.Utils;
@@ -68,7 +67,7 @@ public class JpaClientDaoTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOrphansInJpa(
+		set_ClientAgeas_With_NewContracts_InJpa(
 				contractRepo -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
@@ -82,7 +81,7 @@ public class JpaClientDaoTest {
 					clientRepo.flush();
 
 
-				}, clientRepo, contractRepo, jdbcTemplateProxy, SchemaUtils::testStateAfter_AgeasClient_Contract_Update);
+				}, clientRepo, contractRepo, jdbcTemplateProxy);
 		entityManager.clear();
 		/**Validate Client with new contract*/
 		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
@@ -103,7 +102,7 @@ public class JpaClientDaoTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOrphansInJpa(
+		set_ClientAgeas_With_NullContracts_InJpa(
 				contractRepo -> {
 					/**Do nothing here*/
 				} ,
@@ -111,7 +110,7 @@ public class JpaClientDaoTest {
 					ageas.setContracts(null);
 					clientRepo.save(ageas);
 					clientRepo.flush();
-				}, clientRepo, contractRepo, jdbcTemplateProxy, SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate);
+				}, clientRepo, contractRepo, jdbcTemplateProxy);
 		entityManager.clear();
 		/**Validate orphans are removed*/
 		Client newAgeas = clientRepo.getClientByName(AGEAS);

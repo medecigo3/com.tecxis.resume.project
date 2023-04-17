@@ -171,7 +171,7 @@ public class ClientTest {
 
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOrphansInJpa(
+		set_ClientAgeas_With_NewContracts_InJpa(
 				em -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
@@ -185,7 +185,7 @@ public class ClientTest {
 					em.flush();
 					em.clear();
 
-				}, entityManager, jdbcTemplateProxy, SchemaUtils::testStateAfter_AgeasClient_Contract_Update);
+				}, entityManager, jdbcTemplateProxy);
 
 		/**Validate Client with new contract*/
 		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
@@ -197,7 +197,6 @@ public class ClientTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Contracts_And_RemoveOrphansWithOrm_NullSet() {//In the scope of RES-19, impl. RES-42
-		//TODO continue here
 		/***Find and validate AGEAS Client to test*/
 		final Client ageas = clientRepo.getClientByName(AGEAS);
 		/**Find AGEAS Client contracts*/
@@ -206,7 +205,7 @@ public class ClientTest {
 		isClientValid(ageas, AGEAS, List.of(ageasContract2));
 
 		/**Create new Client with new contract*/
-		setAgeasContractAndRemoveOrphansInJpa(
+		set_ClientAgeas_With_NullContracts_InJpa(
 				em -> {
 					/**Nothing to do here*/
 				} ,
@@ -216,7 +215,7 @@ public class ClientTest {
 					em.flush();
 					em.clear();
 
-				}, entityManager, jdbcTemplateProxy, SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate);
+				}, entityManager, jdbcTemplateProxy);
 
 		/**Validate orphans are removed*/
 		Client newAgeas = clientRepo.getClientByName(AGEAS);
