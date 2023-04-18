@@ -131,7 +131,7 @@ public class CountryTest {
 		/**Validate Country*/
 		isCountryValid(france, FRANCE, List.of(paris));
 
-		set_CountryFrance_WithCities_InJpa( em -> {
+		update_CountryFrance_With_Cities_InJpa( em -> {
 					/**Build and create new Cities*/
 					City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
 					City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);

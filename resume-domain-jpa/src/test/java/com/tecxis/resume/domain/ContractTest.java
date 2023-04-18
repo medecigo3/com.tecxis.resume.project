@@ -33,9 +33,9 @@ import static com.tecxis.resume.domain.util.Utils.isContractValid;
 import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
 import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsAndRemoveOphansInJpa;
 import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsInJpa;
-import static com.tecxis.resume.domain.util.Utils.set_ContractAmesysSagem_With_NullSupplyContracts_InJpa;
-import static com.tecxis.resume.domain.util.Utils.set_ContractAmesysSagem_With_SupplyContracts_InJpa;
+import static com.tecxis.resume.domain.util.Utils.update_ContractAmesysSagem_With_NullSupplyContracts_InJpa;
 import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
+import static com.tecxis.resume.domain.util.Utils.update_ContractAmesysSagem_With_SupplyContracts_InJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -300,7 +300,7 @@ public class ContractTest {
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
 		/**Set Contract -> new SupplyContract*/		
-		set_ContractAmesysSagem_With_SupplyContracts_InJpa(em -> {
+		update_ContractAmesysSagem_With_SupplyContracts_InJpa(em -> {
 			List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 			currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 			em.merge(currentAmesysSagemContract);
@@ -359,7 +359,7 @@ public class ContractTest {
 
 		
 		/**Set Contract -> null SupplyContracts*/
-		set_ContractAmesysSagem_With_NullSupplyContracts_InJpa(em -> {
+		update_ContractAmesysSagem_With_NullSupplyContracts_InJpa(em -> {
 			currentAmesysSagemContract.setSupplyContracts(null);
 			em.merge(currentAmesysSagemContract);
 			em.flush();

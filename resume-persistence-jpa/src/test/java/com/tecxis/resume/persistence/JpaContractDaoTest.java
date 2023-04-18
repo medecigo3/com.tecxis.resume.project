@@ -457,7 +457,7 @@ public class JpaContractDaoTest {
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
 		/**Set Contract -> new SupplyContract*/		
-		Utils.set_ContractAmesysSagem_With_SupplyContracts_InJpa(contractRepo -> {
+		update_ContractAmesysSagem_With_SupplyContracts_InJpa(contractRepo -> {
 			List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 			currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 			contractRepo.save(currentAmesysSagemContract);
@@ -518,7 +518,7 @@ public class JpaContractDaoTest {
 
 		
 		/**Set Contract -> null SupplyContracts*/
-		Utils.set_ContractAmesysSagem_With_NullSupplyContracts_InJpa(contractRepo -> {
+		Utils.update_ContractAmesysSagem_With_NullSupplyContracts_InJpa(contractRepo -> {
 			currentAmesysSagemContract.setSupplyContracts(null);
 			contractRepo.save(currentAmesysSagemContract);
 			contractRepo.flush();			

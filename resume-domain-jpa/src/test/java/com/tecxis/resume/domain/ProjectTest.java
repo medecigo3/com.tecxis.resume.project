@@ -421,7 +421,7 @@ public class ProjectTest {
 		assertEquals(SUCCESS, isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, amtAssignments));	
 		
 		/**Project-> assignments assocs. does not cascade on REMOVE*/
-		set_ProjectAdirV1_With_Assignments_InJpa(
+		update_ProjectAdirV1_With_Assignments_InJpa(
 			em -> {
 				/**Deletes ADIR v1 locations*/
 				em.clear();
@@ -531,7 +531,7 @@ public class ProjectTest {
 		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
 		/**Project-> assignments assoc. set to: orphanRemoval=false*/
-		set_ProjectAdirV1_With_NullAssignments_InJpa(
+		update_ProjectAdirV1_With_NullAssignments_InJpa(
 			em -> {
 				em.clear();				
 				Project currentAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);						

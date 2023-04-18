@@ -117,7 +117,7 @@ public class AgreementTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		set_AgreementAxeltisFastConnect_With_Contract_InJpa(em-> {
+		update_AgreementAxeltisFastConnect_With_Contract_InJpa(em-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id

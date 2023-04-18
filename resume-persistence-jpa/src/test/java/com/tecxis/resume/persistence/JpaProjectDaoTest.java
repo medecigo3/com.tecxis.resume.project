@@ -344,7 +344,7 @@ public class JpaProjectDaoTest {
 		assertEquals(SUCCESS, isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, amtAssignments));	
 		
 		/**Project-> assignments assocs. does not cascade on REMOVE*/
-		set_ProjectAdirV1_With_Assignments_InJpa(
+		update_ProjectAdirV1_With_Assignments_InJpa(
 			(locationRepo, em) -> {
 				/**Deletes ADIR v1 locations*/
 				em.clear();
@@ -455,7 +455,7 @@ public class JpaProjectDaoTest {
 		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
 		/**Project-> assignments assoc. set to: orphanRemoval=false*/		
-		set_ProjectAdirV1_With_NullAssignments_InJpa(
+		update_ProjectAdirV1_With_NullAssignments_InJpa(
 			em -> {
 				em.clear();
 			},

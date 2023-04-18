@@ -67,7 +67,7 @@ public class JpaClientDaoTest {
 
 
 		/**Create new Client with new contract*/
-		set_ClientAgeas_With_Contracts_InJpa(
+		update_ClientAgeas_With_Contracts_InJpa(
 				contractRepo -> {
 					/**Build new AGEAS contract*/
 					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
@@ -102,7 +102,7 @@ public class JpaClientDaoTest {
 
 
 		/**Create new Client with new contract*/
-		set_ClientAgeas_With_NullContracts_InJpa(
+		update_ClientAgeas_With_NullContracts_InJpa(
 				contractRepo -> {
 					/**Do nothing here*/
 				} ,
