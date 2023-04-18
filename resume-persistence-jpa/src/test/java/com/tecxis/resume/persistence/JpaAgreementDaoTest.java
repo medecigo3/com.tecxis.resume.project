@@ -67,7 +67,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void test_ManyToOne_SaveService() {		
+	public void test_ManyToOne_SaveService() {
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		
@@ -108,7 +108,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void test_ManyToOne_SaveContract() {
+	public void test_ManyToOne_UpdateContract() {
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);		
 		/**Find Service*/
@@ -121,7 +121,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		set_Agreement_With_Contract_InJpa(agreementRepo-> {
+		set_AgreementAxeltisFastConnect_With_Contract_InJpa(agreementRepo-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
