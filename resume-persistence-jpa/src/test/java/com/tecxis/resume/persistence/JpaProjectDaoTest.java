@@ -58,7 +58,7 @@ import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.util.Utils.isProjectValid;
-import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsAndRemoveOphansInJpa;
+import static com.tecxis.resume.domain.util.Utils.set_ProjectAdirV1_With_Assignments_InJpa;
 import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
@@ -457,7 +457,7 @@ public class JpaProjectDaoTest {
 		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
 		/**Project-> assignments assoc. set to: orphanRemoval=false*/		
-		setProjectAssignmentsAndRemoveOphansInJpa(
+		set_ProjectAdirV1_With_Assignments_InJpa(
 			em -> {
 				em.clear();
 			},

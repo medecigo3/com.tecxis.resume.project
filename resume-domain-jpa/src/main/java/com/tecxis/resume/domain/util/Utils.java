@@ -1002,7 +1002,7 @@ public class Utils {
 		
 	}
 	
-	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
 		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/
 		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setProjectAssignmentsFunction.accept(entityManager);
@@ -1010,7 +1010,7 @@ public class Utils {
 		
 	}
 	
-	public static void setProjectAssignmentsAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction,  ProjectRepository projectRepo,  AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction,  ProjectRepository projectRepo,  AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
 		/**Clear EM*/
 		clearEMFunction.accept(em);
 		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/		
