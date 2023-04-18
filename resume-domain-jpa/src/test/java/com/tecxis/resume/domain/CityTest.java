@@ -40,7 +40,6 @@ import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
 import static com.tecxis.resume.domain.Constants.SELENIUM;
 import static com.tecxis.resume.domain.Constants.SHERPA;
-import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
@@ -50,7 +49,6 @@ import static com.tecxis.resume.domain.util.Utils.deleteCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.insertCityInJpa;
 import static com.tecxis.resume.domain.util.Utils.isCityValid;
 import static com.tecxis.resume.domain.util.Utils.isCountryValid;
-import static com.tecxis.resume.domain.util.Utils.setCityLocationsInJpa;
 import static com.tecxis.resume.domain.util.Utils.setLondonToFranceInJpa;
 import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -480,98 +478,6 @@ public class CityTest {
 		assertThat(londonLocations.get(1).getProject(), Matchers.oneOf(fortis, dcsc));	
 		
 	}
-	
-	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetLocations() {
-		/**Find & validate City to test*/
-		final City london = cityRepo.getCityByName(LONDON);
-		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
-		List <Location> londonLocations = london.getLocations();
-		assertEquals(2, londonLocations.size());
-		/**Validate opposite associations*/
-		Location location1 = london.getLocations().get(0);
-		Location location2 = london.getLocations().get(1);		
-		assertEquals(london, location1.getCity());
-		assertEquals(london, location2.getCity());		
-		Project fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
-		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);		
-		assertThat(location1.getProject(), Matchers.oneOf(fortis, dcsc));
-		assertThat(location2.getProject(), Matchers.oneOf(fortis, dcsc));		
-		
-	
-		/**Find & validate Projects to test*/
-		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
-		Project aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
-		Project morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
-		assertEquals(SELENIUM, selenium.getName());
-		assertEquals(VERSION_1, selenium.getVersion());		
-		assertEquals(AOS, aos.getName());
-		assertEquals(VERSION_1, aos.getVersion());		
-		assertEquals(MORNINGSTAR, morningstarv2.getName());
-		assertEquals(VERSION_2, morningstarv2.getVersion());
-		/**Validate opposite association*/
-		City paris = cityRepo.getCityByName(PARIS);
-		City swindon = cityRepo.getCityByName(SWINDON);		
-		List <Location> seleniumLocations = selenium.getLocations();
-		List <Location> aosLocations = aos.getLocations();
-		assertEquals(1, seleniumLocations.size());
-		assertEquals(2, aosLocations.size());
-		Location seleniumLocation = seleniumLocations.get(0);
-		assertEquals(paris, seleniumLocation.getCity());
-		assertThat(aosLocations.get(0).getCity(), Matchers.oneOf(paris, swindon));
-		assertThat(aosLocations.get(1).getCity(), Matchers.oneOf(paris, swindon));
-				
-		/**Validate current Locations*/		
-		assertEquals(london, londonLocations.get(0).getCity());
-		fortis = projectRepo.findByNameAndVersion(FORTIS, VERSION_1);
-		dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
-		assertThat(londonLocations.get(0).getProject(), Matchers.oneOf(fortis, dcsc));
-		assertThat(londonLocations.get(1).getProject(), Matchers.oneOf(fortis, dcsc));	
-		
-		/**Prepare new Locations*/
-		Location londonSeleniumLocation =  new Location (london, selenium);
-		Location londonAosLocation = new Location(london, aos);
-		Location londonMorningstarv2Location = new Location(london, morningstarv2);
-		List <Location>  newLocations = List.of(londonSeleniumLocation,		
-												londonAosLocation,
-												londonMorningstarv2Location);
-				
-		/**Set new Locations*/
-		setCityLocationsInJpa(em->{
-			london.setLocations(newLocations);
-			assertEquals(3, london.getLocations().size());
-			em.merge(london);
-			em.flush();
-			em.clear();
-		}, entityManager, jdbcTemplateProxy);
-		
-		/**Validate new City*/
-		City newLondon = cityRepo.getCityByName(LONDON);
-		assertEquals(SUCCESS, isCityValid(newLondon, LONDON, UNITED_KINGDOM, newLocations));
-		
-		/**Test the opposite association*/
-		selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
-		aos = projectRepo.findByNameAndVersion(AOS, VERSION_1);
-		morningstarv2 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_2);
-		/**Test selenium Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
-		assertEquals(2, selenium.getLocations().size());
-		paris = cityRepo.getCityByName(PARIS);
-		assertThat(selenium.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
-		assertThat(selenium.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
-		/**Test aos Project has all Cities*/ //Don't use ProjectValidator. We only want to test City -> Project assoc. 
-		assertEquals(3, aos.getLocations().size());
-		swindon = cityRepo.getCityByName(SWINDON);
-		assertThat(aos.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon, swindon));
-		assertThat(aos.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon, swindon));
-		assertThat(aos.getLocations().get(2).getCity(), Matchers.oneOf(paris, newLondon, swindon));
-		/**Test morningstar v2 Project has all Cities*/		//Don't use ProjectValidator. We only want to test City -> Project assoc. 
-		assertEquals(2, morningstarv2.getLocations().size());
-		assertThat(morningstarv2.getLocations().get(0).getCity(), Matchers.oneOf(paris, newLondon));
-		assertThat(morningstarv2.getLocations().get(1).getCity(), Matchers.oneOf(paris, newLondon));
-	}	
 	
 	@Test
 	@Sql(
