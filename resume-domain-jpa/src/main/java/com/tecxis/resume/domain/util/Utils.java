@@ -974,7 +974,7 @@ public class Utils {
 		
 	}
 	
-	public static void setProjectAssignmentsInJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction,  JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidFunction <EntityManager>  deleteLocationsFunction, JPATransactionVoidFunction <EntityManager>  deleteAssignmentsFunction,  JPATransactionVoidFunction <EntityManager>  deleteProjectFunction, JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		/**Delete locations*/
 		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteLocationsFunction.accept(entityManager);
@@ -988,7 +988,7 @@ public class Utils {
 		
 	}
 	
-	public static void setProjectAssignmentsInJpa(JPATransactionVoidBiFunction <LocationRepository, EntityManager>  deleteLocationsFunction, JPATransactionVoidBiFunction <AssignmentRepository, EntityManager>  deleteAssignmentsFunction, JPATransactionVoidBiFunction <ProjectRepository, EntityManager>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidBiFunction <LocationRepository, EntityManager>  deleteLocationsFunction, JPATransactionVoidBiFunction <AssignmentRepository, EntityManager>  deleteAssignmentsFunction, JPATransactionVoidBiFunction <ProjectRepository, EntityManager>  deleteProjectFunction,  JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, ProjectRepository projectRepo, LocationRepository locationRepo, AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
 		/**Delete locations*/
 		deleteLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteLocationsFunction.accept(locationRepo,em);		
@@ -1002,7 +1002,7 @@ public class Utils {
 		
 	}
 	
-	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {		
+	public static void set_ProjectAdirV1_With_NullAssignments_InJpa(JPATransactionVoidFunction <EntityManager> setProjectAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/
 		setProjectAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setProjectAssignmentsFunction.accept(entityManager);
@@ -1010,7 +1010,7 @@ public class Utils {
 		
 	}
 	
-	public static void set_ProjectAdirV1_With_Assignments_InJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction,  ProjectRepository projectRepo,  AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
+	public static void set_ProjectAdirV1_With_NullAssignments_InJpa(JPATransactionVoidFunction <EntityManager> clearEMFunction, JPATransactionVoidBiFunction <ProjectRepository, AssignmentRepository>   setProjectAssignmentsFunction, JPATransactionVoidFunction <EntityManager> flushEMFunction, ProjectRepository projectRepo, AssignmentRepository assignmentRepo, EntityManager em, JdbcTemplate jdbcTemplate) {
 		/**Clear EM*/
 		clearEMFunction.accept(em);
 		/**Project -> Assignments assoc. not set to remove orphans; no change in state*/		

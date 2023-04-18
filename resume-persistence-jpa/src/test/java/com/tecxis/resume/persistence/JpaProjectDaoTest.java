@@ -57,9 +57,7 @@ import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
-import static com.tecxis.resume.domain.util.Utils.isProjectValid;
-import static com.tecxis.resume.domain.util.Utils.set_ProjectAdirV1_With_Assignments_InJpa;
-import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -346,7 +344,7 @@ public class JpaProjectDaoTest {
 		assertEquals(SUCCESS, isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, amtAssignments));	
 		
 		/**Project-> assignments assocs. does not cascade on REMOVE*/
-		setProjectAssignmentsInJpa(
+		set_ProjectAdirV1_With_Assignments_InJpa(
 			(locationRepo, em) -> {
 				/**Deletes ADIR v1 locations*/
 				em.clear();
@@ -457,7 +455,7 @@ public class JpaProjectDaoTest {
 		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
 		/**Project-> assignments assoc. set to: orphanRemoval=false*/		
-		set_ProjectAdirV1_With_Assignments_InJpa(
+		set_ProjectAdirV1_With_NullAssignments_InJpa(
 			em -> {
 				em.clear();
 			},

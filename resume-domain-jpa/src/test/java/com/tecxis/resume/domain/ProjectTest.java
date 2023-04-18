@@ -89,10 +89,7 @@ import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.Constants.VERSION_3;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.deleteParisMorningstarV1AxeltisLocationInJpa;
-import static com.tecxis.resume.domain.util.Utils.isProjectValid;
-import static com.tecxis.resume.domain.util.Utils.set_ProjectAdirV1_With_Assignments_InJpa;
-import static com.tecxis.resume.domain.util.Utils.setProjectAssignmentsInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -424,7 +421,7 @@ public class ProjectTest {
 		assertEquals(SUCCESS, isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, amtAssignments));	
 		
 		/**Project-> assignments assocs. does not cascade on REMOVE*/
-		setProjectAssignmentsInJpa(
+		set_ProjectAdirV1_With_Assignments_InJpa(
 			em -> {
 				/**Deletes ADIR v1 locations*/
 				em.clear();
@@ -534,7 +531,7 @@ public class ProjectTest {
 		isProjectValid(adirV1, ADIR, VERSION_1, adirV1Locations, barclays, adirV1Assignments);
 		
 		/**Project-> assignments assoc. set to: orphanRemoval=false*/
-		set_ProjectAdirV1_With_Assignments_InJpa(
+		set_ProjectAdirV1_With_NullAssignments_InJpa(
 			em -> {
 				em.clear();				
 				Project currentAdirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);						
