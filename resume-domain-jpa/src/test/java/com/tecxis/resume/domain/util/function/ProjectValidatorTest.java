@@ -92,7 +92,7 @@ public class ProjectValidatorTest {
 	}
 
 	@Test
-	public void testAreProjectLocationsValid() { //TODO continue testing RESB-17 here
+	public void testAreProjectLocationsValid() { //RES-17 impl.
 		//Test Project -> Locations assoc. are equal
 		assertEquals(SUCCESS, ProjectValidator.areProjectLocationsValid(List.of(manchesterLocation)).apply(adir));
 
