@@ -1066,21 +1066,21 @@ public class Utils {
 	}
 
 
-	public static void setCountryCitiesAndRemoveOrphansInJpa(JPATransactionVoidFunction <EntityManager> createNewCitiesFunction, JPATransactionVoidFunction <EntityManager> setCountryCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy, SchemaValidator beforeTransactionSchemaValidator, SchemaValidator afterTransactionSchemaValidator) {
-		setCountryCitiesFunction.beforeTransactionCompletion(beforeTransactionSchemaValidator, jdbcTemplateProxy);
+	public static void set_CountryFrance_WithCities_InJpa(JPATransactionVoidFunction <EntityManager> createNewCitiesFunction, JPATransactionVoidFunction <EntityManager> setCountryCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
+		setCountryCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 		/**Create new Cities*/
 		createNewCitiesFunction.accept(entityManager);
 		/**Set Country with new Cities*/
 		setCountryCitiesFunction.accept(entityManager);
-		setCountryCitiesFunction.afterTransactionCompletion(afterTransactionSchemaValidator, jdbcTemplateProxy);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_FranceCountry_Cities_Update, jdbcTemplateProxy);
 	}
 
-	public static void setCountryCitiesAndRemoveOrphansInJpa(JPATransactionVoidFunction <CityRepository> createNewCitiesFunction, JPATransactionVoidFunction <CountryRepository> setCountryCitiesFunction, CityRepository cityRepo, CountryRepository countryRepo, JdbcTemplate jdbcTemplateProxy, SchemaValidator beforeTransactionSchemaValidator, SchemaValidator afterTransactionSchemaValidator) {
-		setCountryCitiesFunction.beforeTransactionCompletion(beforeTransactionSchemaValidator, jdbcTemplateProxy);
+	public static void set_CountryFrance_WithCities_InJpa(JPATransactionVoidFunction <CityRepository> createNewCitiesFunction, JPATransactionVoidFunction <CountryRepository> setCountryCitiesFunction, CityRepository cityRepo, CountryRepository countryRepo, JdbcTemplate jdbcTemplateProxy) {
+		setCountryCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 		/**Create new Cities*/
 		createNewCitiesFunction.accept(cityRepo);
 		/**Set Country with new Cities*/
 		setCountryCitiesFunction.accept(countryRepo);
-		setCountryCitiesFunction.afterTransactionCompletion(afterTransactionSchemaValidator, jdbcTemplateProxy);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_FranceCountry_Cities_Update, jdbcTemplateProxy);
 	}
 }

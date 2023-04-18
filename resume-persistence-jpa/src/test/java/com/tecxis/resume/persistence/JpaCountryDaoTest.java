@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tecxis.resume.domain.City;
-import com.tecxis.resume.domain.SchemaUtils;
 import com.tecxis.resume.domain.repository.CityRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -156,7 +155,7 @@ public class JpaCountryDaoTest {
 		/**Validate Country*/
 		isCountryValid(france, FRANCE, List.of(paris));
 
-		setCountryCitiesAndRemoveOrphansInJpa( cityRepo -> {
+		set_CountryFrance_WithCities_InJpa( cityRepo -> {
 					/**Build and create new Cities*/
 					City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
 					City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
@@ -172,7 +171,7 @@ public class JpaCountryDaoTest {
 					countryRepo.save(france);
 					countryRepo.flush();
 
-				}, cityRepo, countryRepo,  jdbcTemplateProxy, SchemaUtils::testInitialState, SchemaUtils::testStateAfter_FranceCountry_Cities_Update);
+				}, cityRepo, countryRepo,  jdbcTemplateProxy);
 
 		entityManager.clear();
 		/**Test Country with new locations*/
@@ -192,6 +191,7 @@ public class JpaCountryDaoTest {
 	}	
 	
 	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){
+		//TODO continue here RES-44
 		Assert.fail("TODO");
 	}
 	@Test
@@ -199,6 +199,7 @@ public class JpaCountryDaoTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
-		Assert.fail("TODO");
+		//TODO continue here RES-44
+		Assert.fail("TODO RES-44");
 	}
 }

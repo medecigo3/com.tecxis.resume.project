@@ -131,7 +131,7 @@ public class CountryTest {
 		/**Validate Country*/
 		isCountryValid(france, FRANCE, List.of(paris));
 
-		setCountryCitiesAndRemoveOrphansInJpa( em -> {
+		set_CountryFrance_WithCities_InJpa( em -> {
 					/**Build and create new Cities*/
 					City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
 					City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
@@ -147,7 +147,7 @@ public class CountryTest {
 					em.merge(france);
 					em.flush();
 					em.clear();
-			}, entityManager, jdbcTemplateProxy, SchemaUtils::testInitialState, SchemaUtils::testStateAfter_FranceCountry_Cities_Update);
+			}, entityManager, jdbcTemplateProxy);
 
 		/**Test Country with new locations*/
 		paris = cityRepo.getCityByName(PARIS);
@@ -200,14 +200,14 @@ public class CountryTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){
-		//TODO RES-44
+		//TODO continue here RES-44
 	}
 	@Test
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
-		//TODO RES-44
+		//TODO continue here RES-44
 	}
 
 }
