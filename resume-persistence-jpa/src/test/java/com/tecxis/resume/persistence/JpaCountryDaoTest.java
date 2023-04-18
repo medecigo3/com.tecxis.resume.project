@@ -146,7 +146,7 @@ public class JpaCountryDaoTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public  void test_OneToMany_SetCities(){//Impl RES-44
+	public  void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){//Impl RES-44
 		/**Fetch country to test*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		/**Fetch cities to test*/
@@ -186,20 +186,9 @@ public class JpaCountryDaoTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SaveCities() {
-		org.junit.Assert.fail("TODO");
-	}	
-	
-	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){
-		//TODO continue here RES-44
-		Assert.fail("TODO");
-	}
-	@Test
-	@Sql(
-			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
 		//TODO continue here RES-44
 		Assert.fail("TODO RES-44");
 	}
+
 }
