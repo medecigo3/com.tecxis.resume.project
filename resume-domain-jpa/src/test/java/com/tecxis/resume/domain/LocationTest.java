@@ -25,7 +25,7 @@ import java.util.List;
 
 import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.update_CityParis_With_Locations_InJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -184,7 +184,7 @@ public class LocationTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testUpdate_And_RemoveOrphansWithOrm() {
+	public void test_ManyToOne_Update_City() {
 		/**Find Project */
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
@@ -216,7 +216,7 @@ public class LocationTest {
 		/**Find a Location*/
 		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
 		
-		setParisLocationInJpa( em -> {
+		update_CityParis_With_Locations_InJpa(em -> {
 				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
 				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));
 				em.merge(morningstartV1ProjectLocation);

@@ -726,13 +726,6 @@ public class Utils {
 		setCityLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_LondonCity_Locations_Update, jdbcTemplateProxy);
 		
 	}
-
-	public static void setCityLocationsInJpa(JPATransactionVoidFunction <CityRepository> setCityLocationsFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
-		setCityLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
-		setCityLocationsFunction.accept(cityRepo);
-		setCityLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_LondonCity_Locations_Update, jdbcTemplateProxy);
-		
-	}
 	
 	public static long insertClientInJpa(JPATransactionFunction <EntityManager, Long> insertClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		insertClientFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Client_Insert, jdbcTemplate);
@@ -859,35 +852,35 @@ public class Utils {
 		deleteLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Location_Delete_ByParisCity, jdbcTemplate);
 	}
 
-	public static void setParisLocationInJpa(JPATransactionVoidFunction <EntityManager> setLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_CityParis_With_Locations_InJpa(JPATransactionVoidFunction <EntityManager> setLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setLocationFunction.accept(entityManager);
 		setLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Locations_Delete, jdbcTemplate);
 		
 	}
 	
-	public static void setParisLocationInJpa(JPATransactionVoidBiFunction <CityRepository, ProjectRepository> setLocationFunction, CityRepository cityRepo, ProjectRepository projectRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_CityParis_With_Locations_InJpa(JPATransactionVoidBiFunction <CityRepository, ProjectRepository> setLocationFunction, CityRepository cityRepo, ProjectRepository projectRepo, JdbcTemplate jdbcTemplate) {
 		setLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setLocationFunction.accept(cityRepo, projectRepo);
 		setLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Locations_Delete, jdbcTemplate);
 		
 	}
 	
-	public static void setParisLocationInJpa(JPATransactionVoidFunction <LocationRepository> setLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_CityParis_With_Locations_InJpa(JPATransactionVoidFunction <LocationRepository> setLocationFunction, LocationRepository locationRepo, JdbcTemplate jdbcTemplate) {
 		setLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setLocationFunction.accept(locationRepo);
 		setLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Locations_Delete, jdbcTemplate);
 		
 	}
 	
-	public static void setParisLocationAndRemoveOphansInJpa(JPATransactionVoidFunction <EntityManager> setCityWithNullLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_CityParis_With_NullLocations_InJpa(JPATransactionVoidFunction <EntityManager> setCityWithNullLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setCityWithNullLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setCityWithNullLocationFunction.accept(entityManager);
 		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ParisCity_Locations_NullUpdate, jdbcTemplate);
 		
 	}
 	
-	public static void setParisLocationAndRemoveOphansInJpa(JPATransactionVoidFunction <CityRepository> setCityWithNullLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_CityParis_With_NullLocations_InJpa(JPATransactionVoidFunction <CityRepository> setCityWithNullLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
 		setCityWithNullLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setCityWithNullLocationFunction.accept(cityRepo);
 		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ParisCity_Locations_NullUpdate, jdbcTemplate);

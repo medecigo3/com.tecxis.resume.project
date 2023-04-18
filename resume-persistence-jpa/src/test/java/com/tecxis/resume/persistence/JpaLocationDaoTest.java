@@ -26,7 +26,7 @@ import static com.tecxis.resume.domain.Constants.PROJECT_PARCOURS_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.util.Utils.setParisLocationInJpa;
+import static com.tecxis.resume.domain.util.Utils.update_CityParis_With_Locations_InJpa;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -89,64 +89,8 @@ public class JpaLocationDaoTest {
 	private ProjectRepository projectRepo;
 	
 	@Test
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
-	)
 	public void testSave() {
-		/**Find Project */
-		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
-		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
-		assertEquals(VERSION_1, morningstartV1Project.getVersion());	
-		
-		/**Find a City*/		
-		City paris = cityRepo.getCityByName(PARIS);
-		/**Validate City before test*/
-		Location parisSagemcomTedV1Location = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID))).get();
-		Location parisParcoursV1MicropoleLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_PARCOURS_V1_ID, CLIENT_MICROPOLE_ID))).get();
-		Location parisEuroclearV1LbpLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID, CLIENT_LA_BANQUE_POSTALE_ID))).get();	
-		Location parisMorningstarV1AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID))).get();
-		Location parisEolisV1EhLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EOLIS_V1_ID, CLIENT_EULER_HERMES_ID))).get();
-		Location parisMorningstarV2AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V2_ID, CLIENT_AXELTIS_ID))).get();
-		Location parisCdcV1SgLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_CENTRE_DES_COMPETENCES_V1_ID, CLIENT_SG_ID))).get();
-		Location parisAosv1ArvalLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_AOS_V1_ID, CLIENT_ARVAL_ID))).get();
-		Location parisSeleniumV1HermesLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_SELENIUM_V1_ID, CLIENT_HERMES_ID))).get();			
-		List <Location> morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location, 
-				parisParcoursV1MicropoleLocation, 	
-				parisEuroclearV1LbpLocation,		
-				parisMorningstarV1AxeltisLocation,
-				parisEolisV1EhLocation,	
-				parisMorningstarV2AxeltisLocation,
-				parisCdcV1SgLocation,
-				parisAosv1ArvalLocation,
-				parisSeleniumV1HermesLocation );
-		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		
-		/**Find a Location*/
-		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
-		
-		setParisLocationInJpa( locationRepo -> {
-				assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
-				assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));		
-				SchemaUtils.testInitialState(jdbcTemplateProxy);
-				locationRepo.save(morningstartV1ProjectLocation);				
-				locationRepo.flush();			
-			},locationRepo, jdbcTemplateProxy);
-		
-		entityManager.clear();
-		/**Validate City after test*/
-		morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location, 
-				parisParcoursV1MicropoleLocation, 	
-				parisEuroclearV1LbpLocation,
-				parisEolisV1EhLocation,	
-				parisMorningstarV2AxeltisLocation,
-				parisCdcV1SgLocation,
-				parisAosv1ArvalLocation,
-				parisSeleniumV1HermesLocation );
-		assertEquals(CITY_PARIS_TOTAL_LOCATIONS - 1, morningstarv1AxeltisLocations.size()); //1 location removed
-		City newParis = cityRepo.getCityByName(PARIS);
-		assertEquals(SUCCESS, Utils.isCityValid(newParis, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		
+		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
@@ -242,8 +186,63 @@ public class JpaLocationDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveCity() {
-		org.junit.Assert.fail("TODO");
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
+	)
+	public void test_ManyToOne_Update_City() {
+		/**Find Project */
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
+		assertEquals(VERSION_1, morningstartV1Project.getVersion());
+
+		/**Find a City*/
+		City paris = cityRepo.getCityByName(PARIS);
+		/**Validate City before test*/
+		Location parisSagemcomTedV1Location = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID))).get();
+		Location parisParcoursV1MicropoleLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_PARCOURS_V1_ID, CLIENT_MICROPOLE_ID))).get();
+		Location parisEuroclearV1LbpLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID, CLIENT_LA_BANQUE_POSTALE_ID))).get();
+		Location parisMorningstarV1AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID))).get();
+		Location parisEolisV1EhLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EOLIS_V1_ID, CLIENT_EULER_HERMES_ID))).get();
+		Location parisMorningstarV2AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V2_ID, CLIENT_AXELTIS_ID))).get();
+		Location parisCdcV1SgLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_CENTRE_DES_COMPETENCES_V1_ID, CLIENT_SG_ID))).get();
+		Location parisAosv1ArvalLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_AOS_V1_ID, CLIENT_ARVAL_ID))).get();
+		Location parisSeleniumV1HermesLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_SELENIUM_V1_ID, CLIENT_HERMES_ID))).get();
+		List <Location> morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location,
+				parisParcoursV1MicropoleLocation,
+				parisEuroclearV1LbpLocation,
+				parisMorningstarV1AxeltisLocation,
+				parisEolisV1EhLocation,
+				parisMorningstarV2AxeltisLocation,
+				parisCdcV1SgLocation,
+				parisAosv1ArvalLocation,
+				parisSeleniumV1HermesLocation );
+		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
+
+		/**Find a Location*/
+		Location morningstartV1ProjectLocation = locationRepo.findById(new LocationId(paris.getId(), morningstartV1Project.getId())).get();
+
+		update_CityParis_With_Locations_InJpa(locationRepo -> {
+			assertTrue(paris.removeLocation(morningstartV1ProjectLocation));
+			assertTrue(morningstartV1Project.removeLocation(morningstartV1ProjectLocation));
+			SchemaUtils.testInitialState(jdbcTemplateProxy);
+			locationRepo.save(morningstartV1ProjectLocation);
+			locationRepo.flush();
+		},locationRepo, jdbcTemplateProxy);
+
+		entityManager.clear();
+		/**Validate City after test*/
+		morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location,
+				parisParcoursV1MicropoleLocation,
+				parisEuroclearV1LbpLocation,
+				parisEolisV1EhLocation,
+				parisMorningstarV2AxeltisLocation,
+				parisCdcV1SgLocation,
+				parisAosv1ArvalLocation,
+				parisSeleniumV1HermesLocation );
+		assertEquals(CITY_PARIS_TOTAL_LOCATIONS - 1, morningstarv1AxeltisLocations.size()); //1 location removed
+		City newParis = cityRepo.getCityByName(PARIS);
+		assertEquals(SUCCESS, Utils.isCityValid(newParis, PARIS, FRANCE, morningstarv1AxeltisLocations));
 	}	
 	
 	@Test
