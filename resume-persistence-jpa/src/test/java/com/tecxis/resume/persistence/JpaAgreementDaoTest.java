@@ -67,7 +67,7 @@ public class JpaAgreementDaoTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" }, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void test_ManyToOne_SaveService() {
+	public void test_ManyToOne_UpdateService() {
 		/**Find Contract*/
 		Contract axeltisFastConnectcontract = contractRepo.getContractByName(CONTRACT7_NAME);
 		
@@ -79,7 +79,7 @@ public class JpaAgreementDaoTest {
 				
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		setAgreementServiceInJpa(agreementRepo-> {
+		update_AgreementAxeltisFastconnect_With_Service_InJpa(agreementRepo-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId()); // set new service id

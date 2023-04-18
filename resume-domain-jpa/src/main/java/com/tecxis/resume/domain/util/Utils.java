@@ -922,13 +922,13 @@ public class Utils {
 		
 	}
 	
-	public static void setAgreementServiceInJpa(JPATransactionVoidFunction <EntityManager> setAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_AgreementAxeltisFastconnect_With_Service_InJpa(JPATransactionVoidFunction <EntityManager> setAgreementServiceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setAgreementServiceFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setAgreementServiceFunction.accept(entityManager);
 		setAgreementServiceFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 	}
 	
-	public static void setAgreementServiceInJpa(JPATransactionVoidFunction <AgreementRepository> setAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_AgreementAxeltisFastconnect_With_Service_InJpa(JPATransactionVoidFunction <AgreementRepository> setAgreementServiceFunction, AgreementRepository agreementRepo, JdbcTemplate jdbcTemplate) {
 		setAgreementServiceFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setAgreementServiceFunction.accept(agreementRepo);
 		setAgreementServiceFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);

@@ -74,7 +74,7 @@ public class AgreementTest {
 								
 		/**Find new service to set in Agreement*/
 		Service liferayDev = serviceRepo.getServiceByName(LIFERAY_DEVELOPPER);
-		setAgreementServiceInJpa(em ->{
+		Utils.update_AgreementAxeltisFastconnect_With_Service_InJpa(em ->{
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(axeltisFastConnectcontract.getId());
