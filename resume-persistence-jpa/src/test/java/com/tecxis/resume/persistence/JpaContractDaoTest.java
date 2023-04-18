@@ -27,11 +27,7 @@ import static com.tecxis.resume.domain.Constants.SAGEMCOM;
 import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.sdf;
-import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
-import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsAndRemoveOphansInJpa;
-import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsInJpa;
-import static com.tecxis.resume.domain.util.Utils.setContractSupplyContractsAndRemoveOphansInJpa;
-import static com.tecxis.resume.domain.util.Utils.setContractSupplyContractsInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -461,7 +457,7 @@ public class JpaContractDaoTest {
 		newAmesysSagemSupplyContract.setEndDate(endDate);
 		
 		/**Set Contract -> new SupplyContract*/		
-		setContractSupplyContractsInJpa( contractRepo -> {
+		Utils.set_ContractAmesysSagem_With_SupplyContracts_InJpa(contractRepo -> {
 			List <SupplyContract> newAmesysSagemSupplyContracts = List.of(newAmesysSagemSupplyContract);
 			currentAmesysSagemContract.setSupplyContracts(newAmesysSagemSupplyContracts);
 			contractRepo.save(currentAmesysSagemContract);
@@ -522,7 +518,7 @@ public class JpaContractDaoTest {
 
 		
 		/**Set Contract -> null SupplyContracts*/
-		setContractSupplyContractsAndRemoveOphansInJpa( contractRepo -> {
+		Utils.set_ContractAmesysSagem_With_NullSupplyContracts_InJpa(contractRepo -> {
 			currentAmesysSagemContract.setSupplyContracts(null);
 			contractRepo.save(currentAmesysSagemContract);
 			contractRepo.flush();			
