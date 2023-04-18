@@ -267,11 +267,6 @@ public class JpaContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveAgreement() {
-		org.junit.Assert.fail("TODO");
-	}
-	
-	@Test
 	public void test_ManyToOne_SupplyContract() {
 		org.junit.Assert.fail("TODO");
 	}
@@ -320,7 +315,7 @@ public class JpaContractDaoTest {
 			
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsInJpa( contractRepo -> {
+		update_ContractArval_With_Agreements_InJpa(contractRepo -> {
 			arvalContract.setAgreements(newAgreements);			
 			assertEquals(2, arvalContract.getAgreements().size());
 			contractRepo.save(arvalContract);
@@ -414,7 +409,7 @@ public class JpaContractDaoTest {
 				
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsAndRemoveOphansInJpa(contractRepo -> {
+		Utils.update_ContractArval_With_NullAgreements_InJpa(contractRepo -> {
 			arvalContract.setAgreements(null);					
 			contractRepo.save(arvalContract);
 			contractRepo.flush();

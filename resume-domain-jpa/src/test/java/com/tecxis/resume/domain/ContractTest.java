@@ -28,14 +28,7 @@ import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.sdf;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.isClientValid;
-import static com.tecxis.resume.domain.util.Utils.isContractValid;
-import static com.tecxis.resume.domain.util.Utils.isSupplyContractValid;
-import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsAndRemoveOphansInJpa;
-import static com.tecxis.resume.domain.util.Utils.setArvalContractAgreementsInJpa;
-import static com.tecxis.resume.domain.util.Utils.update_ContractAmesysSagem_With_NullSupplyContracts_InJpa;
-import static com.tecxis.resume.domain.util.Utils.setSagemContractWithMicropoleClientInJpa;
-import static com.tecxis.resume.domain.util.Utils.update_ContractAmesysSagem_With_SupplyContracts_InJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -597,7 +590,7 @@ public class ContractTest {
 			
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsInJpa( em -> {
+		update_ContractArval_With_Agreements_InJpa(em -> {
 			arvalContract.setAgreements(newAgreements);			
 			em.merge(arvalContract);
 			em.flush();
@@ -691,7 +684,7 @@ public class ContractTest {
 				
 		/**Set Agreements*/	
 		/**This sets new Arval's Agreements and leaves orphans */ 
-		setArvalContractAgreementsAndRemoveOphansInJpa( em -> {
+		update_ContractArval_With_NullAgreements_InJpa(em -> {
 			arvalContract.setAgreements(null);					
 			em.merge(arvalContract);
 			em.flush();

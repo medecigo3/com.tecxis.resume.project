@@ -894,28 +894,28 @@ public class Utils {
 		
 	}
 
-	public static void setArvalContractAgreementsInJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractArval_With_Agreements_InJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementFunction.accept(entityManager);
 		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
 		
 	}
 	
-	public static void setArvalContractAgreementsInJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractArval_With_Agreements_InJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementFunction.accept(contractRepo);
 		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
 		
 	}
 	
-	public static void setArvalContractAgreementsAndRemoveOphansInJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractArval_With_NullAgreements_InJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementsWithNullFunction.accept(entityManager);
 		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_NullUpdate, jdbcTemplate);
 		
 	}
 	
-	public static void setArvalContractAgreementsAndRemoveOphansInJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractArval_With_NullAgreements_InJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementsWithNullFunction.accept(contractRepo);
 		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_NullUpdate, jdbcTemplate);
