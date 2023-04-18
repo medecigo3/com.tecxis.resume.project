@@ -250,17 +250,6 @@ public class ClientTest {
 		Assert.assertThat(axeltisProjects.get(1), Matchers.oneOf(morningstartProjects.get(0), morningstartProjects.get(1)));
 		
 	}
-
-	@Test(expected = UnsupportedOperationException.class)
-	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
-		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_UpdateProjects() {
-		Client ageas = clientRepo.getClientByName(AGEAS);
-		ageas.setProjects(new ArrayList<Project> ());
-		logger.warn("To set a Client's Project see ProjectTest.test_ManyToOne_SetClient()");			
-			
-	}
 	
 	@Test
 	public void test_OneToMany_Update_Projects_And_RemoveOrphansWithOrm() {
