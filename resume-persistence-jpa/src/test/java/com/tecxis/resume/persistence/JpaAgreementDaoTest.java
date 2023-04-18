@@ -9,10 +9,7 @@ import static com.tecxis.resume.domain.Constants.J2EE_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
-import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
-import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
-import static com.tecxis.resume.domain.util.Utils.setAgreementServiceInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -124,7 +121,7 @@ public class JpaAgreementDaoTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		Utils.setAgreementContractInJpa(agreementRepo-> {
+		set_Agreement_With_Contract_InJpa(agreementRepo-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id

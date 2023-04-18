@@ -7,10 +7,7 @@ import static com.tecxis.resume.domain.Constants.LIFERAY_DEVELOPPER;
 import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
 import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_NESTED_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.deleteAgreementInJpa;
-import static com.tecxis.resume.domain.util.Utils.insertAgreementInJpa;
-import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
-import static com.tecxis.resume.domain.util.Utils.setAgreementServiceInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -120,7 +117,7 @@ public class AgreementTest {
 		
 		/**Find new Contract to set in Agreement*/
 		Contract accentureBarclaysContract = contractRepo.getContractByName(CONTRACT1_NAME);
-		Utils.setAgreementContractInJpa(em-> {
+		set_Agreement_With_Contract_InJpa(em-> {
 			/***Create new Agreement*/
 			AgreementId newAxeltisFastConnectAgreementId = new AgreementId();
 			newAxeltisFastConnectAgreementId.setContractId(accentureBarclaysContract.getId()); //set new contract id
