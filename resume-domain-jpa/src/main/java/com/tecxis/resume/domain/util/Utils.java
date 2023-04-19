@@ -773,14 +773,14 @@ public class Utils {
 		deleteClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AxeltisClient_Delete, jdbcTemplate);
 	}
 
-	public static void setSagemContractWithMicropoleClientInJpa(JPATransactionVoidFunction <EntityManager> deleteContractFunction, JPATransactionVoidFunction <EntityManager> setContractClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractAmesysSagem_With_Client_InJpa(JPATransactionVoidFunction <EntityManager> deleteContractFunction, JPATransactionVoidFunction <EntityManager> setContractClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		deleteContractFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		Consumer <EntityManager> deleteAndSetFunction = deleteContractFunction.andThen(setContractClientFunction);
 		deleteAndSetFunction.accept(entityManager);
 		setContractClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SagemContract_Client_Update, jdbcTemplate);
 	}
 
-	public static void setSagemContractWithMicropoleClientInJpa(JPATransactionVoidFunction <ContractRepository> deleteContractFunction, JPATransactionVoidFunction <ContractRepository> setContractClientFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_ContractAmesysSagem_With_Client_InJpa(JPATransactionVoidFunction <ContractRepository> deleteContractFunction, JPATransactionVoidFunction <ContractRepository> setContractClientFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		deleteContractFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		Consumer <ContractRepository> deleteAndSetFunction = deleteContractFunction.andThen(setContractClientFunction);
 		deleteAndSetFunction.accept(contractRepo);			

@@ -182,7 +182,7 @@ public class ContractTest {
 		entityManager.clear();
 				
 		/**Create new Contract with new Client*/		
-		setSagemContractWithMicropoleClientInJpa(
+		Utils.update_ContractAmesysSagem_With_Client_InJpa(
 			em -> {
 				/**These steps will update the Parent (non-owner of this relation)*/
 				Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);

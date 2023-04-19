@@ -209,7 +209,7 @@ public class JpaContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveClient() {
+	public void test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm() {
 		/**Find target Contract*/			
 		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = currentSagemContract.getId().getContractId();
@@ -234,7 +234,7 @@ public class JpaContractDaoTest {
 		
 						
 		/**Create new Contract with new Client*/		
-		setSagemContractWithMicropoleClientInJpa(
+		update_ContractAmesysSagem_With_Client_InJpa(
 			contractRepo -> {
 				/**These steps will update the Parent (non-owner of this relation)*/		
 				contractRepo.delete(currentSagemContract);//Firstly remove the Child (Owner)
