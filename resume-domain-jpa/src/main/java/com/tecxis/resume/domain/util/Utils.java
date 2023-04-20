@@ -698,14 +698,14 @@ public class Utils {
 		return SUCCESS;		
 	}
 	
-	public static void setLondonToFranceInJpa(JPATransactionVoidFunction <EntityManager> setLondonInFranceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
+	public static void update_CityLondon_With_Country_InJpa(JPATransactionVoidFunction <EntityManager> setLondonInFranceFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
 		setLondonInFranceFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 		setLondonInFranceFunction.accept(entityManager);
 		setLondonInFranceFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_LondonCity_Update, jdbcTemplateProxy);
 		
 	}
 	
-	public static void setBrusslesToFranceInJpa(JPATransactionVoidFunction <CityRepository> setBrusselsInFranceFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
+	public static void update_CityBrussles_With_Country_InJpa(JPATransactionVoidFunction <CityRepository> setBrusselsInFranceFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
 		setBrusselsInFranceFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 		setBrusselsInFranceFunction.accept(cityRepo);
 		setBrusselsInFranceFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_BrusslesCity_Update, jdbcTemplateProxy);

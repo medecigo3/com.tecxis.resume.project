@@ -1,6 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.AOS;
 import static com.tecxis.resume.domain.Constants.BELGIUM;
 import static com.tecxis.resume.domain.Constants.BRUSSELS;
 import static com.tecxis.resume.domain.Constants.CITY_PARIS_TOTAL_LOCATIONS;
@@ -12,8 +11,6 @@ import static com.tecxis.resume.domain.Constants.CLIENT_LA_BANQUE_POSTALE_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_MICROPOLE_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_SAGEMCOM_ID;
 import static com.tecxis.resume.domain.Constants.CLIENT_SG_ID;
-import static com.tecxis.resume.domain.Constants.DCSC;
-import static com.tecxis.resume.domain.Constants.FORTIS;
 import static com.tecxis.resume.domain.Constants.FRANCE;
 import static com.tecxis.resume.domain.Constants.FRANCE_ID;
 import static com.tecxis.resume.domain.Constants.LONDON;
@@ -29,11 +26,8 @@ import static com.tecxis.resume.domain.Constants.PROJECT_MORNINGSTAR_V2_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_PARCOURS_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
 import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
-import static com.tecxis.resume.domain.Constants.SELENIUM;
-import static com.tecxis.resume.domain.Constants.SWINDON;
 import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.SchemaUtils.testInitialState;
 import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -109,7 +103,7 @@ public class JpaCityDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void test_ManyToOne_SaveCountry_WithOrmOrhpanRemoval() {		
+	public void test_ManyToOne_Update_Country_And_RemoveOrphansWithOrm() {
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertNotNull(france);
@@ -127,7 +121,7 @@ public class JpaCityDaoTest {
 		newCityId.setCityId(brussels.getId().getCityId());
 		newCityId.setCountryId(france.getId());
 		
-		setBrusslesToFranceInJpa(cityRepo-> {
+		update_CityBrussles_With_Country_InJpa(cityRepo-> {
 			City newCity = new City();
 			newCity.setId(newCityId);
 //			newCity.setLocations(brussels.getLocations()); //Cannot set locations for the new City. Setting the new City with references to old Locations generates redundant SQL insert of "old brussels" City. 

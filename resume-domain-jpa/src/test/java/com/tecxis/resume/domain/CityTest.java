@@ -222,7 +222,7 @@ public class CityTest {
 		newCityId.setCityId(oldLondon.getId().getCityId()); //sets old id to the new City
 		newCityId.setCountryId(france.getId());
 		
-		setLondonToFranceInJpa(em -> {
+		update_CityLondon_With_Country_InJpa(em -> {
 			/**Create new City with new host Country*/
 			City newLondon =  new City();		
 			newLondon.setId(newCityId);		
