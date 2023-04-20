@@ -568,20 +568,6 @@ public class Utils {
 		enrolmentRepo.flush();
 	}
 
-	public static void setContractAgreementInJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		setContractAgreementsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		setContractAgreementsFunction.accept(entityManager);
-		setContractAgreementsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
-	
-	}
-	
-	public static void setContractAgreementInJpa(JPATransactionVoidFunction <AgreementRepository> setContractAgreementsFunction, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
-		setContractAgreementsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		setContractAgreementsFunction.accept(repository);
-		setContractAgreementsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
-	
-	}
-
 	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
 		if(CONTRACT_NAME_IS_NOT_VALID.equals((AgreementValidator.isContractValid(contractName).apply(agreement))))
 			return CONTRACT_NAME_IS_NOT_VALID;
