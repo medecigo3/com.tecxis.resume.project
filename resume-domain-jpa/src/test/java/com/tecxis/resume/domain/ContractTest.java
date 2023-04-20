@@ -137,7 +137,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_GetClient() {
+	public void test_ManyToOne_Get_Client() {
 		/**Find a contract*/		
 		Contract alphatressBelfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		
@@ -158,7 +158,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm() {
+	public void test_ManyToOne_Update_Client() {
 		/**Find target Contract*/			
 		Contract targetSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = targetSagemContract.getId().getContractId();
@@ -242,7 +242,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_GetSupplier() {
+	public void test_ManyToMany_Get_Supplier() {
 		/**Find a contract*/	
 		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);		
 		Contract amesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
@@ -369,7 +369,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetSupplyContracts() {		
+	public void test_OneToMany_Get_SupplyContracts() {
 		/**Find target contract*/			
 		Contract belfiusAlphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		assertNotNull(belfiusAlphatressContract);
@@ -393,7 +393,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddAgreement() throws EntityExistsException {
+	public void test_OneToMany_Add_Agreement() throws EntityExistsException {
 		/**Find a contract*/				
 		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 		assertEquals(1, micropoleFastconnectContract.getAgreements().size());
@@ -462,7 +462,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OnetoMany_AddExistingAgreement_To_Contract() throws EntityExistsException {		
+	public void test_OnetoMany_Add_Existing_Agreement() throws EntityExistsException {
 			
 		/**Find contracts*/
 		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
@@ -507,7 +507,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetAgreements() {
+	public void test_OneToMany_Get_Agreements() {
 		/**Find a contract*/				
 		Contract micropoleFastconnectContract = contractRepo.getContractByName(CONTRACT5_NAME);
 			
@@ -697,7 +697,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreement_by_Service() {
+	public void test_OneToMany_Remove_Agreement_by_Service() {
 		/**Find  Contract*/		
 		Contract barclaysAccentureContract = contractRepo.getContractByName(CONTRACT1_NAME);		
 		
@@ -738,7 +738,7 @@ public class ContractTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreement() {			
+	public void test_OneToMany_Remove_Agreement() {
 		/**Get Service & validate */
 		Service muleService = serviceRepo.getServiceByName(MULE_ESB_CONSULTANT);		
 		assertNotNull(muleService);

@@ -93,7 +93,7 @@ public class SkillTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void test_ManyToMany_GetStaff() {
+	public void test_ManyToMany_Get_Staff() {
 		Skill tibcoSkill = skillRepo.getSkillByName(TIBCO);
 		List<Staff> tibcoStaff = tibcoSkill.getStaff();
 		
@@ -125,7 +125,7 @@ public class SkillTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_AddStaff() {
+	public void test_ManyToMany_Add_Staff() {
 		Skill skill = new Skill();
 		skill.addStaff(new Staff());
 		//To add Staff to a Skill see StaffSkillTest.testAddStaffSkill
@@ -135,7 +135,7 @@ public class SkillTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_RemoveStaff() {	
+	public void test_ManyToMany_Remove_Staff() {
 		Skill skill = new Skill();
 		skill.removeStaff(new Staff());
 		//To add Staff to a Skill see StaffSkillTest.testRemoveStaffSkill

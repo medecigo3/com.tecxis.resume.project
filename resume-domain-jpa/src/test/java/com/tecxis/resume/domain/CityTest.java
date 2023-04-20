@@ -184,7 +184,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_GetCountry() {
+	public void test_ManyToOne_Get_Country() {
 		/**Find City*/
 		City london = cityRepo.getCityByName(LONDON);		
 		/**Validate City -> Country*/
@@ -206,7 +206,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_Update_Country_And_RemoveOrhpansWithOrm() {		
+	public void test_ManyToOne_Update_Country() {
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertEquals(FRANCE, france.getName()); 
@@ -259,7 +259,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddLocation() {
+	public void test_OneToMany_Add_Location() {
 		/**Find & validate city to test*/
 		City london = cityRepo.getCityByName(LONDON);	
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
@@ -313,7 +313,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingLocation() {
+	public void test_OneToMany_Add_Existing_Location() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);		
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
@@ -353,7 +353,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation() {
+	public void test_OneToMany_Remove_Location() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
@@ -388,7 +388,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation_by_Project() {
+	public void test_OneToMany_Remove_Location_by_Project() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
@@ -424,7 +424,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation_by_Unrelated_Project() {
+	public void test_OneToMany_Remove_Location_by_Unrelated_Project() {
 		/**Find & validate city to test*/
 		City manchester = cityRepo.getCityByName(MANCHESTER);
 		assertEquals(UNITED_KINGDOM, manchester.getCountry().getName());
@@ -457,7 +457,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetLocations() {
+	public void test_OneToMany_Get_Locations() {
 		/**Find & validate city to test*/
 		City london = cityRepo.getCityByName(LONDON);
 		assertEquals(UNITED_KINGDOM, london.getCountry().getName());
@@ -621,7 +621,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_GetProjects() {
+	public void test_ManyToMany_Get_Projects() {
 		City london = cityRepo.getCityByName(LONDON);
 		assertEquals(LONDON, london.getName());
 		Project dcsc = projectRepo.findByNameAndVersion(DCSC, VERSION_1);
@@ -676,7 +676,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_AddProject() {
+	public void test_ManyToMany_Add_Project() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry(UNITED_KINGDOM, entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
@@ -731,7 +731,7 @@ public class CityTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_RemoveProject() {
+	public void test_ManyToMany_Remove_Project() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CITY_TABLE));	
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));

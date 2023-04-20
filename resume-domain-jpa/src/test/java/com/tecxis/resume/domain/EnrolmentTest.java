@@ -64,7 +64,7 @@ public class EnrolmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_SetStaff() {		
+	public void test_ManyToOne_Update_Staff() {
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getFirstName());
@@ -115,7 +115,7 @@ public class EnrolmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToOne_SetCourse() {		
+	public void test_ManyToOne_Update_Course() {
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getFirstName());
@@ -166,7 +166,7 @@ public class EnrolmentTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void testRemoveEnrolment() {
+	public void test_Remove_Enrolment() {
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);
 		assertEquals(AMT_NAME, amt.getFirstName());

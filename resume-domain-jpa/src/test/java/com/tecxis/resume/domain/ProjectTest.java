@@ -289,7 +289,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToOne_GetClient() {
+	public void test_ManyToOne_Get_Client() {
 		/**Find project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertEquals(MORNINGSTAR, morningstartV1Project.getName());
@@ -560,7 +560,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddAssignmentFromScratch() {
+	public void test_OneToMany_Add_Assignment_FromScratch() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -611,7 +611,7 @@ public class ProjectTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void test_OneToMany_AddAssignment() {		
+	public void test_OneToMany_Add_Assignment() {
 		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getAssignments().size());
@@ -667,7 +667,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingAssignment() {
+	public void test_OneToMany_Add_Existing_Assignment() {
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
@@ -720,7 +720,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAssignment() {
+	public void test_OneToMany_Remove_Assignment() {
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Task task14 = taskRepo.getTaskByDesc(TASK14);		
@@ -767,7 +767,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetAssignments() {
+	public void test_OneToMany_Get_Assignments() {
 		/**Prepare project*/
 		Project morningstarv1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);		
 		assertEquals(MORNINGSTAR, morningstarv1.getName());
@@ -862,7 +862,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToMany_GetCities() {
+	public void test_ManyToMany_Get_Cities() {
 		City swindon = cityRepo.getCityByName(SWINDON);
 		assertEquals(SWINDON, swindon.getName());
 		City paris = cityRepo.getCityByName(PARIS);
@@ -883,7 +883,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_SetCities() {
+	public void test_ManyToMany_Update_Cities() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client belfius = Utils.insertClient(BELFIUS, entityManager);
@@ -914,7 +914,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_AddCity() {
+	public void test_ManyToMany_Add_City() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.COUNTRY_TABLE));
 		Country uk = Utils.insertCountry("United Kingdom", entityManager);
 		Country france = Utils.insertCountry(FRANCE, entityManager);
@@ -956,7 +956,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_RemoveCity() {
+	public void test_ManyToMany_Remove_City() {
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CLIENT_TABLE));
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
@@ -1013,7 +1013,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddLocation() {		
+	public void test_OneToMany_Add_Location() {
 		/**Find City*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());
@@ -1066,7 +1066,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingLocation() {
+	public void test_OneToMany_Add_Existing_Location() {
 		/**Find City*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());
@@ -1098,7 +1098,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveLocation() {
+	public void test_OneToMany_Remove_Location() {
 		/**Find City location*/
 		City paris = cityRepo.getCityByName(PARIS);
 		assertEquals(PARIS, paris.getName());		
@@ -1142,7 +1142,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_DeleteLocation_by_City() {
+	public void test_OneToMany_Delete_Location_by_City() {
 		/**Find and validate Project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstartV1Project);
@@ -1233,7 +1233,7 @@ public class ProjectTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetLocations() {
+	public void test_OneToMany_Update_Locations_And_RemoveOrhpansWithOrm() {
 		
 		/**Find & validate Project to test*/
 		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
@@ -1299,12 +1299,16 @@ public class ProjectTest {
 		assertThat(manchester.getProjects().get(0), Matchers.oneOf(selenium, adir));
 		assertThat(manchester.getProjects().get(1), Matchers.oneOf(selenium, adir));
 	}
+
+	public void test_OneToMany_Update_Locations_And_RemoveOrhpansWithOrm_NullSet() {
+		//TODO
+	}
 	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetLocations() {
+	public void test_OneToMany_Get_Locations() {
 		/**Find & validate Project to test*/
 		Project selenium = projectRepo.findByNameAndVersion(SELENIUM, VERSION_1);
 		assertEquals(1, selenium.getLocations().size());

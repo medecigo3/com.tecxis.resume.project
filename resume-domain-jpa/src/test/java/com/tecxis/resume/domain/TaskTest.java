@@ -97,7 +97,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddAssignment1() {
+	public void test_OneToMany_Add_Assignment1() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
@@ -149,7 +149,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddAssignment2() {
+	public void test_OneToMany_Add_Assignment2() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client arval = Utils.insertClient(ARVAL, entityManager);		
@@ -200,7 +200,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingAssignment() {
+	public void test_OneToMany_Add_Existing_Assignment() {
 		
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
@@ -256,7 +256,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAssignment() {
+	public void test_OneToMany_Remove_Assignment() {
 		Project  ted = projectRepo.findByNameAndVersion(TED, VERSION_1);
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		Task task12 = taskRepo.getTaskByDesc(TASK12);		
@@ -303,7 +303,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetAssignments() {		
+	public void test_OneToMany_Update_Assignments() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
@@ -343,13 +343,16 @@ public class TaskTest {
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(Assignment.class, id));
 	}
+	public void test_OneToMany_Update_Assignments_NullSet() {
+		//TODO
+	}
 	
 	
 	@Test
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetAssignments() {
+	public void test_OneToMany_Get_Assignments() {
 		/**Prepare projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);
 		assertEquals(EOLIS, eolis.getName());

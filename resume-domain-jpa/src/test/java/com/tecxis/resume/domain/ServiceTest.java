@@ -130,7 +130,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddAgreement() throws EntityExistsException {		
+	public void test_OneToMany_Add_Agreement() throws EntityExistsException {
 		/**Find a Service*/
 		Service scmDevService = serviceRepo.getServiceByName(SCM_ASSOCIATE_DEVELOPPER);		
 		
@@ -206,7 +206,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingAgreementToService() throws EntityExistsException {				
+	public void test_OneToMany_Add_Existing_Agreement() throws EntityExistsException {
 		/**Find a Service to test*/
 		Service tibcoEsbConsultant = serviceRepo.getServiceByName(TIBCO_BW_CONSULTANT);
 		
@@ -244,7 +244,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreement_by_Service_WithOrmOrphanRemove() {
+	public void test_OneToMany_RemoveAgreement_by_Service_And_RemoveOrphansWithOrm() {
 		/**Find a contract*/				
 		Contract alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		assertEquals(Constants.BELFIUS, alphatressContract.getClient().getName());
@@ -296,7 +296,7 @@ public class ServiceTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveAgreement_by_Contract_WithOrmOrhpanRemove() {
+	public void test_OneToMany_Remove_Agreement_by_Contract_And_RemoveOrphansWithOrm() {
 		/**Find a contract*/		
 		Contract alternaArvalContract = contractRepo.getContractByName(CONTRACT11_NAME);
 		

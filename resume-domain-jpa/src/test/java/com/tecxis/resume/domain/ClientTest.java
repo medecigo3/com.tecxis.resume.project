@@ -139,7 +139,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_GetContracts() {		
+	public void test_OneToMany_Get_Contracts() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		assertEquals(AGEAS, ageas.getName());
 		
@@ -226,7 +226,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveContract() {
+	public void test_OneToMany_Remove_Contract() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeContract(new Contract());		
 		logger.warn("To remove a Contract's Client see ContractTest.test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm");		
@@ -236,7 +236,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_GetProjects() {
+	public void test_OneToMany_Get_Projects() {
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		assertEquals(AXELTIS, axeltis.getName());
 				
@@ -265,7 +265,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddProject() {
+	public void test_OneToMany_Add_Project() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.addProject(new Project());
 		logger.warn("To add a Client's Project see ProjectTest.test_ManyToOne_SetClient()");		
@@ -275,7 +275,7 @@ public class ClientTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveProject() {
+	public void test_OneToMany_Remove_Project() {
 		Client ageas = clientRepo.getClientByName(AGEAS);
 		ageas.removeProject(new Project());
 		logger.warn("To remove a Client's Project see ProjectTest.test_ManyToOne_Update_Client_And_CascadeDelete()");

@@ -119,7 +119,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_GetStaffs() {
+	public void test_ManyToMany_Get_Staffs() {
 		/**Find Course */
 		List <Course> courses = courseRepo.getCourseLikeTitle(SHORT_BW_6_COURSE);
 		assertEquals(1, courses.size());
@@ -140,17 +140,17 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToMany_SetStaffs() {
+	public void test_ManyToMany_Update_Staffs_And_RemoveOrphansWithOrm() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.setStaffs(new ArrayList<Staff>());
 		//To update a Staff in a Course see EnrolmentTest.testSetStaff()
 	}
-	
+
 	@Test(expected = UnsupportedOperationException.class)
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToMany_AddStaff() {
+	public void test_ManyToMany_Add_Staff() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.addStaff(new Staff());
 		//To add a staff in a Course see EnrolmentTest.testSetStaff()
@@ -160,7 +160,7 @@ public class CourseTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_ManyToMany_RemoveStaff() {
+	public void test_ManyToMany_Remove_Staff() {
 		Course bwCourse = courseRepo.getCourseByTitle(BW_6_COURSE);
 		bwCourse.removeStaff(new Staff());
 		//To remove a staff from a Course see EnrolmentTest.testSetStaff()

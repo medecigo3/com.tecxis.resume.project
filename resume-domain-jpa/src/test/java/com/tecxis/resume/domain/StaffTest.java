@@ -80,6 +80,7 @@ import static com.tecxis.resume.domain.Constants.TED;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
 import static com.tecxis.resume.domain.Constants.VERSION_2;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.buildStaff;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -189,7 +190,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetAssignments() {
+	public void test_OneToMany_Get_Assignments() {
 		/**Prepare projects*/
 		Project adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);
 		assertNotNull(adir);
@@ -484,7 +485,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void test_OneToMany_AddAssignment() {		
+	public void test_OneToMany_Add_Assignment() {
 		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getAssignments().size());
@@ -540,7 +541,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_AddExistingAssignment() {
+	public void test_OneToMany_Add_Existing_Assignment() {
 		/**Find projects*/
 		Project eolis = projectRepo.findByNameAndVersion(EOLIS, VERSION_1);	
 		
@@ -594,7 +595,7 @@ public class StaffTest {
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	@Test
-	public void test_OneToMany_RemoveAssignment() {		
+	public void test_OneToMany_Remove_Assignment() {
 		/**Fetch Project and validate Project -> Assignments*/
 		Project  adir = projectRepo.findByNameAndVersion(ADIR, VERSION_1);	
 		assertEquals(6, adir.getAssignments().size());
@@ -648,7 +649,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetAssignments() {
+	public void test_OneToMany_Update_Assignments_And_RemoveOprhansWithOrm() {
 		/**Prepare project*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
 		Client barclays = Utils.insertClient(BARCLAYS, entityManager);		
@@ -688,12 +689,15 @@ public class StaffTest {
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
 		assertNotNull(entityManager.find(Assignment.class, id));
 	}
+	public void test_OneToMany_Update_Assignments_And_RemoveOprhansWithOrm_NullSet() {
+		//TODO
+	}
 
 	@Test
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_GetProjects() {
+	public void test_ManyToMany_Get_Projects() {
 		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
 		List <Project> amtProject = amt.getProjects();
 		assertEquals(62, amtProject.size());
@@ -704,7 +708,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_DetachInterest_And_DbRemove_Staff_WithCascadings() {
+	public void test_OneToMany_Detach_Interest_And_Remove_Staff_WithCascadings() {
 		/**Find Staff to test*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertEquals(JOHN_NAME, john.getFirstName());
@@ -770,7 +774,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_RemoveInterest() {
+	public void test_OneToMany_Remove_Interest() {
 		/**Find Staff to test*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertEquals(JOHN_NAME, john.getFirstName());
@@ -850,7 +854,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_SetCourses() {				
+	public void test_ManyToMany_Update_Courses() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setCourses(new ArrayList <Course> ());
 		//To set Courses to a Staff see EnrolmentTest.testSetStaff()		
@@ -860,7 +864,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_AddCourse() {			
+	public void test_ManyToMany_Add_Course() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.addCourse(new Course());
 		//To add a Course to a Staff see EnrolmentTest.testSetStaff()
@@ -870,7 +874,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_RemoveCourse() {
+	public void test_ManyToMany_Remove_Course() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.removeCourse(new Course());
 		//To remove a Course to a Staff see EnrolmentTest.testSetStaff()
@@ -880,7 +884,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetInterests() {
+	public void test_OneToMany_Get_Interests() {
 		/**Find Staff to test*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);		
 		assertEquals(JOHN_NAME, john.getFirstName());
@@ -896,9 +900,19 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void  test_OneToMany_SetInterests() {				
+	public void  test_OneToMany_Update_Interests__And_RemoveOrphansWithOrm() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setInterests(new ArrayList <Interest> ());			
+		//To set Interest to a Staff see InterestTest.testSetStaff()
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void  test_OneToMany_Update_Interests__And_RemoveOrphansWithOrm_NullSet() {
+		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		john.setInterests(new ArrayList <Interest> ());
 		//To set Interest to a Staff see InterestTest.testSetStaff()
 	}
 	
@@ -906,7 +920,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddInterest() {
+	public void test_OneToMany_Add_Interest() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.addInterest(new Interest ());					
 		//To add Interest into a Staff see InterestTest.testSetStaff()
@@ -916,7 +930,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetSupplyContracts() {
+	public void test_OneToMany_Get_SupplyContracts() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		assertEquals(1, john.getSupplyContracts().size());
 		
@@ -1019,7 +1033,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddSupplyContract() {
+	public void test_OneToMany_Add_SupplyContract() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1168,7 +1182,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_GetEmploymentContracts() {
+	public void test_OneToMany_Get_EmploymentContracts() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		
@@ -1231,7 +1245,7 @@ public class StaffTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Remove_EmploymentContract_WithCascadings() {				
+	public void test_OneToMany_Remove_EmploymentContract_And_RemoveOrphansWithOrm() {
 		/**Find target Staff*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		assertEquals(1, john.getSupplyContracts().size());
@@ -1424,7 +1438,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_AddEmploymentContract() {
+	public void test_OneToMany_Add_EmploymentContract() {
 	
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1505,7 +1519,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_GetSkills() {
+	public void test_ManyToMany_Get_Skills() {
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(5, amt.getSkills().size());
 
@@ -1515,7 +1529,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_SetStaffSkills() {				
+	public void test_OneToMany_Update_StaffSkills__And_RemoveOrphansWithOrm() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setStaffSkills(new ArrayList <StaffSkill> ());
 		//To set StaffSkills to a Staff see StaffSkillTest.testSetStaff()
@@ -1526,7 +1540,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_SetSkills() {		
+	public void test_ManyToMany_Update_Skills() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);	
 		john.setSkills(new ArrayList <Skill> ());
 		//To set Skills to a Staff see StaffSkillTest.testSetSkill()		
@@ -1536,7 +1550,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_AddSkill() {	
+	public void test_ManyToMany_Add_Skill() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		john.addSkill(new Skill());
 		//To add Skills to a Staff see StaffSkillTest.testAddStaffSkill
@@ -1546,7 +1560,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_ManyToMany_RemoveSkill() {		
+	public void test_ManyToMany_Remove_Skill() {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		john.removeSkill(new Skill());	
 		//To add Skills to a Staff see StaffSkillTest.testRemoveStaffSkill
@@ -1556,7 +1570,7 @@ public class StaffTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_DbRemove_Staff_WithCascadings() {
+	public void test_Remove_Staff_WithCascadings() {
 		/**Find target Staff*/		
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(13, amt.getSupplyContracts().size());
@@ -1617,7 +1631,7 @@ public class StaffTest {
 	@Test
 	public void testBirthDateIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = createValidStaff();
+		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
 		staff.setBirthDate(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());
@@ -1627,7 +1641,7 @@ public class StaffTest {
 	@Test
 	public void testFirstNameIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = createValidStaff();
+		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
 		staff.setFirstName(null);		
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());
@@ -1637,19 +1651,11 @@ public class StaffTest {
 	@Test
 	public void testLastNameDateIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = createValidStaff();
+		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
 		staff.setLastName(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.size());
-	}
-	
-	public static Staff createValidStaff(){
-		Staff staff = new Staff();
-		staff.setFirstName(AMT_NAME);
-		staff.setLastName(AMT_LASTNAME);
-		staff.setBirthDate(new Date());
-		return staff;
 	}
 
 	@Test

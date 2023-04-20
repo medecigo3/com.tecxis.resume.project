@@ -60,7 +60,7 @@ public class StaffSkillTest {
 	private StaffSkillRepository staffSkillRepo;
 	
 	@Test
-	public void test_ManyToOne_SetStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		/**Find Staff*/
 		
 		/**Find Skill*/
@@ -83,7 +83,7 @@ public class StaffSkillTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SetSkill() {
+	public void test_ManyToOne_Update_Skill() {
 		/**Find Staff*/
 		/**Find Skill*/
 		/**Find StaffSkill to update*/
@@ -107,7 +107,7 @@ public class StaffSkillTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void testRemoveStaffSkill() {
+	public void test_Remove_StaffSkill() {
 		/**Find Staff*/
 		Staff amt = staffRepo.getStaffLikeLastName(AMT_LASTNAME);	
 		assertEquals(5, amt.getSkills().size());
@@ -157,7 +157,7 @@ public class StaffSkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testInsertStaffSkillRowsAndSetIds() {
+	public void test_Insert_StaffSkill_And_SetIds() {
 		/**Insert Staff*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
@@ -198,7 +198,7 @@ public class StaffSkillTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, 
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD
 	)
-	public void testAddStaffSkill() {
+	public void test_Insert_StaffSkill() {
 		/**Fetch Staff and validate*/	
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(5, amt.getSkills().size());
