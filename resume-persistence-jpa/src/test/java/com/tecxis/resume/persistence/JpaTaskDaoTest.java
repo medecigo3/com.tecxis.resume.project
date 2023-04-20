@@ -87,7 +87,11 @@ public class JpaTaskDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveAssignments() {
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+	@Test
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 }

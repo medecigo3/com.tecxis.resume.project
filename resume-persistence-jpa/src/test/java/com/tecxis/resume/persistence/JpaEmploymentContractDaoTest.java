@@ -208,12 +208,12 @@ public class JpaEmploymentContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveSupplier() {
+	public void test_ManyToOne_Update_Supplier() {
 		org.junit.Assert.fail("TODO");
 	}	
 }

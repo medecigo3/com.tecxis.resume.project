@@ -32,6 +32,7 @@ import javax.persistence.PersistenceContext;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -216,22 +217,38 @@ public class JpaStaffDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveAssignments() {
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+	@Test
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm_NullSet() {
+		org.junit.Assert.fail("TODO");
+	}
+	@Test
+	public void test_OneToMany_Update_Interests_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+
+	@Test
+	public void test_OneToMany_Update_Interests_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_OneToMany_SaveInterests() {
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+	@Test
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_OneToMany_SaveSupplyContracts() {
+	public void test_OneToMany_Update_StaffSkills_And_RemoveOrphansWithOrm() {
 		org.junit.Assert.fail("TODO");
 	}
-	
 	@Test
-	public void test_OneToMany_SaveStaffSkills() {
+	public void test_OneToMany_Update_StaffSkills_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 }

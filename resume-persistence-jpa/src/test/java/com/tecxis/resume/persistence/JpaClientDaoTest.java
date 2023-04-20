@@ -118,9 +118,14 @@ public class JpaClientDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveProjects() {
+	public void test_OneToMany_Update_Projects_And_RemoveOrphansWithOrm() {
 		logger.warn("To update a Projects's Client see JpaProjectDaoTest.test_ManyToOne_SaveClient()");
 		
+	}
+	@Test
+	public void test_OneToMany_Update_Projects_And_RemoveOrphansWithOrm_NullSet() {
+		logger.warn("TODO");
+
 	}
 	
 	@Test

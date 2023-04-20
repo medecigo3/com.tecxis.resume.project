@@ -209,7 +209,7 @@ public class JpaContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_Update_Client_And_RemoveOrphansWithOrm() {
+	public void test_ManyToOne_Update_Client() {
 		/**Find target Contract*/			
 		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		final long sagemContractId = currentSagemContract.getId().getContractId();
@@ -267,7 +267,7 @@ public class JpaContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SupplyContract() {
+	public void test_ManyToOne_Update_SupplyContract() {
 		org.junit.Assert.fail("TODO");
 	}
 	

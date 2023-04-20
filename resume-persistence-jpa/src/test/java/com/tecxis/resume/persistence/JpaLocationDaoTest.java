@@ -246,7 +246,7 @@ public class JpaLocationDaoTest {
 	}	
 	
 	@Test
-	public void test_ManyToOne_SaveProject() {
+	public void test_ManyToOne_Update_Project() {
 		org.junit.Assert.fail("TODO");
 	}
 }

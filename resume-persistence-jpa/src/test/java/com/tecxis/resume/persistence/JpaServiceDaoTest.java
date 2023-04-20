@@ -167,8 +167,11 @@ public class JpaServiceDaoTest {
 	}
 		
 	@Test
-	public void test_OneToMany_SaveAgreements() {
+	public void test_OneToMany_Update_Agreements_AndRemoveOrphansWithOrm() {
 		org.junit.Assert.fail("TODO");
-	}	
-
+	}
+	@Test
+	public void test_OneToMany_Update_Agreements_AndRemoveOrphansWithOrm_NullSet() {
+		org.junit.Assert.fail("TODO");
+	}
 }

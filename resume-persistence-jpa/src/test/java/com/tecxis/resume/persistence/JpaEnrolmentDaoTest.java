@@ -83,12 +83,12 @@ public class JpaEnrolmentDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveCourse() {
+	public void test_ManyToOne_Update_Course() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		org.junit.Assert.fail("TODO");
 	}
 }

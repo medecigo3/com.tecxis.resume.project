@@ -103,7 +103,7 @@ public class JpaCityDaoTest {
 		    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void test_ManyToOne_Update_Country_And_RemoveOrphansWithOrm() {
+	public void test_ManyToOne_Update_Country() {
 		/**Find new country to set*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		assertNotNull(france);

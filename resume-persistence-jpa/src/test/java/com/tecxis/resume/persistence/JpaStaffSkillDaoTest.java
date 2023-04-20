@@ -138,12 +138,12 @@ public class JpaStaffSkillDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveSkill() {
+	public void test_ManyToOne_Update_Skill() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		org.junit.Assert.fail("TODO");
 	}
 }

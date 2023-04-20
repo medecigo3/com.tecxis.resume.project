@@ -138,12 +138,21 @@ public class JpaSupplierDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveEmploymentContracts() {
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+
+	@Test
+	public void test_OneToMany_Update_EmploymentContracts_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 	
 	@Test
-	public void test_OneToMany_SaveSupplyContracts() {
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+	@Test
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 }

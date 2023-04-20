@@ -281,7 +281,7 @@ public class JpaProjectDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_SaveClient() {
+	public void test_ManyToOne_Update_Client() {
 		org.junit.Assert.fail("TODO");
 	}
 	
@@ -488,7 +488,11 @@ public class JpaProjectDaoTest {
 	}
 	
 	@Test
-	public void test_OneToMany_SaveLocations() {
+	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm() {
+		org.junit.Assert.fail("TODO");
+	}
+
+	public void test_OneToMany_Update_Locations_And_RemoveOrphansWithOrm_NullSet() {
 		org.junit.Assert.fail("TODO");
 	}
 	
@@ -496,7 +500,7 @@ public class JpaProjectDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_DeleteLocation_by_City() {
+	public void test_OneToMany_Delete_Location_by_City() {
 		/**Find and validate Project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstartV1Project);

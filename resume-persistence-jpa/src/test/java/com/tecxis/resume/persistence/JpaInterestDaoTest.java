@@ -158,7 +158,7 @@ public class JpaInterestDaoTest {
 	}
 
 	@Test
-	public void test_ManyToOne_SaveStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		org.junit.Assert.fail("TODO");
 	}
 
