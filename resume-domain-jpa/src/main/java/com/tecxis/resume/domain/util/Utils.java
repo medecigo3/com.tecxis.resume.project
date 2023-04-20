@@ -719,14 +719,6 @@ public class Utils {
 			return COUNTRY_NAME_IS_NOT_VALID;
 		return SUCCESS;		
 	}
- 
-	public static void setCityLocationsInJpa(JPATransactionVoidFunction <EntityManager> setCityLocationsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
-		setCityLocationsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
-		setCityLocationsFunction.accept(entityManager);
-		setCityLocationsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_LondonCity_Locations_Update, jdbcTemplateProxy);
-		
-	}
-	
 	public static long insertClientInJpa(JPATransactionFunction <EntityManager, Long> insertClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		insertClientFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Client_Insert, jdbcTemplate);
 		Long clientId = insertClientFunction.apply(entityManager);
