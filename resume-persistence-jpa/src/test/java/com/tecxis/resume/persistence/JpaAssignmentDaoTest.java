@@ -12,10 +12,7 @@ import static com.tecxis.resume.domain.Constants.PARCOURS;
 import static com.tecxis.resume.domain.Constants.TASK1;
 import static com.tecxis.resume.domain.Constants.TASK14;
 import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.util.Utils.deleteAssignmentInJpa;
-import static com.tecxis.resume.domain.util.Utils.insertAssignmentInJpa;
-import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
-import static com.tecxis.resume.domain.util.Utils.setAssignmentAssociationInJpa;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -94,7 +91,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void tes_ManyToOne_SaveStaff() {
+	public void test_ManyToOne_Update_Staff() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -119,7 +116,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(john.getId()); // set new Staff id.
 		
-		setAssignmentAssociationInJpa(assignmentRepo->{
+		update_AssignmentParcoursAmt_With_NewAssociations_InJpa(assignmentRepo->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -149,7 +146,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void test_ManyToOne_SaveProject() {
+	public void test_ManyToOne_Update_Project() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -174,7 +171,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		setAssignmentAssociationInJpa(assignmentRepo ->{
+		update_AssignmentParcoursAmt_With_NewAssociations_InJpa(assignmentRepo ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);
@@ -202,7 +199,7 @@ public class JpaAssignmentDaoTest {
 	    executionPhase = ExecutionPhase.BEFORE_TEST_METHOD
 		)
 	@Test
-	public void test_ManyToOne_SaveTask() {
+	public void test_ManyToOne_Update_Task() {
 		/**Find Project*/
 		Project  parcours = projectRepo.findByNameAndVersion(PARCOURS, VERSION_1);
 //		assertEquals(6, parcours.getAssignments().size()); // test commented out due un-scheduling entity deletion (DefaultPersistEventListener)
@@ -226,7 +223,7 @@ public class JpaAssignmentDaoTest {
 		newAssignmentId.setTaskId(task14.getId());
 		newAssignmentId.setStaffId(amt.getId()); 
 		
-		setAssignmentAssociationInJpa(assignmentRepo ->{
+		update_AssignmentParcoursAmt_With_NewAssociations_InJpa(assignmentRepo ->{
 			/**Create new Assignment*/
 			Assignment newAssignment = new Assignment();
 			newAssignment.setId(newAssignmentId);

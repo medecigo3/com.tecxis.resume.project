@@ -648,13 +648,13 @@ public class Utils {
 		unDeleteAssignmentFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 	}
 	
-	public static void setAssignmentAssociationInJpa(JPATransactionVoidFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
+	public static void update_AssignmentParcoursAmt_With_NewAssociations_InJpa(JPATransactionVoidFunction <EntityManager> function, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		function.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		function.accept(entityManager);
 		function.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 	}
 	
-	public static void setAssignmentAssociationInJpa(JPATransactionVoidFunction <AssignmentRepository> setAssignmentAssociationFunction, AssignmentRepository assignmentRepo, JdbcTemplate jdbcTemplate) {
+	public static void update_AssignmentParcoursAmt_With_NewAssociations_InJpa(JPATransactionVoidFunction <AssignmentRepository> setAssignmentAssociationFunction, AssignmentRepository assignmentRepo, JdbcTemplate jdbcTemplate) {
 		setAssignmentAssociationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setAssignmentAssociationFunction.accept(assignmentRepo);
 		setAssignmentAssociationFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
