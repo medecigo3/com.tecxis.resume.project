@@ -1054,4 +1054,20 @@ public class Utils {
 		setCountryCitiesFunction.accept(countryRepo);
 		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CountryFrance_Update_Cities, jdbcTemplateProxy);
 	}
+
+	public static void update_CountryFrance_With_NullCities_InJpa(JPATransactionVoidFunction <EntityManager> createNewCitiesFunction, JPATransactionVoidFunction <EntityManager> setCountryCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplateProxy) {
+		setCountryCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
+		/**Create new Cities*/
+		createNewCitiesFunction.accept(entityManager);
+		/**Set Country with new Cities*/
+		setCountryCitiesFunction.accept(entityManager);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
+	}
+
+	public static void update_CountryFrance_With_NullCities_InJpa(JPATransactionVoidFunction <CountryRepository> setCountryCitiesFunction, CountryRepository countryRepo, JdbcTemplate jdbcTemplateProxy) {
+		setCountryCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
+		/**Set Country with new Cities*/
+		setCountryCitiesFunction.accept(countryRepo);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
+	}
 }

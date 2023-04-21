@@ -174,7 +174,7 @@ public class JpaCountryDaoTest {
 				}, cityRepo, countryRepo,  jdbcTemplateProxy);
 
 		entityManager.clear();
-		/**Test Country with new locations*/
+		/**Test Country*/
 		paris = cityRepo.getCityByName(PARIS);
 		City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
 		City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
@@ -186,9 +186,29 @@ public class JpaCountryDaoTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
-		//TODO continue here RES-44
-		Assert.fail("TODO RES-44");
+	public void test_OneToMany_Update_Cities_And_DontRemoveOrhpansWithOrm_NullSet(){
+		/**Fetch country to test*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		/**Fetch cities to test*/
+		City paris = cityRepo.getCityByName(PARIS);
+
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(paris));
+
+		update_CountryFrance_With_NullCities_InJpa( em -> {
+					/**Do nothing here*/
+				},
+				cityRepo -> {
+					france.setCities(null);
+					cityRepo.merge(france);
+					cityRepo.flush();
+
+				}, entityManager, jdbcTemplateProxy);
+		entityManager.clear();
+		/**Test Country*/
+		paris = cityRepo.getCityByName(PARIS);
+		/**Validate Country -> City doesn't remove orphans.*/
+		isCountryValid(france, FRANCE, List.of(paris));
 	}
 
 }

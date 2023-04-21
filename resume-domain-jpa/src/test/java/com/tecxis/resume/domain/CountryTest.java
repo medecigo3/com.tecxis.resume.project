@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.tecxis.resume.domain.id.CityId;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -149,7 +150,7 @@ public class CountryTest {
 					em.clear();
 			}, entityManager, jdbcTemplateProxy);
 
-		/**Test Country with new locations*/
+		/**Test Country*/
 		paris = cityRepo.getCityByName(PARIS);
 		City bordeaux = buildCity(buildCityId(BORDEAUX_ID, france.getId()), BORDEAUX);
 		City lyon = buildCity(buildCityId(LYON_ID, france.getId()), LYON);
@@ -160,8 +161,29 @@ public class CountryTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm_NullSet(){
-		//TODO continue here RES-44
+	public void test_OneToMany_Update_Cities_And_DontRemoveOrhpansWithOrm_NullSet(){
+		/**Fetch country to test*/
+		Country france = countryRepo.getCountryByName(FRANCE);
+		/**Fetch cities to test*/
+		City paris = cityRepo.getCityByName(PARIS);
+
+		/**Validate Country*/
+		isCountryValid(france, FRANCE, List.of(paris));
+
+		update_CountryFrance_With_NullCities_InJpa( em -> {
+					/**Do nothing here*/
+				},
+				em -> {
+					france.setCities(null);
+					em.merge(france);
+					em.flush();
+					em.clear();
+				}, entityManager, jdbcTemplateProxy);
+
+		/**Test Country*/
+		paris = cityRepo.getCityByName(PARIS);
+		/**Validate Country -> City doesn't remove orphans.*/
+		isCountryValid(france, FRANCE, List.of(paris));
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
