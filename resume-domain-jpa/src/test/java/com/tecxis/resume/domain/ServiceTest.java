@@ -276,7 +276,7 @@ public class ServiceTest {
 		assertEquals(7, bwService.getAgreements().size());
 		entityManager.merge(bwService);		
 		entityManager.flush();	
-		SchemaUtils.testStateAfter_BwService_AlphatressBwAgreement_Delete(jdbcTemplateProxy);		
+		SchemaUtils.testStateAfter_ServiceBw_Update_Agreement(jdbcTemplateProxy);
 		
 		/**validate Contract -> Agreements*/
 		alphatressContract = contractRepo.getContractByName(CONTRACT13_NAME);
@@ -316,7 +316,7 @@ public class ServiceTest {
 		entityManager.merge(alternaArvalContract);
 		entityManager.merge(bwService);
 		entityManager.flush();	
-		SchemaUtils.testStateAfter_BwService_AlternaArvalContract_Delete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ServiceBw_Delete_Agreements(jdbcTemplateProxy);
 				
 		/**Validate the Agreement was removed*/
 		AgreementId agreementId = new AgreementId();

@@ -829,7 +829,7 @@ public class ContractTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		SchemaUtils.testStateAfter_Contract_Delete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ContractFastconnectMicropole_Delete(jdbcTemplateProxy);
 		
 	}
 	

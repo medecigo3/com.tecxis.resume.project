@@ -412,7 +412,7 @@ public class CityTest {
 		entityManager.merge(manchester);
 		entityManager.merge(currentAdir);			
 		entityManager.flush();
-		SchemaUtils.testStateAfter_AdirProject_Locations_Delete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_ProjectAdirV1_Delete_Locations(jdbcTemplateProxy);
 		
 		assertEquals(0, manchester.getLocations().size());
 		assertEquals(0, currentAdir.getLocations().size());

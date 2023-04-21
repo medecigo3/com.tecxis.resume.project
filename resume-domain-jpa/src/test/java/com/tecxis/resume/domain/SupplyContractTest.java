@@ -192,7 +192,7 @@ public class SupplyContractTest {
 		entityManager.remove(fastconnectMicropoleSupplyContract);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfter_FastconnectMicropoleSupplyContract_Delete(jdbcTemplateProxy);	
+		SchemaUtils.testStateAfter_SupplyContractFastconnectMicropole_Delete(jdbcTemplateProxy);
 
 	}
 	

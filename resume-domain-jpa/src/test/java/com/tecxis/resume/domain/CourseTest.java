@@ -186,7 +186,7 @@ public class CourseTest {
 		entityManager.flush();
 		
 		/**Test course was removed*/
-		SchemaUtils.testStateAfter_Bw6Course_Delete(jdbcTemplateProxy);		
+		SchemaUtils.testStateAfter_CourseBw6_Delete(jdbcTemplateProxy);
 	}
 	
 	@Test

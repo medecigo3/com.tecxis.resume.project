@@ -760,7 +760,7 @@ public class StaffTest {
 		entityManager.flush();
 		entityManager.clear();		
 		/**Test state after remove*/
-		SchemaUtils.testStateAfter_JohnStaffWithDetachedChildren_Delete(jdbcTemplateProxy);		
+		SchemaUtils.testStateAfter_StaffJohn_Delete_WithDetachedChildren(jdbcTemplateProxy);
 		
 		/**Test Interest -> Staff non-identifying relationship is set as NULL*/
 		johnInterest = interestRepo.getInterestByDesc(JOHN_INTEREST);
@@ -1165,7 +1165,7 @@ public class StaffTest {
 		entityManager.merge(amt);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfter_AmtStaff_SupplyContracts_Delete(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_StaffAmt_Delete_SupplyContracts(jdbcTemplateProxy);
 		
 		/**Validate stale SupplyContract doesn't exist*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1233,7 +1233,7 @@ public class StaffTest {
 		entityManager.merge(amt);
 		entityManager.flush();
 		entityManager.clear();
-		SchemaUtils.testStateAfter_AmtStaff__EmploymentContracts_NullUpdate(jdbcTemplateProxy);
+		SchemaUtils.testStateAfter_StaffAmt_Update_NullEmploymentContracts(jdbcTemplateProxy);
 				
 		/**Test parent Staff has no EmploymentContracts*/
 		amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
@@ -1355,7 +1355,7 @@ public class StaffTest {
 		entityManager.clear();
 		
 		/**Test post update state of Staff table*/
-		SchemaUtils.testStateAfter_JohnStaff_EmploymentContracts_NullUpdate(jdbcTemplateProxy);		
+		SchemaUtils.testStateAfter_StaffJohn_Update_NullEmploymentContracts(jdbcTemplateProxy);
 
 	}
 	
@@ -1624,7 +1624,7 @@ public class StaffTest {
 		entityManager.clear();
 		
 		/**Test Staff delete DB post state*/
-		SchemaUtils.testStateAfter_AmtStaff_Delete(jdbcTemplateProxy);	
+		SchemaUtils.testStateAfter_StaffAmt_Delete(jdbcTemplateProxy);
 	
 	}
 	

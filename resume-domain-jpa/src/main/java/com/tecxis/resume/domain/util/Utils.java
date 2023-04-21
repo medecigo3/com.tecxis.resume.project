@@ -577,14 +577,14 @@ public class Utils {
 	}
 	
 	public static void insertAgreementInJpa(JPATransactionVoidFunction <AgreementRepository> insertAgreementFunction, AgreementRepository  repository, JdbcTemplate jdbcTemplate) {
-		insertAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInsertAgreementInitialState, jdbcTemplate);
+		insertAgreementFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Agreement_Insert, jdbcTemplate);
 		insertAgreementFunction.accept(repository);
 		insertAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Agreement_Insert, jdbcTemplate);
 	
 	}
 	
 	public static void insertAgreementInJpa(JPATransactionVoidFunction <EntityManager> insertAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		insertAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInsertAgreementInitialState, jdbcTemplate);
+		insertAgreementFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Agreement_Insert, jdbcTemplate);
 		insertAgreementFunction.accept(entityManager);
 		insertAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Agreement_Insert, jdbcTemplate);
 	
@@ -593,24 +593,24 @@ public class Utils {
 	public static void deleteAgreementInJpa(JPATransactionVoidFunction <EntityManager> deleteAgreementFunction,EntityManager entityManager, JdbcTemplate jdbcTemplate){
 		deleteAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteAgreementFunction.accept(entityManager);
-		deleteAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AxeltisFastconnectAgreement_Delete, jdbcTemplate);
+		deleteAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgreementAxeltisFastconnect_Delete, jdbcTemplate);
 	}
 	
 	public static void deleteAgreementInJpa(JPATransactionVoidFunction <AgreementRepository> deleteAgreementFunction, AgreementRepository agreementRepository, JdbcTemplate jdbcTemplate){
 		deleteAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteAgreementFunction.accept(agreementRepository);
-		deleteAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AxeltisFastconnectAgreement_Delete, jdbcTemplate);
+		deleteAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgreementAxeltisFastconnect_Delete, jdbcTemplate);
 	}
 	
 	public static void insertAssignmentInJpa(JPATransactionVoidFunction <AssignmentRepository> insertAssignmentFunction, AssignmentRepository  assignmentRepo, JdbcTemplate jdbcTemplate) {
-		insertAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testInsertAssignmentInitialState, jdbcTemplate);
+		insertAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Assignment_Insert, jdbcTemplate);
 		insertAssignmentFunction.accept(assignmentRepo);
 		insertAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Assignment_Insert, jdbcTemplate);
 	
 	}
 	
 	public static void insertAssignmentInJpa(JPATransactionVoidFunction <EntityManager> insertAssignmentFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		insertAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testInsertAssignmentInitialState, jdbcTemplate);
+		insertAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_Assignment_Insert, jdbcTemplate);
 		insertAssignmentFunction.accept(entityManager);
 		insertAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Assignment_Insert, jdbcTemplate);
 	
@@ -619,13 +619,13 @@ public class Utils {
 	public static void deleteAssignmentInJpa(JPATransactionVoidFunction <EntityManager> deleteAssignmentFunction,EntityManager entityManager, JdbcTemplate jdbcTemplate){
 		deleteAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteAssignmentFunction.accept(entityManager);
-		deleteAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Assignment_Delete, jdbcTemplate);
+		deleteAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AssignmentParcoursAmtTask14_Delete, jdbcTemplate);
 	}
 	
 	public static void deleteAssignmentInJpa(JPATransactionVoidFunction <AssignmentRepository> deleteAssignmentFunction, AssignmentRepository agreementRepository, JdbcTemplate jdbcTemplate){
 		deleteAssignmentFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteAssignmentFunction.accept(agreementRepository);
-		deleteAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_Assignment_Delete, jdbcTemplate);
+		deleteAssignmentFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AssignmentParcoursAmtTask14_Delete, jdbcTemplate);
 	}
 	
 	public static void unscheduleDeleteAssignmentInJpa(JPATransactionVoidFunction <EntityManager> unDeleteAssignmentFunction,EntityManager entityManager, JdbcTemplate jdbcTemplate){
@@ -663,13 +663,13 @@ public class Utils {
 	}
 	
 	public static void insertCityInJpa(JPATransactionVoidFunction <EntityManager> insertCityFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
-		insertCityFunction.beforeTransactionCompletion(SchemaUtils::testInsertCityInitialState, jdbcTemplate);
+		insertCityFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_City_Insert, jdbcTemplate);
 		insertCityFunction.accept(entityManager);
 		insertCityFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_City_Insert, jdbcTemplate);
 	}
 	
 	public static void insertCityInJpa(JPATransactionVoidFunction <CityRepository> insertCityFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
-		insertCityFunction.beforeTransactionCompletion(SchemaUtils::testInsertCityInitialState, jdbcTemplate);
+		insertCityFunction.beforeTransactionCompletion(SchemaUtils::testStateBefore_City_Insert, jdbcTemplate);
 		insertCityFunction.accept(cityRepo);
 		insertCityFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_City_Insert, jdbcTemplate);
 	}
@@ -694,7 +694,7 @@ public class Utils {
 	public static void update_CityBrussles_With_Country_InJpa(JPATransactionVoidFunction <CityRepository> setBrusselsInFranceFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplateProxy) {
 		setBrusselsInFranceFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 		setBrusselsInFranceFunction.accept(cityRepo);
-		setBrusselsInFranceFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_BrusslesCity_Update, jdbcTemplateProxy);
+		setBrusselsInFranceFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CityBrussels_Update, jdbcTemplateProxy);
 		
 	}
 	
@@ -742,13 +742,13 @@ public class Utils {
 	public static void deleteClientInJpa(JPATransactionVoidFunction<EntityManager> deleteClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		deleteClientFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteClientFunction.accept(entityManager);
-		deleteClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AxeltisClient_Delete, jdbcTemplate);
+		deleteClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAxeltis_Delete, jdbcTemplate);
 	}
 	
 	public static void deleteClientInJpa(JPATransactionVoidFunction<ClientRepository> deleteClientFunction, ClientRepository clientRepo, JdbcTemplate jdbcTemplate) {
 		deleteClientFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteClientFunction.accept(clientRepo);
-		deleteClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AxeltisClient_Delete, jdbcTemplate);
+		deleteClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAxeltis_Delete, jdbcTemplate);
 	}
 
 	public static void update_ContractAmesysSagem_With_Client_InJpa(JPATransactionVoidFunction <EntityManager> deleteContractFunction, JPATransactionVoidFunction <EntityManager> setContractClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
@@ -854,42 +854,42 @@ public class Utils {
 	public static void update_CityParis_With_NullLocations_InJpa(JPATransactionVoidFunction <EntityManager> setCityWithNullLocationFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setCityWithNullLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setCityWithNullLocationFunction.accept(entityManager);
-		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ParisCity_Locations_NullUpdate, jdbcTemplate);
+		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CityParis_Update_NullLocations, jdbcTemplate);
 		
 	}
 	
 	public static void update_CityParis_With_NullLocations_InJpa(JPATransactionVoidFunction <CityRepository> setCityWithNullLocationFunction, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {
 		setCityWithNullLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setCityWithNullLocationFunction.accept(cityRepo);
-		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ParisCity_Locations_NullUpdate, jdbcTemplate);
+		setCityWithNullLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CityParis_Update_NullLocations, jdbcTemplate);
 		
 	}
 
 	public static void update_ContractArval_With_Agreements_InJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementFunction.accept(entityManager);
-		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
+		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractArval_Update_Agreements, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractArval_With_Agreements_InJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementFunction.accept(contractRepo);
-		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_Update, jdbcTemplate);
+		setContractAgreementFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractArval_Update_Agreements, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractArval_With_NullAgreements_InJpa(JPATransactionVoidFunction<EntityManager> setContractAgreementsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractAgreementsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementsWithNullFunction.accept(entityManager);
-		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_NullUpdate, jdbcTemplate);
+		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractArval_Update_NullAgreements, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractArval_With_NullAgreements_InJpa(JPATransactionVoidFunction<ContractRepository> setContractAgreementsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractAgreementsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractAgreementsWithNullFunction.accept(contractRepo);
-		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ArvalContract_Agreements_NullUpdate, jdbcTemplate);
+		setContractAgreementsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractArval_Update_NullAgreements, jdbcTemplate);
 		
 	}
 	
@@ -920,28 +920,28 @@ public class Utils {
 	public static void update_ContractAmesysSagem_With_SupplyContracts_InJpa(JPATransactionVoidFunction <EntityManager> setContractSupplyContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractSupplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractSupplyContractsFunction.accept(entityManager);
-		setContractSupplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AmesysSagemContract_SupplyContracts_Update, jdbcTemplate);
+		setContractSupplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractAmesysSagem_Update_SupplyContracts, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractAmesysSagem_With_SupplyContracts_InJpa(JPATransactionVoidFunction <ContractRepository> setContractSupplyContractsFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractSupplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractSupplyContractsFunction.accept(contractRepo);
-		setContractSupplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AmesysSagemContract_SupplyContracts_Update, jdbcTemplate);
+		setContractSupplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractAmesysSagem_Update_SupplyContracts, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractAmesysSagem_With_NullSupplyContracts_InJpa(JPATransactionVoidFunction <EntityManager> setContractSupplyContractsWithNullFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
 		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractSupplyContractsWithNullFunction.accept(entityManager);
-		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AmesysSagemContract_SupplyContracts_NullUpdate, jdbcTemplate);
+		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractAmesysSagem_Update_NullSupplyContracts, jdbcTemplate);
 		
 	}
 	
 	public static void update_ContractAmesysSagem_With_NullSupplyContracts_InJpa(JPATransactionVoidFunction <ContractRepository> setContractSupplyContractsWithNullFunction, ContractRepository contractRepo, JdbcTemplate jdbcTemplate) {
 		setContractSupplyContractsWithNullFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setContractSupplyContractsWithNullFunction.accept(contractRepo);
-		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AmesysSagemContract_SupplyContracts_NullUpdate, jdbcTemplate);
+		setContractSupplyContractsWithNullFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ContractAmesysSagem_Update_NullSupplyContracts, jdbcTemplate);
 		
 	}
 	
@@ -955,7 +955,7 @@ public class Utils {
 		deleteProjectFunction.accept(entityManager);
 		/**New Project with previous Project ID with new assignments */
 		setProjectAssignmentsFunction.accept(entityManager);
-		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectAdirV1_Update_Assignments, jdbcTemplate);
 		
 	}
 	
@@ -969,7 +969,7 @@ public class Utils {
 		deleteProjectFunction.accept(projectRepo, em);		
 		/**New Project with previous Project ID with new assignments */		
 		setProjectAssignmentsFunction.accept(projectRepo, assignmentRepo);
-		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AdirProject_Assignments_Update, jdbcTemplate);
+		setProjectAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectAdirV1_Update_Assignments, jdbcTemplate);
 		
 	}
 	
@@ -1006,7 +1006,7 @@ public class Utils {
 		createNewContractsFunction.accept(entityManager);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(entityManager);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_Contract, jdbcTemplate);
 	}
 	
 	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
@@ -1015,7 +1015,7 @@ public class Utils {
 		createNewContractsFunction.accept(entityManager);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(entityManager);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_NullContracts, jdbcTemplate);
 	}
 
 	public static void update_ClientAgeas_With_Contracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
@@ -1024,7 +1024,7 @@ public class Utils {
 		createNewContractsFunction.accept(contractRepo);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(clientRepo, contractRepo);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_Update, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_Contract, jdbcTemplate);
 	}
 	
 	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
@@ -1033,7 +1033,7 @@ public class Utils {
 		createNewContractsFunction.accept(contractRepo);
 		/**Set client with new contracts*/
 		setContractsFunction.accept(clientRepo, contractRepo);
-		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_AgeasClient_Contract_NullUpdate, jdbcTemplate);
+		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_NullContracts, jdbcTemplate);
 	}
 
 
@@ -1043,7 +1043,7 @@ public class Utils {
 		createNewCitiesFunction.accept(entityManager);
 		/**Set Country with new Cities*/
 		setCountryCitiesFunction.accept(entityManager);
-		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_FranceCountry_Cities_Update, jdbcTemplateProxy);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CountryFrance_Update_Cities, jdbcTemplateProxy);
 	}
 
 	public static void update_CountryFrance_With_Cities_InJpa(JPATransactionVoidFunction <CityRepository> createNewCitiesFunction, JPATransactionVoidFunction <CountryRepository> setCountryCitiesFunction, CityRepository cityRepo, CountryRepository countryRepo, JdbcTemplate jdbcTemplateProxy) {
@@ -1052,6 +1052,6 @@ public class Utils {
 		createNewCitiesFunction.accept(cityRepo);
 		/**Set Country with new Cities*/
 		setCountryCitiesFunction.accept(countryRepo);
-		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_FranceCountry_Cities_Update, jdbcTemplateProxy);
+		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_CountryFrance_Update_Cities, jdbcTemplateProxy);
 	}
 }
