@@ -117,7 +117,8 @@ public class Constants {
 	public static final long CLIENT_EULER_HERMES_ID = 8L;
 	public static final long CLIENT_SG_ID = 9L;
 	public static final long CLIENT_ARVAL_ID = 10L;
-	public static final long CLIENT_HERMES_ID = 11L;	
+	public static final long CLIENT_HERMES_ID = 11L;
+	public static final long CLIENT_BELFIUS_ID = 12L;
 	/**END CLIENT*/		
 	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
 	public static final String SHORT_BW_6_COURSE = "BW618%";
@@ -169,6 +170,7 @@ public class Constants {
 	public static long PROJECT_CENTRE_DES_COMPETENCES_V1_ID = 10L;
 	public static long PROJECT_AOS_V1_ID =11L;
 	public static long PROJECT_SELENIUM_V1_ID = 12L;
+	public static long PROJECT_SHERPA_V1_ID = 13L;
 	/**END PROJECT*/
 	/**SERVICE*/	
 	public static final String SCM_ASSOCIATE_DEVELOPPER = "Associate Software Configuration Management";

@@ -187,9 +187,13 @@ public class Project implements Serializable, CompositeIdentifiable <ProjectId>{
 		return this.cities;
 	}
 
+	/**
+	 * @param cities orphans are removed when set to null.
+	 * */
 	public void setCities(List<City> cities) {
 		this.cities.clear();
-		this.cities.addAll(cities); //TODO add null check
+		if (cities != null) //Impl. RES-48
+			this.cities.addAll(cities);
 	}
 
 	public boolean addCity(City city) {

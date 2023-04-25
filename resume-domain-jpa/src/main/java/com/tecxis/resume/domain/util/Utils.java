@@ -1070,4 +1070,31 @@ public class Utils {
 		setCountryCitiesFunction.accept(countryRepo);
 		setCountryCitiesFunction.afterTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplateProxy);
 	}
+
+	public static void update_ProjectSherpaV1_With_Cities_InJpa(JPATransactionVoidFunction <EntityManager> setProjectCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		/**Project -> Cities assoc.*/
+		setProjectCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectCitiesFunction.accept(entityManager);
+		setProjectCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectSherpaV1_Update_Cities, jdbcTemplate);
+	}
+
+	public static void update_ProjectSherpaV1_With_Cities_InJpa(JPATransactionVoidFunction <ProjectRepository> setProjectCitiesFunction, ProjectRepository projectRepo, JdbcTemplate jdbcTemplate){
+		/**Project -> Cities assoc.*/
+		setProjectCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectCitiesFunction.accept(projectRepo);
+		setProjectCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectSherpaV1_Update_Cities, jdbcTemplate);
+	}
+	public static void update_ProjectSherpaV1_With_NullCities_InJpa(JPATransactionVoidFunction <EntityManager> setProjectCitiesFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+		/**Project -> Cities assoc.*/
+		setProjectCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectCitiesFunction.accept(entityManager);
+		setProjectCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectSherpaV1_Update_NullCities, jdbcTemplate);
+	}
+
+	public static void update_ProjectSherpaV1_With_NullCities_InJpa(JPATransactionVoidFunction <ProjectRepository> setProjectCitiesFunction, ProjectRepository projectRepo, JdbcTemplate jdbcTemplate){
+		/**Project -> Cities assoc.*/
+		setProjectCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setProjectCitiesFunction.accept(projectRepo);
+		setProjectCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectSherpaV1_Update_NullCities, jdbcTemplate);
+	}
 }

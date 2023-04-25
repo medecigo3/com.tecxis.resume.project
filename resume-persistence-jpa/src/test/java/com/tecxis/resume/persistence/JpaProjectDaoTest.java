@@ -1,62 +1,8 @@
 package com.tecxis.resume.persistence;
 
 
-import static com.tecxis.resume.domain.Constants.ADIR;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.AXELTIS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BELFIUS;
-import static com.tecxis.resume.domain.Constants.CITY_PARIS_TOTAL_LOCATIONS;
-import static com.tecxis.resume.domain.Constants.CLIENT_ARVAL_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_AXELTIS_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_EULER_HERMES_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_HERMES_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_LA_BANQUE_POSTALE_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_MICROPOLE_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SAGEMCOM_ID;
-import static com.tecxis.resume.domain.Constants.CLIENT_SG_ID;
-import static com.tecxis.resume.domain.Constants.EOLIS;
-import static com.tecxis.resume.domain.Constants.EULER_HERMES;
-import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.FRANCE_ID;
-import static com.tecxis.resume.domain.Constants.MANCHESTER_ID;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.PARIS;
-import static com.tecxis.resume.domain.Constants.PARIS_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_ADIR_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_AOS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_CENTRE_DES_COMPETENCES_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_EOLIS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_MORNINGSTAR_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_MORNINGSTAR_V2_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_PARCOURS_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_SELENIUM_V1_ID;
-import static com.tecxis.resume.domain.Constants.PROJECT_TED_V1_ID;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.SHERPA;
-import static com.tecxis.resume.domain.Constants.STAFF_AMT_ID;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK2;
-import static com.tecxis.resume.domain.Constants.TASK22_ID;
-import static com.tecxis.resume.domain.Constants.TASK23_ID;
-import static com.tecxis.resume.domain.Constants.TASK24_ID;
-import static com.tecxis.resume.domain.Constants.TASK25_ID;
-import static com.tecxis.resume.domain.Constants.TASK26_ID;
-import static com.tecxis.resume.domain.Constants.TASK27_ID;
-import static com.tecxis.resume.domain.Constants.TASK28_ID;
-import static com.tecxis.resume.domain.Constants.TASK29_ID;
-import static com.tecxis.resume.domain.Constants.TASK3;
-import static com.tecxis.resume.domain.Constants.TASK30_ID;
-import static com.tecxis.resume.domain.Constants.TASK31_ID;
-import static com.tecxis.resume.domain.Constants.TASK4;
-import static com.tecxis.resume.domain.Constants.TASK5;
-import static com.tecxis.resume.domain.Constants.TASK6;
-import static com.tecxis.resume.domain.Constants.TED;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM_ID;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Constants.VERSION_2;
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.Constants.MANCHESTER;
 import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
@@ -584,5 +530,102 @@ public class JpaProjectDaoTest {
 		Project newMorningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(newMorningstarV1);
 		assertEquals(SUCCESS, Utils.isProjectValid(newMorningstarV1,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
+	}
+
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_ManyToMany_Update_Cities_And_RemoveOrphansWithOrm() {//RES-48
+		/**Fetch target project*/
+		ProjectId sherpaV1Id = new ProjectId(PROJECT_SHERPA_V1_ID, CLIENT_BELFIUS_ID);
+		final Project sherpaV1 = projectRepo.findById(sherpaV1Id).get();
+		assertNotNull(sherpaV1);
+		/**Fetch Project's tasks*/
+		Task task53 = taskRepo.getTaskByDesc(TASK53);
+		Task task54 = taskRepo.getTaskByDesc(TASK54);
+		Task task55 = taskRepo.getTaskByDesc(TASK55);
+		Task task56 = taskRepo.getTaskByDesc(TASK56);
+		Task task57 = taskRepo.getTaskByDesc(TASK57);
+		/**Fetch Project's Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		/**Fetch Project's Assignments*/
+		Assignment assignment53 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task53.getId())).get();
+		Assignment assignment54 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task54.getId())).get();
+		Assignment assignment55 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task55.getId())).get();
+		Assignment assignment56 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task56.getId())).get();
+		Assignment assignment57 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task57.getId())).get();
+
+		/**Fetch Project's client */
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		/**Fetch Project City*/
+		final City brussels = cityRepo.getCityByName(BRUSSELS);
+		/**Fetch Project -> Locations*/
+		Location sherpaV1ProjectLocationBrussles = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
+		/**Validate target Project*/
+		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussles), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
+
+		update_ProjectSherpaV1_With_Cities_InJpa( projectRepo->{
+			City paris = cityRepo.getCityByName(PARIS);
+			City manchester = cityRepo.getCityByName(MANCHESTER);
+			/**Build new Project cities*/
+			List <City> sherpaProjectCities = List.of(manchester, paris);
+			sherpaV1.setCities(sherpaProjectCities);
+			projectRepo.save(sherpaV1);
+			projectRepo.flush();
+
+		}, projectRepo, jdbcTemplateProxy);
+
+		entityManager.clear();
+		Project newSherpaV1 = projectRepo.findById(sherpaV1Id).get();
+		City manchester = cityRepo.getCityByName(MANCHESTER);
+		City paris = cityRepo.getCityByName(PARIS);
+		Location sherpaV1ProjectLocationParis= locationRepo.findById(new LocationId(paris.getId(), newSherpaV1.getId())).get();
+		Location sherpaV1ProjectLocationManchester = locationRepo.findById(new LocationId(manchester.getId(), newSherpaV1.getId())).get();
+		isProjectValid(newSherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationParis, sherpaV1ProjectLocationManchester), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
+	}
+
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_ManyToMany_Update_Cities_And_RemoveOrphansWithOrm_NullSet(){
+		/**Fetch target project*/
+		ProjectId sherpaV1Id = new ProjectId(PROJECT_SHERPA_V1_ID, CLIENT_BELFIUS_ID);
+		final Project sherpaV1 = projectRepo.findById(sherpaV1Id).get();
+		assertNotNull(sherpaV1);
+		/**Fetch Project's tasks*/
+		Task task53 = taskRepo.getTaskByDesc(TASK53);
+		Task task54 = taskRepo.getTaskByDesc(TASK54);
+		Task task55 = taskRepo.getTaskByDesc(TASK55);
+		Task task56 = taskRepo.getTaskByDesc(TASK56);
+		Task task57 = taskRepo.getTaskByDesc(TASK57);
+		/**Fetch Project's Staff*/
+		Staff amt = staffRepo.getStaffLikeFirstName(AMT_NAME);
+		/**Fetch Project's Assignments*/
+		Assignment assignment53 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task53.getId())).get();
+		Assignment assignment54 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task54.getId())).get();
+		Assignment assignment55 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task55.getId())).get();
+		Assignment assignment56 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task56.getId())).get();
+		Assignment assignment57 = assignmentRepo.findById(new AssignmentId	(sherpaV1.getId(), 		amt.getId(), task57.getId())).get();
+
+		/**Fetch Project's client */
+		Client belfius = clientRepo.getClientByName(BELFIUS);
+		/**Fetch Project City*/
+		final City brussels = cityRepo.getCityByName(BRUSSELS);
+		/**Fetch Project -> Locations*/
+		Location sherpaV1ProjectLocationBrussles = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
+		/**Validate target Project*/
+		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussles), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
+
+		update_ProjectSherpaV1_With_NullCities_InJpa( projectRepo->{
+			sherpaV1.setCities(null);
+			projectRepo.save(sherpaV1);
+			projectRepo.flush();
+		}, projectRepo, jdbcTemplateProxy);
+
+		entityManager.clear();
+		Project newSherpaV1 = projectRepo.findById(sherpaV1Id).get();
+		isProjectValid(newSherpaV1, SHERPA,VERSION_1, null, belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
 	}
 }
