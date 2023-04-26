@@ -561,9 +561,9 @@ public class JpaProjectDaoTest {
 		/**Fetch Project City*/
 		final City brussels = cityRepo.getCityByName(BRUSSELS);
 		/**Fetch Project -> Locations*/
-		Location sherpaV1ProjectLocationBrussles = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
+		Location sherpaV1ProjectLocationBrussels = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
 		/**Validate target Project*/
-		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussles), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
+		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussels), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
 
 		update_ProjectSherpaV1_With_Cities_InJpa( projectRepo->{
 			City paris = cityRepo.getCityByName(PARIS);
@@ -614,9 +614,9 @@ public class JpaProjectDaoTest {
 		/**Fetch Project City*/
 		final City brussels = cityRepo.getCityByName(BRUSSELS);
 		/**Fetch Project -> Locations*/
-		Location sherpaV1ProjectLocationBrussles = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
+		Location sherpaV1ProjectLocationBrussels = locationRepo.findById(new LocationId(brussels.getId(), sherpaV1.getId())).get();
 		/**Validate target Project*/
-		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussles), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
+		isProjectValid(sherpaV1, SHERPA,VERSION_1, List.of(sherpaV1ProjectLocationBrussels), belfius, List.of(assignment53, assignment54, assignment55, assignment56, assignment57));
 
 		update_ProjectSherpaV1_With_NullCities_InJpa( projectRepo->{
 			sherpaV1.setCities(null);
