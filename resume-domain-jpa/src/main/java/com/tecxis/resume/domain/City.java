@@ -43,7 +43,18 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 	private String name;
 
 	/** bi-directional many-to-many association to Project */
-	@ManyToMany(mappedBy="cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	//@ManyToMany(mappedBy="cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) RES-49
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})//RES-49
+	@JoinTable(
+			name="LOCATION", joinColumns={
+			@JoinColumn(name="CITY_ID", referencedColumnName="CITY_ID"),
+			@JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")
+			}
+			, inverseJoinColumns={
+			@JoinColumn(name="PROJECT_ID", referencedColumnName="PROJECT_ID"),
+			@JoinColumn(name="CLIENT_ID", referencedColumnName="CLIENT_ID")
+			}
+	)
 	private List<Project> projects;
 	
 	/**
@@ -165,4 +176,9 @@ public class City implements Serializable, CompositeIdentifiable <CityId>{
 				 "]]";
 	}
 
+	public void setProjects(List<Project> projects) {//RES-49
+		this.projects.clear();
+		if (projects != null)
+			this.projects.addAll(projects);
+	}
 }
