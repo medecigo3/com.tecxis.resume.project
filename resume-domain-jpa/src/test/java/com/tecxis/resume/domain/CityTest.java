@@ -847,6 +847,13 @@ public class CityTest {
 		assertThat(city.toString()).matches(DEFAULT_ENTITY_WITH_COMPOSITE_ID_REGEX);
 		
 	}
-	
+	public void test_ManyToMany_Update_Projects_And_RemoveOrphansWithOrm(){
+		//RES-49 Will not implement JPA and unit tests
+	}
+
+
+	public void test_ManyToMany_Update_Projects_And_RemoveOrphansWithOrm_NullSet(){
+		//RES-49 Will not implement JPA and unit tests
+	}
 
 }
