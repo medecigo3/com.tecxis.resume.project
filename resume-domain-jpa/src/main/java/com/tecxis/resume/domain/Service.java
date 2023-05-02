@@ -1,26 +1,15 @@
 package com.tecxis.resume.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityExistsException;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
+import com.tecxis.resume.domain.id.Identifiable;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SequenceKeyGenerator;
-import com.tecxis.resume.domain.id.Identifiable;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -91,23 +80,17 @@ public class Service implements Serializable, Identifiable <Long>{
 		/**Check if 'contract' isn't in this service -> Agreements */
 		if ( this.getAgreements().contains(agreement))
 			throw new EntityExistsException("Contract already exists in this Service -> Agreements: " + agreement.toString());
-	
+
 		this.getAgreements().add(agreement);
 	
 	}
 	
-	public boolean removeAgreement(Contract contract) {		
-		Iterator <Agreement> agreementIt =  this.getAgreements().iterator();
-		
-		while(agreementIt.hasNext()) {		//TODO refactor use declarative approach	
-			Agreement tempAgreement = agreementIt.next();
-			Contract tempContract = tempAgreement.getContract();
-			if (contract.equals(tempContract)) {
-				return this.getAgreements().remove(tempAgreement);
-				
-			}
-		}
-		return false;
+	public boolean removeAgreement(Contract contract) {//RES-43 declarative approach
+		return this.getAgreements().remove(getAgreements()
+				.stream()
+				.filter( agreement -> agreement.getContract().equals(contract))
+				.findFirst()
+				.orElse(null));
 	}
 	
 	public boolean removeAgreement(Agreement agreement) {		
