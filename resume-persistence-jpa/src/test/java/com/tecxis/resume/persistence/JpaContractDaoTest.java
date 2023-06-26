@@ -1,33 +1,8 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.ALTERNA;
-import static com.tecxis.resume.domain.Constants.AMESYS;
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.ARVAL;
-import static com.tecxis.resume.domain.Constants.AXELTIS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.CONTRACT11_ENDDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT11_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT11_STARTDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT2_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT4_ENDDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT4_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT4_STARTDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT5_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT9_NAME;
-import static com.tecxis.resume.domain.Constants.EULER_HERMES;
-import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
-import static com.tecxis.resume.domain.Constants.JOHN_NAME;
-import static com.tecxis.resume.domain.Constants.MICROPOLE;
-import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.SCM_ASSOCIATE_DEVELOPPER;
-import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.Constants.sdf;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,13 +10,14 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.tecxis.resume.domain.id.AgreementId;
+import com.tecxis.resume.domain.repository.*;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,12 +42,6 @@ import com.tecxis.resume.domain.Staff;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;
 import com.tecxis.resume.domain.id.ContractId;
-import com.tecxis.resume.domain.repository.ClientRepository;
-import com.tecxis.resume.domain.repository.ContractRepository;
-import com.tecxis.resume.domain.repository.ServiceRepository;
-import com.tecxis.resume.domain.repository.StaffRepository;
-import com.tecxis.resume.domain.repository.SupplierRepository;
-import com.tecxis.resume.domain.repository.SupplyContractRepository;
 import com.tecxis.resume.domain.util.Utils;
 import com.tecxis.resume.domain.util.function.ValidationResult;
 
@@ -105,6 +75,9 @@ public class JpaContractDaoTest {
 	
 	@Autowired
 	private ServiceRepository serviceRepo;
+
+	@Autowired
+	private AgreementRepository agreementRepo;
 	
 	@Test
 	@Sql(
@@ -209,34 +182,34 @@ public class JpaContractDaoTest {
 	}
 	
 	@Test
-	public void test_ManyToOne_Update_Client() {
+	public void test_ManyToOne_Update_Client() {//RES-55
 		/**Find target Contract*/			
-		Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
-		final long sagemContractId = currentSagemContract.getId().getContractId();
-				
-		/**Validate Contract-> Client */
-		Client sagem = currentSagemContract.getClient();
-		assertEquals(SAGEMCOM, sagem.getName());				
-		
-		/**Validate Contract -> SupplyContract*/
+		Contract targetSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
+		final long sagemContractId = targetSagemContract.getId().getContractId();
+
+		/**Validate current Contract*/
+		Client sagemcom = clientRepo.getClientByName(SAGEMCOM);
+		Service j2eeDeveloper = serviceRepo.getServiceByName(J2EE_DEVELOPPER);
+		Agreement axeltisFastConnectAgreement = agreementRepo.findById(new AgreementId(targetSagemContract.getId(), j2eeDeveloper.getId())).get();
+		Supplier targetAmesys = supplierRepo.getSupplierByName(AMESYS);
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
-		assertNotNull(amt);		
-		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
-		assertEquals(1, currentSagemContract.getSupplyContracts().size());
-		List <SupplyContract> existingAmesysSagemSupplyContracts = currentSagemContract.getSupplyContracts();
-		SupplyContract amesysSagemSupplyContract =  existingAmesysSagemSupplyContracts.get(0);
-		assertEquals(amesysSagemSupplyContract, supplyContractRepo.findByContractAndSupplierAndStaff(currentSagemContract, amesys, amt));
-		assertEquals(CONTRACT4_ENDDATE, amesysSagemSupplyContract.getEndDate());
-		assertEquals(CONTRACT4_STARTDATE, amesysSagemSupplyContract.getStartDate());
-		
-		/**Validate Supplier -> SupplyContract -> Contract*/		
-		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
-		
-						
+		SupplyContract sagemAmesysSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(targetSagemContract, targetAmesys, amt);
+		assertEquals(SUCCESS, isContractValid(targetSagemContract, sagemContractId, sagemcom, List.of(axeltisFastConnectAgreement),  List.of(sagemAmesysSupplyContract)));//RES-56, impact of RES-55 fix
+
+		/**Validate Supplier -> SupplyContract -> Contract*/
+		assertEquals(SUCCESS, isSupplyContractValid(targetSagemContract.getSupplyContracts().get(0), targetAmesys, targetSagemContract, CONTRACT4_STARTDATE, CONTRACT4_ENDDATE));
+
+		/**Validate Client -> Contracts*/
+		List <Contract> currentSagemcomContracts = List.of(targetSagemContract);
+		assertEquals(SUCCESS, isClientValid(sagemcom, SAGEMCOM, currentSagemcomContracts));
+
+		entityManager.clear();
+
 		/**Create new Contract with new Client*/		
 		update_ContractAmesysSagem_With_Client_InJpa(
 			contractRepo -> {
-				/**These steps will update the Parent (non-owner of this relation)*/		
+				/**These steps will update the Parent (non-owner of this relation)*/
+				Contract currentSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 				contractRepo.delete(currentSagemContract);//Firstly remove the Child (Owner)
 				contractRepo.flush();
 				
@@ -244,26 +217,45 @@ public class JpaContractDaoTest {
 			contractRepo -> {
 				/**Find new Client to set*/
 				Client micropole = clientRepo.getClientByName(MICROPOLE);
-				assertEquals(1, micropole.getContracts().size());				
+				assertEquals(1, micropole.getContracts().size());
 				Contract newMicropoleContract = new Contract();
 				ContractId newMicropoleContractId = newMicropoleContract.getId();
 				newMicropoleContractId.setContractId(sagemContractId);
 				newMicropoleContract.setClient(micropole);
 				newMicropoleContract.setName(CONTRACT4_NAME);
-				/**Set the new Contract with the SupplyContract (with new Client)*/	
+				/**Set the new Contract with the SupplyContract (with new Client)*/
+				Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
 				SupplyContract amesysMicropoleSupplyContract = new SupplyContract(amesys, newMicropoleContract, amt);
-				amesysMicropoleSupplyContract.setStartDate(new Date());
-				List <SupplyContract> amesysMicropoleSupplyContracts = new ArrayList<>();//TODO refactor use declarative approach
-				amesysMicropoleSupplyContracts.add(amesysMicropoleSupplyContract);
+				amesysMicropoleSupplyContract.setStartDate(CONTRACT4_STARTDATE);//Set mandatory StartDate
+				List <SupplyContract> amesysMicropoleSupplyContracts = List.of(amesysMicropoleSupplyContract);
 				newMicropoleContract.setSupplyContracts(amesysMicropoleSupplyContracts);
-				
+
 				contractRepo.save(newMicropoleContract); //Finally insert Child with new Parent (non-owner)
 				contractRepo.flush();
 			}, contractRepo, jdbcTemplateProxy);
 
 		entityManager.clear();
-		//TODO continue refactoring Validator code here	
-		org.junit.Assert.fail("TODO");
+		/**Validate new Contract*/
+		Contract newMicropoleContract = contractRepo.getContractByName(CONTRACT4_NAME);
+		assertEquals(sagemContractId, newMicropoleContract.getId().getContractId());
+
+		/**Validate new Contract ->  Client*/
+		/**New Contract ->  agreements has 0 */
+		/**New Contract ->  SupplyContract has 1 */
+		Contract fcMicropoleContract = contractRepo.getContractByName(CONTRACT5_NAME);
+		Client micropole = clientRepo.getClientByName(MICROPOLE);
+		SupplyContract newMicropoleSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, targetAmesys, amt);
+		assertEquals(SUCCESS, isContractValid(newMicropoleContract, sagemContractId, micropole, List.of(), List.of(newMicropoleSupplyContract))); //RES-56, impact of RES-55 fix
+
+		/**Validate Supplier -> new SupplyContract -> Contract*/
+		Supplier amesys = supplierRepo.getSupplierByName(AMESYS);
+		Staff currentAmt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		SupplyContract micropoleAmesysSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(newMicropoleContract, amesys, currentAmt);
+		assertEquals(SUCCESS, isSupplyContractValid(micropoleAmesysSupplyContract, amesys, newMicropoleContract, CONTRACT4_STARTDATE, null));
+
+		/**Now Client -> has 2 Contracts*/
+		List <Contract> newMicropoleContracts = List.of(newMicropoleContract, fcMicropoleContract);
+		assertEquals(SUCCESS, isClientValid(micropole, MICROPOLE, newMicropoleContracts));
 	}
 	
 	@Test
@@ -443,6 +435,11 @@ public class JpaContractDaoTest {
 		assertEquals(amesys, amesysSagemSupplyContract.getSupplier());
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, amesysSagemSupplyContract.getStaff());
+
+		/**Validate current contract*/
+		Service j2eeDeveloper = serviceRepo.getServiceByName(J2EE_DEVELOPPER);
+		Agreement amesysSagemContractAgreement = agreementRepo.findById(new AgreementId(currentAmesysSagemContract.getId(), j2eeDeveloper.getId())).get();
+		assertEquals(ValidationResult.SUCCESS, isContractValid(currentAmesysSagemContract, amesysContractId, sagemcom, List.of(amesysSagemContractAgreement), List.of(amesysSagemSupplyContract)));//RES-56, impact of RES-55 fix
 		
 		/**Create the new SupplyContract for the current Client -> Contract different Staff*/
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
@@ -464,7 +461,8 @@ public class JpaContractDaoTest {
 		/**Validate the new Contract*/		
 		Contract newAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		assertNotNull(newAmesysSagemContract);
-		assertEquals(ValidationResult.SUCCESS, Utils.isContractValid(newAmesysSagemContract, amesysContractId, sagemcom, 1, 1));
+		SupplyContract newamesysSagemSupplyContract = supplyContractRepo.findByContractAndSupplierAndStaff(currentAmesysSagemContract, amesys, john);
+		assertEquals(ValidationResult.SUCCESS, isContractValid(newAmesysSagemContract, amesysContractId, sagemcom, List.of(amesysSagemContractAgreement), List.of(newamesysSagemSupplyContract))); //RES-56, impact of RES-55 fix
 			
 		/**Validate the Client -> Contract*/
 		sagemcom = clientRepo.getClientByName(SAGEMCOM);
@@ -511,6 +509,10 @@ public class JpaContractDaoTest {
 		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
 		assertEquals(amt, amesysSagemSupplyContract.getStaff());
 
+		/**Validate current Contract*/
+		Service j2eeDeveloper = serviceRepo.getServiceByName(J2EE_DEVELOPPER);
+		Agreement amesysSagemContractAgreement = agreementRepo.findById(new AgreementId(currentAmesysSagemContract.getId(), j2eeDeveloper.getId())).get();
+		assertEquals(ValidationResult.SUCCESS, isContractValid(currentAmesysSagemContract, amesysContractId, sagemcom, List.of(amesysSagemContractAgreement), List.of(amesysSagemSupplyContract)));//RES-56, impact of RES-55 fix
 		
 		/**Set Contract -> null SupplyContracts*/
 		Utils.update_ContractAmesysSagem_With_NullSupplyContracts_InJpa(contractRepo -> {
@@ -523,7 +525,7 @@ public class JpaContractDaoTest {
 		/**Validate the new Contract*/		
 		Contract newAmesysSagemContract = contractRepo.getContractByName(CONTRACT4_NAME);
 		assertNotNull(newAmesysSagemContract);
-		assertEquals(ValidationResult.SUCCESS, Utils.isContractValid(newAmesysSagemContract, amesysContractId, sagemcom, 1, 0));
+		assertEquals(ValidationResult.SUCCESS, Utils.isContractValid(newAmesysSagemContract, amesysContractId, sagemcom, List.of(amesysSagemContractAgreement), List.of()));
 	}
 			
 }
