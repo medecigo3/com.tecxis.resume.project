@@ -173,14 +173,8 @@ public class ClientTest {
 		/**Create new Client with new contract*/
 		update_ClientAgeas_With_Contracts_InJpa(
 				em -> {
-					/**Build new AGEAS contract*/
-					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
-					em.persist(newAgeasContract);
-					em.flush();
-				} ,
-				em -> {
-					Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
-					ageas.setContracts(List.of(newAgeasContract));
+					Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+					ageas.setContracts(List.of(belfiusContract));
 					em.merge(ageas);
 					em.flush();
 					em.clear();
@@ -188,7 +182,7 @@ public class ClientTest {
 				}, entityManager, jdbcTemplateProxy);
 
 		/**Validate Client with new contract*/
-		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+		Contract newAgeasContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		isClientValid(ageas, AGEAS, List.of(newAgeasContract));
 	}
 	
@@ -206,9 +200,6 @@ public class ClientTest {
 
 		/**Create new Client with new contract*/
 		update_ClientAgeas_With_NullContracts_InJpa(
-				em -> {
-					/**Nothing to do here*/
-				} ,
 				em -> {
 					ageas.setContracts(null);
 					em.merge(ageas);

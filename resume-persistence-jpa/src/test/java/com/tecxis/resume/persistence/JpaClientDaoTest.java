@@ -57,7 +57,7 @@ public class JpaClientDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Contracts_And_RemoveOrhpansWithOrm(){//In the scope of RES-19, impl. RES-42
+	public void test_OneToMany_Update_Contracts_And_RemoveOrphansWithOrm(){//In the scope of RES-19, impl. RES-42
 		/***Find and validate AGEAS Client to test*/
 		final Client ageas = clientRepo.getClientByName(AGEAS);
 		/**Find AGEAS Client contracts*/
@@ -68,15 +68,9 @@ public class JpaClientDaoTest {
 
 		/**Create new Client with new contract*/
 		update_ClientAgeas_With_Contracts_InJpa(
-				contractRepo -> {
-					/**Build new AGEAS contract*/
-					Contract newAgeasContract = Utils.buildContract(ageas, NEW_AGEAS_CONTRACT_NAME);
-					contractRepo.save(newAgeasContract);
-					contractRepo.flush();
-				} ,
 				(clientRepo, contractRepo) -> {
-					Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
-					ageas.setContracts(List.of(newAgeasContract));
+					Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);
+					ageas.setContracts(List.of(belfiusContract));
 					clientRepo.save(ageas);
 					clientRepo.flush();
 
@@ -84,7 +78,7 @@ public class JpaClientDaoTest {
 				}, clientRepo, contractRepo, jdbcTemplateProxy);
 		entityManager.clear();
 		/**Validate Client with new contract*/
-		Contract newAgeasContract = contractRepo.getContractByName(NEW_AGEAS_CONTRACT_NAME);
+		Contract newAgeasContract = contractRepo.getContractByName(CONTRACT13_NAME);
 		isClientValid(ageas, AGEAS, List.of(newAgeasContract));
 	}
 	
@@ -103,9 +97,6 @@ public class JpaClientDaoTest {
 
 		/**Create new Client with new contract*/
 		update_ClientAgeas_With_NullContracts_InJpa(
-				contractRepo -> {
-					/**Do nothing here*/
-				} ,
 				(clientRepo, contractRepo)-> {
 					ageas.setContracts(null);
 					clientRepo.save(ageas);

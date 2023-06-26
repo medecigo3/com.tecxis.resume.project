@@ -1338,11 +1338,11 @@ public final class SchemaUtils {
 		assertEquals(TOTAL_SKILL, countRowsInTable(jdbcTemplate, SKILL_TABLE));		
 	}
 
-	public static void testStateAfter_ClientAgeas_Update_Contract(JdbcTemplate jdbcTemplate){
+	public static void testStateAfter_ClientAgeas_Update_Contract(JdbcTemplate jdbcTemplate){//RES-42
 		assertEquals(TOTAL_ENROLMENT, countRowsInTable(jdbcTemplate, ENROLMENT_TABLE));
 		assertEquals(TOTAL_CLIENT, countRowsInTable(jdbcTemplate, CLIENT_TABLE));
 		assertEquals(TOTAL_PROJECT, countRowsInTable(jdbcTemplate, PROJECT_TABLE));
-		assertEquals(TOTAL_CONTRACT, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));  //1 orphan removed in CONTRACT table, 1 new contract inserted
+		assertEquals(12, countRowsInTable(jdbcTemplate, CONTRACT_TABLE));  //1 orphan removed in CONTRACT table
 		assertEquals(12, countRowsInTable(jdbcTemplate, AGREEMENT_TABLE)); // 1 orphan removed in AGREEMENT table
 		assertEquals(TOTAL_LOCATION, countRowsInTable(jdbcTemplate, LOCATION_TABLE));
 		assertEquals(13, countRowsInTable(jdbcTemplate, SUPPLY_CONTRACT_TABLE)); //1 orphan removed in SUPPLY_CONTRACT table
