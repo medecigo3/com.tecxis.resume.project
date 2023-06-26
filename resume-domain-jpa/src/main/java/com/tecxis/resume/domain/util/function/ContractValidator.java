@@ -1,15 +1,14 @@
 package com.tecxis.resume.domain.util.function;
 
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_AGREEMENTS_ARE_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_CLIENT_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_ID_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-
+import java.util.List;
 import java.util.function.Function;
 
+import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.Client;
 import com.tecxis.resume.domain.Contract;
+import com.tecxis.resume.domain.SupplyContract;
+
+import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 
 @FunctionalInterface
 public interface ContractValidator extends Function<Contract, ValidationResult> {
@@ -22,11 +21,29 @@ public interface ContractValidator extends Function<Contract, ValidationResult> 
 		return contract -> contract.getClient().equals(client) ? SUCCESS : CONTRACT_CLIENT_IS_NOT_VALID;
 	}
 	
-	static ContractValidator areAgreementsValid(int size) {		
-		return contract -> contract.getAgreements().size() == size ? SUCCESS : CONTRACT_AGREEMENTS_ARE_NOT_VALID; 
+	static ContractValidator areAgreementsValid(List<Agreement> agreements) {//RES-56
+		ContractValidator ret = contract -> {
+			if (agreements == null || contract.getAgreements() == null)
+				return CONTRACT_AGREEMENTS_ARE_NULL;
+			else
+			if (agreements.size() != contract.getAgreements().size())
+				return CONTRACT_SIZE_AGREEMENTS_ARE_DIFFERENT;
+			else
+				return agreements.containsAll(contract.getAgreements()) ? SUCCESS : CONTRACT_AGREEMENTS_ARE_NOT_VALID;
+		};
+		return ret;
 	}
 	
-	static ContractValidator areSupplyContractsValid(int size) {
-		return contract -> contract.getSupplyContracts().size() == size ? SUCCESS : CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID; 
+	static ContractValidator areSupplyContractsValid(List<SupplyContract> supplyContracts) {//RES-56
+		ContractValidator ret = contract -> {
+			if (supplyContracts == null || contract.getSupplyContracts() == null)
+				return CONTRACT_SUPPLYCONTRACTS_ARE_NULL;
+			else
+			if (supplyContracts.size() != contract.getSupplyContracts().size())
+				return CONTRACT_SIZE_SUPPLYCONTRACTS_ARE_DIFFERENT;
+			else
+				return supplyContracts.containsAll(contract.getSupplyContracts()) ? SUCCESS : CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
+		};
+		return ret;
 	}
 }
