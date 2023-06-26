@@ -1,52 +1,7 @@
 package com.tecxis.resume.domain.util;
 
-import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.domain.Constants.ADIR;
-import static com.tecxis.resume.domain.Constants.ALPHATRESS;
-import static com.tecxis.resume.domain.Constants.ALTERNA;
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.AXELTIS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BIRTHDATE;
-import static com.tecxis.resume.domain.Constants.BW_6_COURSE;
-import static com.tecxis.resume.domain.Constants.CLIENT_BARCLAYS_ID;
-import static com.tecxis.resume.domain.Constants.CONTRACT1_ENDDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT1_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT1_STARTDATE;
-import static com.tecxis.resume.domain.Constants.CONTRACT5_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT7_NAME;
-import static com.tecxis.resume.domain.Constants.CONTRACT9_NAME;
-import static com.tecxis.resume.domain.Constants.FASTCONNECT;
-import static com.tecxis.resume.domain.Constants.FRANCE;
-import static com.tecxis.resume.domain.Constants.HOBBY;
-import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
-import static com.tecxis.resume.domain.Constants.JOHN_NAME;
-import static com.tecxis.resume.domain.Constants.LONDON;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.MULE_ESB_CONSULTANT;
-import static com.tecxis.resume.domain.Constants.PARCOURS;
-import static com.tecxis.resume.domain.Constants.PARIS;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.SHORT_BW_6_COURSE;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK12;
-import static com.tecxis.resume.domain.Constants.TASK14;
-import static com.tecxis.resume.domain.Constants.TED;
-import static com.tecxis.resume.domain.Constants.TIBCO;
-import static com.tecxis.resume.domain.Constants.TIBCO_BW_CONSULTANT;
-import static com.tecxis.resume.domain.Constants.UNITED_KINGDOM;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.util.Utils.buildAgreement;
-import static com.tecxis.resume.domain.util.Utils.buildAssignment;
-import static com.tecxis.resume.domain.util.Utils.buildClient;
-import static com.tecxis.resume.domain.util.Utils.buildContract;
-import static com.tecxis.resume.domain.util.Utils.buildProject;
-import static com.tecxis.resume.domain.util.Utils.buildService;
-import static com.tecxis.resume.domain.util.Utils.buildStaff;
-import static com.tecxis.resume.domain.util.Utils.buildTask;
-import static com.tecxis.resume.domain.util.Utils.isAgreementValid;
-import static com.tecxis.resume.domain.util.Utils.isAssignmentValid;
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NAME_IS_NOT_VALID;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
@@ -1284,7 +1239,7 @@ public class UtilsTest {
 	
 	@Test
 	public void testIsAgreementValid() {			
-		Contract contract = buildContract(buildClient(BARCLAYS, CLIENT_BARCLAYS_ID), CONTRACT1_NAME);
+		Contract contract = buildContract(CONTRACT_BARCLAYS_ID, buildClient(BARCLAYS, CLIENT_BARCLAYS_ID), CONTRACT1_NAME);//RES-10
 		Service service = buildService(MULE_ESB_CONSULTANT);
 		Agreement agreement = buildAgreement(contract, service);
 		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
@@ -1298,7 +1253,7 @@ public class UtilsTest {
 	public void testIsAssignmentValid() {
 		Client client = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);		
 		Project project = buildProject(ADIR, VERSION_1, client, null, null);
-		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
+		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
 		Task task = buildTask(TASK1);
 		Assignment assignment = buildAssignment(project, staff, task);
 		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));

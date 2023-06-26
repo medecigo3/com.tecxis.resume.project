@@ -199,6 +199,7 @@ public class Constants {
 	public static final String JOHN_LASTNAME = "Smith";
 	public static final Date BIRTHDATE = new GregorianCalendar(1982, 10, 06).getTime();
 	public static long STAFF_AMT_ID = 1L;
+	public static long STAFF_JOHN_ID = 2L;//RES-13
 	/**STAFF*/
 	/**SUPPLY_CONTRACT*/	
 	public static  Date CONTRACT1_STARTDATE;
@@ -246,9 +247,16 @@ public class Constants {
 	public static final String CONTRACT11_NAME = "ArvalContract";
 	public static final String CONTRACT12_NAME = "HermesContract";
 	public static final String CONTRACT13_NAME = "BelfiusContract";
-	public static final String NEW_AGEAS_CONTRACT_NAME = "NewAgeasContract";
-	public static final long CONTRACT13_ID = 13L;
-	public static final long CONTRACT2_ID = 2L;
+	public static final long CONTRACT13_ID = 13L; //TODO rename contract ID with naming standards
+	public static final long CONTRACT2_ID = 2L; //TODO rename contract ID with naming standards
+	public static final long CONTRACT_BARCLAYS_ID = 1L;//RES-10
+	public static final long CONTRACT_ARVAL_ID = 11L;//RES-10
+	public static final long CONTRACT_AXELTIS_ID1 = 7L;//RES-10
+	public static final long CONTRACT_AXELTIS_ID2 = 9L;//RES-10
+	public static final long CONTRACT_AGEAS_ID = 2L;//RES-10
+	public static final long CONTRACT_EH_ID = 8L;//RES-10
+	public static final long CONTRACT_FOO_ID = 14L;//RES-42
+
 	/**END CONTRACT*/
 	
 	/**SUPPLIER*/	
@@ -257,6 +265,11 @@ public class Constants {
 	public static final String FASTCONNECT = "FASTCONNECT";
 	public static final String ALTERNA = "ALTERNA";
 	public static final String ALPHATRESS = "ALPHATRESS";
+	public static final long SUPPLIER_ACCENTURE_ID = 1L;//RES-56
+	public static final long SUPPLIER_AMESYS_ID = 2L;//RES-56
+	public static final long SUPPLIER_FASTCONNECT_ID = 3L;//RES-56
+	public static final long SUPPLIER_ALTERNA_ID = 4L;//RES-56
+	public static final long SUPPLIER_ALPHATRESS_ID = 5L;//RES-56
 	/**END SUPPLIER*/
 	
 	/**LOCATION*/

@@ -26,11 +26,11 @@ public class ClientValidatorTest {
     @Before
     public void buildProtoClient(){
         barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
-        barclaysContract1 = buildContract(barclays, CONTRACT1_NAME);
+        barclaysContract1 = buildContract(CONTRACT_BARCLAYS_ID, barclays, CONTRACT1_NAME);//RES-10
         barclays.setContracts(List.of(barclaysContract1));
 
         Client arval = buildClient(ARVAL, CLIENT_ARVAL_ID);
-        arvalContract11 = buildContract(arval, CONTRACT11_NAME);
+        arvalContract11 = buildContract(CONTRACT_ARVAL_ID, arval, CONTRACT11_NAME);//RES-10
 
     }
 

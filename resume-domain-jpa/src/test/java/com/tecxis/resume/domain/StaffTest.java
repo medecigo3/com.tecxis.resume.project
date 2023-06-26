@@ -1,84 +1,6 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.domain.Constants.ADIR;
-import static com.tecxis.resume.domain.Constants.AMESYS;
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.AOS;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.BELFIUS;
-import static com.tecxis.resume.domain.Constants.BIRTHDATE;
-import static com.tecxis.resume.domain.Constants.CENTRE_DES_COMPETENCES;
-import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
-import static com.tecxis.resume.domain.Constants.DCSC;
-import static com.tecxis.resume.domain.Constants.EOLIS;
-import static com.tecxis.resume.domain.Constants.EUROCLEAR_VERS_CALYPSO;
-import static com.tecxis.resume.domain.Constants.FORTIS;
-import static com.tecxis.resume.domain.Constants.JOHN_INTEREST;
-import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
-import static com.tecxis.resume.domain.Constants.JOHN_NAME;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.PARCOURS;
-import static com.tecxis.resume.domain.Constants.SELENIUM;
-import static com.tecxis.resume.domain.Constants.SHERPA;
-import static com.tecxis.resume.domain.Constants.TASK1;
-import static com.tecxis.resume.domain.Constants.TASK10;
-import static com.tecxis.resume.domain.Constants.TASK11;
-import static com.tecxis.resume.domain.Constants.TASK12;
-import static com.tecxis.resume.domain.Constants.TASK13;
-import static com.tecxis.resume.domain.Constants.TASK14;
-import static com.tecxis.resume.domain.Constants.TASK15;
-import static com.tecxis.resume.domain.Constants.TASK16;
-import static com.tecxis.resume.domain.Constants.TASK17;
-import static com.tecxis.resume.domain.Constants.TASK18;
-import static com.tecxis.resume.domain.Constants.TASK19;
-import static com.tecxis.resume.domain.Constants.TASK2;
-import static com.tecxis.resume.domain.Constants.TASK20;
-import static com.tecxis.resume.domain.Constants.TASK21;
-import static com.tecxis.resume.domain.Constants.TASK22;
-import static com.tecxis.resume.domain.Constants.TASK23;
-import static com.tecxis.resume.domain.Constants.TASK24;
-import static com.tecxis.resume.domain.Constants.TASK25;
-import static com.tecxis.resume.domain.Constants.TASK26;
-import static com.tecxis.resume.domain.Constants.TASK27;
-import static com.tecxis.resume.domain.Constants.TASK28;
-import static com.tecxis.resume.domain.Constants.TASK29;
-import static com.tecxis.resume.domain.Constants.TASK3;
-import static com.tecxis.resume.domain.Constants.TASK30;
-import static com.tecxis.resume.domain.Constants.TASK31;
-import static com.tecxis.resume.domain.Constants.TASK32;
-import static com.tecxis.resume.domain.Constants.TASK33;
-import static com.tecxis.resume.domain.Constants.TASK34;
-import static com.tecxis.resume.domain.Constants.TASK37;
-import static com.tecxis.resume.domain.Constants.TASK39;
-import static com.tecxis.resume.domain.Constants.TASK4;
-import static com.tecxis.resume.domain.Constants.TASK40;
-import static com.tecxis.resume.domain.Constants.TASK41;
-import static com.tecxis.resume.domain.Constants.TASK42;
-import static com.tecxis.resume.domain.Constants.TASK43;
-import static com.tecxis.resume.domain.Constants.TASK44;
-import static com.tecxis.resume.domain.Constants.TASK45;
-import static com.tecxis.resume.domain.Constants.TASK46;
-import static com.tecxis.resume.domain.Constants.TASK47;
-import static com.tecxis.resume.domain.Constants.TASK48;
-import static com.tecxis.resume.domain.Constants.TASK49;
-import static com.tecxis.resume.domain.Constants.TASK5;
-import static com.tecxis.resume.domain.Constants.TASK50;
-import static com.tecxis.resume.domain.Constants.TASK51;
-import static com.tecxis.resume.domain.Constants.TASK52;
-import static com.tecxis.resume.domain.Constants.TASK53;
-import static com.tecxis.resume.domain.Constants.TASK54;
-import static com.tecxis.resume.domain.Constants.TASK55;
-import static com.tecxis.resume.domain.Constants.TASK56;
-import static com.tecxis.resume.domain.Constants.TASK57;
-import static com.tecxis.resume.domain.Constants.TASK6;
-import static com.tecxis.resume.domain.Constants.TASK7;
-import static com.tecxis.resume.domain.Constants.TASK8;
-import static com.tecxis.resume.domain.Constants.TASK9;
-import static com.tecxis.resume.domain.Constants.TED;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Constants.VERSION_2;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
 import static com.tecxis.resume.domain.util.Utils.buildStaff;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -1631,7 +1553,7 @@ public class StaffTest {
 	@Test
 	public void testBirthDateIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
+		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, new Date());//RES-13
 		staff.setBirthDate(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());
@@ -1641,7 +1563,7 @@ public class StaffTest {
 	@Test
 	public void testFirstNameIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
+		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, new Date());//RES-13
 		staff.setFirstName(null);		
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());
@@ -1651,7 +1573,7 @@ public class StaffTest {
 	@Test
 	public void testLastNameDateIsNotNull() {
 		//TODO could be impl. with JUnit 5 see example of davidxxx answered Feb 22 '18 at 23:49 in https://stackoverflow.com/questions/29069956/how-to-test-validation-annotations-of-a-class-using-junit
-		Staff staff = buildStaff(AMT_NAME, AMT_LASTNAME, new Date());
+		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, new Date());//RES-13
 		staff.setLastName(null);
 		Set<ConstraintViolation<Staff>> violations = validator.validate(staff);
         assertFalse(violations.isEmpty());

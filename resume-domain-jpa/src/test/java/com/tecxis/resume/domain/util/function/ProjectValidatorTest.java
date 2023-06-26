@@ -29,7 +29,7 @@ public class ProjectValidatorTest {
 	@Before
 	public void buildProtoProject() {
 		barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);				
-		Staff amt = buildStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE);
+		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
 		Task task1 = buildTask(TASK1);
 		Task task2 = buildTask(TASK2);
 		adir = buildProject(ADIR, VERSION_1, barclays, null, null);

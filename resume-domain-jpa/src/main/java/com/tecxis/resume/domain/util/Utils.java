@@ -2,9 +2,7 @@ package com.tecxis.resume.domain.util;
 
 
 import com.tecxis.resume.domain.*;
-import com.tecxis.resume.domain.id.CityId;
-import com.tecxis.resume.domain.id.LocationId;
-import com.tecxis.resume.domain.id.ProjectId;
+import com.tecxis.resume.domain.id.*;
 import com.tecxis.resume.domain.repository.*;
 import com.tecxis.resume.domain.util.function.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -153,7 +151,7 @@ public class Utils {
 	}
 
 	public static Contract insertContract(Client client, String name, EntityManager entityManager) {
-		Contract contract = buildContract(client, name);
+		Contract contract = buildContract(0L,client, name);
 		entityManager.persist(contract);
 		entityManager.flush();
 		return contract;
@@ -161,15 +159,16 @@ public class Utils {
 	}
 	
 	public static Contract insertContract(Client client, String name, ContractRepository contractRepo) {
-		Contract contract  = buildContract(client, name);
+		Contract contract  = buildContract(0L, client, name);
 		contractRepo.saveAndFlush(contract);
 		return contract;
 		
 	}
 	
-	public static Contract buildContract(Client client, String name) {
+	public static Contract buildContract(long id, Client client, String contractName) {//RES-10
 		Contract contract  = new Contract();
-		contract.setName(name);
+		contract.setId(new ContractId(id, client.getId()));
+		contract.setName(contractName);
 		contract.setClient(client);	
 		return contract;
 	}
@@ -368,8 +367,15 @@ public class Utils {
 		service.setName(name);
 		return service;
 	}
-	
-	public static void deleteService(Service service, EntityManager entityManager) {		
+
+	public static Supplier buildSupplier(long id, String name){//RES-56
+		Supplier supplier = new Supplier ();
+		supplier.setId(id);
+		supplier.setName(name);
+		return supplier;
+	}
+
+	public static void deleteService(Service service, EntityManager entityManager) {
 		entityManager.remove(service);
 		entityManager.flush();
 	}
@@ -459,7 +465,7 @@ public class Utils {
 	}
 	
 	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  EntityManager entityManager) {
-		Staff staff = buildStaff(firstName, lastName, birthDate);
+		Staff staff = buildStaff(0L, firstName, lastName, birthDate);
 		entityManager.persist(staff);
 		entityManager.flush();
 		return staff;
@@ -477,14 +483,15 @@ public class Utils {
 	}
 	
 	public static Staff insertStaff(String firstName, String lastName, Date birthDate,  StaffRepository staffRepo) {
-		Staff staff = buildStaff(firstName, lastName, birthDate);			
+		Staff staff = buildStaff(0L, firstName, lastName, birthDate);//RES-13
 		staffRepo.saveAndFlush(staff);
 		return staff;
 		
 	}
 	
-	public static Staff buildStaff(String firstName, String lastName, Date birthDate) {
+	public static Staff buildStaff(long id, String firstName, String lastName, Date birthDate) {//RES-13
 		Staff staff = new Staff();
+		staff.setId(id);
 		staff.setFirstName(firstName);
 		staff.setLastName(lastName);
 		staff.setBirthDate(birthDate);
@@ -765,14 +772,14 @@ public class Utils {
 		setContractClientFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SagemContract_Client_Update, jdbcTemplate);
 	}
 	
-	public static ValidationResult isContractValid(Contract contract, long contractId, Client client, int totalAgreements, int totalSypplyContracts) {
+	public static ValidationResult isContractValid(Contract contract, long contractId, Client client, List<Agreement> agreements, List<SupplyContract> supplyContracts) {//RES-56
 		if(CONTRACT_ID_IS_NOT_VALID.equals(isContractIdValid(contractId).apply(contract)))
 			return CONTRACT_ID_IS_NOT_VALID;
 		if(CONTRACT_CLIENT_IS_NOT_VALID.equals(ContractValidator.isClientValid(client).apply(contract)))
 			return CONTRACT_CLIENT_IS_NOT_VALID;
-		if(CONTRACT_AGREEMENTS_ARE_NOT_VALID.equals(ContractValidator.areAgreementsValid(totalAgreements).apply(contract)))
+		if(CONTRACT_AGREEMENTS_ARE_NOT_VALID.equals(ContractValidator.areAgreementsValid(agreements).apply(contract)))
 			return CONTRACT_AGREEMENTS_ARE_NOT_VALID;
-		if(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID.equals(areSupplyContractsValid(totalSypplyContracts).apply(contract)))
+		if(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID.equals(areSupplyContractsValid(supplyContracts).apply(contract)))
 			return CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
 		return SUCCESS;
 	}
@@ -1000,38 +1007,30 @@ public class Utils {
 		return country;
 	}
 
-	public static void update_ClientAgeas_With_Contracts_InJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+	public static void update_ClientAgeas_With_Contracts_InJpa(JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-42
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Create new Contracts*/
-		createNewContractsFunction.accept(entityManager);
-		/**Set client with new contracts*/
+		/**Set client with existing contracts and remove orphans*/
 		setContractsFunction.accept(entityManager);
 		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_Contract, jdbcTemplate);
 	}
 	
-	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <EntityManager> createNewContractsFunction, JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){
+	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <EntityManager> setContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-42
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Create new Contracts*/
-		createNewContractsFunction.accept(entityManager);
-		/**Set client with new contracts*/
+		/**Set client with existing contracts and remove orphans*/
 		setContractsFunction.accept(entityManager);
 		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_NullContracts, jdbcTemplate);
 	}
 
-	public static void update_ClientAgeas_With_Contracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
+	public static void update_ClientAgeas_With_Contracts_InJpa(JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){//RES-42
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Create new Contracts*/
-		createNewContractsFunction.accept(contractRepo);
-		/**Set client with new contracts*/
+		/**Set client with existing contracts and remove orphans*/
 		setContractsFunction.accept(clientRepo, contractRepo);
 		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_Contract, jdbcTemplate);
 	}
 	
-	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidFunction <ContractRepository> createNewContractsFunction, JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){
+	public static void update_ClientAgeas_With_NullContracts_InJpa(JPATransactionVoidBiFunction <ClientRepository, ContractRepository> setContractsFunction, ClientRepository clientRepo, ContractRepository contractRepo, JdbcTemplate jdbcTemplate){//RES-42
 		setContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
-		/**Create new Contracts*/
-		createNewContractsFunction.accept(contractRepo);
-		/**Set client with new contracts*/
+		/**Set client with existing contracts and remove orphans*/
 		setContractsFunction.accept(clientRepo, contractRepo);
 		setContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ClientAgeas_Update_NullContracts, jdbcTemplate);
 	}
@@ -1096,5 +1095,12 @@ public class Utils {
 		setProjectCitiesFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setProjectCitiesFunction.accept(projectRepo);
 		setProjectCitiesFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_ProjectSherpaV1_Update_NullCities, jdbcTemplate);
+	}
+
+	public static SupplyContract buildSupplyContract(Contract contract, Staff staff, Supplier supplier) {
+		SupplyContractId supplyContractId = new SupplyContractId(supplier.getId(), contract.getId(), staff.getId());
+		SupplyContract ret = new SupplyContract();
+		ret.setId(supplyContractId);
+		return ret;
 	}
 }
