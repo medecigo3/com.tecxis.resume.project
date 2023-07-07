@@ -150,7 +150,7 @@ public class Contract implements Serializable, CompositeIdentifiable <ContractId
 	/**
 	 * @param supplyContracts orphans are removed when set to null.
 	 */
-	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
+	public void setSupplyContracts(List<SupplyContract> supplyContracts) {//RES-53
 		this.supplyContracts.clear();
 		if (supplyContracts != null)
 			this.supplyContracts.addAll(supplyContracts);
