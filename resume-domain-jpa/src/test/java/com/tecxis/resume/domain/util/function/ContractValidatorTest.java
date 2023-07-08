@@ -1,6 +1,7 @@
 package com.tecxis.resume.domain.util.function;
 
 import com.tecxis.resume.domain.*;
+import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,14 +45,8 @@ public class ContractValidatorTest {
         /**Build Staff*/
         Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, null);
         /**Build ContractSupplier*/
-        barclaysContract1AmtAccentureContractSupplier = new SupplyContract();
-        barclaysContract1AmtAccentureContractSupplier.setContract(barclaysContract1);
-        barclaysContract1AmtAccentureContractSupplier.setStaff(amt);
-        barclaysContract1AmtAccentureContractSupplier.setSupplier(accenture);
-        barclaysContract1AmtFastConnectContractSupplier =  new SupplyContract();
-        barclaysContract1AmtFastConnectContractSupplier.setContract(barclaysContract1);
-        barclaysContract1AmtFastConnectContractSupplier.setStaff(amt);
-        barclaysContract1AmtFastConnectContractSupplier.setSupplier(fastconnect);
+        barclaysContract1AmtAccentureContractSupplier = buildSupplyContract(barclaysContract1,amt, accenture);
+        barclaysContract1AmtFastConnectContractSupplier =  buildSupplyContract(barclaysContract1, amt, fastconnect);
         barclaysContract1.setSupplyContracts(List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier));       
 
 
