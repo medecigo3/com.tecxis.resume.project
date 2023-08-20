@@ -2,9 +2,7 @@ package com.tecxis.resume.domain.util.function;
 
 import com.tecxis.resume.domain.*;
 import com.tecxis.resume.domain.id.CityId;
-import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +27,7 @@ public class CityValidatorTest {
 		barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
 
 		/**Build ADIR project*/
-		Project adir = buildProject(ADIR, VERSION_1, barclays, null, null);
+		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 
 		/**Build Paris city*/
 		paris = buildCity(buildCityId(PARIS_ID, FRANCE_ID), PARIS);

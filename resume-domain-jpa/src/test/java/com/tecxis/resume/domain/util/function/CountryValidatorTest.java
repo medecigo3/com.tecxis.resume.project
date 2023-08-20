@@ -26,7 +26,7 @@ public class CountryValidatorTest {
         barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
 
         /**Build ADIR project*/
-        Project adir = buildProject(ADIR, VERSION_1, barclays, null, null);
+        Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 
         /**Build London city*/
         london = buildCity(buildCityId(LONDON_ID, UNITED_KINGDOM_ID), LONDON);

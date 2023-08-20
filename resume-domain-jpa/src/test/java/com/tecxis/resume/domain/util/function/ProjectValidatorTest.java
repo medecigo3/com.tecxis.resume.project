@@ -30,9 +30,9 @@ public class ProjectValidatorTest {
 	public void buildProtoProject() {
 		barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);				
 		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task1 = buildTask(TASK1);
-		Task task2 = buildTask(TASK2);
-		adir = buildProject(ADIR, VERSION_1, barclays, null, null);
+		Task task1 = buildTask(TASK1_ID, TASK1);
+		Task task2 = buildTask(TASK2_ID, TASK2);
+		adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 		assignment1 = buildAssignment(adir, amt, task1);
 		assignment2 = buildAssignment(adir, amt, task2);
 		adir.setAssignments(List.of(assignment1, assignment2));	
