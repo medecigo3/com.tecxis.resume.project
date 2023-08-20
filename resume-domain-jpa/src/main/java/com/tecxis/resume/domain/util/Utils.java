@@ -18,8 +18,7 @@ import static com.tecxis.resume.domain.util.function.AgreementValidator.isServic
 import static com.tecxis.resume.domain.util.function.CityValidator.isNameValid;
 import static com.tecxis.resume.domain.util.function.ClientValidator.areContractsValid;
 import static com.tecxis.resume.domain.util.function.ClientValidator.isClientNameValid;
-import static com.tecxis.resume.domain.util.function.ContractValidator.areSupplyContractsValid;
-import static com.tecxis.resume.domain.util.function.ContractValidator.isContractIdValid;
+import static com.tecxis.resume.domain.util.function.ContractValidator.*;
 import static com.tecxis.resume.domain.util.function.ProjectValidator.*;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffFirstNameValid;
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastNameValid;
@@ -34,20 +33,21 @@ public class Utils {
 	}
 
 	public static Task insertTask(String desc, EntityManager entityManager) {
-		Task task = buildTask(desc);
+		Task task = buildTask(0L, desc);//RES-14
 		entityManager.persist(task);
 		entityManager.flush();
 		return task;
 	}
 	
 	public static Task insertTask(String desc, TaskRepository taskRepo) {
-		Task task = buildTask(desc);		
+		Task task = buildTask(0L, desc);//RES-14
 		taskRepo.saveAndFlush(task);
 		return task;
 	}
 	
-	public static Task buildTask(String desc) {
+	public static Task buildTask(long taskId, String desc) {
 		Task task = new Task();
+		task.setId(taskId);//RES-14
 		task.setDesc(desc);
 		return task;
 	}
@@ -315,20 +315,22 @@ public class Utils {
 	}	
 
 	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, EntityManager entityManager) {
-		Project project = buildProject(name, version, client, assignments, null);
+		Project project = buildProject(0l, name, version, client, assignments, null);//RES-11
 		entityManager.persist(project);
 		entityManager.flush();
 		return project;
 	}
 	
 	public static Project insertProject(String name, String version, Client client, List <Assignment> assignments, ProjectRepository projectRepo) {
-		Project project = buildProject(name, version, client, assignments, null);		
+		Project project = buildProject(0l, name, version, client, assignments, null);//RES-11
 		projectRepo.saveAndFlush(project);
 		return project;	
 	}
 	
-	public static Project buildProject(String name, String version, Client client, List <Assignment> assignments, List <Location> locations) {
+	public static Project buildProject(long projectId, String name, String version, Client client, List <Assignment> assignments, List <Location> locations) {//RES-11
 		Project project = new Project();
+		ProjectId id = new ProjectId(projectId, client.getId());//RES-11
+		project.setId(id);
 		project.setClient(client);		
 		project.setName(name);
 		project.setVersion(version);
@@ -576,10 +578,10 @@ public class Utils {
 	}
 
 	public static ValidationResult isAgreementValid(Agreement agreement, String contractName, String serviceName) {
-		if(CONTRACT_NAME_IS_NOT_VALID.equals((AgreementValidator.isContractValid(contractName).apply(agreement))))
-			return CONTRACT_NAME_IS_NOT_VALID;
-		if(SERVICE_NAME_IS_NOT_VALID.equals(isServiceValid(serviceName).apply(agreement)))
-			return SERVICE_NAME_IS_NOT_VALID;
+		if(AgreementValidator.isContractValid(contractName).apply(agreement) != SUCCESS)//RES-67
+			return AgreementValidator.isContractValid(contractName).apply(agreement);
+		if(isServiceValid(serviceName).apply(agreement) != SUCCESS)//RES-67
+			return isServiceValid(serviceName).apply(agreement);
 		return SUCCESS;
 	}
 	
@@ -654,18 +656,18 @@ public class Utils {
 	}	
 	
 	public static ValidationResult isAssignmentValid(Assignment assignment, String projectName, String projectVersion, String clientName, String staffFirstName, String staffLastName, String taskDesc) {
-		if (PROJECT_NAME_IS_NOT_VALID.equals(isProjectNameValid(projectName).apply(assignment.getProject())))
-			return PROJECT_NAME_IS_NOT_VALID;
-		if (PROJECT_VERSION_IS_NOT_VALID.equals(isProjectVersionValid(projectVersion).apply(assignment.getProject())))
-			return PROJECT_VERSION_IS_NOT_VALID;
-		if (PROJECT_CLIENT_IS_NOT_VALID.equals(isProjectClientValid(clientName).apply(assignment.getProject())))
-			return PROJECT_CLIENT_IS_NOT_VALID;
-		if (STAFF_FIRSTNAME_IS_NOT_VALID.equals(isStaffFirstNameValid(staffFirstName).apply(assignment.getStaff())))
-			return STAFF_FIRSTNAME_IS_NOT_VALID;
-		if (STAFF_LASTNAME_IS_NOT_VALID.equals(isStaffLastNameValid(staffLastName).apply(assignment.getStaff())))
-			return STAFF_LASTNAME_IS_NOT_VALID;
-		if (TASK_DESC_IS_NOT_VALID.equals(isTaskValid(taskDesc).apply(assignment.getTask())))
-			return TASK_DESC_IS_NOT_VALID;
+		if (isProjectNameValid(projectName).apply(assignment.getProject()) != SUCCESS)//RES-66
+			return isProjectNameValid(projectName).apply(assignment.getProject());
+		if (isProjectVersionValid(projectVersion).apply(assignment.getProject()) != SUCCESS)//RES-66
+			return isProjectVersionValid(projectVersion).apply(assignment.getProject());
+		if (isProjectClientValid(clientName).apply(assignment.getProject()) != SUCCESS)//RES-66
+			return isProjectClientValid(clientName).apply(assignment.getProject());
+		if (isStaffFirstNameValid(staffFirstName).apply(assignment.getStaff()) != SUCCESS)//RES-66
+			return isStaffFirstNameValid(staffFirstName).apply(assignment.getStaff());
+		if (isStaffLastNameValid(staffLastName).apply(assignment.getStaff()) != SUCCESS)//RES-66
+			return isStaffLastNameValid(staffLastName).apply(assignment.getStaff());
+		if (isTaskValid(taskDesc).apply(assignment.getTask()) != SUCCESS)//RES-66
+			return isTaskValid(taskDesc).apply(assignment.getTask());
 		return SUCCESS;		
 	}
 	
@@ -682,12 +684,12 @@ public class Utils {
 	}
 	
 	public static ValidationResult isCityValid(City city, String cityName, String countryName, final List<Location> locations) {
-		if (CITY_IS_NOT_VALID.equals(CityValidator.isCountryValid(countryName).apply(city)))
-			return CITY_IS_NOT_VALID;
-		if (CITY_IS_NOT_VALID.equals(isNameValid(cityName).apply(city)))
-			return CITY_IS_NOT_VALID;
-		if(CITY_LOCATIONS_ARE_NOT_VALID.equals(CityValidator.areLocationsValid(locations).apply(city)))
-			return CITY_LOCATIONS_ARE_NOT_VALID;
+		if (isNameValid(cityName).apply(city) != SUCCESS)//RES-65
+			return isNameValid(cityName).apply(city);
+		if (CityValidator.isCountryValid(countryName).apply(city) != SUCCESS)//RES-65
+			return CityValidator.isCountryValid(countryName).apply(city);
+		if(CityValidator.areLocationsValid(locations).apply(city) != SUCCESS)//RES-65
+			return CityValidator.areLocationsValid(locations).apply(city);
 		return SUCCESS;		
 	}
 	
@@ -706,10 +708,10 @@ public class Utils {
 	}
 	
 	public static ValidationResult isCountryValid(Country country, String countryName, final List<City> cities) {
-		if (COUNTRY_CITIES_ARE_NOT_VALID.equals(CountryValidator.areCitiesValid(cities).apply(country)))
-			return COUNTRY_CITIES_ARE_NOT_VALID;
-		if (COUNTRY_NAME_IS_NOT_VALID.equals(CountryValidator.isNameValid(countryName).apply(country)))
-			return COUNTRY_NAME_IS_NOT_VALID;
+		if (CountryValidator.areCitiesValid(cities).apply(country) != SUCCESS)//RES-62
+			return CountryValidator.areCitiesValid(cities).apply(country) ;
+		if (CountryValidator.isNameValid(countryName).apply(country) != SUCCESS)//RES-62
+			return CountryValidator.isNameValid(countryName).apply(country);
 		return SUCCESS;		
 	}
 	public static long insertClientInJpa(JPATransactionFunction <EntityManager, Long> insertClientFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate) {
@@ -727,10 +729,10 @@ public class Utils {
 	}
 	
 	public static ValidationResult isClientValid(Client client, String clientName,@Null List <Contract> contracts) {
-		if (CLIENT_NAME_IS_NOT_VALID.equals(isClientNameValid(clientName).apply(client)))
-			return CLIENT_NAME_IS_NOT_VALID;
-		if (CLIENT_CONTRACTS_ARE_NOT_VALID.equals(areContractsValid(contracts).apply(client)))
-			return CLIENT_CONTRACTS_ARE_NOT_VALID;
+		if (isClientNameValid(clientName).apply(client) != SUCCESS)//RES-64
+			return isClientNameValid(clientName).apply(client);
+		if (areContractsValid(contracts).apply(client) != SUCCESS)//RES-64
+			return areContractsValid(contracts).apply(client);
 		return SUCCESS;		
 	}
 	
@@ -773,43 +775,43 @@ public class Utils {
 	}
 	
 	public static ValidationResult isContractValid(Contract contract, long contractId, Client client, List<Agreement> agreements, List<SupplyContract> supplyContracts) {//RES-56
-		if(CONTRACT_ID_IS_NOT_VALID.equals(isContractIdValid(contractId).apply(contract)))
-			return CONTRACT_ID_IS_NOT_VALID;
-		if(CONTRACT_CLIENT_IS_NOT_VALID.equals(ContractValidator.isClientValid(client).apply(contract)))
-			return CONTRACT_CLIENT_IS_NOT_VALID;
-		if(CONTRACT_AGREEMENTS_ARE_NOT_VALID.equals(ContractValidator.areAgreementsValid(agreements).apply(contract)))
-			return CONTRACT_AGREEMENTS_ARE_NOT_VALID;
-		if(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID.equals(areSupplyContractsValid(supplyContracts).apply(contract)))
-			return CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID;
+		if(isContractIdValid(contractId).apply(contract) != SUCCESS)//RES-63
+			return isContractIdValid(contractId).apply(contract) ;
+		if(ContractValidator.isClientValid(client).apply(contract) != SUCCESS)//RES-63
+			return ContractValidator.isClientValid(client).apply(contract) ;
+		if(areAgreementsValid(agreements).apply(contract) != SUCCESS)//RES-63
+			return areAgreementsValid(agreements).apply(contract) ;
+		if(areSupplyContractsValid(supplyContracts).apply(contract) != SUCCESS)//RES-63
+			return areSupplyContractsValid(supplyContracts).apply(contract) ;
 		return SUCCESS;
 	}
 	
 	public static ValidationResult isSupplyContractValid(SupplyContract supplyContract, Supplier supplier, Contract contract,@NotNull Date startDate,@Null Date endDate) {
-		if(SUPPLYCONTRACT_IS_NOT_VALID.equals(SupplyContractValidator.isSupplyContractValid(supplier, contract).apply(supplyContract)))
-			return SUPPLYCONTRACT_IS_NOT_VALID;
-		if (SUPPLYCONTRACT_STARTDATE_NOT_VALID.equals(isStartDateValid(startDate).apply(supplyContract)))
-			return SUPPLYCONTRACT_STARTDATE_NOT_VALID;
-		if (SUPPLYCONTRACT_ENDDATE_NOT_VALID.equals(isEndDateValid(endDate).apply(supplyContract)))
-			return SUPPLYCONTRACT_ENDDATE_NOT_VALID;
+		if(SupplyContractValidator.isSupplyContractValid(supplier, contract).apply(supplyContract) != SUCCESS)//RES-60
+			return SupplyContractValidator.isSupplyContractValid(supplier, contract).apply(supplyContract);
+		if (isStartDateValid(startDate).apply(supplyContract) != SUCCESS)//RES-60
+			return isStartDateValid(startDate).apply(supplyContract);
+		if (isEndDateValid(endDate).apply(supplyContract) != SUCCESS)//RES-60
+			return isEndDateValid(endDate).apply(supplyContract);
 		return SUCCESS;
 	}
 	
 	public static ValidationResult isProjectValid(Project project, String name, String version, List<Location> locations, Client client, List <Assignment> assignments) {
-		if (PROJECT_NAME_IS_NOT_VALID.equals(ProjectValidator.isProjectNameValid(name).apply(project)))
-			return PROJECT_NAME_IS_NOT_VALID;
-		if (PROJECT_NAME_IS_NOT_VALID.equals(ProjectValidator.isProjectVersionValid(version).apply(project)))
-			return PROJECT_NAME_IS_NOT_VALID;
-		if (PROJECT_CLIENT_IS_NOT_VALID.equals(ProjectValidator.isProjectClientValid(client).apply(project)))
-			return PROJECT_CLIENT_IS_NOT_VALID;
-		if (PROJECT_ASSIGNMENTS_ARE_NOT_VALID.equals(ProjectValidator.areProjectAssignmentsValid(assignments).apply(project)))
-			return PROJECT_ASSIGNMENTS_ARE_NOT_VALID;
-		if (PROJECT_LOCATIONS_ARE_NOT_VALID.equals(ProjectValidator.areProjectLocationsValid(locations).apply(project)))
-			return PROJECT_LOCATIONS_ARE_NOT_VALID;
+		if (ProjectValidator.isProjectNameValid(name).apply(project) != SUCCESS )//RES-61
+			return ProjectValidator.isProjectNameValid(name).apply(project);
+		if (ProjectValidator.isProjectVersionValid(version).apply(project) != SUCCESS)//RES-61
+			return ProjectValidator.isProjectVersionValid(version).apply(project) ;
+		if (ProjectValidator.isProjectClientValid(client).apply(project) != SUCCESS)//RES-61
+			return ProjectValidator.isProjectClientValid(client).apply(project);
+		if (ProjectValidator.areProjectAssignmentsValid(assignments).apply(project) != SUCCESS)//RES-61
+			return ProjectValidator.areProjectAssignmentsValid(assignments).apply(project);
+		if (ProjectValidator.areProjectLocationsValid(locations).apply(project) != SUCCESS)//RES-61
+			return ProjectValidator.areProjectLocationsValid(locations).apply(project);
 		return SUCCESS;
 		
 	}
 	
-	public static CityId buildCityId(long cityId, long countryId) {
+	public static CityId buildCityId(long cityId, long countryId) {//TODO RES-68
 		return new CityId(cityId, countryId);	
 	}
 	
@@ -834,6 +836,12 @@ public class Utils {
 	public static void deleteParisMorningstarV1AxeltisLocationInJpa(JPATransactionVoidFunction<EntityManager> deleteLocationFunction, EntityManager em, JdbcTemplate jdbcTemplate) {
 		deleteLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		deleteLocationFunction.accept(em);
+		deleteLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Location_Delete_ByParisCity, jdbcTemplate);
+	}
+
+	public static void deleteParisMorningstarV1AxeltisLocationInJpa(JPATransactionVoidBiFunction<ProjectRepository, CityRepository> deleteLocationFunction, ProjectRepository projectRepo, CityRepository cityRepo, JdbcTemplate jdbcTemplate) {//RES-61
+		deleteLocationFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		deleteLocationFunction.accept(projectRepo, cityRepo);
 		deleteLocationFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_MorningstarV1Project_Location_Delete_ByParisCity, jdbcTemplate);
 	}
 
@@ -1100,7 +1108,57 @@ public class Utils {
 	public static SupplyContract buildSupplyContract(Contract contract, Staff staff, Supplier supplier) {
 		SupplyContractId supplyContractId = new SupplyContractId(supplier.getId(), contract.getId(), staff.getId());
 		SupplyContract ret = new SupplyContract();
+		ret.setContract(contract);//RES-60
+		ret.setStaff(staff);//RES-60
+		ret.setSupplier(supplier);//RES-60
 		ret.setId(supplyContractId);
 		return ret;
+	}
+
+	public static void update_SupplierAccenture_With_SupplyContracts_InJpa(JPATransactionVoidFunction <EntityManager> setSupplierSypplyContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-52
+		/**Supplier -> SupplierContracts assoc.*/
+		setSupplierSypplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setSupplierSypplyContractsFunction.accept(entityManager);
+		setSupplierSypplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SupplierAccenture_Update_SupplyContracts, jdbcTemplate);
+	}
+
+	public static void update_SupplierAccenture_With_SupplyContracts_InJpa(JPATransactionVoidFunction <SupplierRepository> setSupplierSypplyContractsFunction, SupplierRepository  supplierRepo, JdbcTemplate jdbcTemplate){//RES-52
+		/**Supplier -> SupplierContracts assoc.*/
+		setSupplierSypplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setSupplierSypplyContractsFunction.accept(supplierRepo);
+		setSupplierSypplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SupplierAccenture_Update_SupplyContracts, jdbcTemplate);
+	}
+
+	public static ValidationResult isSupplierValid(Supplier supplier, String name, List <SupplyContract> supplyContracts, List <EmploymentContract> employmentContracts){//RS-58
+		if (SupplierValidator.isSupplierNameValid(name).apply(supplier) != SUCCESS)//RES-58
+			return SupplierValidator.isSupplierNameValid(name).apply(supplier);
+		if (SupplierValidator.areEmploymentContractsValid(employmentContracts).apply(supplier) != SUCCESS)//RES-58
+			return SupplierValidator.areEmploymentContractsValid(employmentContracts).apply(supplier);
+		if (SupplierValidator.areSupplyContractsValid(supplyContracts).apply(supplier) != SUCCESS)//RES-58
+			return SupplierValidator.areSupplyContractsValid(supplyContracts).apply(supplier);
+		return SUCCESS;
+	}
+
+	public static EmploymentContract buildEmploymentContract(long id, Supplier supplier, Staff staff, Date startDate) { //RES-58
+		EmploymentContract ret = new EmploymentContract();
+		ret.setId(id);
+		ret.setSupplier(supplier);
+		ret.setStaff(staff);
+		ret.setStartDate(startDate);
+		return ret;
+	}
+
+	public static void update_SupplierAccenture_With_NullSupplyContracts_InJpa(JPATransactionVoidFunction <EntityManager> setSupplierSypplyContractsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-52
+		/**Supplier -> SupplierContracts assoc.*/
+		setSupplierSypplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setSupplierSypplyContractsFunction.accept(entityManager);
+		setSupplierSypplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SupplierAccenture_Update_NullSupplyContracts, jdbcTemplate);
+	}
+
+	public static void update_SupplierAccenture_With_NullSupplyContracts_InJpa(JPATransactionVoidFunction <SupplierRepository> setSupplierSypplyContractsFunction, SupplierRepository  supplierRepo, JdbcTemplate jdbcTemplate){//RES-52
+		/**Supplier -> SupplierContracts assoc.*/
+		setSupplierSypplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setSupplierSypplyContractsFunction.accept(supplierRepo);
+		setSupplierSypplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SupplierAccenture_Update_NullSupplyContracts, jdbcTemplate);
 	}
 }
