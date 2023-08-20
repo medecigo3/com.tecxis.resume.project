@@ -5,11 +5,7 @@ import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.Constants.MANCHESTER;
 import static com.tecxis.resume.domain.util.Utils.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 import java.util.List;
@@ -450,86 +446,53 @@ public class JpaProjectDaoTest {
 		/**Find and validate Project to test*/
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(morningstartV1Project);
-		/**Fetch target Project -> locations*/
-		ProjectId morningstarv1ProjectId = new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID);		
-		/**Fetch target Project -> assignments*/
-		Assignment assignment22 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK22_ID)).get();
-		Assignment assignment23 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK23_ID)).get();
-		Assignment assignment24 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK24_ID)).get();
-		Assignment assignment25 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK25_ID)).get();
-		Assignment assignment26 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK26_ID)).get();
-		Assignment assignment27 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK27_ID)).get();
-		Assignment assignment28 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK28_ID)).get();
-		Assignment assignment29 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK29_ID)).get();
-		Assignment assignment30 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK30_ID)).get();
-		Assignment assignment31 =  assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK31_ID)).get();
-		List <Assignment> morningstarv1AxeltisAssignments = List.of (assignment22,
-				assignment23,
-				assignment24,
-				assignment25,
-				assignment26,
-				assignment27,
-				assignment28,
-				assignment29,
-				assignment30,
-				assignment31);
+		/**Build ProjectId to fetch Project -> locations*/ //RES-61
+		ProjectId morningstarv1ProjectId = new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID);
 		/**Fetch & validate city to remove from project*/
 		City paris = cityRepo.getCityByName(PARIS);
-		/**Fetch 'paris' locations*/
-		Location parisSagemcomTedV1Location = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID))).get();
-		Location parisParcoursV1MicropoleLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_PARCOURS_V1_ID, CLIENT_MICROPOLE_ID))).get();
-		Location parisEuroclearV1LbpLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EUROCLEAR_VERS_CALYPSO_V1_ID, CLIENT_LA_BANQUE_POSTALE_ID))).get();	
-		Location parisMorningstarV1AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID))).get();
-		Location parisEolisV1EhLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_EOLIS_V1_ID, CLIENT_EULER_HERMES_ID))).get();
-		Location parisMorningstarV2AxeltisLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V2_ID, CLIENT_AXELTIS_ID))).get();
-		Location parisCdcV1SgLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_CENTRE_DES_COMPETENCES_V1_ID, CLIENT_SG_ID))).get();
-		Location parisAosv1ArvalLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_AOS_V1_ID, CLIENT_ARVAL_ID))).get();
-		Location parisSeleniumV1HermesLocation = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_SELENIUM_V1_ID, CLIENT_HERMES_ID))).get();			
-		List <Location> morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location, 
-				parisParcoursV1MicropoleLocation, 	
-				parisEuroclearV1LbpLocation,		
-				parisMorningstarV1AxeltisLocation,
-				parisEolisV1EhLocation,	
-				parisMorningstarV2AxeltisLocation,
-				parisCdcV1SgLocation,
-				parisAosv1ArvalLocation,
-				parisSeleniumV1HermesLocation );
-		assertEquals(CITY_PARIS_TOTAL_LOCATIONS, morningstarv1AxeltisLocations.size());
-		/**Validate City before test*/
-		assertEquals(SUCCESS, Utils.isCityValid(paris, PARIS, FRANCE, morningstarv1AxeltisLocations));
+		/**Fetch 'Morningstar v1 Axeltis locations' locations*/ //RES-61
+		Location parisMorningstartv1Location = locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID))).get();
+		List <Location> morningstarv1AxeltisLocations = List.of(parisMorningstartv1Location);
+		assertEquals(CITY_PARIS_MORNINGSTAR_V1_AXELTIS_TOTAL_LOCATIONS, morningstarv1AxeltisLocations.size()); //END RES-61
 		/**Fetch target Project -> client*/
 		Client axeltis = clientRepo.getClientByName(AXELTIS);
 		/**Validate target project before test*/
-		assertEquals(SUCCESS, Utils.isProjectValid(morningstartV1Project,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
+		assertEquals(SUCCESS, isProjectValid(morningstartV1Project,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, List.of (assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK22_ID)).get(),  //RES-61
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK23_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK24_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK25_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK26_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK27_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK28_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK29_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK30_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK31_ID)).get())));
 		
 		/**Remove Project location by city*/	
-		Utils.deleteParisMorningstarV1AxeltisLocationInJpa(em -> {
+		Utils.deleteParisMorningstarV1AxeltisLocationInJpa((projectRepo, cityRepo) -> { //RES-61
 			assertTrue(paris.removeLocation(morningstartV1Project));
 			assertTrue(morningstartV1Project.removeLocation(paris));		
 			SchemaUtils.testInitialState(jdbcTemplateProxy);
-			em.merge(morningstartV1Project);
-			em.merge(paris);
-			em.flush();
-			em.clear();
-			
-		}, entityManager, jdbcTemplateProxy);
-		
-		/**Validate City after test*/
-		morningstarv1AxeltisLocations = List.of(parisSagemcomTedV1Location, 
-				parisParcoursV1MicropoleLocation, 	
-				parisEuroclearV1LbpLocation,
-				parisEolisV1EhLocation,	
-				parisMorningstarV2AxeltisLocation,
-				parisCdcV1SgLocation,
-				parisAosv1ArvalLocation,
-				parisSeleniumV1HermesLocation );
-		assertEquals(CITY_PARIS_TOTAL_LOCATIONS - 1, morningstarv1AxeltisLocations.size()); //1 location removed
-		City newParis = cityRepo.getCityByName(PARIS);
-		assertEquals(SUCCESS, Utils.isCityValid(newParis, PARIS, FRANCE, morningstarv1AxeltisLocations));
-		/**Validate target  project after test*/
+			projectRepo.save(morningstartV1Project);
+			cityRepo.save(paris);
+			projectRepo.flush();
+		}, projectRepo, cityRepo, jdbcTemplateProxy);
+
+		entityManager.clear();
+		/**Validate target project after test*/
+		assertFalse(locationRepo.findById(new LocationId(new CityId(PARIS_ID,FRANCE_ID), new ProjectId(PROJECT_MORNINGSTAR_V1_ID, CLIENT_AXELTIS_ID))).isPresent()); //1 location removed RES-61
 		Project newMorningstarV1 = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
 		assertNotNull(newMorningstarV1);
-		assertEquals(SUCCESS, Utils.isProjectValid(newMorningstarV1,  MORNINGSTAR, VERSION_1, morningstarv1AxeltisLocations, axeltis, morningstarv1AxeltisAssignments));
+		assertEquals(SUCCESS, isProjectValid(newMorningstarV1,  MORNINGSTAR, VERSION_1, List.of(), axeltis, List.of (assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK22_ID)).get(), //RES-61
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK23_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK24_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK25_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK26_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK27_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK28_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK29_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK30_ID)).get(),
+				assignmentRepo.findById(new AssignmentId(morningstarv1ProjectId, STAFF_AMT_ID, TASK31_ID)).get())));
 	}
 
 	@Test
