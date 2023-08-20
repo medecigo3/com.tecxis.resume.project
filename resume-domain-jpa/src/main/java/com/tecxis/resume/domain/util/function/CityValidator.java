@@ -13,11 +13,11 @@ import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 public interface CityValidator extends Function<City, ValidationResult>  {
 	
 	static CityValidator isNameValid(String cityName) {
-		return city -> city.getName().equals(cityName)? SUCCESS : CITY_IS_NOT_VALID;
+		return city -> city.getName().equals(cityName)? SUCCESS : CITY_NAME_IS_NOT_VALID;//RES-65
 	}
 	
 	static CityValidator isCountryValid(String countryName) {
-		return city -> city.getCountry().getName().equals(countryName)? SUCCESS : CITY_IS_NOT_VALID;
+		return city -> city.getCountry().getName().equals(countryName)? SUCCESS : CITY_COUNTRY_IS_NOT_VALID;//RES-65
 	}
 
 	static CityValidator areLocationsValid(@Null List <Location> locations) {//RESB-18 fix
