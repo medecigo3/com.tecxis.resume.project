@@ -73,6 +73,50 @@ public class Constants {
 	public static long TASK29_ID = 29L;
 	public static long TASK30_ID = 30L;
 	public static long TASK31_ID = 31L;
+	public static long TASK1_ID = 1L;//RES-14
+	public static long TASK2_ID = 2L;//RES-14
+	public static long TASK3_ID = 3L;//RES-14
+	public static long TASK4_ID = 4L;//RES-14
+	public static long TASK5_ID = 5L;//RES-14
+	public static long TASK6_ID = 6L;//RES-14
+	public static long TASK7_ID = 7L;//RES-14
+	public static long TASK8_ID = 8L;//RES-14
+	public static long TASK9_ID = 9L;//RES-14
+	public static long TASK10_ID = 10L;//RES-14
+	public static long TASK11_ID = 11L;//RES-14
+	public static long TASK12_ID = 12L;//RES-14
+	public static long TASK13_ID = 13L;//RES-14
+	public static long TASK14_ID = 14L;//RES-14
+	public static long TASK15_ID = 15L;//RES-14
+	public static long TASK16_ID = 16L;//RES-14
+	public static long TASK17_ID = 17L;//RES-14
+	public static long TASK18_ID = 18L;//RES-14
+	public static long TASK19_ID = 19L;//RES-14
+	public static long TASK20_ID = 20L;//RES-14
+	public static long TASK21_ID = 21L;//RES-14
+	public static long TASK32_ID = 32L;//RES-14
+	public static long TASK33_ID = 33L;//RES-14
+	public static long TASK34_ID = 34L;//RES-14
+	public static long TASK35_ID = 35L;//RES-14
+	public static long TASK36_ID = 36L;//RES-14
+	public static long TASK37_ID = 37L;//RES-14
+	public static long TASK38_ID = 38L;//RES-14
+	public static long TASK39_ID = 39L;//RES-14
+	public static long TASK40_ID = 40L;//RES-14
+	public static long TASK41_ID = 41L;//RES-14
+	public static long TASK42_ID = 42L;//RES-14
+	public static long TASK43_ID = 43L;//RES-14
+	public static long TASK44_ID = 44L;//RES-14
+	public static long TASK45_ID = 45L;//RES-14
+	public static long TASK46_ID = 46L;//RES-14
+	public static long TASK47_ID = 47L;//RES-14
+	public static long TASK48_ID = 48L;//RES-14
+	public static long TASK49_ID = 49L;//RES-14
+	public static long TASK50_ID = 50L;//RES-14
+	public static long TASK51_ID = 51L;//RES-14
+	public static long TASK52_ID = 52L;//RES-14
+	public static long TASK53_ID = 53L;//RES-14
+	public static long TASK54_ID = 54L;//RES-14
 	/**END TASK*/
 	/**CITY*/	
 	public static final String BRUSSELS = "Brussels";
@@ -119,6 +163,8 @@ public class Constants {
 	public static final long CLIENT_ARVAL_ID = 10L;
 	public static final long CLIENT_HERMES_ID = 11L;
 	public static final long CLIENT_BELFIUS_ID = 12L;
+	public static final long CLIENT_AGEAS_ID = 2L;//RES-61
+	public static final long CLIENT_ACCENTURE_ID = 3L;//RES-52
 	/**END CLIENT*/		
 	public static final String BW_6_COURSE = "BW618: TIBCO ActiveMatrix BusinessWorks 6.x Developer Boot Camp";
 	public static final String SHORT_BW_6_COURSE = "BW618%";
@@ -256,6 +302,7 @@ public class Constants {
 	public static final long CONTRACT_AGEAS_ID = 2L;//RES-10
 	public static final long CONTRACT_EH_ID = 8L;//RES-10
 	public static final long CONTRACT_FOO_ID = 14L;//RES-42
+	public static final long CONTRACT_ACCENTURE_ID = 3L;//RES-52
 
 	/**END CONTRACT*/
 	
@@ -274,6 +321,7 @@ public class Constants {
 	
 	/**LOCATION*/
 	public static final long CITY_PARIS_TOTAL_LOCATIONS = 9;
+	public static final long CITY_PARIS_MORNINGSTAR_V1_AXELTIS_TOTAL_LOCATIONS = 1;//RES-61
 	/**END LOCATION*/
 	
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -330,7 +378,8 @@ public class Constants {
 	}
 
 	/**EMPLOYMENT_CONTRACT*/
-	public static final long AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID = 1L; 
+	public static final long AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID = 4L;//RES-58
+	public static final long AMT_ACCENTURE_EMPLOYMENT_CONTRACTID = 1L;//RES-58
 	
 	private Constants() {
 	}
