@@ -1,16 +1,10 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.ACCENTURE_CLIENT;
-import static com.tecxis.resume.domain.Constants.ACCENTURE_SUPPLIER;
-import static com.tecxis.resume.domain.Constants.AGEAS;
-import static com.tecxis.resume.domain.Constants.ALPHATRESS;
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.BARCLAYS;
-import static com.tecxis.resume.domain.Constants.CONTRACT13_NAME;
-import static com.tecxis.resume.domain.Constants.JOHN_LASTNAME;
-import static com.tecxis.resume.domain.Constants.JOHN_NAME;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.Utils.isSupplierValid;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,7 +13,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +22,8 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.tecxis.resume.domain.id.ContractId;
+import com.tecxis.resume.domain.id.SupplyContractId;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -277,7 +272,7 @@ public class SupplierTest {
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_NullSet() {					
+	public void test_OneToMany_Update_SupplyContracts_And_RemoveOrphansWithOrm_NullSet() {//RES-52
 		/**Find and verify the Supplier*/		
 		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
@@ -292,51 +287,42 @@ public class SupplierTest {
 								
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
-		assertEquals(1, accentureEmploymentContracts.size());		
-		
+		assertEquals(1, accentureEmploymentContracts.size());
+		EmploymentContract accentureEmploymentContract = employmentContractRepo.findById(1L).get();
+
 		/**Verify Supplier -> SupplyContracts*/		
 		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
-		assertEquals(3, accentureSupplycontracts.size());	
+		assertEquals(3, accentureSupplycontracts.size());
+		SupplyContract accentureBarclaysAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_BARCLAYS_ID, CLIENT_BARCLAYS_ID), STAFF_AMT_ID)).get();
+		SupplyContract accentureAgeasAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_AGEAS_ID, CLIENT_AGEAS_ID), STAFF_AMT_ID)).get();
+		SupplyContract accentureAccentureAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_ACCENTURE_ID, CLIENT_ACCENTURE_ID), STAFF_AMT_ID)).get();
+
+		assertEquals(SUCCESS, isSupplierValid(accenture, ACCENTURE_SUPPLIER, List.of(accentureBarclaysAmtSupplyContract, accentureAgeasAmtSupplyContract, accentureAccentureAmtSupplyContract), List.of(accentureEmploymentContract)));
 
 		/**Detach entities*/
 		entityManager.clear();		
-		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
-		
-		/**Tests initial state of Suppliers table (the parent)*/
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE)); //ACCENTURE SUPPLIER_ID='1'
-		/**Tests the initial state of the children table(s) from the Parent table*/
-		assertEquals(14, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE));	// Target orphan in SUPPLY_CONTRACT table
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
-		/**Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE));		
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		/**Tests the initial state of the children table(s) from previous Parent table(s)*/
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));			
-		/**Sets currents Accenture's SupplyContracts as orphans*/
-		accenture.setSupplyContracts(null);
-		entityManager.merge(accenture);
-		entityManager.flush();
-		entityManager.clear();					
-		
-		assertEquals(11, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLY_CONTRACT_TABLE)); //3 orphans removed in SUPPLY_CONTRACT table. Other tables remain unchanged. 	
-		assertEquals(6, countRowsInTable(jdbcTemplateProxy, SchemaConstants.EMPLOYMENT_CONTRACT_TABLE));	
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.CONTRACT_TABLE)); 		
-		assertEquals(13, countRowsInTable(jdbcTemplateProxy, SchemaConstants.AGREEMENT_TABLE));  		
-		assertEquals(5, countRowsInTable(jdbcTemplateProxy, SchemaConstants.SUPPLIER_TABLE));				
-		assertEquals(2, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));  
-		
+		final Supplier tempAccenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+
+		update_SupplierAccenture_With_NullSupplyContracts_InJpa(em -> {
+			/**Sets currents Accenture's SupplyContracts as orphans*/
+			tempAccenture.setSupplyContracts(null);
+			entityManager.merge(tempAccenture);
+			entityManager.flush();
+			entityManager.clear();
+		}, entityManager, jdbcTemplateProxy);
 		/**Test parent Supplier has no SupplyContract(s)*/
 		accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertNotNull(accenture);
 		assertEquals(0, accenture.getSupplyContracts().size());
+		assertEquals(SUCCESS, isSupplierValid(accenture, ACCENTURE_SUPPLIER, List.of(), List.of(accentureEmploymentContract)));
 		
 	}
 	
 	@Test
 	@Sql(scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"}, executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)	
-	public void test_OneToMany_Update_SupplyContracts_Amd_RemoveOrphansWithOrm() {	
+	public void test_OneToMany_Update_SupplyContracts_Amd_RemoveOrphansWithOrm() {//RES-52
 		/**Find and verify the Supplier*/		
-		Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		final Supplier accenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		assertEquals(ACCENTURE_SUPPLIER, accenture.getName());	
 		
 		/**Verify Supplier's Clients*/
@@ -349,42 +335,43 @@ public class SupplierTest {
 										
 		/**Verify Supplier -> EmploymentContracts*/
 		List <EmploymentContract> accentureEmploymentContracts = accenture.getEmploymentContracts();
-		assertEquals(1, accentureEmploymentContracts.size());		
+		assertEquals(1, accentureEmploymentContracts.size());
+		EmploymentContract accentureEmploymentContract = employmentContractRepo.findById(1L).get();
 		
-		/**Verify Supplier -> SupplyContracts*/		
-		List <SupplyContract> accentureSupplycontracts = accenture.getSupplyContracts();			
-		assertEquals(3, accentureSupplycontracts.size());
+		/**Verify Supplier -> SupplyContracts*/
+		List <SupplyContract> accentureSupplyContracts = accenture.getSupplyContracts();
+		assertEquals(3, accentureSupplyContracts.size());
+		SupplyContract accentureBarclaysAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_BARCLAYS_ID, CLIENT_BARCLAYS_ID), STAFF_AMT_ID)).get();
+		SupplyContract accentureAgeasAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_AGEAS_ID, CLIENT_AGEAS_ID), STAFF_AMT_ID)).get();
+		SupplyContract accentureAccentureAmtSupplyContract = supplyContractRepo.findById(new SupplyContractId(SUPPLIER_ACCENTURE_ID, new ContractId(CONTRACT_ACCENTURE_ID, CLIENT_ACCENTURE_ID), STAFF_AMT_ID)).get();
+
+		/**Validate Supplier*/
+		assertEquals(SUCCESS, isSupplierValid(accenture, ACCENTURE_SUPPLIER, List.of(accentureBarclaysAmtSupplyContract, accentureAgeasAmtSupplyContract, accentureAccentureAmtSupplyContract), List.of(accentureEmploymentContract)));
 		
 		/**Create the new SupplyContract to set to parent Supplier*/		
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		Contract belfiusContract = contractRepo.getContractByName(CONTRACT13_NAME);		
 		SupplyContract newSupplyContract = new SupplyContract(accenture, belfiusContract, john);
 		newSupplyContract.setStartDate(new Date());
-		List <SupplyContract> newSupplyContracts = new ArrayList<>();//TODO refactor use declarative approach
-		newSupplyContracts.add(newSupplyContract);
-					
-		/**Tests initial state of Suppliers table (the parent)*/
-		/**SUPPLIER_TABLE -> ACCENTURE SUPPLIER_ID='1'*/
-		/**Tests the initial state of the children table(s) from the Parent table*/
-		/**EMPLOYMENT_CONTRACT_TABLE*/
-		/**SUPPLY_CONTRACT_TABLE -> Target orphan in SUPPLY_CONTRACT table
-		/**CONTRACT_TABLE, STAFF_TABLE->Test the initial state of remaining Parent table(s) with cascading.REMOVE strategy belonging to the previous children.*/
-		/**AGREEMENT_TABLE-> Tests the initial state of the children table(s) from previous Parent table(s)*/
-		SchemaUtils.testInitialState(jdbcTemplateProxy);
-		/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
-		accenture.setSupplyContracts(newSupplyContracts);
-		entityManager.merge(accenture);
-		entityManager.flush();
-		entityManager.clear();	
-		SchemaUtils.testStateAfter_SupplierAccenture_Update_SupplyContracts(jdbcTemplateProxy);
-		
-	
+		List <SupplyContract> newSupplyContracts = List.of(newSupplyContract);
+
+		update_SupplierAccenture_With_SupplyContracts_InJpa( em -> {
+				/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
+				accenture.setSupplyContracts(newSupplyContracts);
+				entityManager.merge(accenture);
+				entityManager.flush();
+				entityManager.clear();
+		},entityManager, jdbcTemplateProxy);
+		/**Fetch new SupplyContracts */
+		Supplier newAccenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
+		Staff newJohn = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
+		SupplyContract johnBelfiusAccentureSupplyContract = supplyContractRepo.findByStaffAndSupplierAndContract(newJohn, newAccenture, belfiusContract);
+		/**Fetch EmploymentContracts*/
+		Staff amt = staffRepo.getStaffByFirstNameAndLastName(AMT_NAME, AMT_LASTNAME);
+		List <EmploymentContract> amtAccentureEmploymentContracts =  employmentContractRepo.findByStaffAndSupplier(amt, newAccenture);
+		/**Validate  Supplier -with new -> SupplyContracts assoc. */
+		assertEquals(SUCCESS, isSupplierValid(newAccenture, ACCENTURE_SUPPLIER, List.of(johnBelfiusAccentureSupplyContract), amtAccentureEmploymentContracts));
 	}
-	
-	public void test_OneToMany_Update_SupplyContracts_Amd_RemoveOrphansWithOrm_NullSet() {
-		//TODO
-	}
-	
 	@Test
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
@@ -611,8 +598,7 @@ public class SupplierTest {
 		Staff john = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
 		EmploymentContract newEmploymentContract = new EmploymentContract(john, accenture);
 		newEmploymentContract.setStartDate(new Date());
-		List <EmploymentContract> newEmploymentContracts = new ArrayList<>();//TODO refactor use declarative approach
-		newEmploymentContracts.add(newEmploymentContract);
+		List <EmploymentContract> newEmploymentContracts = List.of(newEmploymentContract);//TODO RES-51
 		
 		/**Tests initial state of Suppliers table (the parent)*/
 		/**SUPPLIER_TABLE -> ACCENTURE SUPPLIER_ID='1'*/

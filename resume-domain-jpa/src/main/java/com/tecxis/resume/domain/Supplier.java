@@ -75,15 +75,14 @@ public class Supplier implements Serializable, Identifiable <Long>{
 	public List <EmploymentContract> getEmploymentContracts() {
 		return this.employmentContracts;
 	}
-	
+
+	/**
+	 * @param supplyContracts orphans are removed when set to null.
+	 * */
 	public void setSupplyContracts(List<SupplyContract> supplyContracts) {
-		if (supplyContracts != null) {
-			this.supplyContracts.clear();
-			for (SupplyContract supplyContract : supplyContracts) { //TODO refactor use declarative approach
-				this.supplyContracts.add(supplyContract);
-			}
-		} else {
-			this.supplyContracts.clear();
+		this.supplyContracts.clear();//RES-52
+		if(supplyContracts != null) {
+			this.supplyContracts.addAll(supplyContracts);
 		}
 	}
 	
@@ -100,7 +99,7 @@ public class Supplier implements Serializable, Identifiable <Long>{
 	public void setEmploymentContracts(List<EmploymentContract> employmentContracts) {
 		if (employmentContracts != null) {
 			this.employmentContracts.clear();
-			for (EmploymentContract employmentContract : employmentContracts) { //TODO refactor declarative approach
+			for (EmploymentContract employmentContract : employmentContracts) { //TODO RES-51
 				this.employmentContracts.add(employmentContract); 				
 			}
 		}
