@@ -1,9 +1,6 @@
 package com.tecxis.resume.domain.util.function;
 
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_ENDDATE_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUPPLYCONTRACT_STARTDATE_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -23,15 +20,28 @@ public interface SupplyContractValidator extends Function<SupplyContract, Valida
 	Logger logger = LoggerFactory.getLogger(SupplyContractValidator.class);
 	
 	static SupplyContractValidator isSupplyContractValid(Supplier supplier, Contract contract) {
-		return supplyContract -> supplyContract.getSupplier().equals(supplier) && supplyContract.getContract().equals(contract) ? SUCCESS : SUPPLYCONTRACT_IS_NOT_VALID;
+		SupplyContractValidator ret = supplyContract -> {//RES-60
+			if (supplyContract.getContract().equals(contract) != true)
+				return SUPPLYCONTRACT_CONTRACT_IS_NOT_VALID;
+
+			else if (supplyContract.getSupplier().equals(supplier) != true)
+				return SUPPLYCONTRACT_SUPPLIER_IS_NOT_VALID;
+			else
+				return SUCCESS;
+		};
+		return ret;
+
 	}
 	
 	static SupplyContractValidator isStartDateValid(@NotNull final Date startDate) {
 		SupplyContractValidator ret = supplyContract -> {
 			final Date supplyContractStartDate = supplyContract.getStartDate();
 			logger.debug("Comparing SupplyContract startDate: '" +  supplyContractStartDate + "' vs. param: '" + startDate + "'");
-			
-			if (supplyContractStartDate != null && startDate != null )
+
+			if (supplyContractStartDate == null && startDate == null )//RES-60
+				return SUCCESS;
+
+			else if (supplyContractStartDate != null && startDate != null )//RES-60
 				return supplyContractStartDate.compareTo(startDate) == 0 ? SUCCESS : SUPPLYCONTRACT_STARTDATE_NOT_VALID;
 			
 			else
