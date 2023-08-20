@@ -2,10 +2,7 @@ package com.tecxis.resume.domain.util;
 
 import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.util.Utils.*;
-import static com.tecxis.resume.domain.util.function.ValidationResult.CONTRACT_NAME_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SERVICE_NAME_IS_NOT_VALID;
-import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
-import static com.tecxis.resume.domain.util.function.ValidationResult.TASK_DESC_IS_NOT_VALID;
+import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
@@ -1243,29 +1240,251 @@ public class UtilsTest {
 		Service service = buildService(MULE_ESB_CONSULTANT);
 		Agreement agreement = buildAgreement(contract, service);
 		assertEquals(SUCCESS, isAgreementValid(agreement, CONTRACT1_NAME, MULE_ESB_CONSULTANT));
-		/**Test Contract name is not valid*/					
 		assertEquals(CONTRACT_NAME_IS_NOT_VALID, isAgreementValid(agreement, "test", MULE_ESB_CONSULTANT));
-		/**Test Service name is not valid*/
 		assertEquals(SERVICE_NAME_IS_NOT_VALID, isAgreementValid(agreement, CONTRACT1_NAME, "test"));
 	}
 	
 	@Test
 	public void testIsAssignmentValid() {
 		Client client = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);		
-		Project project = buildProject(ADIR, VERSION_1, client, null, null);
+		Project project = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, client, null, null);//RES-11
 		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task = buildTask(TASK1);
+		Task task = buildTask(TASK1_ID, TASK1);
 		Assignment assignment = buildAssignment(project, staff, task);
 		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
-		/**Test Project is not valid*/
 		assertNotEquals(SUCCESS, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
 		assertNotEquals(SUCCESS, isAssignmentValid(assignment, ADIR, "Test", BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
-		/**Test Staff is not valid*/
 		assertNotEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, "Test", AMT_LASTNAME, TASK1));
 		assertNotEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, "Test", TASK1));
-		/**Test Task isn't valid*/
 		assertEquals(TASK_DESC_IS_NOT_VALID, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, "Test"));
 		
+	}
+
+
+	@Test
+	public void testIsCityValid(){//RES-65
+		/**Build City*/
+		City paris = buildCity(buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+		City testCity = buildCity(buildCityId(MANCHESTER_ID, UNITED_KINGDOM_ID), MANCHESTER);
+		/**Build Country*/
+		Country france = buildCountry(FRANCE_ID, FRANCE);
+		paris.setCountry(france);
+		Country testCountry = buildCountry(UNITED_KINGDOM_ID, UNITED_KINGDOM);
+		testCity.setCountry(testCountry);
+		/**Build Barclays client*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		Client testClient = buildClient(EULER_HERMES, CLIENT_HERMES_ID);
+		/**Build Project*/
+		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
+		Project testProject = buildProject(PROJECT_AOS_V1_ID, EOLIS, VERSION_1, testClient, null, null);
+		/**Build Locations*/
+		Location parisLocation = buildLocation(paris, adir);
+		paris.setLocations(List.of(parisLocation));
+		Location testLocation = buildLocation(testCity, testProject);
+
+		assertEquals(SUCCESS, isCityValid(paris, PARIS, FRANCE, List.of(parisLocation)));
+		assertEquals(CITY_NAME_IS_NOT_VALID, isCityValid(paris, MANCHESTER, FRANCE, List.of(parisLocation)));
+		assertEquals(CITY_COUNTRY_IS_NOT_VALID, isCityValid(paris, PARIS, UNITED_KINGDOM, List.of(parisLocation)));
+		assertEquals(CITY_LOCATIONS_ARE_NOT_VALID, isCityValid(paris, PARIS, FRANCE, List.of(testLocation)));
+		assertEquals(CITY_SIZE_LOCATIONS_ARE_DIFFERENT, isCityValid(paris, PARIS, FRANCE, List.of(parisLocation, testLocation)));
+		assertEquals(CITY_LOCATIONS_ARE_NULL, isCityValid(paris, PARIS, FRANCE, null));
+	}
+
+	@Test
+	public void testIsClientValid(){//RES-64
+		/**Build Client*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		Client testClient = buildClient(ARVAL, CLIENT_ARVAL_ID);
+		/***Build Contracts*/
+		Contract barclaysContract1 = buildContract(CONTRACT_BARCLAYS_ID, barclays, CONTRACT1_NAME);
+		barclays.setContracts(List.of(barclaysContract1));
+		Contract testContract = buildContract(CONTRACT_ARVAL_ID, testClient, CONTRACT11_NAME);
+		testClient.setContracts(List.of(testContract));
+
+		assertEquals(SUCCESS, isClientValid(barclays, BARCLAYS, List.of(barclaysContract1)));
+		assertEquals(CLIENT_NAME_IS_NOT_VALID, isClientValid(barclays, ARVAL, List.of(barclaysContract1)));
+		assertEquals(CLIENT_CONTRACTS_ARE_NOT_VALID, isClientValid(barclays, BARCLAYS, List.of(testContract)));
+		assertEquals(CLIENT_CONTRACTS_ARE_NULL, isClientValid(barclays, BARCLAYS, null));
+		assertEquals(CLIENT_SIZE_CONTRACTS_ARE_DIFFERENT, isClientValid(barclays, BARCLAYS, List.of(barclaysContract1, testContract)));
+
+	}
+
+	@Test
+	public void testIsContractValid(){//RES-63
+		/**Build Client*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		/**Build target Contract*/
+		Contract barclaysContract1 = buildContract(CONTRACT_BARCLAYS_ID, barclays, CONTRACT1_NAME);
+		barclays.setContracts(List.of(barclaysContract1));
+		/**Build test Contract*/
+		Contract testContract = buildContract(CONTRACT_ARVAL_ID, barclays, CONTRACT1_NAME);
+		/**Build Services*/
+		Service muleService = buildService(MULE_ESB_CONSULTANT);
+		Service scmService = buildService(SCM_ASSOCIATE_DEVELOPPER);
+		/**Build Agreements*/
+		Agreement barclaysContractv1MuleAgreement = new Agreement(barclaysContract1, muleService);
+		Agreement barclaysContractv1ScmAgreement = new Agreement(barclaysContract1, scmService);
+		barclaysContract1.setAgreements(List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement));
+		/**Build Supplier*/
+		Supplier accenture = buildSupplier(SUPPLIER_ACCENTURE_ID, ACCENTURE_SUPPLIER);
+		Supplier fastconnect = buildSupplier(SUPPLIER_FASTCONNECT_ID, FASTCONNECT);
+		/**Build Staff*/
+		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, null);
+		/**Build ContractSupplier*/
+		SupplyContract barclaysContract1AmtAccentureContractSupplier = buildSupplyContract(barclaysContract1,amt, accenture);
+		SupplyContract barclaysContract1AmtFastConnectContractSupplier =  buildSupplyContract(barclaysContract1, amt, fastconnect);
+		barclaysContract1.setSupplyContracts(List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier));
+		/**Build test SupplyContracts*/
+		SupplyContract testContractSupplier =  buildSupplyContract(testContract, amt, fastconnect);
+
+
+		/**Build test Client*/
+		Client arval = buildClient(ARVAL, CLIENT_ARVAL_ID);
+		/**Build test contract*/
+		Contract arvalContract11 = buildContract(CONTRACT_ARVAL_ID, arval, CONTRACT11_NAME);
+		/**Build test Services*/
+		Service tibcoService = buildService(TIBCO_BW_CONSULTANT);
+		Service j2eeService = buildService(J2EE_DEVELOPPER);
+		/**Build test Agreements*/
+		Agreement arvalContract11TibcoAgreement = new Agreement(arvalContract11, tibcoService);
+		Agreement arvalContract11J2eeAgreement = new Agreement(arvalContract11, j2eeService);
+		/**Build test Suppliers*/
+		Supplier amesys = buildSupplier(SUPPLIER_AMESYS_ID, AMESYS);
+		Supplier alterna = buildSupplier(SUPPLIER_ALTERNA_ID, ALTERNA);
+		/**Build test SupplyContracts*/
+		SupplyContract barclaysContract1AmtAmesysContractSupplier = buildSupplyContract(arvalContract11, amt, amesys);
+		SupplyContract barclaysContract1AmtAlternaContractSupplier = buildSupplyContract(arvalContract11, amt, alterna);
+		arvalContract11.setSupplyContracts(List.of(barclaysContract1AmtAmesysContractSupplier, barclaysContract1AmtAlternaContractSupplier));
+
+		//Test Contract is valid
+		assertEquals(SUCCESS, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement), List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_ID_IS_NOT_VALID, isContractValid(barclaysContract1, CONTRACT_AGEAS_ID, barclays, List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement), List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_CLIENT_IS_NOT_VALID, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, arval, List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement), List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_AGREEMENTS_ARE_NOT_VALID, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, List.of(arvalContract11J2eeAgreement, arvalContract11TibcoAgreement), List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_AGREEMENTS_ARE_NULL, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, null, List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_SIZE_AGREEMENTS_ARE_DIFFERENT, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, List.of(barclaysContractv1ScmAgreement), List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_SUPPLYCONTRACTS_ARE_NOT_VALID, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement), List.of(testContractSupplier, barclaysContract1AmtAccentureContractSupplier)));
+		assertEquals(CONTRACT_SUPPLYCONTRACTS_ARE_NULL, isContractValid(barclaysContract1, CONTRACT_BARCLAYS_ID, barclays, List.of(barclaysContractv1MuleAgreement, barclaysContractv1ScmAgreement), null));
+
+	}
+	@Test
+	public void testIsCountryValid(){//RES-62
+		/**Build Barclays client*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		/**Build ADIR project*/
+		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
+		/**Build London city*/
+		City london = buildCity(buildCityId(LONDON_ID, UNITED_KINGDOM_ID), LONDON);
+		Country uk = buildCountry(UNITED_KINGDOM_ID, UNITED_KINGDOM);
+		london.setCountry(uk);
+		Location londonLocation = buildLocation(london, adir);
+		london.setLocations(List.of(londonLocation));
+		/**Build Paris city*/
+		City paris = buildCity(buildCityId(PARIS_ID, FRANCE_ID), PARIS);
+		Country france = buildCountry(FRANCE_ID, FRANCE);
+		france.setCities(List.of(paris));
+		paris.setCountry(france);
+		Location parisLocation = buildLocation(paris, adir);
+		paris.setLocations(List.of(parisLocation));
+
+		assertEquals(SUCCESS, isCountryValid(france, FRANCE, List.of(paris)));
+		assertEquals(COUNTRY_NAME_IS_NOT_VALID, isCountryValid(france, UNITED_KINGDOM, List.of(paris)));
+		assertEquals(COUNTRY_CITIES_ARE_NOT_VALID, isCountryValid(france, FRANCE, List.of(london)));
+		assertEquals(COUNTRY_SIZE_CITIES_ARE_DIFFERENT, isCountryValid(france, FRANCE, List.of(paris, london)));
+		assertEquals(COUNTRY_CITIES_ARE_NULL, isCountryValid(france, FRANCE, null));
+	}
+	@Test
+	public void testIsProjectValid(){//RES-61
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		Client testClient  = buildClient(AGEAS, CLIENT_AGEAS_ID);
+		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
+		Task task1 = buildTask(TASK1_ID, TASK1);
+		Task task2 = buildTask(TASK2_ID, TASK2);
+		Task testTask1 = buildTask(TASK3_ID, TASK3);
+		Task testTask2 = buildTask(TASK4_ID, TASK4);
+		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
+		Assignment assignment1 = buildAssignment(adir, amt, task1);
+		Assignment assignment2 = buildAssignment(adir, amt, task2);
+		adir.setAssignments(List.of(assignment1, assignment2));
+		Assignment testAssignment1 = buildAssignment(adir, amt, testTask1);
+		Assignment testAssignment2 = buildAssignment(adir, amt, testTask2);
+
+		City manchester = buildCity(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), MANCHESTER);
+		Location manchesterLocation = buildLocation(manchester, adir);
+		adir.setLocations(List.of(manchesterLocation));
+		City testCity = buildCity(new CityId(PARIS_ID, FRANCE_ID), PARIS);
+		Location testLocation = buildLocation(testCity, adir);
+
+
+		assertEquals(SUCCESS, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation), barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_NAME_IS_NOT_VALID, isProjectValid(adir, FORTIS, VERSION_1, List.of(manchesterLocation), barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_VERSION_IS_NOT_VALID, isProjectValid(adir, ADIR, VERSION_2, List.of(manchesterLocation), barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_CLIENT_IS_NOT_VALID, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation), testClient, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_LOCATIONS_ARE_NOT_VALID, isProjectValid(adir, ADIR, VERSION_1, List.of(testLocation), barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_LOCATIONS_ARE_NULL, isProjectValid(adir, ADIR, VERSION_1, null, barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_SIZE_LOCATIONS_ARE_DIFFERENT, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation, testLocation), barclays, List.of(assignment1, assignment2)));
+		assertEquals(PROJECT_ASSIGNMENTS_ARE_NULL, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation), barclays, null));
+		assertEquals(PROJECT_SIZE_ASSIGNMENTS_ARE_DIFFERENT, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation), barclays, List.of(assignment1)));
+		assertEquals(PROJECT_ASSIGNMENTS_ARE_NOT_VALID, isProjectValid(adir, ADIR, VERSION_1, List.of(manchesterLocation), barclays, List.of(testAssignment1, testAssignment2)));
+	}
+	@Test
+	public void testIsSupplierValid(){//RES-58
+		Supplier accenture = buildSupplier(SUPPLIER_ACCENTURE_ID, ACCENTURE_SUPPLIER);
+		Supplier fastconnect = buildSupplier(SUPPLIER_FASTCONNECT_ID, FASTCONNECT);//Test supplier
+		/**Build Staff*/
+		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, null);
+		Staff testStaff = buildStaff(STAFF_JOHN_ID, JOHN_NAME, JOHN_LASTNAME, null);//Test Staff
+		/**Build Client*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		Client testClient = buildClient(AXELTIS, CLIENT_AXELTIS_ID);
+		/**Build Contract*/
+		Contract barclaysContract1 = buildContract(CONTRACT_BARCLAYS_ID, barclays, CONTRACT1_NAME);
+		Contract testContract1= buildContract(CONTRACT_AXELTIS_ID1, testClient, CONTRACT7_NAME);//Test Contract
+
+		/**Build ContractSupplier*/
+		SupplyContract barclaysContract1AmtAccentureContractSupplier = buildSupplyContract(barclaysContract1, amt, accenture);
+		SupplyContract barclaysContract1AmtFastConnectContractSupplier = buildSupplyContract(barclaysContract1, amt, fastconnect);
+		accenture.setSupplyContracts(List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier));
+		SupplyContract testSupplyContract1 =  buildSupplyContract(barclaysContract1, testStaff, fastconnect); //Test SupplyContract
+		SupplyContract testSupplyContract2 =  buildSupplyContract(testContract1, testStaff, fastconnect);//Test SupplyContract
+		/**Build EmploymentContract*/
+		EmploymentContract amtAccentureEmploymentContract = buildEmploymentContract(AMT_ACCENTURE_EMPLOYMENT_CONTRACTID, accenture, amt, AMT_ACCENTURE_EMPLOYMENT_STARTDATE);
+		accenture.setEmploymentContracts(List.of(amtAccentureEmploymentContract));
+		EmploymentContract  testEmploymentContract = buildEmploymentContract(AMT_ALTERNA_EMPLOYMENT_CONTRACT_ID, fastconnect, testStaff, JOHN_ALPHATRESS_EMPLOYMENT_ENDDATE); //Test EmploymentContract
+
+		assertEquals(SUCCESS, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier), List.of(amtAccentureEmploymentContract)));
+		assertEquals(SUPPLIER_NAME_IS_NOT_VALID, isSupplierValid(accenture, FASTCONNECT,  List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier), List.of(amtAccentureEmploymentContract)));
+		assertEquals(SUPPLIER_EMPLOYMENTCONTRACTS_ARE_NOT_VALID, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier), List.of(testEmploymentContract)));
+		assertEquals(SUPPLIER_EMPLOYMENTCONTRACTS_ARE_NULL, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier), null));
+		assertEquals(SUPPLIER_SIZE_EMPLOYMENTCONTRACTS_ARE_DIFFERENT, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(barclaysContract1AmtFastConnectContractSupplier, barclaysContract1AmtAccentureContractSupplier), List.of(amtAccentureEmploymentContract, testEmploymentContract)));
+		assertEquals(SUPPLIER_SUPPLYCONTRACTS_ARE_NOT_VALID, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(testSupplyContract1, testSupplyContract2), List.of(amtAccentureEmploymentContract)));
+		assertEquals(SUPPLIER_SIZE_SUPPLYCONTRACTS_ARE_DIFFERENT, isSupplierValid(accenture, ACCENTURE_SUPPLIER,  List.of(barclaysContract1AmtFastConnectContractSupplier), List.of(amtAccentureEmploymentContract)));
+
+
+	}
+	@Test
+	public void testIsSupplyContractValid(){//RES-60
+		/**Build Clients*/
+		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
+		/**BuildContracts*/
+		Contract barclaysContract1 = buildContract(CONTRACT_BARCLAYS_ID, barclays, CONTRACT1_NAME);
+		Contract testContract = buildContract(CONTRACT_ARVAL_ID, barclays, CONTRACT1_NAME);
+		/**Build Staff*/
+		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, null);
+		/**Build Suppliers*/
+		Supplier fastconnect = buildSupplier(SUPPLIER_FASTCONNECT_ID, FASTCONNECT);
+		Supplier accenture = buildSupplier(SUPPLIER_ACCENTURE_ID, ACCENTURE_SUPPLIER);
+		/**Build ContractSuppliers*/
+		SupplyContract barclaysContract1AmtAccentureContractSupplier = buildSupplyContract(barclaysContract1,amt, accenture);
+		assertEquals(SUCCESS, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, barclaysContract1, null, null));
+		barclaysContract1AmtAccentureContractSupplier.setStartDate(CONTRACT1_STARTDATE);
+		assertEquals(SUCCESS, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, barclaysContract1, CONTRACT1_STARTDATE, null));
+		barclaysContract1AmtAccentureContractSupplier.setEndDate(CONTRACT2_ENDDATE);
+		assertEquals(SUCCESS, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, barclaysContract1, CONTRACT1_STARTDATE, CONTRACT2_ENDDATE));
+		assertEquals(SUPPLYCONTRACT_CONTRACT_IS_NOT_VALID, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, testContract, CONTRACT1_STARTDATE, CONTRACT2_ENDDATE));
+		assertEquals(SUPPLYCONTRACT_SUPPLIER_IS_NOT_VALID, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, fastconnect, barclaysContract1, CONTRACT1_STARTDATE, CONTRACT2_ENDDATE));
+		assertEquals(SUPPLYCONTRACT_STARTDATE_NOT_VALID, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, barclaysContract1, CONTRACT2_STARTDATE, CONTRACT2_ENDDATE));
+		assertEquals(SUPPLYCONTRACT_ENDDATE_NOT_VALID, isSupplyContractValid(barclaysContract1AmtAccentureContractSupplier, accenture, barclaysContract1, CONTRACT1_STARTDATE, CONTRACT3_ENDDATE));
 	}
 	
 }
