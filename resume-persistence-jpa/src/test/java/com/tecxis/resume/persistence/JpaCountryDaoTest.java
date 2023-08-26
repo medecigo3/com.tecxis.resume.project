@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
 
 import com.tecxis.resume.domain.City;
 import com.tecxis.resume.domain.repository.CityRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +145,7 @@ public class JpaCountryDaoTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public  void test_OneToMany_Update_Cities_And_RemoveOrhpansWithOrm(){//Impl RES-44
+	public  void test_OneToMany_Update_Cities_And_RemoveOrphansWithOrm(){//Impl RES-44
 		/**Fetch country to test*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		/**Fetch cities to test*/
@@ -186,7 +185,7 @@ public class JpaCountryDaoTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Cities_And_DontRemoveOrhpansWithOrm_NullSet(){
+	public void test_OneToMany_Update_Cities_And_DontRemoveOrphansWithOrm_NullSet(){
 		/**Fetch country to test*/
 		Country france = countryRepo.getCountryByName(FRANCE);
 		/**Fetch cities to test*/

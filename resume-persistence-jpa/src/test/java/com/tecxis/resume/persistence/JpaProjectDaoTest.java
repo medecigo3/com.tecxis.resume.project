@@ -231,7 +231,7 @@ public class JpaProjectDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm() {		
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm() {		
 		/**Find project to test*/
 		Project adirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
 		assertEquals(ADIR, adirV1.getName());
@@ -343,7 +343,7 @@ public class JpaProjectDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm_NullSet(){
+	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm_NullSet(){
 		/**Find project to test*/
 		Project adirV1 = projectRepo.findByNameAndVersion(ADIR, VERSION_1);		
 		assertEquals(ADIR, adirV1.getName());

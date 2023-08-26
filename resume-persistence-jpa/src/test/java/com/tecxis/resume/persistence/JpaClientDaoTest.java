@@ -86,7 +86,7 @@ public class JpaClientDaoTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql" },
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Contracts_And_RemoveOrhpansWithOrm_NullSet(){//In the scope of RES-19, impl. RES-42
+	public void test_OneToMany_Update_Contracts_And_RemoveOrphansWithOrm_NullSet(){//In the scope of RES-19, impl. RES-42
 		/***Find and validate AGEAS Client to test*/
 		final Client ageas = clientRepo.getClientByName(AGEAS);
 		/**Find AGEAS Client contracts*/
