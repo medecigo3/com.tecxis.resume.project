@@ -24,6 +24,7 @@ import javax.validation.Validator;
 
 import com.tecxis.resume.domain.id.ContractId;
 import com.tecxis.resume.domain.id.SupplyContractId;
+import com.tecxis.resume.domain.util.function.JPATransactionVoidFunction;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -355,13 +356,14 @@ public class SupplierTest {
 		newSupplyContract.setStartDate(new Date());
 		List <SupplyContract> newSupplyContracts = List.of(newSupplyContract);
 
-		update_SupplierAccenture_With_SupplyContracts_InJpa( em -> {
-				/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
-				accenture.setSupplyContracts(newSupplyContracts);
-				entityManager.merge(accenture);
-				entityManager.flush();
-				entityManager.clear();
-		},entityManager, jdbcTemplateProxy);
+		JPATransactionVoidFunction<EntityManager> setSupplierSypplyContractsFunction = em -> {//RES-71
+			/**Set the new SupplyContract(s) to the parent Supplier and leaves orphans*/
+			accenture.setSupplyContracts(newSupplyContracts);
+			em.merge(accenture);
+			em.flush();
+			em.clear();
+		};
+		update_SupplierAccenture_With_SupplyContracts_InJpa( setSupplierSypplyContractsFunction,entityManager, jdbcTemplateProxy);//RES-71
 		/**Fetch new SupplyContracts */
 		Supplier newAccenture = supplierRepo.getSupplierByName(ACCENTURE_SUPPLIER);
 		Staff newJohn = staffRepo.getStaffByFirstNameAndLastName(JOHN_NAME, JOHN_LASTNAME);
