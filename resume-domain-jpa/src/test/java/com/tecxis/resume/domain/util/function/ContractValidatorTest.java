@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain.util.function;
 
 import com.tecxis.resume.domain.*;
-import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
