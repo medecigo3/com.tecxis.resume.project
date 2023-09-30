@@ -13,7 +13,6 @@ public enum ValidationResult {
 	PROJECT_ASSIGNMENTS_ARE_NOT_VALID(""),
 	STAFF_FIRSTNAME_IS_NOT_VALID(""),
 	STAFF_LASTNAME_IS_NOT_VALID(""),
-	TASK_DESC_IS_NOT_VALID(""),
 	CITY_NAME_IS_NOT_VALID(""),//RES-65
 	CITY_COUNTRY_IS_NOT_VALID(""),//RES-65
 	CITY_LOCATIONS_ARE_NOT_VALID(""),
@@ -47,7 +46,13 @@ public enum ValidationResult {
 	SUPPLIER_SIZE_EMPLOYMENTCONTRACTS_ARE_DIFFERENT(""),
 	SUPPLIER_SUPPLYCONTRACTS_ARE_NOT_VALID(""),
 	SUPPLIER_SIZE_SUPPLYCONTRACTS_ARE_DIFFERENT(""),
-	SUPPLIER_SUPPLYCONTRACTS_ARE_NULL("Comparing 'actual' or 'expected' Supplier with null SupplyContracts association.");
+	SUPPLIER_SUPPLYCONTRACTS_ARE_NULL("Comparing 'actual' or 'expected' Supplier with null SupplyContracts association."),
+	TASK_PRIORITY_IS_NOT_VALID(""),//RES-57
+	TASK_ASSIGNMENTS_ARE_NOT_VALID(""),//RES-57
+	TASK_ASSIGNMENTS_ARE_NULL("Comparing 'actual' or 'expected' Task with null Assignments association. "),//RES-57
+	TASK_SIZE_ASSIGNMENTS_ARE_DIFFERENT(""),
+	TASK_DESC_IS_NOT_VALID(""),;//RES-57
+
 
 	private String description; //RES-58
 	private ValidationResult(String description){
