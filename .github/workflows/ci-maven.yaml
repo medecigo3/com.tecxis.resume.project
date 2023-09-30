@@ -28,7 +28,8 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'temurin'
+        #Sets Oracle Oracle JDK
+        distribution: 'oracle'
         cache: maven
     - name: Build with Maven
       run: mvn -B clean install --file pom.xml
