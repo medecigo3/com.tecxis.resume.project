@@ -21,6 +21,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env: 
+      COVERALL_REPO_TOKEN: ${{ secrets.COVERALL_REPO_TOKEN }}
 
     steps:
     - name: 🧺 Checkout Repository Code
@@ -33,10 +35,10 @@ jobs:
         distribution: 'oracle'
         cache: maven
     - name: 📦 Build with Maven
-      run: mvn -B clean install --file pom.xml jacoco:report -Dmaven.test.failure.ignore=true 
+      run: mvn -B clean install --file pom.xml jacoco:report  -Dmaven.test.failure.ignore=true 
       
-    - name: 🚀 Coveralls Coverage Report Submission
-      run: mvn coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}      
+    - name: 🚀 Coveralls Coverage Report Submission      
+      run: mvn coveralls:report --define repoToken=$COVERALL_REPO_TOKEN      
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
