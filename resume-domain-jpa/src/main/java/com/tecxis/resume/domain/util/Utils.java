@@ -24,7 +24,7 @@ import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffFirst
 import static com.tecxis.resume.domain.util.function.StaffValidator.isStaffLastNameValid;
 import static com.tecxis.resume.domain.util.function.SupplyContractValidator.isEndDateValid;
 import static com.tecxis.resume.domain.util.function.SupplyContractValidator.isStartDateValid;
-import static com.tecxis.resume.domain.util.function.TaskValidator.isTaskValid;
+import static com.tecxis.resume.domain.util.function.TaskValidator.*;
 import static com.tecxis.resume.domain.util.function.ValidationResult.*;
 
 public class Utils {
@@ -32,23 +32,24 @@ public class Utils {
 	private Utils() {
 	}
 
-	public static Task insertTask(String desc, EntityManager entityManager) {
-		Task task = buildTask(0L, desc);//RES-14
+	public static Task insertTask(String desc, Integer priority, EntityManager entityManager) {
+		Task task = buildTask(0L, desc, priority);//RES-14, RES-72
 		entityManager.persist(task);
 		entityManager.flush();
 		return task;
 	}
 	
-	public static Task insertTask(String desc, TaskRepository taskRepo) {
-		Task task = buildTask(0L, desc);//RES-14
+	public static Task insertTask(String desc, Integer priority, TaskRepository taskRepo) {
+		Task task = buildTask(0L, desc, priority);//RES-14, RES-72
 		taskRepo.saveAndFlush(task);
 		return task;
 	}
 	
-	public static Task buildTask(long taskId, String desc) {
+	public static Task buildTask(long taskId, String desc, Integer priority) {
 		Task task = new Task();
 		task.setId(taskId);//RES-14
 		task.setDesc(desc);
+		task.setPriority(priority);//RES-72
 		return task;
 	}
 	
@@ -666,8 +667,8 @@ public class Utils {
 			return isStaffFirstNameValid(staffFirstName).apply(assignment.getStaff());
 		if (isStaffLastNameValid(staffLastName).apply(assignment.getStaff()) != SUCCESS)//RES-66
 			return isStaffLastNameValid(staffLastName).apply(assignment.getStaff());
-		if (isTaskValid(taskDesc).apply(assignment.getTask()) != SUCCESS)//RES-66
-			return isTaskValid(taskDesc).apply(assignment.getTask());
+		if (isTaskDescValid(taskDesc).apply(assignment.getTask()) != SUCCESS)//RES-66, RES-57
+			return isTaskDescValid(taskDesc).apply(assignment.getTask());//RES-57
 		return SUCCESS;		
 	}
 	
@@ -1160,5 +1161,39 @@ public class Utils {
 		setSupplierSypplyContractsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
 		setSupplierSypplyContractsFunction.accept(supplierRepo);
 		setSupplierSypplyContractsFunction.afterTransactionCompletion(SchemaUtils::testStateAfter_SupplierAccenture_Update_NullSupplyContracts, jdbcTemplate);
+	}
+	
+	public static ValidationResult isTaskValid(Task task, String taskDesc, Integer priority, List <Assignment> assignments) {//RES-7
+		if (isTaskDescValid(taskDesc).apply(task) != SUCCESS)
+			return isTaskDescValid(taskDesc).apply(task);
+		if (isTaskPriorityValid(priority).apply(task) != SUCCESS)
+			return isTaskPriorityValid(priority).apply(task);
+		if (areAssignmentsValid(assignments).apply(task) != SUCCESS)
+			return areAssignmentsValid(assignments).apply(task);
+		return SUCCESS;		
+	}
+
+	public static void update_Task12_With_Assignments_InJpa(JPATransactionVoidFunction<EntityManager> setTaskAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-7
+		setTaskAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setTaskAssignmentsFunction.accept(entityManager);
+		setTaskAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testAfter_Task12_Update_Assignments, jdbcTemplate);
+	}
+
+	public static void update_Task12_With_Assignments_InJpa(JPATransactionVoidFunction<TaskRepository> setTaskAssignmentsFunction, TaskRepository taskRepo, JdbcTemplate jdbcTemplate){//RES-7
+		setTaskAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setTaskAssignmentsFunction.accept(taskRepo);
+		setTaskAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testAfter_Task12_Update_Assignments, jdbcTemplate);
+	}
+
+	public static void update_Task12_With_NullAssignments_InJpa(JPATransactionVoidFunction<EntityManager> setTaskAssignmentsFunction, EntityManager entityManager, JdbcTemplate jdbcTemplate){//RES-7
+		setTaskAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setTaskAssignmentsFunction.accept(entityManager);
+		setTaskAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testAfter_Task12_Update_NullAssignments, jdbcTemplate);
+	}
+
+	public static void update_Task12_With_NullAssignments_InJpa(JPATransactionVoidFunction<TaskRepository> setTaskAssignmentsFunction, TaskRepository taskRepo, JdbcTemplate jdbcTemplate){//RES-7
+		setTaskAssignmentsFunction.beforeTransactionCompletion(SchemaUtils::testInitialState, jdbcTemplate);
+		setTaskAssignmentsFunction.accept(taskRepo);
+		setTaskAssignmentsFunction.afterTransactionCompletion(SchemaUtils::testAfter_Task12_Update_NullAssignments, jdbcTemplate);
 	}
 }

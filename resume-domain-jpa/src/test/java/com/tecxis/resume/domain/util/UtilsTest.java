@@ -128,7 +128,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
-		Utils.insertTask(TASK12, entityManager);		
+		Utils.insertTask(TASK12, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 				
 	}
@@ -139,7 +139,7 @@ public class UtilsTest {
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testInsertTask_WithSpringJpaRepo() {
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
-		Utils.insertTask(TASK12, taskRepo);		
+		Utils.insertTask(TASK12, Integer.valueOf(0), taskRepo);//RES-72
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 				
 	}
@@ -449,7 +449,7 @@ public class UtilsTest {
 		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
 		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, entityManager);
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		Task assignment12 = Utils.insertTask(TASK12, entityManager);
+		Task assignment12 = Utils.insertTask(TASK12, Integer.valueOf(0), entityManager);//RES-72
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, assignment12, entityManager);	
@@ -465,7 +465,7 @@ public class UtilsTest {
 		Client sagemcom = Utils.insertClient(SAGEMCOM, clientRepo);		
 		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, projectRepo);
 		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, staffRepo);
-		Task task12 = Utils.insertTask(TASK12, taskRepo);
+		Task task12 = Utils.insertTask(TASK12, Integer.valueOf(0), taskRepo);//RES-72
 		
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
 		Utils.insertAssignment(ted, amt, task12, assignmentRepo);	
@@ -1249,7 +1249,7 @@ public class UtilsTest {
 		Client client = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);		
 		Project project = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, client, null, null);//RES-11
 		Staff staff = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task = buildTask(TASK1_ID, TASK1);
+		Task task = buildTask(TASK1_ID, TASK1, Integer.valueOf(0));//RES-72
 		Assignment assignment = buildAssignment(project, staff, task);
 		assertEquals(SUCCESS, isAssignmentValid(assignment, ADIR, VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
 		assertNotEquals(SUCCESS, isAssignmentValid(assignment, "Test", VERSION_1, BARCLAYS, AMT_NAME, AMT_LASTNAME, TASK1));
@@ -1398,10 +1398,10 @@ public class UtilsTest {
 		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
 		Client testClient  = buildClient(AGEAS, CLIENT_AGEAS_ID);
 		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task1 = buildTask(TASK1_ID, TASK1);
-		Task task2 = buildTask(TASK2_ID, TASK2);
-		Task testTask1 = buildTask(TASK3_ID, TASK3);
-		Task testTask2 = buildTask(TASK4_ID, TASK4);
+		Task task1 = buildTask(TASK1_ID, TASK1, Integer.valueOf(0));//RES-72
+		Task task2 = buildTask(TASK2_ID, TASK2, Integer.valueOf(0));//RES-72
+		Task testTask1 = buildTask(TASK3_ID, TASK3, Integer.valueOf(0));//RES-72
+		Task testTask2 = buildTask(TASK4_ID, TASK4, Integer.valueOf(0));//RES-72
 		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 		Assignment assignment1 = buildAssignment(adir, amt, task1);
 		Assignment assignment2 = buildAssignment(adir, amt, task2);
