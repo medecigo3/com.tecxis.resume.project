@@ -106,7 +106,7 @@ public class ProjectTest {
 		
 		/**Prepare Task*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
-		Task task1 = Utils.insertTask(TASK1, entityManager);
+		Task task1 = Utils.insertTask(TASK1, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(1L, task1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
@@ -489,7 +489,7 @@ public class ProjectTest {
 		
 		/**Prepare Task*/	
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
-		Task assignment1 = Utils.insertTask(TASK1, entityManager);
+		Task assignment1 = Utils.insertTask(TASK1, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(1L, assignment1.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		

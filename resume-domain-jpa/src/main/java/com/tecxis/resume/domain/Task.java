@@ -1,7 +1,6 @@
 package com.tecxis.resume.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +19,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 import com.tecxis.resume.domain.id.Identifiable;
+import com.tecxis.resume.domain.id.SequenceKeyGenerator;
 
 
 /**
@@ -36,7 +35,7 @@ public class Task implements Serializable, Identifiable <Long> {
 	@Column(name="\"DESC\"")
 	private String desc;
 
-	private BigDecimal priority;
+	private Integer priority;//RES-72
 
 	@Id
 	@GenericGenerator(strategy="com.tecxis.resume.domain.id.SequenceKeyGenerator", name="ASSIGNMENT_SEQ", 
@@ -68,11 +67,11 @@ public class Task implements Serializable, Identifiable <Long> {
 		this.desc = desc;
 	}
 
-	public BigDecimal getPriority() {
+	public Integer getPriority() {//RES-72
 		return this.priority;
 	}
 
-	public void setPriority(BigDecimal priority) {
+	public void setPriority(Integer priority) {//RES-72
 		this.priority = priority;
 	}
 
@@ -89,10 +88,14 @@ public class Task implements Serializable, Identifiable <Long> {
 	public List<Assignment> getAssignments() {
 		return this.assignments;
 	}
-
+	/**
+	 * 
+	 * @param assignments orphans are removed when set to null.
+	 */
 	public void setAssignments(List<Assignment> assignments) {
-		this.assignments.clear();		
-		this.assignments.addAll(assignments);
+		this.assignments.clear();
+		if (assignments != null)//RES-7
+			this.assignments.addAll(assignments);
 	}
 
 	public Assignment addAssignment(Assignment assignment) {

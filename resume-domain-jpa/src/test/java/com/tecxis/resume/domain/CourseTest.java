@@ -80,7 +80,7 @@ public class CourseTest {
 	public void testGetCredits() {
 		Course course = new Course();
 		course.setCredits(1);
-		assertEquals(new Integer(1), course.getCredits());
+		assertEquals(Integer.valueOf(1), course.getCredits());//RES-74
 		
 	}
 	
@@ -88,7 +88,7 @@ public class CourseTest {
 	public void testSetCredits() {
 		Course course = new Course();
 		assertNull(course.getCredits());
-		Integer credits = new Integer(1);
+		Integer credits = Integer.valueOf(1);//RES-74
 		course.setCredits(credits);
 		assertEquals(credits, course.getCredits());
 	}

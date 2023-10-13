@@ -22,6 +22,7 @@ public class ProjectValidatorTest {
 	private Client sagemcom = buildClient(SAGEMCOM, CLIENT_SAGEMCOM_ID);
 	private Assignment assignment1; 
 	private Assignment assignment2;
+	private Assignment assignment3; //RES-17
 	private Location manchesterLocation;	
 	private City paris = buildCity(new CityId(PARIS_ID, FRANCE_ID), PARIS);
 	private Location parisLocation;
@@ -30,11 +31,13 @@ public class ProjectValidatorTest {
 	public void buildProtoProject() {
 		barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);				
 		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task1 = buildTask(TASK1_ID, TASK1);
-		Task task2 = buildTask(TASK2_ID, TASK2);
+		Task task1 = buildTask(TASK1_ID, TASK1, Integer.valueOf(0));//RES-72
+		Task task2 = buildTask(TASK2_ID, TASK2, Integer.valueOf(0));//RES-72
+		Task task3 = buildTask(TASK3_ID, TASK3, TASK3_PRIORITY);//RES-17
 		adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 		assignment1 = buildAssignment(adir, amt, task1);
 		assignment2 = buildAssignment(adir, amt, task2);
+		assignment3 = buildAssignment(adir, amt, task3);//RES-17
 		adir.setAssignments(List.of(assignment1, assignment2));	
 		City manchester = buildCity(new CityId(MANCHESTER_ID, UNITED_KINGDOM_ID), MANCHESTER);
 		manchesterLocation = buildLocation(manchester, adir);		
@@ -74,12 +77,15 @@ public class ProjectValidatorTest {
 	public void testAreProjectAssignmentsValid() {
 		//Tests Project -> Assignments assoc. are equal
 		assertEquals(SUCCESS, ProjectValidator.areProjectAssignmentsValid(List.of(assignment1, assignment2)).apply(adir));
-		
+
+		//Tests Project -> Assignments assoc. not valid
+		assertEquals(PROJECT_ASSIGNMENTS_ARE_NOT_VALID, ProjectValidator.areProjectAssignmentsValid(List.of(assignment1, assignment3)).apply(adir));//RES-17 adds missing unit test
+
 		//Tests Project -> Assignments assoc. is null 
 		assertThat(adir.getAssignments(), Matchers.not(Matchers.empty()));
 		assertEquals(PROJECT_ASSIGNMENTS_ARE_NULL, ProjectValidator.areProjectAssignmentsValid(null).apply(adir));
 		
-		//Tests Project -> Assignments assoc. is null
+		//Tests Project -> Assignments assoc. not equals in size //RES-17 re-wording
 		adir.setAssignments(List.of());
 		assertNotNull(adir.getAssignments());		
 		assertEquals(PROJECT_SIZE_ASSIGNMENTS_ARE_DIFFERENT, ProjectValidator.areProjectAssignmentsValid(List.of(assignment1, assignment2)).apply(adir));
@@ -96,7 +102,7 @@ public class ProjectValidatorTest {
 		//Test Project -> Locations assoc. are equal
 		assertEquals(SUCCESS, ProjectValidator.areProjectLocationsValid(List.of(manchesterLocation)).apply(adir));
 
-		//Tests Project -> Locations assoc. not not valid
+		//Tests Project -> Locations assoc. not valid //RES-17 re-wording
 		assertEquals(PROJECT_LOCATIONS_ARE_NOT_VALID, ProjectValidator.areProjectLocationsValid(List.of(parisLocation)).apply(adir));
 
 		//Tests Project -> Locations assoc. is null	

@@ -1,24 +1,8 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.AMT_LASTNAME;
-import static com.tecxis.resume.domain.Constants.AMT_NAME;
-import static com.tecxis.resume.domain.Constants.AOS;
-import static com.tecxis.resume.domain.Constants.ARVAL;
-import static com.tecxis.resume.domain.Constants.BIRTHDATE;
-import static com.tecxis.resume.domain.Constants.EOLIS;
-import static com.tecxis.resume.domain.Constants.MORNINGSTAR;
-import static com.tecxis.resume.domain.Constants.SAGEMCOM;
-import static com.tecxis.resume.domain.Constants.TASK12;
-import static com.tecxis.resume.domain.Constants.TASK23;
-import static com.tecxis.resume.domain.Constants.TASK31;
-import static com.tecxis.resume.domain.Constants.TASK32;
-import static com.tecxis.resume.domain.Constants.TASK33;
-import static com.tecxis.resume.domain.Constants.TASK34;
-import static com.tecxis.resume.domain.Constants.TASK47;
-import static com.tecxis.resume.domain.Constants.TED;
-import static com.tecxis.resume.domain.Constants.VERSION_1;
-import static com.tecxis.resume.domain.Constants.VERSION_2;
+import static com.tecxis.resume.domain.Constants.*;
 import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -36,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.tecxis.resume.domain.id.ProjectId;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,7 +74,7 @@ public class TaskTest {
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
 	public void testGetId() {			
-		Task assignment12 = Utils.insertTask(TASK12, entityManager);
+		Task assignment12 = Utils.insertTask(TASK12, Integer.valueOf(0), entityManager);//RES-72
 		assertThat(assignment12.getId(), Matchers.greaterThan((long)0));		
 	}
 	
@@ -113,7 +98,7 @@ public class TaskTest {
 		
 		/**Prepare Task*/	
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
-		Task assignment12 = Utils.insertTask(TASK12, entityManager);
+		Task assignment12 = Utils.insertTask(TASK12, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(1L, assignment12.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
@@ -165,7 +150,7 @@ public class TaskTest {
 		
 		/**Prepare Task*/
 		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
-		Task assignment47 = Utils.insertTask(TASK47, entityManager);
+		Task assignment47 = Utils.insertTask(TASK47, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(1L, assignment47.getId().longValue());
 		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
 		
@@ -301,50 +286,57 @@ public class TaskTest {
 
 	@Test
 	@Sql(
-		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql"},
+		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments() {
-		/**Prepare project*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		Client sagemcom = Utils.insertClient(SAGEMCOM, entityManager);		
-		Project ted = Utils.insertProject(TED, VERSION_1, sagemcom, null, entityManager);
-		assertEquals(1, ted.getId().getProjectId());
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.PROJECT_TABLE));
-		
-		/**Prepare staff*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		Staff amt = Utils.insertStaff(AMT_NAME, AMT_LASTNAME, BIRTHDATE, entityManager);
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.STAFF_TABLE));
-		assertEquals(1L, amt.getId().longValue());
-		
-		/**Prepare Task*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));		
-		Task assignment12 = Utils.insertTask(TASK12, entityManager);
-		assertEquals(1L, assignment12.getId().longValue());
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.TASK_TABLE));
-		
-		/**Validate staff assignments*/
-		assertEquals(0, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));
-		AssignmentId id = new AssignmentId(ted.getId(), amt.getId(), assignment12.getId());
-		assertNull(entityManager.find(Assignment.class, id));
-		
-		/**Prepare staff assignments*/		
-		Assignment amtAssignment = Utils.insertAssignment(ted, amt, assignment12, entityManager);		
-		List <Assignment> amtStaffAssignments = List.of(amtAssignment);		
-		ted.setAssignments(amtStaffAssignments);
-		assignment12.setAssignments(amtStaffAssignments);
-		amt.setAssignments(amtStaffAssignments);				
-		entityManager.merge(ted);
-		entityManager.merge(amt);
-		entityManager.merge(assignment12);
-		entityManager.flush();
-		
-		/**Validate staff assignments*/
-		assertEquals(1, countRowsInTable(jdbcTemplateProxy, SchemaConstants.ASSIGNMENT_TABLE));	
-		assertNotNull(entityManager.find(Assignment.class, id));
+	public void test_OneToMany_Update_Assignments() {//RES-7
+		Task task12 = taskRepo.findById(TASK12_ID).get();
+		//Fetch task12 assignments
+		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
+		//TODO RES-70 Impl. AssignmentValidator here
+		//Test task is valid
+		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+
+		//Build new Assignment to set
+		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
+		Staff amt = staffRepo.findById(STAFF_AMT_ID).get();
+		Assignment morningStartv1ProjectAmtTask12Assignment = buildAssignment(morningstartV1Project, amt, task12);
+
+		update_Task12_With_Assignments_InJpa( em -> {
+				//0 orphan(s) removed, add 1 new assignment.
+				task12.setAssignments(List.of(morningStartv1ProjectAmtTask12Assignment));
+				em.merge(task12);
+				em.flush();
+				em.clear();
+			},
+		entityManager, jdbcTemplateProxy);
+		//Validate new Task
+		Task newTask12 = taskRepo.findById(TASK12_ID).get();
+		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
+		isTaskValid(newTask12, TASK12, null, List.of(newTask12Assignment));
 	}
-	public void test_OneToMany_Update_Assignments_NullSet() {
-		//TODO
+	@Test
+	@Sql(
+			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
+			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
+	public void test_OneToMany_Update_Assignments_NullSet() {//RES-7
+		Task task12 = taskRepo.findById(TASK12_ID).get();
+		//Fetch task12 assignments
+		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
+		//TODO RES-70 Impl. AssignmentValidator here
+		//Test task is valid
+		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+
+		update_Task12_With_NullAssignments_InJpa( em -> {
+					//0 orphan(s) removed
+					task12.setAssignments(null);
+					em.merge(task12);
+					em.flush();
+					em.clear();
+				},
+				entityManager, jdbcTemplateProxy);
+		//Validate new Task
+		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
+		isTaskValid(task12, TASK12, null, List.of(newTask12Assignment));
 	}
 	
 	

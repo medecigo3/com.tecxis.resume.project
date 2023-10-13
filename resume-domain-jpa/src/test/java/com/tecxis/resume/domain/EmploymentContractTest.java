@@ -92,7 +92,7 @@ public class EmploymentContractTest {
 	public void testSetId() {
 		EmploymentContract employmentContract = new EmploymentContract();
 		assertEquals(0, employmentContract.getId().longValue());
-		employmentContract.setId(new Long(1));
+		employmentContract.setId(Long.valueOf(1));//RES-74
 		assertEquals(1, employmentContract.getId().longValue());
 	}
 	

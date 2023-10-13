@@ -117,6 +117,9 @@ public class Constants {
 	public static long TASK52_ID = 52L;//RES-14
 	public static long TASK53_ID = 53L;//RES-14
 	public static long TASK54_ID = 54L;//RES-14
+	public static final Integer TASK12_PRIORITY = Integer.valueOf(1);//RES-57
+	public static final Integer TASK13_PRIORITY = Integer.valueOf(3);//RES-57
+	public static final Integer TASK3_PRIORITY = Integer.valueOf(1);//RES-17;
 	/**END TASK*/
 	/**CITY*/	
 	public static final String BRUSSELS = "Brussels";

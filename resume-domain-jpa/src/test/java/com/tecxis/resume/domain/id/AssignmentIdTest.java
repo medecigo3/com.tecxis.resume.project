@@ -22,10 +22,10 @@ public class AssignmentIdTest {
 	public void testEquals(){//RES-61
 		Client barclays = buildClient(BARCLAYS, CLIENT_BARCLAYS_ID);
 		Staff amt = buildStaff(STAFF_AMT_ID, AMT_NAME, AMT_LASTNAME, BIRTHDATE);//RES-13
-		Task task1 = buildTask(TASK1_ID, TASK1);
-		Task task2 = buildTask(TASK2_ID, TASK2);
-		Task testTask1 = buildTask(TASK3_ID, TASK3);
-		Task testTask2 = buildTask(TASK4_ID, TASK4);
+		Task task1 = buildTask(TASK1_ID, TASK1, Integer.valueOf(0));//RES-72
+		Task task2 = buildTask(TASK2_ID, TASK2, Integer.valueOf(0));//RES-72
+		Task testTask1 = buildTask(TASK3_ID, TASK3, Integer.valueOf(0));//RES-72
+		Task testTask2 = buildTask(TASK4_ID, TASK4, Integer.valueOf(0));//RES-72
 		Project adir = buildProject(PROJECT_ADIR_V1_ID, ADIR, VERSION_1, barclays, null, null);//RES-11
 		Assignment testAssignment1 = buildAssignment(adir, amt, task1);
 		Assignment testAssignment2 = buildAssignment(adir, amt, task2);

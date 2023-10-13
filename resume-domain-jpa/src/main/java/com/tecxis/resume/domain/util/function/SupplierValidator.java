@@ -1,6 +1,5 @@
 package com.tecxis.resume.domain.util.function;
 
-import com.tecxis.resume.domain.Agreement;
 import com.tecxis.resume.domain.EmploymentContract;
 import com.tecxis.resume.domain.Supplier;
 import com.tecxis.resume.domain.SupplyContract;

@@ -272,7 +272,7 @@ public class JpaAssignmentDaoTest {
 		assertEquals(staffId, amt.getId().longValue());
 		
 		/**Insert Task*/				
-		Task task1 = Utils.insertTask(TASK1, taskRepo);
+		Task task1 = Utils.insertTask(TASK1, Integer.valueOf(0), taskRepo);//RES-72
 		assertEquals(taskId, task1.getId().longValue());		
 		
 		/**Insert Assignment*/

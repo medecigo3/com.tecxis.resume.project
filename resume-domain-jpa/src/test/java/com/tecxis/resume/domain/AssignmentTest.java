@@ -97,7 +97,7 @@ public class AssignmentTest {
 		assertEquals(staffId, amt.getId().longValue());
 		
 		/**Insert Task*/				
-		Task task1 = Utils.insertTask(TASK1, entityManager);
+		Task task1 = Utils.insertTask(TASK1, Integer.valueOf(0), entityManager);//RES-72
 		assertEquals(taskId, task1.getId().longValue());		
 		
 		/**Insert Assignment*/
