@@ -288,7 +288,7 @@ public class TaskTest {
 	@Sql(
 		scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 		executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments() {//RES-7
+	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm() {//RES-7
 		Task task12 = taskRepo.findById(TASK12_ID).get();
 		//Fetch task12 assignments
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
@@ -318,7 +318,7 @@ public class TaskTest {
 	@Sql(
 			scripts= {"classpath:SQL/H2/DropResumeSchema.sql", "classpath:SQL/H2/CreateResumeSchema.sql", "classpath:SQL/InsertResumeData.sql"},
 			executionPhase=ExecutionPhase.BEFORE_TEST_METHOD)
-	public void test_OneToMany_Update_Assignments_NullSet() {//RES-7
+	public void test_OneToMany_Update_Assignments_And_RemoveOrhpansWithOrm_NullSet() {//RES-7
 		Task task12 = taskRepo.findById(TASK12_ID).get();
 		//Fetch task12 assignments
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
