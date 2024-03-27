@@ -1,26 +1,12 @@
 package com.tecxis.resume.domain;
 
-import static com.tecxis.resume.domain.Constants.*;
-import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
-import static com.tecxis.resume.domain.util.Utils.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
+import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.ProjectId;
+import com.tecxis.resume.domain.repository.AssignmentRepository;
+import com.tecxis.resume.domain.repository.ProjectRepository;
+import com.tecxis.resume.domain.repository.StaffRepository;
+import com.tecxis.resume.domain.repository.TaskRepository;
+import com.tecxis.resume.domain.util.Utils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,12 +20,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tecxis.resume.domain.id.AssignmentId;
-import com.tecxis.resume.domain.repository.AssignmentRepository;
-import com.tecxis.resume.domain.repository.ProjectRepository;
-import com.tecxis.resume.domain.repository.StaffRepository;
-import com.tecxis.resume.domain.repository.TaskRepository;
-import com.tecxis.resume.domain.util.Utils;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.List;
+import java.util.Set;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.RegexConstants.DEFAULT_ENTITY_WITH_SIMPLE_ID_REGEX;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -294,7 +293,7 @@ public class TaskTest {
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
 		//TODO RES-70 Impl. AssignmentValidator here
 		//Test task is valid
-		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+		assertEquals(SUCCESS, isTaskValid(task12, TASK12, null, List.of(task12Assignment))); //RES-7
 
 		//Build new Assignment to set
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
@@ -312,7 +311,7 @@ public class TaskTest {
 		//Validate new Task
 		Task newTask12 = taskRepo.findById(TASK12_ID).get();
 		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
-		isTaskValid(newTask12, TASK12, null, List.of(newTask12Assignment));
+		assertEquals(SUCCESS, isTaskValid(newTask12, TASK12, null, List.of(task12Assignment, newTask12Assignment)));//RES-7
 	}
 	@Test
 	@Sql(
@@ -324,7 +323,7 @@ public class TaskTest {
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
 		//TODO RES-70 Impl. AssignmentValidator here
 		//Test task is valid
-		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+		assertEquals(SUCCESS, isTaskValid(task12, TASK12, null, List.of(task12Assignment)));//RES-7
 
 		update_Task12_With_NullAssignments_InJpa( em -> {
 					//0 orphan(s) removed
@@ -335,8 +334,8 @@ public class TaskTest {
 				},
 				entityManager, jdbcTemplateProxy);
 		//Validate new Task
-		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
-		isTaskValid(task12, TASK12, null, List.of(newTask12Assignment));
+		Task newTask12 = taskRepo.findById(TASK12_ID).get();
+		assertEquals(SUCCESS, isTaskValid(newTask12, TASK12, null, List.of(task12Assignment)));//RES-7
 	}
 	
 	

@@ -1,16 +1,5 @@
 package com.tecxis.resume.persistence;
 
-import static com.tecxis.resume.domain.Constants.*;
-import static com.tecxis.resume.domain.Constants.TASK12_ID;
-import static com.tecxis.resume.domain.util.Utils.*;
-import static com.tecxis.resume.domain.util.Utils.isTaskValid;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.tecxis.resume.domain.*;
 import com.tecxis.resume.domain.id.AssignmentId;
 import com.tecxis.resume.domain.id.ProjectId;
@@ -30,7 +19,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
+
+import static com.tecxis.resume.domain.Constants.*;
+import static com.tecxis.resume.domain.util.Utils.*;
+import static com.tecxis.resume.domain.util.function.ValidationResult.SUCCESS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.springframework.test.jdbc.JdbcTestUtils.countRowsInTable;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig (locations = { 
@@ -110,7 +108,7 @@ public class JpaTaskDaoTest {
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
 		//TODO RES-70 Impl. AssignmentValidator here
 		//Test task is valid
-		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+		assertEquals(SUCCESS, isTaskValid(task12, TASK12, null, List.of(task12Assignment)));//RES-7;
 
 		//Build new Assignment to set
 		Project morningstartV1Project = projectRepo.findByNameAndVersion(MORNINGSTAR, VERSION_1);
@@ -128,7 +126,7 @@ public class JpaTaskDaoTest {
 		//Validate new Task
 		Task newTask12 = taskRepo.findById(TASK12_ID).get();
 		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
-		isTaskValid(newTask12, TASK12, null, List.of(newTask12Assignment));
+		assertEquals(SUCCESS, isTaskValid(newTask12, TASK12, null, List.of(task12Assignment, newTask12Assignment)));//RES-7;
 	}
 	@Test
 	public void test_OneToMany_Update_Assignments_And_RemoveOrphansWithOrm_NullSet() {//RES-7
@@ -137,7 +135,7 @@ public class JpaTaskDaoTest {
 		Assignment task12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
 		//TODO RES-70 Impl. AssignmentValidator here
 		//Test task is valid
-		isTaskValid(task12, TASK12, null, List.of(task12Assignment));
+		assertEquals(SUCCESS, isTaskValid(task12, TASK12, null, List.of(task12Assignment)));//RES-7;
 
 		update_Task12_With_NullAssignments_InJpa( taskRepo -> {
 					//0 orphan(s) removed
@@ -150,7 +148,6 @@ public class JpaTaskDaoTest {
 		entityManager.clear();
 		//Validate new Task
 		Task newTask12 = taskRepo.findById(TASK12_ID).get();
-		Assignment newTask12Assignment = assignmentRepo.findById(new AssignmentId(new ProjectId( PROJECT_TED_V1_ID, CLIENT_SAGEMCOM_ID), STAFF_AMT_ID, TASK12_ID)).get();
-		isTaskValid(newTask12, TASK12, null, List.of(newTask12Assignment));
+		assertEquals(SUCCESS, isTaskValid(newTask12, TASK12, null, List.of(task12Assignment)));//RES-7;
 	}
 }
